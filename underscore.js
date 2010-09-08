@@ -90,6 +90,18 @@
     return results;
   };
 
+  _.partition = function(obj, iterator, context) {
+    var trues = [], falses = [];
+    each(obj, function(value, index, list) {
+      if (iterator.call(context, value, index, list)) {
+        trues[trues.length] = value;
+      } else {
+        falses[falses.length] = value;
+      }
+    });
+    return [trues, falses];
+  };
+
   // Reduce builds up a single result from a list of values, aka inject, or foldl.
   // Delegates to JavaScript 1.8's native reduce if available.
   _.reduce = function(obj, iterator, memo, context) {

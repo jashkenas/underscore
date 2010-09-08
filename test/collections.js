@@ -52,6 +52,20 @@ $(document).ready(function() {
     ok(ids[0] == 'chart_image', 'can use collection methods on HTMLCollections');
   });
 
+  test('collections: partition', function() {
+    var parted  = _.partition([1, 2, 3, 4, 5], function(num){ return num % 2 === 0; });
+    var evens = parted[0], odds = parted[1];
+
+    equals(evens.join(", "), "2, 4", "even numbers collected");
+    equals(odds.join(", "), "1, 3, 5", "odd numbers collected");
+
+    var context = { multiplier : 2 };
+    var parted_with_context = _.partition([1, 2, 3, 4, 5], function(n) { return (n * this.multiplier) < 5;}, context);
+
+    equals(parted_with_context[0].join(", "), "1, 2", "can make partition with a context object");
+    equals(parted_with_context[1].join(", "), "3, 4, 5", "can make partition with a context object");
+  });
+
   test('collections: reduce', function() {
     var sum = _.reduce([1, 2, 3], function(sum, num){ return sum + num; }, 0);
     equals(sum, 6, 'can sum up an array');

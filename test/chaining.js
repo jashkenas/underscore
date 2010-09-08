@@ -44,4 +44,16 @@ $(document).ready(function() {
     equals(numbers.join(', '), "34, 10, 8, 6, 4, 2, 10, 10", 'can chain together array functions.');
   });
 
+  test("chaining: map/partition/reverse", function() {
+    var numbers = [1, 2, 3, 4, 5];
+
+    var partition = _(numbers).chain()
+      .map(function(n) { return n * 2; })
+      .partition(function(n) { return n < 8; })
+      .reverse()
+      .value();
+
+    equals(partition[0].join(", "), "8, 10", "mapped, parted and reversed the result.");
+    equals(partition[1].join(", "), "2, 4, 6", "mapped, parted and reversed the result.");
+  });
 });
