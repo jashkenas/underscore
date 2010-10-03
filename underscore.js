@@ -325,6 +325,29 @@
     for (var i = 0; i < length; i++) results[i] = _.pluck(args, "" + i);
     return results;
   };
+  
+  // Unzip an array of tuples into separate arrays. This is the counterpart
+  // to _.zip(). e.g.
+  //
+  //     var array = [{name: 'Mark', age: 30}, {name: 'Sven', age: 67}];
+  //     _.unzip(array, ['name', 'age']);
+  //
+  // Which would yield:
+  //
+  //     {'name': ['Mark', 'Sven'], 'age': [30, 67]}
+  //
+  _.unzip = function(array, properties) {
+    var unzipped = [];
+    _.each(properties, function(p) {
+      unzipped[p] = [];
+    });
+    _.each(array, function(tuple) {
+      _.each(properties, function(p) {
+        unzipped[p].push(tuple[p]);
+      });
+    });
+    return unzipped;
+  }
 
   // If the browser doesn't supply us with indexOf (I'm looking at you, MSIE),
   // we need this function. Return the position of the first occurence of an
