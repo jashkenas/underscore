@@ -41,6 +41,7 @@
     nativeIndexOf      = ArrayProto.indexOf,
     nativeLastIndexOf  = ArrayProto.lastIndexOf,
     nativeIsArray      = Array.isArray,
+    nativeCreate       = Object.create,
     nativeKeys         = Object.keys;
 
   // Create a safe reference to the Underscore object for use below.
@@ -447,6 +448,16 @@
     for (var key in obj) if (hasOwnProperty.call(obj, key)) keys[keys.length] = key;
     return keys;
   };
+
+  // Create new object from old object.
+  // Delegates to **ECMAScript 5**'s native `Object.create`
+  _.create = nativeCreate || function (o) {
+        // http://javascript.crockford.com/prototypal.html
+        function F() {}
+        F.prototype = o;
+        return new F();
+    };
+
 
   // Retrieve the values of an object's properties.
   _.values = function(obj) {
