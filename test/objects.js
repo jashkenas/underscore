@@ -12,7 +12,7 @@ $(document).ready(function() {
 
   test("objects: functions", function() {
     var expected = ["all", "any", "bind", "bindAll", "breakLoop", "clone", "compact",
-    "compose", "contains", "defer", "delay", "detect", "each", "every", "extend", "filter", "find", "first",
+    "compose", "contains", "create", "defer", "delay", "detect", "each", "every", "extend", "filter", "find", "first",
     "flatten", "foldl", "foldr", "forEach", "functions", "head", "identity", "include",
     "indexOf", "inject", "intersect", "invoke", "isArguments", "isArray", "isBoolean", "isDate", "isElement", "isEmpty", "isEqual",
     "isFunction", "isNaN", "isNull", "isNumber", "isRegExp", "isString", "isUndefined", "keys", "last", "lastIndexOf", "map", "max",
@@ -34,6 +34,48 @@ $(document).ready(function() {
     result = _.extend({x:'x'}, {a:'a', x:2}, {a:'b'});
     ok(_.isEqual(result, {x:2, a:'b'}), 'extending from multiple source objects last property trumps');
   });
+
+
+  test("objects: create", function() {
+    var parent = {
+      method: function() {return "foo";},
+      method2: function() {return "another";},
+      attribute: "bar",
+      attr2: "another"
+    };
+
+    var child = _.create(parent);
+
+    equals(child.method(), "foo", "children have parent's methods");
+    child.method = function() {
+      return "new";
+    };
+    equals(child.method(), "new", "chiren's methods can be overidden");
+    equals(parent.method(), "foo", "parent's method is untouched");
+
+    parent.method2 = function() {
+      return "parent method changed";
+    };
+    equals(child.method2(), "parent method changed", "Parent method changes delegates to children");
+
+
+
+
+    // same for attributes
+    var anotherChild = _.create(parent);
+
+    equals(anotherChild.attribute, "bar", "children have parent's attributes");
+    anotherChild.attribute = "newattr";
+    equals(anotherChild.attribute, "newattr", "chiren's attributes can be overidden");
+
+    equals(parent.attribute, "bar", "parent's attribute is untouched");
+
+    parent.attr2 = "parent changed";
+    equals(anotherChild.attr2, "parent changed", "Parent attribute changes delegates to children");
+
+
+    
+  })
 
   test("objects: clone", function() {
     var moe = {name : 'moe', lucky : [13, 27, 34]};
