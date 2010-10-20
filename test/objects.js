@@ -16,7 +16,7 @@ $(document).ready(function() {
     "flatten", "foldl", "foldr", "forEach", "functions", "head", "identity", "include",
     "indexOf", "inject", "intersect", "invoke", "isArguments", "isArray", "isBoolean", "isDate", "isElement", "isEmpty", "isEqual",
     "isFunction", "isNaN", "isNull", "isNumber", "isRegExp", "isString", "isUndefined", "keys", "last", "lastIndexOf", "map", "max",
-    "memoize", "methods", "min", "mixin", "noConflict", "pluck", "range", "reduce", "reduceRight", "reject", "rest", "select",
+    "memoize", "methods", "min", "mixin", "noConflict", "omap", "pluck", "range", "reduce", "reduceRight", "reject", "rest", "select",
     "size", "some", "sortBy", "sortedIndex", "tail", "tap", "template", "times", "toArray", "uniq", "unique",
     "uniqueId", "values", "without", "wrap", "zip"];
     same(expected, _.methods(_), 'provides a sorted list of functions');
@@ -211,4 +211,13 @@ $(document).ready(function() {
       value();
     ok(returned == 6 && intercepted == 6, 'can use tapped objects in a chain');
   });
+
+  test("objects: omap", function() {
+    var o = {a: 1, b: 3, c: 5};
+    var r = _.omap(_.clone(o), function(x) { return x * 2; });
+    same(r, {a: 2, b: 6, c: 10}, 'all keys are mapped');
+    var r = _.omap(_.clone(o), ['a', 'c'], function(x) { return x * 2; });
+    same(r, {a: 2, b: 3, c: 10}, 'only specified keys are mapped');
+  });
+
 });

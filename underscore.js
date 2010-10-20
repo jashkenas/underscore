@@ -480,6 +480,22 @@
     return obj;
   };
 
+  // Map all properties of an object 
+  //
+  // Usage:
+  //   _.omap(o, [*keys], map_function)
+  _.omap = function(obj, a, b) {
+    var keys = _.isArray(a) ? a : _.keys(obj), 
+        f = _.isFunction(a) ? a : b;
+
+    for (var i = 0; i < keys.length; i++) {
+      var key = keys[i];
+      obj[key] = f.call(obj, obj[key]);
+    }
+
+    return obj;
+  };
+
   // Perform a deep comparison to check if two objects are equal.
   _.isEqual = function(a, b) {
     // Check object identity.
