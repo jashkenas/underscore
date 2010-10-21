@@ -435,6 +435,21 @@
       return args[0];
     };
   };
+  
+  // Curries an argument to the passed in function. 
+  // Optionally you can pass the position where the curried argument should be
+  // inserted into the list of arguments, or you can pass the string, "last",
+  // to always pass it as the last argument.
+  //
+  // By default, it is passed as the first argument.
+  _.curry = function curry(fn, arg, pos) {
+    pos = pos || 0;
+    return function() {
+      var args = slice.call(arguments);
+      (pos === "last") ? args.push(arg) : args.splice(pos, 0, arg);
+      fn.apply(this, args);
+    };
+  };
 
   // Object Functions
   // ----------------
