@@ -82,5 +82,33 @@ $(document).ready(function() {
     composed = _.compose(greet, exclaim);
     equals(composed('moe'), 'hi: moe!', 'in this case, the functions are also commutative');
   });
+  
+  test("functions: curry", function() {
+    var greet = function(salutation, name){ return salutation + ", " + name; };
+    equals(greet("hello", "world"), "hello, world");
+    
+    var hello = _.curry(greet, "hello");
+    equals(hello("world"), "hello, world");
+    
+    var greetworld = _.curry(greet, "world", 1);
+    equals(greetworld("bon jour"), "bon jour, world");
+    
+    var greetworld = _.curry(greet, "world", -1);
+    equals(greetworld("bon jour"), "bon jour, world");
+  });
 
+  asyncTest("functions: asyncCompose", function() {
+    var stooges = ["Larry", "Curly", "Moe"],
+        addStooge = function(callback, names, name) { _.delay(function() { callback(names+name); },50); },
+        stoogeAdders = _(stooges).map(function(stooge) { return _.curry(addStooge, stooge, -1); });
+    
+    var composed = _.asyncCompose(stoogeAdders);
+    
+    composed.complete = function(names) { equals(names, "Guys: LarryCurlyMoe"); };
+    composed("Guys: ");
+    
+    composed.complete = function(names) { equals(names, "Names: LarryCurlyMoe"); start(); };
+    composed("Names: ");
+  });
+  
 });

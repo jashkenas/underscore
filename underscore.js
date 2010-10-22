@@ -437,19 +437,55 @@
   };
   
   // Curries an argument to the passed in function. 
-  // Optionally you can pass the position where the curried argument should be
-  // inserted into the list of arguments, or you can pass the string, "last",
-  // to always pass it as the last argument.
+  // Optionally you can pass the index where the curried argument should be
+  // inserted into the list of arguments. Negative indexes count back from the
+  // last argument. (-1 will curry the argument as the last argument, -2, second
+  // to last, etc)
   //
   // By default, it is passed as the first argument.
-  _.curry = function curry(fn, arg, pos) {
+  _.curry = function(fn, arg, pos) {
     pos = pos || 0;
     return function() {
       var args = slice.call(arguments);
-      (pos === "last") ? args.push(arg) : args.splice(pos, 0, arg);
-      fn.apply(this, args);
+      pos = pos < 0 ? args.length + (pos+1) : pos;
+      args.splice(pos, 0, arg);
+      return fn.apply(this, args);
     };
   };
+  
+  // Works like compose but instead of f(g(h())) each function passes it's
+  // output as an argument to the next function as a callback (rather than 
+  // returning the value)
+  // 
+  // You can specify a function to be passed the output of the last function
+  // by assigning a `complete` attribute to the "composed" function.
+  // ie.
+  // var composed = _.asyncCompose(list_of_fns);
+  // composed.complete = function(data) { ... };
+  //
+  // if a position is passed, the callback function is passed to each function
+  // in the funcs array at that position (via _.curry)
+  //
+  // Both the `complete` callback and the `position` argument are optional
+  _.asyncCompose = function(funcs, callback_pos) {
+    var composed = function() {
+      var curried = slice.call(funcs);
+      var complete = (function(complete) { return complete; })(composed.complete);
+      
+      curried.push(function() { complete.apply(this, arguments); });
+      
+      // curry the callbacks
+      for (var i=funcs.length-1; i >= 0; i--) {
+        curried[i] = _.curry(curried[i], curried[i+1], callback_pos);
+      }
+      
+      curried[0].apply(this, arguments);
+    }
+    composed.complete = _.identity;
+    
+    return composed;
+  }
+
 
   // Object Functions
   // ----------------

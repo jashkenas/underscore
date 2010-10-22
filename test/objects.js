@@ -11,8 +11,8 @@ $(document).ready(function() {
   });
 
   test("objects: functions", function() {
-    var expected = ["all", "any", "bind", "bindAll", "breakLoop", "clone", "compact",
-    "compose", "contains", "defer", "delay", "detect", "each", "every", "extend", "filter", "find", "first",
+    var expected = ["all", "any", "asyncCompose", "bind", "bindAll", "breakLoop", "clone", "compact",
+    "compose", "contains", "curry", "defer", "delay", "detect", "each", "every", "extend", "filter", "find", "first",
     "flatten", "foldl", "foldr", "forEach", "functions", "head", "identity", "include",
     "indexOf", "inject", "intersect", "invoke", "isArguments", "isArray", "isBoolean", "isDate", "isElement", "isEmpty", "isEqual",
     "isFunction", "isNaN", "isNull", "isNumber", "isRegExp", "isString", "isUndefined", "keys", "last", "lastIndexOf", "map", "max",
