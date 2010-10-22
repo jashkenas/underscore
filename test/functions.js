@@ -99,7 +99,7 @@ $(document).ready(function() {
 
   asyncTest("functions: asyncCompose", function() {
     var stooges = ["Larry", "Curly", "Moe"],
-        addStooge = function(callback, names, name) { _.delay(function() { callback(names+name); },50); },
+        addStooge = function(callback, names, name) { _.delay(function() { callback(names+name); },20); },
         stoogeAdders = _(stooges).map(function(stooge) { return _.curry(addStooge, stooge, -1); });
     
     var composed = _.asyncCompose(stoogeAdders);
@@ -107,8 +107,17 @@ $(document).ready(function() {
     composed.complete = function(names) { equals(names, "Guys: LarryCurlyMoe"); };
     composed("Guys: ");
     
-    composed.complete = function(names) { equals(names, "Names: LarryCurlyMoe"); start(); };
+    composed.complete = function(names) { equals(names, "Names: LarryCurlyMoe"); };
     composed("Names: ");
+    
+    var called = false;
+    composed = _.asyncCompose([]);
+    composed.complete = function() {
+      called = true;
+    }
+    composed();
+    
+    _.delay(function() { ok(called, "Make sure the complete function is called when there are no functions to compose"); start(); }, 100);
   });
   
 });
