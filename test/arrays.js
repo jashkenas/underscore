@@ -105,4 +105,14 @@ $(document).ready(function() {
     equals(_.range(0, -10, -1).join(' '), '0 -1 -2 -3 -4 -5 -6 -7 -8 -9', 'final example in the Python docs');
   });
 
+  test("arrays: slices", function() {
+    same(_.slices([], 1), [], 'slices with an empty array returns empty array');
+    same(_.slices([1,2,3], 1), [[1],[2],[3]], 'slices can split into 1 element arrays');
+    same(_.slices([1,2,3,4], 2), [[1,2],[3,4]], 'slices can split into 2 element arrays');
+    same(_.slices([1,2,3,4], 3), [[1,2,3],[4]], 'slices overflows into smaller arrays');
+    same(_.slices([1,2], 5), [[1,2]], 'slices works when the slice length is larger than the array');
+
+    same(_([1,2,3,4]).slices(2), [[1,2],[3,4]], 'assert slices works OO style');
+  });
+
 });

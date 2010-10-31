@@ -16,8 +16,8 @@ $(document).ready(function() {
     "flatten", "foldl", "foldr", "forEach", "functions", "head", "identity", "include",
     "indexOf", "inject", "intersect", "invoke", "isArguments", "isArray", "isBoolean", "isDate", "isElement", "isEmpty", "isEqual",
     "isFunction", "isNaN", "isNull", "isNumber", "isRegExp", "isString", "isUndefined", "keys", "last", "lastIndexOf", "map", "max",
-    "memoize", "methods", "min", "mixin", "noConflict", "pluck", "range", "reduce", "reduceRight", "reject", "rest", "select",
-    "size", "some", "sortBy", "sortedIndex", "tail", "tap", "template", "times", "toArray", "uniq", "unique",
+    "memoize", "methods", "min", "mixin", "noConflict", "pluck", "range", "reduce", "reduceRight", "reject", "rest", "select", 
+    "size", "slices", "some", "sortBy", "sortedIndex", "tail", "tap", "template", "times", "toArray", "uniq", "unique",
     "uniqueId", "values", "without", "wrap", "zip"];
     same(expected, _.methods(_), 'provides a sorted list of functions');
     var obj = {a : 'dash', b : _.map, c : (/yo/), d : _.reduce};

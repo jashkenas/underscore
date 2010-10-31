@@ -147,7 +147,7 @@
       <span class="methods"><a href="#first">first</a>, <a href="#rest">rest</a>, <a href="#last">last</a>,
       <a href="#compact">compact</a>, <a href="#flatten">flatten</a>, <a href="#without">without</a>, <a href="#uniq">uniq</a>,
       <a href="#intersect">intersect</a>, <a href="#zip">zip</a>, <a href="#indexOf">indexOf</a>,
-      <a href="#lastIndexOf">lastIndexOf</a>, <a href="#range">range</a></span>
+      <a href="#lastIndexOf">lastIndexOf</a>, <a href="#range">range</a></span>, <a href="#slices">slices</a></span>
     </p>
 
     <p>
@@ -625,6 +625,20 @@ _.range(0, -10, -1);
 _.range(0);
 =&gt; []
 </pre>
+
+      <p id="slices">
+        <b class="header">slices</b><code>_.range(array, length)</code>
+        <br />
+        Return the elements of the <b>array</b> sliced into arrays of the given
+        <b>length</b>.
+      </p>
+      <pre>
+_.slices([1, 2, 3, 4], 2);
+=&gt; [[1, 2], [3, 4]]
+_.slices([1, 2, 3, 4], 3);
+=&gt; [[1, 2, 3], [4]]
+</pre>
+
 
       <h2>Function (uh, ahem) Functions</h2>
 

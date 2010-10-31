@@ -369,6 +369,15 @@
     return range;
   };
 
+  // Return the elements of the array sliced into arrays of the given length. 
+  _.slices = function(array, length) {
+    var slices = [];
+    for (var i=0; i<array.length; i+=length) {
+      slices.push(array.slice(i, i+length));
+    }
+    return slices;
+  };
+
   // Function (ahem) Functions
   // ------------------
 
