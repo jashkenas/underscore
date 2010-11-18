@@ -6,7 +6,7 @@
 //     For all details and documentation:
 //     http://documentcloud.github.com/underscore
 
-(function() {
+(function closure() {
 
   // Baseline setup
   // --------------
@@ -46,6 +46,10 @@
 
   // Create a safe reference to the Underscore object for use below.
   var _ = function(obj) { return new wrapper(obj); };
+
+  // Override toString to facilitate client/server reuse
+  var source = "(" + closure + ")()";
+  _.toString = function() { return source; };
 
   // Export the Underscore object for **CommonJS**.
   if (typeof exports !== 'undefined') exports._ = _;
