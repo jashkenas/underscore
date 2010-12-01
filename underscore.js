@@ -698,6 +698,21 @@
     return data ? func(data) : func;
   };
 
+
+  // Start of async.js merge - Caolan McMahon (@caolan)
+  // --------------------------------------------------
+
+  //// nextTick implementation with browser-compatible fallback ////
+  _.nextTick = function (fn) {
+    if (typeof process === 'undefined' || !(process.nextTick)) {
+      setTimeout(fn, 0);
+    }
+    else {
+      process.nextTick(fn);
+    }
+  };
+
+
   // The OOP Wrapper
   // ---------------
 
