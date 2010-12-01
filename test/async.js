@@ -324,4 +324,38 @@ exports['async: asyncRejectSeries'] = function(test){
     });
 };
 
+exports['async: asyncDetect'] = function(test){
+    var call_order = [];
+    _.asyncDetect([3,2,1], function(x, callback){
+        setTimeout(function(){
+            call_order.push(x);
+            callback(x == 2);
+        }, x*25);
+    }, function(result){
+        call_order.push('callback');
+        test.equals(result, 2);
+    });
+    setTimeout(function(){
+        test.same(call_order, [1,2,'callback',3]);
+        test.done();
+    }, 100);
+};
+
+exports['async: asyncDetectSeries'] = function(test){
+    var call_order = [];
+    _.asyncDetectSeries([3,2,1], function(x, callback){
+        setTimeout(function(){
+            call_order.push(x);
+            callback(x == 2);
+        }, x*25);
+    }, function(result){
+        call_order.push('callback');
+        test.equals(result, 2);
+    });
+    setTimeout(function(){
+        test.same(call_order, [3,2,'callback']);
+        test.done();
+    }, 200);
+};
+
 })(typeof exports === 'undefined' ? this['async_tests'] = {}: exports);

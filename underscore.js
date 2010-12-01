@@ -870,6 +870,24 @@
   _.asyncRejectSeries = doSeries(_asyncReject);
 
 
+  var _asyncDetect = function (eachfn, arr, iterator, main_callback) {
+    eachfn(arr, function (x, callback) {
+      iterator(x, function (result) {
+        if (result) {
+          main_callback(x);
+        }
+        else {
+          callback();
+        }
+      });
+    }, function (err) {
+      main_callback();
+    });
+  };
+  _.asyncDetect = doParallel(_asyncDetect);
+  _.asyncDetectSeries = doSeries(_asyncDetect);
+
+
   // The OOP Wrapper
   // ---------------
 
