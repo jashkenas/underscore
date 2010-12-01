@@ -2,21 +2,31 @@
 <html>
 <head>
   <title>Underscore Test Suite</title>
+  <!--
   <link rel="stylesheet" href="vendor/qunit.css" type="text/css" media="screen" />
   <script type="text/javascript" src="vendor/jquery.js"></script>
   <script type="text/javascript" src="vendor/qunit.js"></script>
   <script type="text/javascript" src="vendor/jslitmus.js"></script>
+  -->
+  <link rel="stylesheet" href="vendor/nodeunit.css" type="text/css" media="screen" />
+  <script type="text/javascript" src="vendor/jquery.js"></script>
+  <script type="text/javascript" src="vendor/nodeunit.js"></script>
+  <script type="text/javascript" src="vendor/jslitmus.js"></script>
+
   <script type="text/javascript" src="../underscore.js"></script>
+
   <script type="text/javascript" src="collections.js"></script>
   <script type="text/javascript" src="arrays.js"></script>
   <script type="text/javascript" src="functions.js"></script>
   <script type="text/javascript" src="objects.js"></script>
   <script type="text/javascript" src="utility.js"></script>
   <script type="text/javascript" src="chaining.js"></script>
-  <script type="text/javascript" src="speed.js"></script>
+
+  <script type="text/javascript" src="benchmark/speed.js"></script>
+  <!--<script type="text/javascript" src="speed.js"></script>-->
 </head>
 <body>
-  <h1 id="qunit-header">Underscore Test Suite</h1>
+  <!--<h1 id="qunit-header">Underscore Test Suite</h1>
   <h2 id="qunit-banner"></h2>
   <h2 id="qunit-userAgent"></h2>
   <ol id="qunit-tests"></ol>
@@ -29,13 +39,47 @@
     For example, the 'intersect' test measures the number of times you can
     find the intersection of two thousand-element arrays in one second.
   </h2>
+  <br />-->
+
+  <h1 id="nodeunit-header">Underscore Test Suite</h1>
+  <h2 id="nodeunit-banner"></h2>
+  <h2 id="nodeunit-userAgent"></h2>
+  <ol id="nodeunit-tests"></ol>
+  <p id="nodeunit-testresult"></p>
+  <br />
+  <h1 class="nodeunit-header">Underscore Speed Suite</h1>
+  <h2 class="nodeunit-userAgent">
+    A representative sample of the functions are benchmarked here, to provide
+    a sense of how fast they might run in different browsers.
+    Each iteration runs on an array of 1000 elements.<br /><br />
+    For example, the 'intersect' test measures the number of times you can
+    find the intersection of two thousand-element arrays in one second.
+  </h2>
   <br />
 
+  <!-- FIXTURES -->
+  <div id="testid"/>
+  <img id="testimg"/>
   <script type="text/html" id="template">
       <%
       if (data) { data += 12345; }; %>
       <li><%= data %></li>
-  </script>a
+  </script>
+  <!-- END OF FIXTURES -->
+
+  <script>
+    // enable once qunit mode is added to nodeunit
+    //$(function () {
+      nodeunit.run({
+        "Array-only functions (last, compact, uniq, and so on...)": arrays,
+        "Underscore chaining.": chaining,
+        "Collection functions (each, any, select, and so on...)": collections,
+        "Function functions (bind, bindAll, and so on...)": functions,
+        "Object functions (values, extend, isEqual, and so on...)": objects,
+        "Utility functions (uniqueId, template)": utility
+      });
+    //});
+  </script>
 
 </body>
 </html>
