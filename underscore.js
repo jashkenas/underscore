@@ -809,6 +809,16 @@
   _.asyncFoldl = _.asyncReduce;
 
 
+  _.asyncReduceRight = function (arr, memo, iterator, callback) {
+    var reversed = _.map(arr, function (x) {
+      return x;
+    }).reverse();
+    _.asyncReduce(reversed, memo, iterator, callback);
+  };
+  // foldr alias
+  _.asyncFoldr = _.asyncReduceRight;
+
+
   // The OOP Wrapper
   // ---------------
 

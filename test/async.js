@@ -237,4 +237,23 @@ exports['async: asyncFoldl alias'] = function(test){
     test.done();
 };
 
+exports['async: asyncReduceRight'] = function(test){
+    var call_order = [];
+    var a = [1,2,3];
+    _.asyncReduceRight(a, 0, function(a, x, callback){
+        call_order.push(x);
+        callback(null, a + x);
+    }, function(err, result){
+        test.equals(result, 6);
+        test.same(call_order, [3,2,1]);
+        test.same(a, [1,2,3]);
+        test.done();
+    });
+};
+
+exports['async: asyncFoldr alias'] = function(test){
+    test.equals(_.asyncFoldr, _.asyncReduceRight);
+    test.done();
+};
+
 })(typeof exports === 'undefined' ? this['async_tests'] = {}: exports);
