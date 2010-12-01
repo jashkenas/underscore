@@ -358,4 +358,43 @@ exports['async: asyncDetectSeries'] = function(test){
     }, 200);
 };
 
+exports['async: asyncSome true'] = function(test){
+    _.asyncSome([3,1,2], function(x, callback){
+        setTimeout(function(){callback(x === 1);}, 0);
+    }, function(result){
+        test.equals(result, true);
+        test.done();
+    });
+};
+
+exports['async: asyncSome false'] = function(test){
+    _.asyncSome([3,1,2], function(x, callback){
+        setTimeout(function(){callback(x === 10);}, 0);
+    }, function(result){
+        test.equals(result, false);
+        test.done();
+    });
+};
+
+exports['async: asyncSome early return'] = function(test){
+    var call_order = [];
+    _.asyncSome([1,2,3], function(x, callback){
+        setTimeout(function(){
+            call_order.push(x);
+            callback(x === 1);
+        }, x*25);
+    }, function(result){
+        call_order.push('callback');
+    });
+    setTimeout(function(){
+        test.same(call_order, [1,'callback',2,3]);
+        test.done();
+    }, 100);
+};
+
+exports['async: asyncAny alias'] = function (test) {
+    test.strictEqual(_.asyncSome, _.asyncAny);
+    test.done();
+};
+
 })(typeof exports === 'undefined' ? this['async_tests'] = {}: exports);

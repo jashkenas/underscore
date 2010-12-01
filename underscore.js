@@ -888,6 +888,24 @@
   _.asyncDetectSeries = doSeries(_asyncDetect);
 
 
+  _.asyncSome = function (arr, iterator, main_callback) {
+    _.asyncForEach(arr, function (x, callback) {
+      iterator(x, function (v) {
+        if (v) {
+          main_callback(true);
+          main_callback = function () {};
+        }
+        callback();
+      });
+    }, function (err) {
+      main_callback(false);
+    });
+  };
+  // any alias
+  _.asyncAny = _.asyncSome;
+
+
+
   // The OOP Wrapper
   // ---------------
 
