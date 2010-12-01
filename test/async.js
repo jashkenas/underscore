@@ -295,4 +295,33 @@ exports['async: asyncSelectSeries alias'] = function(test){
     test.done();
 };
 
+exports['async: asyncReject'] = function(test){
+    _.asyncReject([3,1,2], function(x, callback){
+        setTimeout(function(){callback(x % 2);}, x*25);
+    }, function(results){
+        test.same(results, [2]);
+        test.done();
+    });
+};
+
+exports['async: asyncReject original untouched'] = function(test){
+    var a = [3,1,2];
+    _.asyncReject(a, function(x, callback){
+        callback(x % 2);
+    }, function(results){
+        test.same(results, [2]);
+        test.same(a, [3,1,2]);
+        test.done();
+    });
+};
+
+exports['async: asyncRejectSeries'] = function(test){
+    _.asyncRejectSeries([3,1,2], function(x, callback){
+        setTimeout(function(){callback(x % 2);}, x*25);
+    }, function(results){
+        test.same(results, [2]);
+        test.done();
+    });
+};
+
 })(typeof exports === 'undefined' ? this['async_tests'] = {}: exports);

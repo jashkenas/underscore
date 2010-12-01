@@ -846,6 +846,30 @@
   _.asyncSelectSeries = _.asyncFilterSeries;
 
 
+  var _asyncReject = function (eachfn, arr, iterator, callback) {
+    var results = [];
+    arr = _.map(arr, function (x, i) {
+      return {index: i, value: x};
+    });
+    eachfn(arr, function (x, callback) {
+      iterator(x.value, function (v) {
+        if (!v) {
+          results.push(x);
+        }
+        callback();
+      });
+    }, function (err) {
+      callback(_.map(results.sort(function (a, b) {
+        return a.index - b.index;
+      }), function (x) {
+        return x.value;
+      }));
+    });
+  };
+  _.asyncReject = doParallel(_asyncReject);
+  _.asyncRejectSeries = doSeries(_asyncReject);
+
+
   // The OOP Wrapper
   // ---------------
 
