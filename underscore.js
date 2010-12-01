@@ -712,6 +712,52 @@
     }
   };
 
+  _.asyncEach = _.asyncForEach = function (arr, iterator, callback) {
+    if (!arr.length) {
+      return callback();
+    }
+    var completed = 0;
+    _.forEach(arr, function (x) {
+      iterator(x, function (err) {
+        if (err) {
+          callback(err);
+          callback = function () {};
+        }
+        else {
+          completed += 1;
+          if (completed === arr.length) {
+            callback();
+          }
+        }
+      });
+    });
+  };
+
+  _.asyncEachSeries = _.asyncForEachSeries = function(arr, iterator, callback) {
+    if (!arr.length) {
+      return callback();
+    }
+    var completed = 0;
+    var iterate = function () {
+      iterator(arr[completed], function (err) {
+        if (err) {
+          callback(err);
+          callback = function () {};
+        }
+        else {
+          completed += 1;
+          if (completed === arr.length) {
+            callback();
+          }
+          else {
+            iterate();
+          }
+        }
+      });
+    };
+    iterate();
+  };
+
 
   // The OOP Wrapper
   // ---------------

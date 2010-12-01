@@ -4,7 +4,7 @@ if (typeof require !== 'undefined') {
 
 (function (exports) {
 
-exports['nextTick'] = function(test){
+exports['async: nextTick'] = function(test){
     var call_order = [];
     _.nextTick(function(){call_order.push('two');});
     call_order.push('one');
@@ -14,7 +14,7 @@ exports['nextTick'] = function(test){
     }, 50);
 };
 
-exports['nextTick in node'] = function(test){
+exports['async: nextTick in node'] = function(test){
     test.expect(1);
     var browser = false;
     if (typeof process === 'undefined') {
@@ -35,7 +35,7 @@ exports['nextTick in node'] = function(test){
     _.nextTick(function(){});
 };
 
-exports['nextTick in the browser'] = function(test){
+exports['async: nextTick in the browser'] = function(test){
     test.expect(1);
 
     if (typeof process !== 'undefined') {
@@ -54,6 +54,87 @@ exports['nextTick in the browser'] = function(test){
         test.same(call_order, ['one','two']);
     }, 50);
     setTimeout(test.done, 100);
+};
+
+exports['async: asyncForEach'] = function(test){
+    var args = [];
+    _.asyncForEach([1,3,2], function(x, callback){
+        setTimeout(function(){
+            args.push(x);
+            callback();
+        }, x*25);
+    }, function(err){
+        test.same(args, [1,2,3]);
+        test.done();
+    });
+};
+
+exports['async: asyncForEach empty array'] = function(test){
+    test.expect(1);
+    _.asyncForEach([], function(x, callback){
+        test.ok(false, 'iterator should not be called');
+        callback();
+    }, function(err){
+        test.ok(true, 'should call callback');
+    });
+    setTimeout(test.done, 25);
+};
+
+exports['async: asyncForEach error'] = function(test){
+    test.expect(1);
+    _.asyncForEach([1,2,3], function(x, callback){
+        callback('error');
+    }, function(err){
+        test.equals(err, 'error');
+    });
+    setTimeout(test.done, 50);
+};
+
+exports['async: asyncEach alias'] = function (test) {
+    test.strictEqual(_.asyncEach, _.asyncForEach);
+    test.done();
+};
+
+exports['async: asyncForEachSeries'] = function(test){
+    var args = [];
+    _.asyncForEachSeries([1,3,2], function(x, callback){
+        setTimeout(function(){
+            args.push(x);
+            callback();
+        }, x*25);
+    }, function(err){
+        test.same(args, [1,3,2]);
+        test.done();
+    });
+};
+
+exports['async: asyncForEachSeries empty array'] = function(test){
+    test.expect(1);
+    _.asyncForEachSeries([], function(x, callback){
+        test.ok(false, 'iterator should not be called');
+        callback();
+    }, function(err){
+        test.ok(true, 'should call callback');
+    });
+    setTimeout(test.done, 25);
+};
+
+exports['async: asyncForEachSeries error'] = function(test){
+    test.expect(2);
+    var call_order = [];
+    _.asyncForEachSeries([1,2,3], function(x, callback){
+        call_order.push(x);
+        callback('error');
+    }, function(err){
+        test.same(call_order, [1]);
+        test.equals(err, 'error');
+    });
+    setTimeout(test.done, 50);
+};
+
+exports['async: asyncEachSeries alias'] = function (test) {
+    test.strictEqual(_.asyncEachSeries, _.asyncForEachSeries);
+    test.done();
 };
 
 })(typeof exports === 'undefined' ? this['async_tests'] = {}: exports);
