@@ -256,4 +256,43 @@ exports['async: asyncFoldr alias'] = function(test){
     test.done();
 };
 
+exports['async: asyncFilter'] = function(test){
+    _.asyncFilter([3,1,2], function(x, callback){
+        setTimeout(function(){callback(x % 2);}, x*25);
+    }, function(results){
+        test.same(results, [3,1]);
+        test.done();
+    });
+};
+
+exports['async: asyncFilter original untouched'] = function(test){
+    var a = [3,1,2];
+    _.asyncFilter(a, function(x, callback){
+        callback(x % 2);
+    }, function(results){
+        test.same(results, [3,1]);
+        test.same(a, [3,1,2]);
+        test.done();
+    });
+};
+
+exports['async: asyncFilterSeries'] = function(test){
+    _.asyncFilterSeries([3,1,2], function(x, callback){
+        setTimeout(function(){callback(x % 2);}, x*25);
+    }, function(results){
+        test.same(results, [3,1]);
+        test.done();
+    });
+};
+
+exports['async: asyncSelect alias'] = function(test){
+    test.equals(_.asyncSelect, _.asyncFilter);
+    test.done();
+};
+
+exports['async: asyncSelectSeries alias'] = function(test){
+    test.equals(_.asyncSelectSeries, _.asyncFilterSeries);
+    test.done();
+};
+
 })(typeof exports === 'undefined' ? this['async_tests'] = {}: exports);

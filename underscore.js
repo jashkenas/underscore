@@ -819,6 +819,33 @@
   _.asyncFoldr = _.asyncReduceRight;
 
 
+  var _asyncFilter = function (eachfn, arr, iterator, callback) {
+    var results = [];
+    arr = _.map(arr, function (x, i) {
+      return {index: i, value: x};
+    });
+    eachfn(arr, function (x, callback) {
+      iterator(x.value, function (v) {
+        if (v) {
+          results.push(x);
+        }
+        callback();
+      });
+    }, function (err) {
+      callback(_.map(results.sort(function (a, b) {
+        return a.index - b.index;
+      }), function (x) {
+        return x.value;
+      }));
+    });
+  };
+  _.asyncFilter = doParallel(_asyncFilter);
+  _.asyncFilterSeries = doSeries(_asyncFilter);
+  // select alias
+  _.asyncSelect = _.asyncFilter;
+  _.asyncSelectSeries = _.asyncFilterSeries;
+
+
   // The OOP Wrapper
   // ---------------
 
