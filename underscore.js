@@ -759,6 +759,38 @@
   };
 
 
+  var doParallel = function (fn) {
+    return function () {
+      var args = Array.prototype.slice.call(arguments);
+      return fn.apply(null, [_.asyncForEach].concat(args));
+    };
+  };
+  var doSeries = function (fn) {
+    return function () {
+      var args = Array.prototype.slice.call(arguments);
+      return fn.apply(null, [_.asyncForEachSeries].concat(args));
+    };
+  };
+
+
+  var _asyncMap = function (eachfn, arr, iterator, callback) {
+    var results = [];
+    arr = _.map(arr, function (x, i) {
+      return {index: i, value: x};
+    });
+    eachfn(arr, function (x, callback) {
+      iterator(x.value, function (err, v) {
+        results[x.index] = v;
+        callback(err);
+      });
+    }, function (err) {
+      callback(err, results);
+    });
+  };
+  _.asyncMap = doParallel(_asyncMap);
+  _.asyncMapSeries = doSeries(_asyncMap);
+
+
   // The OOP Wrapper
   // ---------------
 

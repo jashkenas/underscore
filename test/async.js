@@ -137,4 +137,63 @@ exports['async: asyncEachSeries alias'] = function (test) {
     test.done();
 };
 
+exports['async: asyncMap'] = function(test){
+    var call_order = [];
+    _.asyncMap([1,3,2], function(x, callback){
+        setTimeout(function(){
+            call_order.push(x);
+            callback(null, x*2);
+        }, x*25);
+    }, function(err, results){
+        test.same(call_order, [1,2,3]);
+        test.same(results, [2,6,4]);
+        test.done();
+    });
+};
+
+exports['async: asyncMap original untouched'] = function(test){
+    var a = [1,2,3];
+    _.asyncMap(a, function(x, callback){
+        callback(null, x*2);
+    }, function(err, results){
+        test.same(results, [2,4,6]);
+        test.same(a, [1,2,3]);
+        test.done();
+    });
+};
+
+exports['async: asyncMap error'] = function(test){
+    test.expect(1);
+    _.asyncMap([1,2,3], function(x, callback){
+        callback('error');
+    }, function(err, results){
+        test.equals(err, 'error');
+    });
+    setTimeout(test.done, 50);
+};
+
+exports['async: asyncMapSeries'] = function(test){
+    var call_order = [];
+    _.asyncMapSeries([1,3,2], function(x, callback){
+        setTimeout(function(){
+            call_order.push(x);
+            callback(null, x*2);
+        }, x*25);
+    }, function(err, results){
+        test.same(call_order, [1,3,2]);
+        test.same(results, [2,6,4]);
+        test.done();
+    });
+};
+
+exports['async: asyncMapSeries error'] = function(test){
+    test.expect(1);
+    _.asyncMapSeries([1,2,3], function(x, callback){
+        callback('error');
+    }, function(err, results){
+        test.equals(err, 'error');
+    });
+    setTimeout(test.done, 50);
+};
+
 })(typeof exports === 'undefined' ? this['async_tests'] = {}: exports);
