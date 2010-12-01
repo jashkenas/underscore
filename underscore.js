@@ -690,7 +690,11 @@
          .replace(/\n/g, '\\n')
          .replace(/\t/g, '\\t')
          + "');}return __p.join('');";
-    var func = new Function('obj', tmpl);
+    var func = function (data) {
+        data = data || {};
+        data._ = _;
+        return new Function('obj', tmpl)(data);
+    };
     return data ? func(data) : func;
   };
 
