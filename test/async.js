@@ -196,4 +196,45 @@ exports['async: asyncMapSeries error'] = function(test){
     setTimeout(test.done, 50);
 };
 
+exports['async: asyncReduce'] = function(test){
+    var call_order = [];
+    _.asyncReduce([1,2,3], 0, function(a, x, callback){
+        call_order.push(x);
+        callback(null, a + x);
+    }, function(err, result){
+        test.equals(result, 6);
+        test.same(call_order, [1,2,3]);
+        test.done();
+    });
+};
+
+exports['async: asyncReduce async with non-reference memo'] = function(test){
+    _.asyncReduce([1,3,2], 0, function(a, x, callback){
+        setTimeout(function(){callback(null, a + x)}, Math.random()*100);
+    }, function(err, result){
+        test.equals(result, 6);
+        test.done();
+    });
+};
+
+exports['async: asyncReduce error'] = function(test){
+    test.expect(1);
+    _.asyncReduce([1,2,3], 0, function(a, x, callback){
+        callback('error');
+    }, function(err, result){
+        test.equals(err, 'error');
+    });
+    setTimeout(test.done, 50);
+};
+
+exports['async: asyncInject alias'] = function(test){
+    test.equals(_.asyncInject, _.asyncReduce);
+    test.done();
+};
+
+exports['async: asyncFoldl alias'] = function(test){
+    test.equals(_.asyncFoldl, _.asyncReduce);
+    test.done();
+};
+
 })(typeof exports === 'undefined' ? this['async_tests'] = {}: exports);

@@ -791,6 +791,24 @@
   _.asyncMapSeries = doSeries(_asyncMap);
 
 
+  // reduce only has a series version, as doing reduce in parallel won't
+  // work in many situations.
+  _.asyncReduce = function (arr, memo, iterator, callback) {
+    _.asyncForEachSeries(arr, function (x, callback) {
+      iterator(memo, x, function (err, v) {
+        memo = v;
+        callback(err);
+      });
+    }, function (err) {
+      callback(err, memo);
+    });
+  };
+  // inject alias
+  _.asyncInject = _.asyncReduce;
+  // foldl alias
+  _.asyncFoldl = _.asyncReduce;
+
+
   // The OOP Wrapper
   // ---------------
 
