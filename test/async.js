@@ -691,4 +691,112 @@ exports['async: series object'] = function(test){
     });
 };
 
+exports['async: waterfall'] = function(test){
+    test.expect(6);
+    var call_order = [];
+    _.waterfall([
+        function(callback){
+            call_order.push('fn1');
+            setTimeout(function(){callback(null, 'one', 'two');}, 0);
+        },
+        function(arg1, arg2, callback){
+            call_order.push('fn2');
+            test.equals(arg1, 'one');
+            test.equals(arg2, 'two');
+            setTimeout(function(){callback(null, arg1, arg2, 'three');}, 25);
+        },
+        function(arg1, arg2, arg3, callback){
+            call_order.push('fn3');
+            test.equals(arg1, 'one');
+            test.equals(arg2, 'two');
+            test.equals(arg3, 'three');
+            callback(null, 'four');
+        },
+        function(arg4, callback){
+            call_order.push('fn4');
+            test.same(call_order, ['fn1','fn2','fn3','fn4']);
+            callback(null, 'test');
+        }
+    ], function(err){
+        test.done();
+    });
+};
+
+exports['async: waterfall empty array'] = function(test){
+    _.waterfall([], function(err){
+        test.done();
+    });
+};
+
+exports['async: waterfall no callback'] = function(test){
+    _.waterfall([
+        function(callback){callback();},
+        function(callback){callback(); test.done();}
+    ]);
+};
+
+exports['async: waterfall async'] = function(test){
+    var call_order = [];
+    _.waterfall([
+        function(callback){
+            call_order.push(1);
+            callback();
+            call_order.push(2);
+        },
+        function(callback){
+            call_order.push(3);
+            callback();
+        },
+        function(){
+            test.same(call_order, [1,2,3]);
+            test.done();
+        }
+    ]);
+};
+
+exports['async: waterfall error'] = function(test){
+    test.expect(1);
+    _.waterfall([
+        function(callback){
+            callback('error');
+        },
+        function(callback){
+            test.ok(false, 'next function should not be called');
+            callback();
+        }
+    ], function(err){
+        test.equals(err, 'error');
+    });
+    setTimeout(test.done, 50);
+};
+
+exports['async: waterfall multiple callback calls'] = function(test){
+    var call_order = [];
+    var arr = [
+        function(callback){
+            call_order.push(1);
+            // call the callback twice. this should call function 2 twice
+            callback(null, 'one', 'two');
+            callback(null, 'one', 'two');
+        },
+        function(arg1, arg2, callback){
+            call_order.push(2);
+            callback(null, arg1, arg2, 'three');
+        },
+        function(arg1, arg2, arg3, callback){
+            call_order.push(3);
+            callback(null, 'four');
+        },
+        function(arg4){
+            call_order.push(4);
+            arr[3] = function(){
+                call_order.push(4);
+                test.same(call_order, [1,2,2,3,3,4,4]);
+                test.done();
+            };
+        }
+    ];
+    _.waterfall(arr);
+};
+
 })(typeof exports === 'undefined' ? this['async_tests'] = {}: exports);

@@ -1056,6 +1056,37 @@
     }
   };
 
+
+  _.waterfall = function (tasks, callback) {
+    if (!tasks.length) {
+      return callback();
+    }
+    callback = callback || function () {};
+    var wrapIterator = function (iterator) {
+      return function (err) {
+        if (err) {
+          callback(err);
+          callback = function () {};
+        }
+        else {
+          var args = Array.prototype.slice.call(arguments, 1);
+          var next = iterator.next();
+          if (next) {
+            args.push(wrapIterator(next));
+          }
+          else {
+            args.push(callback);
+          }
+          _.nextTick(function () {
+            iterator.apply(null, args);
+          });
+        }
+      };
+    };
+    wrapIterator(_.iterator(tasks))();
+  };
+
+
   // Add all of the Underscore functions to the wrapper object.
   _.mixin(_);
 
