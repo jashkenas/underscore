@@ -905,6 +905,22 @@
   _.asyncAny = _.asyncSome;
 
 
+  _.asyncEvery = function (arr, iterator, main_callback) {
+    _.asyncForEach(arr, function (x, callback) {
+      iterator(x, function (v) {
+        if (!v) {
+          main_callback(false);
+          main_callback = function () {};
+        }
+        callback();
+      });
+    }, function (err) {
+      main_callback(true);
+    });
+  };
+  // all alias
+  _.asyncAll = _.asyncEvery;
+
 
   // The OOP Wrapper
   // ---------------

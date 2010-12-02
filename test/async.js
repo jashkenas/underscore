@@ -397,4 +397,43 @@ exports['async: asyncAny alias'] = function (test) {
     test.done();
 };
 
+exports['async: asyncEvery true'] = function(test){
+    _.asyncEvery([1,2,3], function(x, callback){
+        setTimeout(function(){callback(true);}, 0);
+    }, function(result){
+        test.equals(result, true);
+        test.done();
+    });
+};
+
+exports['async: asyncEvery false'] = function(test){
+    _.asyncEvery([1,2,3], function(x, callback){
+        setTimeout(function(){callback(x % 2);}, 0);
+    }, function(result){
+        test.equals(result, false);
+        test.done();
+    });
+};
+
+exports['async: asyncEvery early return'] = function(test){
+    var call_order = [];
+    _.asyncEvery([1,2,3], function(x, callback){
+        setTimeout(function(){
+            call_order.push(x);
+            callback(x === 1);
+        }, x*25);
+    }, function(result){
+        call_order.push('callback');
+    });
+    setTimeout(function(){
+        test.same(call_order, [1,2,'callback',3]);
+        test.done();
+    }, 100);
+};
+
+exports['async: asyncAll alias'] = function(test){
+    test.equals(_.asyncAll, _.asyncEvery);
+    test.done();
+};
+
 })(typeof exports === 'undefined' ? this['async_tests'] = {}: exports);
