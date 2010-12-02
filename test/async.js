@@ -799,4 +799,56 @@ exports['async: waterfall multiple callback calls'] = function(test){
     _.waterfall(arr);
 };
 
+exports['async: asyncConcat'] = function(test){
+    var call_order = [];
+    var iterator = function (x, cb) {
+        setTimeout(function(){
+            call_order.push(x);
+            var r = [];
+            while (x > 0) {
+                r.push(x);
+                x--;
+            }
+            cb(null, r);
+        }, x*25);
+    };
+    _.asyncConcat([1,3,2], iterator, function(err, results){
+        test.same(results, [1,2,1,3,2,1]);
+        test.same(call_order, [1,2,3]);
+        test.ok(!err);
+        test.done();
+    });
+};
+
+exports['async: asyncConcat error'] = function(test){
+    var iterator = function (x, cb) {
+        cb(new Error('test error'));
+    };
+    _.asyncConcat([1,2,3], iterator, function(err, results){
+        test.ok(err);
+        test.done();
+    });
+};
+
+exports['async: asyncConcatSeries'] = function(test){
+    var call_order = [];
+    var iterator = function (x, cb) {
+        setTimeout(function(){
+            call_order.push(x);
+            var r = [];
+            while (x > 0) {
+                r.push(x);
+                x--;
+            }
+            cb(null, r);
+        }, x*25);
+    };
+    _.asyncConcatSeries([1,3,2], iterator, function(err, results){
+        test.same(results, [1,3,2,1,2,1]);
+        test.same(call_order, [1,3,2]);
+        test.ok(!err);
+        test.done();
+    });
+};
+
 })(typeof exports === 'undefined' ? this['async_tests'] = {}: exports);

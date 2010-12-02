@@ -1087,6 +1087,21 @@
   };
 
 
+  var _asyncConcat = function (eachfn, arr, fn, callback) {
+    var r = [];
+    eachfn(arr, function (x, cb) {
+      fn(x, function (err, y) {
+        r = r.concat(y || []);
+        cb(err);
+      });
+    }, function (err) {
+      callback(err, r);
+    });
+  };
+  _.asyncConcat = doParallel(_asyncConcat);
+  _.asyncConcatSeries = doSeries(_asyncConcat);
+
+
   // Add all of the Underscore functions to the wrapper object.
   _.mixin(_);
 
