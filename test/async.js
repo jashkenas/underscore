@@ -445,4 +445,60 @@ exports['asyncSortBy'] = function(test){
     });
 };
 
+exports['iterator'] = function(test){
+    var call_order = [];
+    var iterator = _.iterator([
+        function(){call_order.push(1);},
+        function(arg1){
+            test.equals(arg1, 'arg1');
+            call_order.push(2);
+        },
+        function(arg1, arg2){
+            test.equals(arg1, 'arg1');
+            test.equals(arg2, 'arg2');
+            call_order.push(3);
+        }
+    ]);
+    iterator();
+    test.same(call_order, [1]);
+    var iterator2 = iterator();
+    test.same(call_order, [1,1]);
+    var iterator3 = iterator2('arg1');
+    test.same(call_order, [1,1,2]);
+    var iterator4 = iterator3('arg1', 'arg2');
+    test.same(call_order, [1,1,2,3]);
+    test.equals(iterator4, undefined);
+    test.done();
+};
+
+exports['iterator empty array'] = function(test){
+    var iterator = _.iterator([]);
+    test.equals(iterator(), undefined);
+    test.equals(iterator.next(), undefined);
+    test.done();
+};
+
+exports['iterator.next'] = function(test){
+    var call_order = [];
+    var iterator = _.iterator([
+        function(){call_order.push(1);},
+        function(arg1){
+            test.equals(arg1, 'arg1');
+            call_order.push(2);
+        },
+        function(arg1, arg2){
+            test.equals(arg1, 'arg1');
+            test.equals(arg2, 'arg2');
+            call_order.push(3);
+        }
+    ]);
+    var fn = iterator.next();
+    var iterator2 = fn('arg1');
+    test.same(call_order, [2]);
+    iterator2('arg1','arg2');
+    test.same(call_order, [2,3]);
+    test.equals(iterator2.next(), undefined);
+    test.done();
+};
+
 })(typeof exports === 'undefined' ? this['async_tests'] = {}: exports);
