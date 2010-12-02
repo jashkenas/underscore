@@ -595,4 +595,100 @@ exports['async: parallel object'] = function(test){
     });
 };
 
+exports['async: series'] = function(test){
+    var call_order = [];
+    _.series([
+        function(callback){
+            setTimeout(function(){
+                call_order.push(1);
+                callback(null, 1);
+            }, 25);
+        },
+        function(callback){
+            setTimeout(function(){
+                call_order.push(2);
+                callback(null, 2);
+            }, 50);
+        },
+        function(callback){
+            setTimeout(function(){
+                call_order.push(3);
+                callback(null, 3,3);
+            }, 15);
+        }
+    ],
+    function(err, results){
+        test.equals(err, null);
+        test.same(results, [1,2,[3,3]]);
+        test.same(call_order, [1,2,3]);
+        test.done();
+    });
+};
+
+exports['async: series empty array'] = function(test){
+    _.series([], function(err, results){
+        test.equals(err, null);
+        test.same(results, []);
+        test.done();
+    });
+};
+
+exports['async: series error'] = function(test){
+    test.expect(1);
+    _.series([
+        function(callback){
+            callback('error', 1);
+        },
+        function(callback){
+            test.ok(false, 'should not be called');
+            callback('error2', 2);
+        }
+    ],
+    function(err, results){
+        test.equals(err, 'error');
+    });
+    setTimeout(test.done, 100);
+};
+
+exports['async: series no callback'] = function(test){
+    _.series([
+        function(callback){callback();},
+        function(callback){callback(); test.done();},
+    ]);
+};
+
+exports['async: series object'] = function(test){
+    var call_order = [];
+    _.series({
+        one: function(callback){
+            setTimeout(function(){
+                call_order.push(1);
+                callback(null, 1);
+            }, 25);
+        },
+        two: function(callback){
+            setTimeout(function(){
+                call_order.push(2);
+                callback(null, 2);
+            }, 50);
+        },
+        three: function(callback){
+            setTimeout(function(){
+                call_order.push(3);
+                callback(null, 3,3);
+            }, 15);
+        }
+    },
+    function(err, results){
+        test.equals(err, null);
+        test.same(results, {
+            one: 1,
+            two: 2,
+            three: [3,3]
+        });
+        test.same(call_order, [1,2,3]);
+        test.done();
+    });
+};
+
 })(typeof exports === 'undefined' ? this['async_tests'] = {}: exports);

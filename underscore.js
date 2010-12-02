@@ -1023,6 +1023,39 @@
     }
   };
 
+
+  _.series = function (tasks, callback) {
+    callback = callback || function () {};
+    if (tasks.constructor === Array) {
+      _.asyncMapSeries(tasks, function (fn, callback) {
+        if (fn) {
+          fn(function (err) {
+            var args = Array.prototype.slice.call(arguments, 1);
+            if (args.length <= 1) {
+              args = args[0];
+            }
+            callback.call(null, err, args || null);
+          });
+        }
+      }, callback);
+    }
+    else {
+      var results = {};
+      _.asyncForEachSeries(_.keys(tasks), function (k, callback) {
+        tasks[k](function (err) {
+          var args = Array.prototype.slice.call(arguments, 1);
+          if (args.length <= 1) {
+            args = args[0];
+          }
+          results[k] = args;
+          callback(err);
+        });
+      }, function (err) {
+        callback(err, results);
+      });
+    }
+  };
+
   // Add all of the Underscore functions to the wrapper object.
   _.mixin(_);
 
