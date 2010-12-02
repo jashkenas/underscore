@@ -436,4 +436,13 @@ exports['async: asyncAll alias'] = function(test){
     test.done();
 };
 
+exports['asyncSortBy'] = function(test){
+    _.asyncSortBy([{a:1},{a:15},{a:6}], function(x, callback){
+        setTimeout(function(){callback(null, x.a);}, 0);
+    }, function(err, result){
+        test.same(result, [{a:1},{a:6},{a:15}]);
+        test.done();
+    });
+};
+
 })(typeof exports === 'undefined' ? this['async_tests'] = {}: exports);
