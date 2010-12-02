@@ -992,4 +992,59 @@ exports['async: asyncQueue push without callback'] = function (test) {
     }, 200);
 };
 
+exports['async: asyncMemoize'] = function (test) {
+    test.expect(4);
+    var call_order = [];
+
+    var fn = function (arg1, arg2, callback) {
+        call_order.push(['fn', arg1, arg2]);
+        callback(null, arg1 + arg2);
+    };
+
+    var fn2 = _.asyncMemoize(fn);
+    fn2(1, 2, function (err, result) {
+        test.equal(result, 3);
+    });
+    fn2(1, 2, function (err, result) {
+        test.equal(result, 3);
+    });
+    fn2(2, 2, function (err, result) {
+        test.equal(result, 4);
+    });
+
+    test.same(call_order, [['fn',1,2], ['fn',2,2]]);
+    test.done();
+};
+
+exports['async: asyncMemoize error'] = function (test) {
+    test.expect(1);
+    var testerr = new Error('test');
+    var fn = function (arg1, arg2, callback) {
+        callback(testerr, arg1 + arg2);
+    };
+    _.asyncMemoize(fn)(1, 2, function (err, result) {
+        test.equal(err, testerr);
+    });
+    test.done();
+};
+
+exports['async: asyncMemoize custom hash function'] = function (test) {
+    test.expect(2);
+    var testerr = new Error('test');
+
+    var fn = function (arg1, arg2, callback) {
+        callback(testerr, arg1 + arg2);
+    };
+    var fn2 = _.asyncMemoize(fn, function () {
+        return 'custom hash';
+    });
+    fn2(1, 2, function (err, result) {
+        test.equal(result, 3);
+    });
+    fn2(2, 2, function (err, result) {
+        test.equal(result, 3);
+    });
+    test.done();
+};
+
 })(typeof exports === 'undefined' ? this['async_tests'] = {}: exports);

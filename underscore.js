@@ -1132,6 +1132,28 @@
   };
 
 
+  _.asyncMemoize = function (fn, hasher) {
+    var memo = {};
+    hasher = hasher || function (x) {
+      return x;
+    };
+    return function () {
+      var args = Array.prototype.slice.call(arguments);
+      var callback = args.pop();
+      var key = hasher.apply(null, args);
+      if (key in memo) {
+        callback.apply(null, memo[key]);
+      }
+      else {
+        fn.apply(null, args.concat([function () {
+          memo[key] = arguments;
+          callback.apply(null, arguments);
+        }]));
+      }
+    };
+  };
+
+
   // Add all of the Underscore functions to the wrapper object.
   _.mixin(_);
 
