@@ -1134,9 +1134,7 @@
 
   _.asyncMemoize = function (fn, hasher) {
     var memo = {};
-    hasher = hasher || function (x) {
-      return x;
-    };
+    hasher = hasher || _.identity;
     return function () {
       var args = Array.prototype.slice.call(arguments);
       var callback = args.pop();
