@@ -1102,6 +1102,36 @@
   _.asyncConcatSeries = doSeries(_asyncConcat);
 
 
+  _.asyncQueue = function (worker, concurrency) {
+    var workers = 0;
+    var tasks = [];
+    var q = {
+      concurrency: concurrency,
+      push: function (data, callback) {
+        tasks.push({data: data, callback: callback});
+        _.nextTick(q.process);
+      },
+      process: function () {
+        if (workers < q.concurrency && tasks.length) {
+          var task = tasks.splice(0, 1)[0];
+          workers += 1;
+          worker(task.data, function () {
+            workers -= 1;
+            if (task.callback) {
+              task.callback.apply(task, arguments);
+            }
+            q.process();
+          });
+        }
+      },
+      length: function () {
+        return tasks.length;
+      }
+    };
+    return q;
+  };
+
+
   // Add all of the Underscore functions to the wrapper object.
   _.mixin(_);
 
