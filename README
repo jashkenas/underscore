@@ -22,8 +22,8 @@ https://github.com/documentcloud/underscore/contributors
 THE ASYNC BRANCH
 
 This branch aims to bring the async utilities from
-[Caolan McMahon's](https://github.com/caolan)
-[async.js](https://github.com/caolan/async) to underscore.
+Caolan McMahon's async.js (https://github.com/caolan/async) to
+underscore.
 
 New functions (subject to name changes!):
 
