@@ -436,7 +436,7 @@ exports['async: asyncAll alias'] = function(test){
     test.done();
 };
 
-exports['asyncSortBy'] = function(test){
+exports['async: asyncSortBy'] = function(test){
     _.asyncSortBy([{a:1},{a:15},{a:6}], function(x, callback){
         setTimeout(function(){callback(null, x.a);}, 0);
     }, function(err, result){
@@ -445,7 +445,7 @@ exports['asyncSortBy'] = function(test){
     });
 };
 
-exports['iterator'] = function(test){
+exports['async: iterator'] = function(test){
     var call_order = [];
     var iterator = _.iterator([
         function(){call_order.push(1);},
@@ -471,14 +471,14 @@ exports['iterator'] = function(test){
     test.done();
 };
 
-exports['iterator empty array'] = function(test){
+exports['async: iterator empty array'] = function(test){
     var iterator = _.iterator([]);
     test.equals(iterator(), undefined);
     test.equals(iterator.next(), undefined);
     test.done();
 };
 
-exports['iterator.next'] = function(test){
+exports['async: iterator.next'] = function(test){
     var call_order = [];
     var iterator = _.iterator([
         function(){call_order.push(1);},
@@ -499,6 +499,100 @@ exports['iterator.next'] = function(test){
     test.same(call_order, [2,3]);
     test.equals(iterator2.next(), undefined);
     test.done();
+};
+
+exports['async: parallel'] = function(test){
+    var call_order = [];
+    _.parallel([
+        function(callback){
+            setTimeout(function(){
+                call_order.push(1);
+                callback(null, 1);
+            }, 25);
+        },
+        function(callback){
+            setTimeout(function(){
+                call_order.push(2);
+                callback(null, 2);
+            }, 50);
+        },
+        function(callback){
+            setTimeout(function(){
+                call_order.push(3);
+                callback(null, 3,3);
+            }, 15);
+        }
+    ],
+    function(err, results){
+        test.equals(err, null);
+        test.same(call_order, [3,1,2]);
+        test.same(results, [1,2,[3,3]]);
+        test.done();
+    });
+};
+
+exports['async: parallel empty array'] = function(test){
+    _.parallel([], function(err, results){
+        test.equals(err, null);
+        test.same(results, []);
+        test.done();
+    });
+};
+
+exports['async: parallel error'] = function(test){
+    _.parallel([
+        function(callback){
+            callback('error', 1);
+        },
+        function(callback){
+            callback('error2', 2);
+        }
+    ],
+    function(err, results){
+        test.equals(err, 'error');
+    });
+    setTimeout(test.done, 100);
+};
+
+exports['async: parallel no callback'] = function(test){
+    _.parallel([
+        function(callback){callback();},
+        function(callback){callback(); test.done();},
+    ]);
+};
+
+exports['async: parallel object'] = function(test){
+    var call_order = [];
+    _.parallel({
+        one: function(callback){
+            setTimeout(function(){
+                call_order.push(1);
+                callback(null, 1);
+            }, 25);
+        },
+        two: function(callback){
+            setTimeout(function(){
+                call_order.push(2);
+                callback(null, 2);
+            }, 50);
+        },
+        three: function(callback){
+            setTimeout(function(){
+                call_order.push(3);
+                callback(null, 3,3);
+            }, 15);
+        }
+    },
+    function(err, results){
+        test.equals(err, null);
+        test.same(call_order, [3,1,2]);
+        test.same(results, {
+            one: 1,
+            two: 2,
+            three: [3,3]
+        });
+        test.done();
+    });
 };
 
 })(typeof exports === 'undefined' ? this['async_tests'] = {}: exports);
