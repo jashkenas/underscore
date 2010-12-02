@@ -1151,6 +1151,20 @@
     };
   };
 
+  _.asyncWhile = function (test, iterator, callback) {
+    if (test()) {
+      iterator(function (err) {
+        if (err) {
+          return callback(err);
+        }
+        _.asyncWhile(test, iterator, callback);
+      });
+    }
+    else {
+      callback();
+    }
+  };
+
 
   // Add all of the Underscore functions to the wrapper object.
   _.mixin(_);
