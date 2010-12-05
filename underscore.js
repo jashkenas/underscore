@@ -158,12 +158,13 @@
 
 	// Remove all elements that pass a truth test.
 	_.remove = function(obj, iterator) {
+		var toRemove = [];
 		for (var i = 0; i < obj.length; i++) {
-			if (iterator(obj[i])) { 
-				obj.splice(i, 1); return true;
-			}
+			if (iterator(obj[i])) { toRemove.push(i); }
 		}
-		if (_.any(obj, iterator)) { _.remove(obj, iterator); }
+		for (var i = 0; i < toRemove.length; i++) {
+			obj.splice(toRemove[i], 1);
+		}
 	};
 
   // Determine whether all of the elements match a truth test.
