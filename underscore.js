@@ -156,6 +156,16 @@
     return results;
   };
 
+	// Remove all elements that pass a truth test.
+	_.remove = function(obj, iterator) {
+		for (var i = 0; i < obj.length; i++) {
+			if (iterator(obj[i])) { 
+				obj.splice(i, 1); return true;
+			}
+		}
+		if (_.any(obj, iterator)) { _.remove(obj, iterator); }
+	};
+
   // Determine whether all of the elements match a truth test.
   // Delegates to **ECMAScript 5**'s native `every` if available.
   // Aliased as `all`.
