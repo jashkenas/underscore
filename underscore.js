@@ -410,17 +410,15 @@
     };
   };
 
-  // Delays a function for the given number of milliseconds, and then calls
-  // it with the arguments supplied.
-  _.delay = function(func, wait) {
-    var args = slice.call(arguments, 2);
-    return setTimeout(function(){ return func.apply(func, args); }, wait);
-  };
-
   // Defers a function, scheduling it to run after the current call stack has
-  // cleared.
+  // cleared. If we're running on Node.js, this is implemented with `nextTick`,
+  // otherwise, use a `setTimeout`.
   _.defer = function(func) {
-    return _.delay.apply(_, [func, 1].concat(slice.call(arguments, 1)));
+    if (typeof process !== 'undefined' && process.nextTick) {
+      process.nextTick(func);
+    } else {
+      setTimeout(func, 0);
+    }
   };
 
   // Internal function used to implement `_.throttle` and `_.debounce`.
@@ -699,16 +697,6 @@
 
   // Start of async.js merge - Caolan McMahon (@caolan)
   // --------------------------------------------------
-
-  //// nextTick implementation with browser-compatible fallback ////
-  _.nextTick = function (fn) {
-    if (typeof process === 'undefined' || !(process.nextTick)) {
-      setTimeout(fn, 0);
-    }
-    else {
-      process.nextTick(fn);
-    }
-  };
 
   _.asyncEach = _.asyncForEach = function (arr, iterator, callback) {
     if (!arr.length) {
@@ -1075,7 +1063,7 @@
           else {
             args.push(callback);
           }
-          _.nextTick(function () {
+          _.defer(function () {
             iterator.apply(null, args);
           });
         }
@@ -1107,7 +1095,7 @@
       concurrency: concurrency,
       push: function (data, callback) {
         tasks.push({data: data, callback: callback});
-        _.nextTick(q.process);
+        _.defer(q.process);
       },
       process: function () {
         if (workers < q.concurrency && tasks.length) {

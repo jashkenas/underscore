@@ -62,19 +62,11 @@ exports["functions: memoize"] = function(test) {
   test.done();
 };
 
-exports["functions: delay"] = function(test) {
-  test.expect(2);
-  var delayed = false;
-  _.delay(function(){ delayed = true; }, 100);
-  _.delay(function(){ test.ok(!delayed, "didn't delay the function quite yet"); }, 50);
-  _.delay(function(){ test.ok(delayed, 'delayed the function'); test.done(); }, 150);
-};
-
 exports["functions: defer"] = function(test) {
   test.expect(1);
   var deferred = false;
-  _.defer(function(bool){ deferred = bool; }, true);
-  _.delay(function(){ test.ok(deferred, "deferred the function"); test.done(); }, 50);
+  _.defer(function(){ deferred = true; });
+  setTimeout(function(){ test.ok(deferred, "deferred the function"); test.done(); }, 50);
 };
 
 exports["functions: throttle"] = function(test) {
@@ -87,7 +79,7 @@ exports["functions: throttle"] = function(test) {
   setTimeout(throttledIncr, 70);
   setTimeout(throttledIncr, 110);
   setTimeout(throttledIncr, 120);
-  _.delay(function(){ test.ok(counter == 3, "incr was throttled"); test.done(); }, 180);
+  setTimeout(function(){ test.ok(counter == 3, "incr was throttled"); test.done(); }, 180);
 };
 
 exports["functions: debounce"] = function(test) {
@@ -101,7 +93,7 @@ exports["functions: debounce"] = function(test) {
   setTimeout(debouncedIncr, 90);
   setTimeout(debouncedIncr, 120);
   setTimeout(debouncedIncr, 150);
-  _.delay(function(){ test.ok(counter == 1, "incr was debounced"); test.done(); }, 220);
+  setTimeout(function(){ test.ok(counter == 1, "incr was debounced"); test.done(); }, 220);
 };
 
 exports["functions: wrap"] = function(test) {

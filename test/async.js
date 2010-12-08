@@ -4,9 +4,9 @@ if (typeof require !== 'undefined') {
 
 (function (exports) {
 
-exports['async: nextTick'] = function(test){
+exports['async: defer'] = function(test){
     var call_order = [];
-    _.nextTick(function(){call_order.push('two');});
+    _.defer(function(){call_order.push('two');});
     call_order.push('one');
     setTimeout(function(){
         test.same(call_order, ['one','two']);
@@ -14,7 +14,7 @@ exports['async: nextTick'] = function(test){
     }, 50);
 };
 
-exports['async: nextTick in node'] = function(test){
+exports['async: defer in node'] = function(test){
     test.expect(1);
     var browser = false;
     if (typeof process === 'undefined') {
@@ -32,10 +32,10 @@ exports['async: nextTick in node'] = function(test){
         test.ok(true, 'process.nextTick called');
         test.done();
     };
-    _.nextTick(function(){});
+    _.defer(function(){});
 };
 
-exports['async: nextTick in the browser'] = function(test){
+exports['async: defer in the browser'] = function(test){
     test.expect(1);
 
     if (typeof process !== 'undefined') {
@@ -44,7 +44,7 @@ exports['async: nextTick in the browser'] = function(test){
     }
 
     var call_order = [];
-    _.nextTick(function(){call_order.push('two');});
+    _.defer(function(){call_order.push('two');});
 
     call_order.push('one');
     setTimeout(function(){
@@ -210,7 +210,7 @@ exports['async: asyncReduce'] = function(test){
 
 exports['async: asyncReduce async with non-reference memo'] = function(test){
     _.asyncReduce([1,3,2], 0, function(a, x, callback){
-        setTimeout(function(){callback(null, a + x)}, Math.random()*100);
+        setTimeout(function(){ callback(null, a + x); }, Math.random()*100);
     }, function(err, result){
         test.equals(result, 6);
         test.done();
@@ -557,7 +557,7 @@ exports['async: parallel error'] = function(test){
 exports['async: parallel no callback'] = function(test){
     _.parallel([
         function(callback){callback();},
-        function(callback){callback(); test.done();},
+        function(callback){callback(); test.done();}
     ]);
 };
 
@@ -653,7 +653,7 @@ exports['async: series error'] = function(test){
 exports['async: series no callback'] = function(test){
     _.series([
         function(callback){callback();},
-        function(callback){callback(); test.done();},
+        function(callback){callback(); test.done();}
     ]);
 };
 
@@ -1068,7 +1068,7 @@ exports['async: asyncWhile'] = function (test) {
                 ['iterator', 1], ['test', 2],
                 ['iterator', 2], ['test', 3],
                 ['iterator', 3], ['test', 4],
-                ['iterator', 4], ['test', 5],
+                ['iterator', 4], ['test', 5]
             ]);
             test.equals(count, 5);
             test.done();
