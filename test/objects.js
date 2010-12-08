@@ -155,7 +155,7 @@ exports["objects: isNumber"] = function(test) {
   test.ok(!_.isNumber(arguments), 'the arguments object is not a number');
   test.ok(!_.isNumber(undefined), 'undefined is not a number');
   test.ok(_.isNumber(3 * 4 - 7 / 10), 'but numbers are');
-  test.ok(_.isNumber(NaN), 'NaN is a number');
+  test.ok(!_.isNumber(NaN), 'NaN is not a number');
   test.ok(_.isNumber(Infinity), 'Infinity is a number');
   if (typeof document !== 'undefined') {
     test.ok(_.isNumber(iNumber), 'even from another frame');

@@ -24,16 +24,6 @@ exports["utility: identity"] = function(test) {
   test.done();
 };
 
-exports['utility: breakLoop'] = function(test) {
-  var result = null;
-  _([1,2,3,4,5,6]).each(function(num) {
-    result = num;
-    if (num == 3) _.breakLoop();
-  });
-  test.equals(result, 3, 'broke out of a loop');
-  test.done();
-};
-
 exports["utility: uniqueId"] = function(test) {
   var ids = [], i = 0;
   while(i++ < 100) ids.push(_.uniqueId());

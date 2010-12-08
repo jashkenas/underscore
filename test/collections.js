@@ -12,10 +12,6 @@ exports["collections: each"] = function(test) {
     test.equals(num, i + 1, 'each iterators provide value and iteration count');
   });
 
-  var answer = null;
-  _.each([1, 2, 3], function(num){ if ((answer = num) == 2) _.breakLoop(); });
-  test.equals(answer, 2, 'the loop broke in the middle');
-
   var answers = [];
   _.each([1, 2, 3], function(num){ answers.push(num * this.multiplier);}, {multiplier : 5});
   test.equals(answers.join(', '), '5, 10, 15', 'context object property accessed');
@@ -76,7 +72,7 @@ exports['collections: reduce'] = function(test) {
 
   sum = _([1, 2, 3]).reduce(function(sum, num){ return sum + num; }, 0);
   test.equals(sum, 6, 'OO-style reduce');
-  
+
   var sum = _.reduce([1, 2, 3], function(sum, num){ return sum + num; });
   test.equals(sum, 6, 'default initial value');
   test.done();
@@ -85,10 +81,10 @@ exports['collections: reduce'] = function(test) {
 exports['collections: reduceRight'] = function(test) {
   var list = _.reduceRight(["foo", "bar", "baz"], function(memo, str){ return memo + str; }, '');
   test.equals(list, 'bazbarfoo', 'can perform right folds');
-  
+
   var list = _.foldr(["foo", "bar", "baz"], function(memo, str){ return memo + str; }, '');
   test.equals(list, 'bazbarfoo', 'aliased as "foldr"');
-  
+
   var list = _.foldr(["foo", "bar", "baz"], function(memo, str){ return memo + str; });
   test.equals(list, 'bazbarfoo', 'default initial value');
   test.done();

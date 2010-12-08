@@ -1,4 +1,4 @@
-//     Underscore.js 1.1.2
+//     Underscore.js 1.1.3
 //     (c) 2010 Jeremy Ashkenas, DocumentCloud Inc.
 //     Underscore is freely distributable under the MIT license.
 //     Portions of Underscore are inspired or borrowed from Prototype,
@@ -17,8 +17,8 @@
   // Save the previous value of the `_` variable.
   var previousUnderscore = root._;
 
-  // Establish the object that gets thrown to break out of a loop iteration.
-  var breaker = typeof StopIteration !== 'undefined' ? StopIteration : '__break__';
+  // Establish the object that gets returned to break out of a loop iteration.
+  var breaker = {};
 
   // Save bytes in the minified (but not gzipped) version:
   var ArrayProto = Array.prototype, ObjProto = Object.prototype;
@@ -50,7 +50,7 @@
   // Export the Underscore object for **CommonJS**, with backwards-compatibility
   // for the old `require()` API. If we're not in CommonJS, add `_` to the
   // global object.
-  if (typeof module !== 'undefined') {
+  if (typeof module !== 'undefined' && module.exports) {
     module.exports = _;
     _._ = _;
   } else {
@@ -58,7 +58,7 @@
   }
 
   // Current version.
-  _.VERSION = '1.1.2';
+  _.VERSION = '1.1.3';
 
   // Collection Functions
   // --------------------
@@ -67,20 +67,20 @@
   // Handles objects implementing `forEach`, arrays, and raw objects.
   // Delegates to **ECMAScript 5**'s native `forEach` if available.
   var each = _.each = _.forEach = function(obj, iterator, context) {
-    try {
-      if (nativeForEach && obj.forEach === nativeForEach) {
-        obj.forEach(iterator, context);
-      } else if (_.isNumber(obj.length)) {
-        for (var i = 0, l = obj.length; i < l; i++) iterator.call(context, obj[i], i, obj);
-      } else {
-        for (var key in obj) {
-          if (hasOwnProperty.call(obj, key)) iterator.call(context, obj[key], key, obj);
+    var value;
+    if (nativeForEach && obj.forEach === nativeForEach) {
+      obj.forEach(iterator, context);
+    } else if (_.isNumber(obj.length)) {
+      for (var i = 0, l = obj.length; i < l; i++) {
+        if (iterator.call(context, obj[i], i, obj) === breaker) return;
+      }
+    } else {
+      for (var key in obj) {
+        if (hasOwnProperty.call(obj, key)) {
+          if (iterator.call(context, obj[key], key, obj) === breaker) return;
         }
       }
-    } catch(e) {
-      if (e != breaker) throw e;
     }
-    return obj;
   };
 
   // Return the results of applying the iterator to each element.
@@ -126,10 +126,10 @@
   // Return the first value which passes a truth test. Aliased as `detect`.
   _.find = _.detect = function(obj, iterator, context) {
     var result;
-    each(obj, function(value, index, list) {
+    any(obj, function(value, index, list) {
       if (iterator.call(context, value, index, list)) {
         result = value;
-        _.breakLoop();
+        return true;
       }
     });
     return result;
@@ -164,7 +164,7 @@
     if (nativeEvery && obj.every === nativeEvery) return obj.every(iterator, context);
     var result = true;
     each(obj, function(value, index, list) {
-      if (!(result = result && iterator.call(context, value, index, list))) _.breakLoop();
+      if (!(result = result && iterator.call(context, value, index, list))) return breaker;
     });
     return result;
   };
@@ -172,12 +172,12 @@
   // Determine if at least one element in the object matches a truth test.
   // Delegates to **ECMAScript 5**'s native `some` if available.
   // Aliased as `any`.
-  _.some = _.any = function(obj, iterator, context) {
+  var any = _.some = _.any = function(obj, iterator, context) {
     iterator = iterator || _.identity;
     if (nativeSome && obj.some === nativeSome) return obj.some(iterator, context);
     var result = false;
     each(obj, function(value, index, list) {
-      if (result = iterator.call(context, value, index, list)) _.breakLoop();
+      if (result = iterator.call(context, value, index, list)) return breaker;
     });
     return result;
   };
@@ -187,8 +187,8 @@
   _.include = _.contains = function(obj, target) {
     if (nativeIndexOf && obj.indexOf === nativeIndexOf) return obj.indexOf(target) != -1;
     var found = false;
-    each(obj, function(value) {
-      if (found = value === target) _.breakLoop();
+    any(obj, function(value) {
+      if (found = value === target) return true;
     });
     return found;
   };
@@ -528,6 +528,9 @@
     if (a == b) return true;
     // One is falsy and the other truthy.
     if ((!a && b) || (a && !b)) return false;
+    // Unwrap any wrapped objects.
+    if (a._chain) a = a.value();
+    if (b._chain) b = b.value();
     // One of them implements an isEqual()?
     if (a.isEqual) return a.isEqual(b);
     // Check dates' integer values.
@@ -588,7 +591,13 @@
 
   // Is a given value a number?
   _.isNumber = function(obj) {
-    return (obj === +obj) || (toString.call(obj) === '[object Number]');
+    return !!(obj === 0 || (obj && obj.toExponential && obj.toFixed));
+  };
+
+  // Is the given value NaN -- this one is interesting. NaN != NaN, and
+  // isNaN(undefined) == true, so we make sure it's a number first.
+  _.isNaN = function(obj) {
+    return toString.call(obj) === '[object Number]' && isNaN(obj);
   };
 
   // Is a given value a boolean?
@@ -606,12 +615,6 @@
     return !!(obj && obj.test && obj.exec && (obj.ignoreCase || obj.ignoreCase === false));
   };
 
-  // Is the given value NaN -- this one is interesting. NaN != NaN, and
-  // isNaN(undefined) == true, so we make sure it's a number first.
-  _.isNaN = function(obj) {
-    return _.isNumber(obj) && isNaN(obj);
-  };
-
   // Is a given value equal to null?
   _.isNull = function(obj) {
     return obj === null;
@@ -619,7 +622,7 @@
 
   // Is a given variable undefined?
   _.isUndefined = function(obj) {
-    return typeof obj == 'undefined';
+    return obj === void 0;
   };
 
   // Utility Functions
@@ -640,11 +643,6 @@
   // Run a function **n** times.
   _.times = function (n, iterator, context) {
     for (var i = 0; i < n; i++) iterator.call(context, i);
-  };
-
-  // Break out of the middle of an iteration.
-  _.breakLoop = function() {
-    throw breaker;
   };
 
   // Add your own custom functions to the Underscore object, ensuring that
