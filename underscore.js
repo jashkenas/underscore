@@ -1,5 +1,5 @@
 //     Underscore.js 1.1.3
-//     (c) 2010 Jeremy Ashkenas, DocumentCloud Inc.
+//     (c) 2010 Jeremy Ashkenas, Caolan McMahon.
 //     Underscore is freely distributable under the MIT license.
 //     Portions of Underscore are inspired or borrowed from Prototype,
 //     Oliver Steele's Functional, and John Resig's Micro-Templating.
@@ -694,14 +694,12 @@
     return data ? func(data) : func;
   };
 
+  // Async Functions
+  // ---------------
 
-  // Start of async.js merge - Caolan McMahon (@caolan)
-  // --------------------------------------------------
-
+  // Asynchronous version of `each`.
   _.asyncEach = _.asyncForEach = function (arr, iterator, callback) {
-    if (!arr.length) {
-      return callback();
-    }
+    if (!arr.length) return callback();
     var completed = 0;
     _.forEach(arr, function (x) {
       iterator(x, function (err) {
