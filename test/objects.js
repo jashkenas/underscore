@@ -24,6 +24,9 @@ $(document).ready(function() {
     ok(_.isEqual(result, {x:'x', a:'a', b:'b'}), 'can extend from multiple source objects');
     result = _.extend({x:'x'}, {a:'a', x:2}, {a:'b'});
     ok(_.isEqual(result, {x:2, a:'b'}), 'extending from multiple source objects last property trumps');
+	result = _.extend({}, { set x(x){ this._x = 'set' }, get x(){ return this._x} } )
+	result.x = 'x';
+    ok(_.isEqual(result.x, 'set'), 'getters and setters are applied in destination');
   });
 
   test("objects: clone", function() {
