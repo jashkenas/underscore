@@ -303,10 +303,11 @@ var flat = _.reduceRight(list, function(a, b) { return a.concat(b); }, []);
 </pre>
 
       <p id="detect">
-        <b class="header">detect</b><code>_.detect(list, iterator, [context])</code>
+        <b class="header">detect</b><code>_.detect(list, [iterator], [context])</code>
         <br />
         Looks through each value in the <b>list</b>, returning the first one that
-        passes a truth test (<b>iterator</b>). The function returns as
+        passes a truth test (<b>iterator</b>). If an <b>iterator</b> is not provided,
+        the truthy value of the element will be used instead. The function returns as
         soon as it finds an acceptable element, and doesn't traverse the
         entire list.
       </p>
@@ -316,11 +317,12 @@ var even = _.detect([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
 </pre>
 
       <p id="select">
-        <b class="header">select</b><code>_.select(list, iterator, [context])</code>
+        <b class="header">select</b><code>_.select(list, [iterator], [context])</code>
         <span class="alias">Alias: <b>filter</b></span>
         <br />
         Looks through each value in the <b>list</b>, returning an array of all
-        the values that pass a truth test (<b>iterator</b>). Delegates to the
+        the values that pass a truth test (<b>iterator</b>). If an <b>iterator</b> is not
+        provided, the truthy value of the element will be used instead. Delegates to the
         native <b>filter</b> method, if it exists.
       </p>
       <pre>
@@ -329,10 +331,11 @@ var evens = _.select([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
 </pre>
 
       <p id="reject">
-        <b class="header">reject</b><code>_.reject(list, iterator, [context])</code>
+        <b class="header">reject</b><code>_.reject(list, [iterator], [context])</code>
         <br />
         Returns the values in <b>list</b> without the elements that the truth
-        test (<b>iterator</b>) passes. The opposite of <b>select</b>.
+        test (<b>iterator</b>) passes. If an <b>iterator</b> is not provided, the truthy
+        value of the element will be used instead. The opposite of <b>select</b>.
       </p>
       <pre>
 var odds = _.reject([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });

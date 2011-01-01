@@ -107,19 +107,32 @@ $(document).ready(function() {
   test('collections: detect', function() {
     var result = _.detect([1, 2, 3], function(num){ return num * 2 == 4; });
     equals(result, 2, 'found the first "2" and broke the loop');
+
+    result = _.detect([0, 1, 2, 3]);
+    equals(result, 1, 'found the first truthy value and broke the loop');
   });
 
   test('collections: select', function() {
     var evens = _.select([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
     equals(evens.join(', '), '2, 4, 6', 'selected each even number');
 
+    var truths = _.select(['foo', '', null, 'bar', 0, 'baz', undefined]);
+    equals(truths.join(', '), 'foo, bar, baz', 'selected each truthy value');
+
     evens = _.filter([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
     equals(evens.join(', '), '2, 4, 6', 'aliased as "filter"');
+
+    truths = _.select(['foo', '', null, 'bar', 0, 'baz', undefined]);
+    equals(truths.join(', '), 'foo, bar, baz', 'aliased as "filter" (selecting truthy values)');
   });
 
   test('collections: reject', function() {
     var odds = _.reject([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
     equals(odds.join(', '), '1, 3, 5', 'rejected each even number');
+
+    var myths = _.reject(['foo', '', null, 'bar', 0, 'baz', undefined]);
+    ok(myths.length === 4 && myths[0] === '' && myths[1] === null && myths[2] === 0 && myths[3] === undefined,
+      'rejected each truthy value');
   });
 
   test('collections: all', function() {

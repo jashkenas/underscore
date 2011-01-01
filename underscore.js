@@ -131,6 +131,7 @@
 
   // Return the first value which passes a truth test. Aliased as `detect`.
   _.find = _.detect = function(obj, iterator, context) {
+    iterator = iterator || _.identity;
     var result;
     any(obj, function(value, index, list) {
       if (iterator.call(context, value, index, list)) {
@@ -145,6 +146,7 @@
   // Delegates to **ECMAScript 5**'s native `filter` if available.
   // Aliased as `select`.
   _.filter = _.select = function(obj, iterator, context) {
+    iterator = iterator || _.identity;
     var results = [];
     if (obj == null) return results;
     if (nativeFilter && obj.filter === nativeFilter) return obj.filter(iterator, context);
@@ -156,6 +158,7 @@
 
   // Return all the elements for which a truth test fails.
   _.reject = function(obj, iterator, context) {
+    iterator = iterator || _.identity;
     var results = [];
     if (obj == null) return results;
     each(obj, function(value, index, list) {
