@@ -72,6 +72,30 @@ $(document).ready(function() {
     ok(_.isEmpty(obj), 'deleting all the keys from an object empties it');
   });
 
+  test("objects: isPlainObject", function() {
+    ok(_.isPlainObject(new Object()), 'Object is plain object');
+    ok(_.isPlainObject({}), '{} is plain object');
+    ok(_.isPlainObject({one : 1}), '{one : 1} is plain object');
+    ok(_.isPlainObject({one : 1, two: [1,2]}), '{one : 1, two: [1,2]} is plain object');
+    ok(!_.isPlainObject(new Array()), 'Array object is not plain object');
+    ok(!_.isPlainObject([]), '[] is not plain object');
+    ok(!_.isPlainObject(null), 'null is not plain object');
+    ok(!_.isPlainObject(), 'undefined is not plain object');
+    ok(!_.isPlainObject(new String()), 'empty String object is not plain object');
+    ok(!_.isPlainObject(new String('moe')), 'String object is not plain object');
+    ok(!_.isPlainObject(''), 'the empty string is not plain object');
+    ok(!_.isPlainObject('moe'), 'a string is not plain object');
+    ok(!_.isPlainObject(new RegExp('test')), 'RegExp object is not plain object');
+    ok(!_.isPlainObject(/test/), 'regex is not plain object');
+    ok(!_.isPlainObject(new Boolean(true)), 'Boolean object is not plain object');
+    ok(!_.isPlainObject(true), 'a boolean is not plain object');
+    ok(!_.isPlainObject(new Number(2)), 'Number object is not plain object');
+    ok(!_.isPlainObject(2), 'a number is not plain object');
+    ok(!_.isPlainObject(new Function()), 'Function object is not plain object');
+    ok(!_.isPlainObject(function() {}), 'a function is not plain object');
+    ok(!_.isPlainObject(new Date()), 'Date object is not plain object');
+  });
+
   // Setup remote variables for iFrame tests.
   var iframe = document.createElement('iframe');
   jQuery(iframe).appendTo(document.body);
