@@ -1,0 +1,7 @@
+.project
+.settings
+.classpath
+target
+hs_err*
+.svn
+.tmp_*
