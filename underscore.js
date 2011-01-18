@@ -579,48 +579,6 @@
   	return obj && toString.call(obj) === '[object Object]' && 'isPrototypeOf' in obj;
   };
 
-//  // [[Class]] -> type pairs
-//  var class2type = {};
-//  // Populate the class2type map
-//  _.each("Boolean Number String Function Array Date RegExp Object".split(" "), function(name, i) {
-//    class2type[ "[object " + name + "]" ] = name.toLowerCase();
-//  });
-//
-//  _.type = function( obj ) {
-//    return obj == null ?
-//      String( obj ) :
-//      class2type[ toString.call(obj) ] || "object";
-//  };
-//
-//  // Is a given object a window? A crude way of determining if an object is a window
-//  _.isWindow = function( obj ) {
-//    return obj && typeof obj === "object" && "setInterval" in obj;
-//  };
-//
-//  // Is a given value a plain javascript object? {} 
-//  _.isPlainObject = function( obj ) {
-//    // Must be an Object.
-//    // Because of IE, we also have to check the presence of the constructor property.
-//    // Make sure that DOM nodes and window objects don't pass through, as well
-//    if ( !obj || _.type(obj) !== "object" || obj.nodeType || _.isWindow( obj ) ) {
-//      return false;
-//    }
-//
-//    // Not own constructor property must be Object
-//    if ( obj.constructor &&
-//      !hasOwnProperty.call(obj, "constructor") &&
-//      !hasOwnProperty.call(obj.constructor.prototype, "isPrototypeOf") ) {
-//      return false;
-//    }
-//
-//    // Own properties are enumerated firstly, so to speed up,
-//    // if last one is own, then all properties are own.
-//    var key;
-//    for ( key in obj ) {}
-//
-//    return key === undefined || hasOwnProperty.call( obj, key );
-//  };
-
   // Is a given array or object empty?
   _.isEmpty = function(obj) {
     if (_.isArray(obj) || _.isString(obj)) return obj.length === 0;
