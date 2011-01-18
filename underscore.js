@@ -575,10 +575,11 @@
     return true;
   };
 
+  // Is given value a plain {} javascript object?
   _.isPlainObject = function(obj){
   	if (!obj || toString.call(obj) !== '[object Object]' || !('isPrototypeOf' in obj)) {
-		return false;
-	}
+      return false;
+    }
     // Own properties are enumerated firstly, so to speed up,
     // if last one is own, then all properties are own.
     var key;
