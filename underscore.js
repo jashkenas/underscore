@@ -576,7 +576,14 @@
   };
 
   _.isPlainObject = function(obj){
-  	return obj && toString.call(obj) === '[object Object]' && 'isPrototypeOf' in obj;
+  	if (!obj || toString.call(obj) !== '[object Object]' || !('isPrototypeOf' in obj)) {
+		return false;
+	}
+    // Own properties are enumerated firstly, so to speed up,
+    // if last one is own, then all properties are own.
+    var key;
+    for ( key in obj ) {}
+    return key === undefined || hasOwnProperty.call( obj, key );
   };
 
   // Is a given array or object empty?

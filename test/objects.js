@@ -94,6 +94,10 @@ $(document).ready(function() {
     ok(!_.isPlainObject(new Function()), 'Function object is not plain object');
     ok(!_.isPlainObject(function() {}), 'a function is not plain object');
     ok(!_.isPlainObject(new Date()), 'Date object is not plain object');
+	var F = function(){}, obj;
+	F.prototype = {'a':1};
+	obj = new F();
+	ok(!_.isPlainObject(obj), 'function with prototype is not a plain object');
   });
 
   // Setup remote variables for iFrame tests.
