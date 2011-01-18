@@ -577,12 +577,20 @@
 
   // Is given value a plain {} javascript object?
   _.isPlainObject = function(obj){
-  	if (!obj || toString.call(obj) !== '[object Object]' || !('isPrototypeOf' in obj)) {
+  	var ctor, key;
+    // Must be an Object.
+    // Because of IE, we also have to check the presence of the constructor property.
+    // Make sure that DOM nodes and window objects don't pass through, as well
+  	if (typeof obj != 'object' || !obj || toString.call(obj) !== '[object Object]') {
+      return false;
+    }
+    // Not own constructor property must be Object
+    ctor = typeof obj.constructor === 'function' && obj.constructor.prototype;
+    if (!ctor || !hasOwnProperty.call(ctor, 'isPrototypeOf')) {
       return false;
     }
     // Own properties are enumerated firstly, so to speed up,
     // if last one is own, then all properties are own.
-    var key;
     for ( key in obj ) {}
     return key === undefined || hasOwnProperty.call( obj, key );
   };
