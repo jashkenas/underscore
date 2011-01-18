@@ -98,6 +98,8 @@ $(document).ready(function() {
 	F.prototype = {'a':1};
 	obj = new F();
 	ok(!_.isPlainObject(obj), 'function with prototype is not a plain object');
+	ok(!_.isPlainObject(window), 'window is not a plain object');
+	ok(!_.isPlainObject($("html")[0]), 'html node is not a plain object');
   });
 
   // Setup remote variables for iFrame tests.
