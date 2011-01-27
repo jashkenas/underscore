@@ -436,7 +436,7 @@
   // it with the arguments supplied.
   _.delay = function(func, wait) {
     var args = slice.call(arguments, 2);
-    return window.setTimeout(function(){ return func.apply(func, args); }, wait);
+    return root.setTimeout(function(){ return func.apply(func, args); }, wait);
   };
 
   // Defers a function, scheduling it to run after the current call stack has
@@ -454,8 +454,8 @@
         timeout = null;
         func.apply(context, args);
       };
-      if (debounce) window.clearTimeout(timeout);
-      if (debounce || !timeout) timeout = window.setTimeout(throttler, wait);
+      if (debounce) root.clearTimeout(timeout);
+      if (debounce || !timeout) timeout = root.setTimeout(throttler, wait);
     };
   };
 
