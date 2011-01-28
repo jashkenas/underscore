@@ -302,7 +302,7 @@
   // the rest of the values in the array from that index onward. The **guard**
   // check allows it to work with `_.map`.
   _.rest = _.tail = function(array, index, guard) {
-    return slice.call(array, ((index == null) || _.isUndefined(index)) || guard ? 1 : index);
+    return slice.call(array, ((index === null) || _.isUndefined(index)) || guard ? 1 : index);
   };
 
   // Get the last element of an array.
