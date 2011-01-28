@@ -67,17 +67,17 @@
   // Handles objects implementing `forEach`, arrays, and raw objects.
   // Delegates to **ECMAScript 5**'s native `forEach` if available.
   var each = _.each = _.forEach = function(obj, iterator, context) {
-    if (obj == null) return;
+    if (obj === null) { return; }
     if (nativeForEach && obj.forEach === nativeForEach) {
       obj.forEach(iterator, context);
     } else if (_.isNumber(obj.length)) {
       for (var i = 0, l = obj.length; i < l; i++) {
-        if (iterator.call(context, obj[i], i, obj) === breaker) return;
+        if (iterator.call(context, obj[i], i, obj) === breaker) { return; }
       }
     } else {
       for (var key in obj) {
         if (hasOwnProperty.call(obj, key)) {
-          if (iterator.call(context, obj[key], key, obj) === breaker) return;
+          if (iterator.call(context, obj[key], key, obj) === breaker) { return; }
         }
       }
     }
@@ -87,8 +87,8 @@
   // Delegates to **ECMAScript 5**'s native `map` if available.
   _.map = function(obj, iterator, context) {
     var results = [];
-    if (obj == null) return results;
-    if (nativeMap && obj.map === nativeMap) return obj.map(iterator, context);
+    if (obj === null) { return results; }
+    if (nativeMap && obj.map === nativeMap) { return obj.map(iterator, context); }
     each(obj, function(value, index, list) {
       results[results.length] = iterator.call(context, value, index, list);
     });
@@ -98,10 +98,10 @@
   // **Reduce** builds up a single result from a list of values, aka `inject`,
   // or `foldl`. Delegates to **ECMAScript 5**'s native `reduce` if available.
   _.reduce = _.foldl = _.inject = function(obj, iterator, memo, context) {
-    var initial = memo !== void 0;
-    if (obj == null) obj = [];
+    var initial = (typeof memo !== 'undefined');
+    if (obj === null) { obj = []; }
     if (nativeReduce && obj.reduce === nativeReduce) {
-      if (context) iterator = _.bind(iterator, context);
+      if (context) { iterator = _.bind(iterator, context); }
       return initial ? obj.reduce(iterator, memo) : obj.reduce(iterator);
     }
     each(obj, function(value, index, list) {
@@ -112,17 +112,17 @@
         memo = iterator.call(context, memo, value, index, list);
       }
     });
-    if (!initial) throw new TypeError("Reduce of empty array with no initial value");
+    if (!initial) { throw new TypeError("Reduce of empty array with no initial value"); }
     return memo;
   };
 
   // The right-associative version of reduce, also known as `foldr`.
   // Delegates to **ECMAScript 5**'s native `reduceRight` if available.
   _.reduceRight = _.foldr = function(obj, iterator, memo, context) {
-    if (obj == null) obj = [];
+    if (obj === null) { obj = []; }
     if (nativeReduceRight && obj.reduceRight === nativeReduceRight) {
-      if (context) iterator = _.bind(iterator, context);
-      return memo !== void 0 ? obj.reduceRight(iterator, memo) : obj.reduceRight(iterator);
+      if (context) { iterator = _.bind(iterator, context); }
+      return (!_.isUndefined(memo) ? obj.reduceRight(iterator, memo) : obj.reduceRight(iterator));
     }
     var reversed = (_.isArray(obj) ? obj.slice() : _.toArray(obj)).reverse();
     return _.reduce(reversed, iterator, memo, context);
@@ -145,10 +145,10 @@
   // Aliased as `select`.
   _.filter = _.select = function(obj, iterator, context) {
     var results = [];
-    if (obj == null) return results;
-    if (nativeFilter && obj.filter === nativeFilter) return obj.filter(iterator, context);
+    if (obj === null) { return results; }
+    if (nativeFilter && obj.filter === nativeFilter) { return obj.filter(iterator, context); }
     each(obj, function(value, index, list) {
-      if (iterator.call(context, value, index, list)) results[results.length] = value;
+      if (iterator.call(context, value, index, list)) { results[results.length] = value; }
     });
     return results;
   };
@@ -156,9 +156,9 @@
   // Return all the elements for which a truth test fails.
   _.reject = function(obj, iterator, context) {
     var results = [];
-    if (obj == null) return results;
+    if (obj === null) { return results; }
     each(obj, function(value, index, list) {
-      if (!iterator.call(context, value, index, list)) results[results.length] = value;
+      if (!iterator.call(context, value, index, list)) { results[results.length] = value; }
     });
     return results;
   };
@@ -169,10 +169,10 @@
   _.every = _.all = function(obj, iterator, context) {
     iterator = iterator || _.identity;
     var result = true;
-    if (obj == null) return result;
-    if (nativeEvery && obj.every === nativeEvery) return obj.every(iterator, context);
+    if (obj === null) { return result; }
+    if (nativeEvery && obj.every === nativeEvery) { return obj.every(iterator, context); }
     each(obj, function(value, index, list) {
-      if (!(result = result && iterator.call(context, value, index, list))) return breaker;
+      if (!(result = result && iterator.call(context, value, index, list))) { return breaker; }
     });
     return result;
   };
@@ -183,10 +183,11 @@
   var any = _.some = _.any = function(obj, iterator, context) {
     iterator = iterator || _.identity;
     var result = false;
-    if (obj == null) return result;
-    if (nativeSome && obj.some === nativeSome) return obj.some(iterator, context);
+    if (obj === null) { return result; }
+    if (nativeSome && obj.some === nativeSome) { return obj.some(iterator, context); }
     each(obj, function(value, index, list) {
-      if (result = iterator.call(context, value, index, list)) return breaker;
+      result = iterator.call(context, value, index, list);
+      if (result) { return breaker; }
     });
     return result;
   };
@@ -195,10 +196,11 @@
   // Aliased as `contains`.
   _.include = _.contains = function(obj, target) {
     var found = false;
-    if (obj == null) return found;
-    if (nativeIndexOf && obj.indexOf === nativeIndexOf) return obj.indexOf(target) != -1;
+    if (obj === null) { return found; }
+    if (nativeIndexOf && obj.indexOf === nativeIndexOf) { return obj.indexOf(target) != -1; }
     any(obj, function(value) {
-      if (found = value === target) return true;
+      found = value === target;
+      if (found) { return true; }
     });
     return found;
   };
@@ -218,22 +220,26 @@
 
   // Return the maximum element or (element-based computation).
   _.max = function(obj, iterator, context) {
-    if (!iterator && _.isArray(obj)) return Math.max.apply(Math, obj);
+    if (!iterator && _.isArray(obj)) { return Math.max.apply(Math, obj); }
     var result = {computed : -Infinity};
     each(obj, function(value, index, list) {
       var computed = iterator ? iterator.call(context, value, index, list) : value;
-      computed >= result.computed && (result = {value : value, computed : computed});
+      if (computed >= result.computed) {
+        (result = {value : value, computed : computed});
+      }
     });
     return result.value;
   };
 
   // Return the minimum element (or element-based computation).
   _.min = function(obj, iterator, context) {
-    if (!iterator && _.isArray(obj)) return Math.min.apply(Math, obj);
+    if (!iterator && _.isArray(obj)) { return Math.min.apply(Math, obj); }
     var result = {computed : Infinity};
     each(obj, function(value, index, list) {
       var computed = iterator ? iterator.call(context, value, index, list) : value;
-      computed < result.computed && (result = {value : value, computed : computed});
+      if (computed < result.computed) {
+          (result = {value : value, computed : computed});
+      }
     });
     return result.value;
   };
@@ -258,17 +264,21 @@
     var low = 0, high = array.length;
     while (low < high) {
       var mid = (low + high) >> 1;
-      iterator(array[mid]) < iterator(obj) ? low = mid + 1 : high = mid;
+      if (iterator(array[mid]) < iterator(obj)) {
+        low = mid + 1;
+      } else {
+        high = mid;
+      }
     }
     return low;
   };
 
   // Safely convert anything iterable into a real, live array.
   _.toArray = function(iterable) {
-    if (!iterable)                return [];
-    if (iterable.toArray)         return iterable.toArray();
-    if (_.isArray(iterable))      return iterable;
-    if (_.isArguments(iterable))  return slice.call(iterable);
+    if (!iterable)                {return [];                  }
+    if (iterable.toArray)         {return iterable.toArray();  }
+    if (_.isArray(iterable))      {return iterable;            }
+    if (_.isArguments(iterable))  {return slice.call(iterable);}
     return _.values(iterable);
   };
 
@@ -284,7 +294,7 @@
   // values in the array. Aliased as `head`. The **guard** check allows it to work
   // with `_.map`.
   _.first = _.head = function(array, n, guard) {
-    return (n != null) && !guard ? slice.call(array, 0, n) : array[0];
+    return (n !== null) && !guard ? slice.call(array, 0, n) : array[0];
   };
 
   // Returns everything but the first entry of the array. Aliased as `tail`.
@@ -292,7 +302,7 @@
   // the rest of the values in the array from that index onward. The **guard**
   // check allows it to work with `_.map`.
   _.rest = _.tail = function(array, index, guard) {
-    return slice.call(array, (index == null) || guard ? 1 : index);
+    return slice.call(array, (index === null) || guard ? 1 : index);
   };
 
   // Get the last element of an array.
@@ -308,7 +318,7 @@
   // Return a completely flattened version of an array.
   _.flatten = function(array) {
     return _.reduce(array, function(memo, value) {
-      if (_.isArray(value)) return memo.concat(_.flatten(value));
+      if (_.isArray(value)) { return memo.concat(_.flatten(value)); }
       memo[memo.length] = value;
       return memo;
     }, []);
@@ -325,7 +335,7 @@
   // Aliased as `unique`.
   _.uniq = _.unique = function(array, isSorted) {
     return _.reduce(array, function(memo, el, i) {
-      if (0 == i || (isSorted === true ? _.last(memo) != el : !_.include(memo, el))) memo[memo.length] = el;
+      if (0 === i || (isSorted === true ? _.last(memo) != el : !_.include(memo, el))){ memo[memo.length] = el; }
       return memo;
     }, []);
   };
@@ -347,7 +357,7 @@
     var args = slice.call(arguments);
     var length = _.max(_.pluck(args, 'length'));
     var results = new Array(length);
-    for (var i = 0; i < length; i++) results[i] = _.pluck(args, "" + i);
+    for (var i = 0; i < length; i++) { results[i] = _.pluck(args, "" + i); }
     return results;
   };
 
@@ -358,24 +368,24 @@
   // If the array is large and already in sort order, pass `true`
   // for **isSorted** to use binary search.
   _.indexOf = function(array, item, isSorted) {
-    if (array == null) return -1;
+    if (array === null) { return -1; }
     var i, l;
     if (isSorted) {
       i = _.sortedIndex(array, item);
       return array[i] === item ? i : -1;
     }
-    if (nativeIndexOf && array.indexOf === nativeIndexOf) return array.indexOf(item);
-    for (i = 0, l = array.length; i < l; i++) if (array[i] === item) return i;
+    if (nativeIndexOf && array.indexOf === nativeIndexOf) { return array.indexOf(item); }
+    for (i = 0, l = array.length; i < l; i++) { if (array[i] === item) { return i; }}
     return -1;
   };
 
 
   // Delegates to **ECMAScript 5**'s native `lastIndexOf` if available.
   _.lastIndexOf = function(array, item) {
-    if (array == null) return -1;
-    if (nativeLastIndexOf && array.lastIndexOf === nativeLastIndexOf) return array.lastIndexOf(item);
+    if (array === null) {return -1;}
+    if (nativeLastIndexOf && array.lastIndexOf === nativeLastIndexOf) {return array.lastIndexOf(item);}
     var i = array.length;
-    while (i--) if (array[i] === item) return i;
+    while (i--){ if (array[i] === item){ return i;}}
     return -1;
   };
 
@@ -417,7 +427,7 @@
   // all callbacks defined on an object belong to it.
   _.bindAll = function(obj) {
     var funcs = slice.call(arguments, 1);
-    if (funcs.length == 0) funcs = _.functions(obj);
+    if (funcs.length === 0) {funcs = _.functions(obj);}
     each(funcs, function(f) { obj[f] = _.bind(obj[f], obj); });
     return obj;
   };
@@ -454,8 +464,8 @@
         timeout = null;
         func.apply(context, args);
       };
-      if (debounce) clearTimeout(timeout);
-      if (debounce || !timeout) timeout = setTimeout(throttler, wait);
+      if (debounce) {clearTimeout(timeout);}
+      if (debounce || !timeout) {timeout = setTimeout(throttler, wait);}
     };
   };
 
@@ -502,7 +512,7 @@
   // Delegates to **ECMAScript 5**'s native `Object.keys`
   _.keys = nativeKeys || function(obj) {
     var keys = [];
-    for (var key in obj) if (hasOwnProperty.call(obj, key)) keys[keys.length] = key;
+    for (var key in obj) {if (hasOwnProperty.call(obj, key)) {keys[keys.length] = key;}}
     return keys;
   };
 
@@ -520,7 +530,7 @@
   // Extend a given object with all the properties in passed-in object(s).
   _.extend = function(obj) {
     each(slice.call(arguments, 1), function(source) {
-      for (var prop in source) obj[prop] = source[prop];
+      for (var prop in source) {obj[prop] = source[prop];}
     });
     return obj;
   };
@@ -541,46 +551,46 @@
   // Perform a deep comparison to check if two objects are equal.
   _.isEqual = function(a, b) {
     // Check object identity.
-    if (a === b) return true;
+    if (a === b) {return true;}
     // Different types?
     var atype = typeof(a), btype = typeof(b);
-    if (atype != btype) return false;
+    if (atype != btype) {return false;}
     // Basic equality test (watch out for coercions).
-    if (a == b) return true;
+    if (a == b) {return true;}
     // One is falsy and the other truthy.
-    if ((!a && b) || (a && !b)) return false;
+    if ((!a && b) || (a && !b)) {return false;}
     // Unwrap any wrapped objects.
-    if (a._chain) a = a._wrapped;
-    if (b._chain) b = b._wrapped;
+    if (a._chain) {a = a._wrapped;}
+    if (b._chain) {b = b._wrapped;}
     // One of them implements an isEqual()?
-    if (a.isEqual) return a.isEqual(b);
+    if (a.isEqual) {return a.isEqual(b);}
     // Check dates' integer values.
-    if (_.isDate(a) && _.isDate(b)) return a.getTime() === b.getTime();
+    if (_.isDate(a) && _.isDate(b)) {return a.getTime() === b.getTime();}
     // Both are NaN?
-    if (_.isNaN(a) && _.isNaN(b)) return false;
+    if (_.isNaN(a) && _.isNaN(b)) {return false;}
     // Compare regular expressions.
     if (_.isRegExp(a) && _.isRegExp(b))
-      return a.source     === b.source &&
+      {return a.source     === b.source &&
              a.global     === b.global &&
              a.ignoreCase === b.ignoreCase &&
-             a.multiline  === b.multiline;
+             a.multiline  === b.multiline;}
     // If a is not an object by this point, we can't handle it.
-    if (atype !== 'object') return false;
+    if (atype !== 'object') {return false;}
     // Check for different array lengths before comparing contents.
-    if (a.length && (a.length !== b.length)) return false;
+    if (a.length && (a.length !== b.length)) {return false;}
     // Nothing else worked, deep compare the contents.
     var aKeys = _.keys(a), bKeys = _.keys(b);
     // Different object sizes?
-    if (aKeys.length != bKeys.length) return false;
+    if (aKeys.length != bKeys.length) {return false;}
     // Recursive comparison of contents.
-    for (var key in a) if (!(key in b) || !_.isEqual(a[key], b[key])) return false;
+    for (var key in a) {if (!(key in b) || !_.isEqual(a[key], b[key])) {return false;}}
     return true;
   };
 
   // Is a given array or object empty?
   _.isEmpty = function(obj) {
-    if (_.isArray(obj) || _.isString(obj)) return obj.length === 0;
-    for (var key in obj) if (hasOwnProperty.call(obj, key)) return false;
+    if (_.isArray(obj) || _.isString(obj)) {return obj.length === 0;}
+    for (var key in obj) {if (hasOwnProperty.call(obj, key)) {return false;}}
     return true;
   };
 
@@ -643,7 +653,7 @@
 
   // Is a given variable undefined?
   _.isUndefined = function(obj) {
-    return obj === void 0;
+    return (typeof obj == 'undefined');
   };
 
   // Utility Functions
@@ -663,7 +673,7 @@
 
   // Run a function **n** times.
   _.times = function (n, iterator, context) {
-    for (var i = 0; i < n; i++) iterator.call(context, i);
+    for (var i = 0; i < n; i++) {iterator.call(context, i);}
   };
 
   // Add your own custom functions to the Underscore object, ensuring that
