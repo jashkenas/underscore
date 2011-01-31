@@ -34,7 +34,25 @@ $(document).ready(function() {
     _.each(null, function(){ ++answers; });
     equals(answers, 0, 'handles a null properly');
   });
-
+  
+  test("collections: each - any object exposing forEach can be used by underscore each", function() {
+    var Stream = function(contents){ this.contents = contents };
+    Stream.prototype.forEach = function(iterator, context) {
+      var position = 0;
+      while (this.contents.length>0) {
+        var item = this.contents.shift();
+        iterator.call(context, item, position, this);  //this is a stream, so feeding 'this' back is strange (arguably).
+        position += 1;
+      };
+    };
+    
+    var answers = [];
+    _.each(new Stream([7,8,9]), function(v, i){ answers.push([v]); });
+    equals(answers.join(', '), '7, 8, 9', 'underscore will attempt to iterate over any object responding to forEach. ' +
+                                          'Particularly useful if you have a general iterator ' +
+                                          '(perhaps because not all values are present in ram at the moment iteration starts).');
+  });
+  
   test('collections: map', function() {
     var doubled = _.map([1, 2, 3], function(num){ return num * 2; });
     equals(doubled.join(', '), '2, 4, 6', 'doubled numbers');
