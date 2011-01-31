@@ -640,13 +640,17 @@ _.range(0);
         Bind a <b>function</b> to an <b>object</b>, meaning that whenever
         the function is called, the value of <i>this</i> will be the <b>object</b>.
         Optionally, bind <b>arguments</b> to the <b>function</b> to pre-fill them,
-        also known as <b>currying</b>.
+        also known as <b>currying</b>.  If the <b>function</b> is an attribute of the
+        <b>object</b>, the attribute name can be passed in as a string value instead
+        of a function reference.
       </p>
       <pre>
 var func = function(greeting){ return greeting + ': ' + this.name };
 func = _.bind(func, {name : 'moe'}, 'hi');
 func();
 =&gt; 'hi: moe'
+// Shortcut if the function is an attribute of the context object
+jQuery('#underscore_button').click(_.bind('onClick', this));
 </pre>
 
       <p id="bindAll">
