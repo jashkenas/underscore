@@ -11,6 +11,10 @@ $(document).ready(function() {
     bound = _(func).bind(context);
     equals(bound(), 'name: moe', 'can do OO-style binding');
 
+    context.func = func;
+    bound = _.bind('func', context);
+    equals(bound(), 'name: moe', 'can bind to a function given its name on the context');
+
     bound = _.bind(func, null, 'curly');
     equals(bound(), 'name: curly', 'can bind without specifying a context');
 

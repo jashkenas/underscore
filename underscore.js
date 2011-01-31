@@ -408,6 +408,8 @@
   // optionally). Binding with arguments is also known as `curry`.
   _.bind = function(func, obj) {
     var args = slice.call(arguments, 2);
+    if(_.isString(func))
+      func = obj[func];
     return function() {
       return func.apply(obj || {}, args.concat(slice.call(arguments)));
     };
@@ -418,7 +420,7 @@
   _.bindAll = function(obj) {
     var funcs = slice.call(arguments, 1);
     if (funcs.length == 0) funcs = _.functions(obj);
-    each(funcs, function(f) { obj[f] = _.bind(obj[f], obj); });
+    each(funcs, function(f) { obj[f] = _.bind(f, obj); });
     return obj;
   };
 
