@@ -1108,9 +1108,11 @@ _.template(list, {people : ['moe', 'curly', 'larry']});
       </p>
 
       <pre>
-_.templateSettings = {
+// Change just the 'interpolate' setting.  
+// (Another setting is 'evaluate', used to evaluate javascript expressions ) 
+_.extend(_.templateSettings, {
   interpolate : /\{\{(.+?)\}\}/g
-};
+});
 
 var template = _.template("Hello {{ name }}!");
 template({name : "Mustache"});
