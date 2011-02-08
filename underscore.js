@@ -371,10 +371,16 @@
 
 
   // Delegates to **ECMAScript 5**'s native `lastIndexOf` if available.
-  _.lastIndexOf = function(array, item) {
+  _.lastIndexOf = function(array, item, isSorted) {
     if (array == null) return -1;
+    var i, j;
+    if (isSorted) {
+    	i = _.sortedIndex(array, item);
+    	if (array[i] === item) while(j = i++) if (array[i] !== item) return j;
+    	return -1;
+	}
     if (nativeLastIndexOf && array.lastIndexOf === nativeLastIndexOf) return array.lastIndexOf(item);
-    var i = array.length;
+    i = array.length;
     while (i--) if (array[i] === item) return i;
     return -1;
   };
