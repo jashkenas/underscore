@@ -508,7 +508,7 @@
 
   // Retrieve the values of an object's properties.
   _.values = function(obj) {
-    return _.map(obj, _.identity);
+    return _.map(obj, _.isArray(obj) ? _.values : _.identity);
   };
 
   // Return a sorted list of the function names available on the object.
