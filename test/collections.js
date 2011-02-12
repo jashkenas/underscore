@@ -195,6 +195,7 @@ $(document).ready(function() {
     equals(_.toArray(null)[0], null, 'null gives [null]');
     equals(_.toArray(false)[0], false, 'false gives [false]');
     equals(_.toArray('')[0], '', '"" gives [""]');
+    equals(_.toArray('astring')[0], 'astring', '"astring" gives ["astring"]');
   });
 
   test('collections: size', function() {
