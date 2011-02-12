@@ -191,6 +191,10 @@ $(document).ready(function() {
 
     var numbers = _.toArray({one : 1, two : 2, three : 3});
     equals(numbers.join(', '), '1, 2, 3', 'object flattened into array');
+    equals(_.toArray()[0], undefined, 'undefined gives empty array');
+    equals(_.toArray(null)[0], null, 'null gives [null]');
+    equals(_.toArray(false)[0], false, 'false gives [false]');
+    equals(_.toArray('')[0], '', '"" gives [""]');
   });
 
   test('collections: size', function() {

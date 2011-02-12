@@ -8,7 +8,6 @@ $(document).ready(function() {
 
   test("objects: values", function() {
     equals(_.values({one : 1, two : 2}).join(', '), '1, 2', 'can extract the values from an object');
-    equals(_.values([{one : 1, two : 2}, {three : '3', four : 4.1, five : 5}]).join('|'), '1,2|3,4.1,5', 'can extract the values from an array of objects');
   });
 
   test("objects: functions", function() {

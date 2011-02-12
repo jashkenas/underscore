@@ -265,7 +265,7 @@
 
   // Safely convert anything iterable into a real, live array.
   _.toArray = function(iterable) {
-    if (!iterable)                return [];
+    if (!iterable)                return iterable === undefined ? [] : [iterable];
     if (iterable.toArray)         return iterable.toArray();
     if (_.isArray(iterable))      return iterable;
     if (_.isArguments(iterable))  return slice.call(iterable);
@@ -275,6 +275,14 @@
   // Return the number of elements in an object.
   _.size = function(obj) {
     return _.toArray(obj).length;
+  };
+
+  // Convert list `obj` of hashes into a hash with keys equal to each item's `key`.
+  // [{id: '1', a: 'a'}, {id: '2', b: 'b'}, ...] --> {'1': {id: 1, a: 'a'}, '2': {id: 2, b: 'b'}}
+  _.toHash = function(obj, key) {
+    var hash = {};
+    _.each(obj, function(item){ hash[item[key]] = item; });
+    return hash;
   };
 
   // Array Functions
@@ -508,7 +516,7 @@
 
   // Retrieve the values of an object's properties.
   _.values = function(obj) {
-    return _.map(obj, _.isArray(obj) ? _.values : _.identity);
+    return _.map(obj, _.identity);
   };
 
   // Return a sorted list of the function names available on the object.
