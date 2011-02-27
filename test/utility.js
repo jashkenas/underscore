@@ -24,7 +24,10 @@ $(document).ready(function() {
   test("utility: times", function() {
     var vals = _.times(3, function (i) { return i + 1; });
     ok(_.isEqual(vals, [1,2,3]), "is 0 indexed");
-    //
+
+    vals = _.times(3);
+    ok(_.isEqual(vals, [0,1,2]), "can be called without callback")
+    
     vals = [];
     _(3).times(function (i) { vals.push(i); });
     ok(_.isEqual(vals, [0,1,2]), "works as a wrapper");

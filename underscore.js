@@ -672,7 +672,7 @@
   // Run a function **n** times.
   _.times = function (n, iterator, context) {
     var results = [];
-    for (var i = 0; i < n; i++) results[results.length] = iterator.call(context, i);
+    for (var i = 0; i < n; i++) results[results.length] = iterator === void 0 ? i : iterator.call(context, i);
     return results;
   };
 
