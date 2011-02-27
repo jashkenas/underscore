@@ -671,7 +671,9 @@
 
   // Run a function **n** times.
   _.times = function (n, iterator, context) {
-    for (var i = 0; i < n; i++) iterator.call(context, i);
+    var results = [];
+    for (var i = 0; i < n; i++) results[results.length] = iterator.call(context, i);
+    return results;
   };
 
   // Add your own custom functions to the Underscore object, ensuring that
