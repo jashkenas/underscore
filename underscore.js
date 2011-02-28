@@ -96,6 +96,19 @@
     return results;
   };
 
+	_.project = function(obj, iterator, context) {
+		var results = {}, result;
+		iterator = iterator || function(value, index) {
+			return [value, index];
+		};
+		if (obj == null) return results;
+		each(obj, function(value, index, list) {
+			result = iterator.call(context, value, index, list);
+			results[result[0]] = result[1];
+		});
+		return results;
+	};
+
   // **Reduce** builds up a single result from a list of values, aka `inject`,
   // or `foldl`. Delegates to **ECMAScript 5**'s native `reduce` if available.
   _.reduce = _.foldl = _.inject = function(obj, iterator, memo, context) {
