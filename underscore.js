@@ -700,8 +700,9 @@
   // JavaScript micro-templating, similar to John Resig's implementation.
   // Underscore templating handles arbitrary delimiters, preserves whitespace,
   // and correctly escapes quotes within interpolated code.
-  _.template = function(str, data) {
-    var c  = _.templateSettings;
+  // The third optional parameter overrides system-wide _.templateSettings.
+  _.template = function(str, data, settings) {
+    var c  = settings || _.templateSettings;
     var tmpl = 'var __p=[],print=function(){__p.push.apply(__p,arguments);};' +
       'with(obj||{}){__p.push(\'' +
       str.replace(/\\/g, '\\\\')

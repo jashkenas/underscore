@@ -116,11 +116,14 @@ $(document).ready(function() {
     var quoteInStatementAndBody = _.template("<? if(foo == 'bar'){ ?>Statement quotes and 'quotes'.<? } ?>");
     equals(quoteInStatementAndBody({foo: "bar"}), "Statement quotes and 'quotes'.");
 
+    var mustache = _.template("Hello {{planet}}!", null, {interpolate : /\{\{(.+?)\}\}/g});
+    equals(mustache({planet : "World"}), "Hello World!", "can mimic mustache.js");
+
     _.templateSettings = {
       interpolate : /\{\{(.+?)\}\}/g
     };
 
-    var mustache = _.template("Hello {{planet}}!");
+    mustache = _.template("Hello {{planet}}!");
     equals(mustache({planet : "World"}), "Hello World!", "can mimic mustache.js");
   });
 

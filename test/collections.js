@@ -188,7 +188,11 @@ $(document).ready(function() {
   test('collections: toArray', function() {
     ok(!_.isArray(arguments), 'arguments object is not an array');
     ok(_.isArray(_.toArray(arguments)), 'arguments object converted into array');
+    var numbers = _.toArray({one : 1, two : 2, three : 3});
+    equals(numbers.join(', '), '1, 2, 3', 'object flattened into array');
+  });
 
+  /*test('collections: ensureArray', function() {
     var numbers = _.toArray({one : 1, two : 2, three : 3});
     equals(numbers.join(', '), '1, 2, 3', 'object flattened into array');
     equals(_.toArray()[0], undefined, 'undefined gives empty array');
@@ -196,7 +200,7 @@ $(document).ready(function() {
     equals(_.toArray(false)[0], false, 'false gives [false]');
     equals(_.toArray('')[0], '', '"" gives [""]');
     equals(_.toArray('astring')[0], 'astring', '"astring" gives ["astring"]');
-  });
+  });*/
 
   test('collections: size', function() {
     equals(_.size({one : 1, two : 2, three : 3}), 3, 'can compute the size of an object');
