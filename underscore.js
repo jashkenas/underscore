@@ -99,7 +99,7 @@
 	_.project = function(obj, iterator, context) {
 		var results = {}, result;
 		iterator = iterator || function(value, index) {
-			return [value, index];
+			return [index, value];
 		};
 		if (obj == null) return results;
 		each(obj, function(value, index, list) {
