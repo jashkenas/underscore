@@ -54,7 +54,21 @@ $(document).ready(function() {
     var ifnull = _.map(null, function(){});
     ok(_.isArray(ifnull) && ifnull.length === 0, 'handles a null properly');
   });
-
+	
+	test('collections: project', function() {
+		var pairs = _.project([['red', '#F00'], ['green', '#0F0'], ['blue', '#00F']]);
+		ok(_.isEqual(pairs, { 'red' : '#F00', 'green' : '#0F0', 'blue' : '#00F' }), 'mapped array of two-value arrays to object without iterator');
+		
+		var obj = { 'a' : 'z', 'q' : 'u' };
+		ok(_.isEqual(obj, _.project(obj)), 'mapped object to identical object without iterator')
+		
+		var keyvalue = _.project(obj, function(v, k) { return [k + "_", "_" + v]; });
+		ok(_.isEqual(keyvalue, { 'a_' : '_z', 'q_' : '_u' }), 'mapped object to object with iterator');
+		
+		var keys = _.project([1, 2, 3], function(v) { return [v + 1, v + 2]; });
+		ok(_.isEqual(keys, { 2: 3, 3: 4, 4: 5 }), 'mapped object to object with iterator');
+	});
+	
   test('collections: reduce', function() {
     var sum = _.reduce([1, 2, 3], function(sum, num){ return sum + num; }, 0);
     equals(sum, 6, 'can sum up an array');
