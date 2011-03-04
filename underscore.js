@@ -584,7 +584,7 @@
     // Different object sizes?
     if (aKeys.length != bKeys.length) return false;
     // Recursive comparison of contents.
-    for (var key in a) if (!(key in b) || !_.isEqual(a[key], b[key])) return false;
+	for (var key = 0; key < a.length; key++) if (!_.isEqual(a[key], b[key])) return false;
     return true;
   };
 
