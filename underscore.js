@@ -324,9 +324,10 @@
   // Produce a duplicate-free version of the array. If the array has already
   // been sorted, you have the option of using a faster algorithm.
   // Aliased as `unique`.
-  _.uniq = _.unique = function(array, isSorted) {
+  _.uniq = _.unique = function(array, isSorted, iterator) {
+	iterator = iterator || _.identity;
     return _.reduce(array, function(memo, el, i) {
-      if (0 == i || (isSorted === true ? _.last(memo) != el : !_.include(memo, el))) memo[memo.length] = el;
+      if (0 == i || (isSorted === true ? _.last(memo) != el : !_.include(_.map(memo, iterator), iterator(el)))) memo[memo.length] = el;
       return memo;
     }, []);
   };
