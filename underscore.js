@@ -497,6 +497,17 @@
       return args[0];
     };
   };
+  
+  // Polls condition indefinitely every N milliseconds and executes
+  // a function once the condition has passed.
+  _.retry = function(func, cond, wait) {
+    var args = slice.call(arguments, 3);
+    if (cond()) {
+      func.apply(this, args);
+    } else {
+      _.delay.apply(this, [_.retry, wait, func, cond, wait].concat(args));
+    }
+  }
 
   // Object Functions
   // ----------------
