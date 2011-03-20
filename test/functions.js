@@ -124,4 +124,13 @@ $(document).ready(function() {
     equals(composed('moe'), 'hi: moe!', 'in this case, the functions are also commutative');
   });
 
+  asyncTest("functions: retry", 2, function() {
+    var cVar = false, i = 0;
+    var func = function() { ok(i>0, 'func gets called'); start(); };
+    var cond = function() { i++; return cVar; };
+    _.retry(func, cond, 10);
+    _.delay(function() { cVar = true; }, 100);
+
+    _.retry(function() { ok(true, 'immediate pass'); }, function() { return true; }, 10);
+  });
 });
