@@ -160,7 +160,7 @@
       <span class="methods"><a href="#bind">bind</a>, <a href="#bindAll">bindAll</a>, 
       <a href="#memoize">memoize</a>, <a href="#delay">delay</a>, <a href="#defer">defer</a>, 
       <a href="#throttle">throttle</a>, <a href="#debounce">debounce</a>, 
-      <a href="#wrap">wrap</a>, <a href="#compose">compose</a></span>
+      <a href="#wrap">wrap</a>, <a href="#compose">compose</a>, <a href="#retry">retry</a></span>
     </p>
 
     <p>
@@ -769,6 +769,23 @@ var exclaim  = function(statement){ return statement + "!"; };
 var welcome = _.compose(exclaim, greet);
 welcome('moe');
 =&gt; 'hi: moe!'
+</pre>
+
+      <p id="retry">
+        <b class="header">retry</b><code>_.retry(function, condition, wait)</code>
+        <br />
+        Polls <b>condition</b> indefinitely every <b>wait</b> milliseconds
+        and excutes <b>function</b> once the condition passes. This lets
+		one code block wait on the execution of another code block without
+		the use of events.
+      </p>
+      <pre>
+// assume that flashObject is a reference to a Flash element
+function flashUpdate() {
+  flashObject.pushData([1,2,3]);
+}
+_.retry(flashUpdate, function() { return flashObject.loaded; }, 10);
+// flashUpdate will not be called until the flashObject.loaded property is true
 </pre>
 
       <h2>Object Functions</h2>
