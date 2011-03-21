@@ -243,7 +243,9 @@
   _.median = function(obj) {
     obj = _.toArray(obj);
     obj = _.sortBy(obj, function(val) { return val });
-    return (obj.length&1) ? obj[obj.length>>>1] : (obj[(obj.length>>>1)-1]+obj[obj.length>>>1])/2;
+    return obj.length>0
+      ? (obj.length&1) ? obj[obj.length>>>1] : (obj[(obj.length>>>1)-1]+obj[obj.length>>>1])/2
+      : null;
   };
 
   // Sort the object's values by a criterion produced by an iterator.
