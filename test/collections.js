@@ -173,6 +173,12 @@ $(document).ready(function() {
     equals(neg, 3, 'can perform a computation-based min');
   });
 
+  test('collections: median', function() {
+    equals(2, _.median([1, 2, 3]), 'can compute median from an uneven number of data');
+    equals(3, _.median([1, 2, 4, 8]), 'can compute median from an even number of data');
+    equals(7, _.median([7, 9, 1]), 'can compute median from unsorted data');
+  });
+
   test('collections: sortBy', function() {
     var people = [{name : 'curly', age : 50}, {name : 'moe', age : 30}];
     people = _.sortBy(people, function(person){ return person.age; });

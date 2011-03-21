@@ -239,6 +239,13 @@
     return result.value;
   };
 
+  // Calculate the median of an array with numbers.
+  _.median = function(obj) {
+    obj = _.toArray(obj);
+    obj = _.sortBy(obj, function(val) { return val });
+    return (obj.length&1) ? obj[obj.length>>>1] : (obj[(obj.length>>>1)-1]+obj[obj.length>>>1])/2;
+  };
+
   // Sort the object's values by a criterion produced by an iterator.
   _.sortBy = function(obj, iterator, context) {
     return _.pluck(_.map(obj, function(value, index, list) {

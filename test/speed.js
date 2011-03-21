@@ -66,5 +66,9 @@
   JSLitmus.test('_.range()', function() {
     return _.range(1000);
   });
+  
+  JSLitmus.test('_.median()', function() {
+    return _.median(randomized);
+  });
 
 })();
