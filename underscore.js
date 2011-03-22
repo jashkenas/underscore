@@ -142,16 +142,16 @@
   };
 
   // Return the index of the first value which passes a truth test. Aliased as `detectIndex`.
-  _.findIndex = _.detectIndex = function(obj, iterator, context) {
-    var result;
-    any(obj, function(value, index, list) {
-      if (iterator.call(context, value, index, list)) {
-        result = index;
-        return true;
-      }
-    });
-    return result;
-  };
+  _.findIndex = _.detectIndex = function (obj, iterator, context) {
+        var result;
+        any(obj, function (value, index, list) {
+            if (iterator.call(context, value, index, list)) {
+                result = index;
+                return true;
+            }
+        });
+        return result;
+    };
 
   // Return all the elements that pass a truth test.
   // Delegates to **ECMAScript 5**'s native `filter` if available.
@@ -167,14 +167,17 @@
   };
 
   // Return the indexes of all the elements that pass a truth test.
-  _.filterIndex = _.selectIndex = function(obj, iterator, context) {
-    var results = [];
-    if (obj == null) return results;
-    each(obj, function(value, index, list) {
-      if (iterator.call(context, value, index, list)) results[results.length] = index;
-    });
-    return results;
-  };
+  _.filterIndex = _.selectIndex = function (obj, iterator, context) {
+        var results = [];
+        if (obj !== null) {
+            each(obj, function (value, index, list) {
+                if (iterator.call(context, value, index, list)) {
+                    results[results.length] = index;
+                }
+            });
+        }
+        return results;
+    };
 
   // Return all the elements for which a truth test fails.
   _.reject = function(obj, iterator, context) {
