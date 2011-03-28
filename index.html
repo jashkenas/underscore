@@ -1094,6 +1094,42 @@ _("fabio").capitalize();
 _.uniqueId('contact_');
 =&gt; 'contact_104'</pre>
 
+
+      <p id="counter">
+        <b class="header">counter</b><code>_.counter([start], [step])</code>
+        <br />
+        Create counter that will generate number, starting from <tt>start</tt> (default to 0) 
+        incrementing (or decrementing) by <tt>step</tt> (default to 1). Based on 
+        <a href="http://docs.python.org/library/itertools.html#itertools.count">Python's itertools.count</a>.
+      </p>
+      <pre>
+count = _.counter(10, 2);
+count();
+=&gt; 10
+count();
+=&gt; 12
+count();
+=&gt; 14</pre>
+
+      <p id="cycle">
+        <b class="header">cycle</b><code>_.cycle(iterable)</code>
+        <br />
+        Returns a function that will generate items in <tt>iterable</tt> for each call, 
+        starting with the first one. Once the entire <tt>iterable</tt> has been returned, 
+        the cycle will return to the first item in <tt>iterable</tt> and repeat the cycle.
+        Based on <a href="http://docs.python.org/library/itertools.html#itertools.cycle">Python's itertools.cycle</a>.
+      </p>
+      <pre>
+cycle3 = _.cycle([3, 6, 9]);
+cycle3();
+=&gt; 3
+cycle3();
+=&gt; 6
+cycle3();
+=&gt; 9
+cycle3();
+=&gt; 3</pre>
+
       <p id="template">
         <b class="header">template</b><code>_.template(templateString, [context])</code>
         <br />

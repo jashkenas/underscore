@@ -270,6 +270,7 @@
     if (iterable.toArray)         return iterable.toArray();
     if (_.isArray(iterable))      return iterable;
     if (_.isArguments(iterable))  return slice.call(iterable);
+    if (_.isString(iterable))     return iterable.split('');
     return _.values(iterable);
   };
 
@@ -704,6 +705,46 @@
   _.uniqueId = function(prefix) {
     var id = idCounter++;
     return prefix ? prefix + id : id;
+  };
+  
+  // Create counter that will generate number, starting from `start` (default to 0) 
+  // incrementing (or decrementing) by `step` (default to 1). Based on 
+  // [Python's itertools.count](http://docs.python.org/library/itertools.html#itertools.count).
+  _.counter = function(start, step) {
+    start = arguments[0] || 0;
+    step = arguments[1] || 1;
+
+    var countNumber = start - step;
+
+    return function() {
+      countNumber += step;
+      return countNumber;
+    };
+  };
+  
+  // Returns a function that will generate items in `iterable` for each call, 
+  // starting with the first one. Once the entire `iterable` has been returned, 
+  // the cycle will return to the first item in `iterable` and repeat the cycle.
+  // Based on [Python's itertools.cycle](http://docs.python.org/library/itertools.html#itertools.cycle).
+  _.cycle = function(iterable) {
+    var items;
+    if (_.isString(iterable)){
+      items = iterable.split('');
+    } else {
+      items = _.toArray(iterable);
+    }
+    var size = items.length;
+    
+    if (size === 0) {
+      throw new TypeError('object should be iterable and should not be empty');
+    }
+    var idx = -1;
+
+    return function() {
+      idx++;
+      idx = idx < size ? idx : 0;
+      return items[idx];
+    };
   };
 
   // By default, Underscore uses ERB-style template delimiters, change the

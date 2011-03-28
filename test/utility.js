@@ -40,7 +40,59 @@ $(document).ready(function() {
     equals(_.myReverse('panacea'), 'aecanap', 'mixed in a function to _');
     equals(_('champ').myReverse(), 'pmahc', 'mixed in a function to the OOP wrapper');
   });
-
+  
+  test("utility: counter", function() {
+    var nums, genCounter;
+    
+    genCounter = _.counter(); nums = [];
+    _(10).times(function(){ nums.push(genCounter()); });
+    equals(nums.join(' '), '0 1 2 3 4 5 6 7 8 9', 'from 0 by 1, calling 10 times');
+    
+    genCounter = _.counter(10); nums = [];
+    _(7).times(function(){ nums.push(genCounter()); });
+    equals(nums.join(' '), '10 11 12 13 14 15 16', 'from 10 by 1, calling 7 times');
+    
+    genCounter = _.counter(100, 2); nums = [];
+    _(5).times(function(){ nums.push(genCounter()); });
+    equals(nums.join(' '), '100 102 104 106 108', 'from 100 by 2, calling 5 times');
+    
+    genCounter = _.counter(-1, -3); nums = [];
+    _(8).times(function(){ nums.push(genCounter()); });
+    equals(nums.join(' '), '-1 -4 -7 -10 -13 -16 -19 -22', 'from -1 by -3, calling 8 times');
+    
+    genCounter = _.counter(20, -3); nums = [];
+    _(10).times(function(){ nums.push(genCounter()); });
+    equals(nums.join(' '), '20 17 14 11 8 5 2 -1 -4 -7', 'from 20 by -3, calling 10 times');
+  });
+  
+  test("utility: cycle", function() {
+    var nums, genCycle;
+    
+    genCycle = _.cycle(_.range(5)); nums = [];
+    _(10).times(function(){ nums.push(genCycle()); });
+    equals(nums.join(' '), '0 1 2 3 4 0 1 2 3 4', 'cycling [0, 1, 2, 3, 4], calling 10 times');
+    
+    genCycle = _.cycle("ABC"); nums = [];
+    _(10).times(function(){ nums.push(genCycle()); });
+    equals(nums.join(' '), 'A B C A B C A B C A', 'cycling \'ABC\', calling 10 times');
+    
+    genCycle = _.cycle({ "a": 1, "b": "test", "c": "#" }); nums = [];
+    _(7).times(function(){ nums.push(genCycle()); });
+    equals(nums.join(' '), '1 test # 1 test # 1', 'cycling object, calling 7 times');
+    
+    genCycle = _.cycle([1, "A", 12, "Run"]); nums = [];
+    _(7).times(function(){ nums.push(genCycle()); });
+    equals(nums.join(' '), '1 A 12 Run 1 A 12', 'cycling assorted list, calling 7 times');
+    
+    raises(function(){ _.cycle(1); }, TypeError, 'Number is not allowed');
+    raises(function(){ _.cycle(/abc/); }, TypeError, 'Regex is not allowed');
+    raises(function(){ _.cycle(null); }, TypeError, 'null is not allowed');
+    raises(function(){ _.cycle(""); }, TypeError, 'empty string is not allowed');
+    raises(function(){ _.cycle([]); }, TypeError, 'empty list is not allowed');
+    raises(function(){ _.cycle({}); }, TypeError, 'empty object is not allowed');
+    
+  });
+  
   test("utility: template", function() {
     var basicTemplate = _.template("<%= thing %> is gettin' on my noives!");
     var result = basicTemplate({thing : 'This'});
@@ -123,5 +175,5 @@ $(document).ready(function() {
     var mustache = _.template("Hello {{planet}}!");
     equals(mustache({planet : "World"}), "Hello World!", "can mimic mustache.js");
   });
-
+  
 });
