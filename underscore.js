@@ -270,7 +270,6 @@
     if (iterable.toArray)         return iterable.toArray();
     if (_.isArray(iterable))      return iterable;
     if (_.isArguments(iterable))  return slice.call(iterable);
-    if (_.isString(iterable))     return iterable.split('');
     return _.values(iterable);
   };
 
@@ -711,8 +710,8 @@
   // incrementing (or decrementing) by `step` (default to 1). Based on 
   // [Python's itertools.count](http://docs.python.org/library/itertools.html#itertools.count).
   _.counter = function(start, step) {
-    start = arguments[0] || 0;
-    step = arguments[1] || 1;
+    start = start || 0;
+    step =  step  || 1;
 
     var countNumber = start - step;
 
