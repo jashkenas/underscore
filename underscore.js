@@ -716,8 +716,7 @@
     var countNumber = start - step;
 
     return function() {
-      countNumber += step;
-      return countNumber;
+      return (countNumber += step);
     };
   };
   
