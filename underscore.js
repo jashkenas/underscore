@@ -726,23 +726,16 @@
   // the cycle will return to the first item in `iterable` and repeat the cycle.
   // Based on [Python's itertools.cycle](http://docs.python.org/library/itertools.html#itertools.cycle).
   _.cycle = function(iterable) {
-    var items;
-    if (_.isString(iterable)){
-      items = iterable.split('');
-    } else {
-      items = _.toArray(iterable);
-    }
-    var size = items.length;
-    
-    if (size === 0) {
-      throw new TypeError('object should be iterable and should not be empty');
-    }
-    var idx = -1;
+    iterable = _.isString(iterable) ? iterable.split('') : _.toArray(iterable);
 
+    var size = iterable.length;
+    if (!size)
+      throw new TypeError('object should be iterable and should not be empty');
+
+    var idx = 0;
     return function() {
-      idx++;
-      idx = idx < size ? idx : 0;
-      return items[idx];
+      if(idx >= size) idx = 0;
+      return iterable[idx++];
     };
   };
 
