@@ -1108,6 +1108,17 @@ compiled({epithet: "stooge"});
 =&gt; "Hello stooge."</pre>
 
       <p>
+        If you know that the attribute may or may not exist, you can use <tt>_maybe</tt>.
+      </p>
+      
+      <pre>
+var compiled = _.template("Nick: &lt;%= nick %&gt;&lt;% if (_maybe.adminTag) { print(_maybe.adminTag); } %&gt;");
+compiled({nick: "Bob"});
+=&gt; "nick: Bob"
+compiled({nick: "Alice", adminTag: "[Hi, I own the place]"});
+=&gt; "nick: Alice[Hi, I own the place]"</pre>
+
+      <p>
         If ERB-style delimiters aren't your cup of tea, you can change Underscore's
         template settings to use different symbols to set off interpolated code.
         Define an <b>interpolate</b> regex, and an (optional) <b>evaluate</b> regex

@@ -66,6 +66,16 @@ $(document).ready(function() {
     });
     equals(result, "3 p3-thumbnail.gif <div class=\"thumbnail\" rel=\"p1-thumbnail.gif\"></div><div class=\"thumbnail\" rel=\"p2-thumbnail.gif\"></div><div class=\"thumbnail\" rel=\"p3-thumbnail.gif\"></div>");
 
+    var maybeTemplate = _.template("<h3>Contact Info:</h3><p>Email: <%= email %></p><p>Phone: <%= _maybe.phone %></p>");
+    result = maybeTemplate({ email:"bob@example.com" });
+    equals(result, "<h3>Contact Info:</h3><p>Email: bob@example.com</p><p>Phone: </p>");
+    
+    var maybeConditionTemplate = _.template("<p>Nick: <%= nick %><% if (_maybe.adminTag) { print(_maybe.adminTag); } %></p>");
+    result = maybeConditionTemplate({ nick:"bob" });
+    equals(result, "<p>Nick: bob</p>");
+    result = maybeConditionTemplate({ nick:"alice", adminTag:"[Hi, I own the place]" });
+    equals(result, "<p>Nick: alice[Hi, I own the place]</p>");
+
     var noInterpolateTemplate = _.template("<div><p>Just some text. Hey, I know this is silly but it aids consistency.</p></div>");
     result = noInterpolateTemplate();
     equals(result, "<div><p>Just some text. Hey, I know this is silly but it aids consistency.</p></div>");
