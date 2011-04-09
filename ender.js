@@ -1,5 +1,2 @@
-!function () {
-  var u = _.noConflict();
-  delete u.VERSION;
-  $.augment(u);
-}();
+delete _.VERSION;
+$.ender(_.noConflict());
