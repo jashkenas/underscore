@@ -534,6 +534,16 @@
     return _.map(obj, _.identity);
   };
 
+  // Retrieve the items of an object's properties.
+  _.items = function(obj) {
+    var keys = _.keys(obj);
+    var results = [];
+    for (var i = 0; i < keys.length; i++) {
+      results.push([keys[i], obj[keys[i]]]);
+    }
+    return results;
+  };
+
   // Return a sorted list of the function names available on the object.
   // Aliased as `methods`
   _.functions = _.methods = function(obj) {
