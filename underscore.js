@@ -701,6 +701,22 @@
     for (var i = 0; i < n; i++) iterator.call(context, i);
   };
 
+  _.withBreak = function (body, context) {
+    var ref = {};
+    var breaker;
+    var retval;
+    try {
+      return body.call(context, function (rv) {
+        retval = rv;
+        throw ref;
+      });
+    } catch (e) {
+      if (ref === e)
+        return retval;
+      throw e;
+    }
+  }
+
   // Add your own custom functions to the Underscore object, ensuring that
   // they're correctly added to the OOP wrapper as well.
   _.mixin = function(obj) {

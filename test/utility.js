@@ -124,4 +124,44 @@ $(document).ready(function() {
     equals(mustache({planet : "World"}), "Hello World!", "can mimic mustache.js");
   });
 
+  test("utility: withBreak", function () {
+    equals("expected", _.withBreak(function ($break) {
+      return "expected";
+    }));
+    equals("break-val", _.withBreak(function ($break) {
+      $break("break-val");
+      return "expected";
+    }));
+    equals("break-inner-amended", _.withBreak(function ($breakOuter) {
+      return _.withBreak(function ($breakInner) {
+        $breakInner("break-inner");
+        throw Error("bad");
+      }) + "-amended";
+    }));
+    equals("break-from-inner", _.withBreak(function ($breakOuter) {
+      _.withBreak(function ($breakInner) {
+        $breakOuter("break-from-inner");
+        throw Error("dead");
+      });
+      throw Error("bad");
+    }));
+    equals("thrown", (function () {
+      try {
+        return _.withBreak(function ($break) {
+          throw "thrown";
+        });
+      } catch (e) {
+        return e;
+      }
+    })())
+
+    var someContext = {};
+    equals(someContext, _.withBreak(function ($break) {
+      $break(this);
+    }, someContext));
+    equals(someContext, _.withBreak(function ($break) {
+      return this;
+    }, someContext));
+  });
+
 });
