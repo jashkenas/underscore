@@ -280,13 +280,13 @@
     if (!keyProperty) {
 	    each(iterable, function(value, key, list) {
 	      results[key] = value;
-	    }
+	    });
     } else {
 	    each(iterable, function(value, originalKey, list) {
 	   	  var key = value[keyProperty];
 	      delete value[keyProperty]; // Remove duplicate data
 	      results[key || originalKey] = value;
-	    }    	
+	    });    	
     }
     
     return results;
