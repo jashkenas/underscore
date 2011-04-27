@@ -87,11 +87,11 @@
   // Return the results of applying the iterator to each element.
   // Delegates to **ECMAScript 5**'s native `map` if available.
   _.map = function(obj, iterator, context) {
-    var results = [];
+    var results = _.isArray(obj) ? [] : {};
     if (obj == null) return results;
     if (nativeMap && obj.map === nativeMap) return obj.map(iterator, context);
-    each(obj, function(value, index, list) {
-      results[results.length] = iterator.call(context, value, index, list);
+    each(obj, function(value, key, list) {
+      results[key] = iterator.call(context, value, key, list);
     });
     return results;
   };
@@ -271,6 +271,26 @@
     if (_.isArguments(iterable))  return slice.call(iterable);
     return _.values(iterable);
   };
+
+// Safely convert anything iterable into an object of key/value properties
+ _.toObject = function(iterable, keyProperty) {
+ 	var results = {};
+    if (!iterable)                return results;
+    
+    if (!keyProperty) {
+	    each(iterable, function(value, key, list) {
+	      results[key] = value;
+	    }
+    } else {
+	    each(iterable, function(value, originalKey, list) {
+	   	  var key = value[keyProperty];
+	      delete value[keyProperty]; // Remove duplicate data
+	      results[key || originalKey] = value;
+	    }    	
+    }
+    
+    return results;
+ };
 
   // Return the number of elements in an object.
   _.size = function(obj) {
