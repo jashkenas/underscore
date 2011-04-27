@@ -145,21 +145,21 @@
   // Delegates to **ECMAScript 5**'s native `filter` if available.
   // Aliased as `select`.
   _.filter = _.select = function(obj, iterator, context) {
-    var results = [];
+    var results = _.isArray(obj) ? [] : {};
     if (obj == null) return results;
     if (nativeFilter && obj.filter === nativeFilter) return obj.filter(iterator, context);
-    each(obj, function(value, index, list) {
-      if (iterator.call(context, value, index, list)) results[results.length] = value;
+    each(obj, function(value, key, list) {
+      if (iterator.call(context, value, key, list)) results[key] = value;
     });
     return results;
   };
 
   // Return all the elements for which a truth test fails.
   _.reject = function(obj, iterator, context) {
-    var results = [];
+    var results = _.isArray(obj) ? [] : {};
     if (obj == null) return results;
-    each(obj, function(value, index, list) {
-      if (!iterator.call(context, value, index, list)) results[results.length] = value;
+    each(obj, function(value, key, list) {
+      if (!iterator.call(context, value, key, list)) results[key] = value;
     });
     return results;
   };
