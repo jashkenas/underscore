@@ -239,6 +239,7 @@
   };
 
   // Sort the object's values by a criterion produced by an iterator.
+  // This returns a new sorted array - it does **not** sort in place.
   _.sortBy = function(obj, iterator, context) {
     return _.pluck(_.map(obj, function(value, index, list) {
       return {
