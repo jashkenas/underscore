@@ -253,12 +253,12 @@
 
   // Use a comparator function to figure out at what index an object should
   // be inserted so as to maintain order. Uses binary search.
-  _.sortedIndex = function(array, obj, iterator) {
-    iterator || (iterator = _.identity);
+  _.sortedIndex = function(array, obj, comparator) {
+    comparator || (function(a,b) { return a - b } )
     var low = 0, high = array.length;
     while (low < high) {
       var mid = (low + high) >> 1;
-      iterator(array[mid]) < iterator(obj) ? low = mid + 1 : high = mid;
+      comparator(array[mid], obj) < 0 ? low = mid + 1 : high = mid;
     }
     return low;
   };
@@ -357,11 +357,11 @@
   // Delegates to **ECMAScript 5**'s native `indexOf` if available.
   // If the array is large and already in sort order, pass `true`
   // for **isSorted** to use binary search.
-  _.indexOf = function(array, item, isSorted) {
+  _.indexOf = function(array, item, isSorted, cmp) {
     if (array == null) return -1;
     var i, l;
     if (isSorted) {
-      i = _.sortedIndex(array, item);
+	i = _.sortedIndex(array, item, cmp);
       return array[i] === item ? i : -1;
     }
     if (nativeIndexOf && array.indexOf === nativeIndexOf) return array.indexOf(item);
