@@ -361,11 +361,20 @@
     if (array == null) return -1;
     var i, l;
     if (isSorted) {
-	i = _.sortedIndex(array, item, cmp);
-      return array[i] === item ? i : -1;
+      i = _.sortedIndex(array, item, cmp);
+      if ( cmp ) {
+	  return cmp( array[i], item ) === 0 ? i : -1 ;
+      }
+      else {
+	  return array[i] === item ? i : -1;
+      }
     }
     if (nativeIndexOf && array.indexOf === nativeIndexOf) return array.indexOf(item);
-    for (i = 0, l = array.length; i < l; i++) if (array[i] === item) return i;
+    eq = function(a,b) {
+	//if cmp is provided, we can use it to determine equality
+	return cmp ? cmp(a,b) == 0 : a === b;
+    };
+    for (i = 0, l = array.length; i < l; i++) if ( eq(array[i], item) ) return i;
     return -1;
   };
 
