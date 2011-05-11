@@ -1,4 +1,4 @@
-$(document).ready(function() {
+jQuery(document).ready(function() {
 
   module("Function functions (bind, bindAll, and so on...)");
 

@@ -1,4 +1,4 @@
-$(document).ready(function() {
+jQuery(document).ready(function() {
 
   module("Utility functions (uniqueId, template)");
 
@@ -81,8 +81,8 @@ $(document).ready(function() {
     var withNewlinesAndTabs = _.template('This\n\t\tis: <%= x %>.\n\tok.\nend.');
     equals(withNewlinesAndTabs({x: 'that'}), 'This\n\t\tis: that.\n\tok.\nend.');
 
-    if (!$.browser.msie) {
-      var fromHTML = _.template($('#template').html());
+    if (!jQuery.browser.msie) {
+      var fromHTML = _.template(jQuery('#template').html());
       equals(fromHTML({data : 12345}).replace(/\s/g, ''), '<li>24690</li>');
     }
 

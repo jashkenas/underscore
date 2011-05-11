@@ -1,4 +1,4 @@
-$(document).ready(function() {
+jQuery(document).ready(function() {
 
   module("Array-only functions (last, compact, uniq, and so on...)");
 

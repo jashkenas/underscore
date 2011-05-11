@@ -1,4 +1,4 @@
-$(document).ready(function() {
+jQuery(document).ready(function() {
 
   module("Object functions (values, extend, isEqual, and so on...)");
 
@@ -122,7 +122,7 @@ $(document).ready(function() {
 
   test("objects: isElement", function() {
     ok(!_.isElement('div'), 'strings are not dom elements');
-    ok(_.isElement($('html')[0]), 'the html tag is a DOM element');
+    ok(_.isElement(jQuery('html')[0]), 'the html tag is a DOM element');
     ok(_.isElement(iElement), 'even from another frame');
   });
 
