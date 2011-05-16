@@ -74,6 +74,13 @@ $(document).ready(function() {
     var lengths = _.reduce(developers, function (length, dev) { return length + dev.length});
     equals(lengths, 27, 'Works without a native "reduce" implementation');
 
+    var sparse = [];
+    sparse.reduce = null;
+    sparse[1] = 1;
+    sparse[2] = 2;
+
+    ok(!_.reduce(sparse, function () {}), 'Works on sparse arrays');
+
     var ifnull;
     try {
       _.reduce(null, function(){});
@@ -101,6 +108,13 @@ $(document).ready(function() {
 
     deepEqual(_.reduceRight(list, function (memo, val) { return memo.concat(val); }, []),
       [4, 5, 2, 3, 0, 1], 'Can flatten arrays without a native "reduceRight" implementation');
+
+    var sparse = [];
+    sparse.reduceRight = null;
+    sparse[10] = 10;
+    sparse[9] = 9;
+
+    ok(!_.reduceRight(sparse, function () {}), 'Works with sparse arrays');
 
     var ifnull;
     try {
