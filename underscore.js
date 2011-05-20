@@ -1,3 +1,4 @@
+
 //     Underscore.js 1.1.6
 //     (c) 2011 Jeremy Ashkenas, DocumentCloud Inc.
 //     Underscore is freely distributable under the MIT license.
@@ -738,7 +739,7 @@
   // JavaScript micro-templating, similar to John Resig's implementation.
   // Underscore templating handles arbitrary delimiters, preserves whitespace,
   // and correctly escapes quotes within interpolated code.
-  _.compily = function(str, settings) {
+  _.compile = function(str, settings) {
     var c  = settings || _.templateSettings;
     var tmpl = 'var __p=[],print=function(){__p.push.apply(__p,arguments);};' +
       'with(obj||{}){__p.push(\'' +
@@ -755,13 +756,18 @@
          .replace(/\n/g, '\\n')
          .replace(/\t/g, '\\t')
          + "');}return __p.join('');";
-    var func = new Function('obj', tmpl);
-    return func;
+    return new Function('obj', tmpl);
   };
 
-  // Render the complied template with data.
+  // Helper function to render the complied template with data.
   _.render = function(complied, data) {
      return complied(data);
+  };
+
+  // Preserves template method for compatible with legacy call.
+  _.template = function (str, data) {
+      var compilied = _.compile(str);
+      return data ? compilied(data): compilied;
   };
 
   // The OOP Wrapper
