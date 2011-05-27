@@ -73,8 +73,14 @@
     if (nativeForEach && obj.forEach === nativeForEach) {
       obj.forEach(iterator, context);
     } else if (_.isNumber(obj.length)) {
-      for (var i = 0, l = obj.length; i < l; i++) {
-        if (i in obj && iterator.call(context, obj[i], i, obj) === breaker) return;
+      try {
+        for (var i = 0, l = obj.length; i < l; i++) {
+          if (i in obj && iterator.call(context, obj[i], i, obj) === breaker) return;
+        }
+      } catch (e) {
+        if (_.isFunction(obj.split)) {
+          each(obj.split(' ').length > 1 ? obj.split(' ') : obj.split(','), iterator, context);
+        } 
       }
     } else {
       for (var key in obj) {
