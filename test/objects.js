@@ -64,6 +64,13 @@ $(document).ready(function() {
     equals(_.last(moe.lucky), 101, 'changes to deep attributes are shared with the original');
   });
 
+  test("objects: delete", function() {
+    var moe = {name : 'moe', color : 'blue'};
+    var color = _.delete(moe, 'color');
+    equals(color, 'blue', 'returns the value for the deleted key');
+    equals(moe.color, undefined, 'removes the key from the object');
+  });
+
   test("objects: isEqual", function() {
     var moe   = {name : 'moe', lucky : [13, 27, 34]};
     var clone = {name : 'moe', lucky : [13, 27, 34]};

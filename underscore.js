@@ -584,6 +584,13 @@
     return obj;
   };
 
+  // Delete a key from an object and return its value
+  _.delete = function(obj, key) {
+    var value = obj[key];
+    delete obj[key];
+    return value;
+  };
+
   // Perform a deep comparison to check if two objects are equal.
   _.isEqual = function(a, b) {
     // Check object identity.
