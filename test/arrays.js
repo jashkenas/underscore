@@ -43,6 +43,15 @@ $(document).ready(function() {
     equals(result.join(', '), '1, 2, 3, 4', 'works on an arguments object');
   });
 
+  test("arrays: subtract", function() {
+    var list = [1, 2, 1, 0, 3];
+    equals(_.subtract(list, [1, 0]).join(', '), '2, 3', 'can remove all instances of an object');
+    equals(_(list).subtract([1, 0]).join(', '), '2, 3', 'can use with OO-style syntax');
+    var result = (function(){ return _.subtract(arguments, [0, 1]); })(1, 2, 1, 0, 3, 1, 4);
+    equals(result.join(', '), '2, 3, 4', 'works on an arguments object');
+    equals(_.subtract(list, [2], [0, 3]).join(', '), '1, 1', 'subtracts multiple lists');
+  });
+
   test("arrays: without", function() {
     var list = [1, 2, 1, 0, 3, 1, 4];
     equals(_.without(list, 0, 1).join(', '), '2, 3, 4', 'can remove all instances of an object');
@@ -53,7 +62,7 @@ $(document).ready(function() {
     ok(_.without(list, {one : 1}).length == 2, 'uses real object identity for comparisons.');
     ok(_.without(list, list[0]).length == 1, 'ditto.');
   });
-
+  
   test("arrays: uniq", function() {
     var list = [1, 2, 1, 3, 1, 4];
     equals(_.uniq(list).join(', '), '1, 2, 3, 4', 'can find the unique values of an unsorted array');

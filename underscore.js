@@ -330,6 +330,13 @@
     var values = slice.call(arguments, 1);
     return _.filter(array, function(value){ return !_.include(values, value); });
   };
+  
+  // Return a version of the array that does not contain any items in the
+  // passed-in arrays.
+  _.subtract = function(array) {
+    var values = _.flatten(slice.call(arguments, 1));
+    return _.filter(array, function(value){ return !_.include(values, value); });
+  };
 
   // Produce a duplicate-free version of the array. If the array has already
   // been sorted, you have the option of using a faster algorithm.
