@@ -254,7 +254,7 @@
   // Use a comparator function to figure out at what index an object should
   // be inserted so as to maintain order. Uses binary search.
   _.sortedIndex = function(array, obj, comparator) {
-    comparator || (function(a,b) { return a - b } )
+    comparator || ( comparator = function(a,b) { return a - b } )
     var low = 0, high = array.length;
     while (low < high) {
       var mid = (low + high) >> 1;
