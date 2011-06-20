@@ -264,12 +264,12 @@
 
   // Use a comparator function to figure out at what index an object should
   // be inserted so as to maintain order. Uses binary search.
-  _.sortedIndex = function(array, obj, iterator) {
-    iterator || (iterator = _.identity);
+  _.sortedIndex = function(array, obj, comparator) {
+    comparator || ( comparator = function(a,b) { return a - b } )
     var low = 0, high = array.length;
     while (low < high) {
       var mid = (low + high) >> 1;
-      iterator(array[mid]) < iterator(obj) ? low = mid + 1 : high = mid;
+      comparator(array[mid], obj) < 0 ? low = mid + 1 : high = mid;
     }
     return low;
   };
@@ -368,15 +368,24 @@
   // Delegates to **ECMAScript 5**'s native `indexOf` if available.
   // If the array is large and already in sort order, pass `true`
   // for **isSorted** to use binary search.
-  _.indexOf = function(array, item, isSorted) {
+  _.indexOf = function(array, item, isSorted, cmp) {
     if (array == null) return -1;
     var i, l;
     if (isSorted) {
-      i = _.sortedIndex(array, item);
-      return array[i] === item ? i : -1;
+      i = _.sortedIndex(array, item, cmp);
+      if ( cmp ) {
+	  return cmp( array[i], item ) === 0 ? i : -1 ;
+      }
+      else {
+	  return array[i] === item ? i : -1;
+      }
     }
     if (nativeIndexOf && array.indexOf === nativeIndexOf) return array.indexOf(item);
-    for (i = 0, l = array.length; i < l; i++) if (array[i] === item) return i;
+    eq = function(a,b) {
+	//if cmp is provided, we can use it to determine equality
+	return cmp ? cmp(a,b) == 0 : a === b;
+    };
+    for (i = 0, l = array.length; i < l; i++) if ( eq(array[i], item) ) return i;
     return -1;
   };
 
