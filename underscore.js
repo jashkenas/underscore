@@ -1,4 +1,3 @@
-
 //     Underscore.js 1.1.6
 //     (c) 2011 Jeremy Ashkenas, DocumentCloud Inc.
 //     Underscore is freely distributable under the MIT license.
@@ -241,7 +240,7 @@
   };
 
   // Sort the object's values by a criterion produced by an iterator.
-  _.sortBy = function(obj, iterator, context) {
+  _.sortBy = function(obj, iterator, context, reverse) {
     return _.pluck(_.map(obj, function(value, index, list) {
       return {
         value : value,
@@ -249,7 +248,7 @@
       };
     }).sort(function(left, right) {
       var a = left.criteria, b = right.criteria;
-      return a < b ? -1 : a > b ? 1 : 0;
+      return (a < b ? -1 : a > b ? 1 : 0) * (reverse ? -1 : 1);
     }), 'value');
   };
 
