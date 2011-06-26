@@ -74,7 +74,8 @@
       obj.forEach(iterator, context);
     } else if (_.isNumber(obj.length)) {
       for (var i = 0, l = obj.length; i < l; i++) {
-        if (i in obj && iterator.call(context, obj[i], i, obj) === breaker) return;
+        var item = obj.item ? obj.item(i) : obj[i];
+        if (typeof(item) != "undefined" && iterator.call(context, item, i, obj) === breaker) return;
       }
     } else {
       for (var key in obj) {
