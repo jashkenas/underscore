@@ -180,7 +180,7 @@ $(document).ready(function() {
     var people = [{name : 'curly', age : 50}, {name : 'moe', age : 30}];
     people = _.sortBy(people, function(person){ return person.age; });
     equals(_.pluck(people, 'name').join(', '), 'moe, curly', 'stooges sorted by age');
-    people = _.sortBy(people, function(person){ return person.age; }, true);
+    people = _.sortBy(people, function(person){ return person.age; }, null, true);
     equals(_.pluck(people, 'name').join(', '), 'curly, moe', 'stooges reverse sorted by age');
   });
 
