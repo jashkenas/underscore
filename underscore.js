@@ -240,7 +240,7 @@
   };
 
   // Sort the object's values by a criterion produced by an iterator.
-  _.sortBy = function(obj, iterator, context, reverse) {
+  _.sortBy = function(obj, iterator, context) {
     return _.pluck(_.map(obj, function(value, index, list) {
       return {
         value : value,
@@ -248,7 +248,7 @@
       };
     }).sort(function(left, right) {
       var a = left.criteria, b = right.criteria;
-      return (a < b ? -1 : a > b ? 1 : 0) * (reverse ? -1 : 1);
+      return a < b ? -1 : a > b ? 1 : 0;
     }), 'value');
   };
 
