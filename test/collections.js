@@ -65,8 +65,21 @@ $(document).ready(function() {
     sum = _([1, 2, 3]).reduce(function(sum, num){ return sum + num; }, 0);
     equals(sum, 6, 'OO-style reduce');
 
-    var sum = _.reduce([1, 2, 3], function(sum, num){ return sum + num; });
+    sum = _.reduce([1, 2, 3], function(sum, num){ return sum + num; });
     equals(sum, 6, 'default initial value');
+
+    var developers = [0, 'jashkenas', 'jdalton', 'ksgoncharov'];
+    developers.reduce = null;
+
+    var lengths = _.reduce(developers, function (length, dev) { return length + dev.length});
+    equals(lengths, 27, 'Works without a native "reduce" implementation');
+
+    var sparse = [];
+    sparse.reduce = null;
+    sparse[1] = 1;
+    sparse[2] = 2;
+
+    ok(!_.reduce(sparse, function () {}), 'Works on sparse arrays');
 
     var ifnull;
     try {
@@ -80,14 +93,28 @@ $(document).ready(function() {
   });
 
   test('collections: reduceRight', function() {
+
     var list = _.reduceRight(["foo", "bar", "baz"], function(memo, str){ return memo + str; }, '');
     equals(list, 'bazbarfoo', 'can perform right folds');
 
-    var list = _.foldr(["foo", "bar", "baz"], function(memo, str){ return memo + str; }, '');
+    list = _.foldr(["foo", "bar", "baz"], function(memo, str){ return memo + str; }, '');
     equals(list, 'bazbarfoo', 'aliased as "foldr"');
 
-    var list = _.foldr(["foo", "bar", "baz"], function(memo, str){ return memo + str; });
+    list = _.foldr(["foo", "bar", "baz"], function(memo, str){ return memo + str; });
     equals(list, 'bazbarfoo', 'default initial value');
+
+    list = [[0, 1], [2, 3], [4, 5]];
+    list.reduceRight = null;
+
+    deepEqual(_.reduceRight(list, function (memo, val) { return memo.concat(val); }, []),
+      [4, 5, 2, 3, 0, 1], 'Can flatten arrays without a native "reduceRight" implementation');
+
+    var sparse = [];
+    sparse.reduceRight = null;
+    sparse[10] = 10;
+    sparse[9] = 9;
+
+    ok(!_.reduceRight(sparse, function () {}), 'Works with sparse arrays');
 
     var ifnull;
     try {

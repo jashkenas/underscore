@@ -100,34 +100,53 @@
   // **Reduce** builds up a single result from a list of values, aka `inject`,
   // or `foldl`. Delegates to **ECMAScript 5**'s native `reduce` if available.
   _.reduce = _.foldl = _.inject = function(obj, iterator, memo, context) {
-    var initial = memo !== void 0;
+    var useArray = arguments.length < 3, index, length;
     if (obj == null) obj = [];
     if (nativeReduce && obj.reduce === nativeReduce) {
       if (context) iterator = _.bind(iterator, context);
-      return initial ? obj.reduce(iterator, memo) : obj.reduce(iterator);
+      return useArray ? obj.reduce(iterator) : obj.reduce(iterator, memo);
     }
-    each(obj, function(value, index, list) {
-      if (!initial && index === 0) {
-        memo = value;
-        initial = true;
-      } else {
-        memo = iterator.call(context, memo, value, index, list);
-      }
-    });
-    if (!initial) throw new TypeError("Reduce of empty array with no initial value");
+    index = 0;
+    length = +obj.length;
+    if (useArray) {
+      do {
+        if (index in obj) {
+          memo = obj[index++];
+          break;
+        }
+        if (++index >= length) throw new TypeError("Reduce of empty array with no initial value");
+      } while (true);
+    }
+    for (; index < length; index++) {
+      if (index in obj && (memo = iterator.call(context, memo, obj[index], index, obj)) === breaker) break;
+    }
     return memo;
   };
 
   // The right-associative version of reduce, also known as `foldr`.
   // Delegates to **ECMAScript 5**'s native `reduceRight` if available.
   _.reduceRight = _.foldr = function(obj, iterator, memo, context) {
+    var useArray = arguments.length < 3, index, length;
     if (obj == null) obj = [];
     if (nativeReduceRight && obj.reduceRight === nativeReduceRight) {
       if (context) iterator = _.bind(iterator, context);
-      return memo !== void 0 ? obj.reduceRight(iterator, memo) : obj.reduceRight(iterator);
+      return useArray ? obj.reduceRight(iterator) : obj.reduceRight(iterator, memo);
     }
-    var reversed = (_.isArray(obj) ? obj.slice() : _.toArray(obj)).reverse();
-    return _.reduce(reversed, iterator, memo, context);
+    length = +obj.length;
+    index = length - 1;
+    if (useArray) {
+      do {
+        if (index in obj) {
+          memo = obj[index--];
+          break;
+        }
+        if (--index < 0) throw new TypeError("Reduce of empty array with no initial value");
+      } while (true);
+    }
+    for (; index >= 0; index--) {
+      if (index in obj && (memo = iterator.call(context, memo, obj[index], index, obj)) === breaker) break;
+    }
+    return memo;
   };
 
   // Return the first value which passes a truth test. Aliased as `detect`.
