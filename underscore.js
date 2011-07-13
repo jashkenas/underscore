@@ -759,8 +759,8 @@
   // JavaScript micro-templating, similar to John Resig's implementation.
   // Underscore templating handles arbitrary delimiters, preserves whitespace,
   // and correctly escapes quotes within interpolated code.
-  _.template = function(str, data) {
-    var c  = _.templateSettings;
+  _.compile = function(str, settings) {
+    var c  = settings || _.templateSettings;
     var tmpl = 'var __p=[],print=function(){__p.push.apply(__p,arguments);};' +
       'with(obj||{}){__p.push(\'' +
       str.replace(/\\/g, '\\\\')
@@ -776,8 +776,18 @@
          .replace(/\n/g, '\\n')
          .replace(/\t/g, '\\t')
          + "');}return __p.join('');";
-    var func = new Function('obj', tmpl);
-    return data ? func(data) : func;
+    return new Function('obj', tmpl);
+  };
+
+  // Helper function to render the complied template with data.
+  _.render = function(complied, data) {
+     return complied(data);
+  };
+
+  // Preserves template method for compatible with legacy call.
+  _.template = function (str, data) {
+      var compilied = _.compile(str);
+      return data ? compilied(data): compilied;
   };
 
   // The OOP Wrapper
