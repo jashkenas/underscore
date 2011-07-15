@@ -170,6 +170,7 @@ $(document).ready(function() {
   test('collections: pluck', function() {
     var people = [{name : 'moe', age : 30}, {name : 'curly', age : 50}];
     equals(_.pluck(people, 'name').join(', '), 'moe, curly', 'pulls names out of objects');
+    equals(_.pluck(people, 'name', 'moe').age, 30, 'returns the array element where the name is "moe"');
   });
 
   test('collections: max', function() {

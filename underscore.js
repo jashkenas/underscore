@@ -213,8 +213,22 @@
   };
 
   // Convenience version of a common use case of `map`: fetching a property.
-  _.pluck = function(obj, key) {
-    return _.map(obj, function(value){ return value[key]; });
+  // The optional 'value' parameter is useful when you want a specific array
+  // element where a key has a certain value
+  _.pluck = function(obj, key, value) {
+    if (value) {
+      var found = false;
+      _.each(obj, function(val) {
+        if (!!val[key] && val[key] === value) {
+          found = val;
+        }
+      });
+      return found;
+    } else {
+      return _.map(obj, function(val) {
+        return val[key];
+      });
+    }
   };
 
   // Return the maximum element or (element-based computation).
