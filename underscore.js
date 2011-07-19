@@ -485,9 +485,38 @@
   };
 
   // Returns a function, that, when invoked, will only be triggered at most once
-  // during a given window of time.
-  _.throttle = function(func, wait) {
-    return limit(func, wait, false);
+  // during a given window of time. If `immediate` is set to `true` this behaves
+  // as an alias for `_.reverseThrottle`.
+  _.throttle = function(func, wait, immediate, trailing) {
+    return !immediate ? limit(func, wait, false) : _.reverseThrottle(func, wait, trailing);
+  };
+
+  // Returns a function, that, when invoked, will be triggered immediately but
+  // repeated calls will be deferred until `wait` time has passed. If `trailing`
+  // is set to `true` then when the function is invoked during the delay time it
+  // will be executed at the end of the delay time.
+  _.reverseThrottle = function(func, wait, trailing) {
+    var timeout, throttled, next;
+    return (throttled = function() {
+      var context = this, args = arguments;
+      var clearer = function() {
+        clearTimeout(timeout);
+        timeout = null;
+        if (trailing && next) {
+          throttled.apply(next.context, next.args);
+        }
+      };
+      if (!timeout) {
+        next = null;
+        func.apply(context, args);
+        timeout = setTimeout(clearer, wait);
+      } else if (trailing) {
+        next = {
+          context: context,
+          args: args
+        }
+      }
+    });
   };
 
   // Returns a function, that, as long as it continues to be invoked, will not

@@ -760,6 +760,25 @@ var throttled = _.throttle(updatePosition, 100);
 $(window).scroll(throttled);
 </pre>
 
+      <p id="reverseThrottle">
+        <b class="header">reverseThrottle</b><code>_.reverseThrottle(function, wait, [trailing])</code>
+        <br />
+        Returns a throttled version of the function, that will execute immediately, 
+        but will be available for execution only after <b>wait</b> milliseconds.
+        If <b>trailing</b> is set to <b>true</b> then when the delay has finished
+        there will be an execution.
+      </p>
+      <pre>
+var reverseThrottled = _.reverseThrottle(updatePosition, 100);
+reverseThrottled(); // Immediately executed
+reverseThrottled(); // Skipped
+
+var reverseThrottledWithTrailing = _.reverseThrottle(updatePosition, 100, true);
+reverseThrottledWithTrailing(); // Immediately executed
+reverseThrottledWithTrailing(); // Skipped because of next call
+reverseThrottledWithTrailing(); // Will be executed after 100 milliseconds
+</pre>
+
       <p id="debounce">
         <b class="header">debounce</b><code>_.debounce(function, wait)</code>
         <br />

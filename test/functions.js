@@ -95,6 +95,36 @@ $(document).ready(function() {
     _.delay(function(){ ok(counter == 3, "incr was throttled"); start(); }, 400);
   });
 
+  asyncTest("functions: reverseThrottle", 1, function() {
+    var counter = 0;
+    var incr = function(){ counter++; };
+    var reverseThrottlesIncr = _.reverseThrottle(incr,100);
+    reverseThrottlesIncr(); reverseThrottlesIncr(); reverseThrottlesIncr();
+    setTimeout(reverseThrottlesIncr,40);
+    setTimeout(reverseThrottlesIncr,60);
+    setTimeout(reverseThrottlesIncr,120);
+    setTimeout(reverseThrottlesIncr,140);
+    setTimeout(reverseThrottlesIncr,220);
+    setTimeout(reverseThrottlesIncr,230);
+    setTimeout(reverseThrottlesIncr,240);
+    _.delay(function(){ ok(counter == 3, "incr was reverseThrottled with no trailing"); start(); }, 400);
+  });
+
+  asyncTest("functions: reverseThrottle w/ trailing", 1, function() {
+    var counter = 0;
+    var incr = function(){ counter++; };
+    var reverseThrottlesIncr = _.reverseThrottle(incr,100,true);
+    reverseThrottlesIncr(); reverseThrottlesIncr(); reverseThrottlesIncr();
+    setTimeout(reverseThrottlesIncr,40);
+    setTimeout(reverseThrottlesIncr,60);
+    setTimeout(reverseThrottlesIncr,120);
+    setTimeout(reverseThrottlesIncr,140);
+    setTimeout(reverseThrottlesIncr,230);
+    setTimeout(reverseThrottlesIncr,240);
+    setTimeout(reverseThrottlesIncr,250);
+    _.delay(function(){ ok(counter == 4, "incr was reverseThrottled with trailing"); start(); }, 400);
+  });
+
   asyncTest("functions: debounce", 1, function() {
     var counter = 0;
     var incr = function(){ counter++; };
