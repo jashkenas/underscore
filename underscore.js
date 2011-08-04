@@ -514,6 +514,20 @@
     };
   };
 
+  // Returns a function, that, when invoked, will trigger immediately and then
+  // not trigger until N milliseconds no matter how often you call it. Useful for
+  // rate limiting noisy events that need immediate invocation.
+  _.paced = function(func, wait) {
+    var ran = false;
+    return function() {
+      if(!ran) {
+        ran = true;
+        setTimeout(function(){ ran = false; }, wait);
+        return func.apply(this, arguments);
+      }
+    };
+  };
+
   // Returns the first function passed as an argument to the second,
   // allowing you to adjust arguments, run code before and after, and
   // conditionally execute the original function.
