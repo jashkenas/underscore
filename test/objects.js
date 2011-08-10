@@ -243,6 +243,8 @@ $(document).ready(function() {
     ok(_.toType(-Infinity) === "number", '-Infinity is a "number"');
     ok(_.toType(new Number) === "Number", '`new Number` is a "Number"');
     ok(_.toType(NaN) === "Number", 'NaN is a "Number" (for realz)');
+    ok(_.toType(function(){}) === "Function", '`function(){}` is a "Function"');
+    ok(_.toType(window.alert) === "Function", '`window.alert` is a "Function"');
     ok(_.toType(null) === "Null", 'null is type "Null"');
     ok(_.toType(undefined) === "Undefined", 'while we\'re at it, undefined is "Undefined"');
     ok(_.toType("o hai") === "string", '"o hai" is a "string"');
