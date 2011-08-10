@@ -238,6 +238,29 @@ $(document).ready(function() {
     ok(_.isUndefined(iUndefined), 'even from another frame');
   });
 
+  test("objects: toType", function() {
+    ok(_.toType(1) === "number", '1 is a "number"');
+    ok(_.toType(-Infinity) === "number", '-Infinity is a "number"');
+    ok(_.toType(new Number) === "Number", '`new Number` is a "Number"');
+    ok(_.toType(NaN) === "Number", 'NaN is a "Number" (for realz)');
+    ok(_.toType(function(){}) === "Function", '`function(){}` is a "Function"');
+    ok(_.toType(window.alert) === "Function", '`window.alert` is a "Function"');
+    ok(_.toType(null) === "Null", 'null is type "Null"');
+    ok(_.toType(undefined) === "Undefined", 'while we\'re at it, undefined is "Undefined"');
+    ok(_.toType("o hai") === "string", '"o hai" is a "string"');
+    ok(_.toType(new String("o hai")) === "String", 'but `new String("o hai") is a "String"`');
+    ok(_.toType(false) === "Boolean", 'false is "Boolean"');
+    ok(_.toType(new Boolean(true)) === "Boolean", '`new Boolean(true)` is also "Boolean"');
+    ok(_.toType(/a-z/) === "RegExp", '/a-z/ is a "RegExp"');
+    ok(_.toType({a: 4}) === "Object", '`{a:4}` is type "Object"');
+    ok(_.toType([1, 2, 3]) === "Array", '`[1,2,3]` is type "Array"');
+	ok((function() {return _.toType(arguments)})() == "Arguments", 'even the arguments object gets a type of its own, "Arguments"');
+    ok(_.toType(new ReferenceError) === "Error", '`new ReferenceError` is type "Error"');
+    ok(_.toType(new Date) === "Date", 'new Date is a "Date"');
+    ok(_.toType(Math) === "Math", 'Math is type "Math"');
+    ok(_.toType(JSON) === "JSON", 'JSON is, of course, "JSON" type');
+  });
+
   if (window.ActiveXObject) {
     test("objects: IE host objects", function() {
       var xml = new ActiveXObject("Msxml2.DOMDocument.3.0");
