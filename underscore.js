@@ -719,6 +719,17 @@
     return obj === void 0;
   };
 
+  // Robust type detection, uses a regex to match the return from native object.toString()
+  // Falls back to native 'typeof' for truthy primitive values (credit: Angus Croll)
+  // http://javascriptweblog.wordpress.com/2011/08/08/fixing-the-javascript-typeof-operator/
+  _.toType = function(obj) {
+    if((function() {return obj && (obj !== this)}).call(obj)) {
+      return typeof obj;
+    }
+    return ({}).toString.call(obj).match(/\s([a-z|A-Z]+)/)[1];
+  };
+
+
   // Utility Functions
   // -----------------
 
