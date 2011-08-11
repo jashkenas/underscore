@@ -16,11 +16,11 @@ $(document).ready(function() {
     equals(answers.join(', '), '1, 2, 3', 'aliased as "forEach"');
 
     answers = [];
-    var obj = {one : 1, two : 2, three : 3};
-    obj.constructor.prototype.four = 4;
+    var obj = {'one' : 1, 'two' : 2, 'three' : 3};
+    obj.constructor.prototype['four'] = 4;
     _.each(obj, function(value, key){ answers.push(key); });
     equals(answers.join(", "), 'one, two, three', 'iterating over objects works, and ignores the object prototype.');
-    delete obj.constructor.prototype.four;
+    delete obj.constructor.prototype['four'];
 
     answer = null;
     _.each([1, 2, 3], function(num, index, arr){ if (_.include(arr, num)) answer = true; });
