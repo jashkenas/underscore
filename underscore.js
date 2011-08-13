@@ -576,7 +576,15 @@
   _.extend = function(obj) {
     each(slice.call(arguments, 1), function(source) {
       for (var prop in source) {
-        if (source[prop] !== void 0) obj[prop] = source[prop];
+        var getter = source.__lookupGetter__(prop)
+        var setter = source.__lookupSetter__(prop);
+
+        if (getter || setter) {
+          if (getter) obj.__defineGetter__(prop, getter);
+          if (setter) obj.__defineSetter__(prop, setter);
+        } else if (source[prop] !== void 0) {
+          obj[prop] = source[prop];
+        }
       }
     });
     return obj;
