@@ -39,6 +39,14 @@ $(document).ready(function() {
     ok(_.isEqual(result, {x:2, a:'b'}), 'extending from multiple source objects last property trumps');
     result = _.extend({}, {a: void 0, b: null});
     equals(_.keys(result).join(''), 'b', 'extend does not copy undefined values');
+
+    result = _.extend({}, {
+      get getter() { return 'a getter'; },
+      set setter(val) { this.theSetValue = val; }
+    });
+    result.setter = 'set value';
+    equals(result.getter, 'a getter', 'can extend javascript getters');
+    equals(result.theSetValue, 'set value', 'can extend javascript setters');
   });
 
   test("objects: defaults", function() {
