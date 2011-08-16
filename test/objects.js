@@ -4,7 +4,7 @@ $(document).ready(function() {
 
   test("objects: keys", function() {
     var exception = /object/;
-    equals(_.keys({one : 1, two : 2}).join(', '), 'one, two', 'can extract the keys from an object');
+    equals(_.keys({'one' : 1, 'two' : 2}).join(', '), 'one, two', 'can extract the keys from an object');
     // the test above is not safe because it relies on for-in enumeration order
     var a = []; a[1] = 0;
     equals(_.keys(a).join(', '), '1', 'is not fooled by sparse arrays; see issue #95');
@@ -20,24 +20,24 @@ $(document).ready(function() {
   });
 
   test("objects: functions", function() {
-    var obj = {a : 'dash', b : _.map, c : (/yo/), d : _.reduce};
+    var obj = {'a' : 'dash', 'b' : _.map, 'c' : (/yo/), 'd' : _.reduce};
     ok(_.isEqual(['b', 'd'], _.functions(obj)), 'can grab the function names of any passed-in object');
 
     var Animal = function(){};
-    Animal.prototype.run = function(){};
+    Animal.prototype['run'] = function(){};
     equals(_.functions(new Animal).join(''), 'run', 'also looks up functions on the prototype');
   });
 
   test("objects: extend", function() {
     var result;
-    equals(_.extend({}, {a:'b'}).a, 'b', 'can extend an object with the attributes of another');
-    equals(_.extend({a:'x'}, {a:'b'}).a, 'b', 'properties in source override destination');
-    equals(_.extend({x:'x'}, {a:'b'}).x, 'x', 'properties not in source dont get overriden');
-    result = _.extend({x:'x'}, {a:'a'}, {b:'b'});
-    ok(_.isEqual(result, {x:'x', a:'a', b:'b'}), 'can extend from multiple source objects');
-    result = _.extend({x:'x'}, {a:'a', x:2}, {a:'b'});
-    ok(_.isEqual(result, {x:2, a:'b'}), 'extending from multiple source objects last property trumps');
-    result = _.extend({}, {a: void 0, b: null});
+    equals(_.extend({}, {'a':'b'})['a'], 'b', 'can extend an object with the attributes of another');
+    equals(_.extend({'a':'x'}, {'a':'b'})['a'], 'b', 'properties in source override destination');
+    equals(_.extend({'x':'x'}, {'a':'b'})['x'], 'x', 'properties not in source dont get overriden');
+    result = _.extend({'x':'x'}, {'a':'a'}, {'b':'b'});
+    ok(_.isEqual(result, {'x':'x', 'a':'a', 'b':'b'}), 'can extend from multiple source objects');
+    result = _.extend({'x':'x'}, {'a':'a', 'x':2}, {'a':'b'});
+    ok(_.isEqual(result, {'x':2, 'a':'b'}), 'extending from multiple source objects last property trumps');
+    result = _.extend({}, {'a': void 0, 'b': null});
     equals(_.keys(result).join(''), 'b', 'extend does not copy undefined values');
   });
 

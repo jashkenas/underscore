@@ -43,22 +43,22 @@ $(document).ready(function() {
 
   test("utility: template", function() {
     var basicTemplate = _.template("<%= thing %> is gettin' on my noives!");
-    var result = basicTemplate({thing : 'This'});
+    var result = basicTemplate({'thing' : 'This'});
     equals(result, "This is gettin' on my noives!", 'can do basic attribute interpolation');
 
     var backslashTemplate = _.template("<%= thing %> is \\ridanculous");
-    equals(backslashTemplate({thing: 'This'}), "This is \\ridanculous");
+    equals(backslashTemplate({'thing': 'This'}), "This is \\ridanculous");
 
     var fancyTemplate = _.template("<ul><% \
       for (key in people) { \
     %><li><%= people[key] %></li><% } %></ul>");
-    result = fancyTemplate({people : {moe : "Moe", larry : "Larry", curly : "Curly"}});
+    result = fancyTemplate({'people' : {'moe' : "Moe", 'larry' : "Larry", 'curly' : "Curly"}});
     equals(result, "<ul><li>Moe</li><li>Larry</li><li>Curly</li></ul>", 'can run arbitrary javascript in templates');
 
     var namespaceCollisionTemplate = _.template("<%= pageCount %> <%= thumbnails[pageCount] %> <% _.each(thumbnails, function(p) { %><div class=\"thumbnail\" rel=\"<%= p %>\"></div><% }); %>");
     result = namespaceCollisionTemplate({
-      pageCount: 3,
-      thumbnails: {
+      'pageCount': 3,
+      'thumbnails': {
         1: "p1-thumbnail.gif",
         2: "p2-thumbnail.gif",
         3: "p3-thumbnail.gif"
@@ -76,7 +76,7 @@ $(document).ready(function() {
     var quoteInStatementAndBody = _.template("<%\
       if(foo == 'bar'){ \
     %>Statement quotes and 'quotes'.<% } %>");
-    equals(quoteInStatementAndBody({foo: "bar"}), "Statement quotes and 'quotes'.");
+    equals(quoteInStatementAndBody({'foo': "bar"}), "Statement quotes and 'quotes'.");
 
     var withNewlinesAndTabs = _.template('This\n\t\tis: <%= x %>.\n\tok.\nend.');
     equals(withNewlinesAndTabs({x: 'that'}), 'This\n\t\tis: that.\n\tok.\nend.');
