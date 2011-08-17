@@ -363,10 +363,14 @@
     });
   };
 
+  // Remove all elements in the second array from the first array
+  _.subtract = function(array, other) {
+    return _.filter(array, function(value){ return !_.include(other, value); }); 
+  }
+
   // Take the difference between one array and another.
-  // Only the elements present in just the first array will remain.
   _.difference = function(array, other) {
-    return _.filter(array, function(value){ return !_.include(other, value); });
+    return _.union(_.subtract(array, other), _.subtract(other, array));
   };
 
   // Zip together multiple lists into a single array -- elements that share
