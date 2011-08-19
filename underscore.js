@@ -378,6 +378,16 @@
     for (var i = 0; i < length; i++) results[i] = _.pluck(args, "" + i);
     return results;
   };
+  
+  // Zip together two lists into a single array using some function to combine
+  // pairs of elements into one. Length of returned list is the length of the
+  // shorter of the two lists.
+  _.zipWith = function (op, arr0, arr1) {
+    var length  = _.min([arr0.length, arr1.length]),
+        results = new Array(length);
+    for (var i = 0; i < length; i++) results[i] = op(arr0[i], arr1[i]);
+    return results;
+  };
 
   // If the browser doesn't supply us with indexOf (I'm looking at you, **MSIE**),
   // we need this function. Return the position of the first occurrence of an

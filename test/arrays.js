@@ -96,6 +96,20 @@ $(document).ready(function() {
     var stooges = _.zip(names, ages, leaders);
     equals(String(stooges), 'moe,30,true,larry,40,,curly,50,', 'zipped together arrays of different lengths');
   });
+  
+  test('arrays: zipWith', function() {
+    var foo    = [10, 20, 30];
+    var bar    = [ 1,  2,  3];
+    var baz    = [10, 20, 30, 40];
+    var result = _.zipWith(function (a, b) { return a + b; }, foo, bar);
+    equals(String(result), '11,22,33', 'zipped together arrays of integers with the + operator')
+    
+    result = _.zipWith(function (a, b) { return a + b; }, bar, baz);
+    equals(String(result), '11,22,33', 'zipped together different-lengthed arrays of integers with the + operator')
+    
+    result = _.zipWith(function (a, b) { return a + b; }, baz, bar);
+    equals(String(result), '11,22,33', 'zipped together different-lengthed arrays of integers with the + operator')
+  });
 
   test("arrays: indexOf", function() {
     var numbers = [1, 2, 3];
