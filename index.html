@@ -151,7 +151,7 @@
       <span class="methods"><a href="#first">first</a>, <a href="#rest">rest</a>, <a href="#last">last</a>,
       <a href="#compact">compact</a>, <a href="#flatten">flatten</a>, <a href="#without">without</a>, 
       <a href="#union">union</a>, <a href="#intersection">intersection</a>, <a href="#difference">difference</a>, 
-      <a href="#uniq">uniq</a>, <a href="#zip">zip</a>, <a href="#indexOf">indexOf</a>,
+      <a href="#uniq">uniq</a>, <a href="#zip">zip</a>, <a href="#zipWith">zipWith</a>, <a href="#indexOf">indexOf</a>,
       <a href="#lastIndexOf">lastIndexOf</a>, <a href="#range">range</a></span>
     </p>
 
@@ -618,6 +618,18 @@ _.uniq([1, 2, 1, 3, 1, 4]);
       <pre>
 _.zip(['moe', 'larry', 'curly'], [30, 40, 50], [true, false, false]);
 =&gt; [["moe", 30, true], ["larry", 40, false], ["curly", 50, false]]
+</pre>
+
+      <p id="zipWith">
+        <b class="header">zipWith</b><code>_.zipWith(op, array0, array1)</code>
+        <br />
+        Merges together the values of each of the <b>arrays</b>, calling the
+        given function (<b>op</b>) on each pair of elements to create a new
+        <b>array</b>.
+      </p>
+      <pre>
+_.zipWith(function (a, b) { return a + b; }, ['moe ', 'larry ', 'curly '], ['howard', 'fine', 'howard']);
+=&gt; ["moe howard", 'larry fine', 'curly howard']
 </pre>
 
       <p id="indexOf">
