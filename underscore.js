@@ -382,10 +382,13 @@
   // Zip together two lists into a single array using some function to combine
   // pairs of elements into one. Length of returned list is the length of the
   // shorter of the two lists.
-  _.zipWith = function (op, arr0, arr1) {
-    var length  = _.min([arr0.length, arr1.length]),
+  _.zipWith = function (op) {
+    var arrays  = slice.call(arguments, 1),
+        length  = _.min(_.pluck(arrays, 'length')),
         results = new Array(length);
-    for (var i = 0; i < length; i++) results[i] = op(arr0[i], arr1[i]);
+    for (var i = 0; i < length; i++) {
+      results[i] = op.apply({}, _.pluck(arrays, '' + i));
+    }
     return results;
   };
 

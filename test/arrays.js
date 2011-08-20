@@ -101,14 +101,20 @@ $(document).ready(function() {
     var foo    = [10, 20, 30];
     var bar    = [ 1,  2,  3];
     var baz    = [10, 20, 30, 40];
-    var result = _.zipWith(function (a, b) { return a + b; }, foo, bar);
+    var add2   = function (a, b) { return a + b; };
+    var add3   = function (a, b, c) { return a + b + c; };
+    
+    var result = _.zipWith(add2, foo, bar);
     equals(String(result), '11,22,33', 'zipped together arrays of integers with the + operator')
     
-    result = _.zipWith(function (a, b) { return a + b; }, bar, baz);
+    result = _.zipWith(add2, bar, baz);
     equals(String(result), '11,22,33', 'zipped together different-lengthed arrays of integers with the + operator')
     
-    result = _.zipWith(function (a, b) { return a + b; }, baz, bar);
+    result = _.zipWith(add2, baz, bar);
     equals(String(result), '11,22,33', 'zipped together different-lengthed arrays of integers with the + operator')
+    
+    result = _.zipWith(add3, foo, bar, baz);
+    equals(String(result), '21,42,63', 'zipped together more than two arrays');
   });
 
   test("arrays: indexOf", function() {
