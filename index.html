@@ -621,11 +621,12 @@ _.zip(['moe', 'larry', 'curly'], [30, 40, 50], [true, false, false]);
 </pre>
 
       <p id="zipWith">
-        <b class="header">zipWith</b><code>_.zipWith(op, array0, array1)</code>
+        <b class="header">zipWith</b><code>_.zipWith(op, *arrays)</code>
         <br />
         Merges together the values of each of the <b>arrays</b>, calling the
-        given function (<b>op</b>) on each pair of elements to create a new
-        <b>array</b>.
+        given function (<b>op</b>) on each set of elements to create a new
+        <b>array</b>. Length of the resultant list is the same as that of 
+        the shortest <b>array<b> given.
       </p>
       <pre>
 _.zipWith(function (a, b) { return a + b; }, ['moe ', 'larry ', 'curly '], ['howard', 'fine', 'howard']);
