@@ -97,6 +97,13 @@ $(document).ready(function() {
     equals(String(stooges), 'moe,30,true,larry,40,,curly,50,', 'zipped together arrays of different lengths');
   });
 
+  test('arrays: transpose', function() {
+    var arrays = [[1, 'A'], [2, 'B'], [3, 'C']];
+    var result = _.transpose(arrays);
+    equals(String(result), '1,2,3,A,B,C', 'tranposed arrays to align data of matching indices');
+  });
+
+
   test("arrays: indexOf", function() {
     var numbers = [1, 2, 3];
     numbers.indexOf = null;
