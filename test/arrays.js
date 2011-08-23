@@ -103,6 +103,18 @@ $(document).ready(function() {
     equals(String(result), '1,2,3,A,B,C', 'tranposed arrays to align data of matching indices');
   });
 
+  test('arrays: transpose x2', function() {
+    var arrays = [[1, 'A'], [2, 'B'], [3, 'C']];
+    var result = _.transpose(_.transpose(arrays));
+    equals(String(result), '1,A,2,B,3,C', 'double tranposed arrays to align data of matching indices');
+  });
+
+  test('arrays: transpose uneven arrays', function(){
+    var arrays = [[1, 'A'], [2, 'B', 'Triangle'], [3, 'C']];
+    var result = _.transpose(arrays);
+
+    equals(String(result), '1,2,3,A,B,C,,Triangle,');
+  });
 
   test("arrays: indexOf", function() {
     var numbers = [1, 2, 3];

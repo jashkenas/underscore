@@ -381,7 +381,8 @@
 
   _.transpose = function(array){
     var tempArray = [];
-    _.each(_.range(array[0].length), function(i){ tempArray.push(_.pluck(array, i));  });
+    var longest = _.max(array, function(a){ return a.length; }).length;
+    _.each(_.range(longest), function(i){ tempArray.push(_.pluck(array, i));  });
     return tempArray;
   }
 
