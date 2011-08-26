@@ -438,10 +438,15 @@
   // We check for `func.bind` first, to fail fast when `func` is undefined.
   _.bind = function(func, obj) {
     if (func.bind === nativeBind && nativeBind) return nativeBind.apply(func, slice.call(arguments, 1));
-    var args = slice.call(arguments, 2);
-    return function() {
-      return func.apply(obj, args.concat(slice.call(arguments)));
+    var aArgs = slice.call(arguments, 2),
+    fNOP = function () {},
+    fBound = function () {
+        return func.apply(this instanceof fNOP ? this : obj, aArgs.concat(slice.call(arguments)));
     };
+
+    fNOP.prototype = func.prototype;
+    fBound.prototype = new fNOP();
+    return fBound;
   };
 
   // Bind all of an object's methods to that object. Useful for ensuring that
