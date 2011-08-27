@@ -403,6 +403,15 @@ _.pluck(stooges, 'name');
 =&gt; ["moe", "larry", "curly"]
 </pre>
 
+      <p>
+        If <b>propertyName</b> is an Array, it will look for nested properties in each object.
+      </p>
+      <pre>
+var stooges = [{name : 'moe', address: {city: 'bensonhurst'}}, {name : 'larry', address: {city: 'philadelphia'}}];
+_.pluck(stooges, ['address', 'city']);
+=&gt; ["bensonhurst", "philadelphia"]
+</pre>
+
       <p id="max">
         <b class="header">max</b><code>_.max(list, [iterator], [context])</code>
         <br />
