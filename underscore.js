@@ -49,11 +49,13 @@
   var _ = function(obj) { return new wrapper(obj); };
 
   // Export the Underscore object for **CommonJS**, with backwards-compatibility
-  // for the old `require()` API. If we're not in CommonJS, add `_` to the
-  // global object.
+  // for the old `require()` API. If we are using AMD, define the underscore
+  // object.  If we're not in either environment, add `_` to the global object.  
   if (typeof module !== 'undefined' && module.exports) {
     module.exports = _;
     _._ = _;
+  } else if (typeof define !== 'undefined' && define.amd) {
+    define(_); 
   } else {
     // Exported as a string, for Closure Compiler "advanced" mode.
     root['_'] = _;
