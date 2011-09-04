@@ -612,8 +612,6 @@
     // Different types?
     var atype = typeof(a), btype = typeof(b);
     if (atype != btype) return false;
-    // Basic equality test (watch out for coercions).
-    if (a == b) return true;
     // One is falsy and the other truthy.
     if ((!a && b) || (a && !b)) return false;
     // Unwrap any wrapped objects.
