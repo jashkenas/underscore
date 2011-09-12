@@ -502,7 +502,19 @@
   _.debounce = function(func, wait) {
     return limit(func, wait, true);
   };
-
+  
+  _.timeout = function(func, cb, timeout) {
+    var is_too_late = false
+      , timeout = setTimeout(function () {
+        is_too_late = true;
+        cb();
+      }}, timeout);
+    return function() {
+      clearTimeout(timeout);
+      timeout = null;
+      !is_too_late && func.apply(this, arguments);
+    };
+  };
   // Returns a function that will be executed at most one time, no matter how
   // often you call it. Useful for lazy initialization.
   _.once = function(func) {
