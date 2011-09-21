@@ -224,7 +224,7 @@
     var key, copied_something = false;
     for (var i = 0, l = recognized_keys.length; i < l; i++) {
       key = recognized_keys[i];
-      if (key in source) { 
+      if (hasOwnProperty.call(source, key)) { 
         destination[key] = source[key]; copied_something = true; 
         if (remove) delete source[key];
       }
@@ -235,7 +235,7 @@
   // Get a value and if it does not exist, return the missing_value.
   // Optionally remove the value if you provide a remove parameter.
   _.getValue = function(obj, key, missing_value, remove) {
-    if (key in obj) {
+    if (hasOwnProperty.call(obj, key)) {
       if (!remove) return obj[key];
       var value = obj[key]; delete obj[key]; return value;
     }
@@ -619,12 +619,12 @@
 
   // Finds the object that has or 'owns' the value if a dot-delimited path to a value exists.
   _.keypathValueOwner = function(object, keypath) {
-    var keypath_components = _.isString(keypath) ? keypath.split('.') : keypath;
-    var current_object = object, index = 0;
-    while (index < keypath_components.length) {
-      key = keypath_components[index];
+    var key, keypath_components = _.isString(keypath) ? keypath.split('.') : keypath;
+    var current_object = object, i = 0, l = keypath_components.length;
+    while (i < l) {
+      key = keypath_components[i];
       if (!current_object || !(key in current_object)) break;
-      if (++index === keypath_components.length) return current_object;
+      if (++i === l) return current_object;
       current_object = current_object[key];
     }
     return undefined;
