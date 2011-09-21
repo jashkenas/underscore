@@ -451,6 +451,12 @@
     return -1;
   };
 
+  // Finds an index of an item using a testing function.
+  _.findIndex = function(array, fn) {
+    for (i = 0, l = array.length; i < l; i++) if (fn(array[i])) return i;
+    return -1;
+  };
+
   // Generate an integer Array containing an arithmetic progression. A port of
   // the native Python `range()` function. See
   // [the Python documentation](http://docs.python.org/library/functions.html#range).
