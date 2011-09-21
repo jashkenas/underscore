@@ -219,11 +219,12 @@
       _.map(obj, function(value){ return value[key]; });
   };
 
-  // Copy only recognized properties from the source to the destination.
-  _.copyRecognizedProperties = function(destination, source, recognized_keys, remove) {
+  // Copy selected properties from the source to the destination.
+  // Optionally removes copied values from the source if you provide a remove parameter.
+  _.copyProperties = function(destination, source, keys, remove) {
     var key, copied_something = false;
-    for (var i = 0, l = recognized_keys.length; i < l; i++) {
-      key = recognized_keys[i];
+    for (var i = 0, l = keys.length; i < l; i++) {
+      key = keys[i];
       if (hasOwnProperty.call(source, key)) { 
         destination[key] = source[key]; copied_something = true; 
         if (remove) delete source[key];
