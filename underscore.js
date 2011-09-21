@@ -581,6 +581,41 @@
     return _.map(obj, _.identity);
   };
 
+  // Does the dot-delimited path to a value exist.
+  _.keypathExists = function(object, keypath) {
+    return !!_.keypathValueOwner(object, keypath);
+  };
+
+  // Finds the object that has or 'owns' the value if a dot-delimited path to a value exists.
+  _.keypathValueOwner = function(object, keypath) {
+    var keypath_components = _.isString(keypath) ? keypath.split('.') : keypath;
+    var current_object = object, index = 0;
+    while (index < keypath_components.length) {
+      key = keypath_components[index];
+      if (!current_object || !(key in current_object)) break;
+      if (++index === keypath_components.length) return current_object;
+      current_object = current_object[key];
+    }
+    return undefined;
+  };
+
+  // Get the value if a dot-delimited path exists.
+  _.keypathValue = function(object, keypath) {
+    var keypath_components = keypath.split('.');
+    var value_owner = _.keypathValueOwner(object, keypath_components);
+    if (!value_owner) return undefined;
+    return value_owner[keypath_components[keypath_components.length-1]];
+  };
+
+  // Set the value if a dot-delimited path exists.
+  _.keypathSetValue = function(object, keypath, value) {
+    var keypath_components = keypath.split('.');
+    var value_owner = _.keypathValueOwner(object, keypath_components);
+    if (!value_owner) return;
+    value_owner[keypath_components[keypath_components.length-1]] = value;
+    return object;
+  };
+
   // Return a sorted list of the function names available on the object.
   // Aliased as `methods`
   _.functions = _.methods = function(obj) {
