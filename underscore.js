@@ -222,9 +222,10 @@
   // Copy selected properties from the source to the destination.
   // Optionally removes copied values from the source if you provide a remove parameter.
   _.copyProperties = function(destination, source, keys, remove) {
-    var key, copied_something = false;
-    for (var i = 0, l = keys.length; i < l; i++) {
-      key = keys[i];
+    var key, source_keys = keys || _.keys(source);
+    var copied_something = false;
+    for (var i = 0, l = source_keys.length; i < l; i++) {
+      key = source_keys[i];
       if (hasOwnProperty.call(source, key)) { 
         destination[key] = source[key]; copied_something = true; 
         if (remove) delete source[key];
