@@ -212,9 +212,34 @@
     });
   };
 
-  // Convenience version of a common use case of `map`: fetching a property.
-  _.pluck = function(obj, key) {
-    return _.map(obj, function(value){ return value[key]; });
+  // Convenience version of a common use case of `map`: fetching a property. 
+  // Optionally removes all copied values from the source if you provide a remove parameter.
+  _.pluck = function(obj, key, remove) {
+    return remove ? _.map(obj, function(value) { var val = value[key]; delete value[key]; return val; }) :
+      _.map(obj, function(value){ return value[key]; });
+  };
+
+  // Copy only recognized properties from the source to the destination.
+  _.copyRecognizedProperties = function(destination, source, recognized_keys, remove) {
+    var key, copied_something = false;
+    for (var i = 0, l = recognized_keys.length; i < l; i++) {
+      key = recognized_keys[i];
+      if (key in source) { 
+        destination[key] = source[key]; copied_something = true; 
+        if (remove) delete source[key];
+      }
+    }
+    return copied_something;
+  };
+
+  // Get a value and if it does not exist, return the missing_value.
+  // Optionally remove the value if you provide a remove parameter.
+  _.getValue = function(obj, key, missing_value, remove) {
+    if (key in obj) {
+      if (!remove) return obj[key];
+      var value = obj[key]; delete obj[key]; return value;
+    }
+    else return missing_value;
   };
 
   // Return the maximum element or (element-based computation).
