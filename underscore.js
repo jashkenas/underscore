@@ -212,9 +212,36 @@
     });
   };
 
-  // Convenience version of a common use case of `map`: fetching a property.
-  _.pluck = function(obj, key) {
-    return _.map(obj, function(value){ return value[key]; });
+  // Convenience version of a common use case of `map`: fetching a property. 
+  // Optionally removes all copied values from the source if you provide a remove parameter.
+  _.pluck = function(obj, key, remove) {
+    return remove ? _.map(obj, function(value) { var val = value[key]; delete value[key]; return val; }) :
+      _.map(obj, function(value){ return value[key]; });
+  };
+
+  // Copy selected properties from the source to the destination.
+  // Optionally removes copied values from the source if you provide a remove parameter.
+  _.copyProperties = function(destination, source, keys, remove) {
+    var key, source_keys = keys || _.keys(source);
+    var copied_something = false;
+    for (var i = 0, l = source_keys.length; i < l; i++) {
+      key = source_keys[i];
+      if (hasOwnProperty.call(source, key)) { 
+        destination[key] = source[key]; copied_something = true; 
+        if (remove) delete source[key];
+      }
+    }
+    return copied_something;
+  };
+
+  // Get a value and if it does not exist, return the missing_value.
+  // Optionally remove the value if you provide a remove parameter.
+  _.getValue = function(obj, key, missing_value, remove) {
+    if (hasOwnProperty.call(obj, key)) {
+      if (!remove) return obj[key];
+      var value = obj[key]; delete obj[key]; return value;
+    }
+    else return missing_value;
   };
 
   // Return the maximum element or (element-based computation).
@@ -248,7 +275,7 @@
       };
     }).sort(function(left, right) {
       var a = left.criteria, b = right.criteria;
-      return a < b ? -1 : a > b ? 1 : 0;
+      return _.compare(a,b);
     }), 'value');
   };
 
@@ -262,6 +289,25 @@
     return result;
   };
 
+  // Maps simple comparison operators (< or ===) or custom comparison functions 
+  // (such as localeCompare) to standardized comparison results.
+  _.COMPARE_EQUAL = 0;
+  _.COMPARE_ASCENDING = 1;
+  _.COMPARE_DESCENDING = -1;
+  _.compare = function(value_a, value_b, function_name) {
+    var result;
+    if (!function_name) function_name = 'compare';
+    if ((typeof(value_a)=='object') && value_a[function_name] && _.isFunction(value_a[function_name])) {
+      result = value_a[function_name](value_b);
+      return (result === 0) ? _.COMPARE_EQUAL : (result < 0) ? _.COMPARE_DESCENDING : _.COMPARE_ASCENDING;
+    }
+    if ((typeof(value_b)=='object') && value_b[function_name] && _.isFunction(value_b[function_name])) {
+      result = value_b[function_name](value_a);
+      return (result === 0) ? _.COMPARE_EQUAL : (result < 0) ? _.COMPARE_ASCENDING : _.COMPARE_DESCENDING;
+    }
+    return (value_a === value_b) ? _.COMPARE_EQUAL : (value_a < value_b) ? _.COMPARE_ASCENDING : _.COMPARE_DESCENDING;
+  };
+
   // Use a comparator function to figure out at what index an object should
   // be inserted so as to maintain order. Uses binary search.
   _.sortedIndex = function(array, obj, iterator) {
@@ -269,7 +315,7 @@
     var low = 0, high = array.length;
     while (low < high) {
       var mid = (low + high) >> 1;
-      iterator(array[mid]) < iterator(obj) ? low = mid + 1 : high = mid;
+      _.compare(iterator(array[mid]), iterator(obj))==_.COMPARE_ASCENDING ? low = mid + 1 : high = mid;
     }
     return low;
   };
@@ -404,6 +450,12 @@
     if (nativeLastIndexOf && array.lastIndexOf === nativeLastIndexOf) return array.lastIndexOf(item);
     var i = array.length;
     while (i--) if (array[i] === item) return i;
+    return -1;
+  };
+
+  // Finds an index of an item using a testing function.
+  _.findIndex = function(array, fn) {
+    for (i = 0, l = array.length; i < l; i++) if (fn(array[i])) return i;
     return -1;
   };
 
@@ -562,6 +614,41 @@
     return _.map(obj, _.identity);
   };
 
+  // Does the dot-delimited path to a value exist.
+  _.keypathExists = function(object, keypath) {
+    return !!_.keypathValueOwner(object, keypath);
+  };
+
+  // Finds the object that has or 'owns' the value if a dot-delimited path to a value exists.
+  _.keypathValueOwner = function(object, keypath) {
+    var key, keypath_components = _.isString(keypath) ? keypath.split('.') : keypath;
+    var current_object = object, i = 0, l = keypath_components.length;
+    while (i < l) {
+      key = keypath_components[i];
+      if (!current_object || !(key in current_object)) break;
+      if (++i === l) return current_object;
+      current_object = current_object[key];
+    }
+    return undefined;
+  };
+
+  // Get the value if a dot-delimited path exists.
+  _.keypathValue = function(object, keypath) {
+    var keypath_components = keypath.split('.');
+    var value_owner = _.keypathValueOwner(object, keypath_components);
+    if (!value_owner) return undefined;
+    return value_owner[keypath_components[keypath_components.length-1]];
+  };
+
+  // Set the value if a dot-delimited path exists.
+  _.keypathSetValue = function(object, keypath, value) {
+    var keypath_components = keypath.split('.');
+    var value_owner = _.keypathValueOwner(object, keypath_components);
+    if (!value_owner) return;
+    value_owner[keypath_components[keypath_components.length-1]] = value;
+    return object;
+  };
+
   // Return a sorted list of the function names available on the object.
   // Aliased as `methods`
   _.functions = _.methods = function(obj) {
@@ -597,6 +684,17 @@
     return _.isArray(obj) ? obj.slice() : _.extend({}, obj);
   };
 
+  // Create a duplicate of an object to any zero-indexed depth.
+  _.cloneToDepth = function(obj, depth) {
+    if (typeof obj !== 'object') return obj;
+    if (depth < 1) return _.clone(obj);
+    clone = _.clone(obj);
+    for (var key in clone) {
+      clone[key] = _.cloneToDepth(clone[key], depth-1);
+    }
+    return clone;
+  };
+
   // Invokes interceptor with the obj, and then returns obj.
   // The primary purpose of this method is to "tap into" a method chain, in
   // order to perform operations on intermediate results within the chain.
@@ -609,19 +707,21 @@
   _.isEqual = function(a, b) {
     // Check object identity.
     if (a === b) return true;
+    // One is falsy and the other truthy.
+    if ((!a && b) || (a && !b)) return false;
+    // Either one is undefined
+    if ((a === void 0) || (b === void 0)) return false;
+    // One of them implements an isEqual()?
+    if (a.isEqual) return a.isEqual(b);
+    if (b.isEqual) return b.isEqual(a);
     // Different types?
     var atype = typeof(a), btype = typeof(b);
     if (atype != btype) return false;
     // Basic equality test (watch out for coercions).
     if (a == b) return true;
-    // One is falsy and the other truthy.
-    if ((!a && b) || (a && !b)) return false;
     // Unwrap any wrapped objects.
     if (a._chain) a = a._wrapped;
     if (b._chain) b = b._wrapped;
-    // One of them implements an isEqual()?
-    if (a.isEqual) return a.isEqual(b);
-    if (b.isEqual) return b.isEqual(a);
     // Check dates' integer values.
     if (_.isDate(a) && _.isDate(b)) return a.getTime() === b.getTime();
     // Both are NaN?
@@ -643,6 +743,67 @@
     // Recursive comparison of contents.
     for (var key in a) if (!(key in b) || !_.isEqual(a[key], b[key])) return false;
     return true;
+  };
+
+  // Determines whether a conversion is possible checking typeof, is{SomeType}(), to{SomeType}(), instanceof.
+  _.CONVERT_NONE = 0;
+  _.CONVERT_IS_TYPE = 1;
+  _.CONVERT_TO_METHOD = 2;
+  _.conversionPath = function(obj, type_or_string) {
+    var class_name, klass;
+    switch (typeof(type_or_string)) {
+      case 'string': class_name = type_or_string; break;
+      case 'function': class_name = type_or_string.name; klass = type_or_string; break;
+      default: return _.CONVERT_NONE;
+    }
+    var obj_type = typeof(obj);
+    if (obj_type === class_name) return _.CONVERT_IS_TYPE;
+    else if (_['is'+class_name] && _['is'+class_name](obj)) return _.CONVERT_IS_TYPE;
+    else if (obj['to'+class_name]) return _.CONVERT_TO_METHOD;
+    else if (klass && (obj_type instanceof Object) && obj.constructor && (obj instanceof klass)) return _.CONVERT_IS_TYPE;
+    return _.CONVERT_NONE;
+  };
+
+  // Converts from one time to another if it can find a conversion path.
+  _.toType = function(obj, type) {
+    switch (_.conversionPath(obj, type)) {
+      case _.CONVERT_IS_TYPE: return obj;
+      case _.CONVERT_TO_METHOD: return obj['to'+type]();
+    }
+    return undefined;
+  };
+
+  // Checks if a function exists on an object.
+  _.functionExists = function(object, function_name) {
+    return (object instanceof Object) && object[function_name] && _.isFunction(object[function_name]);
+  };
+
+  // Call a function if it exists on an object.
+  _.callIfExists = function(object, function_name) {
+    return _.functionExists(object, function_name) ? object[function_name].apply(object, arguments.slice(2)) : undefined;
+  };
+
+  // Get your super classes' constructor if it exists. Can be useful when dynamically updating a hierarchy.
+  _.getSuperConstructor = function(constructor) {
+    var value_owner = _.keypathValueOwner(constructor, '__super__.constructor');
+    return value_owner ? value_owner['constructor'] : undefined;
+  };
+
+  // Get a specific super class function if it exists. Can be useful when dynamically updating a hierarchy.
+  _.getSuperFunction = function(object, function_name) {
+    var value_owner = _.keypathValueOwner(object, 'constructor.__super__.' + function_name);
+    return (value_owner && _.isFunction(value_owner[function_name])) ? value_owner[function_name] : undefined;
+  };
+
+  // Call a specific super class function with trailing arguments if it exists. 
+  _.superCall = function(object, function_name) {
+    return _.superApply(object, function_name, arguments.slice(2));
+  };
+
+  // Call a specific super class function with an arguments list if it exists. 
+  _.superApply = function(object, function_name, args) {
+    var super_function = _.getSuperFunction(object, function_name);
+    return super_function ? super_function.apply(object, args) : undefined;
   };
 
   // Is a given array or object empty?
