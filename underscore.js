@@ -615,7 +615,7 @@
   };
 
   // Does the dot-delimited path to a value exist.
-  _.keypathExists = function(object, keypath) {
+  _.hasKeypath = _.keypathExists = function(object, keypath) {
     return !!_.keypathValueOwner(object, keypath);
   };
 
@@ -634,7 +634,7 @@
 
   // Get the value if a dot-delimited path exists.
   _.keypathValue = function(object, keypath) {
-    var keypath_components = keypath.split('.');
+    var keypath_components = _.isString(keypath) ? keypath.split('.') : keypath;
     var value_owner = _.keypathValueOwner(object, keypath_components);
     if (!value_owner) return undefined;
     return value_owner[keypath_components[keypath_components.length-1]];
@@ -642,7 +642,7 @@
 
   // Set the value if a dot-delimited path exists.
   _.keypathSetValue = function(object, keypath, value) {
-    var keypath_components = keypath.split('.');
+    var keypath_components = _.isString(keypath) ? keypath.split('.') : keypath;
     var value_owner = _.keypathValueOwner(object, keypath_components);
     if (!value_owner) return;
     value_owner[keypath_components[keypath_components.length-1]] = value;
@@ -785,13 +785,13 @@
 
   // Get your super classes' constructor if it exists. Can be useful when dynamically updating a hierarchy.
   _.getSuperConstructor = function(constructor) {
-    var value_owner = _.keypathValueOwner(constructor, '__super__.constructor');
+    var value_owner = _.keypathValueOwner(constructor, ['__super__','constructor']);
     return value_owner ? value_owner['constructor'] : undefined;
   };
 
   // Get a specific super class function if it exists. Can be useful when dynamically updating a hierarchy.
   _.getSuperFunction = function(object, function_name) {
-    var value_owner = _.keypathValueOwner(object, 'constructor.__super__.' + function_name);
+    var value_owner = _.keypathValueOwner(object, ['constructor','__super__',function_name]);
     return (value_owner && _.isFunction(value_owner[function_name])) ? value_owner[function_name] : undefined;
   };
 
