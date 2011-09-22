@@ -651,22 +651,15 @@
   };
 
   // Returns the class constructor (function return type) and optionally return the name (array return type).
-  _.resolveConstructor = function(constructor_or_string, include_name) {
+  _.resolveConstructor = function(constructor_or_string) {
     switch (typeof(constructor_or_string)) {
       // Resolve string to constructor
       case 'string': 
         var keypath_parts = constructor_or_string.split('.');
         var constructor = (keypath_parts.length===1) ? window[constructor_or_string] : _.keypathValue(window, keypath_parts);
-        if (!constructor || !_.isConstructor(constructor)) return null;
-        if (!include_name) return constructor;
-        if (constructor.name.length) return [constructor, constructor.name];
-        // Provide a name for is{SomeType}(), to{SomeType}() convention
-        var name_parts = constructor_or_string.split('.'); return [constructor, name_parts[name_parts.length-1]];
-      // Constructor
-      case 'function': 
-        if (!_.isConstructor(constructor_or_string)) return null; 
-        return include_name ? [constructor_or_string, constructor_or_string.name] : constructor_or_string;
-      default: return null;
+        return (constructor && _.isConstructor(constructor)) ? constructor : undefined;
+      case 'function': return _.isConstructor(constructor_or_string) ? constructor_or_string : undefined; 
+      default: return undefined;
     }
   }
 
@@ -680,27 +673,34 @@
     // Built-in type
     var obj_type = typeof(obj);
     var check_name;
-    if (typeof(constructor_or_string)=='string') { var name_parts = constructor_or_string.split('.'); check_name = name_parts[name_parts.length-1];}
+    if (typeof(constructor_or_string)=='string') { var name_parts = constructor_or_string.split('.'); check_name = name_parts[name_parts.length-1]; }
     if (check_name && (obj_type === check_name)) return _.CONVERT_IS_TYPE;
+
     // Resolved a constructor and object is an instance of it.
-    var construtor_and_name = _.resolveConstructor(constructor_or_string, true);
-    if ((obj_type == 'object') && construtor_and_name) { try { if (obj instanceof construtor_and_name[0]) return _.CONVERT_IS_TYPE; } catch (_e) {} }
-    check_name = construtor_and_name ? construtor_and_name[1] : check_name;
-    // Try the conventions: is{SomeType}(), to{SomeType}()
+    var construtor = _.resolveConstructor(constructor_or_string);
+    if (construtor && (obj_type == 'object')) { try { if (obj instanceof construtor) return _.CONVERT_IS_TYPE; } catch (_e) {} }
+    check_name = (construtor && construtor.name) ? construtor.name : check_name;
     if (!check_name) return _.CONVERT_NONE;
+
+    // Try the conventions: is{SomeType}(), to{SomeType}()
     if (_['is'+check_name] && _['is'+check_name](obj)) return _.CONVERT_IS_TYPE;
     else if ((obj_type == 'object') && obj['to'+check_name]) return _.CONVERT_TO_METHOD;
     return _.CONVERT_NONE;
   };
 
   // Converts from one time to another if it can find a conversion path.
-  _.toType = function(obj, type) {
-    switch (_.conversionPath(obj, type)) {
+  _.toType = function(obj, constructor_or_string) {
+    switch (_.conversionPath(obj, constructor_or_string)) {
       /*_.CONVERT_IS_TYPE*/   case 1: return obj;
       /*_.CONVERT_TO_METHOD*/ case 2: 
-        if (typeof(type)=='string') return obj['to'+type]()
-        var construtor_and_name = _.resolveConstructor(type, true);
-        return construtor_and_name ? obj['to'+construtor_and_name[1]]() : undefined;
+        if (typeof(constructor_or_string)=='string') {
+          var name_parts = constructor_or_string.split('.');
+          return obj['to'+name_parts[name_parts.length-1]]();
+        }
+        else {
+          var constructor = _.resolveConstructor(constructor_or_string);
+          return (constructor && constructor.name) ? obj['to'+constructor.name]() : undefined;
+        }
     }
     return undefined;
   };
