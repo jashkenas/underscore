@@ -645,30 +645,60 @@
     return true;
   };
 
-  // Determines whether a conversion is possible checking typeof, is{SomeType}(), to{SomeType}(), instanceof.
+  // Is a given value a constructor?
+  _.isConstructor = function(obj) {
+    return (_.isFunction(obj) && ('name' in obj));
+  };
+
+  // Returns the class constructor (function return type) and optionally return the name (array return type).
+  _.resolveConstructor = function(constructor_or_string, include_name) {
+    switch (typeof(constructor_or_string)) {
+      // Resolve string to constructor
+      case 'string': 
+        var constructor = _.keypathValue(window, constructor_or_string); if (!constructor || !_.isConstructor(constructor)) return null;
+        if (!include_name) return constructor;
+        if (constructor.name.length) return [constructor, constructor.name];
+        // Provide a name for is{SomeType}(), to{SomeType}() convention
+        var name_parts = constructor_or_string.split('.'); return [constructor, name_parts[name_parts.length-1]];
+      // Constructor
+      case 'function': 
+        if (!_.isConstructor(constructor_or_string)) return null; 
+        return include_name ? [constructor_or_string, constructor_or_string.name] : constructor_or_string;
+      default: return null;
+    }
+  }
+
+  // Determines whether a conversion is possible checking typeof, instanceof, is{SomeType}(), to{SomeType}().
+  // Convention for is{SomeType}(), to{SomeType}() with namespaced classes is to remove the namespace (like Javascript does).
+  // Note: if you pass a constructor, the constructor name may not exist so use a string if you are relying on is{SomeType}(), to{SomeType}().
   _.CONVERT_NONE = 0;
   _.CONVERT_IS_TYPE = 1;
   _.CONVERT_TO_METHOD = 2;
-  _.conversionPath = function(obj, type_or_string) {
-    var check_name;
-    switch (typeof(type_or_string)) {
-      case 'string': check_name = type_or_string; break;
-      case 'function': check_name = type_or_string.name; break;
-      default: return _.CONVERT_NONE;
-    }
+  _.conversionPath = function(obj, constructor_or_string) {
+    // Built-in type
     var obj_type = typeof(obj);
-    var obj_class_name = ((obj_type=='object') && obj.constructor) ? obj.constructor.name : undefined;
-    if ((obj_class_name === check_name) || (obj_type === check_name)) return _.CONVERT_IS_TYPE;
-    else if (_['is'+check_name] && _['is'+check_name](obj)) return _.CONVERT_IS_TYPE;
-    else if (obj['to'+check_name]) return _.CONVERT_TO_METHOD;
+    var check_name;
+    if (typeof(constructor_or_string)=='string') { var name_parts = constructor_or_string.split('.'); check_name = name_parts[name_parts.length-1];}
+    if (check_name && (obj_type === check_name)) return _.CONVERT_IS_TYPE;
+    // Resolved a constructor and object is an instance of it.
+    var construtor_and_name = _.resolveConstructor(constructor_or_string, true);
+    if ((obj_type == 'object') && construtor_and_name) { try { if (obj instanceof construtor_and_name[0]) return _.CONVERT_IS_TYPE; } catch (_e) {} }
+    check_name = construtor_and_name ? construtor_and_name[1] : check_name;
+    // Try the conventions: is{SomeType}(), to{SomeType}()
+    if (!check_name) return _.CONVERT_NONE;
+    if (_['is'+check_name] && _['is'+check_name](obj)) return _.CONVERT_IS_TYPE;
+    else if ((obj_type == 'object') && obj['to'+check_name]) return _.CONVERT_TO_METHOD;
     return _.CONVERT_NONE;
   };
 
   // Converts from one time to another if it can find a conversion path.
   _.toType = function(obj, type) {
     switch (_.conversionPath(obj, type)) {
-      case _.CONVERT_IS_TYPE: return obj;
-      case _.CONVERT_TO_METHOD: return obj['to'+type]();
+      /*_.CONVERT_IS_TYPE*/   case 1: return obj;
+      /*_.CONVERT_TO_METHOD*/ case 2: 
+        if (typeof(type)=='string') return obj['to'+type]()
+        var construtor_and_name = _.resolveConstructor(type, true);
+        return construtor_and_name ? obj['to'+construtor_and_name[1]]() : undefined;
     }
     return undefined;
   };
