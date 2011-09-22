@@ -597,6 +597,17 @@
     return _.isArray(obj) ? obj.slice() : _.extend({}, obj);
   };
 
+  // Create a duplicate of an object to any zero-indexed depth.
+  _.cloneToDepth = function(obj, depth) {
+    if (typeof obj !== 'object') return obj;
+    if (depth < 1) return _.clone(obj);
+    clone = _.clone(obj);
+    for (var key in clone) {
+      clone[key] = _.cloneToDepth(clone[key], depth-1);
+    }
+    return clone;
+  };
+
   // Invokes interceptor with the obj, and then returns obj.
   // The primary purpose of this method is to "tap into" a method chain, in
   // order to perform operations on intermediate results within the chain.
