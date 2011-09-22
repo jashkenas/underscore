@@ -650,17 +650,18 @@
   _.CONVERT_IS_TYPE = 1;
   _.CONVERT_TO_METHOD = 2;
   _.conversionPath = function(obj, type_or_string) {
-    var class_name, klass;
+    var class_name;
     switch (typeof(type_or_string)) {
       case 'string': class_name = type_or_string; break;
-      case 'function': class_name = type_or_string.name; klass = type_or_string; break;
+      case 'function': class_name = type_or_string.name; break;
       default: return _.CONVERT_NONE;
     }
     var obj_type = typeof(obj);
+    var obj_class_name = ((obj_type=='object') && obj.constructor) ? obj.constructor.name : undefined;
     if (obj_type === class_name) return _.CONVERT_IS_TYPE;
     else if (_['is'+class_name] && _['is'+class_name](obj)) return _.CONVERT_IS_TYPE;
     else if (obj['to'+class_name]) return _.CONVERT_TO_METHOD;
-    else if (klass && (obj_type instanceof Object) && obj.constructor && (obj instanceof klass)) return _.CONVERT_IS_TYPE;
+    else if (obj_class_name === class_name) return _.CONVERT_IS_TYPE;
     return _.CONVERT_NONE;
   };
 
