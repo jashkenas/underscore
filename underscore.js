@@ -217,6 +217,21 @@
     return _.map(obj, function(value){ return value[key]; });
   };
 
+  // Copy selected properties from the source to the destination.
+  // Optionally removes copied values from the source if you provide a remove parameter.
+  _.copyProperties = function(destination, source, keys, remove) {
+    var key, source_keys = keys || _.keys(source);
+    var copied_something = false;
+    for (var i = 0, l = source_keys.length; i < l; i++) {
+      key = source_keys[i];
+      if (hasOwnProperty.call(source, key)) { 
+        destination[key] = source[key]; copied_something = true; 
+        if (remove) delete source[key];
+      }
+    }
+    return copied_something;
+  };
+
   // Return the maximum element or (element-based computation).
   _.max = function(obj, iterator, context) {
     if (!iterator && _.isArray(obj)) return Math.max.apply(Math, obj);
