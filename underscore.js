@@ -651,16 +651,20 @@
   };
 
   // Returns the class constructor (function return type) and optionally return the name (array return type).
-  _.resolveConstructor = function(constructor_or_string) {
-    switch (typeof(constructor_or_string)) {
-      // Resolve string to constructor
-      case 'string': 
-        var keypath_parts = constructor_or_string.split('.');
-        var constructor = (keypath_parts.length===1) ? window[constructor_or_string] : _.keypathValue(window, keypath_parts);
-        return (constructor && _.isConstructor(constructor)) ? constructor : undefined;
-      case 'function': return _.isConstructor(constructor_or_string) ? constructor_or_string : undefined; 
-      default: return undefined;
+  _.resolveConstructor = function(constructor_or_string_or_array) {
+    var keypath_components;
+    if (_.isArray(constructor_or_string_or_array)) keypath_components = constructor_or_string_or_array;
+    else if (_.isString(constructor_or_string_or_array)) keypath_components = constructor_or_string_or_array.split('.');
+
+    // resolve a keypath
+    if (keypath_components) { 
+      var constructor = (keypath_components.length===1) ? window[keypath_components[0]] : _.keypathValue(window, keypath_components);
+      return (constructor && _.isConstructor(constructor)) ? constructor : undefined;
     }
+    else if (_.isFunction(constructor_or_string_or_array) && _.isConstructor(constructor_or_string_or_array)) {
+      return constructor_or_string_or_array;
+    }
+    return undefined;
   }
 
   // Determines whether a conversion is possible checking typeof, instanceof, is{SomeType}(), to{SomeType}().
@@ -669,15 +673,17 @@
   _.CONVERT_NONE = 0;
   _.CONVERT_IS_TYPE = 1;
   _.CONVERT_TO_METHOD = 2;
-  _.conversionPath = function(obj, constructor_or_string) {
+  _.conversionPath = function(obj, constructor_or_string_or_array) {
+    var keypath_components;
+    if (_.isArray(constructor_or_string_or_array)) keypath_components = constructor_or_string_or_array;
+    else if (_.isString(constructor_or_string_or_array)) keypath_components = constructor_or_string_or_array.split('.');
+    
     // Built-in type
-    var obj_type = typeof(obj);
-    var check_name;
-    if (typeof(constructor_or_string)=='string') { var name_parts = constructor_or_string.split('.'); check_name = name_parts[name_parts.length-1]; }
-    if (check_name && (obj_type === check_name)) return _.CONVERT_IS_TYPE;
+    var obj_type = typeof(obj), check_name = keypath_components ? keypath_components[keypath_components.length-1] : undefined;
+    if (keypath_components && (obj_type === check_name)) return _.CONVERT_IS_TYPE;
 
     // Resolved a constructor and object is an instance of it.
-    var construtor = _.resolveConstructor(constructor_or_string);
+    var construtor = _.resolveConstructor(keypath_components ? keypath_components : constructor_or_string_or_array);
     if (construtor && (obj_type == 'object')) { try { if (obj instanceof construtor) return _.CONVERT_IS_TYPE; } catch (_e) {} }
     check_name = (construtor && construtor.name) ? construtor.name : check_name;
     if (!check_name) return _.CONVERT_NONE;
@@ -689,16 +695,19 @@
   };
 
   // Converts from one time to another if it can find a conversion path.
-  _.toType = function(obj, constructor_or_string) {
-    switch (_.conversionPath(obj, constructor_or_string)) {
+  _.toType = function(obj, constructor_or_string_or_array) {
+    var keypath_components;
+    if (_.isArray(constructor_or_string_or_array)) keypath_components = constructor_or_string_or_array;
+    else if (_.isString(constructor_or_string_or_array)) keypath_components = constructor_or_string_or_array.split('.');
+
+    switch (_.conversionPath(obj, keypath_components ? keypath_components : constructor_or_string_or_array)) {
       /*_.CONVERT_IS_TYPE*/   case 1: return obj;
       /*_.CONVERT_TO_METHOD*/ case 2: 
-        if (typeof(constructor_or_string)=='string') {
-          var name_parts = constructor_or_string.split('.');
-          return obj['to'+name_parts[name_parts.length-1]]();
+        if (keypath_components) {
+          return obj['to'+keypath_components[keypath_components.length-1]]();
         }
         else {
-          var constructor = _.resolveConstructor(constructor_or_string);
+          var constructor = _.resolveConstructor(constructor_or_string_or_array);
           return (constructor && constructor.name) ? obj['to'+constructor.name]() : undefined;
         }
     }
