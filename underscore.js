@@ -645,6 +645,16 @@
     return true;
   };
 
+  // Checks if a function exists on an object.
+  _.functionExists = function(object, function_name) {
+    return (object instanceof Object) && object[function_name] && _.isFunction(object[function_name]);
+  };
+
+  // Call a function if it exists on an object.
+  _.callIfExists = function(object, function_name) {
+    return _.functionExists(object, function_name) ? object[function_name].apply(object, arguments.slice(2)) : undefined;
+  };
+
   // Is a given array or object empty?
   _.isEmpty = function(obj) {
     if (_.isArray(obj) || _.isString(obj)) return obj.length === 0;
