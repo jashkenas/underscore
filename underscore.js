@@ -645,6 +645,34 @@
     return true;
   };
 
+  // Determines whether a conversion is possible checking typeof, is{SomeType}(), to{SomeType}(), instanceof.
+  _.CONVERT_NONE = 0;
+  _.CONVERT_IS_TYPE = 1;
+  _.CONVERT_TO_METHOD = 2;
+  _.conversionPath = function(obj, type_or_string) {
+    var class_name, klass;
+    switch (typeof(type_or_string)) {
+      case 'string': class_name = type_or_string; break;
+      case 'function': class_name = type_or_string.name; klass = type_or_string; break;
+      default: return _.CONVERT_NONE;
+    }
+    var obj_type = typeof(obj);
+    if (obj_type === class_name) return _.CONVERT_IS_TYPE;
+    else if (_['is'+class_name] && _['is'+class_name](obj)) return _.CONVERT_IS_TYPE;
+    else if (obj['to'+class_name]) return _.CONVERT_TO_METHOD;
+    else if (klass && (obj_type instanceof Object) && obj.constructor && (obj instanceof klass)) return _.CONVERT_IS_TYPE;
+    return _.CONVERT_NONE;
+  };
+
+  // Converts from one time to another if it can find a conversion path.
+  _.toType = function(obj, type) {
+    switch (_.conversionPath(obj, type)) {
+      case _.CONVERT_IS_TYPE: return obj;
+      case _.CONVERT_TO_METHOD: return obj['to'+type]();
+    }
+    return undefined;
+  };
+
   // Is a given array or object empty?
   _.isEmpty = function(obj) {
     if (_.isArray(obj) || _.isString(obj)) return obj.length === 0;
