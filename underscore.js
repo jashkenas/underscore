@@ -655,7 +655,9 @@
     switch (typeof(constructor_or_string)) {
       // Resolve string to constructor
       case 'string': 
-        var constructor = _.keypathValue(window, constructor_or_string); if (!constructor || !_.isConstructor(constructor)) return null;
+        var keypath_parts = constructor_or_string.split('.');
+        var constructor = (keypath_parts.length===1) ? window[constructor_or_string] : _.keypathValue(window, keypath_parts);
+        if (!constructor || !_.isConstructor(constructor)) return null;
         if (!include_name) return constructor;
         if (constructor.name.length) return [constructor, constructor.name];
         // Provide a name for is{SomeType}(), to{SomeType}() convention
