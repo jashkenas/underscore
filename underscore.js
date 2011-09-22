@@ -248,7 +248,7 @@
       };
     }).sort(function(left, right) {
       var a = left.criteria, b = right.criteria;
-      return a < b ? -1 : a > b ? 1 : 0;
+      return _.compare(a,b);
     }), 'value');
   };
 
@@ -262,6 +262,25 @@
     return result;
   };
 
+  // Maps simple comparison operators (< or ===) or custom comparison functions 
+  // (such as localeCompare) to standardized comparison results.
+  _.COMPARE_EQUAL = 0;
+  _.COMPARE_ASCENDING = 1;
+  _.COMPARE_DESCENDING = -1;
+  _.compare = function(value_a, value_b, function_name) {
+    var result;
+    if (!function_name) function_name = 'compare';
+    if ((typeof(value_a)=='object') && value_a[function_name] && _.isFunction(value_a[function_name])) {
+      result = value_a[function_name](value_b);
+      return (result === 0) ? _.COMPARE_EQUAL : (result < 0) ? _.COMPARE_DESCENDING : _.COMPARE_ASCENDING;
+    }
+    if ((typeof(value_b)=='object') && value_b[function_name] && _.isFunction(value_b[function_name])) {
+      result = value_b[function_name](value_a);
+      return (result === 0) ? _.COMPARE_EQUAL : (result < 0) ? _.COMPARE_ASCENDING : _.COMPARE_DESCENDING;
+    }
+    return (value_a === value_b) ? _.COMPARE_EQUAL : (value_a < value_b) ? _.COMPARE_ASCENDING : _.COMPARE_DESCENDING;
+  };
+
   // Use a comparator function to figure out at what index an object should
   // be inserted so as to maintain order. Uses binary search.
   _.sortedIndex = function(array, obj, iterator) {
@@ -269,7 +288,7 @@
     var low = 0, high = array.length;
     while (low < high) {
       var mid = (low + high) >> 1;
-      iterator(array[mid]) < iterator(obj) ? low = mid + 1 : high = mid;
+      _.compare(iterator(array[mid]), iterator(obj))==_.COMPARE_ASCENDING ? low = mid + 1 : high = mid;
     }
     return low;
   };
