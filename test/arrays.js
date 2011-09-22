@@ -86,8 +86,8 @@ $(document).ready(function() {
     equals(result.join(' '), '1 2 3 30 40', 'takes the union of a list of arrays');
   });
 
-  test("arrays: symmetric_difference", function() {
-    var result = _.symmetric_difference([1, 2, 3, 4], [2, 4, 30, 40]);
+  test("arrays: symmetricDifference", function() {
+    var result = _.symmetricDifference([1, 2, 3, 4], [2, 4, 30, 40]);
     equals(result.join(' '), '1 3 30 40', 'takes the symmetric difference of two arrays');
   });
 
