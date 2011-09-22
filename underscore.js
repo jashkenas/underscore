@@ -369,6 +369,13 @@
     return _.filter(array, function(value){ return !_.include(other, value); });
   };
 
+  // Take the symmetric difference between one array and another.
+  // Its result is the complement of the result of the _.intersection function.
+  // Only the elements present in one but not the other array will remain.
+  _.symmetric_difference = function(array, other) {
+    return _.union(_.difference(array, other), _.difference(other, array));
+  }
+
   // Zip together multiple lists into a single array -- elements that share
   // an index go together.
   _.zip = function() {
