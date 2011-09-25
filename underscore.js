@@ -562,6 +562,19 @@
     return _.map(obj, _.identity);
   };
 
+  // Finds the object that has or 'owns' the value if a dot-delimited path to a value exists.
+  _.keypathValueOwner = function(object, keypath) {
+    var key, keypath_components = _.isString(keypath) ? keypath.split('.') : keypath;
+    var current_object = object, i = 0, l = keypath_components.length;
+    while (i < l) {
+      key = keypath_components[i];
+      if (!current_object || !(key in current_object)) break;
+      if (++i === l) return current_object;
+      current_object = current_object[key];
+    }
+    return undefined;
+  };
+
   // Return a sorted list of the function names available on the object.
   // Aliased as `methods`
   _.functions = _.methods = function(obj) {
@@ -717,6 +730,66 @@
   // Is a given variable undefined?
   _.isUndefined = function(obj) {
     return obj === void 0;
+  };
+
+  // JSON Functions
+  // -----------------
+  
+  // Convert an array of objects or an object to JSON using the convention that if an
+  // object has a toJSON function, it will use it rather than the raw object.
+  _.toJSON = function(obj) {
+    if (_.isArray(obj)) {
+      var result = [];
+      each(obj, function(value) { result.push(_.toJSON(value)); })
+      return result;
+    }
+    else if ((obj instanceof Object) && obj.toJSON) {
+      return obj.toJSON();
+    }
+    return obj;
+  };
+
+  // Deserialized an array of JSON objects or each object individually using the following conventions:
+  // 1) if JSON has a recognized type identifier (_type as default), it will try to create an instance.
+  // 2) if the class refered to by the type identifier has a parseJSON function, it will try to create an instance.
+  // Options: 
+  //    type_field - the default is '_type' but you can choose any field name to trigger the search for a parseJSON function.
+  //    parse_properties - used to disambigate between owning a collection's items and cloning a collection.
+  _.parseJSON = function(obj, options) {
+    var obj_type = typeof(obj);
+
+    // simple type
+    if ((obj_type!=='object') && (obj_type!=='string')) return obj;
+
+    // the object is still a JSON string, convert to JSON
+    if ((obj_type==='string') && obj.length && ((obj[0] === '{')||(obj[0] === '['))) {
+      try { var obj_as_JSON = JSON.parse(obj); if (obj_as_JSON) obj = obj_as_JSON; } 
+      catch (_e) {throw new TypeError("Unable to parse JSON: " + obj);}
+    }
+
+    // parse an array
+    options || (options = {});
+    if (_.isArray(obj)) {
+      var result = [];
+      each(obj, function(value) { result.push(_.parseJSON(value, type_field)); });
+      return result;
+    }
+    
+    // parse the properties individually
+    else if(options.parse_properties) {
+      var result = {};
+      each(obj, function(value, key) { result[key] = _.parseJSON(value, type_field); });
+      return result;
+    }
+
+    // no deseralization available
+    var type_field = options.type_field ? options.type_field : '_type';    // Convention
+    if (!(obj instanceof Object) || !obj.hasOwnProperty(type_field)) return obj;
+
+    // find and use the parseJSON function
+    var type = obj[type_field], parseJSON_owner = _.keypathValueOwner(window, type+'.parseJSON');
+    if (!parseJSON_owner) throw new TypeError("Unable to find a parseJSON function for type: " + type);
+    return parseJSON_owner.parseJSON(obj);
   };
 
   // Utility Functions
