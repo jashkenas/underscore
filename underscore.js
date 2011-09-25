@@ -354,13 +354,38 @@
 
   // Produce an array that contains every item shared between all the
   // passed-in arrays. (Aliased as "intersect" for back-compat.)
-  _.intersection = _.intersect = function(array) {
-    var rest = slice.call(arguments, 1);
-    return _.filter(_.uniq(array), function(item) {
-      return _.every(rest, function(other) {
-        return _.indexOf(other, item) >= 0;
-      });
-    });
+  _.intersection = _.intersect = function() {
+    var i, l; // loop index / length
+    var a, j, k; // loop array / index / length
+
+    // find the largest array among the parameters
+    var src;
+    var src_i, src_l = null;
+    for (i = 0, l = arguments.length; i < l; ++i) {
+      if (src_l === null || arguments[i].length > src_l) {
+        src_i = i;
+        src_l = arguments[i].length;
+      }
+    }
+    src = arguments[src_i];
+
+    // store the values of the other arrays in the `keys' set
+    var keys = {};
+    for (i = 0; i < l; ++i) {
+      if (src_i != i) {
+        for (a = arguments[i], j = 0, k = a.length; j < k; ++j) {
+          keys[a[j]] = true;
+        }
+      }
+    }
+
+    // return the values in `src' not in `keys'
+    var res = [];
+    for (i = 0, l = src_l; i < l; ++i) {
+      if (src[i] in keys)
+        res.push(src[i]);
+    }
+    return res;
   };
 
   // Take the difference between one array and another.
