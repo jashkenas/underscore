@@ -59,8 +59,21 @@
     return _.values(objects);
   });
 
-  JSLitmus.test('_.intersect()', function() {
+  JSLitmus.test('_.intersect() with 2 parameters', function() {
     return _.intersect(numbers, randomized);
+  });
+
+  // Make 5 arrays with respectively 10000, 5000, 3333, 2500, 1428 elements each
+  var every = _.map([1,2,3,5,7], function (n) {
+    var res = [];
+    for (var i = 1; i <= 10000; i += n) {
+      res.push(i);
+    }
+    return res;
+  });
+
+  JSLitmus.test('_.intersect() with 5 parameters', function() {
+    return _.intersect.apply(_, every);
   });
 
   JSLitmus.test('_.range()', function() {
