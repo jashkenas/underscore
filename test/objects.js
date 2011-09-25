@@ -88,6 +88,158 @@ $(document).ready(function() {
     equals(_({x: 1, y: 2}).chain().isEqual(_({x: 1, y: 2}).chain()).value(), true, 'wrapped objects are equal');
   });
 
+  test("objects: isConstructor", function() {
+    ok(!_.isConstructor(function() {}), 'a plain old function is not a constructor');
+    
+    SomeClass1 = (function() {
+      function SomeClass1() {}
+      return SomeClass1;
+    })();
+    ok(_.isConstructor(SomeClass1), 'a constructor');
+    ok(!_.isConstructor('SomeClass1'), 'not a constructor name');
+
+    SomeNamespace={};
+    SomeNamespace.SomeClass2 = (function() {
+      function SomeClass2() {}
+      return SomeClass2;
+    })();
+
+    ok(_.isConstructor(SomeNamespace.SomeClass2), 'a namespaced constructor');
+    ok(!_.isConstructor('SomeNamespace.SomeClass2'), 'not a namespaced constructor name');
+    ok(!_.isConstructor('SomeClass2'), 'not a namespaced constructor name');
+  });
+
+  var __extends = function(child, parent) {
+    for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; }
+    function ctor() { this.constructor = child; }
+    ctor.prototype = parent.prototype;
+    child.prototype = new ctor;
+    child.__super__ = parent.prototype;
+    return child;
+  };
+
+  test("objects: resolveConstructor", function() {
+    var constructor, result;
+    SomeNamespace={};
+    
+    ok(!_.resolveConstructor('a'), 'a is not a constructor');
+
+    constructor = _.resolveConstructor('String'); result = new constructor();
+    ok(!!constructor, 'String is a constructor');
+    ok(result instanceof String, 'String was created by string');
+    constructor = _.resolveConstructor(String); result = new constructor();
+    ok(!!constructor, 'String is a constructor');
+    ok(result instanceof String, 'String was created by function');
+
+    constructor = _.resolveConstructor('Array'); result = new constructor();
+    ok(!!constructor, 'Array is a constructor');
+    ok(result instanceof Array, 'Array was created by string');
+    constructor = _.resolveConstructor(Array); result = new constructor();
+    ok(!!constructor, 'Array is a constructor');
+    ok(result instanceof Array, 'Array was created by function');
+
+    constructor = _.resolveConstructor('Object'); result = new constructor();
+    ok(!!constructor, 'Object is a constructor');
+    ok(result instanceof Object, 'Object was created by string');
+    constructor = _.resolveConstructor(Object); result = new constructor();
+    ok(!!constructor, 'Object is a constructor');
+    ok(result instanceof Object, 'Object was created by function');
+
+    SomeObject = {};
+    ok(!_.resolveConstructor('SomeObject'), 'SomeObject is not a constructor');
+    ok(!_.resolveConstructor(SomeObject), 'SomeObject is not a constructor');
+    SomeNamespace.SomeObject = {};
+    ok(!_.resolveConstructor('SomeNamespace.SomeObject'), 'SomeNamespace.SomeObject is not a constructor');
+    ok(!_.resolveConstructor(SomeNamespace.SomeObject), 'SomeNamespace.SomeObject is not a constructor');
+
+    SomeClass1 = (function() {
+      function SomeClass1() {}
+      return SomeClass1;
+    })();
+    ok(_.isConstructor(SomeClass1), 'a constructor');
+    ok(!_.isConstructor('SomeClass1'), 'not a constructor name');
+    constructor = _.resolveConstructor('SomeClass1'); result = new constructor();
+    ok(!!constructor, 'SomeClass1 is a constructor');
+    ok(result instanceof SomeClass1, 'SomeClass1 was created by string');
+    constructor = _.resolveConstructor(SomeClass1); result = new constructor();
+    ok(!!constructor, 'SomeClass1 is a constructor');
+    ok(result instanceof SomeClass1, 'SomeClass1 was created by constructor function');
+
+    SomeNamespace.SomeClass2 = (function() {
+      function SomeClass2() {}
+      return SomeClass2;
+    })();
+    constructor = _.resolveConstructor('SomeClass2');
+    ok(!constructor, 'SomeClass2 cannot be resolved without its namespace');
+    constructor = _.resolveConstructor('SomeNamespace.SomeClass2'); result = new constructor();
+    ok(!!constructor, 'SomeNamespace.SomeClass2 is a constructor');
+    ok(result instanceof SomeNamespace.SomeClass2, 'SomeNamespace.SomeClass2 was created by string');
+    constructor = _.resolveConstructor(SomeNamespace.SomeClass2); result = new constructor();
+    ok(!!constructor, 'SomeNamespace.SomeClass2 is a constructor');
+    ok(result instanceof SomeNamespace.SomeClass2, 'SomeNamespace.SomeClass2 was created by constructor function');
+  });
+
+  test("objects: toType", function() {
+    SomeNamespace={};
+    var instance, result;
+
+    SuperClass = (function() {
+      function SuperClass() {}
+      return SuperClass;
+    })();
+
+    SomeClass1 = (function() {
+       __extends(SomeClass1, SuperClass);
+      function SomeClass1() {}
+      return SomeClass1;
+    })();
+    instance = new SomeClass1();
+    result = _.toType(instance, 'String');
+    ok(!!result, 'All classes have a toString conversion by string');
+    result = _.toType(instance, String);
+    ok(!!result, 'All classes have a toString conversion constructor function');
+    result = _.toType(instance, 'SomeClass1');
+    ok(result instanceof SomeClass1, 'is a SomeClass1 by string');
+    result = _.toType(instance, SomeClass1);
+    ok(result instanceof SomeClass1, 'is a SomeClass1 by constructor function');
+    result = _.toType(instance, 'SuperClass');
+    ok(result instanceof SuperClass, 'is a SuperClass by string');
+    result = _.toType(instance, SuperClass);
+    ok(result instanceof SuperClass, 'is a SuperClass by constructor function');
+
+    SomeNamespace.SomeClass2 = (function() {
+      __extends(SomeClass2, SuperClass);
+      function SomeClass2() {}
+      return SomeClass2;
+    })();
+
+    instance = new SomeNamespace.SomeClass2();
+    result = _.toType(instance, 'SomeClass2');
+    ok(!result, 'SomeClass1 is not a SomeClass2 by string without the namespace');
+    result = _.toType(instance, 'SomeNamespace.SomeClass2');
+    ok(result instanceof SomeNamespace.SomeClass2, 'is a SomeNamespace.SomeClass2 by string');
+    result = _.toType(instance, SomeNamespace.SomeClass2);
+    ok(result instanceof SomeNamespace.SomeClass2, 'is a SomeNamespace.SomeClass2 by constructor function');
+
+    LocalizedString = (function() {
+      function LocalizedString(id) { this.id = id; this.string = 'Bonjour'; }
+      LocalizedString.prototype.toString = function() { return this.string; } 
+      return LocalizedString;
+    })();
+    instance = new LocalizedString();
+    result = _.toType(instance, 'Array');
+    ok(!result, 'SomeClass1 is not an Array by string');
+    result = _.toType(instance, Array);
+    ok(!result, 'SomeClass1 is not an Array by constructor function');
+
+    result = _.toType(instance, 'String');
+    ok(!(result instanceof LocalizedString), 'is not a LocalizedString by string');
+    ok(_.isString(result), 'is a String by string');
+    result = _.toType(instance, String);
+    ok(!(result instanceof LocalizedString), 'is not a LocalizedString by constructor function');
+    ok(_.isString(result), 'is a String by constructor function');
+  });  
+
   test("objects: isEmpty", function() {
     ok(!_([1]).isEmpty(), '[1] is not empty');
     ok(_.isEmpty([]), '[] is empty');
