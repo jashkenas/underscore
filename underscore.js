@@ -358,7 +358,7 @@
     var i, l; // loop index / length
     var a, j, k; // loop array / index / length
 
-    // find the largest array among the parameters
+    // Find the largest array among the parameters
     var src;
     var src_i, src_l = null;
     for (i = 0, l = arguments.length; i < l; ++i) {
@@ -369,7 +369,7 @@
     }
     src = arguments[src_i];
 
-    // store the values of the other arrays in the `keys' set
+    // Store the values of the other arrays in the `keys` set
     var keys = {};
     for (i = 0; i < l; ++i) {
       if (src_i != i) {
@@ -379,11 +379,10 @@
       }
     }
 
-    // return the values in `src' not in `keys'
+    // Return the values in `src` not in `keys`
     var res = [];
     for (i = 0, l = src_l; i < l; ++i) {
-      if (src[i] in keys)
-        res.push(src[i]);
+      if (src[i] in keys) res.push(src[i]);
     }
     return res;
   };

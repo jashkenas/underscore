@@ -63,8 +63,7 @@
     return _.intersect(numbers, randomized);
   });
 
-  // make 5 arrays with respectively 10000, 5000, 3333, 2500, 1428 elements
-  // each
+  // Make 5 arrays with respectively 10000, 5000, 3333, 2500, 1428 elements each
   var every = _.map([1,2,3,5,7], function (n) {
     var res = [];
     for (var i = 1; i <= 10000; i += n) {
