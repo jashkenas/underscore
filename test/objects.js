@@ -98,7 +98,7 @@ $(document).ready(function() {
     ok(_.isConstructor(SomeClass1), 'a constructor');
     ok(!_.isConstructor('SomeClass1'), 'not a constructor name');
 
-    SomeNamespace={};
+    window.SomeNamespace || (window.SomeNamespace = {});
     SomeNamespace.SomeClass2 = (function() {
       function SomeClass2() {}
       return SomeClass2;
@@ -120,7 +120,7 @@ $(document).ready(function() {
 
   test("objects: resolveConstructor", function() {
     var constructor, result;
-    SomeNamespace={};
+    window.SomeNamespace || (window.SomeNamespace = {});
     
     ok(!_.resolveConstructor('a'), 'a is not a constructor');
 
@@ -180,7 +180,7 @@ $(document).ready(function() {
   });
 
   test("objects: toType", function() {
-    SomeNamespace={};
+    window.SomeNamespace || (window.SomeNamespace = {});
     var instance, result;
 
     SuperClass = (function() {
