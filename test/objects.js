@@ -88,6 +88,95 @@ $(document).ready(function() {
     equals(_({x: 1, y: 2}).chain().isEqual(_({x: 1, y: 2}).chain()).value(), true, 'wrapped objects are equal');
   });
 
+  var __extends = function(child, parent) {
+    for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; }
+    function ctor() { this.constructor = child; }
+    ctor.prototype = parent.prototype;
+    child.prototype = new ctor;
+    child.__super__ = parent.prototype;
+    return child;
+  };
+
+  test("objects: getSuperConstructor", function() {
+    Superclass = (function() {
+      function Superclass(i_am_super) {this.i_am_super=i_am_super;}
+      return Superclass;
+    })();
+
+    Subclass = (function() {
+      __extends(Subclass, Superclass);
+      function Subclass() {_.getSuperConstructor(this).apply(this, arguments);}
+      Subclass.prototype.someFunction = function() {}
+      return Subclass;
+    })();
+
+    var subclass = new Subclass(true);
+    ok(subclass.i_am_super===true, 'subclass is super');
+    subclass = new Subclass(false);
+    ok(subclass.i_am_super===false, 'subclass is not super');
+  });
+
+  test("objects: getSuperFunction", function() {
+    Superclass = (function() {
+      function Superclass() { this.useful_count=0; }
+      Superclass.prototype.usefulFunction = function() { return ++this.useful_count; }
+      return Superclass;
+    })();
+
+    Subclass = (function() {
+      __extends(Subclass, Superclass);
+      function Subclass() {_.getSuperConstructor(this).apply(this, arguments);}
+      Subclass.prototype.callUsefulFunction = function() { return _.getSuperFunction(this, 'usefulFunction').apply(this); }
+      return Subclass;
+    })();
+
+    var subclass = new Subclass(), result;
+    ok(subclass.useful_count===0, 'not useful yet');
+    subclass.callUsefulFunction(); result = subclass.callUsefulFunction();
+    ok(result===2, 'very useful result');
+    ok(subclass.useful_count===2, 'very useful');
+  });
+
+  test("objects: superCall", function() {
+    Superclass = (function() {
+      function Superclass() {}
+      Superclass.prototype.usefulFunction = function(usefulness) { this.usefulness=usefulness; }
+      return Superclass;
+    })();
+
+    Subclass = (function() {
+      __extends(Subclass, Superclass);
+      function Subclass() {_.getSuperConstructor(this).apply(this, arguments);}
+      Subclass.prototype.callUsefulFunction = function(usefulness) { _.superCall(this, 'usefulFunction', usefulness); }
+      return Subclass;
+    })();
+
+    var subclass = new Subclass();
+    ok(_.isUndefined(subclass.usefulness), 'not useful yet');
+    subclass.callUsefulFunction(42);
+    ok(subclass.usefulness===42, 'very meaningful');
+  });
+
+  test("objects: superApply", function() {
+    Superclass = (function() {
+      function Superclass() {}
+      Superclass.prototype.usefulFunction = function(usefulness) { this.usefulness=usefulness; }
+      return Superclass;
+    })();
+
+    Subclass = (function() {
+      __extends(Subclass, Superclass);
+      function Subclass() {_.getSuperConstructor(this).apply(this, arguments);}
+      Subclass.prototype.applyUsefulFunction = function() { _.superApply(this, 'usefulFunction', arguments); }
+      return Subclass;
+    })();
+
+    var subclass = new Subclass();
+    ok(_.isUndefined(subclass.usefulness), 'not useful yet');
+    subclass.applyUsefulFunction(42);
+    ok(subclass.usefulness===42, 'very meaningful');
+  });
+
   test("objects: isEmpty", function() {
     ok(!_([1]).isEmpty(), '[1] is not empty');
     ok(_.isEmpty([]), '[] is empty');
