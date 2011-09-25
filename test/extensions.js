@@ -24,7 +24,7 @@ $(document).ready(function() {
     return new Date(Date.UTC(obj.year, obj.month, obj.day, obj.hours, obj.minutes, obj.seconds))
   };
 
-  window.SomeNamespace={};
+  window.window.SomeNamespace || (window.SomeNamespace = {});
   SomeNamespace.SomeClass = (function() {
     function SomeClass(int_value, string_value, date_value) { 
       this.int_value = int_value; 
