@@ -600,6 +600,7 @@
   // Create a duplicate of an object to any zero-indexed depth.
   _.cloneToDepth = function(obj, depth) {
     if (typeof obj !== 'object') return obj;
+    if (_.isUndefined(depth)) depth = 0;
     if (depth < 1) return _.clone(obj);
     clone = _.clone(obj);
     for (var key in clone) {
