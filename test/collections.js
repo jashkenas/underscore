@@ -170,6 +170,10 @@ $(document).ready(function() {
   test('collections: pluck', function() {
     var people = [{name : 'moe', age : 30}, {name : 'curly', age : 50}];
     equals(_.pluck(people, 'name').join(', '), 'moe, curly', 'pulls names out of objects');
+    ok(_.isEqual(people, [{name : 'moe', age : 30}, {name : 'curly', age : 50}]), 'does not alter the original');
+
+    equals(_.pluck(people, 'name', true).join(', '), 'moe, curly', 'pulls names out of objects');
+    ok(_.isEqual(people, [{age : 30}, {age : 50}]), 'removes the plucked values from the original');
   });
 
   test('collections: max', function() {
