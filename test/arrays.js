@@ -128,6 +128,16 @@ $(document).ready(function() {
     equals(_.indexOf(null, 2), -1, 'handles nulls properly');
   });
 
+  test("arrays: findIndex", function() {
+    var numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9], result;
+
+    result = _.findIndex(numbers, function(number) {return number==5;});
+    equals(result, 4, 'finds the index using a function');
+
+    result = _.findIndex(numbers, function(number) {return number==10;});
+    equals(result, -1, 'does not find that which does not exist');
+  });
+
   test("arrays: range", function() {
     equals(_.range(0).join(''), '', 'range with 0 as a first argument generates an empty array');
     equals(_.range(4).join(' '), '0 1 2 3', 'range with a single positive argument generates an array of elements 0,1,2,...,n-1');
