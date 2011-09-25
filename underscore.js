@@ -652,7 +652,7 @@
 
   // Call a function if it exists on an object.
   _.callIfExists = function(object, function_name) {
-    return _.functionExists(object, function_name) ? object[function_name].apply(object, arguments.slice(2)) : undefined;
+    return _.functionExists(object, function_name) ? object[function_name].apply(object, slice.call(arguments, 2)) : undefined;
   };
 
   // Is a given array or object empty?
