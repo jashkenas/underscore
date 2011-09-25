@@ -265,18 +265,21 @@
   // Maps simple comparison operators (< or ===) or custom comparison functions 
   // (such as localeCompare) to standardized comparison results.
   _.COMPARE_EQUAL = 0;
-  _.COMPARE_ASCENDING = 1;
-  _.COMPARE_DESCENDING = -1;
+  _.COMPARE_ASCENDING = -1;
+  _.COMPARE_DESCENDING = 1;
   _.compare = function(value_a, value_b, function_name) {
-    var result;
+    // Non-object compare just comparing raw values 
+    if (typeof(value_a) !== 'object') return (value_a === value_b) ? _.COMPARE_EQUAL : (value_a < value_b) ? _.COMPARE_ASCENDING : _.COMPARE_DESCENDING;
+    
+    // Use a compare function, if one exists
     if (!function_name) function_name = 'compare';
-    if ((typeof(value_a)=='object') && value_a[function_name] && _.isFunction(value_a[function_name])) {
-      result = value_a[function_name](value_b);
-      return (result === 0) ? _.COMPARE_EQUAL : (result < 0) ? _.COMPARE_DESCENDING : _.COMPARE_ASCENDING;
-    }
-    if ((typeof(value_b)=='object') && value_b[function_name] && _.isFunction(value_b[function_name])) {
-      result = value_b[function_name](value_a);
+    if (value_a[function_name] && _.isFunction(value_a[function_name])) {
+      var result = value_a[function_name](value_b);
       return (result === 0) ? _.COMPARE_EQUAL : (result < 0) ? _.COMPARE_ASCENDING : _.COMPARE_DESCENDING;
+    }
+    else if (value_b[function_name] && _.isFunction(value_b[function_name])) {
+      var result = value_b[function_name](value_a);
+      return (result === 0) ? _.COMPARE_EQUAL : (result < 0) ? _.COMPARE_DESCENDING : _.COMPARE_ASCENDING;
     }
     return (value_a === value_b) ? _.COMPARE_EQUAL : (value_a < value_b) ? _.COMPARE_ASCENDING : _.COMPARE_DESCENDING;
   };
