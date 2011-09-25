@@ -219,4 +219,87 @@ $(document).ready(function() {
     equals(_.size({one : 1, two : 2, three : 3}), 3, 'can compute the size of an object');
   });
 
+  test('collections: own and disown', function() {
+    var original, copy;
+
+    original = null;
+    copy = _.own(original);
+    ok(copy==null, 'no instance');
+    _.disown(original); _.disown(copy);
+
+    CloneDestroy = (function() {
+      CloneDestroy.clone_count = 0;
+      function CloneDestroy() { CloneDestroy.clone_count++; }
+      CloneDestroy.prototype.clone = function() { CloneDestroy.clone_count++; };
+      CloneDestroy.prototype.destroy = function() { CloneDestroy.clone_count--; };
+      return CloneDestroy;
+    })();
+
+    CloneDestroy.clone_count = 0; original = new CloneDestroy();
+    ok(CloneDestroy.clone_count==1, '1 instance');
+    copy = _.own(original);
+    ok(CloneDestroy.clone_count==2, '2 instances');
+    _.disown(original); _.disown(copy);
+    ok(CloneDestroy.clone_count==0, '0 instances');
+
+    CloneDestroy.clone_count = 0; original = [new CloneDestroy(), new CloneDestroy(), new CloneDestroy()];
+    ok(CloneDestroy.clone_count==3, '3 instances');
+    copy = _.own(original);
+    ok(copy===original, 'retained existing');
+    ok(CloneDestroy.clone_count==6, '6 instances');
+    _.disown(original); _.disown(copy);
+    ok(CloneDestroy.clone_count==0, '0 instances');
+
+    CloneDestroy.clone_count = 0; original = [new CloneDestroy(), new CloneDestroy(), new CloneDestroy()];
+    ok(CloneDestroy.clone_count==3, '3 instances');
+    copy = _.own(original, {clone:true});
+    ok(copy!==original, 'retained existing');
+    ok(CloneDestroy.clone_count==6, '6 instances');
+    _.disown(original); _.disown(copy);
+    ok(CloneDestroy.clone_count==0, '0 instances');
+
+    CloneDestroy.clone_count = 0; original = {one:new CloneDestroy(), two:new CloneDestroy(), three:new CloneDestroy()};
+    ok(CloneDestroy.clone_count==3, '3 instances');
+    copy = _.own(original, {properties:true});
+    ok(CloneDestroy.clone_count==6, '6 instances');
+    _.disown(original, {properties:true}); _.disown(copy, {properties:true});
+    ok(CloneDestroy.clone_count==0, '0 instances');
+
+    CloneDestroy.clone_count = 0; original = [new CloneDestroy(), new CloneDestroy(), new CloneDestroy()];
+    _.disown(original, {clear:true});
+    ok(original.length==3, '3 instances');
+
+    RetainRelease = (function() {
+      CloneDestroy.retain_count = 0;
+      function RetainRelease() { CloneDestroy.retain_count++; }
+      RetainRelease.prototype.retain = function() { CloneDestroy.retain_count++; };
+      RetainRelease.prototype.release = function() { CloneDestroy.retain_count--; };
+      return RetainRelease;
+    })();
+
+    CloneDestroy.clone_count = 0; original = new RetainRelease();
+    ok(CloneDestroy.retain_count==1, '1 instance');
+    copy = _.own(original);
+    ok(CloneDestroy.retain_count==2, '2 instances');
+    _.disown(original); _.disown(copy);
+    ok(CloneDestroy.retain_count==0, '0 instances');
+
+    CloneDestroy.retain_count = 0; original = [new RetainRelease(), new RetainRelease(), new RetainRelease()];
+    ok(CloneDestroy.retain_count==3, '3 instances');
+    copy = _.own(original);
+    ok(CloneDestroy.retain_count==6, '6 instances');
+    _.disown(original); _.disown(copy);
+    ok(CloneDestroy.retain_count==0, '0 instances');
+
+    CloneDestroy.retain_count = 0; original = {one:new RetainRelease(), two:new RetainRelease(), three:new RetainRelease()};
+    ok(CloneDestroy.retain_count==3, '3 instances');
+    copy = _.own(original, {properties:true});
+    ok(CloneDestroy.retain_count==6, '6 instances');
+    _.disown(original, {properties:true}); _.disown(copy, {properties:true});
+    ok(CloneDestroy.retain_count==0, '0 instances');
+
+    CloneDestroy.clone_count = 0; original = {one:new RetainRelease(), two:new RetainRelease(), three:new RetainRelease()};
+    _.disown(original, {properties:true, clear:true});
+    ok(_.size(original)==3, '3 instances');
+  });
 });

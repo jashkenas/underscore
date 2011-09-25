@@ -288,6 +288,46 @@
     return _.toArray(obj).length;
   };
 
+  // Deduces the type of ownership of an item and if available, it retains it (reference counted) or clones it.
+  // Options: 
+  //    properties - used to disambigate between owning an object and owning each property.
+  //    clone - used to disambigate between owning a collection's items and cloning a collection.
+  _.own = function(obj, options) {
+    if (!obj) return obj;
+    options || (options = {});
+    if (_.isArray(obj)) {
+      if (options.clone) { var clone =  []; each(obj, function(value) { clone.push(_.own(value)); }); return clone; }
+      else { each(obj, function(value) { _.own(value); }); return obj; }
+    }
+    else if (options.properties) {
+      if (options.clone) { var clone = {}; each(obj, function(value, key) { clone[key] = _.own(value); }); return clone; }
+      else { each(obj, function(value, key) { _.own(value); }); return obj; }
+    }
+    else if (obj.retain) obj.retain();
+    else if (obj.clone) obj.clone();
+    return obj;
+  };
+
+  // Deduces the type of ownership of an item and if available, it releases it (reference counted) or destroys it.  
+  // Options: 
+  //    properties - used to disambigate between owning an object and owning each property.
+  //    clear - used to disambigate between clearing disowned items and removing them (by default, they are removed).
+  _.disown = function(obj, options) {
+    if (!obj) return obj;
+    options || (options = {});
+    if (_.isArray(obj)) {
+      if (options.clear) { each(obj, function(value, index) { _.disown(value); obj[index]=null; }); return obj; }
+      else { each(obj, function(value) { _.disown(value); }); obj=[]; return obj; }
+    }
+    else if (options.properties) {
+      if (options.clear) { each(obj, function(value, key) { _.disown(value); obj[key]=null; }); return obj; }
+      else { each(obj, function(value) { _.disown(value); }); obj={}; return obj; }
+    }
+    else if (obj.release) obj.release();
+    else if (obj.destroy) obj.destroy();
+    return obj;
+  };
+
   // Array Functions
   // ---------------
 
