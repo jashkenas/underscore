@@ -740,7 +740,7 @@
   _.toJSON = function(obj) {
     if (_.isArray(obj)) {
       var result = [];
-      each(obj, function(value) { result.push(_.toJSON(value)); })
+      each(obj, function(value) { result.push(_.toJSON(value)); });
       return result;
     }
     else if ((obj instanceof Object) && obj.toJSON) {
