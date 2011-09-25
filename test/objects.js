@@ -97,25 +97,6 @@ $(document).ready(function() {
     return child;
   };
 
-  test("objects: getSuperConstructor", function() {
-    Superclass = (function() {
-      function Superclass(i_am_super) {this.i_am_super=i_am_super;}
-      return Superclass;
-    })();
-
-    Subclass = (function() {
-      __extends(Subclass, Superclass);
-      function Subclass() {_.getSuperConstructor(this).apply(this, arguments);}
-      Subclass.prototype.someFunction = function() {}
-      return Subclass;
-    })();
-
-    var subclass = new Subclass(true);
-    ok(subclass.i_am_super===true, 'subclass is super');
-    subclass = new Subclass(false);
-    ok(subclass.i_am_super===false, 'subclass is not super');
-  });
-
   test("objects: getSuperFunction", function() {
     Superclass = (function() {
       function Superclass() { this.useful_count=0; }
@@ -125,7 +106,7 @@ $(document).ready(function() {
 
     Subclass = (function() {
       __extends(Subclass, Superclass);
-      function Subclass() {_.getSuperConstructor(this).apply(this, arguments);}
+      function Subclass() {_.superApply(this, 'constructor', arguments);}
       Subclass.prototype.callUsefulFunction = function() { return _.getSuperFunction(this, 'usefulFunction').apply(this); }
       return Subclass;
     })();
@@ -146,7 +127,7 @@ $(document).ready(function() {
 
     Subclass = (function() {
       __extends(Subclass, Superclass);
-      function Subclass() {_.getSuperConstructor(this).apply(this, arguments);}
+      function Subclass() {_.superApply(this, 'constructor', arguments);}
       Subclass.prototype.callUsefulFunction = function(usefulness) { _.superCall(this, 'usefulFunction', usefulness); }
       return Subclass;
     })();
@@ -166,7 +147,7 @@ $(document).ready(function() {
 
     Subclass = (function() {
       __extends(Subclass, Superclass);
-      function Subclass() {_.getSuperConstructor(this).apply(this, arguments);}
+      function Subclass() {_.superApply(this, 'constructor', arguments);}
       Subclass.prototype.applyUsefulFunction = function() { _.superApply(this, 'usefulFunction', arguments); }
       return Subclass;
     })();

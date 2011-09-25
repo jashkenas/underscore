@@ -659,12 +659,6 @@
     return true;
   };
 
-  // Get your super classes' constructor if it exists. Can be useful when dynamically updating a hierarchy.
-  _.getSuperConstructor = function(object) {
-    var value_owner = _.keypathValueOwner(object, ['constructor','__super__','constructor']);
-    return value_owner ? value_owner['constructor'] : undefined;
-  };
-
   // Get a specific super class function if it exists. Can be useful when dynamically updating a hierarchy.
   _.getSuperFunction = function(object, function_name) {
     var value_owner = _.keypathValueOwner(object, ['constructor','__super__',function_name]);
