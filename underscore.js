@@ -262,6 +262,28 @@
     return result;
   };
 
+  // Maps simple comparison operators (< or ===) or custom comparison functions 
+  // (such as localeCompare) to standardized comparison results.
+  _.COMPARE_EQUAL = 0;
+  _.COMPARE_ASCENDING = -1;
+  _.COMPARE_DESCENDING = 1;
+  _.compare = function(value_a, value_b, function_name) {
+    // Non-object compare just comparing raw values 
+    if (typeof(value_a) !== 'object') return (value_a === value_b) ? _.COMPARE_EQUAL : (value_a < value_b) ? _.COMPARE_ASCENDING : _.COMPARE_DESCENDING;
+    
+    // Use a compare function, if one exists
+    if (!function_name) function_name = 'compare';
+    if (value_a[function_name] && _.isFunction(value_a[function_name])) {
+      var result = value_a[function_name](value_b);
+      return (result === 0) ? _.COMPARE_EQUAL : (result < 0) ? _.COMPARE_ASCENDING : _.COMPARE_DESCENDING;
+    }
+    else if (value_b[function_name] && _.isFunction(value_b[function_name])) {
+      var result = value_b[function_name](value_a);
+      return (result === 0) ? _.COMPARE_EQUAL : (result < 0) ? _.COMPARE_DESCENDING : _.COMPARE_ASCENDING;
+    }
+    return (value_a === value_b) ? _.COMPARE_EQUAL : (value_a < value_b) ? _.COMPARE_ASCENDING : _.COMPARE_DESCENDING;
+  };
+
   // Use a comparator function to figure out at what index an object should
   // be inserted so as to maintain order. Uses binary search.
   _.sortedIndex = function(array, obj, iterator) {
@@ -286,6 +308,162 @@
   // Return the number of elements in an object.
   _.size = function(obj) {
     return _.toArray(obj).length;
+  };
+
+  // Removes an value from a collection (array or object). 
+  // If the matcher is a function, it removes and returns all values that match. 
+  // If the matcher is an array, it removes and returns all values that match. 
+  // If the matcher is undefined, it removes and returns all values.
+  // If the collection is an object and the matcher is a key, it removes and return the value for that key (unless the is_value option is provided).
+  // Otherwise, it removes and return the value if it finds it.
+  // Options: 
+  //    callback - if you provide a callback, it calls it with the removed value after the value is removed from the collection. Note: if the options are a function, it is set as the callback.
+  //    is_value - used to disambigate between a key or value when removing from a collection that is an object.
+  //    first_only - if you provide a first_only flag, it will stop looking for an value when it finds one that matches.  
+  //    preclear - if you provide a preclear flag, it will clone the passed object, remove all the values, and then remove from the cloned object. 
+  _.remove = function(obj, matcher, options) {
+    if (_.isEmpty(obj)) return (!matcher || _.isFunction(matcher)) ? [] : undefined;
+    options || (options = {});
+    if (_.isFunction(options)) options = {callback:options};
+
+    // Clone and clear the passed collection before removing. Useful if a callback uses the passed collection.
+    if (options.preclear) { 
+      var original_object = obj; 
+      obj = _.clone(obj); 
+      if (_.isArray(original_object)) { original_object.length=0; }
+      else { for(var key in original_object) delete original_object[key]; }
+    }
+
+    var removed = [];
+    // Array collection
+    if (_.isArray(obj)) {
+      var single_value=false;
+      // Array: remove and return all values (returns: array of values)
+      if (_.isUndefined(matcher)) { removed = _.keys(obj); }
+
+      // Array: remove and return all values passing matcher function test (returns: array of values) or if first_only option, only the first one (returns: value or undefined)
+      else if (_.isFunction(matcher)) {
+        if (options.first_only) { single_value=true; _.find(obj, function(value, index) { if (matcher(value)) { removed.push(index); return true; }; return false; }) }
+        else { each(obj, function(value, index) { if (matcher(value)) { removed.push(index); } } ); } 
+      } 
+      // Array: remove and return all values in the matcher array (returns: array of values)
+      else if (_.isArray(matcher)) {
+        if (options.first_only) {
+          single_value=true; 
+          var matcher_value, removed_index;
+          for (var i = matcher.length - 1; i >= 0; i--) {
+            matcher_value = matcher[i]; removed_index=-1;
+            _.find(obj, function(value, index) { if (matcher_value===value) { removed.push(index); return true; }; return false; })
+          }
+        }
+        else { 
+          var matcher_value;
+          for (var i = matcher.length - 1; i >= 0; i--) {
+            matcher_value = matcher[i];
+            each(obj, function(value, index) { if (matcher_value===value) { removed.push(index); } } ); 
+          }
+        }
+      }
+      // Array: remove all matching values (returns: array of values) or if first_only option, only the first one (returns: value or undefined).
+      else {
+        if (options.first_only) { single_value=true; var index = _.indexOf(obj, matcher); if (index>=0) removed.push(index); }
+        // Array: remove all matching values (array return type).
+        else { single_value=true; each(obj, function(value, index) { if (matcher===value) { removed.push(index); } } ); } 
+      } 
+
+      // Process the removed values if they exist
+      var value;
+      if (single_value) {
+        if (removed.length) {
+          var value_count = 0;
+          value = obj[removed[0]]; 
+          removed = removed.sort(function(left, right) { return _.compare(left, right); });
+          while (removed.length) {
+            value_count++; obj.splice(removed.pop(), 1);
+          }
+          if (options.callback) { while(value_count>0) { options.callback(value); value_count--; } }
+          return value;
+        }
+        else return undefined;
+      }
+      else {
+        if (removed.length) {
+          var values = [], index;
+          removed = removed.sort(function(left, right) { return _.compare(left, right); });
+          while (removed.length) {
+            index = removed.pop(); values.unshift(obj[index]); obj.splice(index, 1);
+          }
+          if (options.callback) { each(values, function(value) { options.callback(value); } ) }
+          return _.uniq(values);
+        }
+        else return [];
+      }
+    }
+
+    // Object collection 
+    else {
+      var key, ordered_keys, single_value=false;
+      // Object: remove all values (returns: object with keys and values)
+      if (_.isUndefined(matcher)) { removed = _.keys(obj); }
+
+      // Object: remove and return all values passing matcher function test (returns: object with keys and values)
+      else if (_.isFunction(matcher)) { for (key in obj) { if (matcher(obj[key], key)) removed.push(key); } } 
+    
+      // Object: remove and return all values by key or by value
+      else if (_.isArray(matcher)) {
+        // the matcher array contains values (returns: object with keys and values)
+        if (options.is_value) {
+          var matcher_value;
+          for (var i = 0, l = matcher.length; i < l; i++) {
+            matcher_value = matcher[i];
+            if (options.first_only) { for (key in obj) { if (matcher_value===obj[key]) { removed.push(key); break; } } }
+            else { for (key in obj) { if (matcher_value===obj[key]) { removed.push(key); } } }
+          }
+        }
+        // the matcher array contains keys (returns: array of values)
+        else {
+          ordered_keys = matcher;
+          var matcher_key;
+          for (var i = 0, l = matcher.length; i < l; i++) {
+            matcher_key = matcher[i];
+            if (obj.hasOwnProperty(matcher_key)) { removed.push(matcher_key); }
+          }
+        }
+      } 
+      // Object: remove value matching a key (value or undefined return type)
+      else if (_.isString(matcher) && !options.is_value) {
+        single_value = true; ordered_keys = [];
+        if (obj.hasOwnProperty(matcher)) { ordered_keys.push(matcher); removed.push(matcher) };
+      } 
+      // Object: remove matching value (array return type)
+      else {
+        for (key in obj) { if (matcher===obj[key]) { removed.push(key); } }
+      } 
+    
+      // Process the removed values if they exist
+      if (ordered_keys) {
+        if (ordered_keys.length) {
+          var result = [];
+          while (removed.length) {
+            key = removed.shift(); result.push(obj[key]); delete obj[key];
+          }
+          if (options.callback) { each(result, function(value, index) { options.callback(value, ordered_keys[index]); } ) }
+          return single_value ? result[0] : result;
+        }
+        else return single_value ? undefined : [];
+      }
+      else {
+        if (removed.length) {
+          var result = {};
+          while (removed.length) {
+            key = removed.shift(); result[key] = obj[key]; delete obj[key];
+          }
+          if (options.callback) { each(result, function(value, key) { options.callback(value, key); } ) }
+          return result;
+        }
+        else return {};
+      }
+    }
   };
 
   // Array Functions
