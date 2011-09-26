@@ -409,7 +409,7 @@
 
   // Finds an index of an item using a testing function.
   _.findIndex = function(array, fn) {
-    for (i = 0, l = array.length; i < l; i++) if (fn(array[i])) return i;
+    for (i = 0, l = array.length; i < l; i++) { if (fn(array[i])) return i; }
     return -1;
   };
 
