@@ -643,7 +643,7 @@
     // Different object sizes?
     if (aKeys.length != bKeys.length) return false;
     // Recursive comparison of contents.
-    for (var key in a) if (!(key in b) || !_.isEqual(a[key], b[key])) return false;
+    for (var key in a) { if (!(key in b) || !_.isEqual(a[key], b[key])) return false; }
     return true;
   };
 
@@ -809,8 +809,7 @@
     wrapper.prototype[name] = function() {
       var args = slice.call(arguments);
       unshift.call(args, this._wrapped);
-      var test = result(func.apply(_, args), this._chain);
-      return test;
+      return result(func.apply(_, args), this._chain);
     };
   };
 
