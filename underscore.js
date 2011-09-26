@@ -273,12 +273,13 @@
     
     // Use a compare function, if one exists
     if (!function_name) function_name = 'compare';
+    var result;
     if (value_a[function_name] && _.isFunction(value_a[function_name])) {
-      var result = value_a[function_name](value_b);
+      result = value_a[function_name](value_b);
       return (result === 0) ? _.COMPARE_EQUAL : (result < 0) ? _.COMPARE_ASCENDING : _.COMPARE_DESCENDING;
     }
     else if (value_b[function_name] && _.isFunction(value_b[function_name])) {
-      var result = value_b[function_name](value_a);
+      result = value_b[function_name](value_a);
       return (result === 0) ? _.COMPARE_EQUAL : (result < 0) ? _.COMPARE_DESCENDING : _.COMPARE_ASCENDING;
     }
     return (value_a === value_b) ? _.COMPARE_EQUAL : (value_a < value_b) ? _.COMPARE_ASCENDING : _.COMPARE_DESCENDING;
