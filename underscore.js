@@ -676,7 +676,6 @@
   _.resolveConstructor = function(key) {
     var keypath_components = _.isArray(key) ? key : (_.isString(key) ? key.split('.') : undefined);
 
-    // resolve a keypath
     if (keypath_components) { 
       var constructor = (keypath_components.length===1) ? window[keypath_components[0]] : _.keypathValue(window, keypath_components);
       return (constructor && _.isConstructor(constructor)) ? constructor : undefined;
@@ -685,11 +684,11 @@
       return key;
     }
     return undefined;
-  }
+  };
 
   // Determines whether a conversion is possible checking typeof, instanceof, is{SomeType}(), to{SomeType}() using a string, keypath or constructor..
   // Convention for is{SomeType}(), to{SomeType}() with namespaced classes is to remove the namespace (like Javascript does).
-  // Note: if you pass a constructor, the constructor name may not exist so use a string if you are relying on is{SomeType}(), to{SomeType}().
+  // **Note: if you pass a constructor, the constructor name may not exist on the function so use a string if you are relying on is{SomeType}(), to{SomeType}().**
   _.CONVERT_NONE = 0;
   _.CONVERT_IS_TYPE = 1;
   _.CONVERT_TO_METHOD = 2;
