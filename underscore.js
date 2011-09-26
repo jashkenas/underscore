@@ -289,18 +289,18 @@
   };
 
   // Deduces the type of ownership of an item and if available, it retains it (reference counted) or clones it.
-  // Options: 
-  //    properties - used to disambigate between owning an object and owning each property.
-  //    clone - used to disambigate between owning a collection's items and cloning a collection.
+  // <br />**Options:**<br />
+  // * `properties` - used to disambigate between owning an object and owning each property.<br />
+  // * `clone` - used to disambigate between owning a collection's items and cloning a collection.
   _.own = function(obj, options) {
     if (!obj) return obj;
     options || (options = {});
     if (_.isArray(obj)) {
-      if (options.clone) { var clone =  []; each(obj, function(value) { clone.push(_.own(value)); }); return clone; }
+      if (options.clone) { var a_clone =  []; each(obj, function(value) { a_clone.push(_.own(value)); }); return a_clone; }
       else { each(obj, function(value) { _.own(value); }); return obj; }
     }
     else if (options.properties) {
-      if (options.clone) { var clone = {}; each(obj, function(value, key) { clone[key] = _.own(value); }); return clone; }
+      if (options.clone) { var o_clone = {}; each(obj, function(value, key) { o_clone[key] = _.own(value); }); return o_clone; }
       else { each(obj, function(value, key) { _.own(value); }); return obj; }
     }
     else if (obj.retain) obj.retain();
@@ -308,10 +308,10 @@
     return obj;
   };
 
-  // Deduces the type of ownership of an item and if available, it releases it (reference counted) or destroys it.  
-  // Options: 
-  //    properties - used to disambigate between owning an object and owning each property.
-  //    clear - used to disambigate between clearing disowned items and removing them (by default, they are removed).
+  // Deduces the type of ownership of an item and if available, it releases it (reference counted) or destroys it.
+  // <br />**Options:**<br /> 
+  // * `properties` - used to disambigate between owning an object and owning each property.<br />
+  // * `clear` - used to disambigate between clearing disowned items and removing them (by default, they are removed).
   _.disown = function(obj, options) {
     if (!obj) return obj;
     options || (options = {});
