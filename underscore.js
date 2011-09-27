@@ -318,7 +318,7 @@
   // Otherwise, it removes and return the value if it finds it.
   // <br />**Options:**<br /> 
   // * `callback` - if you provide a callback, it calls it with the removed value after the value is removed from the collection. Note: if the options are a function, it is set as the callback.<br />
-  // * `is_value` - used to disambigate between a key or value when removing from a collection that is an object.<br />
+  // * `values` - used to disambigate between a key or value when removing from a collection that is an object.<br />
   // * `first_only` - if you provide a first_only flag, it will stop looking for an value when it finds one that matches.<br />
   // * `preclear` - if you provide a preclear flag, it will clone the passed object, remove all the values, and then remove from the cloned object.
   _.remove = function(obj, matcher, options) {
@@ -411,7 +411,7 @@
       // Object: remove and return all values by key or by value
       else if (_.isArray(matcher)) {
         // The matcher array contains values (returns: object with keys and values)
-        if (options.is_value) {
+        if (options.values) {
           for (i = 0, l = matcher.length; i < l; i++) {
             matcher_value = matcher[i];
             if (options.first_only) { for (key in obj) { if (matcher_value===obj[key]) { removed.push(key); break; } } }
@@ -429,7 +429,7 @@
         }
       } 
       // Object: remove value matching a key (value or undefined return type)
-      else if (_.isString(matcher) && !options.is_value) {
+      else if (_.isString(matcher) && !options.values) {
         single_value = true; ordered_keys = [];
         if (obj.hasOwnProperty(matcher)) { ordered_keys.push(matcher); removed.push(matcher); }
       } 

@@ -308,7 +308,7 @@ $(document).ready(function() {
     ok(callback_count==0, 'none removed');
 
     o = {one:1,two:2,three:3,four:4,five:5}; callback_count = 0;
-    result = _.remove(o, 3, {is_value:true, callback: callback});
+    result = _.remove(o, 3, {values:true, callback: callback});
     ok(_.isEqual(result,{three:3}), '{three:3} returned');
     ok(_.isEqual(o,{one:1,two:2,four:4,five:5}), '{one:1,two:2,four:4,five:5} remaining');
     ok(callback_count==1, '{three:3} removed');
@@ -320,7 +320,7 @@ $(document).ready(function() {
     ok(callback_count==2, '{two:2,two_too:2} removed count');
 
     o = {one:1,two:2,three:3,four:4,five:5}; callback_count = 0;
-    result = _.remove(o, 0, {is_value:true, callback: callback});
+    result = _.remove(o, 0, {values:true, callback: callback});
     ok(_.isEqual(result,{}), 'none returned');
     ok(_.isEqual(o,{one:1,two:2,three:3,four:4,five:5}), '{one:1,two:2,three:3,four:4,five:5} remaining');
     ok(callback_count==0, 'none removed');
@@ -338,25 +338,25 @@ $(document).ready(function() {
     ok(callback_count==0, 'none removed count');
 
     o = {one:1,two:2,three:3,four:4,five:5}; callback_count = 0;
-    result = _.remove(o, [2,5], {callback:callback,is_value:true});
+    result = _.remove(o, [2,5], {callback:callback,values:true});
     ok(_.isEqual(result,{two:2,five:5}), '{two:2,five:5} returned');
     ok(_.isEqual(o,{one:1,three:3,four:4}), '{one:1,three:3,four:4} remaining');
     ok(callback_count==2, '{two:2,five:5} removed count');
 
     o = {one:1,two:2,three:3,two_too:2,five:5}; callback_count = 0;
-    result = _.remove(o, [2], {callback:callback,is_value:true});
+    result = _.remove(o, [2], {callback:callback,values:true});
     ok(_.isEqual(result,{two:2,two_too:2}), '{two:2,two_too:2} returned');
     ok(_.isEqual(o,{one:1,three:3,five:5}), '{one:1,three:3,five:5} remaining');
     ok(callback_count==2, '{two:2,two_too:2} removed count');
 
     o = {one:1,two:2,three:3,two_too:2,five:5}; callback_count = 0;
-    result = _.remove(o, [0], {callback:callback,is_value:true});
+    result = _.remove(o, [0], {callback:callback,values:true});
     ok(_.isEqual(result,{}), 'none returned');
     ok(_.isEqual(o,{one:1,two:2,three:3,two_too:2,five:5}), '{one:1,two:2,three:3,two_too:2,five:5} remaining');
     ok(callback_count==0, 'none removed count');
 
     o = {one:1,two:2,three:3,two_too:2,five:5}; callback_count = 0;
-    result = _.remove(o, [0,2], {callback:callback,is_value:true});
+    result = _.remove(o, [0,2], {callback:callback,values:true});
     ok(_.isEqual(result,{two:2,two_too:2}), '{two:2,two_too:2} returned');
     ok(_.isEqual(o,{one:1,three:3,five:5}), '{one:1,three:3,five:5} remaining');
     ok(callback_count==2, 'none removed count');
