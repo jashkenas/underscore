@@ -41,41 +41,35 @@ $(document).ready(function() {
     ok(!_.keypathValueOwner(object, ['follow','me','down','the','road']), 'follow.me.down.the.road owner as array does not exist');
   });
 
-  test("objects: keypathValue", function() {
+  test("objects: keypath", function() {
     var object = {follow: {me: {down: {the: 'road'} } } }, result;
 
-    result = _.keypathValue(object, 'follow.me');
+    // get
+    result = _.keypath(object, 'follow.me');
     ok(_.isEqual(result,{down: {the: 'road'} }), 'follow.me value as expected');
-    result = _.keypathValue(object, ['follow','me']);
+    result = _.keypath(object, ['follow','me']);
     ok(_.isEqual(result,{down: {the: 'road'} }), 'follow.me value as expected');
-    result = _.keypathValue(object, 'follow.me.down.the');
+    result = _.keypath(object, 'follow.me.down.the');
     ok(_.isEqual(result,'road'), 'follow.me.down.the value as expected');
-    result = _.keypathValue(object, ['follow','me','down','the']);
+    result = _.keypath(object, ['follow','me','down','the']);
     ok(_.isEqual(result,'road'), 'follow.me.down.the value as array as expected');
-    result = _.keypathValue(object, 'follow.me.down.the.road');
+    result = _.keypath(object, 'follow.me.down.the.road');
     ok(!result, 'follow.me.down.the.road does not exist');
-    result = _.keypathValue(object, ['follow','me','down','the','road']);
+    result = _.keypath(object, ['follow','me','down','the','road']);
     ok(!result, 'follow.me.down.the.road owner as array does not exist');
-    result = _.keypathValue(object, 'follow.me.down.the.road', 'holding hands?');
-    ok(result==='holding hands?', 'follow.me.down.the.road does not exist but we are happy?');
-    result = _.keypathValue(object, ['follow','me','down','the','road'], 'and watch out for the...nevermind');
-    ok(result==='and watch out for the...nevermind', 'follow.me.down.the.road owner as array does not exist and we didnt see it ahead of time?');
-  });
 
-  test("objects: keypathValue", function() {
-    var object, result;
-
-    object = {follow: {me: {down: {the: 'road'} } } }; _.keypathSetValue(object, 'follow.me', 'if you want to live');
+    // set
+    object = {follow: {me: {down: {the: 'road'} } } }; _.keypath(object, 'follow.me', 'if you want to live');
     ok(_.isEqual(object.follow.me,'if you want to live'), 'follow.me value as expected');
-    object = {follow: {me: {down: {the: 'road'} } } }; _.keypathSetValue(object, ['follow','me'], 'and hold this big bag of money');
+    object = {follow: {me: {down: {the: 'road'} } } }; _.keypath(object, ['follow','me'], 'and hold this big bag of money');
     ok(_.isEqual(object.follow.me,'and hold this big bag of money'), 'follow.me value as expected');
-    object = {follow: {me: {down: {the: 'road'} } } }; _.keypathSetValue(object, 'follow.me.down.the', 'rabbit hole');
+    object = {follow: {me: {down: {the: 'road'} } } }; _.keypath(object, 'follow.me.down.the', 'rabbit hole');
     ok(_.isEqual(object.follow.me.down.the,'rabbit hole'), 'follow.me.down.the value as expected');
-    object = {follow: {me: {down: {the: 'road'} } } }; _.keypathSetValue(object, ['follow','me','down','the'], '...damn, we are surrounded');
+    object = {follow: {me: {down: {the: 'road'} } } }; _.keypath(object, ['follow','me','down','the'], '...damn, we are surrounded');
     ok(_.isEqual(object.follow.me.down.the,'...damn, we are surrounded'), 'follow.me.down.the value as array as expected');
-    object = {follow: {me: {down: {the: 'road'} } } }; result = _.keypathSetValue(object, 'follow.me.down.the.road', 'nevermind');
+    object = {follow: {me: {down: {the: 'road'} } } }; result = _.keypath(object, 'follow.me.down.the.road', 'nevermind');
     ok(!result, 'follow.me.down.the.road not set');
-    object = {follow: {me: {down: {the: 'road'} } } }; result = _.keypathSetValue(object, ['follow','me','down','the','road'], 'bleach');
+    object = {follow: {me: {down: {the: 'road'} } } }; result = _.keypath(object, ['follow','me','down','the','road'], 'bleach');
     ok(!result, 'follow.me.down.the.road as array not set');
   });
 

@@ -581,21 +581,19 @@
     return undefined;
   };
 
-  // Get the value if a dot-delimited or array of keys path exists.
-  _.keypathValue = function(object, keypath, missing_value) {
+  // Gets (if value parameter undefined) or sets a value if a dot-delimited or array of keys path exists.
+  _.keypath = function(object, keypath, value) {
     var keypath_components = _.isString(keypath) ? keypath.split('.') : keypath;
     var value_owner = _.keypathValueOwner(object, keypath_components);
-    if (!value_owner) return missing_value;
-    return value_owner[keypath_components[keypath_components.length-1]];
-  };
-
-  // Set the value if a dot-delimited or array of keys path exists.
-  _.keypathSetValue = function(object, keypath, value) {
-    var keypath_components = _.isString(keypath) ? keypath.split('.') : keypath;
-    var value_owner = _.keypathValueOwner(object, keypath_components);
-    if (!value_owner) return;
-    value_owner[keypath_components[keypath_components.length-1]] = value;
-    return object;
+    if (_.isUndefined(value)) {
+      if (!value_owner) return undefined;
+      return value_owner[keypath_components[keypath_components.length-1]];
+    }
+    else {
+      if (!value_owner) return;
+      value_owner[keypath_components[keypath_components.length-1]] = value;
+      return value_owner[keypath_components[keypath_components.length-1]];
+    }
   };
 
   // Return a sorted list of the function names available on the object.
