@@ -228,78 +228,153 @@ $(document).ready(function() {
     _.disown(original); _.disown(copy);
 
     CloneDestroy = (function() {
-      CloneDestroy.clone_count = 0;
-      function CloneDestroy() { CloneDestroy.clone_count++; }
-      CloneDestroy.prototype.clone = function() { CloneDestroy.clone_count++; };
-      CloneDestroy.prototype.destroy = function() { CloneDestroy.clone_count--; };
+      CloneDestroy.instance_count = 0;
+      function CloneDestroy() { CloneDestroy.instance_count++; }
+      CloneDestroy.prototype.clone = function() { return new CloneDestroy() };
+      CloneDestroy.prototype.destroy = function() { CloneDestroy.instance_count--; };
       return CloneDestroy;
     })();
 
-    CloneDestroy.clone_count = 0; original = new CloneDestroy();
-    ok(CloneDestroy.clone_count==1, '1 instance');
+    CloneDestroy.instance_count = 0; original = new CloneDestroy();
+    ok(CloneDestroy.instance_count==1, 'cd: 1 instance');
     copy = _.own(original);
-    ok(CloneDestroy.clone_count==2, '2 instances');
-    _.disown(original); _.disown(copy);
-    ok(CloneDestroy.clone_count==0, '0 instances');
+    ok(CloneDestroy.instance_count==2, 'cd: 2 instances');
+    _.disown(original); 
+    ok(CloneDestroy.instance_count==1, 'cd: 1 instance');
+    _.disown(copy);
+    ok(CloneDestroy.instance_count==0, 'cd: 0 instances');
 
-    CloneDestroy.clone_count = 0; original = [new CloneDestroy(), new CloneDestroy(), new CloneDestroy()];
-    ok(CloneDestroy.clone_count==3, '3 instances');
+    CloneDestroy.instance_count = 0; original = [new CloneDestroy(), new CloneDestroy(), new CloneDestroy()];
+    ok(CloneDestroy.instance_count==3, 'cd: 3 instances');
+    copy = _.own(original, {share_collection:true});
+    ok(copy===original, 'cd: retained existing');
+    ok(CloneDestroy.instance_count==6, 'cd: 6 instances');
+    _.disown(original); _.disown(copy);                     // memory leak as expected for a shared collection
+    ok(CloneDestroy.instance_count==3, 'cd: 3 instances');  // memory leak as expected for a shared collection
+
+    CloneDestroy.instance_count = 0; original = [new CloneDestroy(), new CloneDestroy(), new CloneDestroy()];
+    ok(CloneDestroy.instance_count==3, 'cd: 3 instances');
     copy = _.own(original);
-    ok(copy===original, 'retained existing');
-    ok(CloneDestroy.clone_count==6, '6 instances');
+    ok(copy!==original, 'cd: retained existing');
+    ok(CloneDestroy.instance_count==6, 'cd: 6 instances');
     _.disown(original); _.disown(copy);
-    ok(CloneDestroy.clone_count==0, '0 instances');
+    ok(CloneDestroy.instance_count==0, 'cd: 0 instances');
 
-    CloneDestroy.clone_count = 0; original = [new CloneDestroy(), new CloneDestroy(), new CloneDestroy()];
-    ok(CloneDestroy.clone_count==3, '3 instances');
-    copy = _.own(original, {clone:true});
-    ok(copy!==original, 'retained existing');
-    ok(CloneDestroy.clone_count==6, '6 instances');
-    _.disown(original); _.disown(copy);
-    ok(CloneDestroy.clone_count==0, '0 instances');
-
-    CloneDestroy.clone_count = 0; original = {one:new CloneDestroy(), two:new CloneDestroy(), three:new CloneDestroy()};
-    ok(CloneDestroy.clone_count==3, '3 instances');
+    CloneDestroy.instance_count = 0; original = {one:new CloneDestroy(), two:new CloneDestroy(), three:new CloneDestroy()};
+    ok(CloneDestroy.instance_count==3, 'cd: 3 instances');
     copy = _.own(original, {properties:true});
-    ok(CloneDestroy.clone_count==6, '6 instances');
+    ok(CloneDestroy.instance_count==6, 'cd: 6 instances');
     _.disown(original, {properties:true}); _.disown(copy, {properties:true});
-    ok(CloneDestroy.clone_count==0, '0 instances');
+    ok(CloneDestroy.instance_count==0, 'cd: 0 instances');
 
-    CloneDestroy.clone_count = 0; original = [new CloneDestroy(), new CloneDestroy(), new CloneDestroy()];
-    _.disown(original, {clear:true});
-    ok(original.length==3, '3 instances');
+    CloneDestroy.instance_count = 0; original = [new CloneDestroy(), new CloneDestroy(), new CloneDestroy()];
+    _.disown(original, {clear_values:true});
+    ok(original.length==3, 'cd: 3 instances');
 
     RetainRelease = (function() {
-      CloneDestroy.retain_count = 0;
-      function RetainRelease() { CloneDestroy.retain_count++; }
-      RetainRelease.prototype.retain = function() { CloneDestroy.retain_count++; };
-      RetainRelease.prototype.release = function() { CloneDestroy.retain_count--; };
+      RetainRelease.instance_count = 0;
+      function RetainRelease() { this.retain_count=1; RetainRelease.instance_count++ }
+      RetainRelease.prototype.retain = function() { this.retain_count++; };
+      RetainRelease.prototype.release = function() { this.retain_count--; if (this.retain_count==0) RetainRelease.instance_count--; };
       return RetainRelease;
     })();
 
-    CloneDestroy.clone_count = 0; original = new RetainRelease();
-    ok(CloneDestroy.retain_count==1, '1 instance');
-    copy = _.own(original);
-    ok(CloneDestroy.retain_count==2, '2 instances');
-    _.disown(original); _.disown(copy);
-    ok(CloneDestroy.retain_count==0, '0 instances');
+    RetainRelease.instance_count = 0; original = new RetainRelease();
+    ok(RetainRelease.instance_count==1, 'rr: 1 instance');
+    ok(original.retain_count==1, 'rr: 1 retain');
+    original_retained = _.own(original);
+    ok(RetainRelease.instance_count==1, 'rr: 1 instances');
+    ok(original_retained==original, 'rr: same object');
+    ok(original.retain_count==2, 'rr: 2 retains');
+    _.disown(original); _.disown(original_retained);
+    ok(RetainRelease.instance_count==0, 'rr: 0 instances');
+    ok(original.retain_count==0, 'rr: 0 retains');
 
-    CloneDestroy.retain_count = 0; original = [new RetainRelease(), new RetainRelease(), new RetainRelease()];
-    ok(CloneDestroy.retain_count==3, '3 instances');
-    copy = _.own(original);
-    ok(CloneDestroy.retain_count==6, '6 instances');
-    _.disown(original); _.disown(copy);
-    ok(CloneDestroy.retain_count==0, '0 instances');
+    RetainRelease.instance_count = 0; original = [new RetainRelease(), new RetainRelease(), new RetainRelease()];
+    ok(RetainRelease.instance_count==3, 'rr: 3 instances');
+    ok(original[0].retain_count==1, 'rr: 1 retain');
+    original_retained = _.own(original);
+    ok(original_retained!==original, 'rr: different object');
+    ok(RetainRelease.instance_count==3, 'rr: 3 instances');
+    ok(original[0].retain_count==2, 'rr: 2 retains');
+    _.disown(original, {clear_values:false});
+    ok(original.length===0, 'rr: 0 values');
+    ok(RetainRelease.instance_count==3, 'rr: 3 instances');
+    ok(original_retained[0].retain_count==1, 'rr: 1 retain');
+    _.disown(original_retained);
+    ok(RetainRelease.instance_count==0, 'rr: 0 instances');
 
-    CloneDestroy.retain_count = 0; original = {one:new RetainRelease(), two:new RetainRelease(), three:new RetainRelease()};
-    ok(CloneDestroy.retain_count==3, '3 instances');
-    copy = _.own(original, {properties:true});
-    ok(CloneDestroy.retain_count==6, '6 instances');
-    _.disown(original, {properties:true}); _.disown(copy, {properties:true});
-    ok(CloneDestroy.retain_count==0, '0 instances');
+    RetainRelease.instance_count = 0; original = [new RetainRelease(), new RetainRelease(), new RetainRelease()];
+    _.disown(original, {clear_values:true});
+    ok(original.length===3, 'rr: 3 values');
+
+    RetainRelease.instance_count = 0; original = {one:new RetainRelease(), two:new RetainRelease(), three:new RetainRelease()};
+    ok(RetainRelease.instance_count==3, 'rr: 3 instances');
+    ok(original.one.retain_count==1, 'rr: 1 retain');
+    original_retained = _.own(original, {share_collection:true, properties:true});
+    ok(original_retained===original, 'rr: different object');
+    ok(RetainRelease.instance_count==3, 'rr: 3 instances');
+    _.disown(original, {properties:true, clear_values:false})
+    ok(_.size(original)==0, 'rr: 0 key/values');
+    ok(RetainRelease.instance_count==3, 'rr: 3 instances');
+    _.disown(original_retained, {properties:true});               // memory leak as expected for a shared collection 
+    ok(RetainRelease.instance_count==3, 'rr: 3 instances');       // memory leak as expected for a shared collection
+
+    RetainRelease.instance_count = 0; original = {one:new RetainRelease(), two:new RetainRelease(), three:new RetainRelease()};
+    ok(RetainRelease.instance_count==3, 'rr: 3 instances');
+    ok(original.one.retain_count==1, 'rr: 1 retain');
+    original_retained = _.own(original, {share_collection:false, properties:true});
+    ok(original_retained!==original, 'rr: same object');
+    ok(RetainRelease.instance_count==3, 'rr: 3 instances');
+    _.disown(original, {properties:true, clear_values:true})
+    ok(_.size(original)==3, 'rr: 3 key/values');
+    ok(RetainRelease.instance_count==3, 'rr: 3 instances');
+    ok(original_retained.one.retain_count==1, 'rr: 1 retain');
+    _.disown(original_retained, {properties:true});
+    ok(RetainRelease.instance_count==0, 'rr: 0 instances');
+
+    RetainRelease.instance_count = 0; original = {one:new RetainRelease(), two:new RetainRelease(), three:new RetainRelease()};
+    _.disown(original, {properties:true, clear_values:true});
+    ok(_.size(original)==3, 'rr: 3 instances');
+
+    RetainReleaseWithClone = (function() {
+      RetainReleaseWithClone.instance_count = 0;
+      function RetainReleaseWithClone() { this.retain_count=1; RetainReleaseWithClone.instance_count++; }
+      RetainReleaseWithClone.prototype.clone = function() { return new RetainReleaseWithClone(); };
+      RetainReleaseWithClone.prototype.retain = function() { this.retain_count++; };
+      RetainReleaseWithClone.prototype.release = function() { this.retain_count--; if (this.retain_count==0) RetainReleaseWithClone.instance_count--; };
+      return RetainReleaseWithClone;
+    })();
+
+    RetainReleaseWithClone.instance_count = 0; original = new RetainReleaseWithClone();
+    ok(RetainReleaseWithClone.instance_count==1, 'rr: 1 instance');
+    ok(original.retain_count==1, 'rrc: 1 retain');
+    copy = _.own(original, {prefer_clone:true});   // a clone exists in addition to retain so use it instead of retain
+    ok(RetainReleaseWithClone.instance_count==2, 'rrc: 2 instances');
+    ok(copy!=original, 'rrc: diferent objects');
+    ok(original.retain_count==1, 'rrc: 1 retains');
+    ok(copy.retain_count==1, 'rrc: 1 retains');
+    _.disown(original); _.disown(copy);
+    ok(RetainReleaseWithClone.instance_count==0, 'rrc: 0 instances');
+    ok(original.retain_count==0, 'rrc: 0 retains');
+    ok(copy.retain_count==0, 'rrc: 0 retains');
+
+    // prefering retain is default, expect same result as RetainRelease
+    RetainReleaseWithClone.instance_count = 0; original = new RetainReleaseWithClone();
+    ok(RetainReleaseWithClone.instance_count==1, 'rrc: 1 instance');
+    ok(original.retain_count==1, 'rrc: 1 retain');
+    original_retained = _.own(original);
+    ok(RetainReleaseWithClone.instance_count==1, 'rrc: 1 instances');
+    ok(original_retained==original, 'rrc: same object');
+    ok(original.retain_count==2, 'rrc: 2 retains');
+    _.disown(original); _.disown(original_retained);
+    ok(RetainReleaseWithClone.instance_count==0, 'rrc: 0 instances');
+    ok(original.retain_count==0, 'rrc: 0 retains');
+  });
 
     CloneDestroy.clone_count = 0; original = {one:new RetainRelease(), two:new RetainRelease(), three:new RetainRelease()};
     _.disown(original, {properties:true, clear:true});
     ok(_.size(original)==3, '3 instances');
   });
+
 });

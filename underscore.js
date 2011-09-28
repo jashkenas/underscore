@@ -291,37 +291,48 @@
   // Deduces the type of ownership of an item and if available, it retains it (reference counted) or clones it.
   // <br />**Options:**<br />
   // * `properties` - used to disambigate between owning an object and owning each property.<br />
-  // * `clone` - used to disambigate between owning a collection's items and cloning a collection.
+  // * `share_collection` - used to disambigate between owning a collection's items (share) and cloning a collection (don't share).
+  // * `prefer_clone` - used to disambigate when both retain and clone exist. By default retain is prefered (eg. sharing for lower memory footprint).
   _.own = function(obj, options) {
-    if (!obj) return obj;
+    if (!obj || (typeof(obj)!='object')) return obj;
     options || (options = {});
     if (_.isArray(obj)) {
-      if (options.clone) { var a_clone =  []; each(obj, function(value) { a_clone.push(_.own(value)); }); return a_clone; }
-      else { each(obj, function(value) { _.own(value); }); return obj; }
+      if (options.share_collection) { each(obj, function(value) { _.own(value, {prefer_clone: options.prefer_clone}); }); return obj; }
+      else { var a_clone =  []; each(obj, function(value) { a_clone.push(_.own(value, {prefer_clone: options.prefer_clone})); }); return a_clone; }
     }
     else if (options.properties) {
-      if (options.clone) { var o_clone = {}; each(obj, function(value, key) { o_clone[key] = _.own(value); }); return o_clone; }
-      else { each(obj, function(value, key) { _.own(value); }); return obj; }
+      if (options.share_collection) { each(obj, function(value, key) { _.own(value, {prefer_clone: options.prefer_clone}); }); return obj; }
+      else { var o_clone = {}; each(obj, function(value, key) { o_clone[key] = _.own(value, {prefer_clone: options.prefer_clone}); }); return o_clone; }
     }
-    else if (obj.retain) obj.retain();
-    else if (obj.clone) obj.clone();
+    else if (obj.retain) {
+      if (options.prefer_clone && obj.clone) return obj.clone();
+      else obj.retain();
+    }
+    else if (obj.clone) return obj.clone();
     return obj;
   };
 
   // Deduces the type of ownership of an item and if available, it releases it (reference counted) or destroys it.
   // <br />**Options:**<br /> 
   // * `properties` - used to disambigate between owning an object and owning each property.<br />
-  // * `clear` - used to disambigate between clearing disowned items and removing them (by default, they are removed).
+  // * `clear_values` - used to disambigate between clearing disowned items and removing them (by default, they are removed).
   _.disown = function(obj, options) {
-    if (!obj) return obj;
+    if (!obj || (typeof(obj)!='object')) return obj;
     options || (options = {});
     if (_.isArray(obj)) {
-      if (options.clear) { each(obj, function(value, index) { _.disown(value); obj[index]=null; }); return obj; }
-      else { each(obj, function(value) { _.disown(value); }); obj=[]; return obj; }
+      if (options.clear_values) { each(obj, function(value, index) { _.disown(value); obj[index]=null; }); return obj; }
+      else { 
+        each(obj, function(value) { _.disown(value); });
+        obj.length=0; return obj; 
+      }
     }
     else if (options.properties) {
-      if (options.clear) { each(obj, function(value, key) { _.disown(value); obj[key]=null; }); return obj; }
-      else { each(obj, function(value) { _.disown(value); }); obj={}; return obj; }
+      if (options.clear_values) { each(obj, function(value, key) { _.disown(value); obj[key]=null; }); return obj; }
+      else { 
+        each(obj, function(value) { _.disown(value); });
+        for(key in obj) { delete obj[key]; }
+        return obj; 
+      }
     }
     else if (obj.release) obj.release();
     else if (obj.destroy) obj.destroy();
