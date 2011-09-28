@@ -454,14 +454,17 @@
   };
 
   // Memoize an expensive function by storing its results.
-  _.memoize = function(func, hasher) {
-    var memo = {};
-    hasher || (hasher = _.identity);
-    return function() {
-      var key = hasher.apply(this, arguments);
-      return hasOwnProperty.call(memo, key) ? memo[key] : (memo[key] = func.apply(this, arguments));
-    };
+  _.memoize = function(func) {
+     "use strict";
+     var cache = (func.memoize = func.memoize || {}),
+         stringifyJson = JSON.stringify,
+         sliceArray = Array.prototype.slice;
+      return function () {
+          var hash = stringifyJson(sliceArray.call(arguments));
+          return (hash in cache) ? cache[hash] : cache[hash] = func.apply(this, arguments);
+      };
   };
+
 
   // Delays a function for the given number of milliseconds, and then calls
   // it with the arguments supplied.
