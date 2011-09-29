@@ -711,6 +711,11 @@
     return _.CONVERT_NONE;
   };
 
+  // Helper to checks if a conversion is available including being the actual type
+  _.isConvertible = function(obj, key) {
+    return (_.conversionPath(obj, key)>0);
+  };
+
   // Converts from one time to another using a string, keypath or constructor if it can find a conversion path.
   _.toType = function(obj, key) {
     var keypath_components = _.isArray(key) ? key : (_.isString(key) ? key.split('.') : undefined);

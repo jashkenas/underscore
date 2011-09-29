@@ -179,6 +179,43 @@ $(document).ready(function() {
     ok(result instanceof SomeNamespace.SomeClass2, 'SomeNamespace.SomeClass2 was created by constructor function');
   });
 
+  test("objects: isConvertible", function() {
+    window.SomeNamespace || (window.SomeNamespace = {});
+    var instance;
+    
+    SomeNamespace.SuperClass = (function() {
+      function SuperClass() {}
+      return SuperClass;
+    })();
+    
+    SomeSubClass = (function() {
+       __extends(SomeSubClass, SomeNamespace.SuperClass);
+      function SomeSubClass() {}
+      return SomeSubClass;
+    })();
+    
+    SomeUnrelatedClass1 = (function() {
+      function SomeUnrelatedClass1() { this.super_instance = new SomeNamespace.SuperClass(); }
+      SomeUnrelatedClass1.prototype.toSuperClass = function() { return this.super_instance; } 
+      return SomeUnrelatedClass1;
+    })();
+    
+    instance = new SomeNamespace.SuperClass();
+    ok(_.isConvertible(instance, 'SomeNamespace.SuperClass'), 'SomeNamespace.SuperClass can convert to SomeNamespace.SuperClass by string');
+    ok(_.isConvertible(instance, SomeNamespace.SuperClass), 'SomeNamespace.SuperClass can convert to SomeNamespace.SuperClass by constructor');
+    ok(!_.isConvertible(instance, 'SuperClass'), 'SomeNamespace.SuperClass cannot convert to SuperClass by string');
+    
+    instance = new SomeSubClass();
+    ok(_.isConvertible(instance, 'SomeNamespace.SuperClass'), 'SomeSubClass can convert to SomeNamespace.SuperClass by string');
+    ok(_.isConvertible(instance, SomeNamespace.SuperClass), 'SomeSubClass can convert to SomeNamespace.SuperClass by constructor');
+    ok(!_.isConvertible(instance, 'SuperClass'), 'SomeSubClass cannot convert to SuperClass by string');
+    
+    instance = new SomeUnrelatedClass1();
+    ok(_.isConvertible(instance, 'SomeNamespace.SuperClass'), 'SomeUnrelatedClass1 can convert to SomeNamespace.SuperClass by string');
+    ok(_.isConvertible(instance, SomeNamespace.SuperClass), 'SomeUnrelatedClass1 can convert to SomeNamespace.SuperClass by constructor');
+    ok(_.isConvertible(instance, 'SuperClass'), 'SomeUnrelatedClass1 can convert to SuperClass by string (because it has a toSuperClass method)');
+  });
+
   test("objects: toType", function() {
     window.SomeNamespace || (window.SomeNamespace = {});
     var instance, result;
