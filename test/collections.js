@@ -220,7 +220,7 @@ $(document).ready(function() {
   });
 
   test('collections: own and disown', function() {
-    var original, copy;
+    var original, original_again, copy;
 
     original = null;
     copy = _.own(original);
@@ -246,11 +246,12 @@ $(document).ready(function() {
 
     CloneDestroy.instance_count = 0; original = [new CloneDestroy(), new CloneDestroy(), new CloneDestroy()];
     ok(CloneDestroy.instance_count==3, 'cd: 3 instances');
-    copy = _.own(original, {share_collection:true});
-    ok(copy===original, 'cd: retained existing');
+    original_again = _.own(original, {share_collection:true});
+    ok(original_again===original, 'cd: retained existing');
     ok(CloneDestroy.instance_count==6, 'cd: 6 instances');
-    _.disown(original); _.disown(copy);                     // memory leak as expected for a shared collection
-    ok(CloneDestroy.instance_count==3, 'cd: 3 instances');  // memory leak as expected for a shared collection
+    copy = _.clone(original_again)
+    _.disown(original); _.disown(copy);
+    ok(CloneDestroy.instance_count==0, 'cd: 0 instances');
 
     CloneDestroy.instance_count = 0; original = [new CloneDestroy(), new CloneDestroy(), new CloneDestroy()];
     ok(CloneDestroy.instance_count==3, 'cd: 3 instances');
@@ -311,14 +312,15 @@ $(document).ready(function() {
     RetainRelease.instance_count = 0; original = {one:new RetainRelease(), two:new RetainRelease(), three:new RetainRelease()};
     ok(RetainRelease.instance_count==3, 'rr: 3 instances');
     ok(original.one.retain_count==1, 'rr: 1 retain');
-    original_retained = _.own(original, {share_collection:true, properties:true});
-    ok(original_retained===original, 'rr: different object');
+    original_again = _.own(original, {share_collection:true, properties:true});
+    ok(original_again===original, 'rr: different object');
     ok(RetainRelease.instance_count==3, 'rr: 3 instances');
+    copy = _.clone(original_again);
     _.disown(original, {properties:true, clear_values:false})
     ok(_.size(original)==0, 'rr: 0 key/values');
     ok(RetainRelease.instance_count==3, 'rr: 3 instances');
-    _.disown(original_retained, {properties:true});               // memory leak as expected for a shared collection 
-    ok(RetainRelease.instance_count==3, 'rr: 3 instances');       // memory leak as expected for a shared collection
+    _.disown(copy, {properties:true}); 
+    ok(RetainRelease.instance_count==0, 'rr: 0 instances');
 
     RetainRelease.instance_count = 0; original = {one:new RetainRelease(), two:new RetainRelease(), three:new RetainRelease()};
     ok(RetainRelease.instance_count==3, 'rr: 3 instances');
