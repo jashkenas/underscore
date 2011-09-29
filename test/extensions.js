@@ -24,7 +24,7 @@ $(document).ready(function() {
     return new Date(Date.UTC(obj.year, obj.month, obj.day, obj.hours, obj.minutes, obj.seconds))
   };
 
-  window.window.SomeNamespace || (window.SomeNamespace = {});
+  window.SomeNamespace || (window.SomeNamespace = {});
   SomeNamespace.SomeClass = (function() {
     function SomeClass(int_value, string_value, date_value) { 
       this.int_value = int_value; 
@@ -77,6 +77,26 @@ $(document).ready(function() {
     ok(_.isEqual(result[0],object), 'serialized object 1 isEqual');
     ok(_.isEqual(result[1],object), 'serialized object 2 isEqual');
     ok(_.isEqual(result[2],object), 'serialized object 3 isEqual');
+
+    result = _.toJSON(array, {excluded: [some_class]});
+    ok(result.length===0, 'everything excluded');
+    result = _.toJSON(array, {excluded: [null]});
+    ok(result.length===3, 'nothing excluded');
+    
+    result = _.toJSON(object, {properties: true, excluded: ['int_value', 'date_value']});
+    ok(_.size(result)===2, 'two excluded');
+    ok(!result.hasOwnProperty('int_value'), 'int_value excluded');
+    ok(!result.hasOwnProperty('date_value'), 'date_value excluded');
+
+    result = _.toJSON(object, {properties: true, included: ['int_value', 'date_value']});
+    ok(_.size(result)===2, 'two included');
+    ok(result.hasOwnProperty('int_value'), 'int_value included');
+    ok(result.hasOwnProperty('date_value'), 'date_value included');
+
+    result = _.toJSON(object, {properties: true, included: ['int_value', 'date_value'], excluded: ['date_value', 'bob']});
+    ok(_.size(result)===1, 'two included but one excluded == 1');
+    ok(result.hasOwnProperty('int_value'), 'int_value included');
+    ok(!result.hasOwnProperty('date_value'), 'date_value excluded');
   });
 
   test("extensions: parseJSON", function() {
@@ -146,7 +166,7 @@ $(document).ready(function() {
         seconds:date_value.getUTCSeconds()
       },
     };
-    result = _.parseJSON(embedded_objects, {parse_properties: true});
+    result = _.parseJSON(embedded_objects, {properties: true});
     ok(_.size(result)===3, 'serialized property count');
     ok(result.date_value1 instanceof Date, 'serialized object date 1 correct type');
     ok(result.date_value2 instanceof Date, 'serialized object date 2 correct type');
