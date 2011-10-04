@@ -562,6 +562,20 @@
     return _.map(obj, _.identity);
   };
 
+  // Finds the object that has or 'owns' the value if a dot-delimited or array of keys path to a value exists.
+  _.keypathValueOwner = function(object, keypath) {
+    var key, keypath_components = _.isString(keypath) ? keypath.split('.') : keypath;
+    var current_object = object;
+    for (var i = 0, l = keypath_components.length; i < l;) {
+      key = keypath_components[i];
+      if (!(key in current_object)) break;
+      if (++i === l) return current_object;
+      current_object = current_object[key];
+      if (!current_object || !(current_object instanceof Object)) break;
+    }
+    return undefined;
+  };
+  
   // Return a sorted list of the function names available on the object.
   // Aliased as `methods`
   _.functions = _.methods = function(obj) {
@@ -643,6 +657,23 @@
     // Recursive comparison of contents.
     for (var key in a) if (!(key in b) || !_.isEqual(a[key], b[key])) return false;
     return true;
+  };
+
+  // Get a specific super class function if it exists. Can be useful when dynamically updating a hierarchy.
+  _.getSuperFunction = function(object, function_name) {
+    var value_owner = _.keypathValueOwner(object, ['constructor','__super__',function_name]);
+    return (value_owner && _.isFunction(value_owner[function_name])) ? value_owner[function_name] : undefined;
+  };
+
+  // Call a specific super class function with trailing arguments if it exists. 
+  _.superCall = function(object, function_name) {
+    return _.superApply(object, function_name, slice.call(arguments, 2));
+  };
+
+  // Call a specific super class function with an arguments list if it exists. 
+  _.superApply = function(object, function_name, args) {
+    var super_function = _.getSuperFunction(object, function_name);
+    return super_function ? super_function.apply(object, args) : undefined;
   };
 
   // Is a given array or object empty?
