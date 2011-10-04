@@ -172,6 +172,36 @@ $(document).ready(function() {
     equals(_.pluck(people, 'name').join(', '), 'moe, curly', 'pulls names out of objects');
   });
 
+  test('collections: copyProperties', function() {
+    var person1;
+    var person2;
+
+    person1 = {name : 'curly', age : 50}; person2 = {}
+    _.copyProperties(person2, person1);
+    ok(_.isEqual(person1, {name : 'curly', age : 50}), 'no change to person1');
+    ok(_.isEqual(person2, person1), 'copies everything over');
+    
+    person1 = {name : 'curly', age : 50}; person2 = {}
+    _.copyProperties(person2, person1, ['name']);
+    ok(_.isEqual(person1, {name : 'curly', age : 50}), 'no change to person1');
+    ok(_.isEqual(person2, {name : 'curly'}), 'copies only name over');
+
+    person1 = {name : 'curly', age : 50}; person2 = {}
+    _.copyProperties(person2, person1, undefined, true);
+    ok(_.isEqual(person1, {}), 'person1 loses all of its properties');
+    ok(_.isEqual(person2, {name : 'curly', age : 50}), 'moves everything over');
+
+    person1 = {name : 'curly', age : 50}; person2 = {}
+    _.copyProperties(person2, person1, ['name'], true);
+    ok(_.isEqual(person1, {age : 50}), 'person1 loses name property');
+    ok(_.isEqual(person2, {name : 'curly'}), 'person1 gets name property');
+
+    person1 = {name : 'curly', age : 50}; person2 = {gender: 'male'}
+    _.copyProperties(person2, person1, ['name'], true);
+    ok(_.isEqual(person1, {age : 50}), 'person1 loses name property');
+    ok(_.isEqual(person2, {name : 'curly', gender: 'male'}), 'person1 gets name property and retains gender');
+  });
+
   test('collections: max', function() {
     equals(3, _.max([1, 2, 3]), 'can perform a regular Math.max');
 
