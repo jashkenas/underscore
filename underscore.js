@@ -217,6 +217,16 @@
     return _.map(obj, function(value){ return value[key]; });
   };
 
+  // Get a value and if it does not exist, return the missing_value.
+  // Optionally remove the value if you provide a remove parameter.
+  _.getValue = function(obj, key, missing_value, remove) {
+    if (hasOwnProperty.call(obj, key)) {
+      if (!remove) return obj[key];
+      var value = obj[key]; delete obj[key]; return value;
+    }
+    else return missing_value;
+  };
+
   // Return the maximum element or (element-based computation).
   _.max = function(obj, iterator, context) {
     if (!iterator && _.isArray(obj)) return Math.max.apply(Math, obj);

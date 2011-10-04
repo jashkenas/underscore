@@ -172,6 +172,15 @@ $(document).ready(function() {
     equals(_.pluck(people, 'name').join(', '), 'moe, curly', 'pulls names out of objects');
   });
 
+  test('collections: getValue', function() {
+    var person = {name : 'moe', age : 30}, result;
+    
+    result = _.getValue(person, 'name', 'curly');
+    equals(result, 'moe', 'gets the value when it exists');
+    result = _.getValue(person, 'first_name', 'curly');
+    equals(result, 'curly', 'gets the default value when it does not exist');
+  });
+
   test('collections: max', function() {
     equals(3, _.max([1, 2, 3]), 'can perform a regular Math.max');
 
