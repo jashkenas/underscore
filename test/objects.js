@@ -88,6 +88,35 @@ $(document).ready(function() {
     equals(_({x: 1, y: 2}).chain().isEqual(_({x: 1, y: 2}).chain()).value(), true, 'wrapped objects are equal');
   });
 
+  test("objects: functionExists", function() {
+    SomeClass = (function() {
+      function SomeClass() {}
+      SomeClass.prototype.callMe = function() {};
+      return SomeClass;
+    })();
+    
+    var some_instance = new SomeClass();
+    ok(_.functionExists(some_instance, 'callMe'), 'callMe exists');
+    ok(!_.functionExists(some_instance, 'dontCallMe'), 'dontCallMe does not exist');
+  });
+
+  test("objects: callIfExists", function() {
+    SomeClass = (function() {
+      function SomeClass() { this.phone_number = null; }
+      SomeClass.prototype.callMe = function(phone_number) { this.phone_number = phone_number; return this.phone_number; };
+      return SomeClass;
+    })();
+
+    var some_instance = new SomeClass(), result;
+    ok(!some_instance.phone_number, 'no phone number');
+    result = _.callIfExists(some_instance, 'callMe', '555-555-5555');
+    ok(result==='555-555-5555', 'callMe made the change');
+    ok(some_instance.phone_number=='555-555-5555', 'callMe made the change');
+
+    result = _.callIfExists(some_instance, 'dontCallMe');
+    ok(!result, 'silently ignored');
+  });
+
   test("objects: isEmpty", function() {
     ok(!_([1]).isEmpty(), '[1] is not empty');
     ok(_.isEmpty([]), '[] is empty');
