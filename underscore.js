@@ -645,6 +645,33 @@
     return true;
   };
 
+  // Does the dot-delimited or array of keys path to a value exist.
+  _.hasKeypath = _.keypathExists = function(object, keypath) {
+    return !!_.keypathValueOwner(object, keypath);
+  };
+
+  // Finds the object that has or 'owns' the value if a dot-delimited or array of keys path to a value exists.
+  _.keypathValueOwner = function(object, keypath) {
+    var key, keypath_components = _.isString(keypath) ? keypath.split('.') : keypath;
+    var current_object = object;
+    for (var i = 0, l = keypath_components.length; i < l;) {
+      key = keypath_components[i];
+      if (!(key in current_object)) break;
+      if (++i === l) return current_object;
+      current_object = current_object[key];
+      if (!current_object || !(current_object instanceof Object)) break;
+    }
+    return undefined;
+  };
+
+  // Returns the class of an object, if it exists.
+  _.classOf = function(object) {
+    if (!(object instanceof Object)) return undefined;
+    if (_.keypathExists(object, ['prototype', 'constructor', 'name'])) return object.prototype.constructor.name;
+    else if (_.keypathExists(object, ['constructor', 'name'])) return object.constructor.name;
+    return undefined;
+  };
+
   // Is a given array or object empty?
   _.isEmpty = function(obj) {
     if (_.isArray(obj) || _.isString(obj)) return obj.length === 0;

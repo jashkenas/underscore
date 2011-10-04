@@ -88,6 +88,32 @@ $(document).ready(function() {
     equals(_({x: 1, y: 2}).chain().isEqual(_({x: 1, y: 2}).chain()).value(), true, 'wrapped objects are equal');
   });
 
+  var __extends = function(child, parent) {
+    for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; }
+    function ctor() { this.constructor = child; }
+    ctor.prototype = parent.prototype;
+    child.prototype = new ctor;
+    child.__super__ = parent.prototype;
+    return child;
+  };
+
+  test("objects: classOf", function() {
+    Superclass = (function() {
+      function Superclass() {}
+      return Superclass;
+    })();
+    var superclass = new Superclass();
+    equal(_.classOf(superclass), 'Superclass', 'it is a Superclass');
+
+    Subclass = (function() {
+      __extends(Subclass, Superclass);
+      function Subclass() {}
+      return Subclass;
+    })();
+    var subclass = new Subclass();
+    equal(_.classOf(subclass), 'Subclass', 'it is a Subclass');
+  });
+
   test("objects: isEmpty", function() {
     ok(!_([1]).isEmpty(), '[1] is not empty');
     ok(_.isEmpty([]), '[] is empty');
