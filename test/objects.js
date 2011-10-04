@@ -264,4 +264,11 @@ $(document).ready(function() {
       value();
     ok(returned == 6 && intercepted == 6, 'can use tapped objects in a chain');
   });
+
+  test('objects: delete', function () {
+    var sex_pistols = {john: 'lydon', steve: 'johns', glen: 'matlock', paul: 'cock', sid: 'viscious'};
+    equals(_.delete(sex_pistols, 'sid'), 'viscious', 'returns value of removed key');
+    equals(sex_pistols.sid, undefined, 'removes pair from the object');
+    equals(_.values(sex_pistols).join(','), 'lydon,johns,matlock,cock', 'leaves ther elements untouched');
+  });
 });

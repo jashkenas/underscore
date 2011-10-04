@@ -597,6 +597,13 @@
     return _.isArray(obj) ? obj.slice() : _.extend({}, obj);
   };
 
+  // Removes given key from an object and returns it's value.
+  _.delete = function(obj, key) {
+    var val = obj[key];
+    delete obj[key];
+    return val;
+  };
+
   // Invokes interceptor with the obj, and then returns obj.
   // The primary purpose of this method is to "tap into" a method chain, in
   // order to perform operations on intermediate results within the chain.
