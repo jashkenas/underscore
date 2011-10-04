@@ -214,7 +214,13 @@
 
   // Convenience version of a common use case of `map`: fetching a property.
   _.pluck = function(obj, key) {
-    return _.map(obj, function(value){ return value[key]; });
+    _.isArray(key) || (key = [key]);
+    return _.map(obj, function(value) {
+      each(key, function(nestedKey) {
+        value = value[nestedKey];
+      });
+      return value;
+    });
   };
 
   // Return the maximum element or (element-based computation).

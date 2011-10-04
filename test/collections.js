@@ -172,6 +172,12 @@ $(document).ready(function() {
     equals(_.pluck(people, 'name').join(', '), 'moe, curly', 'pulls names out of objects');
   });
 
+  test('collections: pluck w/ nested objects', function() {
+    var people = [{name : 'moe', age : 30, address: {city: 'bensonhurst'}},
+      {name : 'larry', age : 20, address: {city: 'philadelphia'}}];
+    equals(_.pluck(people, ['address', 'city']).join(', '), 'bensonhurst, philadelphia', 'pulls city out of nested address object');
+  });
+
   test('collections: max', function() {
     equals(3, _.max([1, 2, 3]), 'can perform a regular Math.max');
 
