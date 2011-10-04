@@ -212,9 +212,11 @@
     });
   };
 
-  // Convenience version of a common use case of `map`: fetching a property.
-  _.pluck = function(obj, key) {
-    return _.map(obj, function(value){ return value[key]; });
+  // Convenience version of a common use case of `map`: fetching a property. 
+  // Optionally removes all copied values from the source if you provide a remove parameter.
+  _.pluck = function(obj, key, remove) {
+    return remove ? _.map(obj, function(value) { var val = value[key]; delete value[key]; return val; }) :
+      _.map(obj, function(value){ return value[key]; });
   };
 
   // Return the maximum element or (element-based computation).
