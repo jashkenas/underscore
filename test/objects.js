@@ -19,6 +19,60 @@ $(document).ready(function() {
     equals(_.values({one : 1, two : 2}).join(', '), '1, 2', 'can extract the values from an object');
   });
 
+  test("objects: keypathExists", function() {
+    var object = {follow: {me: {down: {the: 'road'} } } };
+
+    ok(_.hasKeypath(object, 'follow.me'), 'follow.me exists');
+    ok(_.hasKeypath(object, ['follow','me']), 'follow.me as array exists');
+    ok(_.hasKeypath(object, 'follow.me.down.the'), 'follow.me.down.the exists');
+    ok(_.hasKeypath(object, ['follow','me','down','the']), 'follow.me.down.the as array exists');
+    ok(!_.hasKeypath(object, 'follow.me.down.the.road'), 'follow.me.down.the.road does not exist');
+    ok(!_.hasKeypath(object, ['follow','me','down','the','road']), 'follow.me.down.the.road as array does not exist');
+  });
+
+  test("objects: keypathValueOwner", function() {
+    var object = {follow: {me: {down: {the: 'road'} } } };
+
+    ok(object.follow === _.keypathValueOwner(object, 'follow.me'), 'follow.me owner as expected');
+    ok(object.follow === _.keypathValueOwner(object, ['follow','me']), 'follow.me as array owner as expected');
+    ok(object.follow.me.down === _.keypathValueOwner(object, 'follow.me.down.the'), 'follow.me.down.the owner as expected');
+    ok(object.follow.me.down === _.keypathValueOwner(object, ['follow','me','down','the']), 'follow.me.down.the as array owner as expected');
+    ok(!_.keypathValueOwner(object, 'follow.me.down.the.road'), 'follow.me.down.the.road owner does not exist');
+    ok(!_.keypathValueOwner(object, ['follow','me','down','the','road']), 'follow.me.down.the.road owner as array does not exist');
+  });
+
+  test("objects: keypath", function() {
+    var object = {follow: {me: {down: {the: 'road'} } } }, result;
+
+    // get
+    result = _.keypath(object, 'follow.me');
+    ok(_.isEqual(result,{down: {the: 'road'} }), 'follow.me value as expected');
+    result = _.keypath(object, ['follow','me']);
+    ok(_.isEqual(result,{down: {the: 'road'} }), 'follow.me value as expected');
+    result = _.keypath(object, 'follow.me.down.the');
+    ok(_.isEqual(result,'road'), 'follow.me.down.the value as expected');
+    result = _.keypath(object, ['follow','me','down','the']);
+    ok(_.isEqual(result,'road'), 'follow.me.down.the value as array as expected');
+    result = _.keypath(object, 'follow.me.down.the.road');
+    ok(!result, 'follow.me.down.the.road does not exist');
+    result = _.keypath(object, ['follow','me','down','the','road']);
+    ok(!result, 'follow.me.down.the.road owner as array does not exist');
+
+    // set
+    object = {follow: {me: {down: {the: 'road'} } } }; _.keypath(object, 'follow.me', 'if you want to live');
+    ok(_.isEqual(object.follow.me,'if you want to live'), 'follow.me value as expected');
+    object = {follow: {me: {down: {the: 'road'} } } }; _.keypath(object, ['follow','me'], 'and hold this big bag of money');
+    ok(_.isEqual(object.follow.me,'and hold this big bag of money'), 'follow.me value as expected');
+    object = {follow: {me: {down: {the: 'road'} } } }; _.keypath(object, 'follow.me.down.the', 'rabbit hole');
+    ok(_.isEqual(object.follow.me.down.the,'rabbit hole'), 'follow.me.down.the value as expected');
+    object = {follow: {me: {down: {the: 'road'} } } }; _.keypath(object, ['follow','me','down','the'], '...damn, we are surrounded');
+    ok(_.isEqual(object.follow.me.down.the,'...damn, we are surrounded'), 'follow.me.down.the value as array as expected');
+    object = {follow: {me: {down: {the: 'road'} } } }; result = _.keypath(object, 'follow.me.down.the.road', 'nevermind');
+    ok(!result, 'follow.me.down.the.road not set');
+    object = {follow: {me: {down: {the: 'road'} } } }; result = _.keypath(object, ['follow','me','down','the','road'], 'bleach');
+    ok(!result, 'follow.me.down.the.road as array not set');
+  });
+
   test("objects: functions", function() {
     var obj = {a : 'dash', b : _.map, c : (/yo/), d : _.reduce};
     ok(_.isEqual(['b', 'd'], _.functions(obj)), 'can grab the function names of any passed-in object');
