@@ -562,6 +562,19 @@
     return _.map(obj, _.identity);
   };
 
+  // Finds the object that has or 'owns' the value if a dot-delimited path to a value exists.
+  _.keypathValueOwner = function(object, keypath) {
+    var key, keypath_components = _.isString(keypath) ? keypath.split('.') : keypath;
+    var current_object = object, i = 0, l = keypath_components.length;
+    while (i < l) {
+      key = keypath_components[i];
+      if (!current_object || !(key in current_object)) break;
+      if (++i === l) return current_object;
+      current_object = current_object[key];
+    }
+    return undefined;
+  };
+
   // Return a sorted list of the function names available on the object.
   // Aliased as `methods`
   _.functions = _.methods = function(obj) {
@@ -717,6 +730,111 @@
   // Is a given variable undefined?
   _.isUndefined = function(obj) {
     return obj === void 0;
+  };
+
+  // JSON Functions
+  // -----------------
+  
+  // Convert an array of objects or an object to JSON using the convention that if an
+  // object has a toJSON function, it will use it rather than the raw object.
+  // <br />**Options:**<br />
+  //* `properties` - used to disambigate between owning a collection's items and cloning a collection.
+  //* `included` - can provide an array to include values or keys.
+  //* `excluded` - can provide an array to exclude values or keys.
+  _.toJSON = function(obj, options) {
+    // Simple type - exit quickly
+    if (!obj || (typeof(obj)!=='object')) return obj;
+
+    options||(options={});
+    var result;
+    if (_.isArray(obj)) {
+      if (options.included) {
+        var items;
+        if (options.excluded) items = _.difference(options.included, options.excluded);
+        else items = options.included;
+        result = {};
+        each(items, function(item) { if (_.contains(obj, item)) result.push(_.toJSON(item)); });
+        return result;
+      }
+      else if (options.excluded) {
+        result = [];
+        each(obj, function(value) { if (!_.contains(options.excluded, value)) result.push(_.toJSON(value)); });
+        return result;
+      }
+      else {
+        result = [];
+        each(obj, function(value) { result.push(_.toJSON(value)); });
+        return result;
+      }
+    }
+    else {
+      if(obj.toJSON) return obj.toJSON();
+      else if(options.properties) {
+        if (options.included) {
+          var keys;
+          if (options.excluded) keys = _.difference(options.included, options.excluded);
+          else keys = options.included;
+          result = {};
+          each(keys, function(key) { if (obj.hasOwnProperty(key)) result[key] = _.toJSON(obj[key]); });
+          return result;
+        }
+        else if (options.excluded) {
+          result = {};
+          each(obj, function(value, key) { if (!_.contains(options.excluded, key)) result[key] = _.toJSON(value); });
+          return result;
+        }
+        else {
+          result = {};
+          each(obj, function(value, key) { result[key] = _.toJSON(value); });
+          return result;
+        }
+      }
+    }
+    
+    return obj;
+  };
+
+  // Deserialized an array of JSON objects or each object individually using the following conventions:
+  // 1) if JSON has a recognized type identifier ('\_type' as default), it will try to create an instance.
+  // 2) if the class refered to by the type identifier has a parseJSON function, it will try to create an instance.
+  // <br />**Options:**<br />
+  //* `type_field` - the default is '\_type' but you can choose any field name to trigger the search for a parseJSON function.<br />
+  //* `properties` - used to disambigate between owning a collection's items and cloning a collection.
+  _.parseJSON = function(obj, options) {
+    var obj_type = typeof(obj);
+
+    // Simple type - exit quickly
+    if ((obj_type!=='object') && (obj_type!=='string')) return obj;
+
+    // The object is still a JSON string, convert to JSON
+    if ((obj_type==='string') && obj.length && ((obj[0] === '{')||(obj[0] === '['))) {
+      try { var obj_as_JSON = JSON.parse(obj); if (obj_as_JSON) obj = obj_as_JSON; } 
+      catch (_e) {throw new TypeError("Unable to parse JSON: " + obj);}
+    }
+
+    // Parse an array
+    var result;
+    if (_.isArray(obj)) {
+      result = [];
+      each(obj, function(value) { result.push(_.parseJSON(value, type_field)); });
+      return result;
+    }
+    
+    // Parse the properties individually
+    else if(options && options.properties) {
+      result = {};
+      each(obj, function(value, key) { result[key] = _.parseJSON(value, type_field); });
+      return result;
+    }
+
+    // No deseralization available
+    var type_field = (options && options.type_field) ? options.type_field : '_type';    // Convention
+    if (!(obj instanceof Object) || !obj.hasOwnProperty(type_field)) return obj;
+
+    // Find and use the parseJSON function
+    var type = obj[type_field], parseJSON_owner = _.keypathValueOwner(window, type+'.parseJSON');
+    if (!parseJSON_owner) throw new TypeError("Unable to find a parseJSON function for type: " + type);
+    return parseJSON_owner.parseJSON(obj);
   };
 
   // Utility Functions
