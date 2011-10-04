@@ -562,6 +562,28 @@
     return _.map(obj, _.identity);
   };
 
+  // Finds the object that has or 'owns' the value if a dot-delimited or array of keys path to a value exists.
+  _.keypathValueOwner = function(object, keypath) {
+    var key, keypath_components = _.isString(keypath) ? keypath.split('.') : keypath;
+    var current_object = object;
+    for (var i = 0, l = keypath_components.length; i < l;) {
+      key = keypath_components[i];
+      if (!(key in current_object)) break;
+      if (++i === l) return current_object;
+      current_object = current_object[key];
+      if (!current_object || !(current_object instanceof Object)) break;
+    }
+    return undefined;
+  };
+
+  // Get the value if a dot-delimited or array of keys path exists.
+  _.keypathValue = function(object, keypath, missing_value) {
+    var keypath_components = _.isString(keypath) ? keypath.split('.') : keypath;
+    var value_owner = _.keypathValueOwner(object, keypath_components);
+    if (!value_owner) return missing_value;
+    return value_owner[keypath_components[keypath_components.length-1]];
+  };
+
   // Return a sorted list of the function names available on the object.
   // Aliased as `methods`
   _.functions = _.methods = function(obj) {
@@ -643,6 +665,73 @@
     // Recursive comparison of contents.
     for (var key in a) if (!(key in b) || !_.isEqual(a[key], b[key])) return false;
     return true;
+  };
+
+  // Is a given value a constructor?
+  _.isConstructor = function(obj) {
+    return (_.isFunction(obj) && obj.name);
+  };
+
+  // Returns the class constructor (function return type) using a string, keypath or constructor.
+  _.resolveConstructor = function(key) {
+    var keypath_components = _.isArray(key) ? key : (_.isString(key) ? key.split('.') : undefined);
+
+    if (keypath_components) { 
+      var constructor = (keypath_components.length===1) ? window[keypath_components[0]] : _.keypathValue(window, keypath_components);
+      return (constructor && _.isConstructor(constructor)) ? constructor : undefined;
+    }
+    else if (_.isFunction(key) && _.isConstructor(key)) {
+      return key;
+    }
+    return undefined;
+  };
+
+  // Determines whether a conversion is possible checking typeof, instanceof, is{SomeType}(), to{SomeType}() using a string, keypath or constructor..
+  // Convention for is{SomeType}(), to{SomeType}() with namespaced classes is to remove the namespace (like Javascript does).
+  // **Note: if you pass a constructor, the constructor name may not exist on the function so use a string if you are relying on is{SomeType}(), to{SomeType}().**
+  _.CONVERT_NONE = 0;
+  _.CONVERT_IS_TYPE = 1;
+  _.CONVERT_TO_METHOD = 2;
+  _.conversionPath = function(obj, key) {
+    var keypath_components = _.isArray(key) ? key : (_.isString(key) ? key.split('.') : undefined);
+    
+    // Built-in type
+    var obj_type = typeof(obj), check_name = keypath_components ? keypath_components[keypath_components.length-1] : undefined;
+    if (keypath_components && (obj_type === check_name)) return _.CONVERT_IS_TYPE;
+
+    // Resolved a constructor and object is an instance of it.
+    var construtor = _.resolveConstructor(keypath_components ? keypath_components : key);
+    if (construtor && (obj_type == 'object')) { try { if (obj instanceof construtor) return _.CONVERT_IS_TYPE; } catch (_e) {} }
+    check_name = (construtor && construtor.name) ? construtor.name : check_name;
+    if (!check_name) return _.CONVERT_NONE;
+
+    // Try the conventions: is{SomeType}(), to{SomeType}()
+    if (_['is'+check_name] && _['is'+check_name](obj)) return _.CONVERT_IS_TYPE;
+    else if ((obj_type == 'object') && obj['to'+check_name]) return _.CONVERT_TO_METHOD;
+    return _.CONVERT_NONE;
+  };
+
+  // Helper to checks if a conversion is available including being the actual type
+  _.isConvertible = function(obj, key) {
+    return (_.conversionPath(obj, key)>0);
+  };
+
+  // Converts from one time to another using a string, keypath or constructor if it can find a conversion path.
+  _.toType = function(obj, key) {
+    var keypath_components = _.isArray(key) ? key : (_.isString(key) ? key.split('.') : undefined);
+
+    switch (_.conversionPath(obj, keypath_components ? keypath_components : key)) {
+      /*_.CONVERT_IS_TYPE*/   case 1: return obj;
+      /*_.CONVERT_TO_METHOD*/ case 2: 
+        if (keypath_components) {
+          return obj['to'+keypath_components[keypath_components.length-1]]();
+        }
+        else {
+          var constructor = _.resolveConstructor(key);
+          return (constructor && constructor.name) ? obj['to'+constructor.name]() : undefined;
+        }
+    }
+    return undefined;
   };
 
   // Is a given array or object empty?
