@@ -88,6 +88,27 @@ $(document).ready(function() {
     equals(_({x: 1, y: 2}).chain().isEqual(_({x: 1, y: 2}).chain()).value(), true, 'wrapped objects are equal');
   });
 
+  test("objects: isEqual for classes", function() {
+    LocalizedString = (function() {
+      function LocalizedString(id) { this.id = id; this.string = 'Bonjour'; }
+      LocalizedString.prototype.isEqual = function(that) { 
+        if (_.isString(that)) return this.string == that;
+        else if (that instanceof LocalizedString) return this.id == that.id;
+        return false;
+      };
+      return LocalizedString;
+    })();
+
+    var localized_string1 = new LocalizedString(10), localized_string2 = new LocalizedString(10), localized_string3 = new LocalizedString(11);
+
+    ok(_.isEqual(localized_string1, localized_string2), 'comparing same typed instances with same values');
+    ok(!_.isEqual(localized_string1, localized_string3), 'comparing same typed instances with different values');
+    ok(_.isEqual(localized_string1, 'Bonjour'), 'comparing different typed instances with same values');
+    ok(_.isEqual('Bonjour', localized_string1), 'comparing different typed instances with same values');
+    ok(!_.isEqual(localized_string1, 'Au revoir'), 'comparing different typed instances with different values');
+    ok(!_.isEqual('Au revoir', localized_string1), 'comparing different typed instances with different values');
+  });
+
   test("objects: isEmpty", function() {
     ok(!_([1]).isEmpty(), '[1] is not empty');
     ok(_.isEmpty([]), '[] is empty');
