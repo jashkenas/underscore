@@ -402,6 +402,11 @@ $(document).ready(function() {
     ok(_.isBoolean(iBoolean), 'even from another frame');
   });
 
+  test("objects: isCallable", function() {
+    ok(_.isCallable(_.isCallable), 'functions are always callable');
+    // we can't guarantee that any other objects are *not* callable
+  });
+
   test("objects: isFunction", function() {
     ok(!_.isFunction([1, 2, 3]), 'arrays are not functions');
     ok(!_.isFunction('moe'), 'strings are not functions');

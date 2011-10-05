@@ -671,7 +671,7 @@
     if (a._chain) a = a._wrapped;
     if (b._chain) b = b._wrapped;
     // Invoke a custom `isEqual` method if one is provided.
-    if (_.isFunction(a.isEqual)) return a.isEqual(b);
+    if (_.isCallable(a.isEqual)) return a.isEqual(b);
     // Assume equality for cyclic structures. The algorithm for detecting cyclic structures is
     // adapted from ES 5.1 section 15.12.3, abstract operation `JO`.
     var length = stack.length;
@@ -748,6 +748,11 @@
   // Is a given variable an arguments object?
   _.isArguments = function(obj) {
     return !!(obj && hasOwnProperty.call(obj, 'callee'));
+  };
+
+  // Is a given value callable?
+  _.isCallable = function(obj) {
+    return typeof obj == 'function';
   };
 
   // Is a given value a function?
