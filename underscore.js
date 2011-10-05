@@ -355,35 +355,34 @@
   // Produce an array that contains every item shared between all the
   // passed-in arrays. (Aliased as "intersect" for back-compat.)
   _.intersection = _.intersect = function() {
-    var i, l; // loop index / length
-    var a, j, k; // loop array / index / length
-
-    // Find the largest array among the parameters
-    var src;
-    var src_i, src_l = null;
-    for (i = 0, l = arguments.length; i < l; ++i) {
-      if (src_l === null || arguments[i].length > src_l) {
-        src_i = i;
-        src_l = arguments[i].length;
-      }
+    if (arguments.length == 0) {
+      return null;
     }
-    src = arguments[src_i];
 
-    // Store the values of the other arrays in the `keys` set
+    if (arguments.length == 1) {
+      return arguments[0];
+    }
+
     var keys = {};
-    for (i = 0; i < l; ++i) {
-      if (src_i != i) {
-        for (a = arguments[i], j = 0, k = a.length; j < k; ++j) {
-          keys[a[j]] = true;
+    var res = [];
+
+    // loop invariant: `keys` contains the intersection of A[0], A[1], ..., A[i-1]
+    for (var i = 0, l = arguments.length; i < l; ++i) {
+      var prevkeys = keys;
+      keys = {};
+
+      for (var a = arguments[i], j = 0, k = a.length; j < k; ++j) {
+        if ((i == 0) || (a[j] in prevkeys)) {
+          if (i < l-1) {
+            keys[a[j]] = true;
+          } else {
+            // last iteration: insert directly into result array
+            res.push(a[j]);
+          }
         }
       }
     }
 
-    // Return the values in `src` not in `keys`
-    var res = [];
-    for (i = 0, l = src_l; i < l; ++i) {
-      if (src[i] in keys) res.push(src[i]);
-    }
     return res;
   };
 
