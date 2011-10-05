@@ -366,20 +366,28 @@
     var keys = {};
     var res = [];
 
+    var i, l;
+    var a, j, k;
+
+    for (a = arguments[0], j = 0, k = a.length; j < k; ++j) {
+      keys[a[j]] = true;
+    }
+
     // loop invariant: `keys` contains the intersection of A[0], A[1], ..., A[i-1]
-    for (var i = 0, l = arguments.length; i < l; ++i) {
+    for (i = 1, l = arguments.length-1; i < l; ++i) {
       var prevkeys = keys;
       keys = {};
 
-      for (var a = arguments[i], j = 0, k = a.length; j < k; ++j) {
-        if ((i == 0) || (a[j] in prevkeys)) {
-          if (i < l-1) {
-            keys[a[j]] = true;
-          } else {
-            // last iteration: insert directly into result array
-            res.push(a[j]);
-          }
+      for (a = arguments[i], j = 0, k = a.length; j < k; ++j) {
+        if (a[j] in prevkeys) {
+          keys[a[j]] = true;
         }
+      }
+    }
+
+    for (a = arguments[l], j = 0, k = a.length; j < k; ++j) {
+      if (a[j] in keys) {
+        res.push(a[j]);
       }
     }
 
