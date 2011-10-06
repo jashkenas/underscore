@@ -137,6 +137,17 @@ $(document).ready(function() {
     equals(composed('moe'), 'hi: moe!', 'in this case, the functions are also commutative');
   });
 
+<<<<<<< HEAD
+=======
+  test("functions: pipe", function() {
+    var hello = function(next){ return next('hello '); };
+    var underscore = function(greet, next){ return next(greet+'underscore '); };
+    var world = function(greet){ return greet+'world'; };
+    var piped = _.pipe(hello, underscore, world);
+    equals(piped(), 'hello underscore world', 'each function called its callback in a sequence');
+  });
+
+>>>>>>> b26ca6c... Fixed fail merge
   test("functions: after", function() {
     var testAfter = function(afterAmount, timesCalled) {
       var afterCalled = 0;
