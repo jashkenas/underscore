@@ -137,6 +137,28 @@ $(document).ready(function() {
     equals(composed('moe'), 'hi: moe!', 'in this case, the functions are also commutative');
   });
 
+  test("functions: pipe", function() {
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> fc4cc15... Fixed indentation in pipe test case
+    var hello = function(next){ return next('hello '); };
+    var underscore = function(greet, next){ return next(greet+'underscore '); };
+    var world = function(greet){ return greet+'world'; };
+    var piped = _.pipe(hello, underscore, world);
+    equals(piped(), 'hello underscore world', 'each function called its callback in a sequence');
+<<<<<<< HEAD
+=======
+	var hello = function(next){ return next('hello '); };
+	var underscore = function(greet, next){ return next(greet+'underscore '); };
+	var world = function(greet){ return greet+'world'; };
+	var piped = _.pipe(hello, underscore, world);
+	equals(piped(), 'hello underscore world', 'each function called its callback in a sequence');
+>>>>>>> 2e90d1c... Added pipe function, callback composer
+=======
+>>>>>>> fc4cc15... Fixed indentation in pipe test case
+  });
+
   test("functions: after", function() {
     var testAfter = function(afterAmount, timesCalled) {
       var afterCalled = 0;

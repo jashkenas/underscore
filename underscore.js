@@ -562,6 +562,42 @@
     };
   };
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+  // Returns a function that pushes to its arguments the next function
+  // and repeats this technique recursively until no more functions are left.
+  _.pipe = function(head) {
+    var tail = slice.call(arguments,1);
+    return function() {
+      var args = slice.call(arguments);
+      args.push(!_.isEmpty(tail) ? _.pipe.apply(_, tail) : Function());
+      return _.isFunction(head) ? head.apply(_, args) : undefined;
+    };
+=======
+  // Returns a function that pushes to it's arguments the next function
+=======
+  // Returns a function that pushes to its arguments the next function
+>>>>>>> b81b408... Typo in the doc :(
+  // and repeats this technique recursively until no more functions are left.
+  _.pipe = function(head) {
+<<<<<<< HEAD
+	var tail = slice.call(arguments,1);
+	return function() {
+		var args = slice.call(arguments);
+		args.push(!_.isEmpty(tail) ? _.pipe.apply(_, tail) : Function());
+		return _.isFunction(head) ? head.apply(_, args) : undefined;
+	};
+>>>>>>> 2e90d1c... Added pipe function, callback composer
+=======
+    var tail = slice.call(arguments,1);
+    return function() {
+      var args = slice.call(arguments);
+      args.push(!_.isEmpty(tail) ? _.pipe.apply(_, tail) : Function());
+      return _.isFunction(head) ? head.apply(_, args) : undefined;
+    };
+>>>>>>> 401cca8... Fixed indentation on underscore
+  };
+
   // Returns a function that will only be executed after being called N times.
   _.after = function(times, func) {
     return function() {
