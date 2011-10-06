@@ -562,8 +562,6 @@
     };
   };
 
-<<<<<<< HEAD
-=======
   // Returns a function that pushes to its arguments the next function
   // and repeats this technique recursively until no more functions are left.
   _.pipe = function(head) {
@@ -575,7 +573,6 @@
     };
   };
 
->>>>>>> b26ca6c... Fixed fail merge
   // Returns a function that will only be executed after being called N times.
   _.after = function(times, func) {
     return function() {
