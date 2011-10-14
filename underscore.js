@@ -753,17 +753,18 @@
 
   // Is a given value a function?
   _.isFunction = function(obj) {
-    return !!(obj && obj.constructor && obj.call && obj.apply);
+    return toString.call(obj) === '[object Function]';
   };
 
   // Is a given value a string?
   _.isString = function(obj) {
-    return !!(obj === '' || (obj && obj.charCodeAt && obj.substr));
+    return toString.call(obj) === '[object String]';
   };
 
   // Is a given value a number?
+  // Does not include NaN
   _.isNumber = function(obj) {
-    return !!(obj === 0 || (obj && obj.toExponential && obj.toFixed));
+    return obj === obj && toString.call(obj) === '[object Number]';
   };
 
   // Is the given value `NaN`? `NaN` happens to be the only value in JavaScript
@@ -779,12 +780,12 @@
 
   // Is a given value a date?
   _.isDate = function(obj) {
-    return !!(obj && obj.getTimezoneOffset && obj.setUTCFullYear);
+    return toString.call(obj) === '[object Date]';
   };
 
   // Is the given value a regular expression?
   _.isRegExp = function(obj) {
-    return !!(obj && obj.test && obj.exec && (obj.ignoreCase || obj.ignoreCase === false));
+    return toString.call(obj) === '[object RegExp]';
   };
 
   // Is a given value equal to null?
