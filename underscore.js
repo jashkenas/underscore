@@ -6,13 +6,11 @@
 //     For all details and documentation:
 //     http://documentcloud.github.com/underscore
 
-(function() {
-
+// Establish the root object, `window` in the browser, or `global` on the server.
+(function(root) {
+  'use strict';
   // Baseline setup
   // --------------
-
-  // Establish the root object, `window` in the browser, or `global` on the server.
-  var root = this;
 
   // Save the previous value of the `_` variable.
   var previousUnderscore = root._;
@@ -929,4 +927,4 @@
     return this._wrapped;
   };
 
-})();
+})(this);
