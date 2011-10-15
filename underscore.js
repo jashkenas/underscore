@@ -380,13 +380,29 @@
 
   // Produce an array that contains every item shared between all the
   // passed-in arrays. (Aliased as "intersect" for back-compat.)
-  _.intersection = _.intersect = function(array) {
-    var rest = slice.call(arguments, 1);
-    return _.filter(_.uniq(array), function(item) {
-      return _.every(rest, function(other) {
-        return _.indexOf(other, item) >= 0;
-      });
-    });
+  _.intersection = _.intersect = function() {
+    if (arguments.length == 0) return null;
+    if (arguments.length == 1) return arguments[0];
+    var keys = {};
+    var i, l, a, j, k;
+    // Store the first array in the lookup table `keys`.
+    for (a = arguments[0], j = 0, k = a.length; j < k; ++j) {
+      keys[a[j]] = true;
+    }
+    for (i = 1, l = arguments.length-1; i < l; ++i) {
+      // Loop invariant: `keys` contains the intersection of A[0], A[1], ..., A[i-1].
+      var prevkeys = keys;
+      keys = {};
+      for (a = arguments[i], j = 0, k = a.length; j < k; ++j) {
+        if (a[j] in prevkeys) keys[a[j]] = true;
+      }
+    }
+    // The intersection of all arrays is the intersection of `keys` and A[l-1].
+    var res = [];
+    for (a = arguments[l], j = 0, k = a.length; j < k; ++j) {
+      if (a[j] in keys) res.push(a[j]);
+    }
+    return res;
   };
 
   // Take the difference between one array and another.
