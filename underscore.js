@@ -24,10 +24,11 @@
   var ArrayProto = Array.prototype, ObjProto = Object.prototype, FuncProto = Function.prototype;
 
   // Create quick reference variables for speed access to core prototypes.
-  var slice            = ArrayProto.slice,
-      unshift          = ArrayProto.unshift,
-      toString         = ObjProto.toString,
-      hasOwnProperty   = ObjProto.hasOwnProperty;
+  var slice                = ArrayProto.slice,
+      unshift              = ArrayProto.unshift,
+      toString             = ObjProto.toString,
+      hasOwnProperty       = ObjProto.hasOwnProperty,
+      propertyIsEnumerable = ObjProto.propertyIsEnumerable;
 
   // All **ECMAScript 5** native function implementations that we hope to use
   // are declared here.
@@ -677,6 +678,9 @@
     if (typeA != 'object') return false;
     // Objects with different constructors are not equal.
     if (a.constructor !== b.constructor) return false;
+    if (!propertyIsEnumerable.call(a, "length") && !propertyIsEnumerable.call(b, "length")) {
+      if (a.length != b.length) return false;
+    }
     // Assume equality for cyclic structures. The algorithm for detecting cyclic structures is
     // adapted from ES 5.1 section 15.12.3, abstract operation `JO`.
     var length = stack.length;
