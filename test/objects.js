@@ -19,6 +19,10 @@ $(document).ready(function() {
     equals(_.values({one : 1, two : 2}).join(', '), '1, 2', 'can extract the values from an object');
   });
 
+  test("objects: kv", function() {
+    equals(true,_.isEqual(_.kv({one : 1, two : 2}),[['one', 1],['two', 2]]), 'can extract the key value pairs from an object');
+  });
+
   test("objects: functions", function() {
     var obj = {a : 'dash', b : _.map, c : (/yo/), d : _.reduce};
     ok(_.isEqual(['b', 'd'], _.functions(obj)), 'can grab the function names of any passed-in object');

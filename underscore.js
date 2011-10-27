@@ -616,6 +616,11 @@
   _.values = function(obj) {
     return _.map(obj, _.identity);
   };
+  
+  // Retrieve the keys and values of an object's properties.
+  _.kv = function(obj) {
+    return _.zip(_.keys(obj),_.values(obj));
+  };
 
   // Return a sorted list of the function names available on the object.
   // Aliased as `methods`
