@@ -220,9 +220,8 @@
   };
 
   // Convenience version of a common use case of `map`: fetching a property.
-  // Added a conditional to hold IE7's hand past the jagged data :)
   _.pluck = function(obj, key) {
-    return _.map(obj, function(value){ if (value && value[key]) return value[key]; });
+    return _.map(obj, function(value){ return value && value[key]; });
   };
 
   // Return the maximum element or (element-based computation).
