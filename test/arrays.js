@@ -137,6 +137,10 @@ $(document).ready(function() {
     numbers = [1, 40, 40, 40, 40, 40, 40, 40, 50, 60, 70]; num = 40;
     index = _.indexOf(numbers, num, true);
     equals(index, 1, '40 is in the list');
+
+    equals(_.indexOf(numbers, num, true, 5), 5, 'starting indexOf from the fifth index - sorted');
+    equals(_.indexOf(numbers, num, false, 5), 5, 'starting indexOf from the fifth index - flagged as unsorted');
+
   });
 
   test("arrays: lastIndexOf", function() {
@@ -147,6 +151,19 @@ $(document).ready(function() {
     var result = (function(){ return _.lastIndexOf(arguments, 1); })(1, 0, 1, 0, 0, 1, 0, 0, 0);
     equals(result, 5, 'works on an arguments object');
     equals(_.indexOf(null, 2), -1, 'handles nulls properly');
+  });
+
+  test("arrays: allIndexOf", function() {
+    var numbers = [1, 0, 1, 0, 0, 1, 0, 0, 0],
+    strings = [ "red","green","blue","red","yellow","blue","green","purple","red" ],
+    combo = numbers.concat(strings);
+    equals(_.allIndexOf(numbers, 1), '0,2,5', 'numbers');
+    equals(_.allIndexOf(numbers, 0), '1,3,4,6,7,8', 'more numbers');
+    equals(_.allIndexOf(numbers, null), '-1', 'empty search element');
+    equals(_.allIndexOf(strings, 'red'), '0,3,8', 'strings');
+    equals(_.allIndexOf(combo, 'red'), '9,12,17', 'strings & numbers');
+    equals(_.allIndexOf([], -1), '-1', 'Empty array');
+    equals(_.allIndexOf([], null), '-1', 'Empty array & empty search element');
   });
 
   test("arrays: range", function() {

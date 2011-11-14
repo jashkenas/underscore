@@ -216,6 +216,12 @@ $(document).ready(function() {
     var numbers = [10, 20, 30, 40, 50], num = 35;
     var index = _.sortedIndex(numbers, num);
     equals(index, 3, '35 should be inserted at index 3');
+
+    var index = _.sortedIndex(numbers, 24, null, 2);
+    equals(index, 2, '24 should be inserted at index 2, starting at index 2');
+
+    var index = _.sortedIndex(numbers, 24, null, 3);
+    equals(index, 3, '24 should be inserted at index 2, but we get 3 because we start at index 3');
   });
 
   test('collections: shuffle', function() {

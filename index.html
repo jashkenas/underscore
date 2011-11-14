@@ -161,7 +161,8 @@
       <a href="#compact">compact</a>, <a href="#flatten">flatten</a>, <a href="#without">without</a>, 
       <a href="#union">union</a>, <a href="#intersection">intersection</a>, <a href="#difference">difference</a>, 
       <a href="#uniq">uniq</a>, <a href="#zip">zip</a>, <a href="#indexOf">indexOf</a>,
-      <a href="#lastIndexOf">lastIndexOf</a>, <a href="#range">range</a></span>
+      <a href="#lastIndexOf">lastIndexOf</a>, <a href="#allIndexOf">allIndexOf</a>,
+      <a href="#range">range</a></span>
     </p>
 
     <p>
@@ -467,12 +468,13 @@ _.groupBy(['one', 'two', 'three'], 'length');
 </pre>
 
       <p id="sortedIndex">
-        <b class="header">sortedIndex</b><code>_.sortedIndex(list, value, [iterator])</code>
+        <b class="header">sortedIndex</b><code>_.sortedIndex(list, value, [iterator], fromIndex)</code>
         <br />
         Uses a binary search to determine the index at which the <b>value</b>
         <i>should</i> be inserted into the <b>list</b> in order to maintain the <b>list</b>'s
         sorted order. If an <b>iterator</b> is passed, it will be used to compute
-        the sort ranking of each value.
+        the sort ranking of each value. The <b>fromIndex</b> parameter allows starting the search
+        from a specific index within the array.
       </p>
       <pre>
 _.sortedIndex([10, 20, 30, 40, 50], 35);
@@ -660,13 +662,14 @@ _.zip(['moe', 'larry', 'curly'], [30, 40, 50], [true, false, false]);
 </pre>
 
       <p id="indexOf">
-        <b class="header">indexOf</b><code>_.indexOf(array, value, [isSorted])</code>
+        <b class="header">indexOf</b><code>_.indexOf(array, value, [isSorted], fromIndex)</code>
         <br />
         Returns the index at which <b>value</b> can be found in the <b>array</b>,
         or <i>-1</i> if value is not present in the <b>array</b>. Uses the native
         <b>indexOf</b> function unless it's missing. If you're working with a 
         large array, and you know that the array is already sorted, pass <tt>true</tt>
-        for <b>isSorted</b> to use a faster binary search.
+        for <b>isSorted</b> to use a faster binary search. The <b>fromIndex</b> option
+        allows you to start from the specified index within the array to find the value.
       </p>
       <pre>
 _.indexOf([1, 2, 3], 2);
@@ -683,6 +686,21 @@ _.indexOf([1, 2, 3], 2);
       <pre>
 _.lastIndexOf([1, 2, 3, 1, 2, 3], 2);
 =&gt; 4
+</pre>
+
+      <p id="allIndexOf">
+        <b class="header">allIndexOf</b><code>_.allIndexOf(array, value)</code>
+        <br />
+        Returns all indexes of the <b>value</b> in the <b>array</b>,
+        or <i>-1</i> if value is not present in the <b>array</b>. Uses the <b>_.indexOf</b>.
+      </p>
+      <pre>
+_.allIndexOf([1, 2, 3, 1, 2, 3], 4);
+=&gt; [ -1 ]
+_.allIndexOf([1, 2, 3, 1, 2, 3], 2);
+=&gt; [ 1, 4 ]
+_.allIndexOf([ "red","green","blue","red","yellow","blue","green","purple","red" ], "red");
+=&gt; [ 0, 3, 8 ]
 </pre>
 
       <p id="range">
@@ -1337,7 +1355,22 @@ _([1, 2, 3]).value();
       </p>
 
       <h2 id="changelog">Change Log</h2>
-      
+
+      <p>
+        <b class="header">1.2.2</b> &mdash; <small><i>Oct 31, 2011</i></small><br />
+        <ul>
+          <li>
+            Added <tt>_.allIndexOf</tt>. Returns all indexes of the value in the array,
+            or -1 if value is not present in the array.
+          </li>
+          <li>
+            Modified <tt>_.indexOf</tt> and <tt>_.sortedIndex</tt> by adding a starting index
+            (fromIndex). The parameters are now:<br><tt>_.indexOf(array, value, [isSorted],
+            fromIndex)</tt> and<br><tt>_.sortedIndex(list, value, [iterator], fromIndex)</tt>.
+          </li>
+        </ul>
+      </p>
+
       <p>
         <b class="header">1.2.1</b> &mdash; <small><i>Oct. 24, 2011</i></small><br />
         <ul>

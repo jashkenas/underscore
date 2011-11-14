@@ -1,4 +1,4 @@
-//     Underscore.js 1.2.1
+//     Underscore.js 1.2.2
 //     (c) 2011 Jeremy Ashkenas, DocumentCloud Inc.
 //     Underscore is freely distributable under the MIT license.
 //     Portions of Underscore are inspired or borrowed from Prototype,
@@ -290,9 +290,9 @@
 
   // Use a comparator function to figure out at what index an object should
   // be inserted so as to maintain order. Uses binary search.
-  _.sortedIndex = function(array, obj, iterator) {
+  _.sortedIndex = function(array, obj, iterator, index) {
     iterator || (iterator = _.identity);
-    var low = 0, high = array.length;
+    var low = index || 0, high = array.length;
     while (low < high) {
       var mid = (low + high) >> 1;
       iterator(array[mid]) < iterator(obj) ? low = mid + 1 : high = mid;
@@ -424,15 +424,15 @@
   // Delegates to **ECMAScript 5**'s native `indexOf` if available.
   // If the array is large and already in sort order, pass `true`
   // for **isSorted** to use binary search.
-  _.indexOf = function(array, item, isSorted) {
+  _.indexOf = function(array, item, isSorted, index) {
     if (array == null) return -1;
     var i, l;
     if (isSorted) {
-      i = _.sortedIndex(array, item);
+      i = _.sortedIndex(array, item, null, index);
       return array[i] === item ? i : -1;
     }
-    if (nativeIndexOf && array.indexOf === nativeIndexOf) return array.indexOf(item);
-    for (i = 0, l = array.length; i < l; i++) if (array[i] === item) return i;
+    if (nativeIndexOf && array.indexOf === nativeIndexOf) return array.indexOf(item, index);
+    for (i = index || 0, l = array.length; i < l; i++) if (array[i] === item) return i;
     return -1;
   };
 
@@ -443,6 +443,24 @@
     var i = array.length;
     while (i--) if (array[i] === item) return i;
     return -1;
+  };
+
+  // Return all positions of an item in an array, or -1 if the item is not found
+  // Uses _.indexOf()
+  _.allIndexOf = function(array, item) {
+    if (array === null) return [-1];
+    var n, result = [], index = 0, l = array.length, i = _.indexOf(array, item);
+    if (l === 0 || i === -1) { return [-1]; }
+    for (n = 0; n < l; n++) {
+      i = _.indexOf(array, item, false, index);
+      if (i !== -1) {
+        index = i + 1;
+        result.push(i);
+      } else {
+        return result;
+      }
+    }
+    return result;
   };
 
   // Generate an integer Array containing an arithmetic progression. A port of
