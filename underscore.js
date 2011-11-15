@@ -893,31 +893,31 @@
 
   // JavaScript micro-templating, similar to John Resig's implementation.
   // Underscore templating handles arbitrary delimiters, preserves whitespace,
-  // and correctly escapes quotes within interpolated code.
-  _.template = function(str, data) {
+  // and correctly escapes quotes within interpolated code. Strict mode, when
+  // enabled causes exceptions to be thrown when interpolation produces an
+  // undefined result.
+  _.template = function(str, data, strict) {
     var c  = _.templateSettings;
     var tmpl = 'var __p=[],print=function(){__p.push.apply(__p,arguments);};' +
+      'var __f = function(label,value,strict) { if (strict && value === undefined) throw label + "is undefined"; return value };' +
       'with(obj||{}){__p.push(\'' +
       str.replace(/\\/g, '\\\\')
          .replace(/'/g, "\\'")
-         .replace(c.escape, function(match, code) {
-           return "',_.escape(" + code.replace(/\\'/g, "'") + "),'";
-         })
          .replace(c.interpolate, function(match, code) {
-           return "'," + code.replace(/\\'/g, "'") + ",'";
+           var unescaped_code = code.replace(/\\'/g, "'")
+              return '\',__f(\''+ code + '\', ' + unescaped_code + ', __strict),\'';
          })
          .replace(c.evaluate || null, function(match, code) {
            return "');" + code.replace(/\\'/g, "'")
-                              .replace(/[\r\n\t]/g, ' ') + ";__p.push('";
+                              .replace(/[\r\n\t]/g, ' ') + "__p.push('";
          })
          .replace(/\r/g, '\\r')
          .replace(/\n/g, '\\n')
          .replace(/\t/g, '\\t')
          + "');}return __p.join('');";
-    var func = new Function('obj', '_', tmpl);
-    return data ? func(data, _) : function(data) { return func(data, _) };
+    var func = new Function('obj', '__strict', tmpl);
+    return data ? func(data, strict) : func;
   };
-
   // The OOP Wrapper
   // ---------------
 
