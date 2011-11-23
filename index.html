@@ -830,6 +830,21 @@ initialize();
 // Application is only created once.
 </pre>
 
+      <p id="initially">
+        <b class="header">initially</b><code>_.initially(function, thenFunction)</code>
+        <br />
+        Creates a function that will call the first function on the first call
+        and the thenFunction on repeated calls. It returns whatever the function
+        or thenFunction return. Useful for special casing the first call of anything.
+      </p>
+      <pre>
+var thisThenThis = _.initially(initSomething, doSomething);
+thisThenThis();
+thisThenThis();
+thisThenThis();
+// initSomething is called once, then doSomething is called twice.
+</pre>
+
       <p id="after">
         <b class="header">after</b><code>_.after(count, function)</code>
         <br />
