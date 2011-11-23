@@ -155,6 +155,18 @@ $(document).ready(function() {
     equals(num, 1);
   });
 
+  test("functions: initially", function() {
+    var num1 = 0, num2 = 0;
+    var thisThenThis = _.initially(function(){ num1++; }, function(){ num2++; });
+    thisThenThis();
+    equals(num1, 1);
+    equals(num2, 0);
+    thisThenThis();
+    thisThenThis();
+    equals(num1, 1);
+    equals(num2, 2);
+  });
+
   test("functions: wrap", function() {
     var greet = function(name){ return "hi: " + name; };
     var backwards = _.wrap(greet, function(func, name){ return func(name) + ' ' + name.split('').reverse().join(''); });

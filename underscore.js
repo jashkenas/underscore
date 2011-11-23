@@ -583,6 +583,18 @@
     };
   };
 
+  // Returns a function that will call your first function once, then your
+  // 2nd function at all times after that.
+  _.initially = function(func, thenFunc) {
+    var doneFirst = false;
+    return function() {
+      if (doneFirst)
+        return thenFunc.apply(this, arguments)
+      doneFirst = true;
+      return func.apply(this, arguments);
+    };
+  };
+
   // Returns the first function passed as an argument to the second,
   // allowing you to adjust arguments, run code before and after, and
   // conditionally execute the original function.
