@@ -644,8 +644,18 @@
   // Extend a given object with all the properties in passed-in object(s).
   _.extend = function(obj) {
     each(slice.call(arguments, 1), function(source) {
-      for (var prop in source) {
-        if (source[prop] !== void 0) obj[prop] = source[prop];
+      for (var prop in source) if (!source.hasOwnProperty || source.hasOwnProperty( prop )) {
+        if (source[prop] !== void 0) {
+          if(obj[prop] != undefined && _.isObject(source[prop]) && !_.isArray(source[prop])) {
+            _.extend(obj[prop], source[prop]);
+          }
+          else if(_.isArray(obj[prop]) && _.isArray(source[prop])) {
+            obj[prop] = _.union(obj[prop], source[prop]);
+          }
+          else {
+            obj[prop] = source[prop];
+          }
+        }
       }
     });
     return obj;
