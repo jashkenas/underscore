@@ -39,6 +39,8 @@ $(document).ready(function() {
     ok(_.isEqual(result, {x:2, a:'b'}), 'extending from multiple source objects last property trumps');
     result = _.extend({}, {a: void 0, b: null});
     equals(_.keys(result).join(''), 'b', 'extend does not copy undefined values');
+    equals(_.extend({x:'x', a:{b:'c'}}, { a: { d: 'e' } }).a, {b:'c', d:'e'}, 'Extend object recursively when source property is a hash');
+    equals(_.extend({x:'x'}, { a: { b: 'c' } }).a, {b:'c'}, 'Extend object recursively when destination does not exist');
   });
 
   test("objects: defaults", function() {
