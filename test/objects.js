@@ -41,6 +41,8 @@ $(document).ready(function() {
     equals(_.keys(result).join(''), 'b', 'extend does not copy undefined values');
     same(_.extend({x:'x', a:{b:'c'}}, { a: { d: 'e' } }).a, {b:'c', d:'e'}, 'can extend an object recursively when source property is a hash');
     same(_.extend({x:'x'}, { a: { b: 'c' } }).a, {b:'c'}, 'can extend an object recursively when destination does not exist');
+    same(_.extend({x:'x', a:[1,2,3]}, { a:[4] }).a, [1,2,3,4], 'can merge arrays');
+    same(_.extend({x:'x', a:{b:'c'}}, { a:[4] }).a, [4], 'overrides destination with source if types are different');
   });
 
   test("objects: defaults", function() {
