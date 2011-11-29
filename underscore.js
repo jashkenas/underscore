@@ -80,9 +80,9 @@
     if (nativeForEach && obj.forEach === nativeForEach) {
       obj.forEach(iterator, context);
     } else if (obj.length === +obj.length) {
-      for (var i = 0, l = obj.length; i < l; i++) {
-        if (i in obj && iterator.call(context, obj[i], i, obj) === breaker) return;
-      }
+	  for (var l = obj.length; l--;) {
+	    if (l in obj && iterator.call(context, obj[l], l, obj) === breaker) return;
+	  }
     } else {
       for (var key in obj) {
         if (hasOwnProperty.call(obj, key)) {
