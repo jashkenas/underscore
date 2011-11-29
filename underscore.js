@@ -403,10 +403,19 @@
     });
   };
 
-  // Take the difference between one array and another.
+  // Take the difference between one array and a number of other arrays.
   // Only the elements present in just the first array will remain.
-  _.difference = function(array, other) {
-    return _.filter(array, function(value){ return !_.include(other, value); });
+  _.difference = function(array) {
+    var rest = _.flatten(slice.call(arguments, 1));
+    return _.filter(array, function(value){ return !_.include(rest, value); });
+  };
+
+  // Take the symmetric difference between a list of arrays. Only the elements
+  // present in one of the input arrays will remain.
+  _.symDifference = function() {
+    return _.reduce(arguments, function(memo, array) {
+      return _.union(_.difference(memo, array), _.difference(array, memo));
+    });
   };
 
   // Zip together multiple lists into a single array -- elements that share
@@ -433,7 +442,7 @@
       return array[i] === item ? i : -1;
     }
     if (nativeIndexOf && array.indexOf === nativeIndexOf) return array.indexOf(item);
-    for (i = 0, l = array.length; i < l; i++) if (array[i] === item) return i;
+    for (i = 0, l = array.length; i < l; i++) if (i in array && array[i] === item) return i;
     return -1;
   };
 
@@ -442,7 +451,7 @@
     if (array == null) return -1;
     if (nativeLastIndexOf && array.lastIndexOf === nativeLastIndexOf) return array.lastIndexOf(item);
     var i = array.length;
-    while (i--) if (array[i] === item) return i;
+    while (i--) if (i in array && array[i] === item) return i;
     return -1;
   };
 
@@ -916,7 +925,10 @@
          .replace(/\t/g, '\\t')
          + "');}return __p.join('');";
     var func = new Function('obj', '_', tmpl);
-    return data ? func(data, _) : function(data) { return func.call(this, data, _) };
+    if (data) return func(data, _);
+    return function(data) {
+      return func.call(this, data, _);
+    };
   };
 
   // The OOP Wrapper
