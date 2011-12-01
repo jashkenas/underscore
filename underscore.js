@@ -59,7 +59,8 @@
   } else if (typeof define === 'function' && define.amd) {
     // Register as a named module with AMD.
     define('underscore', function() {
-      return _;
+        _._ = _;  // Patch for require() issue with Backbone vis-a-vis AMD/RequireJS
+        return _;
     });
   } else {
     // Exported as a string, for Closure Compiler "advanced" mode.
