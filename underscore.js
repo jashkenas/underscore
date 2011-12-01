@@ -64,6 +64,7 @@
   } else {
     // Exported as a string, for Closure Compiler "advanced" mode.
     root['_'] = _;
+    root['Underscore'] = _;
   }
 
   // Current version.
