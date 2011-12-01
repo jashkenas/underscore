@@ -14,8 +14,9 @@
   // Establish the root object, `window` in the browser, or `global` on the server.
   var root = this;
 
-  // Save the previous value of the `_` variable.
-  var previousUnderscore = root._;
+  // Save the previous value of the `_` and `Underscore` variables.
+  var previous_ = root._;
+  var previousUnderscore = root.Underscore;
 
   // Establish the object that gets returned to break out of a loop iteration.
   var breaker = {};
@@ -64,6 +65,7 @@
   } else {
     // Exported as a string, for Closure Compiler "advanced" mode.
     root['_'] = _;
+    root['Underscore'] = _;
   }
 
   // Current version.
@@ -854,10 +856,11 @@
   // Utility Functions
   // -----------------
 
-  // Run Underscore.js in *noConflict* mode, returning the `_` variable to its
-  // previous owner. Returns a reference to the Underscore object.
+  // Run Underscore.js in *noConflict* mode, returning the `_` and `Underscore`
+  // variables to its previous owner. Returns a reference to the Underscore object.
   _.noConflict = function() {
-    root._ = previousUnderscore;
+    root._ = previous_;
+    root.Underscore = previousUnderscore
     return this;
   };
 

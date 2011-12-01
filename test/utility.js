@@ -5,9 +5,10 @@ $(document).ready(function() {
   test("utility: noConflict", function() {
     var underscore = _.noConflict();
     ok(underscore.isUndefined(_), "The '_' variable has been returned to its previous state.");
+    ok(underscore.isUndefined(Underscore), "The 'Underscore' variable has been returned to its previous state.");
     var intersection = underscore.intersect([-1, 0, 1, 2], [1, 2, 3, 4]);
     equals(intersection.join(', '), '1, 2', 'but the intersection function still works');
-    window._ = underscore;
+    window._ = window.Underscore = underscore;
   });
 
   test("utility: identity", function() {
