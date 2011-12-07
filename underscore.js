@@ -1,5 +1,5 @@
-//     Underscore.js 1.2.2
-//     (c) 2011 Jeremy Ashkenas, DocumentCloud Inc.
+//     Underscore.js 1.2.3
+//     (c) 2009-2011 Jeremy Ashkenas, DocumentCloud Inc.
 //     Underscore is freely distributable under the MIT license.
 //     Portions of Underscore are inspired or borrowed from Prototype,
 //     Oliver Steele's Functional, and John Resig's Micro-Templating.
@@ -24,8 +24,8 @@
   var ArrayProto = Array.prototype, ObjProto = Object.prototype, FuncProto = Function.prototype;
 
   // Create quick reference variables for speed access to core prototypes.
-  var concat           = ArrayProto.concat,
-      slice            = ArrayProto.slice,
+  var slice            = ArrayProto.slice,
+      concat           = ArrayProto.concat,
       unshift          = ArrayProto.unshift,
       toString         = ObjProto.toString,
       hasOwnProperty   = ObjProto.hasOwnProperty;
@@ -68,7 +68,7 @@
   }
 
   // Current version.
-  _.VERSION = '1.2.2';
+  _.VERSION = '1.2.3';
 
   // Collection Functions
   // --------------------
@@ -80,75 +80,16 @@
     if (obj == null) return;
     if (nativeForEach && obj.forEach === nativeForEach) {
       obj.forEach(iterator, context);
+    } else if (obj.length === +obj.length) {
+      for (var i = 0, l = obj.length; i < l; i++) {
+        if (i in obj && iterator.call(context, obj[i], i, obj) === breaker) return;
+      }
     } else {
-      var fn = iterator;
-      var i = -1;
-      var l = obj.length;
-      if (context) {
-        iterator = function() { return fn.call(context, obj[i], i, obj); };
-      }
-      // If we're dealing with an array or array-like object...
-      if (l === l >>> 0) {
-        while (++i < l) {
-          if (i in obj && iterator(obj[i], i, obj) == breaker) return;
-        }
-      } else {
-        forProps(obj, iterator, true);
-      }
-    }
-  };
-
-  // A simple each, for when we know we're dealing with an array.
-  var simpleEach = function(obj, iterator, index) {
-    index || (index = 0);
-    for (var l = obj.length; index < l; index++) {
-      iterator(obj[index]);
-    }
-  };
-
-  // List of possible shadowed properties on Object.prototype.
-  var shadowed = [
-    'constructor', 'hasOwnProperty', 'isPrototypeOf', 'propertyIsEnumerable',
-    'toLocaleString', 'toString', 'valueOf'
-  ];
-
-  // IE < 9 skips enumerable properties shadowing non-enumerable ones.
-  var forShadowed = !{valueOf:0}.propertyIsEnumerable('valueOf') &&
-    function(obj, iterator) {
-      // because IE < 9 can't set the `[[Enumerable]]` attribute of an existing
-      // property and the `constructor` property of a prototype defaults to
-      // non-enumerable, we manually skip the `constructor` property when we
-      // think we are iterating over a `prototype` object.
-      var ctor = obj.constructor;
-      var skipCtor = ctor && ctor.prototype && ctor.prototype.constructor == ctor;
-      for (var key, i = 0; key = shadowed[i]; i++) {
-        if (!(skipCtor && key == 'constructor') &&
-            hasOwnProperty.call(obj, key) &&
-            iterator(obj[key], key, obj) === breaker) {
-          break;
+      for (var key in obj) {
+        if (hasOwnProperty.call(obj, key)) {
+          if (iterator.call(context, obj[key], key, obj) === breaker) return;
         }
       }
-    };
-
-  // Iterates over an object's properties, executing the `callback` for each.
-  var forProps = function(obj, iterator, ownOnly, context) {
-    var done = !obj;
-    var skipProto = typeof obj == 'function';
-
-    for (var key in obj) {
-      // Opera < 12 and Safari < 5.1 (if the prototype or a property on the prototype has been set)
-      // incorrectly set a function's `prototype` property [[Enumerable]] value
-      // to true. Because of this we standardize on skipping the the `prototype`
-      // property of functions regardless of their [[Enumerable]] value.
-      if (done =
-          !(skipProto && key == 'prototype') &&
-          (!ownOnly || ownOnly && hasOwnProperty.call(obj, key)) &&
-          iterator.call(context, obj[key], key, obj) === breaker) {
-        break;
-      }
-    }
-    if (!done && forShadowed) {
-      forShadowed(obj, iterator, context);
     }
   };
 
@@ -167,7 +108,7 @@
   // **Reduce** builds up a single result from a list of values, aka `inject`,
   // or `foldl`. Delegates to **ECMAScript 5**'s native `reduce` if available.
   _.reduce = _.foldl = _.inject = function(obj, iterator, memo, context) {
-    var initial = memo !== void 0;
+    var initial = arguments.length > 2;
     if (obj == null) obj = [];
     if (nativeReduce && obj.reduce === nativeReduce) {
       if (context) iterator = _.bind(iterator, context);
@@ -181,20 +122,22 @@
         memo = iterator.call(context, memo, value, index, list);
       }
     });
-    if (!initial) throw new TypeError("Reduce of empty array with no initial value");
+    if (!initial) throw new TypeError('Reduce of empty array with no initial value');
     return memo;
   };
 
   // The right-associative version of reduce, also known as `foldr`.
   // Delegates to **ECMAScript 5**'s native `reduceRight` if available.
   _.reduceRight = _.foldr = function(obj, iterator, memo, context) {
+    var initial = arguments.length > 2;
     if (obj == null) obj = [];
     if (nativeReduceRight && obj.reduceRight === nativeReduceRight) {
       if (context) iterator = _.bind(iterator, context);
-      return memo !== void 0 ? obj.reduceRight(iterator, memo) : obj.reduceRight(iterator);
+      return initial ? obj.reduceRight(iterator, memo) : obj.reduceRight(iterator);
     }
-    var reversed = (_.isArray(obj) ? obj.slice() : _.toArray(obj)).reverse();
-    return _.reduce(reversed, iterator, memo, context);
+    var reversed = _.toArray(obj).reverse();
+    if (context && !initial) iterator = _.bind(iterator, context);
+    return initial ? _.reduce(reversed, iterator, memo, context) : _.reduce(reversed, iterator);
   };
 
   // Return the first value which passes a truth test. Aliased as `detect`.
@@ -331,8 +274,7 @@
         criteria : iterator.call(context, value, index, list)
       };
     }).sort(function(left, right) {
-      var a = left.criteria;
-      var b = right.criteria;
+      var a = left.criteria, b = right.criteria;
       return a < b ? -1 : a > b ? 1 : 0;
     }), 'value');
   };
@@ -353,8 +295,7 @@
   // be inserted so as to maintain order. Uses binary search.
   _.sortedIndex = function(array, obj, iterator) {
     iterator || (iterator = _.identity);
-    var low = 0;
-    var high = array.length;
+    var low = 0, high = array.length;
     while (low < high) {
       var mid = (low + high) >> 1;
       iterator(array[mid]) < iterator(obj) ? low = mid + 1 : high = mid;
@@ -364,9 +305,10 @@
 
   // Safely convert anything iterable into a real, live array.
   _.toArray = function(iterable) {
-    if (!iterable) return [];
-    if (iterable.toArray) return iterable.toArray();
-    if (_.isArray(iterable) || _.isArguments(iterable)) return slice.call(iterable);
+    if (!iterable)                return [];
+    if (iterable.toArray)         return iterable.toArray();
+    if (_.isArray(iterable))      return slice.call(iterable);
+    if (_.isArguments(iterable))  return slice.call(iterable);
     return _.values(iterable);
   };
 
@@ -470,20 +412,13 @@
     return _.filter(array, function(value){ return !_.include(rest, value); });
   };
 
-  // Take the symmetric difference between a list of arrays. Only the elements
-  // present in one of the input arrays will remain.
-  _.symDifference = function() {
-    return _.reduce(arguments, function(memo, array) {
-      return _.union(_.difference(memo, array), _.difference(array, memo));
-    });
-  };
-
   // Zip together multiple lists into a single array -- elements that share
   // an index go together.
   _.zip = function() {
-    var length = _.max(_.pluck(arguments, 'length'));
+    var args = slice.call(arguments);
+    var length = _.max(_.pluck(args, 'length'));
     var results = new Array(length);
-    for (var i = 0; i < length; i++) results[i] = _.pluck(arguments, i);
+    for (var i = 0; i < length; i++) results[i] = _.pluck(args, "" + i);
     return results;
   };
 
@@ -532,6 +467,7 @@
       range[idx++] = start;
       start += step;
     }
+
     return range;
   };
 
@@ -562,10 +498,10 @@
     if (!_.isFunction(func)) throw new TypeError;
     args = slice.call(arguments, 2);
     return bound = function() {
-      if (!(this instanceof bound)) return func.apply(context, concat.apply(args, arguments));
+      if (!(this instanceof bound)) return func.apply(context, args.concat(slice.call(arguments)));
       ctor.prototype = func.prototype;
       var self = new ctor;
-      var result = func.apply(self, concat.apply(args, arguments));
+      var result = func.apply(self, args.concat(slice.call(arguments)));
       if (Object(result) === result) return result;
       return self;
     };
@@ -574,20 +510,16 @@
   // Bind all of an object's methods to that object. Useful for ensuring that
   // all callbacks defined on an object belong to it.
   _.bindAll = function(obj) {
-    var i = 1;
-    var funcs = arguments;
-    if (funcs.length < 2) {
-      i = 0;
-      funcs = _.functions(obj);
-    }
-    simpleEach(funcs, function(f) { obj[f] = _.bind(obj[f], obj); }, i);
+    var funcs = slice.call(arguments, 1);
+    if (funcs.length == 0) funcs = _.functions(obj);
+    each(funcs, function(f) { obj[f] = _.bind(obj[f], obj); });
     return obj;
   };
 
   // Memoize an expensive function by storing its results.
   _.memoize = function(func, hasher) {
-    hasher || (hasher = _.identity);
     var memo = {};
+    hasher || (hasher = _.identity);
     return function() {
       var key = hasher.apply(this, arguments);
       return hasOwnProperty.call(memo, key) ? memo[key] : (memo[key] = func.apply(this, arguments));
@@ -696,9 +628,7 @@
   _.keys = nativeKeys || function(obj) {
     if (obj !== Object(obj)) throw new TypeError('Invalid object');
     var keys = [];
-    forProps(obj, function(value, key) {
-      keys[keys.length] = key;
-    }, true);
+    for (var key in obj) if (hasOwnProperty.call(obj, key)) keys[keys.length] = key;
     return keys;
   };
 
@@ -711,29 +641,29 @@
   // Aliased as `methods`
   _.functions = _.methods = function(obj) {
     var names = [];
-    forProps(obj, function(value, key) {
-      if (_.isFunction(value)) names[names.length] = key;
-    });
+    for (var key in obj) {
+      if (_.isFunction(obj[key])) names.push(key);
+    }
     return names.sort();
   };
 
   // Extend a given object with all the properties in passed-in object(s).
   _.extend = function(obj) {
-    simpleEach(arguments, function(source) {
-      forProps(source, function(value, key) {
-        if (value !== void 0) obj[key] = value;
-      });
-    }, 1);
+    each(slice.call(arguments, 1), function(source) {
+      for (var prop in source) {
+        if (source[prop] !== void 0) obj[prop] = source[prop];
+      }
+    });
     return obj;
   };
 
   // Fill in a given object with default properties.
   _.defaults = function(obj) {
-    simpleEach(arguments, function(source) {
-      forProps(source, function(value, key) {
-        if (obj[key] == null) obj[key] = value;
-      });
-    }, 1);
+    each(slice.call(arguments, 1), function(source) {
+      for (var prop in source) {
+        if (obj[prop] == null) obj[prop] = source[prop];
+      }
+    });
     return obj;
   };
 
@@ -818,17 +748,19 @@
       // Objects with different constructors are not equivalent.
       if ('constructor' in a != 'constructor' in b || a.constructor != b.constructor) return false;
       // Deep compare objects.
-      forProps(a, function(value, key) {
-        // Count the expected number of properties.
-        size++;
-        // Deep compare each member.
-        if (!(result = hasOwnProperty.call(b, key) && eq(value, b[key], stack))) return breaker;
-      }, true);
+      for (var key in a) {
+        if (hasOwnProperty.call(a, key)) {
+          // Count the expected number of properties.
+          size++;
+          // Deep compare each member.
+          if (!(result = hasOwnProperty.call(b, key) && eq(a[key], b[key], stack))) break;
+        }
+      }
       // Ensure that both objects contain the same number of properties.
       if (result) {
-        forProps(b, function() {
-          return !(size--) && breaker;
-        }, true);
+        for (key in b) {
+          if (hasOwnProperty.call(b, key) && !(size--)) break;
+        }
         result = !size;
       }
     }
@@ -845,15 +777,9 @@
   // Is a given array, string, or object empty?
   // An "empty" object has no enumerable own-properties.
   _.isEmpty = function(obj) {
-    var result = toString.call(obj);
-    if (result == '[object Array]' || result == '[object String]') {
-      return !obj.length;
-    }
-    forProps(obj, function() {
-      result = false;
-      return breaker;
-    }, true);
-    return !!result;
+    if (_.isArray(obj) || _.isString(obj)) return obj.length === 0;
+    for (var key in obj) if (hasOwnProperty.call(obj, key)) return false;
+    return true;
   };
 
   // Is a given value a DOM element?
@@ -876,7 +802,6 @@
   _.isArguments = function(obj) {
     return toString.call(obj) == '[object Arguments]';
   };
-
   if (!_.isArguments(arguments)) {
     _.isArguments = function(obj) {
       return !!(obj && hasOwnProperty.call(obj, 'callee'));
@@ -957,7 +882,7 @@
   // Add your own custom functions to the Underscore object, ensuring that
   // they're correctly added to the OOP wrapper as well.
   _.mixin = function(obj) {
-    simpleEach(_.functions(obj), function(name){
+    each(_.functions(obj), function(name){
       addToWrapper(name, _[name] = obj[name]);
     });
   };
@@ -1037,7 +962,7 @@
   _.mixin(_);
 
   // Add all mutator Array functions to the wrapper.
-  simpleEach(['pop', 'push', 'reverse', 'shift', 'sort', 'splice', 'unshift'], function(name) {
+  each(['pop', 'push', 'reverse', 'shift', 'sort', 'splice', 'unshift'], function(name) {
     var method = ArrayProto[name];
     wrapper.prototype[name] = function() {
       method.apply(this._wrapped, arguments);
@@ -1046,7 +971,7 @@
   });
 
   // Add all accessor Array functions to the wrapper.
-  simpleEach(['concat', 'join', 'slice'], function(name) {
+  each(['concat', 'join', 'slice'], function(name) {
     var method = ArrayProto[name];
     wrapper.prototype[name] = function() {
       return result(method.apply(this._wrapped, arguments), this._chain);
