@@ -161,7 +161,7 @@
       <a href="#compact">compact</a>, <a href="#flatten">flatten</a>, <a href="#without">without</a>, 
       <a href="#union">union</a>, <a href="#intersection">intersection</a>, <a href="#difference">difference</a>, 
       <a href="#uniq">uniq</a>, <a href="#zip">zip</a>, <a href="#indexOf">indexOf</a>,
-      <a href="#lastIndexOf">lastIndexOf</a>, <a href="#range">range</a></span>
+      <a href="#lastIndexOf">lastIndexOf</a>, <a href="#range">range</a>, <a href="#rotate">rotate</a></span>
     </p>
 
     <p>
@@ -706,6 +706,26 @@ _.range(0, -10, -1);
 _.range(0);
 =&gt; []
 </pre>
+
+      <p id="rotate">
+        <b class="header">rotate</b><code>_.rotate(array, [n])</code>
+        <br />
+        A function to rotate an array's elements. Defaults to rotating one position
+        left. Pass <b>n</b> to rotate left that many places, negative <b>n</b> to
+        rotate to the right.
+      </p>
+      <pre>
+_.rotate([1, 2, 3, 4, 5]);
+=&gt; [2, 3, 4, 5, 1]
+_.rotate([1, 2, 3, 4, 5], 3);
+=&gt; [4, 5, 1, 2, 3]
+_.rotate([1, 2, 3, 4, 5], -3);
+=&gt; [3, 4, 5, 1, 2]
+_.rotate([1, 2, 3, 4, 5], 6);
+=&gt; [2, 3, 4, 5, 1]
+</pre>
+
+
 
       <h2>Function (uh, ahem) Functions</h2>
 
