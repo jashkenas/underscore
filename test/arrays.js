@@ -163,4 +163,23 @@ $(document).ready(function() {
     equals(_.range(0, -10, -1).join(' '), '0 -1 -2 -3 -4 -5 -6 -7 -8 -9', 'final example in the Python docs');
   });
 
+  test("arrays: rotate", function() {
+    equals(_.rotate([]).join(', '), '', 'returns empty on empty');
+    equals(_.rotate([1,2,3]).join(', '), '2, 3, 1', 'rotates left one place');
+    equals(_.rotate([1,2,3], 2).join(', '), '3, 1, 2', 'rotates left two places');
+    equals(_.rotate([1,2,3,4,5,6], 4).join(', '), '5, 6, 1, 2, 3, 4', 'rotates left four places');
+    equals(_.rotate([1,2,3], 4).join(', '), '2, 3, 1', 'rotates left four places (equiv to one, with wrap)');
+
+    equals(_.rotate([1,2,3], 0).join(', '), '1, 2, 3', 'returns same for zero');
+
+    equals(_.rotate([1,2,3], -1).join(', '), '3, 1, 2', 'rotates right one place');
+    equals(_.rotate([1,2,3], -2).join(', '), '2, 3, 1', 'rotates right two places');
+    equals(_.rotate([1,2,3], -4).join(', '), '3, 1, 2', 'rotates right four places (equiv to one, with wrap)');
+
+    var result = (function(){ return _(arguments).rotate(); })(1, 2, 3, 4);
+    equals(result.join(', '), '2, 3, 4, 1', 'works on an arguments object');
+    result = _.flatten(_.map([[1,2,3],[1,2,3]], _.rotate));
+    equals(result.join(', '), '2, 3, 1, 2, 3, 1', 'works well with _.map');
+  });
+
 });
