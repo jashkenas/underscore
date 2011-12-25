@@ -163,12 +163,12 @@ $(document).ready(function() {
     equals(_.range(0, -10, -1).join(' '), '0 -1 -2 -3 -4 -5 -6 -7 -8 -9', 'final example in the Python docs');
   });
 
-  test("arrays: humanJoin", function() {
-      equals(_.humanJoin(['jQuery']), 'jQuery', 'array with a single element')
-      equals(_.humanJoin(['jQuery', 'MooTools']), 'jQuery and MooTools', 'array with two elements');
-      equals(_.humanJoin(['jQuery', 'MooTools', 'Prototype']), 'jQuery, MooTools and Prototype', 'array with three elements');
-      equals(_.humanJoin(['jQuery', 'MooTools', 'Prototype', 'YUI']), 'jQuery, MooTools, Prototype and YUI', 'array with multiple elements');
-      equals(_.humanJoin(['jQuery', 'MooTools', 'Prototype'], ',', ' or '), 'jQuery,MooTools or Prototype', 'handles custom separators');
+  test("arrays: toSentence", function() {
+      equals(_.toSentence(['jQuery']), 'jQuery', 'array with a single element')
+      equals(_.toSentence(['jQuery', 'MooTools']), 'jQuery and MooTools', 'array with two elements');
+      equals(_.toSentence(['jQuery', 'MooTools', 'Prototype']), 'jQuery, MooTools and Prototype', 'array with three elements');
+      equals(_.toSentence(['jQuery', 'MooTools', 'Prototype', 'YUI']), 'jQuery, MooTools, Prototype and YUI', 'array with multiple elements');
+      equals(_.toSentence(['jQuery', 'MooTools', 'Prototype'], ',', ' or '), 'jQuery,MooTools or Prototype', 'handles custom separators');
   });
 
 });

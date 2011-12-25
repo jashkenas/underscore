@@ -422,7 +422,7 @@
     return results;
   };
 
-  _.humanJoin = function(array, separator, lastSeparator) {
+  _.toSentence = function(array, separator, lastSeparator) {
       separator || (separator = ', ');
       lastSeparator || (lastSeparator = ' and ');
       var length = array.length, str = '';
