@@ -422,6 +422,18 @@
     return results;
   };
 
+  _.humanJoin = function(array, separator, lastSeparator) {
+      separator || (separator = ', ');
+      lastSeparator || (lastSeparator = ' and ');
+      var length = array.length, str = '';
+      for (var i = 0; i < length; i++) {
+        str += array[i];
+        if (i === (length - 2)) str += lastSeparator;
+        else if (i < (length - 1)) str += separator;
+      }
+      return str;
+  };
+
   // If the browser doesn't supply us with indexOf (I'm looking at you, **MSIE**),
   // we need this function. Return the position of the first occurrence of an
   // item in an array, or -1 if the item is not included in the array.
