@@ -166,6 +166,16 @@ $(document).ready(function() {
     ok(_([1,2,3]).include(2), 'OO-style include');
   });
 
+  test('collections: ratio', function() {
+    var list = [1, 2, 3, 4, 5, 6, 7, 8];
+    equals(_.ratio(list, function(num){ return num % 2 == 0; }), 0.5, 'half are even');
+    equals(_.ratio(list, function(num){ return num < 0; }), 0, 'none are less than 0');
+    equals(_.ratio(list, function(num){ return num > 0; }), 1, 'all are greater than 0');
+    equals(_.ratio(list, function(num){ return num === 5; }), 0.125, 'a single item equals 5');
+    equals(_.ratio(list, function(num){ return num <= this.num; }, { num: 2}), 0.25, 'context is properly evaluated');
+    equals(_.ratio([], function(){ return true; }), 0, 'always return 0 for empty lists');
+  });
+
   test('collections: invoke', function() {
     var list = [[5, 1, 7], [3, 2, 1]];
     var result = _.invoke(list, 'sort');
