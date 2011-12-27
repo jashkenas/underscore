@@ -214,6 +214,16 @@
     return found;
   };
 
+  // Determine the ratio of items that pass a truth test.
+  _.ratio = function(obj, iterator, context) {
+    var total = 0, passing = 0;
+    each(obj, function(value, index, list) {
+      total++;
+      if (iterator.call(context, value, index, list)) passing++;
+    });
+    return total === 0 ? 0 : passing / total;
+  };
+
   // Invoke a method (with arguments) on every item in a collection.
   _.invoke = function(obj, method) {
     var args = slice.call(arguments, 2);
