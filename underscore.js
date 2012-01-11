@@ -48,16 +48,22 @@
   // Create a safe reference to the Underscore object for use below.
   var _ = function(obj) { return new wrapper(obj); };
 
-  // Export the Underscore object for **Node.js**, with
-  // backwards-compatibility for the old `require()` API. If we're in
-  // the browser, add `_` as a global object via a string identifier,
-  // for Closure Compiler "advanced" mode.
+  // Export the Underscore object for **Node.js** and **"CommonJS"**, with
+  // backwards-compatibility for the old `require()` API. If we're not in
+  // CommonJS, add `_` to the global object via a string identifier for
+  // the Closure Compiler "advanced" mode, and optionally register as an
+  // AMD module via define().
   if (typeof exports !== 'undefined') {
     if (typeof module !== 'undefined' && module.exports) {
       exports = module.exports = _;
     }
     exports._ = _;
   } else {
+    if (typeof define === 'function' && define.amd) {
+      define('underscore', function() {
+        return _;
+      });
+    }
     root['_'] = _;
   }
 
