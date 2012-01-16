@@ -548,15 +548,21 @@
 
   // Returns a function, that, as long as it continues to be invoked, will not
   // be triggered. The function will be called after it stops being called for
-  // N milliseconds.
-  _.debounce = function(func, wait) {
+  // N milliseconds. If asap is true the function is called on first invocation
+  // without having the user to wait for N milliseconds
+  _.debounce = function(func, wait, asap) {
     var timeout;
     return function() {
       var context = this, args = arguments;
       var later = function() {
         timeout = null;
-        func.apply(context, args);
+        if (!asap){
+          func.apply(context, args);
+        }
       };
+      if (asap && !timeout){
+        func.apply(context, args);
+      }
       clearTimeout(timeout);
       timeout = setTimeout(later, wait);
     };
