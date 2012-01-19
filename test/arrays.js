@@ -162,5 +162,17 @@ $(document).ready(function() {
     equals(_.range(12, 7, -2).join(' '), '12 10 8', 'range with three arguments a &amp; b &amp; c, a &gt; b, c &lt; 0 generates an array of elements a,a-c,a-2c and ends with the number not less than b');
     equals(_.range(0, -10, -1).join(' '), '0 -1 -2 -3 -4 -5 -6 -7 -8 -9', 'final example in the Python docs');
   });
+  
+  test("arrays: nrange (range +convenience functions)", function() {
+    equals(_.nrange(0).join(''), '', 'range with 0 as a first argument generates an empty array');
+    equals(_.nrange(4).join(' '), '0 1 2 3', 'range with a single positive argument generates an array of elements 0,1,2,...,n-1');
+    equals(_.nrange(-4).join(' '), '0 -1 -2 -3', 'range with a single negative argument generates an array of elements 0,-1,-2,...,n+1');
+    equals(_.nrange(5, 8).join(' '), '5 6 7', 'range with two arguments a &amp; b, a&lt;b generates an array of elements a,a+1,a+2,...,b-2,b-1');
+    equals(_.nrange(8, 5).join(' '), '8 7 6', 'range with two arguments a &amp; b, b&lt;a generates an array of elements a,a-1,a-2,...,b+1');
+    equals(_.nrange(3, 10, 3).join(' '), '3 6 9', 'range with three arguments a &amp; b &amp; c, c &lt; b-a, a &lt; b generates an array of elements a,a+c,a+2c,...,b - (multiplier of a) &lt; c');
+    equals(_.nrange(3, 10, 15).join(''), '3', 'range with three arguments a &amp; b &amp; c, c &gt; b-a, a &lt; b generates an array with a single element, equal to a');
+    equals(_.nrange(12, 7, -2).join(' '), '12 10 8', 'range with three arguments a &amp; b &amp; c, a &gt; b, c &lt; 0 generates an array of elements a,a-c,a-2c and ends with the number not less than b');
+    equals(_.nrange(0, -10, -1).join(' '), '0 -1 -2 -3 -4 -5 -6 -7 -8 -9', 'final example in the Python docs');
+  });
 
 });

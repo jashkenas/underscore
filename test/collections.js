@@ -220,6 +220,48 @@ $(document).ready(function() {
     equals(Infinity, _.min({}), 'Minimum value of an empty object');
     equals(Infinity, _.min([]), 'Minimum value of an empty array');
   });
+  
+  test('collections: sum (like in python)', function() {
+    equals(6, _.sum([1, 2, 3]), 'can sum up the collection elements');
+
+    var negsum = _.sum([1, 2, 3], function(num){ return -num; });
+    equals(-6, negsum, 'can perform a computation-based min');
+
+    equals(0, _.sum({}), 'Sum value of an empty object');
+    equals(0, _.sum([]), 'Sum of an empty array: zero');
+  });
+
+  test('collections: mean', function() {
+    var testobj = [1,2,5,4,3,9,8,5,5,3,3]; // length 11
+    equals((48/11), _.mean(testobj), 'can perform mean: sum of elements divided by number of elements (object.length)');
+
+    var neg = _.mean(testobj, function(num){ return -num; });
+    equals((-48/11), neg, 'can perform a computation-based mean');
+
+    equals(Infinity, _.mean({}), 'Mean value of an empty object');
+    equals(Infinity, _.mean([]), 'Mean value of an empty array');
+  });
+
+  test('collections: median', function() {
+    var testNum_odd = [1,2.5,5.1,4,3,9.5,8,5,5,3,3]; // length 11
+    equals(4, _.median(testNum_odd), 'returns the median eq. middle object of by value sorted odd-length collection of numbers');
+    
+    var testNum_even = [1,2.5,5.1,4,3,9.5,8,5,5,3,3,11.5]; // length 12
+    equals(4.5, _.median(testNum_even), 'returns the mean of two numerical middle object of by value sorted even-length collection of numbers');
+
+    var cmp = _.median(testNum_odd, function(num){ return (num>8)? -num : num; });
+    equals(3, cmp, 'can perform computation-based median');
+
+    var testStr_odd = ['a','z','g','f','d','e','h','a','b','c','c']; // length 11
+    equals("e", _.median(testStr_odd), 'returns the median eq. middle object of a sorted odd-length collection of chars or strings');
+    
+    var testStr_even = ['a','z','g','f','d','e','h','a','b','c','c','a']; // length 12
+    equals("e", _.median(testStr_even), 'returns the n/2-1 object of a sorted even-length collection of chars or strings');
+
+    equals(Infinity, _.min({}), 'Median value of an empty object');
+    equals(Infinity, _.min([]), 'Median value of an empty array');
+  });
+
 
   test('collections: sortBy', function() {
     var people = [{name : 'curly', age : 50}, {name : 'moe', age : 30}];
