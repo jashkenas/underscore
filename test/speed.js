@@ -67,4 +67,7 @@
     return _.range(1000);
   });
 
+  JSLitmus.test('_.nrange()', function() {
+    return _.nrange(1000);
+  });
 })();
