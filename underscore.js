@@ -820,7 +820,15 @@
 
   // Is a given value a date?
   _.isDate = function(obj) {
-    return toString.call(obj) == '[object Date]';
+    var test = function(obj){
+          if(obj !== null && typeof(obj) != 'undefined' && obj.getFullYear !== null && typeof(obj.getFullYear) != 'undefined'){
+            return true;
+          }else if (obj !== null && typeof(obj) != 'undefined'){
+            return test(obj.prototype);
+          }
+          return false;
+    };
+    return test(obj);
   };
 
   // Is the given value a regular expression?
