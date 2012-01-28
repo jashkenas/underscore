@@ -163,4 +163,26 @@ $(document).ready(function() {
     equals(_.range(0, -10, -1).join(' '), '0 -1 -2 -3 -4 -5 -6 -7 -8 -9', 'final example in the Python docs');
   });
 
+  test("arrays: pickRandom", function() {
+    equals(_.pickRandom([1]), 1, 'can pick a single element correctly');
+    equals(_([1]).pickRandom(), 1, 'can perform OO-style "pickRandom()"');
+    equals(_.pickRandom([1,2,3,4,5], 3).length, 3, 'picks the right number of elements');
+    var result = _.pickRandom([1,2,3,4,5], 5);
+    result.sort();
+    equals(result.join(","), "1,2,3,4,5", "picks all elements correctly");
+    var a = _.range(20);
+    var b = _.clone(a);
+    _.pickRandom(a, 5);
+    ok(_.isEqual(a, b), "does not corrupt a sparse array");
+    a = new Array(20);
+    a[4] = "x";
+    b = _.clone(a);
+    _.pickRandom(a, 5);
+    ok(_.isEqual(a, b), "does not corrupt a dense array");
+    result = (function(){ return _.pickRandom(arguments, 5); })(1, 2, 3, 4, 5);
+    result.sort();
+    equals(result.join(","), "1,2,3,4,5", "works on an arguments object");
+    equals(_.map([[1],[2]], _.pickRandom).join(","), "1,2", "works well with _.map");
+  });
+
 });

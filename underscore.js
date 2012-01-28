@@ -466,6 +466,39 @@
     return range;
   };
 
+ // Pick random elements from an array. Does mutate the array while 
+ // the algorithm is working, but restores everything before returning.
+ //  The **guard** check allows it to work with `_.map`.
+
+  _.pickRandom = function(array, n, guard) {
+    if (n == null || guard) n = 1;
+    n = Math.max(0, Math.min(array.length, n));
+
+    var picks = (function pickR(array, n, length) {
+      var i, picked, rest, hasIndex;
+
+      if (n === 0) return [];
+
+      i = Math.floor(Math.random() * length);
+      hasIndex = array.hasOwnProperty(i);	// This is needed for restoration of dense arrays
+      picked = array[i];
+      array[i] = array[length - 1];
+      rest = pickR(array, n - 1, length - 1);
+      // Restore array
+      if (hasIndex) {
+        array[i] = picked; 
+      } else {
+        delete array[i];
+      }
+      rest.push(picked);
+      return rest;
+    }) (array, n, array.length);
+
+    return (n == 1) ? picks[0] : picks;
+  }
+
+
+
   // Function (ahem) Functions
   // ------------------
 
