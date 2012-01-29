@@ -163,6 +163,7 @@
       <li>- <a href="#groupBy">groupBy</a></li>
       <li>- <a href="#sortedIndex">sortedIndex</a></li>
       <li>- <a href="#shuffle">shuffle</a></li>
+      <li>- <a href="#pickRandom">pickRandom</a></li>
       <li>- <a href="#toArray">toArray</a></li>
       <li>- <a href="#size">size</a></li>
     </ul>
@@ -791,6 +792,23 @@ _.range(0, -10, -1);
 _.range(0);
 =&gt; []
 </pre>
+
+      <p id="pickRandom">
+        <b class="header">pickRandom</b><code>_.pickRandom(array, [n])</code>
+        <br />
+	Picks a random element from an <b>array</b>. Passing <b>n</b> will
+	pick <b>n</b> random elements from the array, each from a unique
+	index in the array. 
+      </p>
+      <pre>
+_.pickRandom([1, 2, 3, 4, 5, 6]);
+=&gt; 4
+
+_.pickRandom([1, 2, 3, 4, 5, 6], 3);
+=&th; [5, 1, 6]
+</pre>
+
+
 
       <h2 id="functions">Function (uh, ahem) Functions</h2>
 
