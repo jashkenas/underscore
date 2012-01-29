@@ -471,10 +471,11 @@
  //  The **guard** check allows it to work with `_.map`.
 
   _.pickRandom = function(array, n, guard) {
-    var onlyOne = (n == null || guard);
-    n = Math.max(0, Math.min(array.length, onlyOne ? 1 : n));
+    if (n == null  || guard) 
+      return array[Math.floor(Math.random() * array.length)];
 
-    var picks = (function pickR(array, n, length) {
+    n = Math.max(0, Math.min(array.length, n));
+    return (function pickR(array, n, length) {
       var i, picked, rest, hasIndex;
 
       if (n === 0) return [];
@@ -493,8 +494,6 @@
       rest.push(picked);
       return rest;
     }) (array, n, array.length);
-
-    return (onlyOne) ? picks[0] : picks;
   }
 
 
