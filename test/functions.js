@@ -56,6 +56,18 @@ $(document).ready(function() {
       getName : function() { return 'name: ' + this.name; },
       sayHi   : function() { return 'hi: ' + this.name; }
     };
+    curly.getName = moe.getName;
+    _.bindAll(moe,['getName','sayHi']);
+    curly.sayHi = moe.sayHi;
+    equal(curly.getName(), 'name: curly', 'unbound function behavior is the same when passing an array of function names');
+    equal(curly.sayHi(), 'hi: moe', 'bound function behavior is the same when passing an array of function names');
+
+    curly = {name : 'curly'};
+    moe = {
+      name    : 'moe',
+      getName : function() { return 'name: ' + this.name; },
+      sayHi   : function() { return 'hi: ' + this.name; }
+    };
     _.bindAll(moe);
     curly.sayHi = moe.sayHi;
     equal(curly.sayHi(), 'hi: moe', 'calling bindAll with no arguments binds all functions to the object');

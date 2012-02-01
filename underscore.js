@@ -492,10 +492,15 @@
   };
 
   // Bind all of an object's methods to that object. Useful for ensuring that
-  // all callbacks defined on an object belong to it.
+  // all callbacks defined on an object belong to it. Limit to a list of method
+  // names by passing them as additional arguments or in an array.
   _.bindAll = function(obj) {
     var funcs = slice.call(arguments, 1);
-    if (funcs.length == 0) funcs = _.functions(obj);
+    if (funcs.length == 0) {
+      funcs = _.functions(obj);
+    } else {
+      funcs = _.flatten(funcs);
+    }
     each(funcs, function(f) { obj[f] = _.bind(obj[f], obj); });
     return obj;
   };
