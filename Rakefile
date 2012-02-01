@@ -16,5 +16,6 @@ end
 desc "Build the docco documentation"
 task :doc do
   sh "docco underscore.js"
+  sh 'perl -pe "s|\(#([\d]+)\)|<a href=\'https://github.com/documentcloud/underscore/issues/\1\'>(#\1)</a>|g" index.html.in  > index.html'
 end
 
