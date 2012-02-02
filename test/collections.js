@@ -135,6 +135,8 @@ $(document).ready(function() {
   });
 
   test('collections: reject', function() {
+    var evens = _.reject({a: 1, b: 2, c: 3}, function(num) { return num % 2 != 0; });
+    ok(_.isEqual(evens, {"b": 2}), 'works on collections');
     var odds = _.reject([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
     equal(odds.join(', '), '1, 3, 5', 'rejected each even number');
   });

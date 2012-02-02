@@ -162,13 +162,16 @@
 
   // Return all the elements for which a truth test fails.
   _.reject = function(obj, iterator, context) {
-    var results = [];
+    var results = _.isArray(obj) ? [] : {};
     if (obj == null) return results;
     each(obj, function(value, index, list) {
-      if (!iterator.call(context, value, index, list)) results[results.length] = value;
+      if (!iterator.call(context, value, index, list)) results[keyFor(obj, index, results)] = value;
     });
     return results;
   };
+  function keyFor(obj, index, results) {
+    return _.isArray(obj) ? results.length : index
+  }
 
   // Determine whether all of the elements match a truth test.
   // Delegates to **ECMAScript 5**'s native `every` if available.
