@@ -151,7 +151,7 @@
   // Delegates to **ECMAScript 5**'s native `filter` if available.
   // Aliased as `select`.
   _.filter = _.select = function(obj, iterator, context) {
-    var results = _.isArray(obj) ? [] : {};
+    var results  = createNewResultSet(obj);
     if (obj == null) return results;
     each(obj, function(value, index, list) {
       if (iterator.call(context, value, index, list)) append(results, value, index);
@@ -161,7 +161,7 @@
 
   // Return all the elements for which a truth test fails.
   _.reject = function(obj, iterator, context) {
-    var results = _.isArray(obj) ? [] : {};
+    var results  = createNewResultSet(obj);
     if (obj == null) return results;
     each(obj, function(value, index, list) {
       if (!iterator.call(context, value, index, list)) append(results, value, index);
@@ -1006,4 +1006,9 @@
     return this._wrapped;
   };
 
+  // Private function. returns an empty object or array
+  // depending on whether the passed in obj is an array or object
+  var createNewResultSet = function(obj) {
+    return _.isArray(obj) ? [] : {};
+  }
 }).call(this);

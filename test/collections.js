@@ -258,8 +258,8 @@ $(document).ready(function() {
 
   test('collections: shuffle', function() {
     var numbers = _.range(10);
-	var shuffled = _.shuffle(numbers).sort();
-	notStrictEqual(numbers, shuffled, 'original object is unmodified');
+    var shuffled = _.shuffle(numbers).sort();
+    notStrictEqual(numbers, shuffled, 'original object is unmodified');
     equal(shuffled.join(','), numbers.join(','), 'contains the same members before and after shuffle');
   });
 
