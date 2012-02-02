@@ -130,6 +130,9 @@ $(document).ready(function() {
     var evens = _.select([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
     equal(evens.join(', '), '2, 4, 6', 'selected each even number');
 
+    var evens = _.filter({a: 1, b: 2, c: 3}, function(num) { return num % 2 != 0; });
+    ok(_.isEqual(evens, {a: 1, c: 3}), 'works on collections');
+
     evens = _.filter([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
     equal(evens.join(', '), '2, 4, 6', 'aliased as "filter"');
   });

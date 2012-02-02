@@ -151,11 +151,10 @@
   // Delegates to **ECMAScript 5**'s native `filter` if available.
   // Aliased as `select`.
   _.filter = _.select = function(obj, iterator, context) {
-    var results = [];
+    var results = _.isArray(obj) ? [] : {};
     if (obj == null) return results;
-    if (nativeFilter && obj.filter === nativeFilter) return obj.filter(iterator, context);
     each(obj, function(value, index, list) {
-      if (iterator.call(context, value, index, list)) results[results.length] = value;
+      if (iterator.call(context, value, index, list)) append(results, value, index);
     });
     return results;
   };
@@ -358,7 +357,7 @@
 
   // Trim out all falsy values from an array.
   _.compact = function(array) {
-    return _.filter(array, function(value){ return !!value; });
+    return _.filter(_(array).toArray(), function(value){ return !!value; });
   };
 
   // Return a completely flattened version of an array.
@@ -372,7 +371,7 @@
 
   // Return a version of the array that does not contain the specified value(s).
   _.without = function(array) {
-    return _.difference(array, slice.call(arguments, 1));
+    return _.difference(_(array).toArray(), slice.call(arguments, 1));
   };
 
   // Produce a duplicate-free version of the array. If the array has already
