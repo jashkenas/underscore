@@ -130,11 +130,16 @@ $(document).ready(function() {
     var evens = _.select([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
     equal(evens.join(', '), '2, 4, 6', 'selected each even number');
 
+    var evens = _.filter({a: 1, b: 2, c: 3}, function(num) { return num % 2 != 0; });
+    ok(_.isEqual(evens, {a: 1, c: 3}), 'works on collections');
+
     evens = _.filter([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
     equal(evens.join(', '), '2, 4, 6', 'aliased as "filter"');
   });
 
   test('collections: reject', function() {
+    var evens = _.reject({a: 1, b: 2, c: 3}, function(num) { return num % 2 != 0; });
+    ok(_.isEqual(evens, {"b": 2}), 'works on collections');
     var odds = _.reject([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
     equal(odds.join(', '), '1, 3, 5', 'rejected each even number');
   });
@@ -253,8 +258,8 @@ $(document).ready(function() {
 
   test('collections: shuffle', function() {
     var numbers = _.range(10);
-	var shuffled = _.shuffle(numbers).sort();
-	notStrictEqual(numbers, shuffled, 'original object is unmodified');
+    var shuffled = _.shuffle(numbers).sort();
+    notStrictEqual(numbers, shuffled, 'original object is unmodified');
     equal(shuffled.join(','), numbers.join(','), 'contains the same members before and after shuffle');
   });
 
@@ -271,6 +276,16 @@ $(document).ready(function() {
 
   test('collections: size', function() {
     equal(_.size({one : 1, two : 2, three : 3}), 3, 'can compute the size of an object');
+  });
+  test('collections: append', function() {
+    var collection = _({a: 1, b: 2}).append(3, 'c');
+    ok(_(collection).isEqual({a: 1, b: 2, c: 3}), 'it sets the key on a collection when provided');
+
+    var collection = _({a: 1, b: 2}).append(3);
+    ok(_(collection).isEqual({a: 1, b: 2, 2: 3}), 'it defaults the key to the size of the collection when not provided');
+
+    var collection = _([1,2,3]).append(3);
+    equal([1,2,3].join(', '), "1, 2, 3", 'it appends to the end of arrays');
   });
 
 });

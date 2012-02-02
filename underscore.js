@@ -151,24 +151,31 @@
   // Delegates to **ECMAScript 5**'s native `filter` if available.
   // Aliased as `select`.
   _.filter = _.select = function(obj, iterator, context) {
-    var results = [];
+    var results  = createNewResultSet(obj);
     if (obj == null) return results;
-    if (nativeFilter && obj.filter === nativeFilter) return obj.filter(iterator, context);
     each(obj, function(value, index, list) {
-      if (iterator.call(context, value, index, list)) results[results.length] = value;
+      if (iterator.call(context, value, index, list)) append(results, value, index);
     });
     return results;
   };
 
   // Return all the elements for which a truth test fails.
   _.reject = function(obj, iterator, context) {
-    var results = [];
+    var results  = createNewResultSet(obj);
     if (obj == null) return results;
     each(obj, function(value, index, list) {
-      if (!iterator.call(context, value, index, list)) results[results.length] = value;
+      if (!iterator.call(context, value, index, list)) append(results, value, index);
     });
     return results;
   };
+
+  // Append to a object or array. Index may be overloaded.
+  var append = _.append = function(obj, value, index) {
+    index = index || _(obj).size();
+    if (_.isArray(obj)) index = _(obj).size();
+    obj[index] = value;
+    return obj;
+  }
 
   // Determine whether all of the elements match a truth test.
   // Delegates to **ECMAScript 5**'s native `every` if available.
@@ -350,7 +357,7 @@
 
   // Trim out all falsy values from an array.
   _.compact = function(array) {
-    return _.filter(array, function(value){ return !!value; });
+    return _.filter(_(array).toArray(), function(value){ return !!value; });
   };
 
   // Return a completely flattened version of an array.
@@ -364,7 +371,7 @@
 
   // Return a version of the array that does not contain the specified value(s).
   _.without = function(array) {
-    return _.difference(array, slice.call(arguments, 1));
+    return _.difference(_(array).toArray(), slice.call(arguments, 1));
   };
 
   // Produce a duplicate-free version of the array. If the array has already
@@ -999,4 +1006,9 @@
     return this._wrapped;
   };
 
+  // Private function. returns an empty object or array
+  // depending on whether the passed in obj is an array or object
+  var createNewResultSet = function(obj) {
+    return _.isArray(obj) ? [] : {};
+  }
 }).call(this);
