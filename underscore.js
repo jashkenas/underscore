@@ -165,12 +165,17 @@
     var results = _.isArray(obj) ? [] : {};
     if (obj == null) return results;
     each(obj, function(value, index, list) {
-      if (!iterator.call(context, value, index, list)) results[keyFor(obj, index, results)] = value;
+      if (!iterator.call(context, value, index, list)) append(results, value, index);
     });
     return results;
   };
-  function keyFor(obj, index, results) {
-    return _.isArray(obj) ? results.length : index
+
+  // Append to a object or array. Index may be overloaded.
+  var append = _.append = function(obj, value, index) {
+    index = index || _(obj).size();
+    if (_.isArray(obj)) index = _(obj).size();
+    obj[index] = value;
+    return obj;
   }
 
   // Determine whether all of the elements match a truth test.

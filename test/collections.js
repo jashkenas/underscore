@@ -274,5 +274,15 @@ $(document).ready(function() {
   test('collections: size', function() {
     equal(_.size({one : 1, two : 2, three : 3}), 3, 'can compute the size of an object');
   });
+  test('collections: append', function() {
+    var collection = _({a: 1, b: 2}).append(3, 'c');
+    ok(_(collection).isEqual({a: 1, b: 2, c: 3}), 'it sets the key on a collection when provided');
+
+    var collection = _({a: 1, b: 2}).append(3);
+    ok(_(collection).isEqual({a: 1, b: 2, 2: 3}), 'it defaults the key to the size of the collection when not provided');
+
+    var collection = _([1,2,3]).append(3);
+    equal([1,2,3].join(', '), "1, 2, 3", 'it appends to the end of arrays');
+  });
 
 });
