@@ -128,9 +128,9 @@
     if(_.isObject(obj[0])) {
       list = [];
       each(obj, function(o) {
-        list.push(iterator(o))
+        list.push(iterator(o));
       });
-    }
+    };
     return _.reduce(list, function(a, b) { return a + b; }, 0);
   }
 
