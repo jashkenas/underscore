@@ -121,6 +121,19 @@
     return memo;
   };
 
+  // **Sum** is a convenience method for `reduce` beginning at 0. Give it a list of
+  // numbers or a list of objects and tell it how to get the numbers to add.
+  _.sum = function(obj, iterator) {
+    var list = obj;
+    if(_.isObject(obj[0])) {
+      list = [];
+      each(obj, function(o) {
+        list.push(iterator(o))
+      });
+    }
+    return _.reduce(list, function(a, b) { return a + b; }, 0);
+  }
+
   // The right-associative version of reduce, also known as `foldr`.
   // Delegates to **ECMAScript 5**'s native `reduceRight` if available.
   _.reduceRight = _.foldr = function(obj, iterator, memo, context) {

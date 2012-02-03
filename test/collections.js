@@ -92,6 +92,25 @@ $(document).ready(function() {
     equal(_.reduce(sparseArray, function(a, b){ return a - b; }), 25, 'initially-sparse arrays with no memo');
   });
 
+  test('collections: sum', function() {
+    var sum = _.sum([1, 2, 3]);
+    equal(sum, 6, 'can sum up an array');
+
+    var sum = _.sum([{myProp: 1}, {myProp: 2}, {myProp: 3}], function(obj) { return obj.myProp; });
+    equal(sum, 6, 'can sum up a given property in an array of objects');
+
+    var sum = _.sum([]);
+    equal(sum, 0, 'sums up empty array to 0');
+
+    var ifnull;
+    try {
+      var sum = _.sum(null)
+    } catch (ex) {
+      ifnull = ex;
+    }
+    ok(ifnull instanceof TypeError, 'handles a null properly');
+  });
+
   test('collections: reduceRight', function() {
     var list = _.reduceRight(["foo", "bar", "baz"], function(memo, str){ return memo + str; }, '');
     equal(list, 'bazbarfoo', 'can perform right folds');
