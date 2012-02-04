@@ -124,14 +124,15 @@
   // **Sum** is a convenience method for `reduce` beginning at 0. Give it a list of
   // numbers or a list of objects and tell it how to get the numbers to add.
   _.sum = function(obj, iterator) {
-    var list = obj;
+   if(obj.length === 0) { return 0; }
+   var list = obj;
     if(_.isObject(obj[0])) {
       list = [];
       each(obj, function(o) {
         list.push(iterator(o));
       });
     };
-    return _.reduce(list, function(a, b) { return a + b; }, 0);
+    return _.reduce(list, function(a, b) { return a + b; });
   }
 
   // The right-associative version of reduce, also known as `foldr`.
