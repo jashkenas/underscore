@@ -123,17 +123,11 @@
 
   // **Sum** is a convenience method for `reduce` beginning at 0. Give it a list of
   // numbers or a list of objects and tell it how to get the numbers to add.
-  _.sum = function(obj, iterator) {
-   if(obj.length === 0) { return 0; }
-   var list = obj;
-    if(_.isObject(obj[0])) {
-      list = [];
-      each(obj, function(o) {
-        list.push(iterator(o));
-      });
-    };
-    return _.reduce(list, function(a, b) { return a + b; });
-  }
+  _.sum = function(list, iterator) {
+    if(list.length === 0) { return 0; }
+    iterator || (iterator = function(a) { return a; });
+    return _.reduce(list, function(memo, a) { return memo + iterator(a); }, 0);
+  };
 
   // The right-associative version of reduce, also known as `foldr`.
   // Delegates to **ECMAScript 5**'s native `reduceRight` if available.
