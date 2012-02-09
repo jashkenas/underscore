@@ -209,4 +209,21 @@ $(document).ready(function() {
     equal(testAfter(0, 0), 1, "after(0) should fire immediately");
   });
 
+  test("functions: curry", function() {
+    var greet = function(greeting, name){ return greeting + ': ' + name; };
+    var second = _.curry(greet, 'hi');
+    equal(second('moe'), 'hi: moe', 'curried the saluation function');
+
+    // var inner = function(){ return "Hello "; };
+    // var obj   = {name : "Moe"};
+    // obj.hi    = _.wrap(inner, function(fn){ return fn() + this.name; });
+    // equal(obj.hi(), "Hello Moe");
+
+    // var noop    = function(){};
+    // var wrapped = _.wrap(noop, function(fn){ return Array.prototype.slice.call(arguments, 0); });
+    // var ret     = wrapped(['whats', 'your'], 'vector', 'victor');
+    // same(ret, [noop, ['whats', 'your'], 'vector', 'victor']);
+  });
+
+
 });
