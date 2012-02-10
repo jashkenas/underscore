@@ -611,23 +611,27 @@
   // inspired by prototypejs
   _.curry = function(func)
   {
-    var __method = func, args = _.rest(arguments, 1);
+    var args = _.rest(arguments, 1);
     if (!args.length) return func;
     return function()
     {
-      return __method.apply(this, args.concat(_.rest(arguments, 0)));
+      return func.apply(this, args.concat(_.rest(arguments, 0)));
     }
   };
 
   // Attaches new properties to the context of the call
   // in other words
   // Extends passed object with 'this' and makes it context
-  _.attach = function(func, obj)
+  _.attach = function(func)
   {
+    var obj = _.reduce(_.rest(arguments, 1), function(obj, arg)
+      {
+        return _.extend(obj, arg);
+      }, {});
     return function()
     {
-      var thisArg = _.extend(obj, this);
-      func.apply(thisArg, _.rest(arguments, 0));
+      var thisArg = _.extend(_.clone(this), obj);
+      return func.apply(thisArg, _.rest(arguments, 0));
     };
   };
 
