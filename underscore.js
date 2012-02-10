@@ -218,7 +218,21 @@
   };
 
   // Convenience version of a common use case of `map`: fetching a property.
+  // Added ability to pass in an array of keys that you'd want to emit.
   _.pluck = function(obj, key) {
+    if(_.isArray(key)){
+        var newObj;
+        return _.map(obj, function(item){
+            newObj = {};
+            _.each(key,function(k){
+                if(Object.prototype.hasOwnProperty.call(item,k)){
+                    newObj[k] = item[k];
+                }
+            });
+            return newObj;
+        });
+    }
+    
     return _.map(obj, function(value){ return value[key]; });
   };
 
