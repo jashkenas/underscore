@@ -621,7 +621,7 @@
 
   // Attaches new properties to the context of the call
   // in other words
-  // Extends passed object with 'this' and makes it context
+  // Extends passed object(s) with 'this' and makes it context
   _.attach = function(func)
   {
     var obj = _.reduce(_.rest(arguments, 1), function(obj, arg)
