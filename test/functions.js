@@ -209,4 +209,40 @@ $(document).ready(function() {
     equal(testAfter(0, 0), 1, "after(0) should fire immediately");
   });
 
+  test("functions: curry", function() {
+    var greet = function(greeting, name){ return greeting + ': ' + name; };
+    var second = _.curry(greet, 'hi');
+    equal(second('moe'), 'hi: moe', 'curried the saluation function');
+
+    var func = function(first, second, last){ return first+','+second+','+last; };
+    var func = _.curry(_.curry(func, 'first'), 'second');
+    equal(func('last'), 'first,second,last', 'curried two levels deep');
+
+    var empty = function(only){ return only; };
+    var empty = _.curry(empty);
+    equal(empty('only'), 'only', 'curry is too dry');
+  });
+
+  test("functions: attach", function() {
+    var curly = {nick : 'curly'}
+      , moe = {
+          name    : 'moe',
+          getName : function() { return 'name: ' + this.name + ', ' + this.nick; }
+        };
+
+    equal(moe.getName(), 'name: moe, undefined', 'context is the current object');
+
+    equal(_.attach(moe.getName, curly)(), 'name: '+window.name+', curly', "object's method loses it's original context, in this case window becomes current context.");
+
+    equal(_.attach(moe.getName, moe, curly)(), 'name: moe, curly', 'put original context back to the function.');
+
+    curly.getName = moe.getName;
+
+    equal(curly.getName(), 'name: undefined, curly', 'function is still bound to current object');
+
+    equal(_.attach(curly.getName)(), 'name: , undefined', '_.attach with no properties puts window as current context (in this case)');
+
+  });
+
+
 });
