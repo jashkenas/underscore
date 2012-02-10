@@ -203,6 +203,12 @@ $(document).ready(function() {
     equal(_.pluck(people, 'name').join(', '), 'moe, curly', 'pulls names out of objects');
   });
 
+
+  test('collections: pluck', function() {
+    var people = [{name : 'moe', age : 30, sex : 'm'}, {name : 'curly', age : 50}];
+    ok(_.isEqual(_.pluck(people, ['name','age']), [{ name="moe", sex="m"}, { name="larry"}]), 'pulls array of property names out of objects');
+  });
+
   test('collections: max', function() {
     equal(3, _.max([1, 2, 3]), 'can perform a regular Math.max');
 
