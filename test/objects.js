@@ -538,7 +538,6 @@ $(document).ready(function() {
     ok(_.isValue(/identity/), 'RegExps are a "value"');
     ok(_.isValue(iRegExp), 'even from another frame');
     
-    ok(!_.isValue(Infinity), 'null is not a "value"');
     ok(!_.isValue(null), 'null is not a "value"');
     ok(!_.isValue(NaN), 'NaN is not a "value"');
     ok(!_.isValue(), 'nothing is not a "value"');

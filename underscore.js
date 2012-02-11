@@ -843,7 +843,7 @@
 
   // Is a given variable a "value"?
   _.isValue = function(obj) {
-    return !(_.isNaN(obj) || _.isNull(obj) || _.isUndefined(obj) || obj === Infinity);
+    return !(_.isNaN(obj) || _.isNull(obj) || _.isUndefined(obj));
   };
 
   // Has own property?
