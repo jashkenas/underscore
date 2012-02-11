@@ -506,6 +506,45 @@ $(document).ready(function() {
     ok(_.isUndefined(iUndefined), 'even from another frame');
   });
 
+  test("objects: isValue", function() {
+    var args = (function(){ return arguments; })(1, 2, 3);
+    
+    ok(_.isValue($('html')[0]), 'the html tag is a "value"');
+    ok(_.isValue(iElement), 'even from another frame');
+    
+    ok(_.isValue([1, 2, 3]), 'arrays are a "value"');
+    ok(_.isValue(iArray), 'even from another frame');
+    
+    ok(_.isValue(args), 'arguments is a "value"');
+    ok(_.isValue(iArguments), 'even from another frame');
+    
+    ok(_.isValue(_.isFunction), 'functions are a "value"');
+    ok(_.isValue(iFunction), 'even from another frame');
+    
+    ok(_.isValue([1, 2, 3].join(', ')), 'strings are a "value"');
+    ok(_.isValue(iString), 'even from another frame');
+    ok(_.isValue(''), 'and so are empty strings');
+    
+    ok(_.isValue(3 * 4 - 7 / 10), 'numbers are a "value"');
+    ok(_.isValue(iNumber), 'even from another frame');
+    
+    ok(_.isValue(true), 'boolean is a "value"');
+    ok(_.isValue(false), 'boolean is a "value"');
+    ok(_.isValue(iBoolean), 'even from another frame');
+    
+    ok(_.isValue(new Date()), 'dates are a "value"');
+    ok(_.isValue(iDate), 'even from another frame');
+    
+    ok(_.isValue(/identity/), 'RegExps are a "value"');
+    ok(_.isValue(iRegExp), 'even from another frame');
+    
+    ok(!_.isValue(null), 'null is not a "value"');
+    ok(!_.isValue(NaN), 'NaN is not a "value"');
+    ok(!_.isValue(), 'nothing is not a "value"');
+    ok(!_.isValue(undefined), 'undefined is not a "value"');
+    ok(!_.isValue(iUndefined), 'even from another frame');
+  });
+
   if (window.ActiveXObject) {
     test("objects: IE host objects", function() {
       var xml = new ActiveXObject("Msxml2.DOMDocument.3.0");

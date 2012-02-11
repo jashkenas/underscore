@@ -841,6 +841,11 @@
     return obj === void 0;
   };
 
+  // Is a given variable a "value"?
+  _.isValue = function(obj) {
+    return !(_.isNaN(obj) || _.isNull(obj) || _.isUndefined(obj));
+  };
+
   // Has own property?
   _.has = function(obj, key) {
     return hasOwnProperty.call(obj, key);
