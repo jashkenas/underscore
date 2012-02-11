@@ -232,6 +232,7 @@
       <li>- <a href="#isNaN">isNaN</a></li>
       <li>- <a href="#isNull">isNull</a></li>
       <li>- <a href="#isUndefined">isUndefined</a></li>
+      <li>- <a href="#isValue">isValue</a></li>
     </ul>
 
     <a class="toc_title" href="#utility">
@@ -1236,6 +1237,20 @@ _.isNull(undefined);
       <pre>
 _.isUndefined(window.missingVariable);
 =&gt; true
+</pre>
+
+      <p id="isValue">
+        <b class="header">isValue</b><code>_.isValue(variable)</code>
+        <br />
+        Returns <i>true</i> if <b>variable</b> is not <i>NaN</i>, <i>null</i>, <i>undefined</i> or <i>Infinity</i>.
+      </p>
+      <pre>
+_.isValue('');
+=&gt; true
+_.isValue(0);
+=&gt; true
+_.isValue();
+=&gt; false
 </pre>
       
       <h2 id="utility">Utility Functions</h2>
