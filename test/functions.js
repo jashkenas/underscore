@@ -209,4 +209,17 @@ $(document).ready(function() {
     equal(testAfter(0, 0), 1, "after(0) should fire immediately");
   });
 
+  test("function: curry", function() {
+    var curriedMin = _.curry(Math.min, 2, 3, 4, -1);
+    equal(curriedMin(-5, -7), -7, "min() should be called with the whole set of arguments");
+  });
+
+  asyncTest("functions: partial", 2, function() {
+    var delayed = false;
+    var partialTimeout = _.partial(setTimeout, undefined, 100);
+    partialTimeout(function(){ delayed = true });
+    setTimeout(function(){ ok(!delayed, "didn't delay the function quite yet"); }, 50);
+    setTimeout(function(){ ok(delayed, 'delayed the function'); start(); }, 150);
+  });
+
 });

@@ -606,6 +606,29 @@
     };
   };
 
+  // Transforms a function that takes multiple arguments in such a way it
+  // can be called with initial set of arguments and then called with the rest
+  // of the arguments.
+  _.curry = function(func) {
+    var args = slice.call(arguments, 1);
+    return function() {
+      return func.apply(this, args.concat(slice.call(arguments, 0)));
+    };
+  };
+
+  // Transforms a function that takes multiple arguments in such a wat it can
+  // be called with initial set of arguments, setting "undefined" for arguments
+  // we don't need now, and he called with the rest of arguments.
+  _.partial = function(func){
+    var args = slice.call(arguments, 1);
+    return function(){
+      for (var i = 0, arg = 0; i < args.length && arg < arguments.length; i++)
+        if (args[i] === void 0) args[i] = arguments[arg++]
+      return func.apply(this, args);
+    };
+  };
+
+
   // Object Functions
   // ----------------
 
