@@ -476,7 +476,7 @@
   // optionally). Binding with arguments is also known as `curry`.
   // Delegates to **ECMAScript 5**'s native `Function.bind` if available.
   // We check for `func.bind` first, to fail fast when `func` is undefined.
-  _.bind = function bind(func, context) {
+  _.bind = _.curry = function bind(func, context) {
     var bound, args;
     if (func.bind === nativeBind && nativeBind) return nativeBind.apply(func, slice.call(arguments, 1));
     if (!_.isFunction(func)) throw new TypeError;
@@ -603,16 +603,6 @@
     if (times <= 0) return func();
     return function() {
       if (--times < 1) { return func.apply(this, arguments); }
-    };
-  };
-
-  // Transforms a function that takes multiple arguments in such a way it
-  // can be called with initial set of arguments and then called with the rest
-  // of the arguments.
-  _.curry = function(func) {
-    var args = slice.call(arguments, 1);
-    return function() {
-      return func.apply(this, args.concat(slice.call(arguments, 0)));
     };
   };
 
