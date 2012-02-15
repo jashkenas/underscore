@@ -634,6 +634,7 @@
   };
 
   // Return a new object whose prototype is the passed-in object.
+  // Based on Crockford's beget method for prototypal inheritance.
   _.beget = function(obj) {
     function F() {}
     F.prototype = obj;
