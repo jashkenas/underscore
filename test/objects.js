@@ -447,6 +447,25 @@ $(document).ready(function() {
     ok(!_.isNumber('1'), 'numeric strings are not numbers');
   });
 
+  test("objects: isNumeric", function() {
+    ok(!_.isNumeric('1221g'), 'a string is not numeric');
+    ok(!_.isNumeric(arguments), 'the arguments object is not numeric');
+    ok(!_.isNumeric(undefined), 'undefined is not numeric');
+    ok(_.isNumeric(3 * 4 - 7 / 10), 'but numbers are');
+    ok(_.isNumeric(NaN), 'NaN *is* a numeric');
+    ok(_.isNumeric(Infinity), 'Infinity is numeric');
+    ok(_.isNumeric(iNumber), 'even from another frame');
+    ok(_.isNumeric('1'), 'numeric strings *are* numbers');
+    ok(_.isNumeric('1.12'), 'numeric float strings *are* numbers');
+    ok(_.isNumeric('-1'), 'signed numeric strings *are* numbers');
+    ok(_.isNumeric('+1.12'), 'positive signed numeric float strings *are* numbers');
+    ok(!_.isNumeric('+-1.12'), 'double signed numeric float strings aren\'t numbers');
+    ok(!_.isNumeric('-+1.12'), 'double signed numeric float strings aren\'t numbers');
+    ok(_.isNumeric('-1.12'), 'signed numeric float strings *are* numbers');
+    ok(_.isNumeric('.12'), 'numeric strings without a leading zero *are* numbers');
+    ok(_.isNumeric('-.12'), 'signed numeric strings without a leading zero *are* numbers');
+  });
+
   test("objects: isBoolean", function() {
     ok(!_.isBoolean(2), 'a number is not a boolean');
     ok(!_.isBoolean("string"), 'a string is not a boolean');
