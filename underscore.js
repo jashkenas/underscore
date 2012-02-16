@@ -611,16 +611,16 @@
   _.curry = function(func, context) {
     var acc, args = slice.call(arguments, 2);
     return acc = function() {
-        args = args.concat(slice.call(arguments, 0));
-        if (args.length >= func.length) {
-            return func.apply(context, args);
-        } else {
-            return function() {
-                return acc.apply(this, arguments);
-            }
+      args = args.concat(slice.call(arguments, 0));
+      if (args.length >= func.length) {
+        return func.apply(context, args);
+      } else {
+        return function() {
+          return acc.apply(this, arguments);
         }
-    }
-  }
+      }
+    };
+  };
 
   // Transforms a function that takes multiple arguments in such a wat it can
   // be called with some set of arguments, setting "undefined" for arguments
