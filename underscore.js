@@ -611,12 +611,12 @@
   _.curry = function(func, context) {
     var acc, args = slice.call(arguments, 2);
     return acc = function() {
-        args = args.concat(slice.call(arguments,0));
+        args = args.concat(slice.call(arguments, 0));
         if (args.length >= func.length) {
             return func.apply(context, args);
         } else {
             return function() {
-                return acc.apply(this, args.concat(slice.call(arguments, 0)));
+                return acc.apply(this, arguments);
             }
         }
     }
