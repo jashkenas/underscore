@@ -606,6 +606,35 @@
     };
   };
 
+  // Curries (burns in) arguments to a function, returning a new function
+  // that when called with call the original passing in the curried arguments
+  // inspired by prototypejs
+  _.curry = function(func)
+  {
+    var args = _.rest(arguments, 1);
+    if (!args.length) return func;
+    return function()
+    {
+      return func.apply(this, args.concat(_.rest(arguments, 0)));
+    }
+  };
+
+  // Attaches new properties to the context of the call
+  // in other words
+  // Extends passed object(s) with 'this' and makes it context
+  _.attach = function(func)
+  {
+    var obj = _.reduce(_.rest(arguments, 1), function(obj, arg)
+      {
+        return _.extend(obj, arg);
+      }, {});
+    return function()
+    {
+      var thisArg = _.extend(_.clone(this), obj);
+      return func.apply(thisArg, _.rest(arguments, 0));
+    };
+  };
+
   // Object Functions
   // ----------------
 
