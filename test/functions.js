@@ -209,9 +209,16 @@ $(document).ready(function() {
     equal(testAfter(0, 0), 1, "after(0) should fire immediately");
   });
 
-  asyncTest("functions: partial", 2, function() {
+  test("functions: curry", function() {
+    var curriedMin = _.curry(Math.min, null);
+    equal(curriedMin(2)(-7), -7, "min should be called with all arguments");
+    var curriedMax = _.curry(Math.max, null, -5);
+    equal(curriedMax()(10), 10, "max should be called ignoring arguments absence");
+  });
+
+  asyncTest("functions: partialSkip", 2, function() {
     var delayed = false;
-    var partialTimeout = _.partial(setTimeout, undefined, 100);
+    var partialTimeout = _.partialSkip(setTimeout, null, undefined, 100);
     partialTimeout(function(){ delayed = true });
     setTimeout(function(){ ok(!delayed, "didn't delay the function quite yet"); }, 50);
     setTimeout(function(){ ok(delayed, 'delayed the function'); start(); }, 150);
