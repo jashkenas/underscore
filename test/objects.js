@@ -459,11 +459,13 @@ $(document).ready(function() {
     ok(_.isNumeric('1.12'), 'numeric float strings *are* numbers');
     ok(_.isNumeric('-1'), 'signed numeric strings *are* numbers');
     ok(_.isNumeric('+1.12'), 'positive signed numeric float strings *are* numbers');
-    ok(!_.isNumeric('+-1.12'), 'double signed numeric float strings aren\'t numbers');
-    ok(!_.isNumeric('-+1.12'), 'double signed numeric float strings aren\'t numbers');
+    ok(!_.isNumeric('+-1.12'), 'double signed numeric float strings are not numbers');
+    ok(!_.isNumeric('-+1.12'), 'double signed numeric float strings are not numbers');
     ok(_.isNumeric('-1.12'), 'signed numeric float strings *are* numbers');
     ok(_.isNumeric('.12'), 'numeric strings without a leading zero *are* numbers');
     ok(_.isNumeric('-.12'), 'signed numeric strings without a leading zero *are* numbers');
+    ok(!_.isNumeric(''), 'empty strings not numbers');
+    ok(!_.isNumeric('-.'), 'signed or floating strings without numerals are not numbers');
   });
 
   test("objects: isBoolean", function() {

@@ -812,7 +812,7 @@
 
   // Is a given value numeric (i.e. a number or a numeric string)?
   _.isNumeric = function(obj) {
-    return _.isNumber(obj) || (_.isString(obj) && !_.isNull(obj.match(/^[\-\+]?\d*\.?\d*$/)));
+    return _.isNumber(obj) || (_.isString(obj) && !_.isNull(obj.match(/^[\-\+]?\d*\.?\d*$/)) && !_.isNull(obj.match(/\d/)));
   };
 
   // Is the given value `NaN`?
