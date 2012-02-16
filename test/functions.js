@@ -216,12 +216,17 @@ $(document).ready(function() {
     equal(curriedMax()(10), 10, "max should be called ignoring arguments absence");
   });
 
-  asyncTest("functions: partialSkip", 2, function() {
+  asyncTest("functions: partialRight", 2, function() {
     var delayed = false;
-    var partialTimeout = _.partialSkip(setTimeout, null, undefined, 100);
+    var partialTimeout = _.partialRight(setTimeout, null, 100);
     partialTimeout(function(){ delayed = true });
     setTimeout(function(){ ok(!delayed, "didn't delay the function quite yet"); }, 50);
     setTimeout(function(){ ok(delayed, 'delayed the function'); start(); }, 150);
+  });
+
+  test("functions: partialAny", function() {
+    var partialMin = _.partialAny(Math.min, null, 2, undefined, 5, undefined);
+    equal(partialMin(-2, -7), -7, "min should be called with all arguments");
   });
 
 });

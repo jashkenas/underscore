@@ -623,9 +623,19 @@
   };
 
   // Transforms a function that takes multiple arguments in such a wat it can
+  // be called with the rightmost set of arguments and then called with
+  // the rest of arguments.
+  _.partialRight = function(func, context){
+    var args = slice.call(arguments, 2);
+    return function() {
+      return func.apply(context, slice.call(arguments).concat(args));
+    };
+  };
+
+  // Transforms a function that takes multiple arguments in such a wat it can
   // be called with some set of arguments, setting "undefined" for arguments
   // we want to skip, and then called with the rest of arguments.
-  _.partialSkip = function(func, context){
+  _.partialAny = function(func, context){
     var args = slice.call(arguments, 2);
     return function() {
       for (var i = 0, arg = 0; i < args.length && arg < arguments.length; i++)
@@ -633,7 +643,6 @@
       return func.apply(context, args);
     };
   };
-
 
   // Object Functions
   // ----------------
