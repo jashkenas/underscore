@@ -627,9 +627,9 @@
   // we want to skip, and then called with the rest of arguments.
   _.partialSkip = function(func, context){
     var args = slice.call(arguments, 2);
-    return function(){
+    return function() {
       for (var i = 0, arg = 0; i < args.length && arg < arguments.length; i++)
-        if (args[i] === void 0) args[i] = arguments[arg++]
+        if (args[i] === void 0) args[i] = arguments[arg++];
       return func.apply(context, args);
     };
   };
