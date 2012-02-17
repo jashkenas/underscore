@@ -125,7 +125,7 @@
   // numbers or a list of objects and tell it how to get the numbers to add.
   _.sum = function(list, iterator) {
     if(list.length === 0) { return 0; }
-    iterator || (iterator = function(a) { return a; });
+    iterator || (iterator = _.identity);
     return _.reduce(list, function(memo, a) { return memo + iterator(a); }, 0);
   };
 
