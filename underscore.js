@@ -218,7 +218,11 @@
   };
 
   // Convenience version of a common use case of `map`: fetching a property.
-  _.pluck = function(obj, key) {
+  _.pluck = function (obj, key) {
+    if (_.isArray(key)) {
+      if (!keys.length) return obj;
+      _.pluck(_.flatten(_.pluck(obj, keys.shift())), keys);
+    }
     return _.map(obj, function(value){ return value[key]; });
   };
 
