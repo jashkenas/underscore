@@ -47,30 +47,30 @@ $(document).ready(function() {
   });
 
   test("utility: template", function() {
-    var basicTemplate = _.template("<%= thing %> is gettin' on my noives!");
+    var basicTemplate = _.template("<%= o.thing %> is gettin' on my noives!");
     var result = basicTemplate({thing : 'This'});
     equal(result, "This is gettin' on my noives!", 'can do basic attribute interpolation');
 
     var sansSemicolonTemplate = _.template("A <% this %> B");
     equal(sansSemicolonTemplate(), "A  B");
 
-    var backslashTemplate = _.template("<%= thing %> is \\ridanculous");
+    var backslashTemplate = _.template("<%= o.thing %> is \\ridanculous");
     equal(backslashTemplate({thing: 'This'}), "This is \\ridanculous");
 
-    var escapeTemplate = _.template('<%= a ? "checked=\\"checked\\"" : "" %>');
+    var escapeTemplate = _.template('<%= o.a ? "checked=\\"checked\\"" : "" %>');
     equal(escapeTemplate({a: true}), 'checked="checked"', 'can handle slash escapes in interpolations.');
 
     var fancyTemplate = _.template("<ul><% \
-      for (key in people) { \
-    %><li><%= people[key] %></li><% } %></ul>");
+      for (key in o.people) { \
+    %><li><%= o.people[key] %></li><% } %></ul>");
     result = fancyTemplate({people : {moe : "Moe", larry : "Larry", curly : "Curly"}});
     equal(result, "<ul><li>Moe</li><li>Larry</li><li>Curly</li></ul>", 'can run arbitrary javascript in templates');
 
-    var escapedCharsInJavascriptTemplate = _.template("<ul><% _.each(numbers.split('\\n'), function(item) { %><li><%= item %></li><% }) %></ul>");
+    var escapedCharsInJavascriptTemplate = _.template("<ul><% _.each(o.numbers.split('\\n'), function(item) { %><li><%= item %></li><% }) %></ul>");
     result = escapedCharsInJavascriptTemplate({numbers: "one\ntwo\nthree\nfour"});
     equal(result, "<ul><li>one</li><li>two</li><li>three</li><li>four</li></ul>", 'Can use escaped characters (e.g. \\n) in Javascript');
 
-    var namespaceCollisionTemplate = _.template("<%= pageCount %> <%= thumbnails[pageCount] %> <% _.each(thumbnails, function(p) { %><div class=\"thumbnail\" rel=\"<%= p %>\"></div><% }); %>");
+    var namespaceCollisionTemplate = _.template("<%= o.pageCount %> <%= o.thumbnails[o.pageCount] %> <% _.each(o.thumbnails, function(p) { %><div class=\"thumbnail\" rel=\"<%= p %>\"></div><% }); %>");
     result = namespaceCollisionTemplate({
       pageCount: 3,
       thumbnails: {
@@ -89,14 +89,14 @@ $(document).ready(function() {
     equal(quoteTemplate({}), "It's its, not it's");
 
     var quoteInStatementAndBody = _.template("<%\
-      if(foo == 'bar'){ \
+      if(o.foo == 'bar'){ \
     %>Statement quotes and 'quotes'.<% } %>");
     equal(quoteInStatementAndBody({foo: "bar"}), "Statement quotes and 'quotes'.");
 
-    var withNewlinesAndTabs = _.template('This\n\t\tis: <%= x %>.\n\tok.\nend.');
+    var withNewlinesAndTabs = _.template('This\n\t\tis: <%= o.x %>.\n\tok.\nend.');
     equal(withNewlinesAndTabs({x: 'that'}), 'This\n\t\tis: that.\n\tok.\nend.');
 
-    var template = _.template("<i><%- value %></i>");
+    var template = _.template("<i><%- o.value %></i>");
     var result = template({value: "<script>"});
     equal(result, '<i>&lt;script&gt;</i>');
 
@@ -105,6 +105,9 @@ $(document).ready(function() {
       template: _.template("I'm <%= this.name %>")
     };
     equal(stooge.template(), "I'm Moe");
+
+    var printing = _.template("<% print('a:' + o.a + ',b:' + o.b); %>");
+    equal('a:1,b:2', printing({a:1, b:2}));
 
     if (!$.browser.msie) {
       var fromHTML = _.template($('#template').html());
@@ -116,14 +119,14 @@ $(document).ready(function() {
       interpolate : /\{\{=([\s\S]+?)\}\}/g
     };
 
-    var custom = _.template("<ul>{{ for (key in people) { }}<li>{{= people[key] }}</li>{{ } }}</ul>");
+    var custom = _.template("<ul>{{ for (key in o.people) { }}<li>{{= o.people[key] }}</li>{{ } }}</ul>");
     result = custom({people : {moe : "Moe", larry : "Larry", curly : "Curly"}});
     equal(result, "<ul><li>Moe</li><li>Larry</li><li>Curly</li></ul>", 'can run arbitrary javascript in templates');
 
     var customQuote = _.template("It's its, not it's");
     equal(customQuote({}), "It's its, not it's");
 
-    var quoteInStatementAndBody = _.template("{{ if(foo == 'bar'){ }}Statement quotes and 'quotes'.{{ } }}");
+    var quoteInStatementAndBody = _.template("{{ if(o.foo == 'bar'){ }}Statement quotes and 'quotes'.{{ } }}");
     equal(quoteInStatementAndBody({foo: "bar"}), "Statement quotes and 'quotes'.");
 
     _.templateSettings = {
@@ -131,24 +134,24 @@ $(document).ready(function() {
       interpolate : /<\?=([\s\S]+?)\?>/g
     };
 
-    var customWithSpecialChars = _.template("<ul><? for (key in people) { ?><li><?= people[key] ?></li><? } ?></ul>");
+    var customWithSpecialChars = _.template("<ul><? for (key in o.people) { ?><li><?= o.people[key] ?></li><? } ?></ul>");
     result = customWithSpecialChars({people : {moe : "Moe", larry : "Larry", curly : "Curly"}});
     equal(result, "<ul><li>Moe</li><li>Larry</li><li>Curly</li></ul>", 'can run arbitrary javascript in templates');
 
     var customWithSpecialCharsQuote = _.template("It's its, not it's");
     equal(customWithSpecialCharsQuote({}), "It's its, not it's");
 
-    var quoteInStatementAndBody = _.template("<? if(foo == 'bar'){ ?>Statement quotes and 'quotes'.<? } ?>");
+    var quoteInStatementAndBody = _.template("<? if(o.foo == 'bar'){ ?>Statement quotes and 'quotes'.<? } ?>");
     equal(quoteInStatementAndBody({foo: "bar"}), "Statement quotes and 'quotes'.");
 
     _.templateSettings = {
       interpolate : /\{\{(.+?)\}\}/g
     };
 
-    var mustache = _.template("Hello {{planet}}!");
+    var mustache = _.template("Hello {{o.planet}}!");
     equal(mustache({planet : "World"}), "Hello World!", "can mimic mustache.js");
 
-    var templateWithNull = _.template("a null undefined {{planet}}");
+    var templateWithNull = _.template("a null undefined {{o.planet}}");
     equal(templateWithNull({planet : "world"}), "a null undefined world", "can handle missing escape and evaluate settings");
   });
 
