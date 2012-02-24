@@ -825,7 +825,7 @@
 
   // Is a given value a date?
   _.isDate = function(obj) {
-    return toString.call(obj) == '[object Date]';
+    return !_.isNaN(obj.valueOf()) || toString.call(obj) == '[object Date]';
   };
 
   // Is the given value a regular expression?
