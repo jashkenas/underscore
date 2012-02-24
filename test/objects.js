@@ -472,6 +472,7 @@ $(document).ready(function() {
     ok(!_.isDate(100), 'numbers are not dates');
     ok(!_.isDate({}), 'objects are not dates');
     ok(_.isDate(new Date()), 'but dates are');
+    ok(!_.isDate('today')), 'invalid times are not dates');
     ok(_.isDate(iDate), 'even from another frame');
   });
 
