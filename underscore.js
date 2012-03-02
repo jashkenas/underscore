@@ -913,7 +913,8 @@
   // and correctly escapes quotes within interpolated code.
   _.template = function(str, data) {
     var c  = _.templateSettings;
-    var tmpl = 'var __p=[],print=function(){__p.push.apply(__p,arguments);};' +
+    var tmpl = 'var __p=this.__p||[],' +
+      'print=function(){__p.push.apply(__p,arguments);};' +
       'with(obj||{}){__p.push(\'' +
       str.replace(/\\/g, '\\\\')
          .replace(/'/g, "\\'")

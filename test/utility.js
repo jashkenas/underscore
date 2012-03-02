@@ -1,6 +1,14 @@
 $(document).ready(function() {
 
-  module("Utility");
+  var templateSettings = _.templateSettings;
+
+  module("Utility", {
+
+    teardown: function() {
+      _.templateSettings = templateSettings;
+    }
+
+  });
 
   test("utility: noConflict", function() {
     var underscore = _.noConflict();
@@ -150,6 +158,26 @@ $(document).ready(function() {
 
     var templateWithNull = _.template("a null undefined {{planet}}");
     equal(templateWithNull({planet : "world"}), "a null undefined world", "can handle missing escape and evaluate settings");
+  });
+
+  test("Using a custom `__p` in a template function.", function() {
+    var s = _.template('<% this.wrap(function(){ %>content<% }); %>').call({
+      __p: [],
+      wrap: function(f){
+        this.__p.push('<p>');
+        f.call(this);
+        this.__p.push('</p>');
+      }
+    });
+    strictEqual(s, '<p>content</p>');
+  });
+
+  test("Nested templates using the same `__p`", function() {
+    var s = _.template('1<% this.tmpl.call(this, {value: 2}); %>3').call({
+      __p: [],
+      tmpl: _.template('<%= value %>')
+    });
+    strictEqual(s, '123');
   });
 
 });
