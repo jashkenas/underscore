@@ -318,7 +318,7 @@
   // Get the first element of an array. Passing **n** will return the first N
   // values in the array. Aliased as `head`. The **guard** check allows it to work
   // with `_.map`.
-  _.first = _.head = function(array, n, guard) {
+  _.first = _.head = _.car = function(array, n, guard) {
     return (n != null) && !guard ? slice.call(array, 0, n) : array[0];
   };
 
@@ -344,7 +344,7 @@
   // Especially useful on the arguments object. Passing an **index** will return
   // the rest of the values in the array from that index onward. The **guard**
   // check allows it to work with `_.map`.
-  _.rest = _.tail = function(array, index, guard) {
+  _.rest = _.tail = _.cdr = function(array, index, guard) {
     return slice.call(array, (index == null) || guard ? 1 : index);
   };
 
