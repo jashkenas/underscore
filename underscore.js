@@ -665,8 +665,13 @@
   // The primary purpose of this method is to "tap into" a method chain, in
   // order to perform operations on intermediate results within the chain.
   _.tap = function(obj, interceptor) {
-    interceptor(obj);
-    return obj;
+    var result = interceptor(obj);
+
+    if (typeof result === 'undefined') {
+      return obj;
+    }
+
+    return result;
   };
 
   // Internal recursive comparison function.
