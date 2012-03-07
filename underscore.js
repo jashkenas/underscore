@@ -569,12 +569,7 @@
   // Returns a function that will be executed at most one time, no matter how
   // often you call it. Useful for lazy initialization.
   _.once = function(func) {
-    var ran = false, memo;
-    return function() {
-      if (ran) return memo;
-      ran = true;
-      return memo = func.apply(this, arguments);
-    };
+    return _.limit(1, func);
   };
 
   // Returns a function that will be executed a maximum of N times.
