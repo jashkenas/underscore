@@ -577,6 +577,16 @@
     };
   };
 
+  // Returns a function that will be executed a maximum of N times.
+  _.limit = function(times, func) {
+    var count = 0, memo;
+    return function() {
+      count++;
+      if (count>times) return memo;
+      return memo = func.apply(this, arguments);
+    };
+  };
+
   // Returns the first function passed as an argument to the second,
   // allowing you to adjust arguments, run code before and after, and
   // conditionally execute the original function.
