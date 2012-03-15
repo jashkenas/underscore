@@ -767,6 +767,7 @@
   _.isEmpty = function(obj) {
     if (obj == null) return true;
     if (_.isArray(obj) || _.isString(obj)) return obj.length === 0;
+    if (_.isDate(obj)) return false;
     for (var key in obj) if (_.has(obj, key)) return false;
     return true;
   };
