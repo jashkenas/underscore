@@ -200,6 +200,7 @@
   // Determine if exactly count elements in the object matches a truth test.
   _.exactly = function(obj, iterator, count, context){
     var result = true;
+    if (obj == null) return count == 0;
     each(obj, function(value, index, list) {
       if (iterator.call(context, value, index, list)){
         if (count == 0){
