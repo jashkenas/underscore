@@ -197,6 +197,21 @@
     return !!result;
   };
 
+  // Determine if exactly count elements in the object matches a truth test.
+  _.exactly = function(obj, iterator, count, context){
+    var result = true;
+    each(obj, function(value, index, list) {
+      if (iterator.call(context, value, index, list)){
+        if (count == 0){
+          result = false;
+          return breaker;
+        }
+        count--;
+      }
+    });
+    return result && count == 0;
+  }
+
   // Determine if a given value is included in the array or object using `===`.
   // Aliased as `contains`.
   _.include = _.contains = function(obj, target) {
