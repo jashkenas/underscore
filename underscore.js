@@ -848,7 +848,7 @@
     return hasOwnProperty.call(obj, key);
   };
 
-  // Cleares an object's own properties, basically it reinitializes the object
+  // Clears an object's own properties, basically it reinitializes the object
   _.wipe = function(obj) {
     for (var p in obj) {
       if (_.has(obj, p))
