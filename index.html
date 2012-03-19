@@ -3,6 +3,7 @@
 <head>
   <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />  
   <title>Underscore.js</title>
   <style>
     body {
@@ -211,7 +212,7 @@
     <ul class="toc_section">
       <li>- <a href="#keys">keys</a></li>
       <li>- <a href="#values">values</a></li>
-      <li>- <a href="#functions">functions</a></li>
+      <li>- <a href="#object-functions">functions</a></li>
       <li>- <a href="#extend">extend</a></li>
       <li>- <a href="#defaults">defaults</a></li>
       <li>- <a href="#clone">clone</a></li>
@@ -221,6 +222,7 @@
       <li>- <a href="#isEmpty">isEmpty</a></li>
       <li>- <a href="#isElement">isElement</a></li>
       <li>- <a href="#isArray">isArray</a></li>
+      <li>- <a href="#isObject">isObject</a></li>
       <li>- <a href="#isArguments">isArguments</a></li>
       <li>- <a href="#isFunction">isFunction</a></li>
       <li>- <a href="#isString">isString</a></li>
@@ -579,8 +581,8 @@ _.shuffle([1, 2, 3, 4, 5, 6]);
         real Array. Useful for transmuting the <b>arguments</b> object.
       </p>
       <pre>
-(function(){ return _.toArray(arguments).slice(0); })(1, 2, 3);
-=&gt; [1, 2, 3]
+(function(){ return _.toArray(arguments).slice(1); })(1, 2, 3, 4);
+=&gt; [2, 3, 4]
 </pre>
 
       <p id="size">
@@ -989,7 +991,7 @@ _.values({one : 1, two : 2, three : 3});
 =&gt; [1, 2, 3]
 </pre>
 
-      <p id="functions">
+      <p id="object-functions">
         <b class="header">functions</b><code>_.functions(object)</code>
         <span class="alias">Alias: <b>methods</b></span>
         <br />
@@ -1005,8 +1007,9 @@ _.functions(_);
         <b class="header">extend</b><code>_.extend(destination, *sources)</code>
         <br />
         Copy all of the properties in the <b>source</b> objects over to the
-        <b>destination</b> object. It's in-order, so the last source will override
-        properties of the same name in previous arguments.
+        <b>destination</b> object, and return the <b>destination</b> object.
+        It's in-order, so the last source will override properties of the same
+        name in previous arguments.
       </p>
       <pre>
 _.extend({name : 'moe'}, {age : 50});
@@ -1017,8 +1020,8 @@ _.extend({name : 'moe'}, {age : 50});
         <b class="header">defaults</b><code>_.defaults(object, *defaults)</code>
         <br />
         Fill in missing properties in <b>object</b> with default values from the
-        <b>defaults</b> objects. As soon as the property is filled, further defaults
-        will have no effect.
+        <b>defaults</b> objects, and return the <b>object</b>. As soon as the
+        property is filled, further defaults will have no effect.
       </p>
       <pre>
 var iceCream = {flavor : "chocolate"};
@@ -1113,6 +1116,18 @@ _.isElement(jQuery('body')[0]);
 =&gt; false
 _.isArray([1,2,3]);
 =&gt; true
+</pre>
+
+      <p id="isObject">
+        <b class="header">isObject</b><code>_.isObject(value)</code>
+        <br />
+        Returns <i>true</i> if <b>value</b> is an Object.
+      </p>
+      <pre>
+_.isObject({});
+=&gt; true
+_.isObject(1);
+=&gt; false
 </pre>
 
       <p id="isArguments">
@@ -1228,14 +1243,14 @@ _.isUndefined(window.missingVariable);
       <p id="wipe">
         <b class="header">wipe</b><code>_.wipe(object)</code>
         <br />
-        Cleares the objects own properties, essentially reinitializing it if it 
+        Cleares the objects own properties, essentially reinitializing it if it
         has no prototypes.
       </p>
       <pre>
 _.wipe({foo: bar});
 =&gt; {}
 </pre>
-
+      
       <h2 id="utility">Utility Functions</h2>
 
       <p id="noConflict">
@@ -1290,6 +1305,7 @@ _("fabio").capitalize();
         <br />
         Generate a globally-unique id for client-side models or DOM elements
         that need one. If <b>prefix</b> is passed, the id will be appended to it.
+        Without <b>prefix</b>, returns an integer.
       </p>
       <pre>
 _.uniqueId('contact_');
@@ -1918,7 +1934,7 @@ _([1, 2, 3]).value();
         like so: <tt>_([1, 2, 3]).map(...);</tt>. Original patch provided by
         <a href="http://macournoyer.com/">Marc-André Cournoyer</a>.
         Wrapped objects can be chained through multiple
-        method invocations. A <a href="#functions"><tt>functions</tt></a> method
+        method invocations. A <a href="#object-functions"><tt>functions</tt></a> method
         was added, providing a sorted list of all the functions in Underscore.
       </p>
 
