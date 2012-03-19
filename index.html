@@ -233,6 +233,7 @@
       <li>- <a href="#isNaN">isNaN</a></li>
       <li>- <a href="#isNull">isNull</a></li>
       <li>- <a href="#isUndefined">isUndefined</a></li>
+      <li>- <a href="#wipe">wipe</a></li>
     </ul>
 
     <a class="toc_title" href="#utility">
@@ -1237,6 +1238,17 @@ _.isNull(undefined);
       <pre>
 _.isUndefined(window.missingVariable);
 =&gt; true
+</pre>
+
+      <p id="wipe">
+        <b class="header">wipe</b><code>_.wipe(object)</code>
+        <br />
+        Clears the objects own properties, essentially reinitializing it if it
+        has no prototypes.
+      </p>
+      <pre>
+_.wipe({foo: bar});
+=&gt; {}
 </pre>
       
       <h2 id="utility">Utility Functions</h2>
