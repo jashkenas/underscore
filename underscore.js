@@ -213,7 +213,7 @@
   _.invoke = function(obj, method) {
     var args = slice.call(arguments, 2);
     return _.map(obj, function(value) {
-      return (_.isFunction(method) ? method || value : value[method]).apply(value, args);
+      return (typeof method == 'function' ? method || value : value[method]).apply(value, args);
     });
   };
 
@@ -278,7 +278,7 @@
   // to group by, or a function that returns the criterion.
   _.groupBy = function(obj, val) {
     var result = {};
-    var iterator = _.isFunction(val) ? val : function(obj) { return obj[val]; };
+    var iterator = typeof val == 'function' ? val : function(obj) { return obj[val]; };
     each(obj, function(value, index) {
       var key = iterator(value, index);
       (result[key] || (result[key] = [])).push(value);
@@ -301,7 +301,7 @@
   // Safely convert anything iterable into a real, live array.
   _.toArray = function(iterable) {
     if (!iterable)                return [];
-    if (iterable.toArray)         return iterable.toArray();
+    if (typeof iterable.toArray == 'function') return iterable.toArray();
     if (_.isArray(iterable))      return slice.call(iterable);
     if (_.isArguments(iterable))  return slice.call(iterable);
     return _.values(iterable);
@@ -630,7 +630,7 @@
   _.functions = _.methods = function(obj) {
     var names = [];
     for (var key in obj) {
-      if (_.isFunction(obj[key])) names.push(key);
+      if (typeof obj[key] == 'function') names.push(key);
     }
     return names.sort();
   };
@@ -680,8 +680,8 @@
     if (a._chain) a = a._wrapped;
     if (b._chain) b = b._wrapped;
     // Invoke a custom `isEqual` method if one is provided.
-    if (a.isEqual && _.isFunction(a.isEqual)) return a.isEqual(b);
-    if (b.isEqual && _.isFunction(b.isEqual)) return b.isEqual(a);
+    if (typeof a.isEqual == 'function') return a.isEqual(b);
+    if (typeof b.isEqual == 'function') return b.isEqual(a);
     // Compare `[[Class]]` names.
     var className = toString.call(a);
     if (className != toString.call(b)) return false;
@@ -878,7 +878,7 @@
   _.result = function(object, property) {
     if (object == null) return null;
     var value = object[property];
-    return _.isFunction(value) ? value() : value;
+    return typeof value == 'function' ? value() : value;
   };
 
   // Add your own custom functions to the Underscore object, ensuring that
