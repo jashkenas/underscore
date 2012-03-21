@@ -213,6 +213,12 @@
     return result && count == 0;
   }
 
+  // Determine if only one element in the object matches a truth test.
+  // Aliased as `one`
+  _.one = _.only = function(obj, iterator, context){
+    return _.exactly(obj,iterator,1,context);
+  }
+
   // Determine if a given value is included in the array or object using `===`.
   // Aliased as `contains`.
   _.include = _.contains = function(obj, target) {
