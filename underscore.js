@@ -325,7 +325,7 @@
 
   // Return the number of elements in an object.
   _.size = function(obj) {
-    return _.toArray(obj).length;
+    return _.isArray(obj) ? obj.length : _.keys(obj).length;
   };
 
   // Array Functions
@@ -889,6 +889,14 @@
     return (''+string).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#x27;').replace(/\//g,'&#x2F;');
   };
 
+  // If the value of the named property is a function then invoke it;
+  // otherwise, return it.
+  _.result = function(object, property) {
+    if (object == null) return null;
+    var value = object[property];
+    return _.isFunction(value) ? value.call(object) : value;
+  };
+
   // Add your own custom functions to the Underscore object, ensuring that
   // they're correctly added to the OOP wrapper as well.
   _.mixin = function(obj) {
@@ -918,19 +926,27 @@
   // guaranteed not to match.
   var noMatch = /.^/;
 
+  // Certain characters need to be escaped so that they can be put into a
+  // string literal.
+  var escapes = {
+    '\\': '\\',
+    "'": "'",
+    'r': '\r',
+    'n': '\n',
+    't': '\t',
+    'u2028': '\u2028',
+    'u2029': '\u2029'
+  };
+
+  for (var p in escapes) escapes[escapes[p]] = p;
+  var escaper = /\\|'|\r|\n|\t|\u2028|\u2029/g;
+  var unescaper = /\\(\\|'|r|n|t|u2028|u2029)/g;
+
   // Within an interpolation, evaluation, or escaping, remove HTML escaping
   // that had been previously added.
   var unescape = function(code) {
-    return code.replace(/\\(\\|'|r|n|t|u2028|u2029)/g, function(match, char) {
-      switch (char) {
-        case '\\': return '\\';
-        case "'": return "'";
-        case 'r': return '\r';
-        case 'n': return '\n';
-        case 't': return '\t';
-        case 'u2028': return '\u2028';
-        case 'u2029': return '\u2029';
-      }
+    return code.replace(unescaper, function(match, escape) {
+      return escapes[escape];
     });
   };
 
@@ -941,23 +957,20 @@
     var c  = _.templateSettings;
     var tmpl = 'var __p=[],print=function(){__p.push.apply(__p,arguments);};' +
       'with(obj||{}){__p.push(\'' +
-      str.replace(/\\/g, '\\\\')
-         .replace(/'/g, "\\'")
-         .replace(/\r/g, '\\r')
-         .replace(/\n/g, '\\n')
-         .replace(/\t/g, '\\t')
-         .replace(/\u2028/g, '\\u2028')
-         .replace(/\u2029/g, '\\u2029')
-         .replace(c.escape || noMatch, function(match, code) {
-           return "',_.escape(" + unescape(code) + "),\n'";
-         })
-         .replace(c.interpolate || noMatch, function(match, code) {
-           return "'," + unescape(code) + ",\n'";
-         })
-         .replace(c.evaluate || noMatch, function(match, code) {
-           return "');" + unescape(code) + ";\n__p.push('";
-         })
-         + "');}return __p.join('');";
+      str
+        .replace(escaper, function(match) {
+          return '\\' + escapes[match];
+        })
+        .replace(c.escape || noMatch, function(match, code) {
+          return "',_.escape(" + unescape(code) + "),\n'";
+        })
+        .replace(c.interpolate || noMatch, function(match, code) {
+          return "'," + unescape(code) + ",\n'";
+        })
+        .replace(c.evaluate || noMatch, function(match, code) {
+          return "');" + unescape(code) + ";\n__p.push('";
+        })
+        + "');}return __p.join('');";
     var func = new Function('obj', '_', tmpl);
     if (data) return func(data, _);
     return function(data) {
