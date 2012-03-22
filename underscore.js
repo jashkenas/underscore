@@ -630,7 +630,7 @@
   _.functions = _.methods = function(obj) {
     var names = [];
     for (var key in obj) {
-      if (typeof obj[key] == 'function') names.push(key);
+      if (_.isFunction(obj[key])) names.push(key);
     }
     return names.sort();
   };
