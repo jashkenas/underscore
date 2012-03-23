@@ -56,6 +56,12 @@ $(document).ready(function() {
     equal(options.word, "word", 'new value is added, first one wins');
   });
 
+  test("objects: only", function() {
+    var obj = { one: 1, two: 2, three: 3, four: 4 },
+        filtered = _.only( obj, 'one', 'three', 'five' );
+    ok( _.isEqual( filtered, {one:1, three:3} ), 'filters down to specified properties' );
+  });
+
   test("objects: clone", function() {
     var moe = {name : 'moe', lucky : [13, 27, 34]};
     var clone = _.clone(moe);
