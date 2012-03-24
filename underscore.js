@@ -655,11 +655,11 @@
     return obj;
   };
 
-  // Return a copy of an object with only the specified properties.
-  _.only = function(obj) {
+  // Return a copy of an object only containing the specified properties.
+  _.restrict = function(obj) {
     var trimmed = {};
     each(slice.call(arguments, 1), function(key) {
-      if( _.has(obj,key) ) trimmed[key] = obj[key];
+      if (key in obj) trimmed[key] = obj[key];
     });
     return trimmed;
   };
