@@ -655,6 +655,15 @@
     return obj;
   };
 
+  // Return a copy of an object only containing the specified properties.
+  _.restrict = function(obj) {
+    var trimmed = {};
+    each(slice.call(arguments, 1), function(key) {
+      if (key in obj) trimmed[key] = obj[key];
+    });
+    return trimmed;
+  };
+
   // Create a (shallow-cloned) duplicate of an object.
   _.clone = function(obj) {
     if (!_.isObject(obj)) return obj;
