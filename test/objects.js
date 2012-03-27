@@ -537,5 +537,6 @@ $(document).ready(function() {
     ok(!_.isZero(null))
     ok(!_.isZero("0"))
     ok(_.isZero(0))
+    ok(_.isZero(new Object(0)))
   });
 });
