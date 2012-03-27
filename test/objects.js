@@ -532,4 +532,11 @@ $(document).ready(function() {
       value();
     ok(returned == 6 && intercepted == 6, 'can use tapped objects in a chain');
   });
+  
+  test("objects: isZero", function(){
+    ok(!_.isZero(null))
+    ok(!_.isZero("0"))
+    ok(_.isZero(0))
+    ok(_.isZero(new Object(0)))
+  });
 });

@@ -668,6 +668,10 @@
     interceptor(obj);
     return obj;
   };
+  
+  _.isZero = function(obj){
+   return _.isNumber(obj) && 0 === parseInt(obj, 10);
+  }
 
   // Internal recursive comparison function.
   function eq(a, b, stack) {
