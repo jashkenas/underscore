@@ -668,6 +668,10 @@
     interceptor(obj);
     return obj;
   };
+  
+  _.isZero = function(obj){
+    return obj === 0;
+  }
 
   // Internal recursive comparison function.
   function eq(a, b, stack) {
