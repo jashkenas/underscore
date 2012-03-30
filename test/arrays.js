@@ -140,7 +140,13 @@ $(document).ready(function() {
   test('arrays: zip', function() {
     var names = ['moe', 'larry', 'curly'], ages = [30, 40, 50], leaders = [true];
     var stooges = _.zip(names, ages, leaders);
-    equal(String(stooges), 'moe,30,true,larry,40,,curly,50,', 'zipped together arrays of different lengths');
+    equal(String(stooges), 'moe,30,true,larry,40,,curly,50,', 'zipped together arrays of different lengths (default (non-strict) behavior)');
+
+    var stooges = _.zip(names, ages, leaders, true);
+    equal(String(stooges), 'moe,30,true', 'zipped together only first elements of the arrays (strict behavior)');
+
+    var stooges = _.zip(names, ages, leaders, false);
+    equal(String(stooges), 'moe,30,true,larry,40,,curly,50,', 'zipped together arrays of different lengths (explicitly non-strict behavior)');
   });
 
   test("arrays: indexOf", function() {
