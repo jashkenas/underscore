@@ -40,7 +40,7 @@ $(document).ready(function() {
     result = _.extend({}, {a: void 0, b: null});
     equal(_.keys(result).join(''), 'b', 'extend does not copy undefined values');
     result = _.extend({a:1, b:2}, {a: void 0, b: null});
-    equal(result, {a:1, b:null}, 'extend does not override with undefined values');
+    equal(_.values(result).join(''), '1', 'extend does not override with undefined values');
   });
 
   test("objects: defaults", function() {
