@@ -38,7 +38,9 @@ $(document).ready(function() {
     result = _.extend({x:'x'}, {a:'a', x:2}, {a:'b'});
     ok(_.isEqual(result, {x:2, a:'b'}), 'extending from multiple source objects last property trumps');
     result = _.extend({}, {a: void 0, b: null});
-    equal(_.keys(result).join(''), 'ab', 'extend does not copy undefined values');
+    equal(_.keys(result).join(''), 'b', 'extend does not copy undefined values');
+    result = _.extend({a:1, b:2}, {a: void 0, b: null});
+    equal(result, {a:1, b:null}, 'extend does not override with undefined values');
   });
 
   test("objects: defaults", function() {
