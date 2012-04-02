@@ -211,9 +211,8 @@ $(document).ready(function() {
 
   test("functions: curry", function() {
     var curriedMin = _.curry(Math.min, null);
-    equal(curriedMin(2)(-7), -7, "min should be called with all arguments");
-    var curriedMax = _.curry(Math.max, null, -5);
-    equal(curriedMax()(10), 10, "max should be called ignoring arguments absence");
+    curriedMin = _.curry(curriedMin, 2, -10);
+    equal(curriedMin(-7), -10, "min should be called with all arguments");
   });
 
   asyncTest("functions: partialRight", 2, function() {
