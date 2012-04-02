@@ -148,6 +148,7 @@
     <ul class="toc_section">
       <li>- <a href="#each">each</a></li>
       <li>- <a href="#map">map</a></li>
+      <li>- <a href="#sum">sum</a></li>
       <li>- <a href="#reduce">reduce</a></li>
       <li>- <a href="#reduceRight">reduceRight</a></li>
       <li>- <a href="#find">find</a></li>
@@ -381,6 +382,21 @@ _.map({one : 1, two : 2, three : 3}, function(num, key){ return num * 3; });
 var sum = _.reduce([1, 2, 3], function(memo, num){ return memo + num; }, 0);
 =&gt; 6
 </pre>
+
+      <p id="sum">
+        <b class="header">sum</b><code>_.sum(list, [context])</code>
+        <br />
+        A convenient version of a very common use of <b>reduce</b>: summing a collection
+        of numbers from 0. <b>sum</b> can take a <b>list</b> of numbers to be added or a
+        <b>list</b> of <b>objects</b> and a function specifying how to get the values to be added.
+      </p>
+      <pre>
+var list = [{ myProp: 3 }, { myProp: 3 }, { myProp: 4 }];
+
+var sum = _.sum([1, 2, 3]); =&gt; 6
+var sum = _.sum(list, function(o) { return o.myProp; }); =&gt; 10
+var sum = _.sum(_.pluck(list, 'myProp')); =&gt; 10
+      </pre>
 
       <p id="reduceRight">
         <b class="header">reduceRight</b><code>_.reduceRight(list, iterator, memo, [context])</code>
