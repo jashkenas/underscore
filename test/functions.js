@@ -168,6 +168,17 @@ $(document).ready(function() {
     equal(num, 1);
   });
 
+  test("functions: limit", function() {
+    var num = 0;
+    var increment = _.limit(4, function(){ num++; });
+    increment();
+    increment();
+    increment();
+    increment();
+    increment();
+    equal(num, 4);
+  });
+
   test("functions: wrap", function() {
     var greet = function(name){ return "hi: " + name; };
     var backwards = _.wrap(greet, function(func, name){ return func(name) + ' ' + name.split('').reverse().join(''); });
