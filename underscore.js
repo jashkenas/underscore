@@ -840,7 +840,11 @@
     return obj === true || obj === false || toString.call(obj) == '[object Boolean]';
   };
 
-  // Is a given value a date?
+  // Is a given value a valid date?
+  _.isValidDate = function(obj) {
+    return !_.isNaN(obj.valueOf()) || toString.call(obj) == '[object Date]';
+  };
+  
   _.isDate = function(obj) {
     return toString.call(obj) == '[object Date]';
   };

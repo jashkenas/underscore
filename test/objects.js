@@ -481,7 +481,16 @@ $(document).ready(function() {
     ok(!_.isDate(100), 'numbers are not dates');
     ok(!_.isDate({}), 'objects are not dates');
     ok(_.isDate(new Date()), 'but dates are');
+    ok(_.isDate('today')), 'invalid times are dates');
     ok(_.isDate(iDate), 'even from another frame');
+  });
+  
+  test("objects: isValidDate", function(){
+    ok(_.isValidDate(new Date(100)), '100 milliseconds after Jan 1, 1970');
+    ok(_.isValidDate(new Date('February 25, 2012')), 'Valild dates can be strings too');
+    ok(!_.isValidDate(new Date('today')), 'JavaScript does not support relative dates');
+    ok(!_.isValidDate(new Date({})), 'Objects are not valid dates');
+    ok(!_.isValidDate(new Date(false)), 'Booleans are not valid dates');
   });
 
   test("objects: isRegExp", function() {
