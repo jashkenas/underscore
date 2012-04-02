@@ -524,6 +524,21 @@
   _.defer = function(func) {
     return _.delay.apply(_, [func, 1].concat(slice.call(arguments, 1)));
   };
+  
+  // Waits for the conditional function to return true before scheduling the function
+  // Checks the conditional function once per supplied interval or every 500 milliseconds.
+  // Defers the first check so func is consistently called after the current call stack
+  // has cleared.
+  _.when = function(conditional, func, interval) {
+    var when_func = function() {
+      if(condition.call()) {
+        func.call();
+      } else {
+        setTimeout(when_func, interval || 500);
+      }
+    };
+    _.defer(when_func);
+  };
 
   // Returns a function, that, when invoked, will only be triggered at most once
   // during a given window of time.
