@@ -210,9 +210,8 @@ $(document).ready(function() {
   });
 
   test("functions: curry", function() {
-    var curriedMin = _.curry(Math.min, null);
-    curriedMin = _.curry(curriedMin, 2, -10);
-    equal(curriedMin(-7), -10, "min should be called with all arguments");
+    var curriedMax = _.curry(Math.max, null, -5);
+    equal(curriedMax(15, 10, 12)(-5, 72)(), 72, "should be called with all arguments");
   });
 
   asyncTest("functions: partialRight", 2, function() {
