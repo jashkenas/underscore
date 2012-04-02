@@ -166,6 +166,30 @@ $(document).ready(function() {
     Array.prototype.some = nativeSome;
   });
 
+  test('collections: exactly', function() {
+    var test=[0,1,2,3,4,5,6,7,8,9];
+    ok(_.exactly([],_.identity,0), 'the empty set');
+    ok(_.exactly(test, function(x){ return false; },0), 'exactly 0');
+    ok(_.exactly(test, function(x){ return x==5; },1), 'exactly 1');
+    ok(_.exactly(test, function(x){ return true; },test.length), 'exactly all');
+    ok(!_.exactly(test, function(num){ return num<=5; }, 8), 'false when too few');
+    ok(!_.exactly(test, function(num){ return num<=5; }, 2), 'false when too many');
+    ok(!_.exactly(test, function(num){ return num<=5; }, -1), 'false when count is negative');
+    ok(_.exactly(null, function(num){ return num<=5; }, 0), 'obj is null and count is 0');
+    ok(!_.exactly(null, function(num){ return num<=5; }, 5), 'obj is null and count is non-0');
+  });
+
+  test('collections: only', function() {
+    var test=[0,1,2,3,4,5,6,7,8,9];
+    ok(!_.only([],_.identity), 'the empty set');
+    ok(!_.only(test, function(x){ return false; }), '0 match');
+    ok(_.only(test, function(x){ return x==5; }), '1 match');
+    ok(!_.only(test, function(x){ return true; }), 'many match');
+    ok(!_.only([], function(x){ return true; }), 'obj is empty');
+    ok(!_.only(null, function(x){ return true; }), 'obj is null');
+    ok(_.one(test, function(x){ return x==5; }), 'aliased as "one"');
+  });
+
   test('collections: include', function() {
     ok(_.include([1,2,3], 2), 'two is in the array');
     ok(!_.include([1,3,9], 2), 'two is not in the array');
