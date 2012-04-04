@@ -477,7 +477,7 @@
   // optionally). Binding with arguments is also known as `curry`.
   // Delegates to **ECMAScript 5**'s native `Function.bind` if available.
   // We check for `func.bind` first, to fail fast when `func` is undefined.
-  _.bind = function bind(func, context) {
+  _.bind = _.partial = function bind(func, context) {
     var bound, args;
     if (func.bind === nativeBind && nativeBind) return nativeBind.apply(func, slice.call(arguments, 1));
     if (!_.isFunction(func)) throw new TypeError;
@@ -605,6 +605,45 @@
     if (times <= 0) return func();
     return function() {
       if (--times < 1) { return func.apply(this, arguments); }
+    };
+  };
+
+  // Transforms a function that takes multiple arguments in such a way it
+  // can be called as a chain of functions until you call it
+  // without arguments.
+  _.curry = function(func, context) {
+    var acc, args = slice.call(arguments, 2);
+    return acc = function() {
+      if (arguments.length == 0) {
+        return func.apply(context, args);
+      } else {
+        args = args.concat(slice.call(arguments, 0));
+        return function() {
+          return acc.apply(this, arguments);
+        }
+      }
+    };
+  };
+
+  // Transforms a function that takes multiple arguments in such a wat it can
+  // be called with the rightmost set of arguments and then called with
+  // the rest of arguments.
+  _.partialRight = function(func, context){
+    var args = slice.call(arguments, 2);
+    return function() {
+      return func.apply(context, slice.call(arguments).concat(args));
+    };
+  };
+
+  // Transforms a function that takes multiple arguments in such a wat it can
+  // be called with some set of arguments, setting "undefined" for arguments
+  // we want to skip, and then called with the rest of arguments.
+  _.partialAny = function(func, context){
+    var args = slice.call(arguments, 2);
+    return function() {
+      for (var i = 0, arg = 0; i < args.length && arg < arguments.length; i++)
+        if (args[i] === void 0) args[i] = arguments[arg++];
+      return func.apply(context, args);
     };
   };
 

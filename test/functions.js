@@ -212,4 +212,22 @@ $(document).ready(function() {
     equal(testAfter(0, 0), 1, "after(0) should fire immediately");
   });
 
+  test("functions: curry", function() {
+    var curriedMax = _.curry(Math.max, null, -5);
+    equal(curriedMax(15, 10, 12)(-5, 72)(), 72, "should be called with all arguments");
+  });
+
+  asyncTest("functions: partialRight", 2, function() {
+    var delayed = false;
+    var partialTimeout = _.partialRight(setTimeout, null, 100);
+    partialTimeout(function(){ delayed = true });
+    setTimeout(function(){ ok(!delayed, "didn't delay the function quite yet"); }, 50);
+    setTimeout(function(){ ok(delayed, 'delayed the function'); start(); }, 150);
+  });
+
+  test("functions: partialAny", function() {
+    var partialMin = _.partialAny(Math.min, null, 2, undefined, 5, undefined);
+    equal(partialMin(-2, -7), -7, "min should be called with all arguments");
+  });
+
 });
