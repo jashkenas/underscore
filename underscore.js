@@ -410,9 +410,16 @@
 
   // Zip together multiple lists into a single array -- elements that share
   // an index go together.
+  // If you want to restrict the length of the resulting array to the length
+  // of the shortest list, pass `true` as an additional last parameter.
   _.zip = function() {
     var args = slice.call(arguments);
-    var length = _.max(_.pluck(args, 'length'));
+    var func = _.max;
+    if (typeof _.last(args) === 'boolean') {
+      func = (_.last(args)) ? _.min : _.max;
+      args = slice.call(args, 0, -1);
+    }
+    var length = func(_.pluck(args, 'length'));
     var results = new Array(length);
     for (var i = 0; i < length; i++) results[i] = _.pluck(args, "" + i);
     return results;
