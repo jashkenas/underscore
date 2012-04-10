@@ -644,6 +644,23 @@
     });
     return obj;
   };
+  
+  //Returns a modified originalObject that merges in the contents of otherObject.  If no function is specified,
+  //the value for entries with duplicate keys will be that of other_object.  Otherwise the value for each
+  //duplicate key is determined by calling the block with the key, its value in originalObject and its value in
+  //otherObject.
+  _.merge = function(originalObject, otherObject, mergeFunction) {
+    var originalKeys = _.keys(originalObject);
+    var otherKeys = _.keys(otherObject);
+    _.each(_.without(otherKeys, originalKeys), function(newKey) {
+      originalObject[newKey] = otherObject[newKey];
+    });
+    _.each(_.intersection(originalKeys, otherKeys), function(collisionKey) {
+      originalObject[collisionKey] = (_.isFunction(mergeFunction)) ? mergeFunction(collisionKey, originalObject[collisionKey], otherObject[collisionKey]) : otherObject[collisionKey];
+    });
+
+    return originalObject;
+  };
 
   // Return a copy of the object only containing the whitelisted properties.
   _.pick = function(obj) {
