@@ -52,11 +52,16 @@
   // backwards-compatibility for the old `require()` API. If we're in
   // the browser, add `_` as a global object via a string identifier,
   // for Closure Compiler "advanced" mode.
+  // If we're in a Spotify app then just export _ for Spotify's require.
   if (typeof exports !== 'undefined') {
     if (typeof module !== 'undefined' && module.exports) {
       exports = module.exports = _;
     }
-    exports._ = _;
+    if (typeof getSpotifyApi === 'function') {
+      exports = _;
+    } else {
+      exports._ = _;
+    }
   } else {
     root['_'] = _;
   }
