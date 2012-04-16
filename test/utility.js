@@ -69,6 +69,14 @@ $(document).ready(function() {
     var resultWithNull = basicTemplate({thing : null});
     equal(resultWithNull, " is gettin' on my noives!", 'can do basic attribute interpolation with null');
 
+    var undefinedTemplate = _.template("My mental state is <%= undefined.state %>.");
+    var resultWithUndefined = undefinedTemplate({});
+    equal(resultWithUndefined, 'My mental state is .', 'can output undefined');
+
+    var undefinedEscapedTemplate = _.template("My mental state is <%- undefined.state %>.");
+    var escapedResultWithUndefined = undefinedEscapedTemplate({});
+    equal(escapedResultWithUndefined, 'My mental state is .', 'can output undefined escaped');
+
     var sansSemicolonTemplate = _.template("A <% this %> B");
     equal(sansSemicolonTemplate(), "A  B");
 
