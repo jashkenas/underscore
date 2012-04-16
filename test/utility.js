@@ -54,9 +54,11 @@ $(document).ready(function() {
   });
 
   test("utility: _.escape", function() {
+    var undefined;
     equal(_.escape("Curly & Moe"), "Curly &amp; Moe");
     equal(_.escape("Curly &amp; Moe"), "Curly &amp;amp; Moe");
     equal(_.escape(null), "");
+    equal(_.escape(undefined), "");
   });
 
   test("utility: template", function() {
