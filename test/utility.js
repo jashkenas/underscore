@@ -120,6 +120,10 @@ $(document).ready(function() {
     var resultWithNull = template({value: null});
     equal(resultWithNull, '<i></i>', 'escaped output with null');
 
+    var template = _.template("[<%= test %>] {<%- test %>}");
+    var resultOfPullRequest = template({test: null});
+    equal(resultOfPullRequest, "[] {}", 'Result of pull request #559');
+
     var stooge = {
       name: "Moe",
       template: _.template("I'm <%= this.name %>")
