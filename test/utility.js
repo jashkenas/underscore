@@ -54,11 +54,11 @@ $(document).ready(function() {
   });
 
   test("utility: _.escape", function() {
-    var undefined;
+    var notdefined;
     equal(_.escape("Curly & Moe"), "Curly &amp; Moe");
     equal(_.escape("Curly &amp; Moe"), "Curly &amp;amp; Moe");
-    equal(_.escape(null), "");
-    equal(_.escape(undefined), "");
+    equal(_.escape(null), "null");
+    equal(_.escape(notdefined), "undefined");
   });
 
   test("utility: template", function() {
