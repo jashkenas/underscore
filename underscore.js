@@ -884,8 +884,6 @@
 
   // Escape a string for HTML interpolation.
   _.escape = function(string) {
-    if ( typeof string == 'undefined' || string === null )
-      return '';
     return (''+string).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#x27;').replace(/\//g,'&#x2F;');
   };
 
@@ -964,10 +962,10 @@
         return '\\' + escapes[match];
       })
       .replace(settings.escape || noMatch, function(match, code) {
-        return "';try{__p+=_.escape(" + unescape(code) + ")}catch(error){}\n__p+='";
+        return "';try{__p+=" + unescape(code) + " == null ? '' : _.escape(" + unescape(code) + ");}catch(error){}\n__p+='";
       })
       .replace(settings.interpolate || noMatch, function(match, code) {
-        return "';try{__p+=(" + unescape(code) + " == null ? '' : " + unescape(code) + ")}catch(error){}\n__p+='";
+        return "';try{__p+=" + unescape(code) + " == null ? '' : " + unescape(code) + ";}catch(error){}\n__p+='";
       })
       .replace(settings.evaluate || noMatch, function(match, code) {
         return "';\n" + unescape(code) + "\n;__p+='";
