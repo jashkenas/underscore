@@ -965,7 +965,7 @@
         return "'+\n_.escape(" + unescape(code) + ")+\n'";
       })
       .replace(settings.interpolate || noMatch, function(match, code) {
-        return "'+\n(" + unescape(code) + ")+\n'";
+        return "'+\n((__t=(" + unescape(code) + "))==null?'':__t)+\n'";
       })
       .replace(settings.evaluate || noMatch, function(match, code) {
         return "';\n" + unescape(code) + "\n;__p+='";
@@ -974,8 +974,8 @@
     // If a variable is not specified, place data values in local scope.
     if (!settings.variable) source = 'with(obj||{}){\n' + source + '}\n';
 
-    source = "var __p='';" +
-      "var print=function(){__p+=Array.prototype.join.call(arguments, '')};\n" +
+    source = "var __t,__p='',__j=Array.prototype.join," +
+      "print=function(){__p+=__j.call(arguments,'')};\n" +
       source + "return __p;\n";
 
     var render = new Function(settings.variable || 'obj', '_', source);
