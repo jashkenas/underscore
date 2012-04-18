@@ -962,7 +962,7 @@
         return '\\' + escapes[match];
       })
       .replace(settings.escape || noMatch, function(match, code) {
-        return "'+\n_.escape(" + unescape(code) + ")+\n'";
+        return "'+\n((__t=(" + unescape(code) + "))==null?'':_.escape(__t))+\n'";
       })
       .replace(settings.interpolate || noMatch, function(match, code) {
         return "'+\n((__t=(" + unescape(code) + "))==null?'':__t)+\n'";
