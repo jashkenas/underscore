@@ -192,4 +192,16 @@ $(document).ready(function() {
     ok(!_.templateSettings.variable);
   });
 
+  test('#556 - undefined template variables.', function() {
+    var template = _.template('<%=x%>');
+    strictEqual(template({x: null}), '');
+    strictEqual(template({x: undefined}), '');
+  });
+
+  test('interpolate evaluates code only once.', 1, function() {
+    var count = 0;
+    var template = _.template('<%= f() %>');
+    template({f: function(){ ok(!(count++)); }});
+  });
+
 });
