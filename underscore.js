@@ -962,10 +962,10 @@
         return '\\' + escapes[match];
       })
       .replace(settings.escape || noMatch, function(match, code) {
-        return "'+\n_.escape(" + unescape(code) + ")+\n'";
+        return "';try{__p+=" + unescape(code) + " == null ? '' : _.escape(" + unescape(code) + ");}catch(error){}\n__p+='";
       })
       .replace(settings.interpolate || noMatch, function(match, code) {
-        return "'+\n(" + unescape(code) + ")+\n'";
+        return "';try{__p+=" + unescape(code) + " == null ? '' : " + unescape(code) + ";}catch(error){}\n__p+='";
       })
       .replace(settings.evaluate || noMatch, function(match, code) {
         return "';\n" + unescape(code) + "\n;__p+='";

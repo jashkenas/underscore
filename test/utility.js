@@ -54,14 +54,28 @@ $(document).ready(function() {
   });
 
   test("utility: _.escape", function() {
+    var notdefined;
     equal(_.escape("Curly & Moe"), "Curly &amp; Moe");
     equal(_.escape("Curly &amp; Moe"), "Curly &amp;amp; Moe");
+    equal(_.escape(null), "null");
+    equal(_.escape(notdefined), "undefined");
   });
 
   test("utility: template", function() {
     var basicTemplate = _.template("<%= thing %> is gettin' on my noives!");
     var result = basicTemplate({thing : 'This'});
     equal(result, "This is gettin' on my noives!", 'can do basic attribute interpolation');
+
+    var resultWithNull = basicTemplate({thing : null});
+    equal(resultWithNull, " is gettin' on my noives!", 'can do basic attribute interpolation with null');
+
+    var undefinedTemplate = _.template("My mental state is <%= undefined.state %>.");
+    var resultWithUndefined = undefinedTemplate({});
+    equal(resultWithUndefined, 'My mental state is .', 'can output undefined');
+
+    var undefinedEscapedTemplate = _.template("My mental state is <%- undefined.state %>.");
+    var escapedResultWithUndefined = undefinedEscapedTemplate({});
+    equal(escapedResultWithUndefined, 'My mental state is .', 'can output undefined escaped');
 
     var sansSemicolonTemplate = _.template("A <% this %> B");
     equal(sansSemicolonTemplate(), "A  B");
@@ -111,6 +125,14 @@ $(document).ready(function() {
     var template = _.template("<i><%- value %></i>");
     var result = template({value: "<script>"});
     equal(result, '<i>&lt;script&gt;</i>');
+
+    var template = _.template("<i><%- value %></i>");
+    var resultWithNull = template({value: null});
+    equal(resultWithNull, '<i></i>', 'escaped output with null');
+
+    var template = _.template("[<%= test %>] {<%- test %>}");
+    var resultOfPullRequest = template({test: null});
+    equal(resultOfPullRequest, "[] {}", 'Result of pull request #559');
 
     var stooge = {
       name: "Moe",
