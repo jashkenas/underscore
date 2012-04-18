@@ -377,7 +377,9 @@ _.map({one : 1, two : 2, three : 3}, function(num, key){ return num * 3; });
         Also known as <b>inject</b> and <b>foldl</b>, <b>reduce</b> boils down a
         <b>list</b> of values into a single value. <b>Memo</b> is the initial state
         of the reduction, and each successive step of it should be returned by
-        <b>iterator</b>.
+        <b>iterator</b>. The iterator is passed four arguments: the <tt>memo</tt>,
+        then the <tt>value</tt> and <tt>index</tt> (or key) of the iteration, 
+        and finally a reference to the entire <tt>list</tt>.
       </p>
       <pre>
 var sum = _.reduce([1, 2, 3], function(memo, num){ return memo + num; }, 0);
