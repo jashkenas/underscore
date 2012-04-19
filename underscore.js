@@ -678,7 +678,7 @@
     return obj;
   };
 
-  // Internal recursive comparison function.
+  // Internal recursive comparison function for `isEqual`.
   function eq(a, b, stack) {
     // Identical objects are equal. `0 === -0`, but they aren't identical.
     // See the Harmony `egal` proposal: http://wiki.ecmascript.org/doku.php?id=harmony:egal.
@@ -797,6 +797,8 @@
   };
 
   // Is a given variable an arguments object?
+  // Define a fallback version of the method in browsers (ahem, IE), where
+  // there isn't any inspectable "Arguments" type.
   _.isArguments = function(obj) {
     return toString.call(obj) == '[object Arguments]';
   };
@@ -857,7 +859,7 @@
     return obj === void 0;
   };
 
-  // Has own property?
+  // Does an object have the given "own" property?
   _.has = function(obj, key) {
     return hasOwnProperty.call(obj, key);
   };
@@ -884,7 +886,13 @@
 
   // Escape a string for HTML interpolation.
   _.escape = function(string) {
-    return (''+string).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#x27;').replace(/\//g,'&#x2F;');
+    return (''+string)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#x27;')
+      .replace(/\//g,'&#x2F;');
   };
 
   // If the value of the named property is a function then invoke it;
@@ -984,10 +992,8 @@
       return render.call(this, data, _);
     };
 
-    // Provide the compiled function source as a convenience for build time
-    // precompilation.
-    template.source = 'function(' + (settings.variable || 'obj') + '){\n' +
-      source + '}';
+    // Provide the compiled function source as a convenience for precompilation.
+    template.source = 'function(' + (settings.variable || 'obj') + '){\n' + source + '}';
 
     return template;
   };
@@ -1029,11 +1035,10 @@
   each(['pop', 'push', 'reverse', 'shift', 'sort', 'splice', 'unshift'], function(name) {
     var method = ArrayProto[name];
     wrapper.prototype[name] = function() {
-      var wrapped = this._wrapped;
-      method.apply(wrapped, arguments);
-      var length = wrapped.length;
-      if ((name == 'shift' || name == 'splice') && length === 0) delete wrapped[0];
-      return result(wrapped, this._chain);
+      var obj = this._wrapped;
+      method.apply(obj, arguments);
+      if ((name == 'shift' || name == 'splice') && obj.length === 0) delete obj[0];
+      return result(obj, this._chain);
     };
   });
 
