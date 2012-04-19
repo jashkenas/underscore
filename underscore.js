@@ -75,8 +75,9 @@
     if (nativeForEach && obj.forEach === nativeForEach) {
       obj.forEach(iterator, context);
     } else if (obj.length === +obj.length) {
+      var objectObj = new Object(obj);
       for (var i = 0, l = obj.length; i < l; i++) {
-        if (i in obj && iterator.call(context, obj[i], i, obj) === breaker) return;
+        if (i in objectObj && iterator.call(context, obj[i], i, obj) === breaker) return;
       }
     } else {
       for (var key in obj) {
