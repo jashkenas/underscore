@@ -867,12 +867,13 @@ _.delay(log, 1000, 'logged later');
 </pre>
 
       <p id="defer">
-        <b class="header">defer</b><code>_.defer(function)</code>
+        <b class="header">defer</b><code>_.defer(function, [*arguments])</code>
         <br />
         Defers invoking the <b>function</b> until the current call stack has cleared,
         similar to using <b>setTimeout</b> with a delay of 0. Useful for performing
         expensive computations or HTML rendering in chunks without blocking the UI thread
-        from updating.
+        from updating. If you pass the optional <b>arguments</b>, they will be
+        forwarded on to the <b>function</b> when it is invoked.
       </p>
       <pre>
 _.defer(function(){ alert('deferred'); });
