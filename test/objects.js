@@ -432,6 +432,21 @@ $(document).ready(function() {
     ok(!_.isObject(true), 'and not boolean');
     ok(_.isObject(new String('string')), 'but new String()');
   });
+  
+  test("objects: isHash", function() {
+    ok(_.isHash({}), '{} is object');
+    ok(_.isHash({key: 'value'}), '{key: "value"} is object');
+    ok(!_.isHash([1, 2, 3]), 'and arrays');
+    ok(!_.isHash($('html')[0]), 'and DOM element');
+    ok(!_.isHash(iElement), 'even from another frame');
+    ok(!_.isHash(function () {}), 'and functions');
+    ok(!_.isHash(iFunction), 'even from another frame');
+    ok(!_.isHash(null), 'but not null');
+    ok(!_.isHash(undefined), 'and not undefined');
+    ok(!_.isHash('string'), 'and not string');
+    ok(!_.isHash(12), 'and not number');
+    ok(!_.isHash(true), 'and not boolean');
+  });
 
   test("objects: isArray", function() {
     ok(!_.isArray(arguments), 'the arguments object is not an array');
