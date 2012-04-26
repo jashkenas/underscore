@@ -796,6 +796,11 @@
   _.isObject = function(obj) {
     return obj === Object(obj);
   };
+  
+  // Is a given variable an direct instance of Object, i.e. `{key: "value"}`?
+  _.isHash = function(obj) {
+    return obj && obj.constructor === Object.prototype.constructor;
+  };
 
   // Is a given variable an arguments object?
   // Define a fallback version of the method in browsers (ahem, IE), where
