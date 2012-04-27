@@ -354,11 +354,16 @@
 
   // Return a completely flattened version of an array.
   _.flatten = function(array, shallow) {
-    return _.reduce(array, function(memo, value) {
-      if (_.isArray(value)) return memo.concat(shallow ? value : _.flatten(value));
-      memo[memo.length] = value;
-      return memo;
-    }, []);
+    return (function recursivelyFlatten(array, flat) {
+      each(array, function(value) {
+        if (_.isArray(value)) {
+          if (shallow) ArrayProto.push.apply(flat, value);
+          else recursivelyFlatten(value, flat);
+        }
+        else flat.push(value);
+      });
+      return flat;
+    })(array, []);
   };
 
   // Return a version of the array that does not contain the specified value(s).
