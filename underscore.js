@@ -711,12 +711,13 @@
         // millisecond representations. Note that invalid dates with millisecond representations
         // of `NaN` are not equivalent.
         return +a == +b;
-      // RegExps are compared by their source patterns and flags.
+      // RegExps are compared by their source patterns, flags, and lastIndex.
       case '[object RegExp]':
         return a.source == b.source &&
                a.global == b.global &&
                a.multiline == b.multiline &&
                a.ignoreCase == b.ignoreCase &&
+               a.lastIndex == b.lastIndex &&
                a.sticky == b.sticky;
     }
     if (typeof a != 'object' || typeof b != 'object') return false;
