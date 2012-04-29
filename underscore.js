@@ -716,7 +716,8 @@
         return a.source == b.source &&
                a.global == b.global &&
                a.multiline == b.multiline &&
-               a.ignoreCase == b.ignoreCase;
+               a.ignoreCase == b.ignoreCase &&
+               a.sticky == b.sticky;
     }
     if (typeof a != 'object' || typeof b != 'object') return false;
     // Assume equality for cyclic structures. The algorithm for detecting cyclic
