@@ -541,10 +541,10 @@
       if (throttling) {
         more = true;
       } else {
+        throttling = true;
         result = func.apply(context, args);
       }
       whenDone();
-      throttling = true;
       return result;
     };
   };
@@ -561,9 +561,10 @@
         timeout = null;
         if (!immediate) func.apply(context, args);
       };
-      if (immediate && !timeout) func.apply(context, args);
+      var callNow = immediate && !timeout;
       clearTimeout(timeout);
       timeout = setTimeout(later, wait);
+      if (callNow) func.apply(context, args);
     };
   };
 
