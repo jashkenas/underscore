@@ -24,7 +24,8 @@
   var ArrayProto = Array.prototype, ObjProto = Object.prototype, FuncProto = Function.prototype;
 
   // Create quick reference variables for speed access to core prototypes.
-  var slice            = ArrayProto.slice,
+  var push             = ArrayProto.push,
+      slice            = ArrayProto.slice,
       unshift          = ArrayProto.unshift,
       toString         = ObjProto.toString,
       hasOwnProperty   = ObjProto.hasOwnProperty;
@@ -355,15 +356,15 @@
 
   // Return a completely flattened version of an array.
   _.flatten = function(array, shallow) {
-    return (function recursivelyFlatten(array, flat) {
-      each(array, function(value) {
+    return (function flatten(input, output) {
+      each(input, function(value) {
         if (_.isArray(value)) {
-          if (shallow) ArrayProto.push.apply(flat, value);
-          else recursivelyFlatten(value, flat);
+          shallow ? push.apply(output, value) : flatten(value, output);
+        } else {
+          output.push(value);
         }
-        else flat.push(value);
       });
-      return flat;
+      return output;
     })(array, []);
   };
 
