@@ -173,6 +173,17 @@ $(document).ready(function() {
     _.delay(function(){ equal(counter, 1, "incr was debounced"); start(); }, 220);
   });
 
+  asyncTest("functions: debounce asap recursively", 2, function() {
+    var counter = 0;
+    var debouncedIncr = _.debounce(function(){
+      counter++;
+      if (counter < 5) debouncedIncr();
+    }, 50, true);
+    debouncedIncr();
+    equal(counter, 1, 'incr was called immediately');
+    _.delay(function(){ equal(counter, 1, "incr was debounced"); start(); }, 70);
+  });
+
   test("functions: once", function() {
     var num = 0;
     var increment = _.once(function(){ num++; });
