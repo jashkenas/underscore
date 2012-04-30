@@ -136,6 +136,16 @@ $(document).ready(function() {
     _.delay(function(){ equal(counter, 2, "incr was called twice"); start(); }, 220);
   });
 
+  asyncTest("functions: throttle recursively", 1, function() {
+    var counter = 0;
+    var incr = _.throttle(function() {
+        counter++;
+        if (counter < 5) incr();
+    }, 100);
+    incr();
+    _.delay(function(){ equal(counter, 3, "incr was throttled"); start(); }, 220);
+  });
+
   asyncTest("functions: debounce", 1, function() {
     var counter = 0;
     var incr = function(){ counter++; };
@@ -161,6 +171,17 @@ $(document).ready(function() {
     setTimeout(debouncedIncr, 120);
     setTimeout(debouncedIncr, 150);
     _.delay(function(){ equal(counter, 1, "incr was debounced"); start(); }, 220);
+  });
+
+  asyncTest("functions: debounce asap recursively", 2, function() {
+    var counter = 0;
+    var debouncedIncr = _.debounce(function(){
+      counter++;
+      if (counter < 5) debouncedIncr();
+    }, 50, true);
+    debouncedIncr();
+    equal(counter, 1, 'incr was called immediately');
+    _.delay(function(){ equal(counter, 1, "incr was debounced"); start(); }, 70);
   });
 
   test("functions: once", function() {
