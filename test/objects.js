@@ -164,6 +164,10 @@ $(document).ready(function() {
     ok(!_.isEqual(/Moe/gim, /Curly/gim), "RegExps with different patterns and equivalent flags are not equal");
     ok(!_.isEqual(/(?:)/gi, /(?:)/g), "Commutative equality is implemented for RegExps");
     ok(!_.isEqual(/Curly/g, {source: "Larry", global: true, ignoreCase: false, multiline: false}), "RegExps and RegExp-like objects are not equal");
+    var regexpOne = /bar/g;
+    var regexpTwo = /bar/g;
+    regexpTwo.test("foobar");
+    ok(!_.isEqual(regexpOne, regexpTwo), "RegExps with different lastIndexes are not equal");
 
     // Empty arrays, array-like objects, and object literals.
     ok(_.isEqual({}, {}), "Empty object literals are equal");
