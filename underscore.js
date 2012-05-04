@@ -945,11 +945,11 @@
   var escapes = {
     '\\': '\\',
     "'": "'",
-    'r': '\r',
-    'n': '\n',
-    't': '\t',
-    'u2028': '\u2028',
-    'u2029': '\u2029'
+    r: '\r',
+    n: '\n',
+    t: '\t',
+    u2028: '\u2028',
+    u2029: '\u2029'
   };
 
   for (var p in escapes) escapes[escapes[p]] = p;
@@ -984,7 +984,7 @@
         return "'+\n((__t=(" + unescape(code) + "))==null?'':__t)+\n'";
       })
       .replace(settings.evaluate || noMatch, function(match, code) {
-        return "';\n" + unescape(code) + "\n;__p+='";
+        return "';\n" + unescape(code) + "\n__p+='";
       }) + "';\n";
 
     // If a variable is not specified, place data values in local scope.
