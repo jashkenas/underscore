@@ -195,6 +195,14 @@ $(document).ready(function() {
     equal(result[1].length, 3, 'second chunk have three items');
     equal(result[2].length, 1, 'last chunk have only one item');
     equal(JSON.stringify(result), "[[1,2,3],[4,5,6],[7]]", 'can chunk arrays in equal sizes');
+    result = _.chunk(numbers);
+    equal(result.length, numbers.length, 'original array returned when no slice size parameter was passed');
+    result = _.chunk();
+    equal(result, undefined, 'undefined when chunk is called without arguments');
+    result = _.chunk(1,1);
+    equal(result, 1, 'chunk returned the first parameter when it\'s not an array');
+    result = _.chunk(1);
+    equal(result, 1, 'chunk returned the first parameter when it\'s not an array and without a second parameter');
   });
 
 });
