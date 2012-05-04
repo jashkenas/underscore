@@ -187,4 +187,14 @@ $(document).ready(function() {
     equal(_.range(0, -10, -1).join(' '), '0 -1 -2 -3 -4 -5 -6 -7 -8 -9', 'final example in the Python docs');
   });
 
+  test("arrays: chunk", function() {
+    var numbers = [1, 2, 3, 4, 5, 6, 7];
+    var result = _.chunk(numbers, 3);
+    equal(result.length, 3, 'three chunks have been created');
+    equal(result[0].length, 3, 'first chunk have three items');
+    equal(result[1].length, 3, 'second chunk have three items');
+    equal(result[2].length, 1, 'last chunk have only one item');
+    equal(JSON.stringify(result), "[[1,2,3],[4,5,6],[7]]", 'can chunk arrays in equal sizes');
+  });
+
 });
