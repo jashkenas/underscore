@@ -1209,10 +1209,15 @@ _.isString("moe");
       <p id="isNumber">
         <b class="header">isNumber</b><code>_.isNumber(object)</code>
         <br />
-        Returns <i>true</i> if <b>object</b> is a Number (including <tt>NaN</tt>).
+        Returns <i>true</i> if <b>object</b> is a Number (including <tt>NaN</tt>
+        and <tt>Infinity</tt>). Handles both primitive numbers and
+        <tt>Number</tt> instances.
       </p>
       <pre>
 _.isNumber(8.4 * 5);
+=&gt; true
+
+_.isNumber(1 / 0);
 =&gt; true
 </pre>
 
