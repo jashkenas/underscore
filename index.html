@@ -378,7 +378,7 @@ _.map({one : 1, two : 2, three : 3}, function(num, key){ return num * 3; });
         <b>list</b> of values into a single value. <b>Memo</b> is the initial state
         of the reduction, and each successive step of it should be returned by
         <b>iterator</b>. The iterator is passed four arguments: the <tt>memo</tt>,
-        then the <tt>value</tt> and <tt>index</tt> (or key) of the iteration, 
+        then the <tt>value</tt> and <tt>index</tt> (or key) of the iteration,
         and finally a reference to the entire <tt>list</tt>.
       </p>
       <pre>
@@ -907,7 +907,7 @@ $(window).scroll(throttled);
         preview of a Markdown comment, recalculating a layout after the window
         has stopped being resized, and so on.
       </p>
-      
+
       <p>
         Pass <tt>true</tt> for the <b>immediate</b> parameter to cause
         <b>debounce</b> to trigger the function on the leading instead of the
@@ -915,7 +915,7 @@ $(window).scroll(throttled);
         preventing accidental double-clicks on a "submit" button from firing a
         second time.
       </p>
-      
+
       <pre>
 var lazyLayout = _.debounce(calculateLayout, 300);
 $(window).resize(lazyLayout);
@@ -1580,21 +1580,21 @@ _([1, 2, 3]).value();
       </p>
 
       <h2 id="changelog">Change Log</h2>
-      
+
       <p>
         <b class="header">1.3.3</b> &mdash; <small><i>April 10, 2012</i></small><br />
         <ul>
           <li>
-            Many improvements to <tt>_.template</tt>, which now provides the 
+            Many improvements to <tt>_.template</tt>, which now provides the
             <tt>source</tt> of the template function as a property, for potentially
             even more efficient pre-compilation on the server-side. You may now
-            also set the <tt>variable</tt> option when creating a template, 
-            which will cause your passed-in data to be made available under the 
+            also set the <tt>variable</tt> option when creating a template,
+            which will cause your passed-in data to be made available under the
             variable you named, instead of using a <tt>with</tt> statement &mdash;
             significantly improving the speed of rendering the template.
           </li>
           <li>
-            Added the <tt>pick</tt> function, which allows you to filter an 
+            Added the <tt>pick</tt> function, which allows you to filter an
             object literal with a whitelist of allowed property names.
           </li>
           <li>
@@ -1618,7 +1618,7 @@ _([1, 2, 3]).value();
           </li>
           <li>
             The <tt>debounce</tt> function now takes an <tt>immediate</tt>
-            parameter, which will cause the callback to fire on the leading 
+            parameter, which will cause the callback to fire on the leading
             instead of the trailing edge.
           </li>
         </ul>
@@ -1658,8 +1658,8 @@ _([1, 2, 3]).value();
         <b class="header">1.2.4</b> &mdash; <small><i>Jan. 4, 2012</i></small><br />
         <ul>
           <li>
-            You now can (and probably should, as it's simpler) 
-            write <tt>_.chain(list)</tt> 
+            You now can (and probably should, as it's simpler)
+            write <tt>_.chain(list)</tt>
             instead of <tt>_(list).chain()</tt>.
           </li>
           <li>
