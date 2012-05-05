@@ -1225,12 +1225,13 @@ _.isNumber(1 / 0);
         <b class="header">isFinite</b><code>_.isFinite(object)</code>
         <br />
         Returns <i>true</i> if <b>object</b> is a finite Number.
+        Implies that <tt>_.isNumber(object)</tt> is also true.
       </p>
       <pre>
 _.isFinite(-101);
 =&gt; true
 
-_.isFinite(-Infinity);
+_.isFinite(42 / 0);
 =&gt; false
 </pre>
 
