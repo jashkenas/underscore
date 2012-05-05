@@ -1148,13 +1148,16 @@ _.isArray([1,2,3]);
       <p id="isObject">
         <b class="header">isObject</b><code>_.isObject(value)</code>
         <br />
-        Returns <i>true</i> if <b>value</b> is an Object.
+        Returns <i>true</i> if <b>value</b> is an Object. Returns
+        <i>false</i> for primitive types and <i>null</i>.
       </p>
       <pre>
 _.isObject({});
 =&gt; true
 _.isObject(1);
 =&gt; false
+_.map([null, 0, true, ""], _.isObject)
+=&gt; [false, false, false, false]
 </pre>
 
       <p id="isArguments">
