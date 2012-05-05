@@ -101,9 +101,7 @@
     return results;
   };
 
-  // **Reduce** builds up a single result from a list of values, aka `inject`,
-  // or `foldl`. Delegates to **ECMAScript 5**'s native `reduce` if available.
-  _.reduce = _.foldl = _.inject = function(obj, iterator, memo, context) {
+  _.syncReduce = function(obj, iterator, memo, context) {
     var initial = arguments.length > 2;
     if (obj == null) obj = [];
     if (nativeReduce && obj.reduce === nativeReduce) {
@@ -120,6 +118,34 @@
     });
     if (!initial) throw new TypeError('Reduce of empty array with no initial value');
     return memo;
+  };
+
+  _.asyncReduce = function (obj, iterator, memo, context, callback) {
+    var asyncIterator = function (current, num, index, list) {
+      return function (callback) {
+        return current(function (memo) {
+          return iterator(memo, num, index, list, callback);
+        });
+      };
+    };
+    var first = function (callback) {
+      return callback(memo);
+    };
+    var result = _.syncReduce(obj, asyncIterator, first, context);
+    result(callback);
+  };
+
+  // **Reduce** builds up a single result from a list of values, aka `inject`,
+  // or `foldl`. Delegates to **ECMAScript 5**'s native `reduce` if available.
+  _.reduce = _.foldl = _.inject = function(obj, iterator, memo, context, callback) {
+    if (!callback && typeof context == 'function') {
+      callback = context;
+      context  = undefined;
+    }
+    if (typeof callback === 'function')
+      return _.asyncReduce(obj, iterator, memo, context, callback);
+    else
+      return _.syncReduce(obj, iterator, memo, context);
   };
 
   // The right-associative version of reduce, also known as `foldr`.
