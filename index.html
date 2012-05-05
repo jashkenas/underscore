@@ -985,6 +985,45 @@ welcome('moe');
 =&gt; 'hi: moe!'
 </pre>
 
+      <p id="and">
+        <b class="header">and</b><code>_.and(*functions)</code>
+        <br />
+        Returns a new predicate function for the logical AND of a set of
+        <b>functions</b>. The function will return <tt>false</tt> as soon
+        as one of the <b>functions</b> returns a falsy value.
+      </p>
+      <pre>
+var hasStringValue = _.and(_.isString, _.not(_.isEmpty));
+_.filter(["", "one", {}], hasStringValue);
+=&gt; ["one"]
+</pre>
+
+      <p id="or">
+        <b class="header">or</b><code>_.or(*functions)</code>
+        <br />
+        Returns a new predicate function for the logical OR of a set of
+        <b>functions</b>. The function will return <tt>true</tt> as soon
+        as one of the <b>functions</b> returns a truthy value.
+      </p>
+      <pre>
+var isNullOrUndefined = _.or(_.isNull, _.isUndefined);
+_.reject([1, null, undefined, 0], isNullOrUndefined);
+=&gt; [1, 0]
+</pre>
+
+      <p id="not">
+        <b class="header">not</b><code>_.not(*functions)</code>
+        <br />
+        Returns a new predicate function for the logical NOT for each of
+        the <b>functions</b>. The function will return <tt>false</tt> as soon
+        as one of the <b>functions</b> returns a truthy value.
+      </p>
+      <pre>
+var isNotNull = _.not(_.isNull, _.isUndefined);
+_.filter([1, null, undefined, 0], isNotNull);
+=&gt; [1, 0]
+</pre>
+
       <h2 id="objects">Object Functions</h2>
 
       <p id="keys">
