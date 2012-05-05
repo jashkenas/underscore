@@ -205,7 +205,7 @@ $(document).ready(function() {
     var noop    = function(){};
     var wrapped = _.wrap(noop, function(fn){ return Array.prototype.slice.call(arguments, 0); });
     var ret     = wrapped(['whats', 'your'], 'vector', 'victor');
-    same(ret, [noop, ['whats', 'your'], 'vector', 'victor']);
+    deepEqual(ret, [noop, ['whats', 'your'], 'vector', 'victor']);
   });
 
   test("functions: compose", function() {
