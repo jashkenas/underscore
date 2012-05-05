@@ -352,6 +352,7 @@
       <pre>
 _.each([1, 2, 3], function(num){ alert(num); });
 =&gt; alerts each number in turn...
+
 _.each({one : 1, two : 2, three : 3}, function(num, key){ alert(num); });
 =&gt; alerts each number in turn...</pre>
 
@@ -367,6 +368,7 @@ _.each({one : 1, two : 2, three : 3}, function(num, key){ alert(num); });
       <pre>
 _.map([1, 2, 3], function(num){ return num * 3; });
 =&gt; [3, 6, 9]
+
 _.map({one : 1, two : 2, three : 3}, function(num, key){ return num * 3; });
 =&gt; [3, 6, 9]</pre>
 
@@ -791,12 +793,16 @@ _.lastIndexOf([1, 2, 3, 1, 2, 3], 2);
       <pre>
 _.range(10);
 =&gt; [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+
 _.range(1, 11);
 =&gt; [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
 _.range(0, 30, 5);
 =&gt; [0, 5, 10, 15, 20, 25]
+
 _.range(0, -10, -1);
 =&gt; [0, -1, -2, -3, -4, -5, -6, -7, -8, -9]
+
 _.range(0);
 =&gt; []
 </pre>
@@ -1107,6 +1113,7 @@ var moe   = {name : 'moe', luckyNumbers : [13, 27, 34]};
 var clone = {name : 'moe', luckyNumbers : [13, 27, 34]};
 moe == clone;
 =&gt; false
+
 _.isEqual(moe, clone);
 =&gt; true
 </pre>
@@ -1120,6 +1127,7 @@ _.isEqual(moe, clone);
       <pre>
 _.isEmpty([1, 2, 3]);
 =&gt; false
+
 _.map([null, {}, [], ""], _.isEmpty)
 =&gt; [true, true, true, true]
 </pre>
@@ -1142,6 +1150,7 @@ _.isElement(jQuery('body')[0]);
       <pre>
 (function(){ return _.isArray(arguments); })();
 =&gt; false
+
 _.isArray([1,2,3]);
 =&gt; true
 </pre>
@@ -1150,13 +1159,15 @@ _.isArray([1,2,3]);
         <b class="header">isObject</b><code>_.isObject(value)</code>
         <br />
         Returns <i>true</i> if <b>value</b> is an Object. Returns
-        <i>false</i> for primitive types and <i>null</i>.
+        <i>false</i> for primitive types and <tt>null</tt>.
       </p>
       <pre>
 _.isObject({});
 =&gt; true
+
 _.isObject(1);
 =&gt; false
+
 _.map([null, 0, true, ""], _.isObject)
 =&gt; [false, false, false, false]
 </pre>
@@ -1169,6 +1180,7 @@ _.map([null, 0, true, ""], _.isObject)
       <pre>
 (function(){ return _.isArguments(arguments); })(1, 2, 3);
 =&gt; true
+
 _.isArguments([1,2,3]);
 =&gt; false
 </pre>
@@ -1256,8 +1268,10 @@ _.isRegExp(/moe/);
       <pre>
 _.isNaN(NaN);
 =&gt; true
+
 isNaN(undefined);
 =&gt; true
+
 _.isNaN(undefined);
 =&gt; false
 </pre>
@@ -1270,6 +1284,7 @@ _.isNaN(undefined);
       <pre>
 _.isNull(null);
 =&gt; true
+
 _.isNull(undefined);
 =&gt; false
 </pre>
@@ -1363,6 +1378,7 @@ _.escape('Curly, Larry &amp; Moe');
 var object = {cheese: 'crumpets', stuff: function(){ return 'nonsense'; }};
 _.result(object, 'cheese');
 =&gt; "crumpets"
+
 _.result(object, 'stuff');
 =&gt; "nonsense"</pre>
 
