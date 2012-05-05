@@ -1115,12 +1115,13 @@ _.isEqual(moe, clone);
         <b class="header">isEmpty</b><code>_.isEmpty(object)</code>
         <br />
         Returns <i>true</i> if <b>object</b> contains no values.
+        Handles arrays, objects and strings.
       </p>
       <pre>
 _.isEmpty([1, 2, 3]);
 =&gt; false
-_.isEmpty({});
-=&gt; true
+_.map([null, {}, [], ""], _.isEmpty)
+=&gt; [true, true, true, true]
 </pre>
 
       <p id="isElement">
