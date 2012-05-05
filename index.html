@@ -1239,10 +1239,14 @@ _.isFinite(42 / 0);
         <b class="header">isBoolean</b><code>_.isBoolean(object)</code>
         <br />
         Returns <i>true</i> if <b>object</b> is either <i>true</i> or <i>false</i>.
+        Handles both primitive values and <tt>Boolean</tt> instances.
       </p>
       <pre>
 _.isBoolean(null);
 =&gt; false
+
+_.isBoolean(true || false);
+=&gt; true
 </pre>
 
       <p id="isDate">
@@ -1269,7 +1273,7 @@ _.isRegExp(/moe/);
         <b class="header">isNaN</b><code>_.isNaN(object)</code>
         <br />
         Returns <i>true</i> if <b>object</b> is <i>NaN</i>.<br /> Note: this is not
-        the same as the native <b>isNaN</b> function, which will also return
+        the same as the native <tt>isNaN</tt> function, which will also return
         true if the variable is <i>undefined</i>.
       </p>
       <pre>
@@ -1304,6 +1308,9 @@ _.isNull(undefined);
       <pre>
 _.isUndefined(window.missingVariable);
 =&gt; true
+
+_.isUndefined(null);
+=&gt; false
 </pre>
 
       <h2 id="utility">Utility Functions</h2>
