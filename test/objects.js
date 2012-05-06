@@ -66,12 +66,14 @@ $(document).ready(function() {
   });
 
   test("objects: clone", function() {
-    var moe = {name : 'moe', lucky : [13, 27, 34]};
+    var moe = {name : 'moe', lucky : [13, 27, 34], modified: false };
     var clone = _.clone(moe);
-    equal(clone.name, 'moe', 'the clone as the attributes of the original');
+    equal(clone.name, 'moe', 'the clone has the attributes of the original');
 
     clone.name = 'curly';
     ok(clone.name == 'curly' && moe.name == 'moe', 'clones can change shallow attributes without affecting the original');
+    moe.modified = true;
+    notEqual(clone.modified, moe.modified, 'original can change shallow attributes without affecting the clone');
 
     clone.lucky.push(101);
     equal(_.last(moe.lucky), 101, 'changes to deep attributes are shared with the original');
@@ -82,12 +84,12 @@ $(document).ready(function() {
     equal(_.clone(_.clone), _.clone, 'functions should not be changed by clone');
 
     var dttm = new Date(4711)
-    equal(_.clone(dttm).toString(), dttm.toString(), 'dates should be cloned to new instance');
-    notStrictEqual(_.clone(dttm), dttm, 'dates should be cloned to new instance');
+    equal(_.clone(dttm).toString(), dttm.toString(), 'date should be cloned to new instance');
+    notStrictEqual(_.clone(dttm), dttm, 'date should be cloned to new instance');
 
     var re = /test/im
-    equal(_.clone(re).toString(), re.toString(), 'regexps should be cloned to new instance');
-    notStrictEqual(_.clone(re), re, 'regexps should be cloned to new instance');
+    equal(_.clone(re).toString(), re.toString(), 'regexp should be cloned to new instance');
+    notStrictEqual(_.clone(re), re, 'regexp should be cloned to new instance');
 
     var func = function () { return _.clone(arguments); };
     deepEqual(func(1, 2, 3), [1, 2, 3], 'argument object is cloned to array');
