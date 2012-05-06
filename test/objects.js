@@ -79,6 +79,18 @@ $(document).ready(function() {
     equal(_.clone(undefined), void 0, 'non objects should not be changed by clone');
     equal(_.clone(1), 1, 'non objects should not be changed by clone');
     equal(_.clone(null), null, 'non objects should not be changed by clone');
+    equal(_.clone(_.clone), _.clone, 'functions should not be changed by clone');
+
+    var dttm = new Date(4711)
+    equal(_.clone(dttm).toString(), dttm.toString(), 'dates should be cloned to new instance');
+    notStrictEqual(_.clone(dttm), dttm, 'dates should be cloned to new instance');
+
+    var re = /test/im
+    equal(_.clone(re).toString(), re.toString(), 'regexps should be cloned to new instance');
+    notStrictEqual(_.clone(re), re, 'regexps should be cloned to new instance');
+
+    var func = function () { return _.clone(arguments); };
+    deepEqual(func(1, 2, 3), [1, 2, 3], 'argument object is cloned to array');
   });
 
   test("objects: isEqual", function() {

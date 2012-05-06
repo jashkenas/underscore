@@ -675,9 +675,10 @@
   // Create a (shallow-cloned) duplicate of an object.
   _.clone = function(obj) {
     if (!_.isObject(obj) || _.isFunction(obj)) return obj;
+    if (_.isArray(obj) || _.isArguments(obj)) return slice.call(obj);
     if (_.isDate(obj)) return new Date(obj.getTime());
     if (_.isRegExp(obj)) return new RegExp(obj.source, obj.toString().replace(/.*\//, ""));
-    return _.isArray(obj) ? obj.slice() : _.extend({}, obj);
+    return _.extend({}, obj);
   };
 
   // Invokes interceptor with the obj, and then returns obj.
