@@ -1128,8 +1128,8 @@ _.isEqual(moe, clone);
 _.isEmpty([1, 2, 3]);
 =&gt; false
 
-_.map([null, {}, [], ""], _.isEmpty)
-=&gt; [true, true, true, true]
+_.all([null, {}, [], ""], _.isEmpty)
+=&gt; true
 </pre>
 
       <p id="isElement">
@@ -1168,8 +1168,8 @@ _.isObject({});
 _.isObject(1);
 =&gt; false
 
-_.map([null, 0, true, ""], _.isObject)
-=&gt; [false, false, false, false]
+_.all([null, 0, true, ""], _.isObject)
+=&gt; false
 </pre>
 
       <p id="isArguments">
@@ -1217,7 +1217,7 @@ _.isString("moe");
 _.isNumber(8.4 * 5);
 =&gt; true
 
-_.isNumber(1 / 0);
+_.isNumber(NaN);
 =&gt; true
 </pre>
 
@@ -1231,7 +1231,7 @@ _.isNumber(1 / 0);
 _.isFinite(-101);
 =&gt; true
 
-_.isFinite(42 / 0);
+_.isFinite(-Infinity);
 =&gt; false
 </pre>
 
