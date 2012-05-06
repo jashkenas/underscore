@@ -1159,7 +1159,7 @@ _.isArray([1,2,3]);
         <b class="header">isObject</b><code>_.isObject(value)</code>
         <br />
         Returns <i>true</i> if <b>value</b> is an Object. Returns
-        <i>false</i> for primitive types and <tt>null</tt>.
+        <i>false</i> for primitive types, including <tt>null</tt>.
       </p>
       <pre>
 _.isObject({});
@@ -1168,7 +1168,7 @@ _.isObject({});
 _.isObject(1);
 =&gt; false
 
-_.all([null, 0, true, ""], _.isObject)
+_.any([null, 0, true, ""], _.isObject)
 =&gt; false
 </pre>
 
