@@ -233,4 +233,22 @@ $(document).ready(function() {
     equal(testAfter(0, 0), 1, "after(0) should fire immediately");
   });
 
+  test("functions: and", function() {
+    var pred = _.and(_.isString, _.isEmpty);
+    var res = _.filter(["", "one", {}], pred);
+    deepEqual(res, [""], "and() should perform logical AND of predicates");
+  });
+
+  test("functions: or", function() {
+    var pred = _.or(_.isNull, _.isUndefined);
+    var res = _.reject([1, null, undefined, 0], pred);
+    deepEqual(res, [1, 0], "or() should perform logical OR of predicates");
+  });
+
+  test("functions: not", function() {
+    var pred = _.not(_.isNull, _.isUndefined);
+    var res = _.filter([1, null, undefined, 0], pred);
+    deepEqual(res, [1, 0], "not() should perform logical NOT of predicates");
+  });
+
 });

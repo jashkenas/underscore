@@ -205,6 +205,9 @@
       <li>- <a href="#after">after</a></li>
       <li>- <a href="#wrap">wrap</a></li>
       <li>- <a href="#compose">compose</a></li>
+      <li>- <a href="#and">and</a></li>
+      <li>- <a href="#or">or</a></li>
+      <li>- <a href="#not">not</a></li>
     </ul>
 
     <a class="toc_title" href="#objects">
@@ -993,8 +996,8 @@ welcome('moe');
         as one of the <b>functions</b> returns a falsy value.
       </p>
       <pre>
-var hasStringValue = _.and(_.isString, _.not(_.isEmpty));
-_.filter(["", "one", {}], hasStringValue);
+var okValue = _.and(_.isString, _.not(_.isEmpty));
+_.filter(["", "one", {}], okValue);
 =&gt; ["one"]
 </pre>
 
@@ -1006,8 +1009,8 @@ _.filter(["", "one", {}], hasStringValue);
         as one of the <b>functions</b> returns a truthy value.
       </p>
       <pre>
-var isNullOrUndefined = _.or(_.isNull, _.isUndefined);
-_.reject([1, null, undefined, 0], isNullOrUndefined);
+var isInvalid = _.or(_.isNull, _.isUndefined);
+_.reject([1, null, undefined, 0], isInvalid);
 =&gt; [1, 0]
 </pre>
 
@@ -1019,8 +1022,8 @@ _.reject([1, null, undefined, 0], isNullOrUndefined);
         as one of the <b>functions</b> returns a truthy value.
       </p>
       <pre>
-var isNotNull = _.not(_.isNull, _.isUndefined);
-_.filter([1, null, undefined, 0], isNotNull);
+var isValid = _.not(_.isNull, _.isUndefined);
+_.filter([1, null, undefined, 0], isValid);
 =&gt; [1, 0]
 </pre>
 
