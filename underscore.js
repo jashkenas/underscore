@@ -672,13 +672,24 @@
     return obj;
   };
 
-  // Create a (shallow-cloned) duplicate of an object.
-  _.clone = function(obj) {
+  // Create a copy (shallow or deep) of an object.
+  _.clone = function(obj, deep) {
     if (!_.isObject(obj) || _.isFunction(obj)) return obj;
-    if (_.isArray(obj) || _.isArguments(obj)) return slice.call(obj);
     if (_.isDate(obj)) return new Date(obj.getTime());
     if (_.isRegExp(obj)) return new RegExp(obj.source, obj.toString().replace(/.*\//, ""));
-    return _.extend({}, obj);
+    var isArr = (_.isArray(obj) || _.isArguments(obj));
+    if (deep) {
+      var func = function (memo, value, key) {
+        if (isArr)
+          memo.push(_.clone(value, true));
+        else
+          memo[key] = _.clone(value, true);
+        return memo;
+      };
+      return _.reduce(obj, func, isArr ? [] : {});
+    } else {
+      return isArr ? slice.call(obj) : _.extend({}, obj);
+    }
   };
 
   // Invokes interceptor with the obj, and then returns obj.

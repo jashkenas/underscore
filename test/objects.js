@@ -68,15 +68,18 @@ $(document).ready(function() {
   test("objects: clone", function() {
     var moe = {name : 'moe', lucky : [13, 27, 34], modified: false };
     var clone = _.clone(moe);
+    var deepClone = _.clone(moe, true);
+
     equal(clone.name, 'moe', 'the clone has the attributes of the original');
 
     clone.name = 'curly';
     ok(clone.name == 'curly' && moe.name == 'moe', 'clones can change shallow attributes without affecting the original');
     moe.modified = true;
-    notEqual(clone.modified, moe.modified, 'original can change shallow attributes without affecting the clone');
+    ok(!clone.modified && moe.modified, 'original can change shallow attributes without affecting the clone');
 
     clone.lucky.push(101);
     equal(_.last(moe.lucky), 101, 'changes to deep attributes are shared with the original');
+    equal(_.last(deepClone.lucky), 34, 'deep attributes can be cloned as well');
 
     equal(_.clone(undefined), void 0, 'non objects should not be changed by clone');
     equal(_.clone(1), 1, 'non objects should not be changed by clone');
