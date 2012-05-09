@@ -215,6 +215,8 @@ $(document).ready(function() {
 
     equal(-Infinity, _.max({}), 'Maximum value of an empty object');
     equal(-Infinity, _.max([]), 'Maximum value of an empty array');
+
+    equal(299999, _.max(_.range(1,300000)), "Maximum value of a too-big array");
   });
 
   test('collections: min', function() {
@@ -229,6 +231,8 @@ $(document).ready(function() {
     var now = new Date(9999999999);
     var then = new Date(0);
     equal(_.min([now, then]), then);
+
+    equal(1, _.min(_.range(1,300000)), "Minimum value of a too-big array");
   });
 
   test('collections: sortBy', function() {
@@ -281,12 +285,12 @@ $(document).ready(function() {
 
     var numbers = _.toArray({one : 1, two : 2, three : 3});
     equal(numbers.join(', '), '1, 2, 3', 'object flattened into array');
-    
+
     var objectWithToArrayFunction = {toArray: function() {
         return [1, 2, 3];
     }};
     equal(_.toArray(objectWithToArrayFunction).join(', '), '1, 2, 3', 'toArray method used if present');
-    
+
     var objectWithToArrayValue = {toArray: 1};
     equal(_.toArray(objectWithToArrayValue).join(', '), '1', 'toArray property ignored if not a function');
   });
