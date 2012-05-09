@@ -387,7 +387,7 @@
     var results = [];
     // The `isSorted` flag is irrelevant if the array only contains two elements.
     if (array.length < 3) isSorted = true;
-    _.reduce(initial, function (memo, value, index) {
+    _.reduce(initial, function(memo, value, index) {
       if (isSorted ? _.last(memo) !== value || !memo.length : !_.include(memo, value)) {
         memo.push(value);
         results.push(array[index]);
@@ -894,7 +894,7 @@
   };
 
   // Run a function **n** times.
-  _.times = function (n, iterator, context) {
+  _.times = function(n, iterator, context) {
     for (var i = 0; i < n; i++) iterator.call(context, i);
   };
 
@@ -951,11 +951,11 @@
   var escapes = {
     '\\': '\\',
     "'": "'",
-    'r': '\r',
-    'n': '\n',
-    't': '\t',
-    'u2028': '\u2028',
-    'u2029': '\u2029'
+    r: '\r',
+    n: '\n',
+    t: '\t',
+    u2028: '\u2028',
+    u2029: '\u2029'
   };
 
   for (var p in escapes) escapes[escapes[p]] = p;
@@ -990,7 +990,7 @@
         return "'+\n((__t=(" + unescape(code) + "))==null?'':__t)+\n'";
       })
       .replace(settings.evaluate || noMatch, function(match, code) {
-        return "';\n" + unescape(code) + "\n;__p+='";
+        return "';\n" + unescape(code) + "\n__p+='";
       }) + "';\n";
 
     // If a variable is not specified, place data values in local scope.
