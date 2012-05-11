@@ -614,6 +614,45 @@
     };
   };
 
+  // Returns a new predicate function for the logical AND of a set of functions.
+  _.and = function() {
+    var funcs = arguments;
+    return function() {
+      var args = arguments;
+      for (var i = 0; i < funcs.length; i++) {
+        if (!funcs[i].apply(this, args))
+          return false;
+      }
+      return true;
+    };
+  };
+
+  // Returns a new predicate function for the logical OR of a set of functions.
+  _.or = function() {
+    var funcs = arguments;
+    return function() {
+      var args = arguments;
+      for (var i = 0; i < funcs.length; i++) {
+        if (funcs[i].apply(this, args))
+          return true;
+      }
+      return false;
+    };
+  };
+
+  // Returns a new predicate function for the logical NOT of a set of functions.
+  _.not = function() {
+    var funcs = arguments;
+    return function() {
+      var args = arguments;
+      for (var i = 0; i < funcs.length; i++) {
+        if (funcs[i].apply(this, args))
+          return false;
+      }
+      return true;
+    };
+  };
+
   // Returns a function that will only be executed after being called N times.
   _.after = function(times, func) {
     if (times <= 0) return func();
