@@ -1058,14 +1058,20 @@ _.defaults(iceCream, {flavor : "vanilla", sprinkles : "lots"});
 </pre>
 
       <p id="clone">
-        <b class="header">clone</b><code>_.clone(object)</code>
+        <b class="header">clone</b><code>_.clone(object, [deep])</code>
         <br />
-        Create a shallow-copied clone of the <b>object</b>. Any nested objects
-        or arrays will be copied by reference, not duplicated.
+        Create a copy of the <b>object</b>. The copy is shallow, unless
+        <b>deep</b> is <tt>true</tt>. This means that nested objects or arrays
+        are copied by reference, not duplicated. Note that the prototype chain
+        <i>is not preserved</i> by this function, unlike
+        <a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object/create">Object.create</a>.
       </p>
       <pre>
 _.clone({name : 'moe'});
 =&gt; {name : 'moe'};
+
+_.clone([1, 2, 3]);
+=&gt; [1, 2, 3];
 </pre>
 
       <p id="tap">
