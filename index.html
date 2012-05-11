@@ -353,6 +353,7 @@
       <pre>
 _.each([1, 2, 3], function(num){ alert(num); });
 =&gt; alerts each number in turn...
+
 _.each({one : 1, two : 2, three : 3}, function(num, key){ alert(num); });
 =&gt; alerts each number in turn...</pre>
 
@@ -368,6 +369,7 @@ _.each({one : 1, two : 2, three : 3}, function(num, key){ alert(num); });
       <pre>
 _.map([1, 2, 3], function(num){ return num * 3; });
 =&gt; [3, 6, 9]
+
 _.map({one : 1, two : 2, three : 3}, function(num, key){ return num * 3; });
 =&gt; [3, 6, 9]</pre>
 
@@ -379,7 +381,7 @@ _.map({one : 1, two : 2, three : 3}, function(num, key){ return num * 3; });
         <b>list</b> of values into a single value. <b>Memo</b> is the initial state
         of the reduction, and each successive step of it should be returned by
         <b>iterator</b>. The iterator is passed four arguments: the <tt>memo</tt>,
-        then the <tt>value</tt> and <tt>index</tt> (or key) of the iteration, 
+        then the <tt>value</tt> and <tt>index</tt> (or key) of the iteration,
         and finally a reference to the entire <tt>list</tt>.
       </p>
       <pre>
@@ -792,12 +794,16 @@ _.lastIndexOf([1, 2, 3, 1, 2, 3], 2);
       <pre>
 _.range(10);
 =&gt; [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+
 _.range(1, 11);
 =&gt; [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
 _.range(0, 30, 5);
 =&gt; [0, 5, 10, 15, 20, 25]
+
 _.range(0, -10, -1);
 =&gt; [0, -1, -2, -3, -4, -5, -6, -7, -8, -9]
+
 _.range(0);
 =&gt; []
 </pre>
@@ -908,7 +914,7 @@ $(window).scroll(throttled);
         preview of a Markdown comment, recalculating a layout after the window
         has stopped being resized, and so on.
       </p>
-      
+
       <p>
         Pass <tt>true</tt> for the <b>immediate</b> parameter to cause
         <b>debounce</b> to trigger the function on the leading instead of the
@@ -916,7 +922,7 @@ $(window).scroll(throttled);
         preventing accidental double-clicks on a "submit" button from firing a
         second time.
       </p>
-      
+
       <pre>
 var lazyLayout = _.debounce(calculateLayout, 300);
 $(window).resize(lazyLayout);
@@ -1108,6 +1114,7 @@ var moe   = {name : 'moe', luckyNumbers : [13, 27, 34]};
 var clone = {name : 'moe', luckyNumbers : [13, 27, 34]};
 moe == clone;
 =&gt; false
+
 _.isEqual(moe, clone);
 =&gt; true
 </pre>
@@ -1116,11 +1123,13 @@ _.isEqual(moe, clone);
         <b class="header">isEmpty</b><code>_.isEmpty(object)</code>
         <br />
         Returns <i>true</i> if <b>object</b> contains no values.
+        Handles arrays, objects and strings.
       </p>
       <pre>
 _.isEmpty([1, 2, 3]);
 =&gt; false
-_.isEmpty({});
+
+_.all([null, {}, [], ""], _.isEmpty)
 =&gt; true
 </pre>
 
@@ -1142,6 +1151,7 @@ _.isElement(jQuery('body')[0]);
       <pre>
 (function(){ return _.isArray(arguments); })();
 =&gt; false
+
 _.isArray([1,2,3]);
 =&gt; true
 </pre>
@@ -1149,12 +1159,17 @@ _.isArray([1,2,3]);
       <p id="isObject">
         <b class="header">isObject</b><code>_.isObject(value)</code>
         <br />
-        Returns <i>true</i> if <b>value</b> is an Object.
+        Returns <i>true</i> if <b>value</b> is an Object. Returns
+        <i>false</i> for primitive types, including <tt>null</tt>.
       </p>
       <pre>
 _.isObject({});
 =&gt; true
+
 _.isObject(1);
+=&gt; false
+
+_.any([null, 0, true, ""], _.isObject)
 =&gt; false
 </pre>
 
@@ -1166,6 +1181,7 @@ _.isObject(1);
       <pre>
 (function(){ return _.isArguments(arguments); })(1, 2, 3);
 =&gt; true
+
 _.isArguments([1,2,3]);
 =&gt; false
 </pre>
@@ -1184,6 +1200,7 @@ _.isFunction(alert);
         <b class="header">isString</b><code>_.isString(object)</code>
         <br />
         Returns <i>true</i> if <b>object</b> is a String.
+        Handles both primitive strings and <tt>String</tt> instances.
       </p>
       <pre>
 _.isString("moe");
@@ -1193,10 +1210,15 @@ _.isString("moe");
       <p id="isNumber">
         <b class="header">isNumber</b><code>_.isNumber(object)</code>
         <br />
-        Returns <i>true</i> if <b>object</b> is a Number (including <tt>NaN</tt>).
+        Returns <i>true</i> if <b>object</b> is a Number (including <tt>NaN</tt>
+        and <tt>Infinity</tt>). Handles both primitive numbers and
+        <tt>Number</tt> instances.
       </p>
       <pre>
 _.isNumber(8.4 * 5);
+=&gt; true
+
+_.isNumber(NaN);
 =&gt; true
 </pre>
 
@@ -1204,6 +1226,7 @@ _.isNumber(8.4 * 5);
         <b class="header">isFinite</b><code>_.isFinite(object)</code>
         <br />
         Returns <i>true</i> if <b>object</b> is a finite Number.
+        Implies that <tt>_.isNumber(object)</tt> is also true.
       </p>
       <pre>
 _.isFinite(-101);
@@ -1217,10 +1240,14 @@ _.isFinite(-Infinity);
         <b class="header">isBoolean</b><code>_.isBoolean(object)</code>
         <br />
         Returns <i>true</i> if <b>object</b> is either <i>true</i> or <i>false</i>.
+        Handles both primitive values and <tt>Boolean</tt> instances.
       </p>
       <pre>
 _.isBoolean(null);
 =&gt; false
+
+_.isBoolean(true || false);
+=&gt; true
 </pre>
 
       <p id="isDate">
@@ -1247,14 +1274,16 @@ _.isRegExp(/moe/);
         <b class="header">isNaN</b><code>_.isNaN(object)</code>
         <br />
         Returns <i>true</i> if <b>object</b> is <i>NaN</i>.<br /> Note: this is not
-        the same as the native <b>isNaN</b> function, which will also return
+        the same as the native <tt>isNaN</tt> function, which will also return
         true if the variable is <i>undefined</i>.
       </p>
       <pre>
 _.isNaN(NaN);
 =&gt; true
+
 isNaN(undefined);
 =&gt; true
+
 _.isNaN(undefined);
 =&gt; false
 </pre>
@@ -1267,6 +1296,7 @@ _.isNaN(undefined);
       <pre>
 _.isNull(null);
 =&gt; true
+
 _.isNull(undefined);
 =&gt; false
 </pre>
@@ -1279,6 +1309,9 @@ _.isNull(undefined);
       <pre>
 _.isUndefined(window.missingVariable);
 =&gt; true
+
+_.isUndefined(null);
+=&gt; false
 </pre>
 
       <h2 id="utility">Utility Functions</h2>
@@ -1360,6 +1393,7 @@ _.escape('Curly, Larry &amp; Moe');
 var object = {cheese: 'crumpets', stuff: function(){ return 'nonsense'; }};
 _.result(object, 'cheese');
 =&gt; "crumpets"
+
 _.result(object, 'stuff');
 =&gt; "nonsense"</pre>
 
@@ -1577,21 +1611,21 @@ _([1, 2, 3]).value();
       </p>
 
       <h2 id="changelog">Change Log</h2>
-      
+
       <p>
         <b class="header">1.3.3</b> &mdash; <small><i>April 10, 2012</i></small><br />
         <ul>
           <li>
-            Many improvements to <tt>_.template</tt>, which now provides the 
+            Many improvements to <tt>_.template</tt>, which now provides the
             <tt>source</tt> of the template function as a property, for potentially
             even more efficient pre-compilation on the server-side. You may now
-            also set the <tt>variable</tt> option when creating a template, 
-            which will cause your passed-in data to be made available under the 
+            also set the <tt>variable</tt> option when creating a template,
+            which will cause your passed-in data to be made available under the
             variable you named, instead of using a <tt>with</tt> statement &mdash;
             significantly improving the speed of rendering the template.
           </li>
           <li>
-            Added the <tt>pick</tt> function, which allows you to filter an 
+            Added the <tt>pick</tt> function, which allows you to filter an
             object literal with a whitelist of allowed property names.
           </li>
           <li>
@@ -1615,7 +1649,7 @@ _([1, 2, 3]).value();
           </li>
           <li>
             The <tt>debounce</tt> function now takes an <tt>immediate</tt>
-            parameter, which will cause the callback to fire on the leading 
+            parameter, which will cause the callback to fire on the leading
             instead of the trailing edge.
           </li>
         </ul>
@@ -1655,8 +1689,8 @@ _([1, 2, 3]).value();
         <b class="header">1.2.4</b> &mdash; <small><i>Jan. 4, 2012</i></small><br />
         <ul>
           <li>
-            You now can (and probably should, as it's simpler) 
-            write <tt>_.chain(list)</tt> 
+            You now can (and probably should, as it's simpler)
+            write <tt>_.chain(list)</tt>
             instead of <tt>_(list).chain()</tt>.
           </li>
           <li>
