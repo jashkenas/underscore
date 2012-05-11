@@ -480,6 +480,53 @@
     return range;
   };
 
+  // Generates an array of arrays, given the array and the size you want to slice
+  // the result
+  // Example: _.chunk([1,2,3,4,5,6,7], 3) -> [ [1,2,3], [4,5,6], [7] ]
+  // Python function I use:
+  // f = lambda arr, n: map(lambda x: arr[n*x:n*(x+1)], range(0,int(math.ceil(float(len(array))/float(size)))))
+  //
+  // I made 3 versions of this algorythm, which I'll list below. With some
+  // benchmarks with 300000 items and chunks of 13 (in node, only), the not
+  // commented was the fastest (and very close to the Python one in ms).
+  //
+  // I even tryed the array chunk algorythm from http://www.jsfromhell.com,
+  // which can be found at http://phpjs.org/functions/array_chunk
+
+  // underscore like
+  // _.chunk = function(array, n) {
+  //    if (!_.isNumber(n) || n < 1 || !_.isArray(array)) return array;
+  //   return _.map(_.range(0, Math.ceil(array.length/n)), function(i) {
+  //     return array.slice(i*n, n*(i+1));
+  //   });
+  // };
+
+  // simplest one
+  //_.chunk = function(array, n) {
+  //  if (!_.isNumber(n) || n < 1 || !_.isArray(array)) return array;
+  //  var i = 0, l = array.length, r = [], j = Math.ceil(l/n);
+  //  while (i < j) {
+  //    r[i] = array.slice(i*n, n*(i+1));
+  //    i++;
+  //  }
+  //  return r;
+  //};
+
+  // fastest one
+  _.chunk = function(array, n) {
+    if (!_.isNumber(n) || n < 1 || !_.isArray(array)) return array;
+    var c = 0, k = 0, r = [], l = _.size(array);
+    while (c*n+k < l) {
+      if (!r[c]) r[c] = [];
+      r[c][k] = array[c*n+k];
+      if (++k == n) {
+        c++;
+        k = 0;
+      }
+    }
+    return r;
+  };
+
   // Function (ahem) Functions
   // ------------------
 
