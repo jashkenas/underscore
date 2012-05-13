@@ -68,11 +68,13 @@
   // Collection Functions
   // --------------------
   // Return index of object if found or return -1 if not
-  var findObjectIndex = _findObjectIndex = function(obj, iterator) {
-    var _i;
-    if (!obj || !obj.length || obj.length < 1) return -1;
-    for (_i = 0, _i < a.length; _i++;) {
-      if (iterator(obj[_i])) return _i;
+  var findObjectIndex = _.findObjectIndex = function(obj, iterator) {
+    if (!obj ||!obj.length || obj.length < 1) return -1
+      var i;
+    for (i=0; i < obj.length; i++) {
+      if(iterator(obj[i])) {
+        return i;
+      }
     }
     return -1;
   };
