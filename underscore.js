@@ -67,7 +67,15 @@
 
   // Collection Functions
   // --------------------
-
+  // Return index of object if found or return -1 if not
+  var findObjectIndex = _findObjectIndex = function(obj, iterator) {
+    var _i;
+    if (!obj || !obj.length || obj.length < 1) return -1;
+    for (_i = 0, _i < a.length; _i++;) {
+      if (iterator(obj[_i])) return _i;
+    }
+    return -1;
+  };
   // The cornerstone, an `each` implementation, aka `forEach`.
   // Handles objects with the built-in `forEach`, arrays, and raw objects.
   // Delegates to **ECMAScript 5**'s native `forEach` if available.

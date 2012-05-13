@@ -1,7 +1,16 @@
 $(document).ready(function() {
 
   module("Collections");
-
+  test("collection: findObjectIndex", function() {
+    first = _.findObjectIndex([1,2,3,4], function(obj) {
+      return obj === 2;
+    })
+    equal(first, 2, 'found the first "2", returned its index  and broke the loop');
+    second = _.findObjectIndex([1,2,3,4], function(obj) {
+      return obj === 5;
+    })
+    equal(second,-1, 'didn\'t found object and returned -1'); 
+  }
   test("collections: each", function() {
     _.each([1, 2, 3], function(num, i) {
       equal(num, i + 1, 'each iterators provide value and iteration count');
