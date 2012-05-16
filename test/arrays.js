@@ -145,6 +145,12 @@ $(document).ready(function() {
     equal(String(stooges), 'moe,30,true,larry,40,,curly,50,', 'zipped together arrays of different lengths');
   });
 
+  test('arrays: dzip', function() {
+    var names = ['moe', 'larry', 'curly'], ages = [30, 40, 50];
+    var object = _.dzip(names, ages);
+    ok(_.isEqual(object, {moe:30,larry:40,curly:50}), 'two arrays zipped into object');
+  });
+
   test("arrays: indexOf", function() {
     var numbers = [1, 2, 3];
     numbers.indexOf = null;
