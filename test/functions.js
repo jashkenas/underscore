@@ -192,6 +192,17 @@ $(document).ready(function() {
     equal(num, 1);
   });
 
+  test("functions: singleton", function() {
+    var num = 0;
+    var Constructor = function() { this.num = num++; };
+    var Singleton = _.singleton(Constructor);
+    var instance1 = Singleton.getInstance();
+    var instance2 = Singleton.getInstance();
+    equal(instance1, instance2, 'only one instance was created');
+    equal(instance2.num, 0, 'instance initialize successfully');
+    equal(instance2.constructor, Constructor, 'correct instance.constructor')
+  });
+
   test("functions: wrap", function() {
     var greet = function(name){ return "hi: " + name; };
     var backwards = _.wrap(greet, function(func, name){ return func(name) + ' ' + name.split('').reverse().join(''); });

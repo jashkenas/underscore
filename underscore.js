@@ -591,6 +591,19 @@
     };
   };
 
+  // Return a singleton factory for a given class constructor.
+  _.singleton = function(constructor) {
+    var instance = null;
+    return {
+      getInstance: function() {
+        if (instance === null) {
+          instance = new constructor();
+        }
+        return instance;
+      }
+    };
+  };
+
   // Returns the first function passed as an argument to the second,
   // allowing you to adjust arguments, run code before and after, and
   // conditionally execute the original function.
