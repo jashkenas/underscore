@@ -434,7 +434,7 @@
   // Zip two arrays into an object with keys equal to first array and values to second one
   // similar to python's dict(zip(keys, values))
   _.dzip = function(keys, values) {
-    var obj = {}
+    var obj = {};
     if (!(_.isArray(keys) && _.isArray(values))) {
       return obj;
     }
