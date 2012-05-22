@@ -2,7 +2,8 @@
 <html>
 <head>
   <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+  <meta name="viewport" content="width=device-width" />
   <link rel="canonical" href="http://underscorejs.org" />
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
   <title>Underscore.js</title>
@@ -64,6 +65,10 @@
     div.container {
       width: 550px;
       margin: 40px 0 50px 260px;
+    }
+    img#logo {
+      width: 396px;
+      height: 69px;
     }
     div.warning {
       margin-top: 15px;
@@ -130,6 +135,38 @@
           border-left: 5px solid #bbb;
           margin: 0px 0 30px;
         }
+    @media only screen and (-webkit-min-device-pixel-ratio: 1.5),
+          only screen and (-o-min-device-pixel-ratio: 3/2),
+          only screen and (min-device-pixel-ratio: 1.5) {
+      img {
+        max-width: 100%;
+      }
+      div#sidebar {
+        -webkit-overflow-scrolling: initial;
+        position: relative;
+        width: 90%;
+        height: 120px;
+        left: 0;
+        top: -7px;
+        padding: 10px 0 10px 30px;
+        border: 0;
+      }
+      img#logo {
+        width: auto;
+        height: auto;
+      }
+      div.container {
+        margin: 0;
+        width: 100%;
+      }
+      p, div.container ul {
+        max-width: 98%;
+        overflow-x: scroll;
+      }
+      pre {
+        overflow: scroll;
+      }
+    }
   </style>
 </head>
 <body>
@@ -274,7 +311,7 @@
   <div class="container">
 
     <p id="introduction">
-      <img style="width: 396px; height: 69px;" src="docs/images/underscore.png" alt="Underscore.js" />
+      <img id="logo" src="docs/images/underscore.png" alt="Underscore.js" />
     </p>
 
     <p>
