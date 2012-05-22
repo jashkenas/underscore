@@ -430,6 +430,22 @@
     return results;
   };
 
+  // Zip two arrays into an object with keys equal to first array and values to second one
+  // similar to python's dict(zip(keys, values))
+  _.dzip = function(keys, values) {
+    var obj = {};
+    if (!(_.isArray(keys) && _.isArray(values))) {
+      return obj;
+    }
+    if (keys.length !== values.length) {
+      return obj;
+    }
+    for(i=0; i<keys.length; i++){
+      obj[keys[i].toString()] = values[i];
+    }
+    return obj;
+  };
+
   // If the browser doesn't supply us with indexOf (I'm looking at you, **MSIE**),
   // we need this function. Return the position of the first occurrence of an
   // item in an array, or -1 if the item is not included in the array.
