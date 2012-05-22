@@ -77,7 +77,7 @@
       obj.forEach(iterator, context);
     } else if (obj.length === +obj.length) {
       for (var i = 0, l = obj.length; i < l; i++) {
-        if (i in obj && iterator.call(context, obj[i], i, obj) === breaker) return;
+        if (iterator.call(context, obj[i], i, obj) === breaker) return;
       }
     } else {
       for (var key in obj) {
@@ -97,7 +97,6 @@
     each(obj, function(value, index, list) {
       results[results.length] = iterator.call(context, value, index, list);
     });
-    if (obj.length === +obj.length) results.length = obj.length;
     return results;
   };
 
@@ -323,7 +322,7 @@
   // ---------------
 
   // Get the first element of an array. Passing **n** will return the first N
-  // values in the array. Aliased as `head` and `take`. The **guard** check
+  // values inthe array. Aliased as `head` and `take`. The **guard** check
   // allows it to work with `_.map`.
   _.first = _.head = _.take = function(array, n, guard) {
     return (n != null) && !guard ? slice.call(array, 0, n) : array[0];
@@ -445,7 +444,7 @@
       return array[i] === item ? i : -1;
     }
     if (nativeIndexOf && array.indexOf === nativeIndexOf) return array.indexOf(item);
-    for (i = 0, l = array.length; i < l; i++) if (i in array && array[i] === item) return i;
+    for (i = 0, l = array.length; i < l; i++) if (array[i] === item) return i;
     return -1;
   };
 
@@ -454,7 +453,7 @@
     if (array == null) return -1;
     if (nativeLastIndexOf && array.lastIndexOf === nativeLastIndexOf) return array.lastIndexOf(item);
     var i = array.length;
-    while (i--) if (i in array && array[i] === item) return i;
+    while (i--) if (array[i] === item) return i;
     return -1;
   };
 

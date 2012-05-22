@@ -52,9 +52,6 @@ $(document).ready(function() {
 
     var ifnull = _.map(null, function(){});
     ok(_.isArray(ifnull) && ifnull.length === 0, 'handles a null properly');
-
-    var length = _.map(Array(2), function(v) { return v; }).length;
-    equal(length, 2, "can preserve a sparse array's length");
   });
 
   test('collections: reduce', function() {
@@ -85,11 +82,6 @@ $(document).ready(function() {
     ok(_.reduce(null, function(){}, 138) === 138, 'handles a null (with initial value) properly');
     equal(_.reduce([], function(){}, undefined), undefined, 'undefined can be passed as a special case');
     raises(function() { _.reduce([], function(){}); }, TypeError, 'throws an error for empty arrays with no initial value');
-
-    var sparseArray = [];
-    sparseArray[0] = 20;
-    sparseArray[2] = -5;
-    equal(_.reduce(sparseArray, function(a, b){ return a - b; }), 25, 'initially-sparse arrays with no memo');
   });
 
   test('collections: reduceRight', function() {
@@ -114,11 +106,6 @@ $(document).ready(function() {
 
     equal(_.reduceRight([], function(){}, undefined), undefined, 'undefined can be passed as a special case');
     raises(function() { _.reduceRight([], function(){}); }, TypeError, 'throws an error for empty arrays with no initial value');
-
-    var sparseArray = [];
-    sparseArray[0] = 20;
-    sparseArray[2] = -5;
-    equal(_.reduceRight(sparseArray, function(a, b){ return a - b; }), -25, 'initially-sparse arrays with no memo');
   });
 
   test('collections: detect', function() {
