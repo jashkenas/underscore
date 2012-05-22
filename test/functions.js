@@ -139,8 +139,8 @@ $(document).ready(function() {
   asyncTest("functions: throttle recursively", 1, function() {
     var counter = 0;
     var incr = _.throttle(function() {
-        counter++;
-        if (counter < 5) incr();
+      counter++;
+      if (counter < 5) incr();
     }, 100);
     incr();
     _.delay(function(){ equal(counter, 3, "incr was throttled"); start(); }, 220);
