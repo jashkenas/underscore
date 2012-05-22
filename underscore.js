@@ -403,8 +403,8 @@
   };
 
   // Produce an array that contains every item shared between all the
-  // passed-in arrays. (Aliased as "intersect" for back-compat.)
-  _.intersection = _.intersect = function(array) {
+  // passed-in arrays.
+  _.intersection = function(array) {
     var rest = slice.call(arguments, 1);
     return _.filter(_.uniq(array), function(item) {
       return _.every(rest, function(other) {
