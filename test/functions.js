@@ -136,16 +136,6 @@ $(document).ready(function() {
     _.delay(function(){ equal(counter, 2, "incr was called twice"); start(); }, 220);
   });
 
-  asyncTest("functions: throttle recursively", 1, function() {
-    var counter = 0;
-    var incr = _.throttle(function() {
-      counter++;
-      if (counter < 5) incr();
-    }, 100);
-    incr();
-    _.delay(function(){ equal(counter, 3, "incr was throttled"); start(); }, 220);
-  });
-
   asyncTest("functions: debounce", 1, function() {
     var counter = 0;
     var incr = function(){ counter++; };
