@@ -14,14 +14,6 @@ $(document).ready(function() {
 
   });
 
-  test("utility: noConflict", function() {
-    var underscore = _.noConflict();
-    ok(underscore.isUndefined(_), "The '_' variable has been returned to its previous state.");
-    var intersection = underscore.intersect([-1, 0, 1, 2], [1, 2, 3, 4]);
-    equal(intersection.join(', '), '1, 2', 'but the intersection function still works');
-    window._ = underscore;
-  });
-
   test("utility: identity", function() {
     var moe = {name : 'moe'};
     equal(_.identity(moe), moe, 'moe is the same as his identity');
@@ -181,9 +173,9 @@ $(document).ready(function() {
   test('_.templateSettings.variable', function() {
     var s = '<%=data.x%>';
     var data = {x: 'x'};
-    strictEqual(_.template(s, data, {variable: 'data'}), 'x')
+    strictEqual(_.template(s, data, {variable: 'data'}), 'x');
     _.templateSettings.variable = 'data';
-    strictEqual(_.template(s)(data), 'x')
+    strictEqual(_.template(s)(data), 'x');
   });
 
   test('#547 - _.templateSettings is unchanged by custom settings.', function() {
