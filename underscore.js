@@ -912,17 +912,18 @@
   };
 
   // List of HTML entities for escaping.
+  // Note that there's no need to escape `>`:
+  // http://mths.be/notes/ambiguous-ampersands (see "semi-related fun fact")
   var htmlEscapes = {
     '&': '&amp;',
     '<': '&lt;',
-    '>': '&gt;',
     '"': '&quot;',
     "'": '&#x27;',
     '/': '&#x2F;'
   };
 
   // Regex containing the keys listed immediately above.
-  var htmlEscaper = /[&<>"'\/]/g;
+  var htmlEscaper = /[&<"'\/]/g;
 
   // Escape a string for HTML interpolation.
   _.escape = function(string) {
