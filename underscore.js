@@ -426,8 +426,20 @@
     var args = slice.call(arguments);
     var length = _.max(_.pluck(args, 'length'));
     var results = new Array(length);
-    for (var i = 0; i < length; i++) results[i] = _.pluck(args, "" + i);
+    for (var i = 0; i < length; i++) {
+      results[i] = _.pluck(args, "" + i);
+    }
     return results;
+  };
+
+  // Zip together two arrays -- an array of keys and an array of values -- into
+  // a single object.
+  _.zipObject = function(keys, values) {
+    var result = {};
+    for (var i = 0, l = keys.length; i < l; i++) {
+      result[keys[i]] = values[i];
+    }
+    return result;
   };
 
   // If the browser doesn't supply us with indexOf (I'm looking at you, **MSIE**),

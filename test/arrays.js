@@ -123,6 +123,12 @@ $(document).ready(function() {
     equal(String(stooges), 'moe,30,true,larry,40,,curly,50,', 'zipped together arrays of different lengths');
   });
 
+  test('arrays: zipObject', function() {
+    var result = _.zipObject(['moe', 'larry', 'curly'], [30, 40, 50]);
+    var shouldBe = {moe: 30, larry: 40, curly: 50};
+    ok(_.isEqual(result, shouldBe), 'two arrays zipped together into an object');
+  });
+
   test("arrays: indexOf", function() {
     var numbers = [1, 2, 3];
     numbers.indexOf = null;
