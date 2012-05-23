@@ -102,7 +102,7 @@ $(document).ready(function() {
 
     var template = _.template("<i><%- value %></i>");
     var result = template({value: "<script>"});
-    equal(result, '<i>&lt;script&gt;</i>');
+    equal(result, '<i>&lt;script></i>');
 
     var stooge = {
       name: "Moe",
