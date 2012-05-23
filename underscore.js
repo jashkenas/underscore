@@ -385,7 +385,7 @@
     var initial = iterator ? _.map(array, iterator) : array;
     var results = [];
     _.reduce(initial, function(memo, value, index) {
-      if (isSorted ? _.last(memo) !== value || !memo.length : !_.include(memo, value)) {
+      if (isSorted ? (_.last(memo) !== value || !memo.length) : !_.include(memo, value)) {
         memo.push(value);
         results.push(array[index]);
       }
