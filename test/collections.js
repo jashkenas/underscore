@@ -107,6 +107,12 @@ $(document).ready(function() {
     equal(_.reduceRight([], function(){}, undefined), undefined, 'undefined can be passed as a special case');
     raises(function() { _.reduceRight([], function(){}); }, TypeError, 'throws an error for empty arrays with no initial value');
   });
+  
+  test('collections: find', function() {
+    var array = [1, 2, 3, 4];
+    equal(3, _.find(array, function(n) { return n > 2; }), 'should return first found `value`');
+    equal(void 0, _.find(array, function() { return false; }), 'should return `undefined` if `value` is not found');
+  });
 
   test('collections: detect', function() {
     var result = _.detect([1, 2, 3], function(num){ return num * 2 == 4; });
