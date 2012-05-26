@@ -108,6 +108,12 @@ $(document).ready(function() {
     raises(function() { _.reduceRight([], function(){}); }, TypeError, 'throws an error for empty arrays with no initial value');
   });
 
+  test('collections: find', function() {
+    var array = [1, 2, 3, 4];
+    strictEqual(_.find(array, function(n) { return n > 2; }), 3, 'should return first found `value`');
+    strictEqual(_.find(array, function() { return false; }), void 0, 'should return `undefined` if `value` is not found');
+  });
+
   test('collections: detect', function() {
     var result = _.detect([1, 2, 3], function(num){ return num * 2 == 4; });
     equal(result, 2, 'found the first "2" and broke the loop');
