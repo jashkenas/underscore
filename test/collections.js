@@ -195,6 +195,16 @@ $(document).ready(function() {
     equal(s.call, undefined, "call function removed");
   });
 
+  test('collections: invoke with array of functions', function() {
+    var fun = function() {
+      return 42;
+    };
+    var list = [fun, fun];
+    var result = _.invoke(list);
+    equal(result[0], 42, 'called function first time');
+    equal(result[1], 42, 'called function second time');
+  });
+
   test('collections: pluck', function() {
     var people = [{name : 'moe', age : 30}, {name : 'curly', age : 50}];
     equal(_.pluck(people, 'name').join(', '), 'moe, curly', 'pulls names out of objects');
