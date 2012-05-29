@@ -494,7 +494,7 @@
 
   // Binary find in a sorted array
   // val can either be a value or a function that returns
-  // true for found, false for not found
+  // 1 == found, -1 for obj is less than val, 1 for obj is greater than val
   _.bfind = function(array, val) {
     var iterator = _.isFunction(val) ? val : function(obj) { return obj == val ? 0 : (obj < val ? -1 : 1); };
     var low = 0, high = array.length;
