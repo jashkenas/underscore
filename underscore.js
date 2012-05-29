@@ -496,13 +496,17 @@
   // val can either be a value or a function that returns
   // true for found, false for not found
   _.bfind = function(array, val) {
-    var iterator = _.isFunction(val) ? val : function(obj) { return obj == val; };
+    var iterator = _.isFunction(val) ? val : function(obj) { return obj == val ? 0 : (obj < val ? -1 : 1); };
     var low = 0, high = array.length;
     while (low < high) {
       var mid = (low + high) >> 1;
-      iterator(array[mid]) ? low = mid + 1 : high = mid;
+      var check = iterator(array[mid]);
+      if(check === 0) {
+        return array[mid];
+      }
+      check < 0 ? low = mid + 1 : high = mid;
     }
-    if( iterator(array[low]) ) {
+    if( iterator(array[low]) === 0 ) {
       return array[low];
     }
     return null;

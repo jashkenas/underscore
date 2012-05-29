@@ -173,10 +173,12 @@ $(document).ready(function() {
 
   test("arrays: bfind", function() {
     var sorted = [10, 20, 30, 40, 50];
-    equal(_.bfind(sorted, 30), null, 'works with values');
+    equal(_.bfind(sorted, 30), 30, 'works with values');
     equal(_.bfind(sorted, 35), null, 'returns null with values');
-    equal(_.bfind(sorted, function(num) { return num == 30; }), null, 'works with iterator functions');
-    equal(_.bfind(sorted, function(num) { return num == 35; }), null, 'returns null with iterator functions');
+    equal(_.bfind(sorted, 50), 50, 'works with high values');
+    equal(_.bfind(sorted, 10), 10, 'works with low values');
+    equal(_.bfind(sorted, function(num) { return num == 30 ? 0 : (num < 30 ? -1 : 1); }), 30, 'works with iterator functions');
+    equal(_.bfind(sorted, function(num) { return num == 35 ? 0 : (num < 35 ? -1 : 1); }), null, 'returns null with iterator functions');
   });
 
 });
