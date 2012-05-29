@@ -171,4 +171,12 @@ $(document).ready(function() {
     equal(_.range(0, -10, -1).join(' '), '0 -1 -2 -3 -4 -5 -6 -7 -8 -9', 'final example in the Python docs');
   });
 
+  test("arrays: bfind", function() {
+    var sorted = [10, 20, 30, 40, 50];
+    equal(_.bfind(sorted, 30), null, 'works with values');
+    equal(_.bfind(sorted, 35), null, 'returns null with values');
+    equal(_.bfind(sorted, function(num) { return num == 30; }), null, 'works with iterator functions');
+    equal(_.bfind(sorted, function(num) { return num == 35; }), null, 'returns null with iterator functions');
+  });
+
 });

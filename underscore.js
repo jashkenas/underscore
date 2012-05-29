@@ -492,6 +492,22 @@
     return range;
   };
 
+  // Binary find in a sorted array
+  // val can either be a value or a function that returns
+  // true for found, false for not found
+  _.bfind = function(array, val) {
+    var iterator = _.isFunction(val) ? val : function(obj) { return obj == val; };
+    var low = 0, high = array.length;
+    while (low < high) {
+      var mid = (low + high) >> 1;
+      iterator(array[mid]) ? low = mid + 1 : high = mid;
+    }
+    if( iterator(array[low]) ) {
+      return array[low];
+    }
+    return null;
+  }
+
   // Function (ahem) Functions
   // ------------------
 
