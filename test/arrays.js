@@ -176,6 +176,7 @@ $(document).ready(function() {
     equal(_.sortedIndex(sorted, 30), 2, 'works with values');
     equal(_.sortedIndex(sorted, 35), 3, 'returns null with values');
     equal(_.sortedIndex(sorted, 50), 4, 'works with high values');
+    equal(_.sortedIndex(sorted, 70), 5, 'works with high values');
     equal(_.sortedIndex(sorted, 10), 0, 'works with low values');
     equal(_.sortedIndex(sorted, 30, function(num) { return num == 30 ? 0 : (num < 30 ? -1 : 1); }), 2, 'works with iterator functions');
     equal(_.sortedIndex(sorted, 35, function(num) { return num == 35 ? 0 : (num < 35 ? -1 : 1); }), 3, 'returns null with iterator functions');
@@ -186,6 +187,7 @@ $(document).ready(function() {
     equal(_.bfind(sorted, 30), 30, 'works with values');
     equal(_.bfind(sorted, 35), null, 'returns null with values');
     equal(_.bfind(sorted, 50), 50, 'works with high values');
+    equal(_.bfind(sorted, 70), null, 'works with high values');
     equal(_.bfind(sorted, 10), 10, 'works with low values');
     equal(_.bfind(sorted, function(num) { return num == 30 ? 0 : (num < 30 ? -1 : 1); }), 30, 'works with iterator functions');
     equal(_.bfind(sorted, function(num) { return num == 35 ? 0 : (num < 35 ? -1 : 1); }), null, 'returns null with iterator functions');
