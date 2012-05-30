@@ -496,6 +496,9 @@
   // val can either be a value or a function that returns
   // 1 == found, -1 for obj is less than val, 1 for obj is greater than val
   _.bfind = function(array, val) {
+    if(!array.length) { 
+      return null; 
+    }
     var iterator = _.isFunction(val) ? val : function(obj) { return obj == val ? 0 : (obj < val ? -1 : 1); };
     var low = 0, high = array.length;
     while (low < high) {
