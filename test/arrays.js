@@ -171,6 +171,16 @@ $(document).ready(function() {
     equal(_.range(0, -10, -1).join(' '), '0 -1 -2 -3 -4 -5 -6 -7 -8 -9', 'final example in the Python docs');
   });
 
+  test("arrays: sortedIndex", function() {
+    var sorted = [10, 20, 30, 40, 50];
+    equal(_.sortedIndex(sorted, 30), 2, 'works with values');
+    equal(_.sortedIndex(sorted, 35), 3, 'returns null with values');
+    equal(_.sortedIndex(sorted, 50), 4, 'works with high values');
+    equal(_.sortedIndex(sorted, 10), 0, 'works with low values');
+    equal(_.sortedIndex(sorted, 30, function(num) { return num == 30 ? 0 : (num < 30 ? -1 : 1); }), 2, 'works with iterator functions');
+    equal(_.sortedIndex(sorted, 35, function(num) { return num == 35 ? 0 : (num < 35 ? -1 : 1); }), 3, 'returns null with iterator functions');
+  });
+
   test("arrays: bfind", function() {
     var sorted = [10, 20, 30, 40, 50];
     equal(_.bfind(sorted, 30), 30, 'works with values');
