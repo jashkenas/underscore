@@ -222,6 +222,18 @@
     return _.map(obj, function(value){ return value[key]; });
   };
 
+  // Add a new property to every item in a collection.
+  // Pass either an array of new values, or a function that accepts
+  // each item and returns the value to be added.
+  _.unpluck = function(obj, key, val) {
+    var array = (_.isFunction(val) && _.map(obj, val)) || (_.isArray(val) && val) || [];
+    return _.map(obj, function(value, index) {
+      var tmp = {};
+      tmp[key] = array[index];
+      return _.extend(value, tmp);
+    });
+  }
+
   // Return the maximum element or (element-based computation).
   // Can't optimize arrays of integers longer than 65,535 elements.
   // See: https://bugs.webkit.org/show_bug.cgi?id=80797
