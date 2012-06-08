@@ -776,6 +776,9 @@ _.difference([1, 2, 3, 4, 5], [5, 2, 10]);
       <pre>
 _.uniq([1, 2, 1, 3, 1, 4]);
 =&gt; [1, 2, 3, 4]
+
+_.uniq([{id : 4}, {id : 5}, {id : 6}, {id : 5}], false, function(obj){ return obj.id; });
+=&gt; [{id : 4}, {id : 5}, {id : 6}]
 </pre>
 
       <p id="zip">
