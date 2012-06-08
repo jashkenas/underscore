@@ -254,10 +254,12 @@
 
   // Shuffle an array.
   _.shuffle = function(obj) {
-    var shuffled = [], rand;
-    each(obj, function(value, index, list) {
-      rand = Math.floor(Math.random() * (index + 1));
-      shuffled[index] = shuffled[rand];
+    var rand;
+    var index = 0;
+    var shuffled = [];
+    each(obj, function(value, i, list) {
+      rand = Math.floor(Math.random() * ++index);
+      shuffled[index - 1] = shuffled[rand];
       shuffled[rand] = value;
     });
     return shuffled;
