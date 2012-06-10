@@ -257,7 +257,7 @@
     var rand;
     var index = 0;
     var shuffled = [];
-    each(obj, function(value, i, list) {
+    each(obj, function(value) {
       rand = Math.floor(Math.random() * ++index);
       shuffled[index - 1] = shuffled[rand];
       shuffled[rand] = value;
