@@ -86,6 +86,7 @@
         }
       }
     }
+	return obj;
   };
 
   // Return the results of applying the iterator to each element.
