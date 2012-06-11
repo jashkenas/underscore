@@ -946,8 +946,9 @@
   // Add your own custom functions to the Underscore object, ensuring that
   // they're correctly added to the OOP wrapper as well.
   _.mixin = function(obj) {
+    var that = this;
     each(_.functions(obj), function(name){
-      addToWrapper(name, _[name] = obj[name]);
+      addToWrapper(that, name, that[name] = obj[name]);
     });
   };
 
@@ -1043,6 +1044,20 @@
     return _(obj).chain();
   };
 
+
+  // Namespacing
+  // -----------
+
+  // This allows you to add your own helper functions without clobbering the
+  // `_` namespace.
+
+  _.namespace = function(name) {
+    var myWrapper = function(obj) { this._wrapped = obj; };
+    _[name] = function(obj) { return new myWrapper(obj); };
+    _[name].prototype = myWrapper.prototype;
+    _.mixin.call(_[name], _);
+  }
+
   // The OOP Wrapper
   // ---------------
 
@@ -1060,11 +1075,11 @@
   };
 
   // A method to easily add functions to the OOP wrapper.
-  var addToWrapper = function(name, func) {
-    wrapper.prototype[name] = function() {
+  var addToWrapper = function(_, name, func) {
+    _.prototype[name] = function() {
       var args = slice.call(arguments);
       unshift.call(args, this._wrapped);
-      return result(func.apply(_, args), this._chain);
+      return result(func.apply(this, args), this._chain);
     };
   };
 

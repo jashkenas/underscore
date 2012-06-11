@@ -212,4 +212,40 @@ $(document).ready(function() {
     templateEscaped({f: function(){ ok(!(countEscaped++)); }});
   });
 
+  test("utility: namespace", function() {
+    _.namespace("string");
+    _.string.mixin({"allCaps": function(str) {return str.toUpperCase();}});
+
+    equals(_.string.allCaps("hello world"), "HELLO WORLD", "can use namespaces");
+    equals(_.string("hello world").allCaps(), "HELLO WORLD", "can use namespaces when wrapped");
+
+    equals(_.isFunction(_.allCaps), false, "does not clobber the _ namespace");
+    equals(_.isFunction(_("hi").allCaps), false, "does not clobber the _ namespace when wrapped");
+    
+    _.mixin({"__testing": function(str) {return "test" + str;}});
+
+    equals(_.__testing("!"), "test!", "underscore still works");
+    equals(_("!").__testing(), "test!", "uderscore still works when wrapped");
+
+    equals(_.isFunction(_.string.__testing), false, "_ doesn't clobber the namespaced property");
+    equals(_.isFunction(_.string("!").__testing), false, "_ doesn't clobber the namespaced property when wrapped");
+
+    // the OOP wrapper with namespaces
+    _("extra").namespace();
+    _.extra.mixin({"allCaps": function(str) {return str.toUpperCase();}});
+
+    equals(_.extra.allCaps("hello world"), "HELLO WORLD", "can use namespaces");
+    equals(_.extra("hello world").allCaps(), "HELLO WORLD", "can use namespaces when wrapped");
+
+    equals(_.isFunction(_.allCaps), false, "does not clobber the _ namespace");
+    equals(_.isFunction(_("hi").allCaps), false, "does not clobber the _ namespace when wrapped");
+    
+    _.mixin({"__testing2": function(str) {return "test" + str;}});
+
+    equals(_.__testing2("!"), "test!", "underscore still works");
+    equals(_("!").__testing2(), "test!", "uderscore still works when wrapped");
+
+    equals(_.isFunction(_.extra.__testing2), false, "_ doesn't clobber the namespaced property");
+    equals(_.isFunction(_.extra("!").__testing2), false, "_ doesn't clobber the namespaced property when wrapped");
+  });
 });
