@@ -218,8 +218,19 @@
   };
 
   // Convenience version of a common use case of `map`: fetching a property.
-  _.pluck = function(obj, key) {
-    return _.map(obj, function(value){ return value[key]; });
+  _.pluck = function(obj, keys) {
+    if (_.isArray(obj)) {
+      return _.map(obj, function(value){ return value[keys]; });
+    } else {
+      if (_.isString(keys)) keys = keys.split(' ');
+      var newObj = {};
+      _.each(obj, function (value, key) {
+        if (_.indexOf(keys, key) != -1) {
+          newObj[key] = value;
+        }
+      });
+      return newObj;
+    }  
   };
 
   // Return the maximum element or (element-based computation).
