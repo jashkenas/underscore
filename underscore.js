@@ -73,7 +73,7 @@
   // Delegates to **ECMAScript 5**'s native `forEach` if available.
   var each = _.each = _.forEach = function(obj, iterator, context) {
     if (obj == null) return;
-    if (nativeForEach && obj.forEach === nativeForEach) {
+    if (obj.forEach) {
       obj.forEach(iterator, context);
     } else if (obj.length === +obj.length) {
       for (var i = 0, l = obj.length; i < l; i++) {
