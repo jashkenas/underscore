@@ -60,8 +60,8 @@
     return _.values(objects);
   });
 
-  JSLitmus.test('_.intersect()', function() {
-    return _.intersect(numbers, randomized);
+  JSLitmus.test('_.intersection()', function() {
+    return _.intersection(numbers, randomized);
   });
 
   JSLitmus.test('_.range()', function() {
