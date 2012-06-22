@@ -77,7 +77,9 @@
       obj.forEach(iterator, context);
     } else if (obj.length === +obj.length) {
       for (var i = 0, l = obj.length; i < l; i++) {
-        if (iterator.call(context, obj[i], i, obj) === breaker) return;
+        if (i in obj && // Skip holes in sparse arrays.
+            iterator.call(context, obj[i], i, obj) === breaker)
+          return;
       }
     } else {
       for (var key in obj) {
@@ -805,10 +807,14 @@
   // An "empty" object has no enumerable own-properties.
   _.isEmpty = function(obj) {
     if (obj == null) return true;
-    if (_.isArray(obj) || _.isString(obj)) return obj.length === 0;
-    for (var key in obj) if (_.has(obj, key)) return false;
-    return true;
+    if (_.isString(obj))
+      return obj.length === 0;
+    if (_.isArray(obj) && obj.length === 0)
+      return true;
+    return !any(obj, alwaysTrue);
   };
+
+  function alwaysTrue() { return true }
 
   // Is a given value a DOM element?
   _.isElement = function(obj) {
