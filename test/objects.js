@@ -364,6 +364,97 @@ $(document).ready(function() {
     ok(_.isEqual(date, date_json), 'date matches serialized date');
   });
 
+  test("objects: isSimilar", function () {
+
+    ok(_.isSimilar({a:'#any'},{a:'foo'}),"any similarity test");
+    ok(_.isSimilar({a:'#any'},{a:1}),"any similarity test");
+    ok(_.isSimilar({a:'#any'},{a:true}),"any similarity test");
+    ok(_.isSimilar({a:'#any'},{a:new Date}),"any similarity test");
+    ok(_.isSimilar({a:'#any'},{a:null}),"any similarity test");
+    ok(_.isSimilar({a:'#any'},{a:/[a-z]/}),"any similarity test");
+    ok(_.isSimilar({a:'#any'},{a:{}}),"any similarity test");
+    ok(_.isSimilar({a:'#any'},{a:{b:''}}),"any similarity test");
+    ok(_.isSimilar({a:'#any'},{a:[]}),"any similarity test");
+
+
+    ok(_.isSimilar({a:''},{a:'foo'}),"string similarity test");
+    ok(_.isSimilar({a:'#string'},{a:'foo'}),"string similarity test");
+    ok(_.isSimilar({a:'foo'},{a:'foo'}),'string similarity test');
+    ok(_.isSimilar({a:'foo'},{a:'bar'}),'string similarity test');
+
+    ok(_.isSimilar({a:'#date'},{a:new Date(1990,1,1)}),"date similarity test");
+    ok(_.isSimilar({a:new Date},{a:new Date(1990,1,1)}),"date similar test");
+    ok(_.isSimilar({a:new Date(1800,2,2)},{a:new Date(1990,1,1)}),"dat similar test");
+
+    ok(_.isSimilar({a:'#number'},{a:1}),"number similarity test");
+    ok(_.isSimilar({a:0},{a:3}),"number similarity test");
+    ok(_.isSimilar({a:new Number},{a:2}),"number similarity test");
+
+
+    ok(_.isSimilar({a:'#boolean'},{a:true}),"boolean similarity test");
+    ok(_.isSimilar({a:false},{a:true}),"boolean similarity test");
+    ok(_.isSimilar({a:new Boolean},{a:true}),"boolean similarity test");
+
+    ok(_.isSimilar({a:'#regexp'},{a:/[a-z]/}),"regexp similarity test");
+    ok(_.isSimilar({a:/[0-9]/},{a:/[a-z]/}),"regext similarity test");
+    ok(_.isSimilar({a:new RegExp},{a:/[a-z]/}),"regext similarity test");
+
+    ok(_.isSimilar({a: '#array'},{a:[1,2,3]}),"array similarity test");
+    ok(_.isSimilar({a:[]},{a:[1,2,3]}),"array similarity test");
+    ok(_.isSimilar({a: new Array},{a:[1,2,3]}),"array similarity test");
+
+    ok(_.isSimilar({a:'#null'},{a:null}),"null similarity test");
+    ok(_.isSimilar({a:null},{a:null}),"null similarity test");
+
+    ok(_.isSimilar({},{}),"object similarity test");
+    ok(_.isSimilar({a:{}},{a:{}}),"object similarity test");
+    ok(_.isSimilar({a:{b:''}},{a:{b:''}}),"object similarity test");
+    ok(_.isSimilar({a:{b:''}},{a:{b:'',c:''}}),"object similarity test");
+    ok(_.isSimilar({a:{b:'',c:''}},{a:{b:'',c:''}}),"object similarity test");
+    ok(_.isSimilar({a:'#object'},{a:{b:'',c:''}}),"object similarity test");
+
+    equal(_.isSimilar({a:'#any'},{}),false,"nonsimilarity any test");
+    equal(_.isSimilar({a:'#any'},{b:''}),false,"nonsimilarity any test");
+
+    equal(_.isSimilar({a:'#string'},{}),false,"nonsimilarity string test");
+    equal(_.isSimilar({a:'#string'},{a:1}),false,"nonsimilarity string test");
+    equal(_.isSimilar({a:'#string'},{b:''}),false,"nonsimilarity string test");
+    equal(_.isSimilar({a:'foo'},{b:'foo'}),false,"nonsimilarity string test");
+    equal(_.isSimilar({a:'foo'},{a:1}),false,"nonsimilarity string test");
+
+    equal(_.isSimilar({a:'#date'},{}),false,"nonsimilarity date test");
+    equal(_.isSimilar({a:'#date'},{a:1}),false,"nonsimilarity date test");
+    equal(_.isSimilar({a:'#date'},{b:new Date}),false,"nonsimilarity date test");
+
+    equal(_.isSimilar({a:'#number'},{}),false,"nonsimilarity number test");
+    equal(_.isSimilar({a:'#number'},{a:''}),false,"nonsimilarity number test");
+    equal(_.isSimilar({a:'#number'},{b:'1'}),false,"nonsimilarity number test");
+
+
+    equal(_.isSimilar({a:'#boolean'},{}),false,"nonsimilarity boolean test");
+    equal(_.isSimilar({a:'#boolean'},{a:''}),false,"nonsimilarity boolean test");
+    equal(_.isSimilar({a:'#boolean'},{b:true}),false,"nonsimilarity boolean test");
+
+    equal(_.isSimilar({a:'#regexp'},{}),false,"nonsimilarity regexp test");
+    equal(_.isSimilar({a:'#regexp'},{a:''}),false,"nonsimilarity regexp test");
+    equal(_.isSimilar({a:'#regexp'},{b:/[a-z]/}),false,"nonsimilarity regexp test");
+
+    equal(_.isSimilar({a:'#array'},{}),false,"nonsimilarity array test");
+    equal(_.isSimilar({a:'#array'},{a:''}),false,"nonsimilarity array test");
+    equal(_.isSimilar({a:'#array'},{b:[]}),false,"nonsimilarity array test");
+
+    equal(_.isSimilar({a:'#null'},{}),false,"nonsimilarity null test");
+    equal(_.isSimilar({a:'#null'},{a:''}),false,"nonsimilarity null test");
+    equal(_.isSimilar({a:'#null'},{b:null}),false,"nonsimilarity null test");
+
+    equal(_.isSimilar({a:'#object'},{}),false,"nonsimilarity object test");
+    equal(_.isSimilar({a:{b:''}},{a:{}}),false,"nonsimilarity object test");
+    equal(_.isSimilar({a:{}},{b:{}}),false,"nonsimilarity object test");
+
+
+
+  });
+
   test("objects: isEmpty", function() {
     ok(!_([1]).isEmpty(), '[1] is not empty');
     ok(_.isEmpty([]), '[] is empty');

@@ -801,6 +801,92 @@
     return eq(a, b, []);
   };
 
+  //Perform a deep comparison to check if the two object are similar.
+  //That means have the same keys, and the values are the same type
+  _.isSimilar = function (a, b) {
+    var key, _1, _2, tmp;
+    for (key in a) {
+      if (_.has(a, key) && _.has(b, key)) {
+        _1 = (_.isString(a[key])) ? a[key].toString() : a[key];
+        _2 = b[key];
+        //any
+        if (_1 === '#any') {
+          //
+        }
+        //any object
+        //if the value is '#object', checks if is an instance of object, but dont checks the keys.
+        else if (_1 === '#object') {
+          if (_.isObject(_2) === false) {
+            return false;
+          }
+        }
+        //specific object
+        //If the value is an instance of an object,
+        //checks if the compared has the same keys and types as the comparative
+        else if (toString.call(_1) === "[object Object]") {
+          if (_.isObject(_2) === false) {
+            return false;
+          }
+          else {
+            //Ff this is an object, calls a deep comparison.
+            //If return false than return false, otherwise continues the check
+            tmp = _.isSimilar(_1, _2);
+            if (tmp === false) {
+              return false;
+            }
+          }
+        }
+        //array
+        else if (_1 === '#array' || _.isArray(_1) === true) {
+          if (_.isArray(_2) === false) {
+            return false;
+          }
+        }
+        //number
+        else if (_1 === '#number' || _.isNumber(_1) === true) {
+          if (_.isNumber(_2) === false) {
+            return false;
+          }
+        }
+        //boolean
+        else if (_1 === '#boolean' || _.isBoolean(_1) === true) {
+          if (_.isBoolean(_2) === false) {
+            return false;
+          }
+        }
+        //date
+        else if (_1 === '#date' || _.isDate(_1) === true) {
+          if (_.isDate(_2) === false) {
+            return false;
+          }
+        }
+        //regexp
+        else if (_1 === '#regexp' || _.isRegExp(_1) === true) {
+          if (_.isRegExp(_2) === false) {
+            return false;
+          }
+        }
+        //null
+        else if (_1 === '#null' || _.isNull(_1) === true) {
+          if (_.isNull(_2) === false) {
+            return false;
+          }
+        }
+        //string must be the last because it matches with any other string expect the key strings
+        //string
+        else if (_1 === '#string' || _.isString(_1) === true) {
+          if (_.isString(_2) === false) {
+            return false;
+          }
+        }
+      }
+      else {
+        return false;
+      }
+    }
+    return true;
+  }
+
   // Is a given array, string, or object empty?
   // An "empty" object has no enumerable own-properties.
   _.isEmpty = function(obj) {

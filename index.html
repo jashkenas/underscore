@@ -259,6 +259,7 @@
       <li>- <a href="#tap">tap</a></li>
       <li>- <a href="#has">has</a></li>
       <li>- <a href="#isEqual">isEqual</a></li>
+      <li>- <a href="#isSimilar">isSimilar</a></li>
       <li>- <a href="#isEmpty">isEmpty</a></li>
       <li>- <a href="#isElement">isElement</a></li>
       <li>- <a href="#isArray">isArray</a></li>
@@ -1148,6 +1149,49 @@ moe == clone;
 =&gt; false
 _.isEqual(moe, clone);
 =&gt; true
+</pre>
+
+      <p id="isSimilar">
+        <b class="header">isSimilar</b><code>_.isSimilar(comparative, compared)</code>
+        <br />
+        Performs a deep comparison between the two objects to determine, if they are <b>similar</b> or not.
+        Similarity means, that the compared object has all the keys as the comparative with the <b>same type</b> of the values, but can be <b>any value</b>.
+        The comparative object contain specific string or instances to determine the type.
+        <br />
+        specific string:
+        <ul>
+            <li>Any: <tt>'#any'</tt></li>
+            <li>String: Instance of <tt>String</tt> (exclude all of these specific strings) or <tt>'#string'</tt></li>
+            <li>Date: Instance of <tt>Date</tt> or <tt>'#date'</tt></li>
+            <li>Number: Instance of <tt>Number</tt> or <tt>'#number'</tt></li>
+            <li>Boolean: Instance of <tt>Boolean</tt> or <tt>'#boolean'</tt></li>
+            <li>RegExp: Instance of <tt>RegExp</tt> or <tt>'#regexp'</tt></li>
+            <li>Array: Instance of <tt>Array</tt> or <tt>'#array'</tt></li>
+            <li>Null: <tt>null</tt> or <tt>'#null'</tt></li>
+            <li>Any object: <tt>'#object'</tt></li>
+            <li>Determined object: Instance of <tt>Object</tt></li>
+        </ul>
+        
+
+      </p>
+      <pre>
+var person = {name : '#string', age : '#number', 'money': 0,      'birth': new Date};
+var Pete   = {name : 'Pete',    age : 20,        'money': 5000,   'birth': new Date(1990,1,1)};
+
+_.isSimilar(person, Pete);
+=&gt; true
+
+var food     = {name : '',                    inderigents: '#object'};
+var IceCream = {name : 'Chocolate ice cream', inderigents: {cacao: 100, water: 200}};
+
+_.isSimilar(food, IceCream);
+=&gt; true
+
+var computer = {owner: '',   components: {motherboard: '', processor: '', memory: '', hdd: ''}};
+var MyComp   = {owner: 'Me', components: {'vga':'nVidia'}};
+
+_.isSimilar(computer, MyComp);
+=&gt; false
 </pre>
 
       <p id="isEmpty">
