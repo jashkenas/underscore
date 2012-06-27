@@ -529,6 +529,16 @@ $(document).ready(function() {
     ok(_.isUndefined(iUndefined), 'even from another frame');
   });
 
+  test("objects: isDefined", function() {
+    ok(_.isDefined(1), 'numbers are defined');
+    ok(_.isDefined(null), 'null is defined');
+    ok(_.isDefined(false), 'false is defined');
+    ok(_.isDefined(NaN), 'NaN is defined');
+    ok(!_.isDefined(), 'nothing is undefined');
+    ok(!_.isDefined(undefined), 'undefined is undefined');
+    ok(!_.isDefined(iUndefined), 'even from another frame');
+  });
+
   if (window.ActiveXObject) {
     test("objects: IE host objects", function() {
       var xml = new ActiveXObject("Msxml2.DOMDocument.3.0");

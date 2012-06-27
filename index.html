@@ -274,6 +274,7 @@
       <li>- <a href="#isNaN">isNaN</a></li>
       <li>- <a href="#isNull">isNull</a></li>
       <li>- <a href="#isUndefined">isUndefined</a></li>
+      <li>- <a href="#isDefined">isDefined</a></li>
     </ul>
 
     <a class="toc_title" href="#utility">
@@ -1318,6 +1319,16 @@ _.isNull(undefined);
       <pre>
 _.isUndefined(window.missingVariable);
 =&gt; true
+</pre>
+
+      <p id="isDefined">
+        <b class="header">isDefined</b><code>_.isDefined(variable)</code>
+        <br />
+        Returns <i>true</i> if <b>variable</b> is <i>defined</i>.
+      </p>
+      <pre>
+_.isDefined(window.missingVariable);
+=&gt; false
 </pre>
 
       <h2 id="utility">Utility Functions</h2>
