@@ -867,6 +867,11 @@
     return obj === void 0;
   };
 
+  // Is a given variable defined?
+  _.isDefined = function(obj) {
+    return !_.isUndefined(obj);
+  };
+
   // Shortcut function for checking if an object has a given property directly
   // on itself (in other words, not on a prototype).
   _.has = function(obj, key) {
