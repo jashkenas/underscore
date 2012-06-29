@@ -494,6 +494,20 @@
     return range;
   };
 
+  // Generate an Object by using one array for keys and another for its values
+  _.combine = function(keys, values)
+  {
+    var length = _.min([_.size( keys ), _.size(values)])
+    keys = _.first(keys, length);
+    values = _.first(values, length);
+
+    var result = {};
+    for (var index in keys) {
+      result[keys[index]] = values[index];
+    }
+    return result;
+  }
+
   // Function (ahem) Functions
   // ------------------
 

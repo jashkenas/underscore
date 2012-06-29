@@ -226,6 +226,7 @@
       <li>- <a href="#indexOf">indexOf</a></li>
       <li>- <a href="#lastIndexOf">lastIndexOf</a></li>
       <li>- <a href="#range">range</a></li>
+      <li>- <a href="#combine">combine</a></li>
     </ul>
 
     <a class="toc_title" href="#functions">
@@ -838,6 +839,23 @@ _.range(0, -10, -1);
 =&gt; [0, -1, -2, -3, -4, -5, -6, -7, -8, -9]
 _.range(0);
 =&gt; []
+</pre>
+      
+      <p id="combine">
+        <b class="header">combine</b><code>_.combine(keys, values)</code>
+        <br />
+        A function to create an <b>object</b> by using an <b>array</b> for <b>keys</b> 
+        and another for <b>values</b>.
+      </p>
+      <pre>
+_.combine(['foo','bar'], ['baz',35]);
+=&gt; {foo:'baz', bar:35}
+_.combine(['foo','baz'], ['baz']);
+=&gt; {foo:'baz'}
+_.combine(['foo'], ['baz',35]);
+=&gt; {foo:'baz'}
+_.combine([],[]);
+=&gt; {}
 </pre>
 
       <h2 id="functions">Function (uh, ahem) Functions</h2>
