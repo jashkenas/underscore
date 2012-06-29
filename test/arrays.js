@@ -171,4 +171,11 @@ $(document).ready(function() {
     equal(_.range(0, -10, -1).join(' '), '0 -1 -2 -3 -4 -5 -6 -7 -8 -9', 'final example in the Python docs');
   });
 
+  test("arrays: combine", function() {
+    ok(_.isEqual(_.combine([],[]), { }), 'can combine empty arrays');
+    ok(_.isEqual( _.combine(['foo', 'baz'],['bar', 35]), {foo:'bar',baz:35} ), 'can combine same length arrays');    
+    ok(_.isEqual(_.combine(['foo', 'baz'],['bar']), {foo:'bar'}), 'can combine different length arrays ');
+    ok(_.isEqual(_.combine(['foo'],['bar', 'baz']), {foo:'bar'}), 'can combine different length arrays');
+  });
+
 });
