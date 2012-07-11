@@ -166,6 +166,38 @@ $(document).ready(function() {
     ok(_([1,2,3]).include(2), 'OO-style include');
   });
 
+  test('collections: startsWith', function () {
+    ok(_.startsWith('a string', 'a str'), 'startsWith');
+    ok(_.startsWith('a string', 'a string'), 'longer startsWith');
+    ok(_.startsWith('a string', ''), 'startsWith empty string');
+    ok(!_.startsWith('a string', 'something else'), 'not startsWith');
+    ok(!_.startsWith('a string', 'a string plus'), 'not startsWith longer');
+    ok(_('a string').startsWith('a s'), 'OO-style startsWith');
+    ok(_.startsWith('1234 test', 1234), 'startsWith coercion');
+    ok(_.startsWith((new String('a string')), 'a string'), 'boxed startsWith');
+    ok(_.startsWith([1, 2, 3, 4, 5], [1, 2]), 'startsWith array');
+    ok(!_.startsWith([1, 2, 3, 4, 5], [1, 3]), 'not startsWith array');
+    ok(_.startsWith([1, 2, 3, 4, 5], []), 'startsWith empty array');
+    ok(!_.startsWith([1, 2, 3, 4], 1), 'startsWith mixed arrays');
+    ok(!_.startsWith({0: 'test'}, {0: 'test'}), 'startsWith objects returns false');
+  });
+
+  test('collections: endsWith', function () {
+    ok(_.endsWith('a string', 'ring'), 'endsWith');
+    ok(_.endsWith('a string', 'a string'), 'longer endsWith');
+    ok(_.endsWith('a string', ''), 'endsWith empty string');
+    ok(!_.endsWith('a string', 'something else'), 'not endsWith');
+    ok(!_.endsWith('a string', 'plus a string'), 'not endsWith longer');
+    ok(_('a string').endsWith('ring'), 'OO-style endsWith');
+    ok(_.endsWith('test 1234', 1234), 'endsWith coercion');
+    ok(_.endsWith((new String('a string')), 'a string'), 'boxed endsWith');
+    ok(_.endsWith([1, 2, 3, 4, 5], [4, 5]), 'endsWith array');
+    ok(!_.endsWith([1, 2, 3, 4, 5], [3, 5]), 'not endsWith array');
+    ok(_.endsWith([1, 2, 3, 4, 5], []), 'endsWith empty array');
+    ok(!_.endsWith([1, 2, 3, 4], 4), 'endsWith mixed arrays');
+    ok(!_.endsWith({0: 'test'}, {0: 'test'}), 'endsWith objects returns false');
+  });
+
   test('collections: invoke', function() {
     var list = [[5, 1, 7], [3, 2, 1]];
     var result = _.invoke(list, 'sort');

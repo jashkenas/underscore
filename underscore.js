@@ -209,6 +209,38 @@
     return found;
   };
 
+  // Determine if the array or string `obj` starts with `prefix`
+  // (either the string is prefixed, or the arrays have equal elements
+  // for the beginning).
+  _.startsWith = function(obj, prefix) {
+    if (_.isString(obj)) return obj.indexOf(prefix) == 0;
+    if (!_.isArray(obj) || (!_.isArray(prefix))) return false;
+    if (obj.length < prefix.length) return false;
+    for (var i=0; i < obj.length && i < prefix.length; i++) {
+      if (obj[i] !== prefix[i]) return false;
+    }
+    return true;
+  };
+
+  // Determine if the array or string `obj` ends with `tail` (either
+  // the string ends with that other string, or the arrays have equal
+  // elements at the end).
+  _.endsWith = function(obj, tail) {
+    if (_.isString(obj)) {
+      tail = tail + '';
+      var index = obj.lastIndexOf(tail);
+      return index >= 0 && index === obj.length - tail.length;
+    }
+    if (!_.isArray(obj) || (!_.isArray(tail))) return false;
+    var objLength = obj.length,
+        tailLength = tail.length;
+    if (objLength < tailLength) return false;
+    for (var i=0; i < tailLength; i++) {
+      if (obj[objLength - 1 - i] !== tail[tailLength - 1 - i]) return false;
+    }
+    return true;
+  };
+
   // Invoke a method (with arguments) on every item in a collection.
   _.invoke = function(obj, method) {
     var args = slice.call(arguments, 2);
@@ -832,7 +864,7 @@
       return toString.call(obj) == '[object ' + name + ']';
     };
   });
-  
+
   // Define a fallback version of the method in browsers (ahem, IE), where
   // there isn't any inspectable "Arguments" type.
   if (!_.isArguments(arguments)) {
