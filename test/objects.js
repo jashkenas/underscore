@@ -555,4 +555,29 @@ $(document).ready(function() {
       value();
     ok(returned == 6 && intercepted == 6, 'can use tapped objects in a chain');
   });
+
+  test("objects: soak", function() {
+    function badfn () { return void 0; }
+    function objfn () { return {c: 42}; }
+    function adder (a, b) { return {c: a+b}; }
+
+    // The trivial behavior of 0 or 1 arguments.
+    ok(_.isUndefined(_.soak()), 'passing no arguments returns undefined');
+    ok(_.isUndefined(_.soak(void 0)), 'undefined as the only argument returns undefined');
+    ok(_.isNull(_.soak(null)), 'null as the only argument returns null');
+    ok(_.isNumber(_.soak(1)), 'number as the only argument returns number');
+    ok(_.isBoolean(_.soak(false)), 'boolean as the only argument returns boolean');
+    ok(_.isNaN(_.soak(NaN)), 'NaN as the only argument returns NaN');
+    ok(_.isObject(_.soak({a:1})), 'object as the only argument returns object');
+    ok(_.isUndefined(_.soak(null, ['a'])), 'should be undefined if both arguments exist and first is null');
+    ok(_.isUndefined(_.soak(void 0, ['a'])), 'should be undefined if both arguments exist and first is undefined');
+    ok(_.isEqual('42', _.soak({a: {b: objfn}}, ['a','b','c','toString'])), 'can navigate properties and simple functions');
+    ok(_.isEqual('4', _.soak({a: {b: adder}}, ['a',['b',2,2],'c','toString'])), 'can navigate n-ary functions');
+    ok(_.isUndefined(_.soak({a: {b: badfn}}, ['a','b','c','toString'])), 'returns undefined if the chain is broken');
+    ok(_.isUndefined(_.soak({a: {b: badfn}}, ['a',['b',2,2],'c','toString'])), 'returns undefined if the chain is broken');
+    ok(_.isUndefined(_.soak({a: 2}, ['a','b'])), 'returns undefined if a slot does not exist');
+    ok(_.isEqual('2', _.soak(2, 'toString')), 'should be able to drop array brackets 1');
+    ok(_.isEqual('2', _.soak({a: 2}, 'a', 'toString')), 'should be able to drop array brackets 2');
+  });
+
 });
