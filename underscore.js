@@ -204,7 +204,7 @@
     var found = false;
     if (obj == null) return found;
     if (nativeIndexOf && obj.indexOf === nativeIndexOf) return obj.indexOf(target) != -1;
-    if (typeof obj == "string") return obj.indexOf(target) != -1;
+    if (_.isString(obj)) return obj.indexOf(target) != -1;
     found = any(obj, function(value) {
       return value === target;
     });

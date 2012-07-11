@@ -167,7 +167,7 @@ $(document).ready(function() {
     ok(_.include('test this out', 'out'), 'include with a string');
     ok(!_.include('test this out', 'not included'), 'include with a string (false)');
     ok(_.include('1 2 3 4', 3), 'include with a string and number');
-    ok(!_.include(new String('test this'), 'test'), 'works with boxed strings');
+    ok(_.include(new String('test this'), 'test'), 'works with boxed strings');
     ok(_('test this out').include('this'), 'OO-style include with a string');
   });
 
