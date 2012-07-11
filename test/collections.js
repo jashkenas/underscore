@@ -164,6 +164,11 @@ $(document).ready(function() {
     ok(!_.include([1,3,9], 2), 'two is not in the array');
     ok(_.contains({moe:1, larry:3, curly:9}, 3) === true, '_.include on objects checks their values');
     ok(_([1,2,3]).include(2), 'OO-style include');
+    ok(_.include('test this out', 'out'), 'include with a string');
+    ok(!_.include('test this out', 'not included'), 'include with a string (false)');
+    ok(_.include('1 2 3 4', 3), 'include with a string and number');
+    ok(!_.include(new String('test this'), 'test'), 'works with boxed strings');
+    ok(_('test this out').include('this'), 'OO-style include with a string');
   });
 
   test('collections: invoke', function() {
