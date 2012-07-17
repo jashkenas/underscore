@@ -832,7 +832,7 @@
       return toString.call(obj) == '[object ' + name + ']';
     };
   });
-  
+
   // Define a fallback version of the method in browsers (ahem, IE), where
   // there isn't any inspectable "Arguments" type.
   if (!_.isArguments(arguments)) {
@@ -865,6 +865,11 @@
   // Is a given variable undefined?
   _.isUndefined = function(obj) {
     return obj === void 0;
+  };
+
+  // Is a given variable equal to null or undefined?
+  _.isNullOrUndefined = function(obj) {
+    return _.isNull(obj) || _.isUndefined(obj);
   };
 
   // Shortcut function for checking if an object has a given property directly

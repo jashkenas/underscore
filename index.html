@@ -274,6 +274,7 @@
       <li>- <a href="#isNaN">isNaN</a></li>
       <li>- <a href="#isNull">isNull</a></li>
       <li>- <a href="#isUndefined">isUndefined</a></li>
+      <li>- <a href="#isNullOrUndefined">isNullOrUndefined</a></li>
     </ul>
 
     <a class="toc_title" href="#utility">
@@ -1318,6 +1319,20 @@ _.isNull(undefined);
       <pre>
 _.isUndefined(window.missingVariable);
 =&gt; true
+</pre>
+
+      <p id="isNullOrUndefined">
+        <b class="header">isNullOrUndefined</b><code>_.isNullOrUndefined(object)</code>
+        <br />
+        Returns <i>true</i> if the value of <b>object</b> is <i>null</i> or <i>undefined</i>.
+      </p>
+      <pre>
+_.isNullOrUndefined(null);
+=&gt; true
+_.isNullOrUndefined(undefined);
+=&gt; true
+_.isNullOrUndefined(42);
+=&gt; false
 </pre>
 
       <h2 id="utility">Utility Functions</h2>
