@@ -667,7 +667,7 @@
     var args = slice.call(arguments, 1);
     return function() {
       var callargs = arguments;
-      return func.apply(func, _.map(args, function(i) { return callargs[i]; }));
+      return func.apply(this, _.map(args, function(i) { return callargs[i]; }));
     };
   };
 
