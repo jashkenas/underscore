@@ -223,4 +223,20 @@ $(document).ready(function() {
     equal(testAfter(0, 0), 1, "after(0) should fire immediately");
   });
 
+  test("functions: afterEvery", function() {
+    var testEvery = function(everyAmount, timesCalled) {
+      var everyCalled = 0;
+      var afterEvery = _.afterEvery(everyAmount, function() {
+        everyCalled++;
+      });
+      while (timesCalled--) afterEvery();
+      return everyCalled;
+    };
+
+    equal(testEvery(5, 5), 1, "afterEvery(N) should fire after being called N times");
+    equal(testEvery(5, 4), 0, "afterEvery(N) should not fire unless called N times");
+    equal(testEvery(2, 4), 2, "afterEvery(N) should fire twice");
+    equal(testEvery(0, 0), 1, "afterEvery(0) should fire immediately");
+  });
+
 });

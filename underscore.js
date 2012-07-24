@@ -660,6 +660,18 @@
     };
   };
 
+  // Returns a function that will only be executed after every N times it is called.
+  _.afterEvery = function(times, func) {
+    var interval = times;
+    if (times <= 0) return func();
+    return function() {
+      if (--times < 1) {
+        times = interval;
+        return func.apply(this, arguments);
+      }
+    };
+  };
+
   // Object Functions
   // ----------------
 
