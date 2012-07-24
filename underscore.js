@@ -807,7 +807,7 @@
       }
       // Ensure that both objects contain the same number of properties.
       if (result) {
-        for (key in b) {
+        for (var key in b) {
           if (_.has(b, key) && !(size--)) break;
         }
         result = !size;
