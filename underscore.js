@@ -498,11 +498,12 @@
   // the native Python `range()` function. See
   // [the Python documentation](http://docs.python.org/library/functions.html#range).
   _.range = function(start, stop, step) {
-    if(!_.isNumber(start)) return -1;
     if (arguments.length <= 1) {
       stop = start || 0;
       start = 0;
     }
+    if(!_.isNumber(start)) throw new TypeError;
+    
     step = arguments[2] || 1;
 
     var len = Math.max(Math.ceil((stop - start) / step), 0);
