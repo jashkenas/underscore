@@ -827,7 +827,7 @@
   // An "empty" object has no enumerable own-properties.
   _.isEmpty = function(obj) {
     if (obj == null) return true;
-    if (_.isArray(obj) || _.isString(obj)) return obj.length === 0;
+    if (obj.length != null) return obj.length === 0; // Arrays and Strings will check for lenght
     for (var key in obj) if (_.has(obj, key)) return false;
     return true;
   };
