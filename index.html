@@ -1347,7 +1347,8 @@ moe === _.identity(moe);
       <p id="times">
         <b class="header">times</b><code>_.times(n, iterator, [context])</code>
         <br />
-        Invokes the given iterator function <b>n</b> times.
+        Invokes the given iterator function <b>n</b> times, each time passing
+        in a number from <i>0</i> to <i><b>n</b> - 1</i> as the first argument.
       </p>
       <pre>
 _(3).times(function(){ genie.grantWish(); });</pre>
