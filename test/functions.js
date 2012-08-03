@@ -209,8 +209,11 @@ $(document).ready(function() {
 
   test("functions: partial application", function (){
     var div = function (x,y) { return x/y; };
+    var divmul = function (x,y,z) { return (x/y)*z };
+    var halfmul = _.partial(divmul, _, 2, _);
     var inverse = _.curry(div, 1);
-    var half = _.rcurry(div,2);
+    var half = _.rcurry(div, 2);
+    equal(halfmul(4,3), 6, 'partial');
     equal(inverse(0.5), 2, 'curry');
     equal(half(4), 2, 'rcurry');
   });

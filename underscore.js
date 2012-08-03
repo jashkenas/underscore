@@ -666,6 +666,20 @@
       return args[0];
     };
   }
+
+  // Fills in the arguments of a function and returns a new function that accepts any remaining
+  // arguments that were specified using _
+  _.partial = function(/*fn, arguments...*/) {
+    var args = slice.call(arguments),
+      func = args.shift();
+    return function(){
+      var arg = 0;
+      for ( var i = 0; i < args.length && arg < arguments.length; i++ )
+        if (args[i] === _)
+          args[i] = arguments[arg++];
+      return func.apply(this, args);
+    };
+  };
  
   // Fills in the first few arguments of a function and returns a new function that accepts
   // any remaining arguments.
@@ -675,18 +689,18 @@
   // _.curry(f, a)(b) -> f(a, b)
   _.curry = function(/*fn, arguments...*/) {
     var args = slice.call(arguments);
-    var func = args.shift();
+      func = args.shift();
     return function() {
       return func.apply(this, args.concat(slice.call(arguments)));
     };
   };
 
-  // Fills in the first few arguments of a function and returns a new function that accepts
+  // Fills in the last few arguments of a function and returns a new function that accepts
   // any remaining arguments.
   // _.rcurry(f, a)(b) -> f(b, a)
   _.rcurry = function(/*fn, arguments...*/) {
     var args = slice.call(arguments);
-    var func = args.shift();
+      func = args.shift();
     return function() {
       return func.apply(this, slice.call(arguments).concat(args));
     };
