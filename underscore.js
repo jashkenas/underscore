@@ -641,11 +641,10 @@
   // consuming the return value of the function that follows.
   // _.compose(f, g)(args...) -> f(g(args...))
   _.compose = function(/*fn...*/) {
-    var funcs = arguments,
-    funcsLength = funcs.length;
+    var funcs = arguments;
     return function() {
       var args = arguments;
-      for (var i = funcsLength - 1; i >= 0; i--) {
+      for (var i = funcs.length - 1; i >= 0; i--) {
         args = [funcs[i].apply(this, args)];
       }
       return args[0];
@@ -657,33 +656,41 @@
   // passing it's return value to the next function.
   // _.sequence(f, g)(args...) -> g(f(args...))
   _.sequence = function(/*fn...*/) {
-    var funcs = arguments,
-    funcsLength = funcs.length;
+    var funcs = arguments;
     return function() {
-      var args = arguments;
-      for (var i = 0; i < funcsLength; i++)
+      var args = arguments,
+        funcsLength = funcs.length;
+      for (var i = 0; i < funcsLength; i++) {
         args = [funcs[i].apply(this, args)];
+      }
       return args[0];
     };
   }
-
+ 
+  // Fills in the first few arguments of a function and returns a new function that accepts
+  // any remaining arguments.
+  // Note that curry and uncurry are not inverses.  The implementation of curry here
+  // matches semantics that most people have used when implementing curry for
+  // procedural languages.
   // _.curry(f, a)(b) -> f(a, b)
-  _.curry = function(func /*fn...*/) {
-    var args = Array.prototype.slice.call(arguments,1);
+  _.curry = function(/*fn, arguments...*/) {
+    var args = slice.call(arguments);
+    var func = args.shift();
     return function() {
-      return func.apply(this, args.concat(Array.prototype.slice.call(arguments)));
+      return func.apply(this, args.concat(slice.call(arguments)));
     };
   };
 
+  // Fills in the first few arguments of a function and returns a new function that accepts
+  // any remaining arguments.
   // _.rcurry(f, a)(b) -> f(b, a)
-  _.rcurry = function(func /*fn...*/) {
-    var args = Array.prototype.slice.call(arguments, 1);
+  _.rcurry = function(/*fn, arguments...*/) {
+    var args = slice.call(arguments);
+    var func = args.shift();
     return function() {
-      return func.apply(this, Array.prototype.slice.call(arguments, 0).concat(args));
+      return func.apply(this, slice.call(arguments).concat(args));
     };
   };
-
-
 
   // Returns a function that will only be executed after being called N times.
   _.after = function(times, func) {
