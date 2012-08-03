@@ -198,14 +198,21 @@ $(document).ready(function() {
     deepEqual(ret, [noop, ['whats', 'your'], 'vector', 'victor']);
   });
 
-  test("functions: compose", function() {
-    var greet = function(name){ return "hi: " + name; };
-    var exclaim = function(sentence){ return sentence + '!'; };
-    var composed = _.compose(exclaim, greet);
-    equal(composed('moe'), 'hi: moe!', 'can compose a function that takes another');
+  test("functions: composition", function() {
+    var double = function (x) { return x*2; };
+    var inc = function (x) { return x+1; };
+    var composed = _.compose(inc, inc, double);
+    var sequenced = _.sequence(inc, inc, double);
+    equal(composed(3), 8, 'compose');
+    equal(sequenced(3), 10, 'sequence');
+  });
 
-    composed = _.compose(greet, exclaim);
-    equal(composed('moe'), 'hi: moe!', 'in this case, the functions are also commutative');
+  test("functions: partial application", function (){
+    var div = function (x,y) { return x/y; };
+    var inverse = _.curry(div, 1);
+    var half = _.rcurry(div,2);
+    equal(inverse(0.5), 2, 'curry');
+    equal(half(4), 2, 'rcurry');
   });
 
   test("functions: after", function() {

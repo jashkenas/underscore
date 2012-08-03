@@ -639,16 +639,51 @@
 
   // Returns a function that is the composition of a list of functions, each
   // consuming the return value of the function that follows.
-  _.compose = function() {
-    var funcs = arguments;
+  // _.compose(f, g)(args...) -> f(g(args...))
+  _.compose = function(/*fn...*/) {
+    var funcs = arguments,
+    funcsLength = funcs.length;
     return function() {
       var args = arguments;
-      for (var i = funcs.length - 1; i >= 0; i--) {
+      for (var i = funcsLength - 1; i >= 0; i--) {
         args = [funcs[i].apply(this, args)];
       }
       return args[0];
     };
   };
+
+  // Same as `compose`, except applies the functions in the opposite order.
+  // Returns a function that is the sequence of a list of functions, each
+  // passing it's return value to the next function.
+  // _.sequence(f, g)(args...) -> g(f(args...))
+  _.sequence = function(/*fn...*/) {
+    var funcs = arguments,
+    funcsLength = funcs.length;
+    return function() {
+      var args = arguments;
+      for (var i = 0; i < funcsLength; i++)
+        args = [funcs[i].apply(this, args)];
+      return args[0];
+    };
+  }
+
+  // _.curry(f, a)(b) -> f(a, b)
+  _.curry = function(func /*fn...*/) {
+    var args = Array.prototype.slice.call(arguments,1);
+    return function() {
+      return func.apply(this, args.concat(Array.prototype.slice.call(arguments)));
+    };
+  };
+
+  // _.rcurry(f, a)(b) -> f(b, a)
+  _.rcurry = function(func /*fn...*/) {
+    var args = Array.prototype.slice.call(arguments, 1);
+    return function() {
+      return func.apply(this, Array.prototype.slice.call(arguments, 0).concat(args));
+    };
+  };
+
+
 
   // Returns a function that will only be executed after being called N times.
   _.after = function(times, func) {
