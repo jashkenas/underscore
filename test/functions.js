@@ -199,13 +199,69 @@ $(document).ready(function() {
   });
 
   test("functions: compose", function() {
-    var greet = function(name){ return "hi: " + name; };
-    var exclaim = function(sentence){ return sentence + '!'; };
-    var composed = _.compose(exclaim, greet);
-    equal(composed('moe'), 'hi: moe!', 'can compose a function that takes another');
+    var double = function (x) { return x*2; };
+    var inc = function (x) { return x+1; };
+    var composed = _.compose(inc, inc, double);
+    equal(composed(3), 8);
+  });
 
-    composed = _.compose(greet, exclaim);
-    equal(composed('moe'), 'hi: moe!', 'in this case, the functions are also commutative');
+  test("functions: sequence", function() {
+    var double = function (x) { return x*2; };
+    var inc = function (x) { return x+1; };
+    var sequenced = _.sequence(inc, inc, double);
+    equal(sequenced(3), 10);
+  });
+
+  test("functions: aritize", function (){
+    var join = function () { return Array.prototype.slice.call(arguments, 0).join(', '); };
+    var limitedJoin = _.aritize(join, 2);
+    equal(join('a', 'b', 'c'), 'a, b, c');
+    equal(limitedJoin('a', 'b', 'c'), 'a, b');
+  });
+
+  test("functions: saturate", function (){
+    var div = function (x,y) { return x/y; };
+    equal(_.saturate(div,4,2)(), 2);
+  });
+
+  test("functions: partial", function (){
+    var divmul = function (x,y,z) { return x*(y/z); };
+    var div = _.partial(divmul, 1, _, _);
+    equal(div(6,3), 2, 'partial');
+    equal(div(_,3)(6), 2, 'partial returns a partial');
+  });
+
+  test("functions: curry", function (){
+    var div = function (x,y) { return x/y; };
+    var inverse = _.curry(div, 1);
+    equal(inverse(2), 0.5);
+  });
+
+  test("functions: rcurry", function (){
+    var div = function (x,y) { return x/y; };
+    var half = _.rcurry(div, 2);
+    equal(half(4), 2);
+  });
+
+  test("functions: ncurry", function (){
+    var list = function (a,b,c,d) { return [a,b,c,d]; };
+    var f = _.ncurry(list,4,1,2);
+    equal(typeof f(3), 'function');
+    deepEqual(f(3)(4), [1,2,3,4]);
+    deepEqual(f(3,4), [1,2,3,4]);
+  });
+
+  test("functions: rncurry", function (){
+    var list = function (a,b,c,d) { return [a,b,c,d]; };
+    var f = _.rncurry(list,4,3,4);
+    equal(typeof f(2), 'function');
+    deepEqual(f(2)(1), [1,2,3,4]);
+    deepEqual(f(1,2), [1,2,3,4]);
+  });
+
+  test("functions: uncurry", function (){
+    var f = function (x) { return function (y) { return x/y; }; };
+    equal(_.uncurry(f)(8,4), 2);
   });
 
   test("functions: after", function() {
