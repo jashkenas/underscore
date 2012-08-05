@@ -688,7 +688,7 @@
   };
 
   // Fills in some arguments of a function.
-  // If the combined argument list contains any occurrences of _, the result
+  // If the combined argument list contains any occurrences of _ the result
   // is a function that accepts the remaining arguments. Otherwise, the result
   // is the same as the result of applying the underlying function to the
   // combined argument list.
