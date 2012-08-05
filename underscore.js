@@ -774,7 +774,7 @@
   // first argument, and the result of that application to the remaining
   // arguments.
   // Note that this is not the inverse of curry.
-  // _.uncurry(a, b...) == f(a)(b...)
+  // _.uncurry(f, a, b...) == f(a)(b...)
   _.uncurry = function(func) {
     return function() {
       var f = func.apply(this, slice.call(arguments, 0, 1));

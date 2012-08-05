@@ -1021,7 +1021,7 @@ hello();
         <b class="header">compose</b><code>_.compose(*functions)</code>
         <br />
         Returns the composition of a list of <b>functions</b>, where each function
-        consumes the return value of the function that follows. In math terms,
+        passes it's return value to the previous function. In math terms,
         composing the functions <i>f()</i>, <i>g()</i>, and <i>h()</i> produces
         <i>f(g(h()))</i>.
       </p>
@@ -1036,7 +1036,7 @@ welcome('moe');
       <p id="sequence">
         <b class="header">sequence</b><code>_.sequence(*functions)</code>
         <br />
-        Same as compose, except applies the functions in the opposite order.
+        Same as _.compose, except applies the <b>functions</b> in the opposite order.
         Returns a function that is the sequence of a list of <b>functions</b>, each
         passing it's return value to the next function. In math terms,
         sequencing the functions <i>f()</i>, <i>g()</i>, and <i>h()</i> produces
@@ -1053,8 +1053,8 @@ welcome('moe');
       <p id="aritize">
         <b class="header">aritize</b><code>_.aritize(function, n)</code>
         <br />
-        Limits the number of arguments passed to a function.
-        The result is a function that runs <b>function</b> with a maximum of <b>n</b> arguments.
+        Limits the number of arguments passed to a <b>function</b>.
+        The result is a function that takes a maximum of <b>n</b> arguments.
       </p>
       <pre>
 var makeArray = function (a,b,c) { return [a,b,c] };
@@ -1068,7 +1068,7 @@ limitedArray(1,2,3);
       <p id="saturate">
         <b class="header">saturate</b><code>_.saturate(function, *arguments)</code>
         <br />
-        Fills in all of the arguments of a function. The result is a function that
+        Fills in all of the <b>arguments</b> of a <b>function</b>. The result is a function that
         takes no arguments.
       </p>
       <pre>
@@ -1080,27 +1080,30 @@ _.saturate(div,4,2)();
       <p id="partial">
         <b class="header">partial</b><code>_.partial(function, *arguments)</code>
         <br />
-        Fills in some arguments of a <b>function</b>. The result is a function that accepts
-        the arguments that were specified using _
+        Fills in some <b>arguments</b> of a <b>function</b>. 'Holes' in the <b>arguments</b> can be
+        specified using the _ object. The result is a function that accepts the remaining arguments.
+        <br />
+        If _ is passed to the resulting function the result will be another partial function.
       </p>
       <pre>
 var concatenate = function (x,y) { return ''+x+y; };
 
 // pass the _ object to partial to specify arguments we want to fill in later
 var hi = _.partial(concatenate, 'hi ', _, _);
-hi('Bob', '!');
-=&gt; 'Hi Bob!'
+hi('Bob', '.');
+=&gt; 'Hi Bob.'
 
 // if _ is passed to the partial function, the result is another partial function
-hi('Bob', _)('!');
+var hello = hi(_, '!');
+hello('Bob')
 =&gt; 'Hi Bob!'
 </pre>
 
       <p id="curry">
         <b class="header">curry</b><code>_.curry(function, *arguments)</code>
         <br />
-        Fills in the first <b>arguments</b> of a <b>function</b> and returns a new function
-        that accepts any remaining arguments.
+        Fills in the first <b>arguments</b> of a <b>function</b>. The result is a
+        function that accepts any remaining arguments.
       </p>
       <pre>
 var div = function (x,y) { return x/y; };
@@ -1112,8 +1115,8 @@ inverse(2);
       <p id="rcurry">
         <b class="header">rcurry</b><code>_.rcurry(function, *arguments)</code>
         <br />
-        Fills in the last <b>arguments</b> of a <b>function</b> and returns a new function
-        that accepts any remaining arguments.
+        Fills in the last <b>arguments</b> of a <b>function</b>. The result is a
+        function that accepts any remaining arguments.
       </p>
       <pre>
 var div = function (x,y) { return x/y; };
@@ -1125,7 +1128,7 @@ half(4);
       <p id="ncurry">
         <b class="header">ncurry</b><code>_.ncurry(function, n, *arguments)</code>
         <br />
-        Same as curry, except only applies the <b>function</b> when all
+        Same as _.curry, except only applies the <b>function</b> when all
         <b>n</b> arguments are saturated.
         curry can't do this because it doesn't know how many arguments the
         underlying function takes.
@@ -1142,7 +1145,7 @@ f(3,4);
       <p id="rncurry">
         <b class="header">rncurry</b><code>_.rncurry(function, n, *arguments)</code>
         <br />
-        Same as rcurry, except only applies the <b>function</b> when all
+        Same as _.rcurry, except only applies the <b>function</b> when all
         <b>n</b> arguments are saturated.
         rcurry can't do this because it doesn't know how many arguments the
         underlying function takes.
@@ -1157,16 +1160,19 @@ f(1,2);
 </pre>
 
       <p id="uncurry">
-        <b class="header">uncurry</b><code>_.uncurry(function)</code>
+        <b class="header">uncurry</b><code>_.uncurry(function, argument, *arguments)</code>
         <br />
-        Returns a function that applies the underlying <b>function</b> to its
-        first argument, and the result of that application to the remaining arguments.
+        The result of uncurry is a function that runs <b>function</b>(<b>argument</b>), then runs
+        the returned function with the rest of the <b>arguments</b>.
         <br />
         Note that this is not the inverse of curry.
       </p>
       <pre>
 var f = function (x) { return function (y) { return x/y; }; };
-_.uncurry(f)(8,4);
+f(8)(4);
+=&gt; 2
+var g = _.uncurry(f)
+g(8,4);
 =&gt; 2
 </pre>
 
