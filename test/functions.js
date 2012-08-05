@@ -214,6 +214,11 @@ $(document).ready(function() {
     equal(limitedJoin('a', 'b', 'c'), 'a, b');
   });
 
+  test("functions: saturate", function (){
+    var div = function (x,y) { return x/y; };
+    equal(_.saturate(div,4,2)(), 2);
+  });
+
   test("functions: partial", function (){
     var divmul = function (x,y,z) { return x*(y/z); };
     var div = _.partial(divmul, 1, _, _);
@@ -228,6 +233,22 @@ $(document).ready(function() {
     var half = _.rcurry(div, 2);
     equal(div(8,4), 2, 'curry');
     equal(half(4), 2, 'rcurry');
+  });
+
+  test("functions: ncurry", function (){
+    var list = function (a,b,c,d) { return [a,b,c,d]; };
+    var f = _.ncurry(list,4,1,2);
+    equal(typeof f(3), 'function');
+    deepEqual(f(3)(4), [1,2,3,4]);
+    deepEqual(f(3,4), [1,2,3,4]);
+  });
+
+  test("functions: rncurry", function (){
+    var list = function (a,b,c,d) { return [a,b,c,d]; };
+    var f = _.rncurry(list,4,3,4);
+    equal(typeof f(2), 'function');
+    deepEqual(f(2)(1), [1,2,3,4]);
+    deepEqual(f(1,2), [1,2,3,4]);
   });
 
   test("functions: uncurry", function (){
