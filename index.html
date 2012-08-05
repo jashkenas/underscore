@@ -1080,23 +1080,20 @@ _.saturate(div,4,2)();
       <p id="partial">
         <b class="header">partial</b><code>_.partial(function, *arguments)</code>
         <br />
-        Fills in some arguments of a <b>function</b>.
-        If the <b>arguments</b> list contains any occurrences of _, the result
-        is a function that accepts the remaining arguments. Otherwise, the result
-        is the same as the result of applying the underlying function to the
-        combined argument list.
+        Fills in some arguments of a <b>function</b>. The result is a function that accepts
+        the arguments that were specified using _
       </p>
       <pre>
-var divmul = function (x,y,z) { return x*(y/z); };
+var concatenate = function (x,y) { return ''+x+y; };
 
-// create a partial function that 'fills in' x with 1
-var div = _.partial(divmul, 1, _, _);
-div(6,3);
-=&gt; 2
+// pass the _ object to partial to specify arguments we want to fill in later
+var hi = _.partial(concatenate, 'hi ', _, _);
+hi('Bob', '!');
+=&gt; 'Hi Bob!'
 
 // if _ is passed to the partial function, the result is another partial function
-div(_,3)(6);
-=&gt; 2
+hi('Bob', _)('!');
+=&gt; 'Hi Bob!'
 </pre>
 
       <p id="curry">
