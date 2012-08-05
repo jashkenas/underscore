@@ -639,7 +639,7 @@
 
   // Returns a function that is the composition of a list of functions, each
   // consuming the return value of the function that follows.
-  // _.compose(f, g)(args...) -> f(g(args...))
+  // _.compose(f, g)(args...) == f(g(args...))
   _.compose = function(/*fn...*/) {
     var funcs = arguments;
     return function() {
@@ -651,10 +651,10 @@
     };
   };
 
-  // Same as `compose`, except applies the functions in the opposite order.
+  // Same as compose, except applies the functions in the opposite order.
   // Returns a function that is the sequence of a list of functions, each
   // passing it's return value to the next function.
-  // _.sequence(f, g)(args...) -> g(f(args...))
+  // _.sequence(f, g)(args...) == g(f(args...))
   _.sequence = function(/*fn...*/) {
     var funcs = arguments;
     return function() {
@@ -665,18 +665,31 @@
       }
       return args[0];
     };
-  }
+  };
 
-  // Fills in the arguments of a function and returns a new function that accepts any remaining
-  // arguments that were specified using _
+  // Limits the number of arguments passed to a function.
+  // The result is a function that runs func with a maximum of n arguments.
+  _.aritize = function(func, n) {
+    return function() {
+      return func.apply(this, slice.call(arguments, 0, n));
+    };
+  };
+
+  // Fills in the arguments of a function.
+  // If the combined argument list contains any occurrences of _, the result is a function
+  // that accepts the remaining arguments. Otherwise, the result is the same as the result
+  // of applying the underlying function to the combined argument list.
   _.partial = function(/*fn, arguments...*/) {
     var args = slice.call(arguments),
       func = args.shift();
     return function(){
-      var arg = 0;
-      for ( var i = 0; i < args.length && arg < arguments.length; i++ )
-        if (args[i] === _)
-          args[i] = arguments[arg++];
+      var arg = 0, i = 0;
+      for (i = 0; i < args.length && arg < arguments.length; i++) {
+        if (args[i] === _) args[i] = arguments[arg++];
+      }
+      /*for (i = 0; i < args.length; i++) { //return a partial function so you can do f(_,_)(1,_)(2)
+        if (args[i] === _) return _.partial.apply(this, ([func]).concat(args));
+      }*/
       return func.apply(this, args);
     };
   };
@@ -686,9 +699,9 @@
   // Note that curry and uncurry are not inverses.  The implementation of curry here
   // matches semantics that most people have used when implementing curry for
   // procedural languages.
-  // _.curry(f, a)(b) -> f(a, b)
+  // _.curry(f, a)(b) == f(a, b)
   _.curry = function(/*fn, arguments...*/) {
-    var args = slice.call(arguments);
+    var args = slice.call(arguments),
       func = args.shift();
     return function() {
       return func.apply(this, args.concat(slice.call(arguments)));
@@ -697,12 +710,23 @@
 
   // Fills in the last few arguments of a function and returns a new function that accepts
   // any remaining arguments.
-  // _.rcurry(f, a)(b) -> f(b, a)
+  // _.rcurry(f, a)(b) == f(b, a)
   _.rcurry = function(/*fn, arguments...*/) {
-    var args = slice.call(arguments);
+    var args = slice.call(arguments),
       func = args.shift();
     return function() {
       return func.apply(this, slice.call(arguments).concat(args));
+    };
+  };
+
+  // Returns a function that applies the underlying function to its
+  // first argument, and the result of that application to the remaining
+  // arguments.
+  // _.uncurry(a, b...) == f(a)(b...)
+  _.uncurry = function(func) {
+    return function() {
+      var f1 = func.apply(this, slice.call(arguments, 0, 1));
+      return f1.apply(this, slice.call(arguments, 1));
     };
   };
 

@@ -207,15 +207,32 @@ $(document).ready(function() {
     equal(sequenced(3), 10, 'sequence');
   });
 
-  test("functions: partial application", function (){
-    var div = function (x,y) { return x/y; };
-    var divmul = function (x,y,z) { return (x/y)*z };
-    var halfmul = _.partial(divmul, _, 2, _);
-    var inverse = _.curry(div, 1);
+  test("functions: aritize", function (){
+    var join = function () { return Array.prototype.slice.call(arguments, 0).join(', '); };
+    var limitedJoin = _.aritize(join, 2);
+    equal(join('a', 'b', 'c'), 'a, b, c');
+    equal(limitedJoin('a', 'b', 'c'), 'a, b');
+  });
+
+  test("functions: partial", function (){
+    var divmul = function (x,y,z) { return x*(y/z); };
+    var div = _.partial(divmul, 1, _, _);
+    var half = _.partial(div, _, 2);
+    equal(div(6,3), 2, 'partial');
+    equal(half(4), 2, 'partial partial');
+  });
+
+  test("functions: curry", function (){
+    var divmul = function (x,y,z) { return x*(y/z); };
+    var div = _.curry(divmul, 1);
     var half = _.rcurry(div, 2);
-    equal(halfmul(4,3), 6, 'partial');
-    equal(inverse(0.5), 2, 'curry');
+    equal(div(8,4), 2, 'curry');
     equal(half(4), 2, 'rcurry');
+  });
+
+  test("functions: uncurry", function (){
+    var f = function (x) { return function (y) { return x/y; }; };
+    equal(_.uncurry(f)(8,4), 2);
   });
 
   test("functions: after", function() {
