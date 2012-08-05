@@ -198,13 +198,18 @@ $(document).ready(function() {
     deepEqual(ret, [noop, ['whats', 'your'], 'vector', 'victor']);
   });
 
-  test("functions: composition", function() {
+  test("functions: compose", function() {
     var double = function (x) { return x*2; };
     var inc = function (x) { return x+1; };
     var composed = _.compose(inc, inc, double);
+    equal(composed(3), 8);
+  });
+
+  test("functions: sequence", function() {
+    var double = function (x) { return x*2; };
+    var inc = function (x) { return x+1; };
     var sequenced = _.sequence(inc, inc, double);
-    equal(composed(3), 8, 'compose');
-    equal(sequenced(3), 10, 'sequence');
+    equal(sequenced(3), 10);
   });
 
   test("functions: aritize", function (){
@@ -223,15 +228,19 @@ $(document).ready(function() {
     var divmul = function (x,y,z) { return x*(y/z); };
     var div = _.partial(divmul, 1, _, _);
     equal(div(6,3), 2, 'partial');
-    equal(div(_,3)(6), 2, 'partial partial');
+    equal(div(_,3)(6), 2, 'partial returns a partial');
   });
 
   test("functions: curry", function (){
-    var divmul = function (x,y,z) { return x*(y/z); };
-    var div = _.curry(divmul, 1);
+    var div = function (x,y) { return x/y; };
+    var inverse = _.curry(div, 1);
+    equal(inverse(2), 0.5);
+  });
+
+  test("functions: rcurry", function (){
+    var div = function (x,y) { return x/y; };
     var half = _.rcurry(div, 2);
-    equal(div(8,4), 2, 'curry');
-    equal(half(4), 2, 'rcurry');
+    equal(half(4), 2);
   });
 
   test("functions: ncurry", function (){
