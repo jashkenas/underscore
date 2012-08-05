@@ -222,9 +222,8 @@ $(document).ready(function() {
   test("functions: partial", function (){
     var divmul = function (x,y,z) { return x*(y/z); };
     var div = _.partial(divmul, 1, _, _);
-    var half = _.partial(div, _, 2);
     equal(div(6,3), 2, 'partial');
-    equal(half(4), 2, 'partial partial');
+    equal(div(_,3)(6), 2, 'partial partial');
   });
 
   test("functions: curry", function (){

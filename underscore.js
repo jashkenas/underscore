@@ -694,16 +694,20 @@
   // combined argument list.
   // _.partial(f,a,_,c)(b) == f(a,b,c)
   _.partial = function(/*func, args...*/) {
+    //create the args array
     var args = slice.call(arguments),
       func = args.shift();
     return function(){
-      var arg = 0, i = 0;
-      for (i = 0; i < args.length && arg < arguments.length; i++) {
+      //add arguments to the args array
+      for (var arg = 0, i = 0; i < args.length && arg < arguments.length; i++) {
         if (args[i] === _) args[i] = arguments[arg++];
       }
-      /*for (i = 0; i < args.length; i++) { //return a partial function so you can do f(_,_)(1,_)(2)
-        if (args[i] === _) return _.partial.apply(this, ([func]).concat(args));
-      }*/
+      //check for remaining _'s
+      for (var j = 0; j < arguments.length; j++) {
+        // if we find an _ we should return a partial function that accepts the remaining arguments
+        if (arguments[j] === _) return _.partial.apply(this, ([func]).concat(args));
+      }
+      //the function has been fully saturated so we can run it
       return func.apply(this, args);
     };
   };
@@ -761,8 +765,6 @@
       var args = slice.call(arguments).concat(argsR);
       if (args.length < n) {
         return _.rncurry.apply(this, ([func, n]).concat(args));
-        //args.unshift(n);
-        //return func.rncurry.apply(func, args);
       }
       return func.apply(this, args);
     };
