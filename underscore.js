@@ -33,18 +33,20 @@
   // All **ECMAScript 5** native function implementations that we hope to use
   // are declared here.
   var
-    nativeForEach      = ArrayProto.forEach,
-    nativeMap          = ArrayProto.map,
-    nativeReduce       = ArrayProto.reduce,
-    nativeReduceRight  = ArrayProto.reduceRight,
-    nativeFilter       = ArrayProto.filter,
-    nativeEvery        = ArrayProto.every,
-    nativeSome         = ArrayProto.some,
-    nativeIndexOf      = ArrayProto.indexOf,
-    nativeLastIndexOf  = ArrayProto.lastIndexOf,
-    nativeIsArray      = Array.isArray,
-    nativeKeys         = Object.keys,
-    nativeBind         = FuncProto.bind;
+    nativeForEach                    = ArrayProto.forEach,
+    nativeMap                        = ArrayProto.map,
+    nativeReduce                     = ArrayProto.reduce,
+    nativeReduceRight                = ArrayProto.reduceRight,
+    nativeFilter                     = ArrayProto.filter,
+    nativeEvery                      = ArrayProto.every,
+    nativeSome                       = ArrayProto.some,
+    nativeIndexOf                    = ArrayProto.indexOf,
+    nativeLastIndexOf                = ArrayProto.lastIndexOf,
+    nativeIsArray                    = Array.isArray,
+    nativeKeys                       = Object.keys,
+    nativeBind                       = FuncProto.bind,
+    nativeDefineProperty             = Object.defineProperty,
+    nativeGetOwnPropertyDescriptor   = Object.getOwnPropertyDescriptor;
 
   // Create a safe reference to the Underscore object for use below.
   var _ = function(obj) { return new wrapper(obj); };
@@ -691,7 +693,11 @@
   _.extend = function(obj) {
     each(slice.call(arguments, 1), function(source) {
       for (var prop in source) {
-        obj[prop] = source[prop];
+    	if(nativeGetOwnPropertyDescriptor && nativeDefineProperty){
+    		nativeDefineProperty(obj,prop,nativeGetOwnPropertyDescriptor(source,prop));
+    	} else {
+    		obj[prop] = source[prop];
+    	}
       }
     });
     return obj;
