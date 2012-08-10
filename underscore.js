@@ -44,10 +44,18 @@
     nativeLastIndexOf                = ArrayProto.lastIndexOf,
     nativeIsArray                    = Array.isArray,
     nativeKeys                       = Object.keys,
-    nativeBind                       = FuncProto.bind,
     nativeDefineProperty             = Object.defineProperty,
-    nativeGetOwnPropertyDescriptor   = Object.getOwnPropertyDescriptor;
+    nativeGetOwnPropertyDescriptor   = Object.getOwnPropertyDescriptor,
+    nativeBind                       = FuncProto.bind,
+    nativePropertyAccessWorksForObjects;
 
+  try {
+    nativeGetOwnPropertyDescriptor({"a":true},"a");
+    nativePropertyAccessWorksForObjects = true;
+  } catch (e) {
+    nativePropertyAccessWorksForObjects = false;
+  }
+    
   // Create a safe reference to the Underscore object for use below.
   var _ = function(obj) { return new wrapper(obj); };
 
@@ -688,18 +696,25 @@
     }
     return names.sort();
   };
-
+  
   // Extend a given object with all the properties in passed-in object(s).
   _.extend = function(obj) {
-    each(slice.call(arguments, 1), function(source) {
+  
+    var nativeExtend = function(source){
       for (var prop in source) {
-    	if(nativeGetOwnPropertyDescriptor && nativeDefineProperty){
-    		nativeDefineProperty(obj,prop,nativeGetOwnPropertyDescriptor(source,prop));
-    	} else {
-    		obj[prop] = source[prop];
-    	}
+        nativeDefineProperty(obj,prop,nativeGetOwnPropertyDescriptor(source,prop))
       }
-    });
+    };
+    var simpleExtend = function(source) {
+      for (var prop in source) {
+        obj[prop] = source[prop];
+      }
+    };
+  
+    each(slice.call(arguments, 1), 
+      (nativeGetOwnPropertyDescriptor && nativeDefineProperty && nativePropertyAccessWorksForObjects) ?
+        nativeExtend : simpleExtend
+    );
     return obj;
   };
 
