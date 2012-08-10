@@ -27,6 +27,21 @@ $(document).ready(function() {
     equal(_.flatten(result).join(','), '2,3,2,3', 'works well with _.map');
   });
 
+  test("arrays: chunk", function() {
+    var list = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
+
+    var chunks = _.chunk(list, 5);
+    equal(chunks[0].join(',') + chunks[1].join(','),
+      '1,2,3,4,56,7,8,9,0',
+      'can chunk by a value that evenly divides the input array\'s length');
+
+    chunks = _.chunk(list, 3)
+    equal(chunks[0].join(',') + chunks[1].join(',') + chunks[2].join(',') + chunks[3].join(','),
+      '1,2,34,5,67,8,90',
+      'can chunk by a value that does not evenly divide the input array\'s length');
+  });
+
+
   test("arrays: initial", function() {
     equal(_.initial([1,2,3,4,5]).join(", "), "1, 2, 3, 4", 'working initial()');
     equal(_.initial([1,2,3,4],2).join(", "), "1, 2", 'initial can take an index');

@@ -378,6 +378,16 @@
     return slice.call(array, (index == null) || guard ? 1 : index);
   };
 
+  // Return an array of arrays of length at least n
+  _.chunk = function(array, n) {
+    var chunks = [];
+    var numChunks = Math.ceil(array.length / n);
+    for(var i = 0; i < numChunks; i++) {
+      chunks.push(array.slice(i * n, i * n + n));
+    }
+    return chunks;
+  }
+
   // Trim out all falsy values from an array.
   _.compact = function(array) {
     return _.filter(array, function(value){ return !!value; });
