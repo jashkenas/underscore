@@ -114,6 +114,14 @@ $(document).ready(function() {
     strictEqual(_.find(array, function() { return false; }), void 0, 'should return `undefined` if `value` is not found');
   });
 
+  test('collections(object): find', function() {
+    var obj = {one : 1, two : 2, three : 3};
+    var result = _.find(obj, function(v, k) { return v == 2; });
+    equal(result.join(', '), '2, two', 'should return first found `value`');
+    result = _.find(obj, function(v, k) { return v == 0; });
+    equal(result, void 0, 'should return `undefined` if `value` is not found');
+  });
+
   test('collections: detect', function() {
     var result = _.detect([1, 2, 3], function(num){ return num * 2 == 4; });
     equal(result, 2, 'found the first "2" and broke the loop');
