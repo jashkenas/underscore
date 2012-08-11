@@ -555,4 +555,11 @@ $(document).ready(function() {
       value();
     ok(returned == 6 && intercepted == 6, 'can use tapped objects in a chain');
   });
+  
+  test("objects: delete", function() {
+    var obj = { a : 1, b : 2 };
+    var deleted = _.delete(obj, 'a');
+    ok(_.isEqual(deleted, 1));
+    ok(_.keys(obj, ['b']));
+  });
 });

@@ -730,6 +730,13 @@
     return obj;
   };
 
+  // Deletes `key` from `obj` and returns it's value.
+  _.delete = function(obj, key) {
+    var val = obj[key];
+    delete obj[key];
+    return val;
+  };
+
   // Internal recursive comparison function for `isEqual`.
   var eq = function(a, b, stack) {
     // Identical objects are equal. `0 === -0`, but they aren't identical.
