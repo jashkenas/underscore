@@ -140,7 +140,11 @@
     var result;
     any(obj, function(value, index, list) {
       if (iterator.call(context, value, index, list)) {
-        result = value;
+        if (_.isObject(obj) && !_.isArray(obj)) {
+          result = [value, index];
+        } else {
+          result = value;
+        }
         return true;
       }
     });
