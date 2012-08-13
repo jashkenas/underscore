@@ -46,6 +46,9 @@ $(document).ready(function() {
   });
 
   test("utility: _.escape", function() {
+    var test_vars = {a:null};
+    equal(_.escape(test_vars.a), "");
+    equal(_.escape(test_vars['b']), "");
     equal(_.escape("Curly & Moe"), "Curly &amp; Moe");
     equal(_.escape("Curly &amp; Moe"), "Curly &amp;amp; Moe");
   });
