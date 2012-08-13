@@ -930,7 +930,7 @@
 
   // Escape a string for HTML interpolation.
   _.escape = function(string) {
-    return ('' + string).replace(htmlEscaper, function(match) {
+    return _.isEmpty(string) ? '' : ('' + string).replace(htmlEscaper, function(match) {
       return htmlEscapes[match];
     });
   };
