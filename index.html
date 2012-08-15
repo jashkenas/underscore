@@ -1471,8 +1471,8 @@ template({name : "Mustache"});
       </p>
 
       <pre>
-_.template("<%= data.hasWith %>", {hasWith: 'no'}, {variable: 'data'});
-=&gt; "no"</pre>
+_.template("Using 'with': <%= data.answer %>", {answer: 'no'}, {variable: 'data'});
+=&gt; "Using 'with': no"</pre>
 
       <p>
         Precompiling your templates can be a big help when debugging errors you can't
