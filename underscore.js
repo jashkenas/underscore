@@ -707,6 +707,7 @@
 
   // Fill in a given object with default properties.
   _.defaults = function(obj) {
+    if(_.isUndefined(obj)) obj = {};
     each(slice.call(arguments, 1), function(source) {
       for (var prop in source) {
         if (obj[prop] == null) obj[prop] = source[prop];
