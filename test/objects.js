@@ -53,6 +53,7 @@ $(document).ready(function() {
   test("objects: defaults", function() {
     var result;
     var options = {zero: 0, one: 1, empty: "", nan: NaN, string: "string"};
+    var undefinedOptions;
 
     _.defaults(options, {zero: 1, one: 10, twenty: 20});
     equal(options.zero, 0, 'value exists');
@@ -63,6 +64,9 @@ $(document).ready(function() {
     equal(options.empty, "", 'value exists');
     ok(_.isNaN(options.nan), "NaN isn't overridden");
     equal(options.word, "word", 'new value is added, first one wins');
+
+    _.defaults(undefinedOptions, {one: 1});
+    equal(undefinedOptions.one, 1, 'value exists');
   });
 
   test("objects: clone", function() {
