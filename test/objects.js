@@ -50,6 +50,18 @@ $(document).ready(function() {
     ok(_.isEqual(result, {a:1, b:2}), 'can restrict properties to those named in mixed args');
   });
 
+  test("objects: exclude", function() {
+    var result;
+    result = _.exclude({a:1, b:2, c:3}, 'b');
+    ok(_.isEqual(result, {a:1, c:3}), 'can exclude a single named property');
+    result = _.exclude({a:1, b:2, c:3}, 'a', 'c');
+    ok(_.isEqual(result, {b:2}), 'can exclude several named properties');
+    result = _.exclude({a:1, b:2, c:3}, ['b', 'c']);
+    ok(_.isEqual(result, {a:1}), 'can exclude properties named in an array');
+    result = _.exclude({a:1, b:2, c:3}, ['a'], 'b');
+    ok(_.isEqual(result, {c:3}), 'can exclude properties to those named in mixed args');
+  });
+
   test("objects: defaults", function() {
     var result;
     var options = {zero: 0, one: 1, empty: "", nan: NaN, string: "string"};
