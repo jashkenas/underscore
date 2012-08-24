@@ -709,7 +709,8 @@
   _.omit = function(obj) {
     var result = {};
     var keys = _.flatten(slice.call(arguments, 1));
-    for (var key in obj) if (!_.include(keys, key)) result[key] = obj[key];
+	for (var key in obj) result[key] = obj[key];
+	each(keys, function(key){ delete result[key]; })
     return result;
   };
 
