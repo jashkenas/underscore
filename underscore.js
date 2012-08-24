@@ -707,8 +707,10 @@
 
    // Return a copy of the object without the blacklisted properties.
   _.omit = function(obj) {
+    var result = {};
     var keys = _.flatten(slice.call(arguments, 1));
-    return _.pick(obj, _.difference(_.keys(obj), keys));
+    for (var key in obj) if (!_.include(keys, key)) result[key] = obj[key];
+    return result;
   };
 
   // Fill in a given object with default properties.
