@@ -25,6 +25,8 @@ $(document).ready(function() {
     equal(result.join(', '), '2, 3, 4', 'aliased as tail and works on arguments object');
     result = _.map([[1,2,3],[1,2,3]], _.rest);
     equal(_.flatten(result).join(','), '2,3,2,3', 'works well with _.map');
+    result = (function(){ return _(arguments).drop(); })(1, 2, 3, 4);
+    equal(result.join(', '), '2, 3, 4', 'aliased as drop and works on arguments object');
   });
 
   test("arrays: initial", function() {
