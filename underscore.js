@@ -627,7 +627,9 @@
     return function() {
       if (ran) return memo;
       ran = true;
-      return memo = func.apply(this, arguments);
+      memo = func.apply(this, arguments);
+      func = null;
+      return memo;
     };
   };
 
