@@ -141,6 +141,7 @@ $(document).ready(function() {
     ok(_.all([1], _.identity) === true, 'cast to boolean - true');
     ok(_.all([0], _.identity) === false, 'cast to boolean - false');
     ok(_.every([true, true, true], _.identity), 'aliased as "every"');
+    ok(!_.all([undefined, undefined, undefined], _.identity), 'works with arrays of undefined');
   });
 
   test('collections: any', function() {
