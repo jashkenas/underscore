@@ -506,9 +506,8 @@ _.any([null, 0, 'yes', false]);
         <b class="header">include</b><code>_.include(list, value)</code>
         <span class="alias">Alias: <b>contains</b></span>
         <br />
-        Returns <i>true</i> if the <b>value</b> is present in the <b>list</b>, using
-        <i>===</i> to test equality. Uses <b>indexOf</b> internally, if <b>list</b>
-        is an Array.
+        Returns <i>true</i> if the <b>value</b> is present in the <b>list</b>. 
+        Uses <b>indexOf</b> internally, if <b>list</b> is an Array.
       </p>
       <pre>
 _.include([1, 2, 3], 3);
@@ -724,7 +723,7 @@ _.flatten([1, [2], [3, [[4]]]], true);
         <b class="header">without</b><code>_.without(array, [*values])</code>
         <br />
         Returns a copy of the <b>array</b> with all instances of the <b>values</b>
-        removed. <i>===</i> is used for the equality test.
+        removed.
       </p>
       <pre>
 _.without([1, 2, 1, 0, 3, 1, 4], 0, 1);
