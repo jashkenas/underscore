@@ -619,6 +619,33 @@
       if (callNow) func.apply(context, args);
     };
   };
+  
+  // Returns a function, that, as long as it continues to be invoked, will not
+  // be triggered. The function will be called after it stops being called for
+  // N milliseconds. If `immediate` is passed, trigger the function on the
+  // leading edge, instead of the trailing.
+  // The called function will receive all arguments as a list.
+  _.accumulatingDebounce = function(func, wait, immediate) {
+    var timeout, accumulator = [];
+    return function() {
+      var context = this, args = arguments;
+      accumulator.push(args);
+      var later = function() {
+        timeout = null;
+        if (!immediate) {
+          func.call(context, accumulator);
+          accumulator = [];
+        }
+      };
+      if (immediate && !timeout) {
+        func.call(context, accumulator);
+        accumulator = [];
+      }
+      clearTimeout(timeout);
+      timeout = setTimeout(later, wait);
+    };
+  };
+
 
   // Returns a function that will be executed at most one time, no matter how
   // often you call it. Useful for lazy initialization.
