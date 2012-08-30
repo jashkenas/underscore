@@ -303,6 +303,12 @@ $(document).ready(function() {
   test('collections: size', function() {
     equal(_.size({one : 1, two : 2, three : 3}), 3, 'can compute the size of an object');
     equal(_.size([1, 2, 3]), 3, 'can compute the size of an array');
+
+    var func = function() {
+      return _.size(arguments);
+    };
+
+    equal(func(1, 2, 3, 4), 4, 'can test the size of the arguments object');
   });
 
 });
