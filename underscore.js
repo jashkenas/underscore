@@ -952,7 +952,7 @@
 
   // Escape a string for HTML interpolation.
   _.escape = function(string) {
-    return ('' + string).replace(htmlEscaper, function(match) {
+    return _.isNull(string) || _.isUndefined(string) ? '' : ('' + string).replace(htmlEscaper, function(match) {
       return htmlEscapes[match];
     });
   };
