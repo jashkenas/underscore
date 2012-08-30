@@ -506,6 +506,8 @@
       stop = start || 0;
       start = 0;
     }
+    if(!_.isNumber(start)) throw new TypeError("_.range() expects an integer start argument");
+    
     step = arguments[2] || 1;
 
     var len = Math.max(Math.ceil((stop - start) / step), 0);
