@@ -666,6 +666,17 @@
     };
   };
 
+  // Returns a function that will call it's wrapped function with the specified
+  // arguments in order. Calling _.mask(f, 2, 0)(1, 2, 3) is equivalent to
+  // calling f(3,1).
+  _.mask = function(func) {
+    var args = slice.call(arguments, 1);
+    return function() {
+      var callargs = arguments;
+      return func.apply(this, _.map(args, function(i) { return callargs[i]; }));
+    };
+  };
+
   // Object Functions
   // ----------------
 
