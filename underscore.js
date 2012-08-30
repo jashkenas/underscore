@@ -456,12 +456,17 @@
     return results;
   };
 
-  // Zip together two arrays -- an array of keys and an array of values -- into
-  // a single object.
-  _.zipObject = function(keys, values) {
+  // Converts lists into objects. Pass either a single array of `[key, value]`
+  // pairs, or two parallel arrays of the same length -- one of keys, and one of
+  // the corresponding values.
+  _.object = function(list, values) {
     var result = {};
-    for (var i = 0, l = keys.length; i < l; i++) {
-      result[keys[i]] = values[i];
+    for (var i = 0, l = list.length; i < l; i++) {
+      if (values) {
+        result[list[i]] = values[i];
+      } else {
+        result[list[i][0]] = list[i][1];
+      }
     }
     return result;
   };
