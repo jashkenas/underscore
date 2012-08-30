@@ -267,7 +267,7 @@
 
   // Sort the object's values by a criterion produced by an iterator.
   _.sortBy = function(obj, val, context) {
-    var iterator = lookupIterator(obj, val);
+    var iterator = lookupIterator(val);
     return _.pluck(_.map(obj, function(value, index, list) {
       return {
         value : value,
@@ -282,14 +282,14 @@
   };
 
   // An internal function to generate lookup iterators.
-  var lookupIterator = function(obj, val) {
+  var lookupIterator = function(val) {
     return _.isFunction(val) ? val : function(obj) { return obj[val]; };
   };
 
   // An internal function used for aggregate "group by" operations.
   var group = function(obj, val, behavior) {
     var result = {};
-    var iterator = lookupIterator(obj, val);
+    var iterator = lookupIterator(val);
     each(obj, function(value, index) {
       var key = iterator(value, index);
       behavior(result, key, value);
@@ -299,9 +299,10 @@
 
   // Groups the object's values by a criterion. Pass either a string attribute
   // to group by, or a function that returns the criterion.
-  _.groupBy = function(obj, val) {
+  _.groupBy = function(obj, val, selector) {
+    var selectorFunc = selector ? lookupIterator(selector) : _.identity;
     return group(obj, val, function(result, key, value) {
-      (result[key] || (result[key] = [])).push(value);
+      (result[key] || (result[key] = [])).push(selectorFunc(value));
     });
   };
 

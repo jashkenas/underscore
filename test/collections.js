@@ -254,6 +254,23 @@ $(document).ready(function() {
     equal(grouped['5'].join(' '), 'three seven eight');
   });
 
+  test('collections: groupBy with selector', function() {
+    var list = ["one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"];
+
+    var selected = _.groupBy(list, 'length', function(num){ return num.substr(0, 2); });
+    deepEqual(selected, {
+      '3': ['on', 'tw', 'si', 'te'],
+      '4': ['fo', 'fi', 'ni'],
+      '5': ['th', 'se', 'ei']
+    });
+
+    var lens = _.groupBy(list, function(num){ return num.indexOf('f'); }, 'length');
+    deepEqual(lens, {
+      '-1': [3, 3, 5, 3, 5, 5, 4, 3],
+      '0': [4, 4],
+    });
+  });
+
   test('collections: countBy', function() {
     var parity = _.countBy([1, 2, 3, 4, 5], function(num){ return num % 2 == 0; });
     equal(parity['true'], 2);
