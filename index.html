@@ -215,6 +215,7 @@
       <li>- <a href="#initial">initial</a></li>
       <li>- <a href="#last">last</a></li>
       <li>- <a href="#rest">rest</a></li>
+      <li>- <a href="#chunk">chunk</a></li>
       <li>- <a href="#compact">compact</a></li>
       <li>- <a href="#flatten">flatten</a></li>
       <li>- <a href="#without">without</a></li>
@@ -691,6 +692,21 @@ _.last([5, 4, 3, 2, 1]);
       <pre>
 _.rest([5, 4, 3, 2, 1]);
 =&gt; [4, 3, 2, 1]
+</pre>
+
+      <p id="chunk">
+        <b class="header">chunk</b><code>_.chunk(array, n)</code>
+        <br />
+        Returns an array of arrays in <b>chunks</b> of size <b>n</b> with the last
+        group contining the remaining elements if <b>n</b> does not evenly divide the
+        length of <b>array</b>.
+      </p>
+      <pre>
+_.chunk([1, 2, 3, 4, 5, 6], 3);
+=&gt; [[1, 2, 3], [4, 5, 6]]
+
+_.chunk([1, 2, 3, 4, 5, 6], 4);
+=&gt; [[1, 2, 3, 4], [5, 6]]
 </pre>
 
       <p id="compact">
