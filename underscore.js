@@ -941,7 +941,7 @@
 
   // Return a random integer between min and max (inclusive).
   _.random = function(min, max) {
-    return Math.round(min + Math.random() * (max - min));
+    return min + (0 | Math.random() * (max - min + 1));
   };
 
   // List of HTML entities for escaping.
