@@ -198,11 +198,13 @@
   };
 
   // Determine if a given value is included in the array or object using `===`.
-  // Aliased as `contains`.
+  // Aliased as `contains`.  Or if `obj` is a string, test if the string contains the
+  // substring.
   _.include = _.contains = function(obj, target) {
     var found = false;
     if (obj == null) return found;
     if (nativeIndexOf && obj.indexOf === nativeIndexOf) return obj.indexOf(target) != -1;
+    if (_.isString(obj)) return obj.indexOf(target) != -1;
     found = any(obj, function(value) {
       return value === target;
     });
