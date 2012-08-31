@@ -165,6 +165,14 @@ $(document).ready(function() {
     equal(templateWithNull({planet : "world"}), "a null undefined world", "can handle missing escape and evaluate settings");
   });
 
+  test('utility: _.template provides the generated function source, when a SyntaxError occurs', function() {
+    try {
+      _.template('<b><%= if %></b>');
+    } catch (e) {
+      ok(e.source.indexOf('( if )') > 0);
+    }
+  });
+
   test('_.template handles \\u2028 & \\u2029', function() {
     var tmpl = _.template('<p>\u2028<%= "\\u2028\\u2029" %>\u2029</p>');
     strictEqual(tmpl(), '<p>\u2028\u2028\u2029\u2029</p>');
