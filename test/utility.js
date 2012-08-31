@@ -170,6 +170,15 @@ $(document).ready(function() {
     strictEqual(tmpl(), '<p>\u2028\u2028\u2029\u2029</p>');
   });
 
+  test('utility: template gives you the body of the template on SyntaxError', function() {
+    var template = '<b><%= if %></b>';
+    try {
+      _.template(template);
+    } catch(e) {
+      equal(e.template, template);
+    }
+  });
+
   test('result calls functions and returns primitives', function() {
     var obj = {w: '', x: 'x', y: function(){ return this.x; }};
     strictEqual(_.result(obj, 'w'), '');
