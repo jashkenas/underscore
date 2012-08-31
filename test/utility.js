@@ -51,6 +51,14 @@ $(document).ready(function() {
     equal(_.escape(null), '');
   });
 
+  test("utility: _.unescape", function() {
+    var string = "Curly & Moe";
+    equal(_.unescape("Curly &amp; Moe"), string);
+    equal(_.unescape("Curly &amp;amp; Moe"), "Curly &amp; Moe");
+    equal(_.unescape(null), '');
+    equal(_.unescape(_.escape(string)), string);
+  });
+
   test("utility: template", function() {
     var basicTemplate = _.template("<%= thing %> is gettin' on my noives!");
     var result = basicTemplate({thing : 'This'});
