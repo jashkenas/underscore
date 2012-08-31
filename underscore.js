@@ -1072,13 +1072,7 @@
       "print=function(){__p+=__j.call(arguments,'')};\n" +
       source + "return __p;\n";
 
-    try {
-      var render = new Function(settings.variable || 'obj', '_', source);
-    } catch(e) {
-      e.template = text;
-      throw e;
-    }
-
+    var render = new Function(settings.variable || 'obj', '_', source);
     if (data) return render(data, _);
     var template = function(data) {
       return render.call(this, data, _);
