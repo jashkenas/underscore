@@ -762,6 +762,36 @@
     return obj;
   };
 
+  // Internal reducer for `soak`.
+  function soakreducer (memo, array, index, list) {
+    var fn;
+    if (memo == null) {
+      memo = void 0;
+    }
+    else if (_.isArray(array)) {
+      // A vector, ['a',1,2,3]...
+      fn = memo[array.shift()];
+      memo = _.isFunction(fn) ? fn.apply(memo, array) : fn;
+    }
+    else {
+      // A scalar value, 'a'...
+      fn = memo[array];
+      memo = _.isFunction(fn) ? fn.call(memo) : fn;
+    }
+    return memo;
+  }
+
+  // Returns the final value in a chain of property accesses or 
+  // function invocations; otherwise undefined if the chain is broken in 
+  // cases where an intermediate value is null or undefined.
+  _.soak = function(obj, array) {
+    if (arguments.length <= 1) return obj;
+    if (obj == null) return void 0;
+    var args = slice.call(arguments, 1);
+    array = args.length > 1 ? args : _.isArray(array) ? array : [array];
+    return _.reduce(array, soakreducer, obj);
+  };
+
   // Internal recursive comparison function for `isEqual`.
   var eq = function(a, b, stack) {
     // Identical objects are equal. `0 === -0`, but they aren't identical.
