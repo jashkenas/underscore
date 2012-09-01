@@ -755,6 +755,31 @@
     return _.isArray(obj) ? obj.slice() : _.extend({}, obj);
   };
 
+  // Create a deep-cloned duplicate of an object as if calling `JSON.parse(JSON.stringify(obj))`.
+  _.cloneJSON = function(obj) {
+    if (!_.isObject(obj)) {
+      if (_.isNumber(obj)) return _.isFinite(obj) ? obj : null;
+      return obj;
+    } 
+    if (_.isNaN(obj)) return null;
+    if (_.isArguments(obj)) return {};
+    if (_.isDate(obj)) return obj.toISOString();
+    if (_.isFunction(obj)) return undefined;
+    if (_.isArray(obj)) {
+      return _.map(obj, function(val) {
+        var clonedVal = _.cloneJSON(val);
+        return _.isUndefined(clonedVal) ? null : clonedVal;
+      });
+    }
+    var clone = {};
+    _.each(obj, function(val, key) {
+      var clonedVal = _.cloneJSON(val);
+      if (!_.isUndefined(clonedVal)) clone[key] = clonedVal;
+    });
+    return clone;
+  };
+
+
   // Invokes interceptor with the obj, and then returns obj.
   // The primary purpose of this method is to "tap into" a method chain, in
   // order to perform operations on intermediate results within the chain.
