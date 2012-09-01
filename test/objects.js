@@ -109,6 +109,45 @@ $(document).ready(function() {
     equal(_.clone(null), null, 'non objects should not be changed by clone');
   });
 
+  test("objects: cloneJSON", function() {
+    function A () {this.name = 'moe';}
+    A.prototype.method = function () {};
+    var date = new Date();
+    var tests = {
+      'number': 42,
+      'string': 'larry',
+      'boolean': true,
+      'array': [1,2,undefined],
+      'object': {name: 'curly'},
+      'arguments': arguments,
+      'function': function () {},
+      'instance': new A(),
+      'date': new Date(),
+      'regexp': /^$/g,
+      'math': Math,
+      'nan': NaN,
+      'null': null,
+      'infinity': Infinity
+    };
+    var clone = _.cloneJSON(tests);
+
+    clone.object.name = 'curly joe';
+    ok(clone.object.name == 'curly joe' && tests.object.name == 'curly', 'changes to deep attributes are not shared with the original');
+
+    console.log(clone['arguments']);
+    ok(_.isObject(clone['arguments']) && _.isEmpty(clone['arguments']), 'arguments are changed to an empty object');
+    ok(_.isObject(clone.regexp) && _.isEmpty(clone.regexp), 'regexps are changed to an empty object');
+    ok(_.isObject(clone.math) && _.isEmpty(clone.math), 'math is changed to an empty object');
+
+    equal(clone.date, tests.date.toISOString(), 'dates are changed to an ISO string');
+    equal(clone.nan, null, 'nan is changed to null');
+    equal(clone.infinity, null, 'infinity is changed to null');
+    equal(clone['function'], undefined, 'functions are changed to undefined');
+    equal(clone.array[2], null, 'undefined is changed to null within an array');
+    equal(clone.instance.method, undefined, 'instances do not retain prototype methods');
+    equal(clone.instance.name, 'moe', 'instances retain attributes');
+  });
+
   test("objects: isEqual", function() {
     function First() {
       this.value = 1;
