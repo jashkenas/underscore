@@ -14,6 +14,12 @@ $(document).ready(function() {
 
   });
 
+  test("#750 - Return _ instance.", 2, function() {
+    var instance = _([]);
+    ok(_(instance) === instance);
+    ok(new _(instance) === instance);
+  });
+
   test("utility: identity", function() {
     var moe = {name : 'moe'};
     equal(_.identity(moe), moe, 'moe is the same as his identity');
