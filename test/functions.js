@@ -136,6 +136,33 @@ $(document).ready(function() {
     _.delay(function(){ equal(counter, 2, "incr was called twice"); start(); }, 220);
   });
 
+  asyncTest("throttle repeatedly with results", 9, function() {
+    var counter = 0;
+    var incr = function(){ return ++counter; };
+    var throttledIncr = _.throttle(incr, 100);
+    var results = [];
+    var saveResult = function() { results.push(throttledIncr()); }
+    saveResult(); saveResult(); saveResult();
+    setTimeout(saveResult, 70);
+    setTimeout(saveResult, 120);
+    setTimeout(saveResult, 140);
+    setTimeout(saveResult, 190);
+    setTimeout(saveResult, 240);
+    setTimeout(saveResult, 260);
+    _.delay(function() {
+      equal(results[0], 1, "incr was called once");
+      equal(results[1], 1, "incr was throttled");
+      equal(results[2], 1, "incr was throttled");
+      equal(results[3], 1, "incr was throttled");
+      equal(results[4], 2, "incr was called twice");
+      equal(results[5], 2, "incr was throttled");
+      equal(results[6], 2, "incr was throttled");
+      equal(results[7], 3, "incr was called thrice");
+      equal(results[8], 3, "incr was throttled");
+      start();  
+    }, 400);
+  });
+
   asyncTest("debounce", 1, function() {
     var counter = 0;
     var incr = function(){ counter++; };
