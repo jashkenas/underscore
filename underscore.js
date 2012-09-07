@@ -413,7 +413,7 @@
   // been sorted, you have the option of using a faster algorithm.
   // Aliased as `unique`.
   _.uniq = _.unique = function(array, isSorted, iterator) {
-    if (array.length < 2) return array;
+    if (array.length < 2) return array.slice();
     var initial = iterator ? _.map(array, iterator) : array;
     var results = [];
     _.reduce(initial, function(memo, value, index) {
