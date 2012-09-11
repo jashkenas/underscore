@@ -29,6 +29,16 @@ $(document).ready(function() {
     answers = 0;
     _.each(null, function(){ ++answers; });
     equal(answers, 0, 'handles a null properly');
+
+    var f = function() {};
+    var keys = [], values = [];
+    f.foo = 'bar';
+    f.bar = 'foo';
+    _.each(f, function(value, key) {
+        keys.push(key);
+        values.push(value);
+    });
+    equal(keys.join(', '), 'foo, bar', 'iterating over functions correctly recognizes keys');
   });
 
   test('map', function() {
