@@ -416,13 +416,13 @@
   _.uniq = _.unique = function(array, isSorted, iterator) {
     var initial = iterator ? _.map(array, iterator) : array;
     var results = [];
-    _.reduce(initial, function(memo, value, index) {
-      if (isSorted ? (_.last(memo) !== value || !memo.length) : !_.include(memo, value)) {
-        memo.push(value);
+    var seen = [];
+    each(initial, function(value, index) {
+      if (isSorted ? (!index || seen[seen.length - 1] !== value) : !_.include(seen, value)) {
+        seen.push(value);
         results.push(array[index]);
       }
-      return memo;
-    }, []);
+    });
     return results;
   };
 
