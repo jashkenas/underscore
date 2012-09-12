@@ -201,7 +201,6 @@
       <li>- <a href="#min">min</a></li>
       <li>- <a href="#sortBy">sortBy</a></li>
       <li>- <a href="#groupBy">groupBy</a></li>
-      <li>- <a href="#sortedIndex">sortedIndex</a></li>
       <li>- <a href="#shuffle">shuffle</a></li>
       <li>- <a href="#toArray">toArray</a></li>
       <li>- <a href="#size">size</a></li>
@@ -225,6 +224,7 @@
       <li>- <a href="#zip">zip</a></li>
       <li>- <a href="#indexOf">indexOf</a></li>
       <li>- <a href="#lastIndexOf">lastIndexOf</a></li>
+      <li>- <a href="#sortedIndex">sortedIndex</a></li>
       <li>- <a href="#range">range</a></li>
     </ul>
 
@@ -592,19 +592,6 @@ _.groupBy(['one', 'two', 'three'], 'length');
 =&gt; {3: ["one", "two"], 5: ["three"]}
 </pre>
 
-      <p id="sortedIndex">
-        <b class="header">sortedIndex</b><code>_.sortedIndex(list, value, [iterator])</code>
-        <br />
-        Uses a binary search to determine the index at which the <b>value</b>
-        <i>should</i> be inserted into the <b>list</b> in order to maintain the <b>list</b>'s
-        sorted order. If an <b>iterator</b> is passed, it will be used to compute
-        the sort ranking of each value.
-      </p>
-      <pre>
-_.sortedIndex([10, 20, 30, 40, 50], 35);
-=&gt; 3
-</pre>
-
       <p id="shuffle">
         <b class="header">shuffle</b><code>_.shuffle(list)</code>
         <br />
@@ -816,6 +803,19 @@ _.indexOf([1, 2, 3], 2);
       <pre>
 _.lastIndexOf([1, 2, 3, 1, 2, 3], 2);
 =&gt; 4
+</pre>
+
+      <p id="sortedIndex">
+        <b class="header">sortedIndex</b><code>_.sortedIndex(list, value, [iterator])</code>
+        <br />
+        Uses a binary search to determine the index at which the <b>value</b>
+        <i>should</i> be inserted into the <b>list</b> in order to maintain the <b>list</b>'s
+        sorted order. If an <b>iterator</b> is passed, it will be used to compute
+        the sort ranking of each value.
+      </p>
+      <pre>
+_.sortedIndex([10, 20, 30, 40, 50], 35);
+=&gt; 3
 </pre>
 
       <p id="range">
