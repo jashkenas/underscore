@@ -542,6 +542,7 @@ $(document).ready(function() {
     ok(!_.isNaN(0), '0 is not NaN');
     ok(_.isNaN(NaN), 'but NaN is');
     ok(_.isNaN(iNaN), 'even from another frame');
+    ok(_.isNaN(new Number(NaN)), 'wrapped NaN is still NaN');
   });
 
   test("isNull", function() {
