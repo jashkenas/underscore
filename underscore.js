@@ -26,6 +26,7 @@
   // Create quick reference variables for speed access to core prototypes.
   var push             = ArrayProto.push,
       slice            = ArrayProto.slice,
+      concat           = ArrayProto.concat,
       unshift          = ArrayProto.unshift,
       toString         = ObjProto.toString,
       hasOwnProperty   = ObjProto.hasOwnProperty;
@@ -429,7 +430,7 @@
   // Produce an array that contains the union: each distinct element from all of
   // the passed-in arrays.
   _.union = function() {
-    return _.uniq(_.flatten(arguments, true));
+    return _.uniq(concat.apply(ArrayProto, arguments));
   };
 
   // Produce an array that contains every item shared between all the
@@ -446,7 +447,7 @@
   // Take the difference between one array and a number of other arrays.
   // Only the elements present in just the first array will remain.
   _.difference = function(array) {
-    var rest = _.flatten(slice.call(arguments, 1), true);
+    var rest = concat.apply(ArrayProto, slice.call(arguments, 1));
     return _.filter(array, function(value){ return !_.include(rest, value); });
   };
 
@@ -729,7 +730,7 @@
   // Return a copy of the object only containing the whitelisted properties.
   _.pick = function(obj) {
     var copy = {};
-    var keys = _.flatten(slice.call(arguments, 1));
+    var keys = concat.apply(ArrayProto, slice.call(arguments, 1));
     each(keys, function(key) {
       if (key in obj) copy[key] = obj[key];
     });
@@ -739,7 +740,7 @@
    // Return a copy of the object without the blacklisted properties.
   _.omit = function(obj) {
     var copy = {};
-    var keys = _.flatten(slice.call(arguments, 1));
+    var keys = concat.apply(ArrayProto, slice.call(arguments, 1));
     for (var key in obj) {
       if (!_.include(keys, key)) copy[key] = obj[key];
     }
