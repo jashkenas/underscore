@@ -344,8 +344,7 @@
 
   // Return the number of elements in an object.
   _.size = function(obj) {
-    var hasLength = _.isArray(obj) || _.isArguments(obj) || _.isString(obj);
-    return hasLength ? obj.length : _.keys(obj).length;
+    return (obj.length === +obj.length) ? obj.length : _.keys(obj).length;
   };
 
   // Array Functions
