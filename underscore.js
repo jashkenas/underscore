@@ -277,13 +277,16 @@
     return _.pluck(_.map(obj, function(value, index, list) {
       return {
         value : value,
+        index : index,
         criteria : iterator.call(context, value, index, list)
       };
     }).sort(function(left, right) {
-      var a = left.criteria, b = right.criteria;
+      var  a = left.criteria, b = right.criteria;
+      var ai = left.index,    bi = right.index;
+      if (a === b)      return ai < bi ? -1 : 1;
       if (a === void 0) return 1;
       if (b === void 0) return -1;
-      return a < b ? -1 : a > b ? 1 : 0;
+      return a < b ? -1 : a > b ? 1 : ai < bi ? -1 : 1;
     }), 'value');
   };
 
