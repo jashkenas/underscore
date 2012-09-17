@@ -283,10 +283,14 @@
     }).sort(function(left, right) {
       var  a = left.criteria, b = right.criteria;
       var ai = left.index,    bi = right.index;
-      if (a === b)      return ai < bi ? -1 : 1;
-      if (a === void 0) return 1;
-      if (b === void 0) return -1;
-      return a < b ? -1 : a > b ? 1 : ai < bi ? -1 : 1;
+      if (a !== b) {
+        if (a > b || a === void 0) {
+          return 1;
+        } else if (a < b || b === void 0) {
+          return -1;
+        }
+      }
+      return ai < bi ? -1 : 1;
     }), 'value');
   };
 
