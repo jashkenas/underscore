@@ -276,7 +276,7 @@
     var index = 0;
     var shuffled = [];
     each(obj, function(value) {
-      rand = Math.floor(Math.random() * ++index);
+      rand = _.random(index++);
       shuffled[index - 1] = shuffled[rand];
       shuffled[rand] = value;
     });
@@ -971,6 +971,10 @@
 
   // Return a random integer between min and max (inclusive).
   _.random = function(min, max) {
+    if (max == null) {
+      max = min;
+      min = 0;
+    }
     return min + (0 | Math.random() * (max - min + 1));
   };
 
