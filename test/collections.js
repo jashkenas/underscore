@@ -280,6 +280,9 @@ $(document).ready(function() {
     equal(grouped['3'].join(' '), 'one two six ten');
     equal(grouped['4'].join(' '), 'four five nine');
     equal(grouped['5'].join(' '), 'three seven eight');
+
+    var context = {};
+    _.groupBy([{}], function(){ ok(this === context); }, context);
   });
 
   test('countBy', function() {
@@ -292,6 +295,9 @@ $(document).ready(function() {
     equal(grouped['3'], 4);
     equal(grouped['4'], 3);
     equal(grouped['5'], 3);
+
+    var context = {};
+    _.countBy([{}], function(){ ok(this === context); }, context);
   });
 
   test('sortedIndex', function() {
