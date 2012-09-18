@@ -228,6 +228,18 @@
     return _.map(obj, function(value){ return value[key]; });
   };
 
+  // Convenience version of a common use case of `filter`: selecting only objects
+  // with specific `key:value` pairs.
+  _.where = function(obj, attrs) {
+    if (_.isEmpty(attrs)) return [];
+    return _.filter(obj, function(value) {
+      for (var key in attrs) {
+        if (attrs[key] !== value[key]) return false;
+      }
+      return true;
+    });
+  };
+
   // Return the maximum element or (element-based computation).
   // Can't optimize arrays of integers longer than 65,535 elements.
   // See: https://bugs.webkit.org/show_bug.cgi?id=80797
