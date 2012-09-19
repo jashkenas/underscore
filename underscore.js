@@ -1063,7 +1063,7 @@
     var index = 0;
     var source = "__p+='";
     text.replace(matcher, function(match, escape, interpolate, evaluate, offset) {
-      source += text.substr(index, offset - index)
+      source += text.slice(index, offset)
         .replace(escaper, function(match) { return '\\' + escapes[match]; });
       source +=
         escape ? "'+\n((__t=(" + escape + "))==null?'':_.escape(__t))+\n'" :
