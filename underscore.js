@@ -129,15 +129,14 @@
   // The right-associative version of reduce, also known as `foldr`.
   // Delegates to **ECMAScript 5**'s native `reduceRight` if available.
   _.reduceRight = _.foldr = function(obj, iterator, memo, context) {
-    var initial = arguments.length > 2;
     if (obj == null) obj = [];
     if (nativeReduceRight && obj.reduceRight === nativeReduceRight) {
       if (context) iterator = _.bind(iterator, context);
-      return initial ? obj.reduceRight(iterator, memo) : obj.reduceRight(iterator);
+      return arguments.length > 2 ? obj.reduceRight(iterator, memo) : obj.reduceRight(iterator);
     }
-    var reversed = _.toArray(obj).reverse();
-    if (context && !initial) iterator = _.bind(iterator, context);
-    return initial ? _.reduce(reversed, iterator, memo, context) : _.reduce(reversed, iterator);
+    // A right reduce on an object has undefined ordering, so we don't bother.
+    var reversed = _.isArray(obj) ? obj.reverse() : obj;
+    return _.reduce(reversed, iterator, memo, context);
   };
 
   // Return the first value which passes a truth test. Aliased as `detect`.
