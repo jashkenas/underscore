@@ -119,7 +119,7 @@ $(document).ready(function() {
         object = {a: 1, b: 2},
         lastKey = _.keys(object).pop();
 
-    var expected = lastKey == 'b'
+    var expected = lastKey == 'a'
       ? [memo, 1, 'a', object]
       : [memo, 2, 'b', object];
 
@@ -131,13 +131,13 @@ $(document).ready(function() {
 
     // And again, with numeric keys.
 
-    object = {'2': 1, '1': 2};
+    object = {'2': 'a', '1': 'b'};
     lastKey = _.keys(object).pop();
     args = null;
 
-    expected = lastKey == 'b'
-      ? [memo, 1, '2', object]
-      : [memo, 2, '1', object];
+    expected = lastKey == '2'
+      ? [memo, 'a', '2', object]
+      : [memo, 'b', '1', object];
 
     _.reduceRight(object, function() {
       args || (args = _.toArray(arguments));

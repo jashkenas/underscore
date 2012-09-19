@@ -107,14 +107,18 @@
 
   // **Reduce** builds up a single result from a list of values, aka `inject`,
   // or `foldl`. Delegates to **ECMAScript 5**'s native `reduce` if available.
-  _.reduce = _.foldl = _.inject = function(obj, iterator, memo, context) {
+  _.reduce = _.foldl = _.inject = function(obj, iterator, memo, context, right) {
     var initial = arguments.length > 2;
     if (obj == null) obj = [];
-    if (nativeReduce && obj.reduce === nativeReduce) {
+    if (!right && nativeReduce && obj.reduce === nativeReduce) {
       if (context) iterator = _.bind(iterator, context);
       return initial ? obj.reduce(iterator, memo) : obj.reduce(iterator);
     }
     each(obj, function(value, index, list) {
+      if (right) {
+        index = right.keys[index];
+        list = right.list;
+      }
       if (!initial) {
         memo = value;
         initial = true;
@@ -134,9 +138,9 @@
       if (context) iterator = _.bind(iterator, context);
       return arguments.length > 2 ? obj.reduceRight(iterator, memo) : obj.reduceRight(iterator);
     }
-    // A right reduce on an object has undefined ordering, so we don't bother.
-    var reversed = _.isArray(obj) ? obj.reverse() : obj;
-    return _.reduce(reversed, iterator, memo, context);
+    var keys     = _.keys(obj).reverse();
+    var values   = _.toArray(obj).reverse();
+    return _.reduce(values, iterator, memo, context, {keys: keys, list: obj});
   };
 
   // Return the first value which passes a truth test. Aliased as `detect`.
