@@ -349,13 +349,13 @@
 
   // Use a comparator function to figure out the smallest index at which
   // an object should be inserted so as to maintain order. Uses binary search.
-  _.sortedIndex = function(array, obj, iterator) {
+  _.sortedIndex = function(array, obj, iterator, context) {
     iterator || (iterator = _.identity);
-    var value = iterator(obj);
+    var value = iterator.call(context, obj);
     var low = 0, high = array.length;
     while (low < high) {
       var mid = (low + high) >>> 1;
-      iterator(array[mid]) < value ? low = mid + 1 : high = mid;
+      iterator.call(context, array[mid]) < value ? low = mid + 1 : high = mid;
     }
     return low;
   };
@@ -438,8 +438,8 @@
   // Produce a duplicate-free version of the array. If the array has already
   // been sorted, you have the option of using a faster algorithm.
   // Aliased as `unique`.
-  _.uniq = _.unique = function(array, isSorted, iterator) {
-    var initial = iterator ? _.map(array, iterator) : array;
+  _.uniq = _.unique = function(array, isSorted, iterator, context) {
+    var initial = iterator ? _.map(array, iterator, context) : array;
     var results = [];
     var seen = [];
     each(initial, function(value, index) {
