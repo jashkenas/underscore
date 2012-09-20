@@ -1,5 +1,5 @@
 require 'rubygems'
-require 'closure-compiler'
+require 'uglifier'
 
 HEADER = /((^\s*\/\/.*\n)+)/
 
@@ -7,7 +7,7 @@ desc "Use the Closure Compiler to compress Underscore.js"
 task :build do
   source  = File.read('underscore.js')
   header  = source.match(HEADER)
-  min     = Closure::Compiler.new.compress(source)
+  min     = Uglifier.compile(source)
   File.open('underscore-min.js', 'w') do |file|
     file.write header[1].squeeze(' ') + min
   end
