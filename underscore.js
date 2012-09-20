@@ -333,7 +333,7 @@
   // to group by, or a function that returns the criterion.
   _.groupBy = function(obj, value, context) {
     return group(obj, value, context, function(result, key, value) {
-      (result[key] || (result[key] = [])).push(value);
+      (_.has(result, key) ? result[key] : (result[key] = [])).push(value);
     });
   };
 
@@ -342,7 +342,7 @@
   // criterion.
   _.countBy = function(obj, value, context) {
     return group(obj, value, context, function(result, key, value) {
-      result[key] || (result[key] = 0);
+      if (!_.has(result, key)) result[key] = 0;
       result[key]++;
     });
   };

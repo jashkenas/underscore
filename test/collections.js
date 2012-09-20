@@ -329,6 +329,13 @@ $(document).ready(function() {
 
     var context = {};
     _.groupBy([{}], function(){ ok(this === context); }, context);
+
+    grouped = _.groupBy([4.2, 6.1, 6.4], function(num) {
+      return Math.floor(num) > 4 ? 'hasOwnProperty' : 'constructor';
+    });
+    equal(grouped.constructor.length, 1);
+    equal(grouped.hasOwnProperty.length, 2);
+
   });
 
   test('countBy', function() {
@@ -344,6 +351,12 @@ $(document).ready(function() {
 
     var context = {};
     _.countBy([{}], function(){ ok(this === context); }, context);
+
+    grouped = _.countBy([4.2, 6.1, 6.4], function(num) {
+      return Math.floor(num) > 4 ? 'hasOwnProperty' : 'constructor';
+    });
+    equal(grouped.constructor, 1);
+    equal(grouped.hasOwnProperty, 2);
   });
 
   test('sortedIndex', function() {
