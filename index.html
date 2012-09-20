@@ -199,7 +199,7 @@
       <li>- <a href="#reject">reject</a></li>
       <li>- <a href="#all">all</a></li>
       <li>- <a href="#any">any</a></li>
-      <li>- <a href="#include">include</a></li>
+      <li>- <a href="#contains">contains</a></li>
       <li>- <a href="#invoke">invoke</a></li>
       <li>- <a href="#pluck">pluck</a></li>
       <li>- <a href="#max">max</a></li>
@@ -514,15 +514,15 @@ _.any([null, 0, 'yes', false]);
 =&gt; true
 </pre>
 
-      <p id="include">
-        <b class="header">include</b><code>_.include(list, value)</code>
-        <span class="alias">Alias: <b>contains</b></span>
+      <p id="contains">
+        <b class="header">contains</b><code>_.contains(list, value)</code>
+        <span class="alias">Alias: <b>include</b></span>
         <br />
         Returns <i>true</i> if the <b>value</b> is present in the <b>list</b>.
         Uses <b>indexOf</b> internally, if <b>list</b> is an Array.
       </p>
       <pre>
-_.include([1, 2, 3], 3);
+_.contains([1, 2, 3], 3);
 =&gt; true
 </pre>
 
