@@ -107,6 +107,9 @@ $(document).ready(function() {
     }
     ok(ifnull instanceof TypeError, 'handles a null (without inital value) properly');
 
+    var sum = _.reduceRight({a: 1, b: 2, c: 3}, function(sum, num){ return sum + num; });
+    equal(sum, 6, 'default initial value on object');
+
     ok(_.reduceRight(null, function(){}, 138) === 138, 'handles a null (with initial value) properly');
 
     equal(_.reduceRight([], function(){}, undefined), undefined, 'undefined can be passed as a special case');
