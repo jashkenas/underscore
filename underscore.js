@@ -354,7 +354,7 @@
     var value = iterator(obj);
     var low = 0, high = array.length;
     while (low < high) {
-      var mid = (low + high) >> 1;
+      var mid = (low + high) >>> 1;
       iterator(array[mid]) < value ? low = mid + 1 : high = mid;
     }
     return low;
