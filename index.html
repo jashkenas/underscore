@@ -1108,7 +1108,7 @@ _.omit({name : 'moe', age : 50, userid : 'moe1'}, 'userid');
       <p id="defaults">
         <b class="header">defaults</b><code>_.defaults(object, *defaults)</code>
         <br />
-        Fill in missing properties in <b>object</b> with default values from the
+        Fill in null and undefined properties in <b>object</b> with values from the
         <b>defaults</b> objects, and return the <b>object</b>. As soon as the
         property is filled, further defaults will have no effect.
       </p>
@@ -1523,8 +1523,8 @@ _.map([1, 2, 3], function(n){ return n * 2; });
 _([1, 2, 3]).map(function(n){ return n * 2; });</pre>
 
       <p>
-        Calling <tt>chain</tt> will cause all future method calls to return 
-        wrapped objects. When you've finished the computation, use 
+        Calling <tt>chain</tt> will cause all future method calls to return
+        wrapped objects. When you've finished the computation, use
         <tt>value</tt> to retrieve the final value. Here's an example of chaining
         together a <b>map/flatten/reduce</b>, in order to get the word count of
         every word in a song.
