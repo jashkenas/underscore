@@ -80,7 +80,7 @@
     if (obj == null) return;
     if (nativeForEach && obj.forEach === nativeForEach) {
       obj.forEach(iterator, context);
-    } else if (obj.length === +obj.length) {
+    } else if (_.isArrayLike(obj)) {
       for (var i = 0, l = obj.length; i < l; i++) {
         if (iterator.call(context, obj[i], i, obj) === breaker) return;
       }
@@ -372,7 +372,7 @@
 
   // Return the number of elements in an object.
   _.size = function(obj) {
-    return (obj.length === +obj.length) ? obj.length : _.keys(obj).length;
+    return (_.isString(obj) || _.isArrayLike(obj)) ? obj.length : _.keys(obj).length;
   };
 
   // Array Functions
@@ -905,7 +905,7 @@
   // An "empty" object has no enumerable own-properties.
   _.isEmpty = function(obj) {
     if (obj == null) return true;
-    if (_.isArray(obj) || _.isString(obj)) return obj.length === 0;
+    if (_.isString(obj) || _.isArrayLike(obj)) return obj.length === 0;
     for (var key in obj) if (_.has(obj, key)) return false;
     return true;
   };
@@ -927,11 +927,15 @@
   };
 
   // Add some isType methods: isArguments, isFunction, isString, isNumber, isDate, isRegExp.
-  each(['Arguments', 'Function', 'String', 'Number', 'Date', 'RegExp'], function(name) {
-    _['is' + name] = function(obj) {
-      return toString.call(obj) == '[object ' + name + ']';
-    };
-  });
+  var isTypes = ['Arguments', 'Function', 'String', 'Number', 'Date', 'RegExp'];
+  // Use a loop instead of each(), because _.isArrayLike() hasn't been defined.
+  for (var i = 0, len = isTypes.length; i < len; i++){
+    (function(name){
+      _['is' + name] = function(obj) {
+        return toString.call(obj) == '[object ' + name + ']';
+      };
+    }(isTypes[i]));
+  }
 
   // Define a fallback version of the method in browsers (ahem, IE), where
   // there isn't any inspectable "Arguments" type.
@@ -947,6 +951,18 @@
       return typeof obj === 'function';
     };
   }
+
+  // Is a given object an Array, Arguments, HTMLCollection, NodeList or jQuery Array-like?
+  _.isArrayLike = function(obj) {
+    return obj && _.isNumber(obj.length) && (
+      _.isArray(obj) ||
+      _.isArguments(obj) ||
+      /^\[object (HTMLCollection|NodeList)\]$/.test(toString.call(obj)) ||
+      // Fallback for HTMLCollection and NodeList in IE.
+      (typeof obj.item !== 'undefined') ||
+      (typeof jQuery !== 'undefined' && obj instanceof jQuery)
+    );
+  };
 
   // Is a given object a finite number?
   _.isFinite = function(obj) {

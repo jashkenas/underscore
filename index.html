@@ -270,6 +270,7 @@
       <li>- <a href="#isArray">isArray</a></li>
       <li>- <a href="#isObject">isObject</a></li>
       <li>- <a href="#isArguments">isArguments</a></li>
+      <li>- <a href="#isArrayLike">isArrayLike</a></li>
       <li>- <a href="#isFunction">isFunction</a></li>
       <li>- <a href="#isString">isString</a></li>
       <li>- <a href="#isNumber">isNumber</a></li>
@@ -1229,6 +1230,18 @@ _.isObject(1);
 (function(){ return _.isArguments(arguments); })(1, 2, 3);
 =&gt; true
 _.isArguments([1,2,3]);
+=&gt; false
+</pre>
+
+      <p id="isArrayLike">
+        <b class="header">isArrayLike</b><code>_.isArrayLike(object)</code>
+        <br />
+        Returns <i>true</i> if <b>object</b> has a <tt>length</tt> property and can be iterated over with the Collection methods.  Currently supported types are Arrays, Arguments, HTMLCollections, NodeLists or jQuery Array-likes.
+      </p>
+      <pre>
+(function(){ return _.isArrayLike(arguments); })(1, 2, 3);
+=&gt; true
+_.isArrayLike({length: 10});
 =&gt; false
 </pre>
 

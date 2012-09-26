@@ -428,6 +428,18 @@ $(document).ready(function() {
     ok(_.isArray(iArray), 'even from another frame');
   });
 
+  test("isArrayLike", function() {
+    ok(_.isArrayLike(arguments), 'the arguments object is array-like');
+    ok(_.isArrayLike([1, 2, 3]), 'and arrays');
+    ok(_.isArrayLike(iArray), 'even from another frame');
+    ok(_.isArrayLike(document.images), 'and HTMLCollections');
+    if (document.querySelectorAll) {
+      ok(_.isArrayLike(document.querySelectorAll('#map-test *')), 'and NodeLists')
+    }
+    ok(_.isArrayLike($('#map-test').children()), 'and jQuery Array-likes');
+    ok(!_.isArrayLike({length: 10}), 'but not objects with "length" properties');
+  });
+
   test("isString", function() {
     ok(!_.isString(document.body), 'the document body is not a string');
     ok(_.isString([1, 2, 3].join(', ')), 'but strings are');
