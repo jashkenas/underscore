@@ -22,6 +22,12 @@ $(document).ready(function() {
     equal(answers.join(", "), 'one, two, three', 'iterating over objects works, and ignores the object prototype.');
     delete obj.constructor.prototype.four;
 
+    answers = [];
+    obj = {one : 1, two : 2, three : 3, length : 12};
+    _.each(obj, function(value, key){ answers.push(key); });
+    equal(answers.join(", "), 'one, two, three, length', 'iterating over objects with a "length" property works.');
+    delete obj.constructor.prototype.four;
+
     answer = null;
     _.each([1, 2, 3], function(num, index, arr){ if (_.include(arr, num)) answer = true; });
     ok(answer, 'can reference the original collection from inside the iterator');
@@ -397,6 +403,7 @@ $(document).ready(function() {
 
   test('size', function() {
     equal(_.size({one : 1, two : 2, three : 3}), 3, 'can compute the size of an object');
+    equal(_.size({length : 12}), 1, 'can compute the size of an object with an arbitrary "length" property');
     equal(_.size([1, 2, 3]), 3, 'can compute the size of an array');
 
     var func = function() {
