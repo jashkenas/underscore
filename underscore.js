@@ -326,7 +326,7 @@
     var result = {};
     var iterator = lookupIterator(value);
     each(obj, function(value, index) {
-      var key = iterator.call(context, value, index);
+      var key = iterator.call(context, value, index, obj);
       behavior(result, key, value);
     });
     return result;

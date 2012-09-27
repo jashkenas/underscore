@@ -336,6 +336,8 @@ $(document).ready(function() {
     equal(grouped.constructor.length, 1);
     equal(grouped.hasOwnProperty.length, 2);
 
+    var array = [{}];
+    _.groupBy(array, function(value, index, obj){ ok(obj === array); });
   });
 
   test('countBy', function() {
@@ -357,6 +359,9 @@ $(document).ready(function() {
     });
     equal(grouped.constructor, 1);
     equal(grouped.hasOwnProperty, 2);
+
+    var array = [{}];
+    _.countBy(array, function(value, index, obj){ ok(obj === array); });
   });
 
   test('sortedIndex', function() {
