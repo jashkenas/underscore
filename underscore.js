@@ -1,10 +1,7 @@
-//     Underscore.js 1.3.3
+//     Underscore.js 1.4.0
+//     http://underscorejs.org
 //     (c) 2009-2012 Jeremy Ashkenas, DocumentCloud Inc.
 //     Underscore may be freely distributed under the MIT license.
-//     Portions of Underscore are inspired or borrowed from Prototype,
-//     Oliver Steele's Functional, and John Resig's Micro-Templating.
-//     For all details and documentation:
-//     http://documentcloud.github.com/underscore
 
 (function() {
 
@@ -68,7 +65,7 @@
   }
 
   // Current version.
-  _.VERSION = '1.3.3';
+  _.VERSION = '1.4.0';
 
   // Collection Functions
   // --------------------
