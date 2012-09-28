@@ -480,6 +480,34 @@
     return results;
   };
 
+  // Cartesian product of any amount of arrays.
+  _.product = function() {
+    if (arguments.length === 0) return;
+
+    if (_.any(arguments, function(arg) {
+      return !_.isArray(arg);
+    })) throw new TypeError("all arguments must be arrays: " + JSON.stringify(arguments));
+
+    var result = [];
+    (function productImpl(arrays, acc, index) {
+      if (arrays.length > 0) {
+        var array = arrays[0];
+        if (array.length > 0) {
+          for (var i = 0; i < array.length; i++) {
+            acc[index] = array[i];
+            productImpl(slice.call(arrays, 1), acc, index + 1);
+          };
+        }
+      } else {
+        if (acc.length > 0) {
+          result.push(_.clone(acc));
+        }
+      }
+    })(slice.call(arguments), [], 0);
+
+    return result;
+  };
+
   // Converts lists into objects. Pass either a single array of `[key, value]`
   // pairs, or two parallel arrays of the same length -- one of keys, and one of
   // the corresponding values.

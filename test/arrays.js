@@ -125,6 +125,71 @@ $(document).ready(function() {
     equal(String(stooges), 'moe,30,true,larry,40,,curly,50,', 'zipped together arrays of different lengths');
   });
 
+  test('product', function() {
+    strictEqual(_.product(), undefined, "returns undefined when no arguments passed");
+
+    _.each([
+      [1],
+      [[], "1"],
+      [ true, []]
+    ], function(args) {
+      throws(function() {
+        _.product.apply(null, args);
+      }, TypeError, "throws an error if not all arguments are arrays: " + JSON.stringify(args));
+    });
+
+    _.each([
+      [[]],
+      [[], []],
+      [[1], []],
+      [[], [1]],
+      [[], [1], [1]],
+      [[1], [], [1]],
+      [[1], [1], []],
+    ], function(args) {
+      var testName = "returns an empty array, when one of arguments _.product(" + JSON.stringify(args).slice(1, -1) + ") is an empty array";
+      deepEqual(_.product.apply(null, args), [], testName);
+    });
+
+    _.each([{
+      input: [[1]],
+      output: [[1]]
+    }, {
+      input: [[1, 2]],
+      output: [[1], [2]]
+    }, {
+      input: [[1, 2, 3]],
+      output: [[1], [2], [3]]
+    }, {
+      input: [[1], [2]],
+      output: [[1, 2]]
+    }, {
+      input: [[1], [2], [3]],
+      output: [[1, 2, 3]]
+    }, {
+      input: [[1], [1, 2]],
+      output: [[1, 1], [1, 2]]
+    }, {
+      input: [[1, 2], [1]],
+      output: [[1, 1], [2, 1]]
+    }, {
+      input: [[1, 2], [1, 2]],
+      output: [[1, 1], [1, 2], [2, 1], [2, 2]]
+    }, {
+      input: [[1, 2], [1], [1, 2, 3]],
+      output: [[1, 1, 1], [1, 1, 2], [1, 1, 3], [2, 1, 1], [2, 1, 2], [2, 1, 3]]
+    }, {
+      input: [[1, 2], [1, 2, 3]],
+      output: [[1, 1], [1, 2], [1, 3], [2, 1], [2, 2], [2, 3]]
+    }, {
+      input: [[1, 2], [1, 2, 3], [1, 2]],
+      output: [[1, 1, 1], [1, 1, 2], [1, 2, 1], [1, 2, 2], [1, 3, 1], [1, 3, 2], [2, 1, 1], [2, 1, 2], [2, 2, 1], [2, 2, 2], [2, 3, 1], [2, 3, 2]]
+    }], function(data) {
+      var testName = "returns a product of passed arguments _.product(" + JSON.stringify(data.input).slice(1, -1) + ") => " + JSON.stringify(data.output);
+      deepEqual(_.product.apply(null, data.input), data.output, testName);
+    });
+  });
+
   test('object', function() {
     var result = _.object(['moe', 'larry', 'curly'], [30, 40, 50]);
     var shouldBe = {moe: 30, larry: 40, curly: 50};
