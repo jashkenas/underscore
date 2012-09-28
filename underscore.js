@@ -697,6 +697,15 @@
     };
   };
 
+  // Continues executing function until non-function is returned
+  _.trampoline = function(func) {
+     if(typeof func === 'function') {
+       return _.trampoline(func.apply(this,_.rest(arguments)));
+	  } else {
+       return func;
+	  }
+  };
+
   // Object Functions
   // ----------------
 
