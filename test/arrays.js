@@ -125,6 +125,17 @@ $(document).ready(function() {
     equal(String(stooges), 'moe,30,true,larry,40,,curly,50,', 'zipped together arrays of different lengths');
   });
 
+  test('partition', function() {
+    var _1to20 = _.range(1,21);
+    
+	 equal(_.partition(_1to20,0),null,'Should return null for invalid n');
+	 equal(_.partition(_1to20,4).join(' '),"1,2,3,4 5,6,7,8 9,10,11,12 13,14,15,16 17,18,19,20","Should partition into 5 arrays of size 4");
+	 equal(_.partition(_1to20,1).join(' '),"1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20","Should return partition of size 1");
+	 equal(_.partition(_1to20,10).join(' '),"1,2,3,4,5,6,7,8,9,10 11,12,13,14,15,16,17,18,19,20",'Should partition into 2 equal sizes');
+	 equal(_.partition(_1to20,20).join(' '),"1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20",'Should return identical array.');
+  });
+
+
   test('object', function() {
     var result = _.object(['moe', 'larry', 'curly'], [30, 40, 50]);
     var shouldBe = {moe: 30, larry: 40, curly: 50};

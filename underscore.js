@@ -478,6 +478,17 @@
     return results;
   };
 
+  _.partition = function(array,n) {
+    var results = [];
+	 if(n <= 0) return null;
+
+	 while(array.length > 0) {
+      results.push(_.first(array,n));
+		array = array.slice(n);
+    }
+	 return results;
+  };
+
   // Converts lists into objects. Pass either a single array of `[key, value]`
   // pairs, or two parallel arrays of the same length -- one of keys, and one of
   // the corresponding values.
