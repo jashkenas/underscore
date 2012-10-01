@@ -256,4 +256,29 @@ $(document).ready(function() {
     equal(testAfter(0, 0), 1, "after(0) should fire immediately");
   });
 
+  test("trampoline", function() {
+    var dec = function(n) {
+       if(n === 1) {
+		   return n;
+       } else {
+			return function() {
+           return dec(n-1);
+			}
+		 }
+	 };
+
+    var testTrampolineDecrement = function(n) {
+      var value = _.trampoline(dec(n));
+		return value;
+	 };
+
+    equal(_.trampoline({x:1}).x, 1, "trampoline should return {} if passed {}");
+    equal(_.trampoline(null), null, "trampoline should return null if passed null");
+    equal(testTrampolineDecrement(10), 1, "trampoline should continue executing while function is returned");
+    equal(_.trampoline(function(x,y){
+	 	return x+y;
+	 },1,3), 4, "trampoline should apply args on first execution");
+  });
+
+
 });
