@@ -9,7 +9,7 @@ src/collections.js
 src/arrays.js
 src/functions.js
 src/objects.js
-src/utilities.js
+src/utils.js
 src/oop.js
 src/index.js
 '
