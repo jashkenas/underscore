@@ -9,6 +9,9 @@ var ArrayProto = Array.prototype,
     nativeSome = ArrayProto.some,
     nativeIndexOf = ArrayProto.indexOf;
 
+  // Establish the object that gets returned to break out of a loop iteration.
+  var breaker = {};
+
   // The cornerstone, an `each` implementation, aka `forEach`.
   // Handles objects with the built-in `forEach`, arrays, and raw objects.
   // Delegates to **ECMAScript 5**'s native `forEach` if available.

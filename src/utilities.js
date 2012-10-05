@@ -1,4 +1,6 @@
-var push = Array.prototype.push;
+var each = require('./collections').each,
+    result = require('./oop').result,
+    push = Array.prototype.push;
 
   // Run Underscore.js in *noConflict* mode, returning the `_` variable to its
   // previous owner. Returns a reference to the Underscore object.

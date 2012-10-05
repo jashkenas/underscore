@@ -1,4 +1,5 @@
-var ArrayProto = Array.prototype,
+var each = require('./collections').each,
+    ArrayProto = Array.prototype,
     nativeIndexOf = ArrayProto.indexOf,
     nativeLastIndexOf = ArrayProto.lastIndexOf,
     push = ArrayProto.push,

@@ -1,4 +1,5 @@
-var nativeBind = Function.prototype.bind,
+var each = require('./collections').each,
+    nativeBind = Function.prototype.bind,
     ArrayProto = Array.prototype,
     push = ArrayProto.push,
     slice = ArrayProto.slice;

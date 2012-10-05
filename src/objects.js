@@ -1,4 +1,5 @@
-var ArrayProto = Array.prototype,
+var each = require('./collections').each,
+    ArrayProto = Array.prototype,
     slice = ArrayProto.slice,
     concat = ArrayProto.concat,
     ObjProto = Object.prototype,

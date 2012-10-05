@@ -1,4 +1,5 @@
-var ArrayProto = Array.prototype;
+var each = require('./collections').each,
+    ArrayProto = Array.prototype;
 
   // If Underscore is called as a function, it returns a wrapped object that
   // can be used OO-style. This wrapper holds altered versions of all the
