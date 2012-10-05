@@ -14,7 +14,12 @@ src/oop.js
 src/index.js
 '
 
-echo '(function() {'
+
+echo '//     Underscore.js 1.4.1
+//     http://underscorejs.org
+//     (c) 2009-2012 Jeremy Ashkenas, DocumentCloud Inc.
+//     Underscore may be freely distributed under the MIT license.
+(function() {'
 cat src/vaccine.js   # Output vaccine.js separately
 
 for file in $sources
