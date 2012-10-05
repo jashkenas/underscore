@@ -7,7 +7,8 @@ var ArrayProto = Array.prototype,
     nativeFilter = ArrayProto.filter,
     nativeEvery = ArrayProto.every,
     nativeSome = ArrayProto.some,
-    nativeIndexOf = ArrayProto.indexOf;
+    nativeIndexOf = ArrayProto.indexOf,
+    hasOwnProperty = Object.prototype.hasOwnProperty;
 
   // Establish the object that gets returned to break out of a loop iteration.
   var breaker = {};
@@ -24,7 +25,7 @@ var ArrayProto = Array.prototype,
       }
     } else {
       for (var key in obj) {
-        if (_.has(obj, key)) {
+        if (hasOwnProperty.call(obj, key)) {
           if (iterator.call(context, obj[key], key, obj) === breaker) return;
         }
       }
