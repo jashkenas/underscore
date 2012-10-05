@@ -12,13 +12,6 @@ module.exports = exports = function(_) {
 
   var result = createResult(_);
 
-  // Run Underscore.js in *noConflict* mode, returning the `_` variable to its
-  // previous owner. Returns a reference to the Underscore object.
-  _.noConflict = function() {
-    root._ = previousUnderscore;
-    return this;
-  };
-
   // Keep the identity function around for default iterators.
   _.identity = function(value) {
     return value;

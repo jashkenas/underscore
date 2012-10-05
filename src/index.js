@@ -6,11 +6,7 @@
   // Baseline setup
   // --------------
 
-  // Establish the root object, `window` in the browser, or `global` on the server.
-  var root = this;
-
-  // Save the previous value of the `_` variable.
-  var previousUnderscore = root._;
+  var previousUnderscore;
 
   // Establish the object that gets returned to break out of a loop iteration.
   var breaker = {};
@@ -22,17 +18,32 @@
     this._wrapped = obj;
   };
 
+  // Run Underscore.js in *noConflict* mode, returning the `_` variable to its
+  // previous owner. Returns a reference to the Underscore object.
+  _.noConflict = function() {
+    window._ = previousUnderscore;
+    return this;
+  };
+
+  // Add all the functionality to the Underscore object.
+  require('./collections')(_);
+  require('./arrays')(_);
+  require('./functions')(_);
+  require('./objects')(_);
+  require('./utilities')(_);
+  require('./oop')(_);
+
   // Export the Underscore object for **Node.js**, with
   // backwards-compatibility for the old `require()` API. If we're in
   // the browser, add `_` as a global object via a string identifier,
   // for Closure Compiler "advanced" mode.
-  if (typeof exports !== 'undefined') {
-    if (typeof module !== 'undefined' && module.exports) {
-      exports = module.exports = _;
-    }
+  if (typeof window === 'undefined') {
+    exports = module.exports = _;
     exports._ = _;
   } else {
-    root['_'] = _;
+    // Save the previous value of the `_` variable.
+    previousUnderscore = window._;
+    window['_'] = _;
   }
 
   // Current version.
