@@ -1,5 +1,5 @@
-  // OOP
-  // ---------------
+var ArrayProto = Array.prototype;
+
   // If Underscore is called as a function, it returns a wrapped object that
   // can be used OO-style. This wrapper holds altered versions of all the
   // underscore functions. Wrapped objects may be chained.

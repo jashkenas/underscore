@@ -1,5 +1,7 @@
-  // Function (ahem) Functions
-  // ------------------
+var nativeBind = Function.prototype.bind,
+    ArrayProto = Array.prototype,
+    push = ArrayProto.push,
+    slice = ArrayProto.slice;
 
   // Reusable constructor function for prototype setting.
   var ctor = function(){};

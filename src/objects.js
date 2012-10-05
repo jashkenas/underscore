@@ -1,5 +1,11 @@
-  // Object Functions
-  // ----------------
+var ArrayProto = Array.prototype,
+    slice = ArrayProto.slice,
+    concat = ArrayProto.concat,
+    ObjProto = Object.prototype,
+    toString = ObjProto.toString,
+    hasOwnProperty = ObjProto.hasOwnProperty,
+    nativeKeys = Object.keys,
+    nativeIsArray = Array.isArray;
 
   // Retrieve the names of an object's properties.
   // Delegates to **ECMAScript 5**'s native `Object.keys`
