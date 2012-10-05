@@ -1,0 +1,29 @@
+#!/bin/sh
+
+# vaccine.js must NOT be in the source list.
+source_dir='src'
+app_name='underscore'
+
+sources='
+src/collections.js
+src/arrays.js
+src/functions.js
+src/objects.js
+src/utilities.js
+src/oop.js
+src/index.js
+'
+
+echo '(function() {'
+cat src/vaccine.js   # Output vaccine.js separately
+
+for file in $sources
+do
+  name="$app_name/$(echo "$file" | sed -e "s#^$source_dir/##" -e 's/\.js//')"
+  test "X$name" = "X$app_name/index" && name=$app_name
+  echo "define('$name', function(require, exports, module) {"
+  cat $file
+  echo '});'
+done
+
+echo '}());'
