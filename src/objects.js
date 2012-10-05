@@ -8,6 +8,8 @@ var each = require('./collections').each,
     nativeKeys = Object.keys,
     nativeIsArray = Array.isArray;
 
+module.exports = function(_) {
+
   // Retrieve the names of an object's properties.
   // Delegates to **ECMAScript 5**'s native `Object.keys`
   _.keys = nativeKeys || function(obj) {
@@ -275,3 +277,5 @@ var each = require('./collections').each,
   _.has = function(obj, key) {
     return hasOwnProperty.call(obj, key);
   };
+
+};

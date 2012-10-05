@@ -1,6 +1,16 @@
 var each = require('./collections').each,
-    result = require('./oop').result,
     push = Array.prototype.push;
+
+var createResult = function(_) {
+  // Helper function to continue chaining intermediate results.
+  return function(obj) {
+    return this._chain ? _(obj).chain() : obj;
+  };
+};
+
+module.exports = exports = function(_) {
+
+  var result = createResult(_);
 
   // Run Underscore.js in *noConflict* mode, returning the `_` variable to its
   // previous owner. Returns a reference to the Underscore object.
@@ -168,3 +178,7 @@ var each = require('./collections').each,
   _.chain = function(obj) {
     return _(obj).chain();
   };
+
+};
+
+exports.createResult = createResult;

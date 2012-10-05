@@ -6,6 +6,8 @@ var each = require('./collections').each,
     slice = ArrayProto.slice,
     concat = ArrayProto.concat;
 
+module.exports = function(_) {
+
   // Get the first element of an array. Passing **n** will return the first N
   // values in the array. Aliased as `head` and `take`. The **guard** check
   // allows it to work with `_.map`.
@@ -186,3 +188,5 @@ var each = require('./collections').each,
 
     return range;
   };
+
+};

@@ -4,6 +4,8 @@ var each = require('./collections').each,
     push = ArrayProto.push,
     slice = ArrayProto.slice;
 
+module.exports = function(_) {
+
   // Reusable constructor function for prototype setting.
   var ctor = function(){};
 
@@ -150,3 +152,5 @@ var each = require('./collections').each,
       }
     };
   };
+
+};

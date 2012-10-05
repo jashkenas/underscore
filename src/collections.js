@@ -10,27 +10,31 @@ var ArrayProto = Array.prototype,
     nativeIndexOf = ArrayProto.indexOf,
     hasOwnProperty = Object.prototype.hasOwnProperty;
 
-  // Establish the object that gets returned to break out of a loop iteration.
-  var breaker = {};
+// Establish the object that gets returned to break out of a loop iteration.
+var breaker = {};
 
-  // The cornerstone, an `each` implementation, aka `forEach`.
-  // Handles objects with the built-in `forEach`, arrays, and raw objects.
-  // Delegates to **ECMAScript 5**'s native `forEach` if available.
-  var each = _.each = _.forEach = function(obj, iterator, context) {
-    if (nativeForEach && obj.forEach === nativeForEach) {
-      obj.forEach(iterator, context);
-    } else if (obj.length === +obj.length) {
-      for (var i = 0, l = obj.length; i < l; i++) {
-        if (iterator.call(context, obj[i], i, obj) === breaker) return;
-      }
-    } else {
-      for (var key in obj) {
-        if (hasOwnProperty.call(obj, key)) {
-          if (iterator.call(context, obj[key], key, obj) === breaker) return;
-        }
+// The cornerstone, an `each` implementation, aka `forEach`.
+// Handles objects with the built-in `forEach`, arrays, and raw objects.
+// Delegates to **ECMAScript 5**'s native `forEach` if available.
+var each = function(obj, iterator, context) {
+  if (nativeForEach && obj.forEach === nativeForEach) {
+    obj.forEach(iterator, context);
+  } else if (obj.length === +obj.length) {
+    for (var i = 0, l = obj.length; i < l; i++) {
+      if (iterator.call(context, obj[i], i, obj) === breaker) return;
+    }
+  } else {
+    for (var key in obj) {
+      if (hasOwnProperty.call(obj, key)) {
+        if (iterator.call(context, obj[key], key, obj) === breaker) return;
       }
     }
-  };
+  }
+};
+
+module.exports = exports = function(_) {
+
+  _.each = _.forEach = each;
 
   // Return the results of applying the iterator to each element.
   // Delegates to **ECMAScript 5**'s native `map` if available.
@@ -305,3 +309,7 @@ var ArrayProto = Array.prototype,
   _.size = function(obj) {
     return (obj.length === +obj.length) ? obj.length : _.keys(obj).length;
   };
+
+};
+
+exports.each = each;

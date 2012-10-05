@@ -1,14 +1,14 @@
 var each = require('./collections').each,
+    createResult = require('./utilities').createResult,
     ArrayProto = Array.prototype;
+
+module.exports = function(_) {
 
   // If Underscore is called as a function, it returns a wrapped object that
   // can be used OO-style. This wrapper holds altered versions of all the
   // underscore functions. Wrapped objects may be chained.
 
-  // Helper function to continue chaining intermediate results.
-  var result = function(obj) {
-    return this._chain ? _(obj).chain() : obj;
-  };
+  var result = createResult(_);
 
   // Add all of the Underscore functions to the wrapper object.
   _.mixin(_);
@@ -46,3 +46,5 @@ var each = require('./collections').each,
     }
 
   });
+
+};
