@@ -22,8 +22,3 @@ var each = exports.each = function(obj, iterator, context) {
     }
   }
 };
-
-// Keep the identity function around for default iterators.
-exports.identity = function(value) {
-  return value;
-};

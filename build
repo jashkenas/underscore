@@ -7,8 +7,8 @@ app_name='underscore'
 sources='
 src/common.js
 src/objects.js
-src/functions.js
 src/utils.js
+src/functions.js
 src/collections.js
 src/arrays.js
 src/index.js

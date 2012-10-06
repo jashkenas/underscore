@@ -1,6 +1,5 @@
 var objects = require('./objects'),
-    common = require('./common'),
-    each = common.each;
+    each = require('./common').each;
 
 // Save the previous value of the `_` variable.
 if (typeof window !== 'undefined') var previousUnderscore = window._;
@@ -13,7 +12,9 @@ exports.noConflict = function() {
 };
 
 // Keep the identity function around for default iterators.
-exports.identity = common.identity;
+exports.identity = function(value) {
+  return value;
+};
 
 // Run a function **n** times.
 exports.times = function(n, iterator, context) {

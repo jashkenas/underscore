@@ -114,7 +114,7 @@ exports.reject = function(obj, iterator, context) {
 // Delegates to **ECMAScript 5**'s native `every` if available.
 // Aliased as `all`.
 exports.every = exports.all = function(obj, iterator, context) {
-  iterator || (iterator = common.identity);
+  iterator || (iterator = utils.identity);
   var result = true;
   if (nativeEvery && obj.every === nativeEvery) return obj.every(iterator, context);
   each(obj, function(value, index, list) {
@@ -127,7 +127,7 @@ exports.every = exports.all = function(obj, iterator, context) {
 // Delegates to **ECMAScript 5**'s native `some` if available.
 // Aliased as `any`.
 var any = exports.any = exports.some = function(obj, iterator, context) {
-  iterator || (iterator = common.identity);
+  iterator || (iterator = utils.identity);
   var result = false;
   if (nativeSome && obj.some === nativeSome) return obj.some(iterator, context);
   each(obj, function(value, index, list) {
@@ -272,7 +272,7 @@ exports.countBy = function(obj, value, context) {
 // Use a comparator function to figure out the smallest index at which
 // an object should be inserted so as to maintain order. Uses binary search.
 exports.sortedIndex = function(array, obj, iterator, context) {
-  iterator = iterator == null ? common.identity : lookupIterator(iterator);
+  iterator = iterator == null ? utils.identity : lookupIterator(iterator);
   var value = iterator.call(context, obj);
   var low = 0, high = array.length;
   while (low < high) {
