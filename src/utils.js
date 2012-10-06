@@ -1,4 +1,5 @@
-var each = require('./collections').each,
+var objects = require('./objects'),
+    each = require('./collections').each,
     push = Array.prototype.push;
 
 var createResult = function(_) {
@@ -8,20 +9,20 @@ var createResult = function(_) {
   };
 };
 
-var result = createResult(_);
+var result = createResult(exports);
 
 // Keep the identity function around for default iterators.
-_.identity = function(value) {
+exports.identity = function(value) {
   return value;
 };
 
 // Run a function **n** times.
-_.times = function(n, iterator, context) {
+exports.times = function(n, iterator, context) {
   for (var i = 0; i < n; i++) iterator.call(context, i);
 };
 
 // Return a random integer between min and max (inclusive).
-_.random = function(min, max) {
+exports.random = function(min, max) {
   if (max == null) {
     max = min;
     min = 0;
@@ -40,17 +41,17 @@ var entityMap = {
     '/': '&#x2F;'
   }
 };
-entityMap.unescape = _.invert(entityMap.escape);
+entityMap.unescape = objects.invert(entityMap.escape);
 
 // Regexes containing the keys and values listed immediately above.
 var entityRegexes = {
-  escape:   new RegExp('[' + _.keys(entityMap.escape).join('') + ']', 'g'),
-  unescape: new RegExp('(' + _.keys(entityMap.unescape).join('|') + ')', 'g')
+  escape:   new RegExp('[' + objects.keys(entityMap.escape).join('') + ']', 'g'),
+  unescape: new RegExp('(' + objects.keys(entityMap.unescape).join('|') + ')', 'g')
 };
 
 // Functions for escaping and unescaping strings to/from HTML interpolation.
-_.each(['escape', 'unescape'], function(method) {
-  _[method] = function(string) {
+each(['escape', 'unescape'], function(method) {
+  exports[method] = function(string) {
     if (string == null) return '';
     return ('' + string).replace(entityRegexes[method], function(match) {
       return entityMap[method][match];
@@ -60,15 +61,15 @@ _.each(['escape', 'unescape'], function(method) {
 
 // If the value of the named property is a function then invoke it;
 // otherwise, return it.
-_.result = function(object, property) {
+exports.result = function(object, property) {
   if (object == null) return null;
   var value = object[property];
-  return _.isFunction(value) ? value.call(object) : value;
+  return objects.isFunction(value) ? value.call(object) : value;
 };
 
 // Add your own custom functions to the Underscore object.
-_.mixin = function(obj) {
-  each(_.functions(obj), function(name){
+exports.mixin = function(obj) {
+  each(objects.functions(obj), function(name){
     var func = _[name] = obj[name];
     _.prototype[name] = function() {
       var args = [this._wrapped];
@@ -81,14 +82,14 @@ _.mixin = function(obj) {
 // Generate a unique integer id (unique within the entire client session).
 // Useful for temporary DOM ids.
 var idCounter = 0;
-_.uniqueId = function(prefix) {
+exports.uniqueId = function(prefix) {
   var id = idCounter++;
   return prefix ? prefix + id : id;
 };
 
 // By default, Underscore uses ERB-style template delimiters, change the
 // following template settings to use alternative delimiters.
-_.templateSettings = {
+exports.templateSettings = {
   evaluate    : /<%([\s\S]+?)%>/g,
   interpolate : /<%=([\s\S]+?)%>/g,
   escape      : /<%-([\s\S]+?)%>/g
@@ -116,8 +117,8 @@ var escaper = /\\|'|\r|\n|\t|\u2028|\u2029/g;
 // JavaScript micro-templating, similar to John Resig's implementation.
 // Underscore templating handles arbitrary delimiters, preserves whitespace,
 // and correctly escapes quotes within interpolated code.
-_.template = function(text, data, settings) {
-  settings = _.defaults({}, settings, _.templateSettings);
+exports.template = function(text, data, settings) {
+  settings = objects.defaults({}, settings, exports.templateSettings);
 
   // Combine delimiters into one regular expression via alternation.
   var matcher = new RegExp([
@@ -166,7 +167,7 @@ _.template = function(text, data, settings) {
 };
 
 // Add a "chain" function, which will delegate to the wrapper.
-_.chain = function(obj) {
+exports.chain = function(obj) {
   return _(obj).chain();
 };
 

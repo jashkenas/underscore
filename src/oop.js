@@ -6,15 +6,15 @@ var each = require('./collections').each,
 // can be used OO-style. This wrapper holds altered versions of all the
 // underscore functions. Wrapped objects may be chained.
 
-var result = createResult(_);
+var result = createResult(exports);
 
 // Add all of the Underscore functions to the wrapper object.
-_.mixin(_);
+exports.mixin(exports);
 
 // Add all mutator Array functions to the wrapper.
 each(['pop', 'push', 'reverse', 'shift', 'sort', 'splice', 'unshift'], function(name) {
   var method = ArrayProto[name];
-  _.prototype[name] = function() {
+  exports.prototype[name] = function() {
     var obj = this._wrapped;
     method.apply(obj, arguments);
     if ((name == 'shift' || name == 'splice') && obj.length === 0) delete obj[0];
@@ -25,12 +25,12 @@ each(['pop', 'push', 'reverse', 'shift', 'sort', 'splice', 'unshift'], function(
 // Add all accessor Array functions to the wrapper.
 each(['concat', 'join', 'slice'], function(name) {
   var method = ArrayProto[name];
-  _.prototype[name] = function() {
+  exports.prototype[name] = function() {
     return result.call(this, method.apply(this._wrapped, arguments));
   };
 });
 
-_.extend(_.prototype, {
+exports.extend(exports.prototype, {
 
   // Start chaining a wrapped Underscore object.
   chain: function() {

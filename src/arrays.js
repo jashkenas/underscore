@@ -1,4 +1,6 @@
-var each = require('./collections').each,
+var collections = require('./collections'),
+    objects = require('./objects'),
+    each = collections.each,
     ArrayProto = Array.prototype,
     nativeIndexOf = ArrayProto.indexOf,
     nativeLastIndexOf = ArrayProto.lastIndexOf,
@@ -9,7 +11,7 @@ var each = require('./collections').each,
 // Get the first element of an array. Passing **n** will return the first N
 // values in the array. Aliased as `head` and `take`. The **guard** check
 // allows it to work with `_.map`.
-_.first = _.head = _.take = function(array, n, guard) {
+exports.first = exports.head = exports.take = function(array, n, guard) {
   return (n != null) && !guard ? slice.call(array, 0, n) : array[0];
 };
 
@@ -17,13 +19,13 @@ _.first = _.head = _.take = function(array, n, guard) {
 // the arguments object. Passing **n** will return all the values in
 // the array, excluding the last N. The **guard** check allows it to work with
 // `_.map`.
-_.initial = function(array, n, guard) {
+exports.initial = function(array, n, guard) {
   return slice.call(array, 0, array.length - ((n == null) || guard ? 1 : n));
 };
 
 // Get the last element of an array. Passing **n** will return the last N
 // values in the array. The **guard** check allows it to work with `_.map`.
-_.last = function(array, n, guard) {
+exports.last = function(array, n, guard) {
   if ((n != null) && !guard) {
     return slice.call(array, Math.max(array.length - n, 0));
   } else {
@@ -35,19 +37,19 @@ _.last = function(array, n, guard) {
 // Especially useful on the arguments object. Passing an **n** will return
 // the rest N values in the array. The **guard**
 // check allows it to work with `_.map`.
-_.rest = _.tail = _.drop = function(array, n, guard) {
+exports.rest = exports.tail = exports.drop = function(array, n, guard) {
   return slice.call(array, (n == null) || guard ? 1 : n);
 };
 
 // Trim out all falsy values from an array.
-_.compact = function(array) {
-  return _.filter(array, function(value){ return !!value; });
+exports.compact = function(array) {
+  return collections.filter(array, function(value){ return !!value; });
 };
 
 // Internal implementation of a recursive `flatten` function.
 var flatten = function(input, shallow, output) {
   each(input, function(value) {
-    if (_.isArray(value)) {
+    if (objects.isArray(value)) {
       shallow ? push.apply(output, value) : flatten(value, shallow, output);
     } else {
       output.push(value);
@@ -57,24 +59,24 @@ var flatten = function(input, shallow, output) {
 };
 
 // Return a completely flattened version of an array.
-_.flatten = function(array, shallow) {
+exports.flatten = function(array, shallow) {
   return flatten(array, shallow, []);
 };
 
 // Return a version of the array that does not contain the specified value(s).
-_.without = function(array) {
-  return _.difference(array, slice.call(arguments, 1));
+exports.without = function(array) {
+  return exports.difference(array, slice.call(arguments, 1));
 };
 
 // Produce a duplicate-free version of the array. If the array has already
 // been sorted, you have the option of using a faster algorithm.
 // Aliased as `unique`.
-_.uniq = _.unique = function(array, isSorted, iterator, context) {
-  var initial = iterator ? _.map(array, iterator, context) : array;
+exports.uniq = exports.unique = function(array, isSorted, iterator, context) {
+  var initial = iterator ? collections.map(array, iterator, context) : array;
   var results = [];
   var seen = [];
   each(initial, function(value, index) {
-    if (isSorted ? (!index || seen[seen.length - 1] !== value) : !_.contains(seen, value)) {
+    if (isSorted ? (!index || seen[seen.length - 1] !== value) : !collections.contains(seen, value)) {
       seen.push(value);
       results.push(array[index]);
     }
@@ -84,36 +86,36 @@ _.uniq = _.unique = function(array, isSorted, iterator, context) {
 
 // Produce an array that contains the union: each distinct element from all of
 // the passed-in arrays.
-_.union = function() {
-  return _.uniq(concat.apply(ArrayProto, arguments));
+exports.union = function() {
+  return exports.uniq(concat.apply(ArrayProto, arguments));
 };
 
 // Produce an array that contains every item shared between all the
 // passed-in arrays.
-_.intersection = function(array) {
+exports.intersection = function(array) {
   var rest = slice.call(arguments, 1);
-  return _.filter(_.uniq(array), function(item) {
-    return _.every(rest, function(other) {
-      return _.indexOf(other, item) >= 0;
+  return collections.filter(exports.uniq(array), function(item) {
+    return collections.every(rest, function(other) {
+      return exports.indexOf(other, item) >= 0;
     });
   });
 };
 
 // Take the difference between one array and a number of other arrays.
 // Only the elements present in just the first array will remain.
-_.difference = function(array) {
+exports.difference = function(array) {
   var rest = concat.apply(ArrayProto, slice.call(arguments, 1));
-  return _.filter(array, function(value){ return !_.contains(rest, value); });
+  return collections.filter(array, function(value){ return !collections.contains(rest, value); });
 };
 
 // Zip together multiple lists into a single array -- elements that share
 // an index go together.
-_.zip = function() {
+exports.zip = function() {
   var args = slice.call(arguments);
-  var length = _.max(_.pluck(args, 'length'));
+  var length = collections.max(collections.pluck(args, 'length'));
   var results = new Array(length);
   for (var i = 0; i < length; i++) {
-    results[i] = _.pluck(args, "" + i);
+    results[i] = collections.pluck(args, "" + i);
   }
   return results;
 };
@@ -121,7 +123,7 @@ _.zip = function() {
 // Converts lists into objects. Pass either a single array of `[key, value]`
 // pairs, or two parallel arrays of the same length -- one of keys, and one of
 // the corresponding values.
-_.object = function(list, values) {
+exports.object = function(list, values) {
   var result = {};
   for (var i = 0, l = list.length; i < l; i++) {
     if (values) {
@@ -139,13 +141,13 @@ _.object = function(list, values) {
 // Delegates to **ECMAScript 5**'s native `indexOf` if available.
 // If the array is large and already in sort order, pass `true`
 // for **isSorted** to use binary search.
-_.indexOf = function(array, item, isSorted) {
+exports.indexOf = function(array, item, isSorted) {
   var i = 0, l = array.length;
   if (isSorted) {
     if (typeof isSorted == 'number') {
       i = (isSorted < 0 ? Math.max(0, l + isSorted) : isSorted);
     } else {
-      i = _.sortedIndex(array, item);
+      i = collections.sortedIndex(array, item);
       return array[i] === item ? i : -1;
     }
   }
@@ -155,7 +157,7 @@ _.indexOf = function(array, item, isSorted) {
 };
 
 // Delegates to **ECMAScript 5**'s native `lastIndexOf` if available.
-_.lastIndexOf = function(array, item, from) {
+exports.lastIndexOf = function(array, item, from) {
   var hasIndex = from != null;
   if (nativeLastIndexOf && array.lastIndexOf === nativeLastIndexOf) {
     return hasIndex ? array.lastIndexOf(item, from) : array.lastIndexOf(item);
@@ -168,7 +170,7 @@ _.lastIndexOf = function(array, item, from) {
 // Generate an integer Array containing an arithmetic progression. A port of
 // the native Python `range()` function. See
 // [the Python documentation](http://docs.python.org/library/functions.html#range).
-_.range = function(start, stop, step) {
+exports.range = function(start, stop, step) {
   if (arguments.length <= 1) {
     stop = start || 0;
     start = 0;

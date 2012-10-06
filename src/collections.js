@@ -1,4 +1,7 @@
-var ArrayProto = Array.prototype,
+var objects = require('./objects'),
+    functions = require('./functions'),
+    utils = require('./utils'),
+    ArrayProto = Array.prototype,
     slice = ArrayProto.slice,
     nativeForEach = ArrayProto.forEach,
     nativeMap = ArrayProto.map,
@@ -16,7 +19,7 @@ var breaker = {};
 // The cornerstone, an `each` implementation, aka `forEach`.
 // Handles objects with the built-in `forEach`, arrays, and raw objects.
 // Delegates to **ECMAScript 5**'s native `forEach` if available.
-var each = function(obj, iterator, context) {
+var each = exports.each = exports.forEach = function(obj, iterator, context) {
   if (nativeForEach && obj.forEach === nativeForEach) {
     obj.forEach(iterator, context);
   } else if (obj.length === +obj.length) {
@@ -32,11 +35,9 @@ var each = function(obj, iterator, context) {
   }
 };
 
-_.each = _.forEach = each;
-
 // Return the results of applying the iterator to each element.
 // Delegates to **ECMAScript 5**'s native `map` if available.
-_.map = _.collect = function(obj, iterator, context) {
+exports.map = exports.collect = function(obj, iterator, context) {
   var results = [];
   if (nativeMap && obj.map === nativeMap) return obj.map(iterator, context);
   each(obj, function(value, index, list) {
@@ -47,10 +48,10 @@ _.map = _.collect = function(obj, iterator, context) {
 
 // **Reduce** builds up a single result from a list of values, aka `inject`,
 // or `foldl`. Delegates to **ECMAScript 5**'s native `reduce` if available.
-_.reduce = _.foldl = _.inject = function(obj, iterator, memo, context) {
+exports.reduce = exports.foldl = exports.inject = function(obj, iterator, memo, context) {
   var initial = arguments.length > 2;
   if (nativeReduce && obj.reduce === nativeReduce) {
-    if (context) iterator = _.bind(iterator, context);
+    if (context) iterator = functions.bind(iterator, context);
     return initial ? obj.reduce(iterator, memo) : obj.reduce(iterator);
   }
   each(obj, function(value, index, list) {
@@ -67,15 +68,15 @@ _.reduce = _.foldl = _.inject = function(obj, iterator, memo, context) {
 
 // The right-associative version of reduce, also known as `foldr`.
 // Delegates to **ECMAScript 5**'s native `reduceRight` if available.
-_.reduceRight = _.foldr = function(obj, iterator, memo, context) {
+exports.reduceRight = exports.foldr = function(obj, iterator, memo, context) {
   var initial = arguments.length > 2;
   if (nativeReduceRight && obj.reduceRight === nativeReduceRight) {
-    if (context) iterator = _.bind(iterator, context);
+    if (context) iterator = functions.bind(iterator, context);
     return arguments.length > 2 ? obj.reduceRight(iterator, memo) : obj.reduceRight(iterator);
   }
   var length = obj.length;
   if (length !== +length) {
-    var keys = _.keys(obj);
+    var keys = objects.keys(obj);
     length = keys.length;
   }
   each(obj, function(value, index, list) {
@@ -92,7 +93,7 @@ _.reduceRight = _.foldr = function(obj, iterator, memo, context) {
 };
 
 // Return the first value which passes a truth test. Aliased as `detect`.
-_.find = _.detect = function(obj, iterator, context) {
+exports.find = exports.detect = function(obj, iterator, context) {
   var result;
   any(obj, function(value, index, list) {
     if (iterator.call(context, value, index, list)) {
@@ -106,7 +107,7 @@ _.find = _.detect = function(obj, iterator, context) {
 // Return all the elements that pass a truth test.
 // Delegates to **ECMAScript 5**'s native `filter` if available.
 // Aliased as `select`.
-_.filter = _.select = function(obj, iterator, context) {
+exports.filter = exports.select = function(obj, iterator, context) {
   var results = [];
   if (nativeFilter && obj.filter === nativeFilter) return obj.filter(iterator, context);
   each(obj, function(value, index, list) {
@@ -116,7 +117,7 @@ _.filter = _.select = function(obj, iterator, context) {
 };
 
 // Return all the elements for which a truth test fails.
-_.reject = function(obj, iterator, context) {
+exports.reject = function(obj, iterator, context) {
   var results = [];
   each(obj, function(value, index, list) {
     if (!iterator.call(context, value, index, list)) results[results.length] = value;
@@ -127,8 +128,8 @@ _.reject = function(obj, iterator, context) {
 // Determine whether all of the elements match a truth test.
 // Delegates to **ECMAScript 5**'s native `every` if available.
 // Aliased as `all`.
-_.every = _.all = function(obj, iterator, context) {
-  iterator || (iterator = _.identity);
+exports.every = exports.all = function(obj, iterator, context) {
+  iterator || (iterator = utils.identity);
   var result = true;
   if (nativeEvery && obj.every === nativeEvery) return obj.every(iterator, context);
   each(obj, function(value, index, list) {
@@ -140,8 +141,8 @@ _.every = _.all = function(obj, iterator, context) {
 // Determine if at least one element in the object matches a truth test.
 // Delegates to **ECMAScript 5**'s native `some` if available.
 // Aliased as `any`.
-var any = _.some = _.any = function(obj, iterator, context) {
-  iterator || (iterator = _.identity);
+var any = exports.some = exports.any = function(obj, iterator, context) {
+  iterator || (iterator = utils.identity);
   var result = false;
   if (nativeSome && obj.some === nativeSome) return obj.some(iterator, context);
   each(obj, function(value, index, list) {
@@ -152,7 +153,7 @@ var any = _.some = _.any = function(obj, iterator, context) {
 
 // Determine if the array or object contains a given value (using `===`).
 // Aliased as `include`.
-_.contains = _.include = function(obj, target) {
+exports.contains = exports.include = function(obj, target) {
   var found = false;
   if (nativeIndexOf && obj.indexOf === nativeIndexOf) return obj.indexOf(target) != -1;
   found = any(obj, function(value) {
@@ -162,23 +163,23 @@ _.contains = _.include = function(obj, target) {
 };
 
 // Invoke a method (with arguments) on every item in a collection.
-_.invoke = function(obj, method) {
+exports.invoke = function(obj, method) {
   var args = slice.call(arguments, 2);
-  return _.map(obj, function(value) {
-    return (_.isFunction(method) ? method : value[method]).apply(value, args);
+  return exports.map(obj, function(value) {
+    return (objects.isFunction(method) ? method : value[method]).apply(value, args);
   });
 };
 
 // Convenience version of a common use case of `map`: fetching a property.
-_.pluck = function(obj, key) {
-  return _.map(obj, function(value){ return value[key]; });
+exports.pluck = function(obj, key) {
+  return exports.map(obj, function(value){ return value[key]; });
 };
 
 // Convenience version of a common use case of `filter`: selecting only objects
 // with specific `key:value` pairs.
-_.where = function(obj, attrs) {
-  if (_.isEmpty(attrs)) return [];
-  return _.filter(obj, function(value) {
+exports.where = function(obj, attrs) {
+  if (objects.isEmpty(attrs)) return [];
+  return exports.filter(obj, function(value) {
     for (var key in attrs) {
       if (attrs[key] !== value[key]) return false;
     }
@@ -189,11 +190,11 @@ _.where = function(obj, attrs) {
 // Return the maximum element or (element-based computation).
 // Can't optimize arrays of integers longer than 65,535 elements.
 // See: https://bugs.webkit.org/show_bug.cgi?id=80797
-_.max = function(obj, iterator, context) {
-  if (!iterator && _.isArray(obj) && obj[0] === +obj[0] && obj.length < 65535) {
+exports.max = function(obj, iterator, context) {
+  if (!iterator && objects.isArray(obj) && obj[0] === +obj[0] && obj.length < 65535) {
     return Math.max.apply(Math, obj);
   }
-  if (!iterator && _.isEmpty(obj)) return -Infinity;
+  if (!iterator && objects.isEmpty(obj)) return -Infinity;
   var result = {computed : -Infinity};
   each(obj, function(value, index, list) {
     var computed = iterator ? iterator.call(context, value, index, list) : value;
@@ -203,11 +204,11 @@ _.max = function(obj, iterator, context) {
 };
 
 // Return the minimum element (or element-based computation).
-_.min = function(obj, iterator, context) {
-  if (!iterator && _.isArray(obj) && obj[0] === +obj[0] && obj.length < 65535) {
+exports.min = function(obj, iterator, context) {
+  if (!iterator && objects.isArray(obj) && obj[0] === +obj[0] && obj.length < 65535) {
     return Math.min.apply(Math, obj);
   }
-  if (!iterator && _.isEmpty(obj)) return Infinity;
+  if (!iterator && objects.isEmpty(obj)) return Infinity;
   var result = {computed : Infinity};
   each(obj, function(value, index, list) {
     var computed = iterator ? iterator.call(context, value, index, list) : value;
@@ -217,12 +218,12 @@ _.min = function(obj, iterator, context) {
 };
 
 // Shuffle an array.
-_.shuffle = function(obj) {
+exports.shuffle = function(obj) {
   var rand;
   var index = 0;
   var shuffled = [];
   each(obj, function(value) {
-    rand = _.random(index++);
+    rand = utils.random(index++);
     shuffled[index - 1] = shuffled[rand];
     shuffled[rand] = value;
   });
@@ -231,13 +232,13 @@ _.shuffle = function(obj) {
 
 // An internal function to generate lookup iterators.
 var lookupIterator = function(value) {
-  return _.isFunction(value) ? value : function(obj){ return obj[value]; };
+  return objects.isFunction(value) ? value : function(obj){ return obj[value]; };
 };
 
 // Sort the object's values by a criterion produced by an iterator.
-_.sortBy = function(obj, value, context) {
+exports.sortBy = function(obj, value, context) {
   var iterator = lookupIterator(value);
-  return _.pluck(_.map(obj, function(value, index, list) {
+  return exports.pluck(exports.map(obj, function(value, index, list) {
     return {
       value : value,
       index : index,
@@ -267,26 +268,26 @@ var group = function(obj, value, context, behavior) {
 
 // Groups the object's values by a criterion. Pass either a string attribute
 // to group by, or a function that returns the criterion.
-_.groupBy = function(obj, value, context) {
+exports.groupBy = function(obj, value, context) {
   return group(obj, value, context, function(result, key, value) {
-    (_.has(result, key) ? result[key] : (result[key] = [])).push(value);
+    (objects.has(result, key) ? result[key] : (result[key] = [])).push(value);
   });
 };
 
 // Counts instances of an object that group by a certain criterion. Pass
 // either a string attribute to count by, or a function that returns the
 // criterion.
-_.countBy = function(obj, value, context) {
+exports.countBy = function(obj, value, context) {
   return group(obj, value, context, function(result, key, value) {
-    if (!_.has(result, key)) result[key] = 0;
+    if (!objects.has(result, key)) result[key] = 0;
     result[key]++;
   });
 };
 
 // Use a comparator function to figure out the smallest index at which
 // an object should be inserted so as to maintain order. Uses binary search.
-_.sortedIndex = function(array, obj, iterator, context) {
-  iterator = iterator == null ? _.identity : lookupIterator(iterator);
+exports.sortedIndex = function(array, obj, iterator, context) {
+  iterator = iterator == null ? utils.identity : lookupIterator(iterator);
   var value = iterator.call(context, obj);
   var low = 0, high = array.length;
   while (low < high) {
@@ -297,15 +298,13 @@ _.sortedIndex = function(array, obj, iterator, context) {
 };
 
 // Safely convert anything iterable into a real, live array.
-_.toArray = function(obj) {
+exports.toArray = function(obj) {
   if (!obj) return [];
   if (obj.length === +obj.length) return slice.call(obj);
-  return _.values(obj);
+  return objects.values(obj);
 };
 
 // Return the number of elements in an object.
-_.size = function(obj) {
-  return (obj.length === +obj.length) ? obj.length : _.keys(obj).length;
+exports.size = function(obj) {
+  return (obj.length === +obj.length) ? obj.length : objects.keys(obj).length;
 };
-
-exports.each = each;

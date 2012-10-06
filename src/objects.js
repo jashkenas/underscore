@@ -1,4 +1,5 @@
-var each = require('./collections').each,
+var collections = require('./collections'),
+    each = collections.each,
     ArrayProto = Array.prototype,
     slice = ArrayProto.slice,
     concat = ArrayProto.concat,
@@ -10,46 +11,46 @@ var each = require('./collections').each,
 
 // Retrieve the names of an object's properties.
 // Delegates to **ECMAScript 5**'s native `Object.keys`
-_.keys = nativeKeys || function(obj) {
+exports.keys = nativeKeys || function(obj) {
   if (obj !== Object(obj)) throw new TypeError('Invalid object');
   var keys = [];
-  for (var key in obj) if (_.has(obj, key)) keys[keys.length] = key;
+  for (var key in obj) if (exports.has(obj, key)) keys[keys.length] = key;
   return keys;
 };
 
 // Retrieve the values of an object's properties.
-_.values = function(obj) {
+exports.values = function(obj) {
   var values = [];
-  for (var key in obj) if (_.has(obj, key)) values.push(obj[key]);
+  for (var key in obj) if (exports.has(obj, key)) values.push(obj[key]);
   return values;
 };
 
 // Convert an object into a list of `[key, value]` pairs.
-_.pairs = function(obj) {
+exports.pairs = function(obj) {
   var pairs = [];
-  for (var key in obj) if (_.has(obj, key)) pairs.push([key, obj[key]]);
+  for (var key in obj) if (exports.has(obj, key)) pairs.push([key, obj[key]]);
   return pairs;
 };
 
 // Invert the keys and values of an object. The values must be serializable.
-_.invert = function(obj) {
+exports.invert = function(obj) {
   var result = {};
-  for (var key in obj) if (_.has(obj, key)) result[obj[key]] = key;
+  for (var key in obj) if (exports.has(obj, key)) result[obj[key]] = key;
   return result;
 };
 
 // Return a sorted list of the function names available on the object.
 // Aliased as `methods`
-_.functions = _.methods = function(obj) {
+exports.functions = exports.methods = function(obj) {
   var names = [];
   for (var key in obj) {
-    if (_.isFunction(obj[key])) names.push(key);
+    if (exports.isFunction(obj[key])) names.push(key);
   }
   return names.sort();
 };
 
 // Extend a given object with all the properties in passed-in object(s).
-_.extend = function(obj) {
+exports.extend = function(obj) {
   each(slice.call(arguments, 1), function(source) {
     for (var prop in source) {
       obj[prop] = source[prop];
@@ -59,7 +60,7 @@ _.extend = function(obj) {
 };
 
 // Return a copy of the object only containing the whitelisted properties.
-_.pick = function(obj) {
+exports.pick = function(obj) {
   var copy = {};
   var keys = concat.apply(ArrayProto, slice.call(arguments, 1));
   each(keys, function(key) {
@@ -69,17 +70,17 @@ _.pick = function(obj) {
 };
 
   // Return a copy of the object without the blacklisted properties.
-_.omit = function(obj) {
+exports.omit = function(obj) {
   var copy = {};
   var keys = concat.apply(ArrayProto, slice.call(arguments, 1));
   for (var key in obj) {
-    if (!_.contains(keys, key)) copy[key] = obj[key];
+    if (!collections.contains(keys, key)) copy[key] = obj[key];
   }
   return copy;
 };
 
 // Fill in a given object with default properties.
-_.defaults = function(obj) {
+exports.defaults = function(obj) {
   each(slice.call(arguments, 1), function(source) {
     for (var prop in source) {
       if (obj[prop] == null) obj[prop] = source[prop];
@@ -89,15 +90,15 @@ _.defaults = function(obj) {
 };
 
 // Create a (shallow-cloned) duplicate of an object.
-_.clone = function(obj) {
-  if (!_.isObject(obj)) return obj;
-  return _.isArray(obj) ? obj.slice() : _.extend({}, obj);
+exports.clone = function(obj) {
+  if (!exports.isObject(obj)) return obj;
+  return exports.isArray(obj) ? obj.slice() : exports.extend({}, obj);
 };
 
 // Invokes interceptor with the obj, and then returns obj.
 // The primary purpose of this method is to "tap into" a method chain, in
 // order to perform operations on intermediate results within the chain.
-_.tap = function(obj, interceptor) {
+exports.tap = function(obj, interceptor) {
   interceptor(obj);
   return obj;
 };
@@ -166,23 +167,23 @@ var eq = function(a, b, aStack, bStack) {
     // Objects with different constructors are not equivalent, but `Object`s
     // from different frames are.
     var aCtor = a.constructor, bCtor = b.constructor;
-    if (aCtor !== bCtor && !(_.isFunction(aCtor) && (aCtor instanceof aCtor) &&
-                              _.isFunction(bCtor) && (bCtor instanceof bCtor))) {
+    if (aCtor !== bCtor && !(exports.isFunction(aCtor) && (aCtor instanceof aCtor) &&
+                             exports.isFunction(bCtor) && (bCtor instanceof bCtor))) {
       return false;
     }
     // Deep compare objects.
     for (var key in a) {
-      if (_.has(a, key)) {
+      if (exports.has(a, key)) {
         // Count the expected number of properties.
         size++;
         // Deep compare each member.
-        if (!(result = _.has(b, key) && eq(a[key], b[key], aStack, bStack))) break;
+        if (!(result = exports.has(b, key) && eq(a[key], b[key], aStack, bStack))) break;
       }
     }
     // Ensure that both objects contain the same number of properties.
     if (result) {
       for (key in b) {
-        if (_.has(b, key) && !(size--)) break;
+        if (exports.has(b, key) && !(size--)) break;
       }
       result = !size;
     }
@@ -194,84 +195,84 @@ var eq = function(a, b, aStack, bStack) {
 };
 
 // Perform a deep comparison to check if two objects are equal.
-_.isEqual = function(a, b) {
+exports.isEqual = function(a, b) {
   return eq(a, b, [], []);
 };
 
 // Is a given array, string, or object empty?
 // An "empty" object has no enumerable own-properties.
-_.isEmpty = function(obj) {
+exports.isEmpty = function(obj) {
   if (obj == null) return true;
-  if (_.isArray(obj) || _.isString(obj)) return obj.length === 0;
-  for (var key in obj) if (_.has(obj, key)) return false;
+  if (exports.isArray(obj) || exports.isString(obj)) return obj.length === 0;
+  for (var key in obj) if (exports.has(obj, key)) return false;
   return true;
 };
 
 // Is a given value a DOM element?
-_.isElement = function(obj) {
+exports.isElement = function(obj) {
   return !!(obj && obj.nodeType === 1);
 };
 
 // Is a given value an array?
 // Delegates to ECMA5's native Array.isArray
-_.isArray = nativeIsArray || function(obj) {
+exports.isArray = nativeIsArray || function(obj) {
   return toString.call(obj) == '[object Array]';
 };
 
 // Is a given variable an object?
-_.isObject = function(obj) {
+exports.isObject = function(obj) {
   return obj === Object(obj);
 };
 
 // Add some isType methods: isArguments, isFunction, isString, isNumber, isDate, isRegExp.
 each(['Arguments', 'Function', 'String', 'Number', 'Date', 'RegExp'], function(name) {
-  _['is' + name] = function(obj) {
+  exports['is' + name] = function(obj) {
     return toString.call(obj) == '[object ' + name + ']';
   };
 });
 
 // Define a fallback version of the method in browsers (ahem, IE), where
 // there isn't any inspectable "Arguments" type.
-if (!_.isArguments(arguments)) {
-  _.isArguments = function(obj) {
-    return !!(obj && _.has(obj, 'callee'));
+if (!exports.isArguments(arguments)) {
+  exports.isArguments = function(obj) {
+    return !!(obj && exports.has(obj, 'callee'));
   };
 }
 
 // Optimize `isFunction` if appropriate.
 if (typeof (/./) !== 'function') {
-  _.isFunction = function(obj) {
+  exports.isFunction = function(obj) {
     return typeof obj === 'function';
   };
 }
 
 // Is a given object a finite number?
-_.isFinite = function(obj) {
-  return _.isNumber(obj) && isFinite(obj);
+exports.isFinite = function(obj) {
+  return exports.isNumber(obj) && isFinite(obj);
 };
 
 // Is the given value `NaN`? (NaN is the only number which does not equal itself).
-_.isNaN = function(obj) {
-  return _.isNumber(obj) && obj != +obj;
+exports.isNaN = function(obj) {
+  return exports.isNumber(obj) && obj != +obj;
 };
 
 // Is a given value a boolean?
-_.isBoolean = function(obj) {
+exports.isBoolean = function(obj) {
   return obj === true || obj === false || toString.call(obj) == '[object Boolean]';
 };
 
 // Is a given value equal to null?
-_.isNull = function(obj) {
+exports.isNull = function(obj) {
   return obj === null;
 };
 
 // Is a given variable undefined?
-_.isUndefined = function(obj) {
+exports.isUndefined = function(obj) {
   return obj === void 0;
 };
 
 // Shortcut function for checking if an object has a given property directly
 // on itself (in other words, not on a prototype).
-_.has = function(obj, key) {
+exports.has = function(obj, key) {
   return hasOwnProperty.call(obj, key);
 };

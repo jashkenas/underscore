@@ -1,4 +1,6 @@
-var each = require('./collections').each,
+var objects = require('./objects'),
+    utils = require('./utils'),
+    each = require('./collections').each,
     nativeBind = Function.prototype.bind,
     ArrayProto = Array.prototype,
     push = ArrayProto.push,
@@ -11,10 +13,10 @@ var ctor = function(){};
 // optionally). Binding with arguments is also known as `curry`.
 // Delegates to **ECMAScript 5**'s native `Function.bind` if available.
 // We check for `func.bind` first, to fail fast when `func` is undefined.
-_.bind = function bind(func, context) {
+exports.bind = function bind(func, context) {
   var bound, args;
   if (func.bind === nativeBind && nativeBind) return nativeBind.apply(func, slice.call(arguments, 1));
-  if (!_.isFunction(func)) throw new TypeError;
+  if (!objects.isFunction(func)) throw new TypeError;
   args = slice.call(arguments, 2);
   return bound = function() {
     if (!(this instanceof bound)) return func.apply(context, args.concat(slice.call(arguments)));
@@ -28,41 +30,41 @@ _.bind = function bind(func, context) {
 
 // Bind all of an object's methods to that object. Useful for ensuring that
 // all callbacks defined on an object belong to it.
-_.bindAll = function(obj) {
+exports.bindAll = function(obj) {
   var funcs = slice.call(arguments, 1);
-  if (funcs.length == 0) funcs = _.functions(obj);
-  each(funcs, function(f) { obj[f] = _.bind(obj[f], obj); });
+  if (funcs.length == 0) funcs = objects.functions(obj);
+  each(funcs, function(f) { obj[f] = exports.bind(obj[f], obj); });
   return obj;
 };
 
 // Memoize an expensive function by storing its results.
-_.memoize = function(func, hasher) {
+exports.memoize = function(func, hasher) {
   var memo = {};
-  hasher || (hasher = _.identity);
+  hasher || (hasher = utils.identity);
   return function() {
     var key = hasher.apply(this, arguments);
-    return _.has(memo, key) ? memo[key] : (memo[key] = func.apply(this, arguments));
+    return objects.has(memo, key) ? memo[key] : (memo[key] = func.apply(this, arguments));
   };
 };
 
 // Delays a function for the given number of milliseconds, and then calls
 // it with the arguments supplied.
-_.delay = function(func, wait) {
+exports.delay = function(func, wait) {
   var args = slice.call(arguments, 2);
   return setTimeout(function(){ return func.apply(null, args); }, wait);
 };
 
 // Defers a function, scheduling it to run after the current call stack has
 // cleared.
-_.defer = function(func) {
-  return _.delay.apply(_, [func, 1].concat(slice.call(arguments, 1)));
+exports.defer = function(func) {
+  return exports.delay.apply(exports, [func, 1].concat(slice.call(arguments, 1)));
 };
 
 // Returns a function, that, when invoked, will only be triggered at most once
 // during a given window of time.
-_.throttle = function(func, wait) {
+exports.throttle = function(func, wait) {
   var context, args, timeout, throttling, more, result;
-  var whenDone = _.debounce(function(){ more = throttling = false; }, wait);
+  var whenDone = exports.debounce(function(){ more = throttling = false; }, wait);
   return function() {
     context = this; args = arguments;
     var later = function() {
@@ -88,7 +90,7 @@ _.throttle = function(func, wait) {
 // be triggered. The function will be called after it stops being called for
 // N milliseconds. If `immediate` is passed, trigger the function on the
 // leading edge, instead of the trailing.
-_.debounce = function(func, wait, immediate) {
+exports.debounce = function(func, wait, immediate) {
   var timeout, result;
   return function() {
     var context = this, args = arguments;
@@ -106,7 +108,7 @@ _.debounce = function(func, wait, immediate) {
 
 // Returns a function that will be executed at most one time, no matter how
 // often you call it. Useful for lazy initialization.
-_.once = function(func) {
+exports.once = function(func) {
   var ran = false, memo;
   return function() {
     if (ran) return memo;
@@ -120,7 +122,7 @@ _.once = function(func) {
 // Returns the first function passed as an argument to the second,
 // allowing you to adjust arguments, run code before and after, and
 // conditionally execute the original function.
-_.wrap = function(func, wrapper) {
+exports.wrap = function(func, wrapper) {
   return function() {
     var args = [func];
     push.apply(args, arguments);
@@ -130,7 +132,7 @@ _.wrap = function(func, wrapper) {
 
 // Returns a function that is the composition of a list of functions, each
 // consuming the return value of the function that follows.
-_.compose = function() {
+exports.compose = function() {
   var funcs = arguments;
   return function() {
     var args = arguments;
@@ -142,7 +144,7 @@ _.compose = function() {
 };
 
 // Returns a function that will only be executed after being called N times.
-_.after = function(times, func) {
+exports.after = function(times, func) {
   if (times <= 0) return func();
   return function() {
     if (--times < 1) {
