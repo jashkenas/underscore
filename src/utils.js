@@ -105,7 +105,7 @@ var escaper = /\\|'|\r|\n|\t|\u2028|\u2029/g;
 // Underscore templating handles arbitrary delimiters, preserves whitespace,
 // and correctly escapes quotes within interpolated code.
 exports.template = function(text, data, settings) {
-  settings = objects.defaults({}, settings, exports.templateSettings);
+  settings = objects.defaults({}, settings, this.templateSettings);
 
   // Combine delimiters into one regular expression via alternation.
   var matcher = new RegExp([
@@ -121,7 +121,7 @@ exports.template = function(text, data, settings) {
     source += text.slice(index, offset)
       .replace(escaper, function(match) { return '\\' + escapes[match]; });
     source +=
-      escape ? "'+\n((__t=(" + escape + "))==null?'':_.escape(__t))+\n'" :
+      escape ? "'+\n((__t=(" + escape + "))==null?'':__escape(__t))+\n'" :
       interpolate ? "'+\n((__t=(" + interpolate + "))==null?'':__t)+\n'" :
       evaluate ? "';\n" + evaluate + "\n__p+='" : '';
     index = offset + match.length;
@@ -136,15 +136,15 @@ exports.template = function(text, data, settings) {
     source + "return __p;\n";
 
   try {
-    var render = new Function(settings.variable || 'obj', '_', source);
+    var render = new Function(settings.variable || 'obj', '__escape', source);
   } catch (e) {
     e.source = source;
     throw e;
   }
 
-  if (data) return render(data, _);
+  if (data) return render(data, exports.escape);
   var template = function(data) {
-    return render.call(this, data, _);
+    return render.call(this, data, exports.escape);
   };
 
   // Provide the compiled function source as a convenience for precompilation.

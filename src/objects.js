@@ -111,8 +111,8 @@ var eq = function(a, b, aStack, bStack) {
   // A strict comparison is necessary because `null == undefined`.
   if (a == null || b == null) return a === b;
   // Unwrap any wrapped objects.
-  if (a instanceof _) a = a._wrapped;
-  if (b instanceof _) b = b._wrapped;
+  if (exports.has(a, '_wrapped')) a = a._wrapped;
+  if (exports.has(b, '_wrapped')) b = b._wrapped;
   // Compare `[[Class]]` names.
   var className = toString.call(a);
   if (className != toString.call(b)) return false;
