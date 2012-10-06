@@ -8,9 +8,6 @@ var each = require('./collections').each,
 
 var result = createResult(exports);
 
-// Add all of the Underscore functions to the wrapper object.
-exports.mixin(exports);
-
 // Add all mutator Array functions to the wrapper.
 each(['pop', 'push', 'reverse', 'shift', 'sort', 'splice', 'unshift'], function(name) {
   var method = ArrayProto[name];

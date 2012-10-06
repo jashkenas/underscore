@@ -12,6 +12,16 @@ var createResult = function(_) {
 
 var result = createResult(exports);
 
+// Save the previous value of the `_` variable.
+if (typeof window !== 'undefined') var previousUnderscore = window._;
+
+// Run Underscore.js in *noConflict* mode, returning the `_` variable to its
+// previous owner. Returns a reference to the Underscore object.
+exports.noConflict = function() {
+  window._ = previousUnderscore;
+  return this;
+};
+
 // Keep the identity function around for default iterators.
 exports.identity = common.identity;
 
