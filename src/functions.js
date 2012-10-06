@@ -1,6 +1,6 @@
 var objects = require('./objects'),
     utils = require('./utils'),
-    each = require('./common').each,
+    each = require('./each'),
     nativeBind = Function.prototype.bind,
     ArrayProto = Array.prototype,
     push = ArrayProto.push,

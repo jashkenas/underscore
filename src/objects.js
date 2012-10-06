@@ -1,4 +1,4 @@
-var each = require('./common').each,
+var each = require('./each'),
     ArrayProto = Array.prototype,
     slice = ArrayProto.slice,
     concat = ArrayProto.concat,

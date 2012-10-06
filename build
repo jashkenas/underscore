@@ -5,7 +5,7 @@ source_dir='src'
 app_name='underscore'
 
 sources='
-src/common.js
+src/each.js
 src/objects.js
 src/utils.js
 src/functions.js

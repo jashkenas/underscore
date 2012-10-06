@@ -1,5 +1,5 @@
 var objects = require('./objects'),
-    each = require('./common').each;
+    each = require('./each');
 
 // Save the previous value of the `_` variable.
 if (typeof window !== 'undefined') var previousUnderscore = window._;
