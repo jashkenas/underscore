@@ -1,5 +1,5 @@
-var collections = require('./collections'),
-    each = collections.each,
+var common = require('./common'),
+    each = common.each,
     ArrayProto = Array.prototype,
     slice = ArrayProto.slice,
     concat = ArrayProto.concat,
@@ -69,12 +69,12 @@ exports.pick = function(obj) {
   return copy;
 };
 
-  // Return a copy of the object without the blacklisted properties.
+// Return a copy of the object without the blacklisted properties.
 exports.omit = function(obj) {
   var copy = {};
   var keys = concat.apply(ArrayProto, slice.call(arguments, 1));
   for (var key in obj) {
-    if (!collections.contains(keys, key)) copy[key] = obj[key];
+    if (!common.contains(keys, key)) copy[key] = obj[key];
   }
   return copy;
 };

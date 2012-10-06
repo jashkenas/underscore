@@ -1,6 +1,7 @@
 var objects = require('./objects'),
     utils = require('./utils'),
-    each = require('./collections').each,
+    common = require('./common'),
+    each = common.each,
     nativeBind = Function.prototype.bind,
     ArrayProto = Array.prototype,
     push = ArrayProto.push,
@@ -40,7 +41,7 @@ exports.bindAll = function(obj) {
 // Memoize an expensive function by storing its results.
 exports.memoize = function(func, hasher) {
   var memo = {};
-  hasher || (hasher = utils.identity);
+  hasher || (hasher = common.identity);
   return function() {
     var key = hasher.apply(this, arguments);
     return objects.has(memo, key) ? memo[key] : (memo[key] = func.apply(this, arguments));

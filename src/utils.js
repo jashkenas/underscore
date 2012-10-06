@@ -1,5 +1,6 @@
 var objects = require('./objects'),
-    each = require('./collections').each,
+    common = require('./common'),
+    each = common.each,
     push = Array.prototype.push;
 
 var createResult = function(_) {
@@ -12,9 +13,7 @@ var createResult = function(_) {
 var result = createResult(exports);
 
 // Keep the identity function around for default iterators.
-exports.identity = function(value) {
-  return value;
-};
+exports.identity = common.identity;
 
 // Run a function **n** times.
 exports.times = function(n, iterator, context) {

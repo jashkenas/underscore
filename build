@@ -5,11 +5,12 @@ source_dir='src'
 app_name='underscore'
 
 sources='
+src/common.js
+src/objects.js
+src/functions.js
+src/utils.js
 src/collections.js
 src/arrays.js
-src/functions.js
-src/objects.js
-src/utils.js
 src/oop.js
 src/index.js
 '

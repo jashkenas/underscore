@@ -1,39 +1,23 @@
 var objects = require('./objects'),
     functions = require('./functions'),
     utils = require('./utils'),
+    common = require('./common'),
+    each = common.each,
+    any = common.any,
+    breaker = common.breaker,
     ArrayProto = Array.prototype,
     slice = ArrayProto.slice,
-    nativeForEach = ArrayProto.forEach,
     nativeMap = ArrayProto.map,
     nativeReduce = ArrayProto.reduce,
     nativeReduceRight = ArrayProto.reduceRight,
     nativeFilter = ArrayProto.filter,
     nativeEvery = ArrayProto.every,
-    nativeSome = ArrayProto.some,
-    nativeIndexOf = ArrayProto.indexOf,
     hasOwnProperty = Object.prototype.hasOwnProperty;
-
-// Establish the object that gets returned to break out of a loop iteration.
-var breaker = {};
 
 // The cornerstone, an `each` implementation, aka `forEach`.
 // Handles objects with the built-in `forEach`, arrays, and raw objects.
 // Delegates to **ECMAScript 5**'s native `forEach` if available.
-var each = exports.each = exports.forEach = function(obj, iterator, context) {
-  if (nativeForEach && obj.forEach === nativeForEach) {
-    obj.forEach(iterator, context);
-  } else if (obj.length === +obj.length) {
-    for (var i = 0, l = obj.length; i < l; i++) {
-      if (iterator.call(context, obj[i], i, obj) === breaker) return;
-    }
-  } else {
-    for (var key in obj) {
-      if (hasOwnProperty.call(obj, key)) {
-        if (iterator.call(context, obj[key], key, obj) === breaker) return;
-      }
-    }
-  }
-};
+exports.each = exports.forEach = each;
 
 // Return the results of applying the iterator to each element.
 // Delegates to **ECMAScript 5**'s native `map` if available.
@@ -129,7 +113,7 @@ exports.reject = function(obj, iterator, context) {
 // Delegates to **ECMAScript 5**'s native `every` if available.
 // Aliased as `all`.
 exports.every = exports.all = function(obj, iterator, context) {
-  iterator || (iterator = utils.identity);
+  iterator || (iterator = common.identity);
   var result = true;
   if (nativeEvery && obj.every === nativeEvery) return obj.every(iterator, context);
   each(obj, function(value, index, list) {
@@ -141,26 +125,11 @@ exports.every = exports.all = function(obj, iterator, context) {
 // Determine if at least one element in the object matches a truth test.
 // Delegates to **ECMAScript 5**'s native `some` if available.
 // Aliased as `any`.
-var any = exports.some = exports.any = function(obj, iterator, context) {
-  iterator || (iterator = utils.identity);
-  var result = false;
-  if (nativeSome && obj.some === nativeSome) return obj.some(iterator, context);
-  each(obj, function(value, index, list) {
-    if (result || (result = iterator.call(context, value, index, list))) return breaker;
-  });
-  return !!result;
-};
+exports.any = exports.some = any;
 
 // Determine if the array or object contains a given value (using `===`).
 // Aliased as `include`.
-exports.contains = exports.include = function(obj, target) {
-  var found = false;
-  if (nativeIndexOf && obj.indexOf === nativeIndexOf) return obj.indexOf(target) != -1;
-  found = any(obj, function(value) {
-    return value === target;
-  });
-  return found;
-};
+exports.contains = exports.include = common.contains;
 
 // Invoke a method (with arguments) on every item in a collection.
 exports.invoke = function(obj, method) {
@@ -287,7 +256,7 @@ exports.countBy = function(obj, value, context) {
 // Use a comparator function to figure out the smallest index at which
 // an object should be inserted so as to maintain order. Uses binary search.
 exports.sortedIndex = function(array, obj, iterator, context) {
-  iterator = iterator == null ? utils.identity : lookupIterator(iterator);
+  iterator = iterator == null ? common.identity : lookupIterator(iterator);
   var value = iterator.call(context, obj);
   var low = 0, high = array.length;
   while (low < high) {
