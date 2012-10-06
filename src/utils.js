@@ -1,16 +1,6 @@
 var objects = require('./objects'),
     common = require('./common'),
-    each = common.each,
-    push = Array.prototype.push;
-
-var createResult = function(_) {
-  // Helper function to continue chaining intermediate results.
-  return function(obj) {
-    return this._chain ? _(obj).chain() : obj;
-  };
-};
-
-var result = createResult(exports);
+    each = common.each;
 
 // Save the previous value of the `_` variable.
 if (typeof window !== 'undefined') var previousUnderscore = window._;
@@ -74,18 +64,6 @@ exports.result = function(object, property) {
   if (object == null) return null;
   var value = object[property];
   return objects.isFunction(value) ? value.call(object) : value;
-};
-
-// Add your own custom functions to the Underscore object.
-exports.mixin = function(obj) {
-  each(objects.functions(obj), function(name){
-    var func = _[name] = obj[name];
-    _.prototype[name] = function() {
-      var args = [this._wrapped];
-      push.apply(args, arguments);
-      return result.call(this, func.apply(_, args));
-    };
-  });
 };
 
 // Generate a unique integer id (unique within the entire client session).
@@ -174,10 +152,3 @@ exports.template = function(text, data, settings) {
 
   return template;
 };
-
-// Add a "chain" function, which will delegate to the wrapper.
-exports.chain = function(obj) {
-  return _(obj).chain();
-};
-
-exports.createResult = createResult;

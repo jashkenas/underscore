@@ -23,17 +23,38 @@ objects.extend(_,
               );
 
 
-// Add all of the Underscore functions to the wrapper object.
-_.mixin(_);
-
 var each = _.each,
-    ArrayProto = Array.prototype;
+    ArrayProto = Array.prototype,
+    push = ArrayProto.push;
+
+
+// Add a "chain" function, which will delegate to the wrapper.
+_.chain = function(obj) {
+  return _(obj).chain();
+};
 
 // If Underscore is called as a function, it returns a wrapped object that
 // can be used OO-style. This wrapper holds altered versions of all the
 // underscore functions. Wrapped objects may be chained.
 
-var result = utils.createResult(_);
+var result = function(obj) {
+  return this._chain ? _(obj).chain() : obj;
+};
+
+// Add your own custom functions to the Underscore object.
+_.mixin = function(obj) {
+  each(objects.functions(obj), function(name){
+    var func = _[name] = obj[name];
+    _.prototype[name] = function() {
+      var args = [this._wrapped];
+      push.apply(args, arguments);
+      return result.call(this, func.apply(_, args));
+    };
+  });
+};
+
+// Add all of the Underscore functions to the wrapper object.
+_.mixin(_);
 
 // Add all mutator Array functions to the wrapper.
 each(['pop', 'push', 'reverse', 'shift', 'sort', 'splice', 'unshift'], function(name) {
