@@ -224,6 +224,9 @@ $(document).ready(function() {
     result = _.where(list, {b: 2});
     equal(result.length, 2);
     equal(result[0].a, 1);
+    result = _.where(list, {b:function(num) {return num > 3;}});
+    equal(result.length, 1);
+    equal(result[0].b, 4);
   });
 
   test('max', function() {
