@@ -23,9 +23,6 @@ objects.extend(_,
               );
 
 
-_.template = utils.createTemplate(_);
-_.isEqual = objects.createIsEqual(_);
-
 var each = _.each,
     ArrayProto = Array.prototype,
     push = ArrayProto.push;

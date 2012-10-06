@@ -104,54 +104,51 @@ var escaper = /\\|'|\r|\n|\t|\u2028|\u2029/g;
 // JavaScript micro-templating, similar to John Resig's implementation.
 // Underscore templating handles arbitrary delimiters, preserves whitespace,
 // and correctly escapes quotes within interpolated code.
-exports.createTemplate = function(_) {
-  return function(text, data, settings) {   // _.template
-    settings = objects.defaults({}, settings, _.templateSettings);
+exports.template = function(text, data, settings) {
+  settings = objects.defaults({}, settings, exports.templateSettings);
 
-    // Combine delimiters into one regular expression via alternation.
-    var matcher = new RegExp([
-      (settings.escape || noMatch).source,
-      (settings.interpolate || noMatch).source,
-      (settings.evaluate || noMatch).source
-    ].join('|') + '|$', 'g');
+  // Combine delimiters into one regular expression via alternation.
+  var matcher = new RegExp([
+    (settings.escape || noMatch).source,
+    (settings.interpolate || noMatch).source,
+    (settings.evaluate || noMatch).source
+  ].join('|') + '|$', 'g');
 
-    // Compile the template source, escaping string literals appropriately.
-    var index = 0;
-    var source = "__p+='";
-    text.replace(matcher, function(match, escape, interpolate, evaluate, offset) {
-      source += text.slice(index, offset)
-        .replace(escaper, function(match) { return '\\' + escapes[match]; });
-      source +=
-        escape ? "'+\n((__t=(" + escape + "))==null?'':_.escape(__t))+\n'" :
-        interpolate ? "'+\n((__t=(" + interpolate + "))==null?'':__t)+\n'" :
-        evaluate ? "';\n" + evaluate + "\n__p+='" : '';
-      index = offset + match.length;
-    });
-    source += "';\n";
+  // Compile the template source, escaping string literals appropriately.
+  var index = 0;
+  var source = "__p+='";
+  text.replace(matcher, function(match, escape, interpolate, evaluate, offset) {
+    source += text.slice(index, offset)
+      .replace(escaper, function(match) { return '\\' + escapes[match]; });
+    source +=
+      escape ? "'+\n((__t=(" + escape + "))==null?'':_.escape(__t))+\n'" :
+      interpolate ? "'+\n((__t=(" + interpolate + "))==null?'':__t)+\n'" :
+      evaluate ? "';\n" + evaluate + "\n__p+='" : '';
+    index = offset + match.length;
+  });
+  source += "';\n";
 
-    // If a variable is not specified, place data values in local scope.
-    if (!settings.variable) source = 'with(obj||{}){\n' + source + '}\n';
+  // If a variable is not specified, place data values in local scope.
+  if (!settings.variable) source = 'with(obj||{}){\n' + source + '}\n';
 
-    source = "var __t,__p='',__j=Array.prototype.join," +
-      "print=function(){__p+=__j.call(arguments,'');};\n" +
-      source + "return __p;\n";
+  source = "var __t,__p='',__j=Array.prototype.join," +
+    "print=function(){__p+=__j.call(arguments,'');};\n" +
+    source + "return __p;\n";
 
-    try {
-      var render = new Function(settings.variable || 'obj', '_', source);
-    } catch (e) {
-      e.source = source;
-      throw e;
-    }
+  try {
+    var render = new Function(settings.variable || 'obj', '_', source);
+  } catch (e) {
+    e.source = source;
+    throw e;
+  }
 
-    if (data) return render(data, _);
-    var template = function(data) {
-      return render.call(this, data, _);
-    };
-
-    // Provide the compiled function source as a convenience for precompilation.
-    template.source = 'function(' + (settings.variable || 'obj') + '){\n' + source + '}';
-
-    return template;
+  if (data) return render(data, _);
+  var template = function(data) {
+    return render.call(this, data, _);
   };
+
+  // Provide the compiled function source as a convenience for precompilation.
+  template.source = 'function(' + (settings.variable || 'obj') + '){\n' + source + '}';
+
+  return template;
 };
-exports.template = exports.createTemplate(exports);
