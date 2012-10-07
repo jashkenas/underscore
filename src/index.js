@@ -3,8 +3,7 @@
 //     (c) 2009-2012 Jeremy Ashkenas, DocumentCloud Inc.
 //     Underscore may be freely distributed under the MIT license.
 
-var objects = require('./objects'),
-    utils = require('./utils');
+var objects = require('./objects');
 
 // Create a safe reference to the Underscore object for use below.
 var _ = function(obj) {
@@ -19,7 +18,7 @@ objects.extend(_,
                require('./collections'),
                require('./arrays'),
                require('./functions'),
-               utils
+               require('./utils')
               );
 
 
