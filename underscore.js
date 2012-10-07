@@ -1148,6 +1148,13 @@
     return template;
   };
 
+  // utility function for converting non-array values to an array. Arrays are passed
+  // straight through, non-array values will be wrapped in an array, and falsy values
+  // return an empty array.
+  _.ensureArray = function(value){
+    return _.isArray(value) ? value : value ? [value] : [];
+  };
+
   // Add a "chain" function, which will delegate to the wrapper.
   _.chain = function(obj) {
     return _(obj).chain();

@@ -246,4 +246,11 @@ $(document).ready(function() {
     strictEqual(template(), '<<\nx\n>>');
   });
 
+  test('ensureArray utility function',3,function(){
+    var arr = [1,2,3], obj = {a:1,b:2};
+    equal(_.ensureArray(arr),arr); // arrays should be passed straight through
+    deepEqual(_.ensureArray(obj),[obj]); // non-arrays should be wrapped in an array
+    deepEqual(_.ensureArray(undefined),[]); // falsy values should result in empty array
+  });
+
 });
