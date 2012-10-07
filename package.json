@@ -5,6 +5,6 @@
   "keywords"      : ["util", "functional", "server", "client", "browser"],
   "author"        : "Jeremy Ashkenas <jeremy@documentcloud.org>",
   "repository"    : {"type": "git", "url": "git://github.com/documentcloud/underscore.git"},
-  "main"          : "underscore.js",
+  "main"          : "src/index.js",
   "version"       : "1.4.1"
 }

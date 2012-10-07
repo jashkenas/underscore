@@ -16,6 +16,7 @@ end
 
 desc "Run the dev server for testing"
 task :test do
+  system 'node test/node.js'
   puts 'open localhost:3000/test/ in a browser to run tests'
   system 'node dev_server.js'
 end
