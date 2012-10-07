@@ -1,4 +1,6 @@
-$(document).ready(function() {
+define('utility', function(r, e, mod) {
+
+mod.exports = function() {
 
   var templateSettings;
 
@@ -245,5 +247,7 @@ $(document).ready(function() {
     var template = _.template('<<\nx\n>>', null, {evaluate: /<<(.*?)>>/g});
     strictEqual(template(), '<<\nx\n>>');
   });
+
+};
 
 });

@@ -1,4 +1,6 @@
-(function() {
+define('speed', function(r, e, mod) {
+
+mod.exports = function() {
 
   var numbers = [];
   for (var i=0; i<1000; i++) numbers.push(i);
@@ -72,4 +74,6 @@
     return _.flatten(deep);
   });
 
-})();
+};
+
+});

@@ -1,4 +1,6 @@
-$(document).ready(function() {
+define('chaining', function(r, e, mod) {
+
+mod.exports = function() {
 
   module("Chaining");
 
@@ -55,5 +57,7 @@ $(document).ready(function() {
       .value();
     equal(numbers.join(', '), "34, 10, 8, 6, 4, 2, 10, 10", 'can chain together array functions.');
   });
+
+};
 
 });

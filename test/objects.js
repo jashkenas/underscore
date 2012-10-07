@@ -1,4 +1,6 @@
-$(document).ready(function() {
+define('objects', function(r, e, mod) {
+
+mod.exports = function() {
 
   module("Objects");
 
@@ -545,4 +547,7 @@ $(document).ready(function() {
       value();
     ok(returned == 6 && intercepted == 6, 'can use tapped objects in a chain');
   });
+
+};
+
 });

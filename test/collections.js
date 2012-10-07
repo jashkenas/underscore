@@ -1,4 +1,6 @@
-$(document).ready(function() {
+define('collections', function(r, e, mod) {
+
+mod.exports = function() {
 
   module("Collections");
 
@@ -386,5 +388,7 @@ $(document).ready(function() {
 
     equal(_.size('hello'), 5, 'can compute the size of a string');
   });
+
+};
 
 });
