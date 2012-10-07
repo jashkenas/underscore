@@ -179,7 +179,7 @@
   <div id="sidebar" class="interface">
 
     <a class="toc_title" href="#">
-      Underscore.js <span class="version">(1.4.1)</span>
+      Underscore.js <span class="version">(1.4.2)</span>
     </a>
 
     <a class="toc_title" href="#">
@@ -373,11 +373,11 @@
 
     <table>
       <tr>
-        <td><a href="underscore.js">Development Version (1.4.1)</a></td>
+        <td><a href="underscore.js">Development Version (1.4.2)</a></td>
         <td><i>40kb, Uncompressed with Plentiful Comments</i></td>
       </tr>
       <tr>
-        <td><a href="underscore-min.js">Production Version (1.4.1)</a></td>
+        <td><a href="underscore-min.js">Production Version (1.4.2)</a></td>
         <td><i>4kb, Minified and Gzipped</i></td>
       </tr>
       <tr>
@@ -1748,6 +1748,17 @@ _([1, 2, 3]).value();
       <h2 id="changelog">Change Log</h2>
       
       <p>
+        <b class="header">1.4.2</b> &mdash; <small><i>Oct. 1, 2012</i></small>  &mdash; <a href="https://github.com/documentcloud/underscore/compare/1.4.1...1.4.2">Diff</a><br />
+        <ul>
+          <li>
+            For backwards compatibility, returned to pre-1.4.0 behavior when 
+            passing <tt>null</tt> to iteration functions. They now become no-ops 
+            again.
+          </li>
+        </ul>
+      </p>
+      
+      <p>
         <b class="header">1.4.1</b> &mdash; <small><i>Oct. 1, 2012</i></small>  &mdash; <a href="https://github.com/documentcloud/underscore/compare/1.4.0...1.4.1">Diff</a><br />
         <ul>
           <li>
@@ -1809,8 +1820,8 @@ _([1, 2, 3]).value();
             <tt>undefined</tt> as the empty string.
           </li>
           <li>
-            Underscore iteration functions no longer accept <tt>null</tt> values
-            as a no-op argument. You'll get an early error instead.
+            <del>Underscore iteration functions no longer accept <tt>null</tt> values
+            as a no-op argument. You'll get an early error instead.</del>
           </li>
           <li>
             A number of edge-cases fixes and tweaks, which you can spot in the
