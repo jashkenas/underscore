@@ -1,4 +1,6 @@
-define('arrays', function(r, e, mod) {
+define('arrays', function(require, e, mod) {
+
+  var _ = require('underscore');
 
 mod.exports = function() {
 
