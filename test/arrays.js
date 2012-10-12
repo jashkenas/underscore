@@ -197,4 +197,12 @@ $(document).ready(function() {
     equal(_.range(0, -10, -1).join(' '), '0 -1 -2 -3 -4 -5 -6 -7 -8 -9', 'final example in the Python docs');
   });
 
+  test("randomMember", function() {
+    var members = _.map(_.range(0, 100), function(num){
+      return _.randomMember(["first", "middle", "last"]);
+    });
+    ok(_.contains(members, "first"), "allows first item to be randomly picked");
+    ok(_.contains(members, "middle"), "allows arbitrary middle item to be randomly picked");
+    ok(_.contains(members, "last"), "allows last item to be randomly picked");
+  });
 });

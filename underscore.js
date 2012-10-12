@@ -559,6 +559,11 @@
     return range;
   };
 
+  // Return a random member of an array
+  _.randomMember = function(array) {
+    return array[_.random(array.length - 1)];
+  }
+
   // Function (ahem) Functions
   // ------------------
 
