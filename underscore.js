@@ -1001,12 +1001,24 @@
   };
 
   // Return a random integer between min and max (inclusive).
-  _.random = function(min, max) {
-    if (max == null) {
-      max = min;
-      min = 0;
+  _.random = function(input, max) {
+    if (_.isNumber(input)) {
+      min = input;
+      if (max == null) {
+        max = min;
+        min = 0;
+      }
+      return min + (0 | Math.random() * (max - min + 1));  
     }
-    return min + (0 | Math.random() * (max - min + 1));
+    else if (_.isArray(input)) {
+      return input[_.random(input.length-1)];
+    }
+    else if (_.isObject(input)) {
+      return _.random(_.keys(input));
+    }
+    else {
+      return Math.random();
+    }
   };
 
   // List of HTML entities for escaping.
