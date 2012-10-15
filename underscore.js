@@ -255,12 +255,10 @@
       return Math.max.apply(Math, obj);
     }
     if (!iterator && _.isEmpty(obj)) return -Infinity;
-    var result = {computed : -Infinity};
-    each(obj, function(value, index, list) {
-      var computed = iterator ? iterator.call(context, value, index, list) : value;
-      computed >= result.computed && (result = {value : value, computed : computed});
-    });
-    return result.value;
+    return _.reduce(obj,function(result,value,index,list){
+        var computed = iterator ? iterator.call(context,value,index,list) : value;
+        return computed >=result.computed ? {value : value,computed : computed} : result;
+    },{computed : - Infinity}).value;
   };
 
   // Return the minimum element (or element-based computation).
@@ -269,12 +267,10 @@
       return Math.min.apply(Math, obj);
     }
     if (!iterator && _.isEmpty(obj)) return Infinity;
-    var result = {computed : Infinity};
-    each(obj, function(value, index, list) {
-      var computed = iterator ? iterator.call(context, value, index, list) : value;
-      computed < result.computed && (result = {value : value, computed : computed});
-    });
-    return result.value;
+    return _.reduce(obj,function(result,value,index,list){
+        var computed = iterator ? iterator.call(context,value,index,list) : value;
+        return computed < result.computed ? {value : value,computed : computed} : result;
+    },{computed : Infinity}).value;
   };
 
   // Shuffle an array.
