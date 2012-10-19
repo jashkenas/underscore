@@ -850,7 +850,7 @@
 
   // Is a given value a number?
   _.isNumber = function(obj) {
-    return isNaN(obj) ? false : toString.call(obj) == '[object Number]';
+    return _.isNaN(obj) ? false : toString.call(obj) == '[object Number]';
   };
 
   // Is a given object a finite number?
