@@ -241,7 +241,11 @@
     if (_.isEmpty(attrs)) return [];
     return _.filter(obj, function(value) {
       for (var key in attrs) {
-        if (attrs[key] !== value[key]) return false;
+        if (_.isFunction(attrs[key])) {
+          if (! attrs[key](value[key])) return false;
+        } else { 
+          if (attrs[key] !== value[key]) return false;
+        }
       }
       return true;
     });
