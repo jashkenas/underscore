@@ -1503,8 +1503,10 @@ _.escape('Curly, Larry &amp; Moe');
       <p id="unescape">
         <b class="header">unescape</b><code>_.unescape(string)</code>
         <br />
-        The opposite of <a href="#escape"><b>escape</b></a>, replaces escaped
-        HTML entities with with their unescaped counterparts.
+        The opposite of <a href="#escape"><b>escape</b></a>, replaces
+        <tt>&amp;amp;</tt>, <tt>&amp;lt;</tt>, <tt>&amp;gt;</tt>,
+        <tt>&amp;quot;</tt>, <tt>&amp;#x27;</tt>, and <tt>&amp;#x2F;</tt>
+        with their unescaped counterparts.
       </p>
       <pre>
 _.escape('Curly, Larry &amp;amp; Moe');
