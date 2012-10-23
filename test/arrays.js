@@ -97,6 +97,8 @@ $(document).ready(function() {
 
     var result = (function(){ return _.uniq(arguments); })(1, 2, 1, 3, 1, 4);
     equal(result.join(', '), '1, 2, 3, 4', 'works on an arguments object');
+
+    equal(_.uniq(["a", "a", "a", "b", "a", "hasOwnProperty"]).join(", "), "a, b, hasOwnProperty", "works on arrays of strings");
   });
 
   test("intersection", function() {

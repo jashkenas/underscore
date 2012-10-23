@@ -441,13 +441,23 @@
   _.uniq = _.unique = function(array, isSorted, iterator, context) {
     var initial = iterator ? _.map(array, iterator, context) : array;
     var results = [];
-    var seen = [];
-    each(initial, function(value, index) {
-      if (isSorted ? (!index || seen[seen.length - 1] !== value) : !_.contains(seen, value)) {
-        seen.push(value);
-        results.push(array[index]);
-      }
-    });
+    if(_.every(array, function(x) { typeof x === "string" })) {
+      var seen = {};
+      each(initial, function(value) {
+        if(!_.has(seen, value)) {
+          results.push(value);
+        }
+        seen[value] = true;
+      });
+    } else {
+      var seen = [];
+      each(initial, function(value, index) {
+        if (isSorted ? (!index || seen[seen.length - 1] !== value) : !_.contains(seen, value)) {
+          seen.push(value);
+          results.push(array[index]);
+        }
+      });
+    }
     return results;
   };
 
