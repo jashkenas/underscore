@@ -198,8 +198,8 @@
       <li>- <a href="#filter">filter</a></li>
       <li>- <a href="#where">where</a></li>
       <li>- <a href="#reject">reject</a></li>
-      <li>- <a href="#all">all</a></li>
-      <li>- <a href="#any">any</a></li>
+      <li>- <a href="#every">every</a></li>
+      <li>- <a href="#some">some</a></li>
       <li>- <a href="#contains">contains</a></li>
       <li>- <a href="#invoke">invoke</a></li>
       <li>- <a href="#pluck">pluck</a></li>
@@ -507,21 +507,21 @@ var odds = _.reject([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
 =&gt; [1, 3, 5]
 </pre>
 
-      <p id="all">
-        <b class="header">all</b><code>_.all(list, iterator, [context])</code>
-        <span class="alias">Alias: <b>every</b></span>
+      <p id="every">
+        <b class="header">every</b><code>_.every(list, iterator, [context])</code>
+        <span class="alias">Alias: <b>all</b></span>
         <br />
         Returns <i>true</i> if all of the values in the <b>list</b> pass the <b>iterator</b>
         truth test. Delegates to the native method <b>every</b>, if present.
       </p>
       <pre>
-_.all([true, 1, null, 'yes'], _.identity);
+_.every([true, 1, null, 'yes'], _.identity);
 =&gt; false
 </pre>
 
-      <p id="any">
-        <b class="header">any</b><code>_.any(list, [iterator], [context])</code>
-        <span class="alias">Alias: <b>some</b></span>
+      <p id="some">
+        <b class="header">some</b><code>_.some(list, [iterator], [context])</code>
+        <span class="alias">Alias: <b>any</b></span>
         <br />
         Returns <i>true</i> if any of the values in the <b>list</b> pass the
         <b>iterator</b> truth test. Short-circuits and stops traversing the list
@@ -529,7 +529,7 @@ _.all([true, 1, null, 'yes'], _.identity);
         if present.
       </p>
       <pre>
-_.any([null, 0, 'yes', false]);
+_.some([null, 0, 'yes', false]);
 =&gt; true
 </pre>
 
