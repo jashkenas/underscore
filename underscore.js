@@ -472,7 +472,9 @@
   // Only the elements present in just the first array will remain.
   _.difference = function(array) {
     var rest = concat.apply(ArrayProto, slice.call(arguments, 1));
-    return _.filter(array, function(value){ return !_.contains(rest, value); });
+    if(array.length == 0) return rest;
+    if(rest.length == 0) return array;
+    return  _.filter(array, function(value){ return !_.contains(rest, value); });
   };
 
   // Zip together multiple lists into a single array -- elements that share
