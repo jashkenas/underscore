@@ -441,7 +441,7 @@
   _.uniq = _.unique = function(array, isSorted, iterator, context) {
     var initial = iterator ? _.map(array, iterator, context) : array;
     var results = [];
-    if(_.every(array, function(x) { typeof x === "string" })) {
+    if(_.every(array, function(x) { return typeof x === "string" })) {
       var seen = {};
       each(initial, function(value) {
         if(!_.has(seen, value)) {
