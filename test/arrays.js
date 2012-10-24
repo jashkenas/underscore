@@ -119,6 +119,12 @@ $(document).ready(function() {
     var result = _.difference([1, 2, 3], [2, 30, 40]);
     equal(result.join(' '), '1 3', 'takes the difference of two arrays');
 
+    var result = _.difference([], [1 ,2 ,3 ]);
+    equal(result.join(' '), '1 2 3', 'takes the difference of two arrays, first array is empty');
+
+    var result = _.difference([1 ,2 ,3 ], []);
+    equal(result.join(' '), '1 2 3', 'takes the difference of two arrays, second array is empty');
+
     var result = _.difference([1, 2, 3, 4], [2, 30, 40], [1, 11, 111]);
     equal(result.join(' '), '3 4', 'takes the difference of three arrays');
   });
