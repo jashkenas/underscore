@@ -215,6 +215,14 @@ $(document).ready(function() {
     equal(num, 1);
   });
 
+  test("guarded", function() {
+    var func1, func2;
+    func1 = function() { func2(); return 1; };
+    func2 = _.guarded(function() { return func1(); });
+    equal(func1(), 1);
+    equal(func2(), 1);
+  });
+
   test("wrap", function() {
     var greet = function(name){ return "hi: " + name; };
     var backwards = _.wrap(greet, function(func, name){ return func(name) + ' ' + name.split('').reverse().join(''); });
