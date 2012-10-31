@@ -675,6 +675,19 @@
     };
   };
 
+  // Returns a function that cannot be called recursively
+  // Useful for protecting against mutually-recursive callbacks
+  _.guarded = function(func) {
+    var running = false, result;
+    return function() {
+      if (running) return;
+      running = true;
+      result = func.apply(this, arguments);
+      running = false;
+      return result;
+    };
+  };
+
   // Returns the first function passed as an argument to the second,
   // allowing you to adjust arguments, run code before and after, and
   // conditionally execute the original function.
