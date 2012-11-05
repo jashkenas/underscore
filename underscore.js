@@ -213,13 +213,11 @@
   // Determine if the array or object contains a given value (using `===`).
   // Aliased as `include`.
   _.contains = _.include = function(obj, target) {
-    var found = false;
-    if (obj == null) return found;
+    if (obj == null) return false;
     if (nativeIndexOf && obj.indexOf === nativeIndexOf) return obj.indexOf(target) != -1;
-    found = any(obj, function(value) {
+    return any(obj, function(value) {
       return value === target;
     });
-    return found;
   };
 
   // Invoke a method (with arguments) on every item in a collection.
