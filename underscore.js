@@ -1063,10 +1063,17 @@
 
   // If the value of the named property is a function then invoke it;
   // otherwise, return it.
-  _.result = function(object, property) {
+  _.result = function(object, property, args) {
     if (object == null) return null;
     var value = object[property];
-    return _.isFunction(value) ? value.call(object) : value;
+    // if arguments is an array-like, use it as arguments array,
+    // if there is more than one extra argument, make an array of them
+    args = arguments.length > 3
+      ? _.toArray(arguments).splice(2)
+      : (args && args.length === +args.length)
+        ? slice.call(args)
+        : args == null ? [] : [args];
+    return _.isFunction(value) ? value.apply(object, args) : value;
   };
 
   // Add your own custom functions to the Underscore object.
