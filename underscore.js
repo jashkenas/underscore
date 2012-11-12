@@ -17,14 +17,35 @@
   // if iterator is falsey, use item itself,
   // if it is function, use as is,
   // in other cases assume that iterator is the key of item
-  function wrapIteraror(iter) {
-    return iter == null
-      ? identity
-      : !_.isFunction(iter)
-        ? function(value){
+  function shortcutIteraror(iter) {
+    return _.isFunction(iter)
+      ? iter
+      : iter == null
+        ? identity
+        : function(value){
           return value[iter];
-        }
-        : iter;
+        };
+  }
+  function shortcutSumIterator(iterator){
+    return _.isFunction(iterator)
+      ? iterator
+      : iterator == null
+        ? function (sum, num) {return sum + num;}
+        : (function(key){
+          return function (sum, itm) {return sum + itm[key];}
+        })(iterator)
+  }
+  function shortcutBoolIterator(iterator, invert){
+    return _.isFunction(iterator)
+      ? iterator
+      : (function(key){return key == null
+        ? !invert
+          ? function(val){return !!val}
+          : function(val){return  !val}
+        : !invert
+            ? function(val){return !!val[key]}
+            : function(val){return  !val[key]}
+      })(iterator);
   }
 
   // Establish the root object, `window` in the browser, or `global` on the server.
@@ -113,7 +134,7 @@
   // Delegates to **ECMAScript 5**'s native `map` if available.
   _.map = _.collect = function(obj, iterator, context) {
     var results = [];
-    iterator = wrapIteraror(iterator);
+    iterator = shortcutIteraror(iterator);
     if (obj == null) return results;
     if (nativeMap && obj.map === nativeMap) return obj.map(iterator, context);
     each(obj, function(value, index, list) {
@@ -127,7 +148,8 @@
   _.reduce = _.foldl = _.inject = function(obj, iterator, memo, context) {
     var initial = arguments.length > 2;
     if (obj == null) obj = [];
-    iterator = wrapIteraror(iterator);
+    iterator = shortcutSumIterator(iterator);
+    iterator = shortcutIteraror(iterator);
     if (nativeReduce && obj.reduce === nativeReduce) {
       if (context) iterator = _.bind(iterator, context);
       return initial ? obj.reduce(iterator, memo) : obj.reduce(iterator);
@@ -149,7 +171,7 @@
   _.reduceRight = _.foldr = function(obj, iterator, memo, context) {
     var initial = arguments.length > 2;
     if (obj == null) obj = [];
-    iterator = wrapIteraror(iterator);
+    iterator = shortcutSumIterator(iterator);
     if (nativeReduceRight && obj.reduceRight === nativeReduceRight) {
       if (context) iterator = _.bind(iterator, context);
       return arguments.length > 2 ? obj.reduceRight(iterator, memo) : obj.reduceRight(iterator);
@@ -175,7 +197,7 @@
   // Return the first value which passes a truth test. Aliased as `detect`.
   _.find = _.detect = function(obj, iterator, context) {
     var result;
-    iterator = wrapIteraror(iterator);
+    iterator = shortcutIteraror(iterator);
     any(obj, function(value, index, list) {
       if (iterator.call(context, value, index, list)) {
         result = value;
@@ -191,7 +213,9 @@
   _.filter = _.select = function(obj, iterator, context) {
     var results = [];
     if (obj == null) return results;
-    iterator = wrapIteraror(iterator);
+    if(!_.isFunction(iterator))
+      iterator = shortcutBoolIterator(iterator, context);
+    iterator = shortcutIteraror(iterator);
     if (nativeFilter && obj.filter === nativeFilter) return obj.filter(iterator, context);
     each(obj, function(value, index, list) {
       if (iterator.call(context, value, index, list)) results[results.length] = value;
@@ -201,7 +225,8 @@
 
   // Return all the elements for which a truth test fails.
   _.reject = function(obj, iterator, context) {
-    iterator = wrapIteraror(iterator);
+    if(!_.isFunction(iterator))
+      iterator = shortcutBoolIterator(iterator, !context);
     return _.filter(obj, function(value, index, list) {
       return !iterator.call(context, value, index, list);
     }, context);
@@ -213,7 +238,7 @@
   _.every = _.all = function(obj, iterator, context) {
     var result = true;
     if (obj == null) return result;
-    iterator = wrapIteraror(iterator);
+    iterator = shortcutBoolIterator(iterator, context);
     if (nativeEvery && obj.every === nativeEvery) return obj.every(iterator, context);
     each(obj, function(value, index, list) {
       if (!(result = result && iterator.call(context, value, index, list))) return breaker;
@@ -227,7 +252,7 @@
   var any = _.some = _.any = function(obj, iterator, context) {
     var result = false;
     if (obj == null) return result;
-    iterator = wrapIteraror(iterator);
+    iterator = shortcutBoolIterator(iterator, context);
     if (nativeSome && obj.some === nativeSome) return obj.some(iterator, context);
     each(obj, function(value, index, list) {
       if (result || (result = iterator.call(context, value, index, list))) return breaker;
@@ -247,7 +272,7 @@
 
   // Invoke a method (with arguments) on every item in a collection.
   _.invoke = function(obj, method) {
-    var args = slice.call(arguments, 2);
+    var args = _.toArray(arguments).splice(2);
     return _.map(obj, function(value) {
       return (_.isFunction(method) ? method : value[method]).apply(value, args);
     });
@@ -279,7 +304,7 @@
     }
     if (!iterator && _.isEmpty(obj)) return -Infinity;
     var result = {computed : -Infinity};
-    iterator = wrapIteraror(iterator);
+    iterator = shortcutIteraror(iterator);
     each(obj, function(value, index, list) {
       var computed = iterator.call(context, value, index, list);
       computed >= result.computed && (result = {value : value, computed : computed});
@@ -294,7 +319,7 @@
     }
     if (!iterator && _.isEmpty(obj)) return Infinity;
     var result = {computed : Infinity};
-    iterator = wrapIteraror(iterator);
+    iterator = shortcutIteraror(iterator);
     each(obj, function(value, index, list) {
       var computed = iterator.call(context, value, index, list);
       computed < result.computed && (result = {value : value, computed : computed});
@@ -317,7 +342,7 @@
 
   // Sort the object's values by a criterion produced by an iterator.
   _.sortBy = function(obj, value, context) {
-    var iterator = wrapIteraror(value);
+    var iterator = shortcutIteraror(value);
     return _.pluck(_.map(obj, function(value, index, list) {
       return {
         value : value,
@@ -338,7 +363,7 @@
   // An internal function used for aggregate "group by" operations.
   var group = function(obj, value, context, behavior) {
     var result = {};
-    var iterator = wrapIteraror(value);
+    var iterator = shortcutIteraror(value);
     each(obj, function(value, index) {
       var key = iterator.call(context, value, index, obj);
       behavior(result, key, value);
@@ -367,7 +392,7 @@
   // Use a comparator function to figure out the smallest index at which
   // an object should be inserted so as to maintain order. Uses binary search.
   _.sortedIndex = function(array, obj, iterator, context) {
-    iterator = wrapIteraror(iterator);
+    iterator = shortcutIteraror(iterator);
     var value = iterator.call(context, obj);
     var low = 0, high = array.length;
     while (low < high) {
@@ -621,7 +646,7 @@
   // Memoize an expensive function by storing its results.
   _.memoize = function(func, hasher) {
     var memo = {};
-    hasher = wrapIteraror(hasher);
+    hasher = shortcutIteraror(hasher);
     return function() {
       var key = hasher.apply(this, arguments);
       return _.has(memo, key) ? memo[key] : (memo[key] = func.apply(this, arguments));

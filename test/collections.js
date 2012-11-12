@@ -57,6 +57,9 @@ $(document).ready(function() {
 
     var ifnull = _.map(null, function(){});
     ok(_.isArray(ifnull) && ifnull.length === 0, 'handles a null properly');
+
+    var nums = _.map([{a: 1},{a: 2},{a: 3}], 'a');
+    equal(_.isArray(nums) && nums.join(', '), '1, 2, 3', 'shortcut for iterator');
   });
 
   test('reduce', function() {
@@ -87,6 +90,9 @@ $(document).ready(function() {
     ok(_.reduce(null, function(){}, 138) === 138, 'handles a null (with initial value) properly');
     equal(_.reduce([], function(){}, undefined), undefined, 'undefined can be passed as a special case');
     raises(function() { _.reduce([], function(){}); }, TypeError, 'throws an error for empty arrays with no initial value');
+
+    var sum = _.reduce([{a: 'a'},{a: 'b'},{a: 'c'}], 'a', '');
+    equal(sum, 'abc', 'shortcut for iterator');
   });
 
   test('reduceRight', function() {
@@ -147,6 +153,9 @@ $(document).ready(function() {
     }, memo);
 
     deepEqual(args, expected);
+
+    var sum = _.reduceRight([{a: 'a'},{a: 'b'},{a: 'c'}], 'a', '');
+    equal(sum, 'cba', 'shortcut for iterator');
   });
 
   test('find', function() {
@@ -179,6 +188,9 @@ $(document).ready(function() {
       return num % 2 != 0;
     }, context);
     equal(evens.join(', '), '2, 4, 6', 'rejected each odd number');
+
+    var res = _.reject([{a: 1},{a: 0}, {a:false}], 'a');
+    deepEqual(res, [{a:1}], 'shortcut for iterator');
   });
 
   test('all', function() {
@@ -191,6 +203,7 @@ $(document).ready(function() {
     ok(_.all([0], _.identity) === false, 'cast to boolean - false');
     ok(_.every([true, true, true], _.identity), 'aliased as "every"');
     ok(!_.all([undefined, undefined, undefined], _.identity), 'works with arrays of undefined');
+    ok(_.all([{a:true}, {a:1}, {a:{}}], 'a'), 'shortcut for iterator');
   });
 
   test('any', function() {
@@ -206,6 +219,7 @@ $(document).ready(function() {
     ok(_.any([1], _.identity) === true, 'cast to boolean - true');
     ok(_.any([0], _.identity) === false, 'cast to boolean - false');
     ok(_.some([false, false, true]), 'aliased as "some"');
+    ok(_.any([{a:true}, {a:false}, {a:null}], 'a'), 'shortcut for iterator');
     Array.prototype.some = nativeSome;
   });
 
@@ -248,6 +262,7 @@ $(document).ready(function() {
   test('pluck', function() {
     var people = [{name : 'moe', age : 30}, {name : 'curly', age : 50}];
     equal(_.pluck(people, 'name').join(', '), 'moe, curly', 'pulls names out of objects');
+    equal(_.map(people, 'name').join(', '), 'moe, curly', 'shortcuts for iterator');
   });
 
   test('where', function() {
