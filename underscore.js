@@ -149,7 +149,6 @@
     var initial = arguments.length > 2;
     if (obj == null) obj = [];
     iterator = shortcutSumIterator(iterator);
-    iterator = shortcutIteraror(iterator);
     if (nativeReduce && obj.reduce === nativeReduce) {
       if (context) iterator = _.bind(iterator, context);
       return initial ? obj.reduce(iterator, memo) : obj.reduce(iterator);
