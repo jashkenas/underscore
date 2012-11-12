@@ -198,8 +198,8 @@
       <li>- <a href="#filter">filter</a></li>
       <li>- <a href="#where">where</a></li>
       <li>- <a href="#reject">reject</a></li>
-      <li>- <a href="#all">all</a></li>
-      <li>- <a href="#any">any</a></li>
+      <li>- <a href="#every">every</a></li>
+      <li>- <a href="#some">some</a></li>
       <li>- <a href="#contains">contains</a></li>
       <li>- <a href="#invoke">invoke</a></li>
       <li>- <a href="#pluck">pluck</a></li>
@@ -298,6 +298,7 @@
       <li>- <a href="#mixin">mixin</a></li>
       <li>- <a href="#uniqueId">uniqueId</a></li>
       <li>- <a href="#escape">escape</a></li>
+      <li>- <a href="#unescape">unescape</a></li>
       <li>- <a href="#result">result</a></li>
       <li>- <a href="#template">template</a></li>
     </ul>
@@ -506,21 +507,21 @@ var odds = _.reject([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
 =&gt; [1, 3, 5]
 </pre>
 
-      <p id="all">
-        <b class="header">all</b><code>_.all(list, iterator, [context])</code>
-        <span class="alias">Alias: <b>every</b></span>
+      <p id="every">
+        <b class="header">every</b><code>_.every(list, iterator, [context])</code>
+        <span class="alias">Alias: <b>all</b></span>
         <br />
         Returns <i>true</i> if all of the values in the <b>list</b> pass the <b>iterator</b>
         truth test. Delegates to the native method <b>every</b>, if present.
       </p>
       <pre>
-_.all([true, 1, null, 'yes'], _.identity);
+_.every([true, 1, null, 'yes'], _.identity);
 =&gt; false
 </pre>
 
-      <p id="any">
-        <b class="header">any</b><code>_.any(list, [iterator], [context])</code>
-        <span class="alias">Alias: <b>some</b></span>
+      <p id="some">
+        <b class="header">some</b><code>_.some(list, [iterator], [context])</code>
+        <span class="alias">Alias: <b>any</b></span>
         <br />
         Returns <i>true</i> if any of the values in the <b>list</b> pass the
         <b>iterator</b> truth test. Short-circuits and stops traversing the list
@@ -528,7 +529,7 @@ _.all([true, 1, null, 'yes'], _.identity);
         if present.
       </p>
       <pre>
-_.any([null, 0, 'yes', false]);
+_.some([null, 0, 'yes', false]);
 =&gt; true
 </pre>
 
@@ -627,12 +628,12 @@ _.groupBy(['one', 'two', 'three'], 'length');
         <br />
         Sorts a list into groups and returns a count for the number of objects
         in each group.
-        Similar to <tt>groupBy</tt>, but instead of returning a list of values, 
+        Similar to <tt>groupBy</tt>, but instead of returning a list of values,
         returns a count for the number of values in that group.
       </p>
       <pre>
-_.countBy([1, 2, 3, 4, 5], function(num) { 
-  return num % 2 == 0 ? 'even' : 'odd'; 
+_.countBy([1, 2, 3, 4, 5], function(num) {
+  return num % 2 == 0 ? 'even' : 'odd';
 });
 =&gt; {odd: 3, even: 2}
 </pre>
@@ -827,7 +828,7 @@ _.zip(['moe', 'larry', 'curly'], [30, 40, 50], [true, false, false]);
       <p id="object">
         <b class="header">object</b><code>_.object(list, [values])</code>
         <br />
-        Converts arrays into objects. Pass either a single list of 
+        Converts arrays into objects. Pass either a single list of
         <tt>[key, value]</tt> pairs, or a list of keys, and a list of values.
       </p>
       <pre>
@@ -845,8 +846,8 @@ _.object([['moe', 30], ['larry', 40], ['curly', 50]]);
         or <i>-1</i> if value is not present in the <b>array</b>. Uses the native
         <b>indexOf</b> function unless it's missing. If you're working with a
         large array, and you know that the array is already sorted, pass <tt>true</tt>
-        for <b>isSorted</b> to use a faster binary search ... or, pass a number as 
-        the third argument in order to look for the first matching value in the 
+        for <b>isSorted</b> to use a faster binary search ... or, pass a number as
+        the third argument in order to look for the first matching value in the
         array after the given index.
       </p>
       <pre>
@@ -859,7 +860,7 @@ _.indexOf([1, 2, 3], 2);
         <br />
         Returns the index of the last occurrence of <b>value</b> in the <b>array</b>,
         or <i>-1</i> if value is not present. Uses the native <b>lastIndexOf</b>
-        function if possible. Pass <b>fromIndex</b> to start your search at a 
+        function if possible. Pass <b>fromIndex</b> to start your search at a
         given index.
       </p>
       <pre>
@@ -1122,7 +1123,7 @@ _.pairs({one: 1, two: 2, three: 3});
         <b class="header">invert</b><code>_.invert(object)</code>
         <br />
         Returns a copy of the <b>object</b> where the keys have become the values
-        and the values the keys. For this to work, all of your object's values 
+        and the values the keys. For this to work, all of your object's values
         should be unique and string serializable.
       </p>
       <pre>
@@ -1442,7 +1443,7 @@ moe === _.identity(moe);
       <p id="times">
         <b class="header">times</b><code>_.times(n, iterator, [context])</code>
         <br />
-        Invokes the given iterator function <b>n</b> times. Each invocation of 
+        Invokes the given iterator function <b>n</b> times. Each invocation of
         <b>iterator</b> is called with an <tt>index</tt> argument.
         <br />
         <i>Note: this example uses the <a href="#chaining">chaining syntax</a></i>.
@@ -1498,6 +1499,18 @@ _.uniqueId('contact_');
       <pre>
 _.escape('Curly, Larry &amp; Moe');
 =&gt; "Curly, Larry &amp;amp; Moe"</pre>
+
+      <p id="unescape">
+        <b class="header">unescape</b><code>_.unescape(string)</code>
+        <br />
+        The opposite of <a href="#escape"><b>escape</b></a>, replaces
+        <tt>&amp;amp;</tt>, <tt>&amp;lt;</tt>, <tt>&amp;gt;</tt>,
+        <tt>&amp;quot;</tt>, <tt>&amp;#x27;</tt>, and <tt>&amp;#x2F;</tt>
+        with their unescaped counterparts.
+      </p>
+      <pre>
+_.escape('Curly, Larry &amp;amp; Moe');
+=&gt; "Curly, Larry &amp; Moe"</pre>
 
       <p id="result">
         <b class="header">result</b><code>_.result(object, property)</code>
@@ -1748,18 +1761,18 @@ _([1, 2, 3]).value();
       </p>
 
       <h2 id="changelog">Change Log</h2>
-      
+
       <p>
         <b class="header">1.4.2</b> &mdash; <small><i>Oct. 1, 2012</i></small>  &mdash; <a href="https://github.com/documentcloud/underscore/compare/1.4.1...1.4.2">Diff</a><br />
         <ul>
           <li>
-            For backwards compatibility, returned to pre-1.4.0 behavior when 
-            passing <tt>null</tt> to iteration functions. They now become no-ops 
+            For backwards compatibility, returned to pre-1.4.0 behavior when
+            passing <tt>null</tt> to iteration functions. They now become no-ops
             again.
           </li>
         </ul>
       </p>
-      
+
       <p>
         <b class="header">1.4.1</b> &mdash; <small><i>Oct. 1, 2012</i></small>  &mdash; <a href="https://github.com/documentcloud/underscore/compare/1.4.0...1.4.1">Diff</a><br />
         <ul>
@@ -1768,14 +1781,14 @@ _([1, 2, 3]).value();
           </li>
         </ul>
       </p>
-      
+
       <p>
         <b class="header">1.4.0</b> &mdash; <small><i>Sept. 27, 2012</i></small>  &mdash; <a href="https://github.com/documentcloud/underscore/compare/1.3.3...1.4.0">Diff</a><br />
         <ul>
           <li>
-            Added a <tt>pairs</tt> function, for turning a JavaScript object 
-            into <tt>[key, value]</tt> pairs ... as well as an <tt>object</tt> 
-            function, for converting an array of <tt>[key, value]</tt> pairs 
+            Added a <tt>pairs</tt> function, for turning a JavaScript object
+            into <tt>[key, value]</tt> pairs ... as well as an <tt>object</tt>
+            function, for converting an array of <tt>[key, value]</tt> pairs
             into an object.
           </li>
           <li>
@@ -1783,7 +1796,7 @@ _([1, 2, 3]).value();
             in a list that match a certain criteria.
           </li>
           <li>
-            Added an <tt>invert</tt> function, for performing a simple inversion 
+            Added an <tt>invert</tt> function, for performing a simple inversion
             of the keys and values in an object.
           </li>
           <li>
@@ -1814,11 +1827,11 @@ _([1, 2, 3]).value();
             functions. Use a <tt>for</tt> loop instead (or better yet, an object).
           </li>
           <li>
-            The <tt>min</tt> and <tt>max</tt> functions may now be called on 
+            The <tt>min</tt> and <tt>max</tt> functions may now be called on
             <i>very</i> large arrays.
           </li>
           <li>
-            Interpolation in templates now represents <tt>null</tt> and 
+            Interpolation in templates now represents <tt>null</tt> and
             <tt>undefined</tt> as the empty string.
           </li>
           <li>
