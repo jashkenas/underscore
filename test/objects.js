@@ -547,4 +547,14 @@ $(document).ready(function() {
       value();
     ok(returned == 6 && intercepted == 6, 'can use tapped objects in a chain');
   });
+
+  test("toFunction", function() {
+    var a = ["bob", "joe", "tom"];
+    var subset = _.map([0, 2], _.toFunction(a));
+    ok(_.isEqual(subset, ["bob", "tom"]), "array subset from list of indices");
+
+    var obj = {a: "bob", b: "joe", c: "tom"};
+    var objSubset = _.filter(["a", "b", "z"], _.toFunction(obj));
+    ok(_.isEqual(objSubset, ["a", "b"]), "filtered list of keys using object as predicate");
+  });
 });

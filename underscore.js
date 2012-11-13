@@ -765,6 +765,13 @@
     return obj;
   };
 
+  // Return a function of the keys of the object
+  _.toFunction = function(obj) {
+    return function(key) {
+      return obj[key];
+    }
+  }
+
   // Return a copy of the object only containing the whitelisted properties.
   _.pick = function(obj) {
     var copy = {};
