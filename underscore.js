@@ -562,6 +562,11 @@
     return range;
   };
 
+  // Allows cons'ing an item onto the head of an Array
+  _.cons = function(item, array) {
+    return [item].concat(array);
+  };
+
   // Function (ahem) Functions
   // ------------------
 
