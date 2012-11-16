@@ -51,6 +51,16 @@ $(document).ready(function() {
     equal(_('champ').myReverse(), 'pmahc', 'mixed in a function to the OOP wrapper');
   });
 
+  test("include", function() {
+    _.include({
+      capitalize: function(string) {
+        return string.charAt(0).toUpperCase() + string.substring(1).toLowerCase();
+      }
+    });
+    equal(_.capitalize('mouse'), 'Mouse', 'mixed in a function to _');
+    equal(_('keyboard').capitalize(), 'Keyboard', 'mixed in a function to the OOP wrapper');
+  });
+
   test("_.escape", function() {
     equal(_.escape("Curly & Moe"), "Curly &amp; Moe");
     equal(_.escape("Curly &amp; Moe"), "Curly &amp;amp; Moe");

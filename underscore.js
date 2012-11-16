@@ -211,8 +211,7 @@
   };
 
   // Determine if the array or object contains a given value (using `===`).
-  // Aliased as `include`.
-  _.contains = _.include = function(obj, target) {
+  _.contains = function(obj, target) {
     if (obj == null) return false;
     if (nativeIndexOf && obj.indexOf === nativeIndexOf) return obj.indexOf(target) != -1;
     return any(obj, function(value) {
@@ -1050,7 +1049,8 @@
   };
 
   // Add your own custom functions to the Underscore object.
-  _.mixin = function(obj) {
+  // Aliased as `include`.
+  _.mixin = _.include = function(obj) {
     each(_.functions(obj), function(name){
       var func = _[name] = obj[name];
       _.prototype[name] = function() {
