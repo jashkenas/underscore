@@ -23,7 +23,7 @@ $(document).ready(function() {
     delete obj.constructor.prototype.four;
 
     answer = null;
-    _.each([1, 2, 3], function(num, index, arr){ if (_.include(arr, num)) answer = true; });
+    _.each([1, 2, 3], function(num, index, arr){ if (_.contains(arr, num)) answer = true; });
     ok(answer, 'can reference the original collection from inside the iterator');
 
     answers = 0;
@@ -209,11 +209,11 @@ $(document).ready(function() {
     Array.prototype.some = nativeSome;
   });
 
-  test('include', function() {
-    ok(_.include([1,2,3], 2), 'two is in the array');
-    ok(!_.include([1,3,9], 2), 'two is not in the array');
-    ok(_.contains({moe:1, larry:3, curly:9}, 3) === true, '_.include on objects checks their values');
-    ok(_([1,2,3]).include(2), 'OO-style include');
+  test('contains', function() {
+    ok(_.contains([1,2,3], 2), 'two is in the array');
+    ok(!_.contains([1,3,9], 2), 'two is not in the array');
+    ok(_.contains({moe:1, larry:3, curly:9}, 3) === true, '_.contains on objects checks their values');
+    ok(_([1,2,3]).contains(2), 'OO-style include');
   });
 
   test('invoke', function() {
