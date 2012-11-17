@@ -109,6 +109,10 @@ $(document).ready(function() {
     clone.lucky.push(101);
     equal(_.last(moe.lucky), 101, 'changes to deep attributes are shared with the original');
 
+    var date = (new Date()).getTime();
+    while ((new Date()).getTime() - start < 2000); // Wait two seconds
+    equal(_.clone(date), date, 'date objects should maintain their time');
+
     equal(_.clone(undefined), void 0, 'non objects should not be changed by clone');
     equal(_.clone(1), 1, 'non objects should not be changed by clone');
     equal(_.clone(null), null, 'non objects should not be changed by clone');
