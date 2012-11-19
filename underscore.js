@@ -1043,7 +1043,7 @@
 
   // If the value of the named property is a function then invoke it;
   // otherwise, return it.
-  _.result = function(object, property) {
+  _.result = _.value = function(object, property) {
     if (object == null) return null;
     var value = object[property];
     return _.isFunction(value) ? value.call(object) : value;
