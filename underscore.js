@@ -358,7 +358,8 @@
   // Safely convert anything iterable into a real, live array.
   _.toArray = function(obj) {
     if (!obj) return [];
-    if (obj.length === +obj.length) return slice.call(obj);
+    if (_.isArray(obj)) return slice.call(obj);
+    if (obj.length === +obj.length) return _.map(obj, _.identity);
     return _.values(obj);
   };
 

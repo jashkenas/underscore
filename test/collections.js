@@ -418,6 +418,9 @@ $(document).ready(function() {
 
     var numbers = _.toArray({one : 1, two : 2, three : 3});
     equal(numbers.join(', '), '1, 2, 3', 'object flattened into array');
+
+    // _.toArray on a NodeList should not throw.
+    ok(_.isArray(_.toArray(document.childNodes)));
   });
 
   test('size', function() {
