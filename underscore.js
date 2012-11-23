@@ -368,6 +368,16 @@
     return (obj.length === +obj.length) ? obj.length : _.keys(obj).length;
   };
 
+  // Similar to `_.reduce`, but returns an array of successive reduced values.
+  _.scan = function(obj, initial, iterator) {
+    var result = [];
+    each(obj, function(value, index, list) {
+      initial = iterator(initial, value, index, list);
+      result.push(initial);
+    });
+    return result;
+  };
+
   // Array Functions
   // ---------------
 

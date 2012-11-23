@@ -435,4 +435,17 @@ $(document).ready(function() {
     equal(_.size(null), 0, 'handles nulls');
   });
 
+  test('scan', function() {
+    var result = _.scan([1, 2, 3], 0, function(acc, cur) { return acc + cur; });
+    deepEqual(result, [1, 3, 6], 'returns each accumulator value in sequence');
+
+    result = _.scan(['a', 'b', 'c'], [], function(acc, cur) { return acc.concat(cur); });
+    deepEqual(result,[['a'], ['a', 'b'], ['a', 'b', 'c']], 'allows array value for the accumulator');
+
+    result = _.scan({a: 1, b: 2, c: 3}, '', function(acc, val, key) { return acc + key + val; });
+    deepEqual(result,['a1', 'a1b2', 'a1b2c3'], 'allows iteration with objects');
+
+    result = _.scan([], '', function(acc, cur) { throw 'Should not call me'; });
+    deepEqual(result, [], 'returns empty array for empty collection');
+  });
 });
