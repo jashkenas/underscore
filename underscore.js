@@ -809,6 +809,19 @@
     return obj;
   };
 
+  // Provides a safe way to access deeply nested object attributes without
+  // existence checks at each step. Aliased as `_.seek`.
+  _.walk = _.seek = function() {
+    var args = slice.call(arguments);
+    var obj  = args.shift();
+    if (!_.isObject(obj)) return obj;
+    while (args.length > 0) {
+      obj = obj[args.shift()];
+      if (_.isUndefined(obj)) break;
+    }
+    return obj;
+  }
+
   // Internal recursive comparison function for `isEqual`.
   var eq = function(a, b, aStack, bStack) {
     // Identical objects are equal. `0 === -0`, but they aren't identical.
