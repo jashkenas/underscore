@@ -55,6 +55,21 @@ $(document).ready(function() {
     equal(_.keys(result).join(''), 'ab', 'extend does not copy undefined values');
   });
 
+  test("enrich", function() {
+    var result, source;
+    equal(_.enrich({}, {a:'b'}).a, 'b', 'can enrich an object with the attributes of another');
+    result = _.enrich({a:{b:'c'}}, {a:{d:'e'}});
+    ok(_.isEqual(result,{a:{b:'c',d:'e'}}), 'can enrich an object merging attributes of another');
+    result = _.enrich({},'a',{b:'c',d:'e'});
+    ok(_.isEqual(result, {a:{b:'c',d:'e'}}), 'can enrich an object with another including one level of context');
+    result = _.enrich({},'a.b',{c:'d','e.f':'g'});
+    ok(_.isEqual(result,{a:{b:{c:'d',e:{f:'g'}}}}), 'can enrich an object with another including levels in nested context');
+    result = _.enrich({},{'v=':function(v){}});
+    ok(_.isFunction(result.__lookupSetter__('v')), 'can enrich an object with setters');
+    result = _.enrich({},{'v~':function(){}});
+    ok(_.isFunction(result.__lookupGetter__('v')), 'can enrich an object with getters');
+  });
+
   test("pick", function() {
     var result;
     result = _.pick({a:1, b:2, c:3}, 'a', 'c');
