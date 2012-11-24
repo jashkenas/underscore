@@ -765,6 +765,48 @@
     return obj;
   };
 
+  // Enrich a given object with all nested properties in passed-in object.
+  // You can add getters and setters too (see tests for more details)
+  _.enrich = function() {
+    var REGEX_SUFFIX_GETTER_SETTER = /[~=]$/, REGEX_DOT_SPLIT = /\./;
+    return function x(obj, keys, other) {
+      var key, value, otherIsObject;
+      if (arguments.length == 2) {
+        other = keys;
+        keys = [];
+      }
+      if (_.isString(keys)) keys = keys.split(REGEX_DOT_SPLIT);
+      otherIsObject = ((typeof other === "object") && ! _.isArray(other));
+      if (keys.length == 0 && otherIsObject) {
+        for (key in other) {
+          if (other.hasOwnProperty(key)) {
+            x(obj, key, other[key]);
+          }
+        }
+      } else if (keys.length > 1 || otherIsObject) {
+        key = keys.shift();
+        value = obj[key];
+        if (!(typeof value === "object") || _.isArray(value)) {
+          value = obj[key] = {};
+        }
+        x(value, keys.concat([]), other);
+      } else {
+        key = keys.join('.');
+        if (REGEX_SUFFIX_GETTER_SETTER.test(key) && _.isFunction(other)) {
+          key = RegExp['$`'];
+          if (RegExp['$&'] == '=') {
+            obj.__defineSetter__(key, other);
+          } else {
+            obj.__defineGetter__(key, other);
+          }
+        } else {
+          obj[key] = other;
+        }
+      }
+      return obj;
+    };
+  }();
+
   // Return a copy of the object only containing the whitelisted properties.
   _.pick = function(obj) {
     var copy = {};
