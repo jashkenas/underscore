@@ -798,6 +798,7 @@
   // Create a (shallow-cloned) duplicate of an object.
   _.clone = function(obj) {
     if (!_.isObject(obj)) return obj;
+    if (_.isDate(obj)) return new Date().setTime(obj.getTime());
     return _.isArray(obj) ? obj.slice() : _.extend({}, obj);
   };
 
