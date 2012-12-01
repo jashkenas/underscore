@@ -406,10 +406,10 @@
         <b>forEach</b> function if it exists.
       </p>
       <pre>
-_.each([1, 2, 3], function(num){ alert(num); });
+_.each([1, 2, 3], alert);
 =&gt; alerts each number in turn...
-_.each({one : 1, two : 2, three : 3}, function(num, key){ alert(num); });
-=&gt; alerts each number in turn...</pre>
+_.each({one : 1, two : 2, three : 3}, alert);
+=&gt; alerts each number value in turn...</pre>
 
       <p id="map">
         <b class="header">map</b><code>_.map(list, iterator, [context])</code>
