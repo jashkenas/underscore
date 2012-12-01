@@ -419,8 +419,12 @@ $(document).ready(function() {
     var numbers = _.toArray({one : 1, two : 2, three : 3});
     equal(numbers.join(', '), '1, 2, 3', 'object flattened into array');
 
-    // _.toArray on a NodeList should not throw.
-    ok(_.isArray(_.toArray(document.childNodes)));
+    // test in IE < 9
+    try {
+      var actual = _.toArray(document.childNodes);
+    } catch(ex) { }
+
+    ok(_.isArray(actual), 'should not throw converting a node list');
   });
 
   test('size', function() {
