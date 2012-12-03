@@ -37,7 +37,6 @@ $(document).ready(function() {
     var newBoundf = new Boundf();
     equal(newBoundf.hello, undefined, "function should not be bound to the context, to comply with ECMAScript 5");
     equal(Boundf().hello, "moe curly", "When called without the new operator, it's OK to be bound to the context");
-    ok(newBoundf instanceof Boundf && newBoundf instanceof F, "a bound instance is an instance of the bound and original function");
   });
 
   test("bindAll", function() {

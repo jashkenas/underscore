@@ -574,21 +574,16 @@
   // Delegates to **ECMAScript 5**'s native `Function.bind` if available.
   // We check for `func.bind` first, to fail fast when `func` is undefined.
   _.bind = function bind(func, context) {
+    var args, bound;
     if (func.bind === nativeBind && nativeBind) return nativeBind.apply(func, slice.call(arguments, 1));
     if (!_.isFunction(func)) throw new TypeError;
-    var args = slice.call(arguments, 2);
-    var bound = function() {
+    args = slice.call(arguments, 2);
+    return bound = function() {
       if (!(this instanceof bound)) return func.apply(context, args.concat(slice.call(arguments)));
       var result = func.apply(this, args.concat(slice.call(arguments)));
       if (Object(result) === result) return result;
       return this;
     };
-    if (func && func.prototype) {
-      ctor.prototype = func.prototype;
-      bound.prototype = new ctor;
-      ctor.prototype = null;
-    }
-    return bound;
   };
 
   // Bind all of an object's methods to that object. Useful for ensuring that
