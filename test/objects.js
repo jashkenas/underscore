@@ -56,8 +56,8 @@ $(document).ready(function() {
 
     try {
       result = {};
-      _.extend(result, null, undefined, { 'a': 1 });
-    } catch(ex) { }
+      _.extend(result, null, undefined, {a:1});
+    } catch(ex) {}
 
     equal(result.a, 1, 'should not error on `null` or `undefined` sources');
   });
@@ -106,8 +106,8 @@ $(document).ready(function() {
 
     try {
       options = {};
-      _.defaults(options, null, undefined, { 'a': 1 });
-    } catch(ex) { }
+      _.defaults(options, null, undefined, {a:1});
+    } catch(ex) {}
 
     equal(options.a, 1, 'should not error on `null` or `undefined` sources');
   });
