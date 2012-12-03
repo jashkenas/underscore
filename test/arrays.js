@@ -55,7 +55,7 @@ $(document).ready(function() {
 
   test("compact", function() {
     equal(_.compact([0, 1, false, 2, false, 3]).length, 3, 'can trim out all falsy values');
-    var result = (function(){ return _(arguments).compact().length; })(0, 1, false, 2, false, 3);
+    var result = (function(){ return _.compact(arguments).length; })(0, 1, false, 2, false, 3);
     equal(result, 3, 'works on an arguments object');
   });
 
