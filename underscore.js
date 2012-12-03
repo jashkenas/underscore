@@ -1070,8 +1070,8 @@
   // Useful for temporary DOM ids.
   var idCounter = 0;
   _.uniqueId = function(prefix) {
-    var id = idCounter++;
-    return '' + (prefix ? '' + prefix + id : id);
+    var id = '' + ++idCounter;
+    return prefix ? prefix + id : id;
   };
 
   // By default, Underscore uses ERB-style template delimiters, change the
