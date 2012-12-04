@@ -165,6 +165,31 @@ $(document).ready(function() {
     }, 400);
   });
 
+  asyncTest("throttle triggers trailing call after repeatedly invoked", 2, function() {
+    var actual;
+    var counter = 0;
+    var limit = 80;
+    var incr = function(){ counter++; };
+    var throttledIncr = _.throttle(incr, 32);
+
+    var stamp = new Date;
+    while ((new Date - stamp) < limit) {
+      throttledIncr();
+    }
+    _.delay(function() {
+      actual = counter + 2;
+      throttledIncr();
+      throttledIncr();
+    }, 64);
+
+    _.delay(function() {
+      equal(counter, actual);
+      start();
+    }, 128);
+
+    ok(counter > 1);
+  });
+
   asyncTest("debounce", 1, function() {
     var counter = 0;
     var incr = function(){ counter++; };

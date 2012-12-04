@@ -638,6 +638,7 @@
       args = arguments;
       if (remaining <= 0) {
         clearTimeout(timeout);
+        timeout = null;
         previous = now;
         result = func.apply(context, args);
       } else if (!timeout) {
