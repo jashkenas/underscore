@@ -701,6 +701,98 @@
     };
   };
 
+  // Envelops a function with another and creates a chain of refined algorithms,
+  // enabling better reuse of code.
+  _.tune = (function () {
+    function method(queue, steps, currentStepName) {
+      function worker() {
+        var pos = 0
+          , self = this
+          , continueArg = "_continue"
+          , ctor = function () {
+              this._self = self;
+              this._treat = function () {
+                return worker.apply(self, arguments);
+              };
+              this._yield = function () {
+                var p = pos, ret, args = arguments;
+                try {
+                  do {
+                    if ( _.has(this, continueArg) ) {
+                      args = this[continueArg];
+                      delete this[continueArg];
+                    }
+                    if ( _.isString(queue[pos]) ) {
+                      ret = steps[queue[pos++]].apply(this, args);
+                    }
+                  } while ( _.has(this, continueArg) );
+                } finally {
+                  pos = p;
+                }
+                return ret;
+              };
+            }
+          , context = new ctor()
+        ;
+        if (self && self !== window) ctor.prototype = self;
+        return context._yield.apply(context, arguments);
+      }
+      worker.__defineGetter__('runner', function() {
+        return steps[currentStepName];
+      });
+      worker.__defineGetter__('steps', function() {
+        return queue.concat([]);
+      });
+      worker.step = function (stepName) {
+        if (currentStepName === stepName) return worker;
+        if (! _.has(steps, stepName) ) {
+          throw new Error("Invalid Step Name");
+        }
+        return method(queue, steps, stepName);
+      };
+      worker.overrideWith = function (stepName, func) {
+        var q = queue.concat([])
+          , n = _.indexOf(q, currentStepName)
+          , s = {}
+        ;
+        if (_.has(steps, stepName) ) {
+          throw new Error("Step Name conflict");
+        }
+        if (! _.isFunction(func) ) {
+          throw new Error("Invalid step");
+        }
+        q.splice(n, 0, stepName);
+        _.extend(s, steps);
+        s[stepName] = func;
+        return method(q, s, q[0]);
+      };
+      worker.replaceWith = function (func) {
+        var q = queue.concat([])
+          , s = {}
+          , stepName = currentStepName
+        ;
+        if (! _.isFunction(func) ) {
+          throw new Error("Invalid step");
+        }
+        _.extend(s, steps);
+        s[stepName] = func;
+        return method(q, s, q[0]);
+      };
+      return worker;
+    }
+    return function (stepName, func) {
+      if (! (_.isString(stepName) && stepName) ) {
+        throw new Error("Invalid Step Name");
+      }
+      if (! _.isFunction(func) ) {
+        throw new Error("Invalid step");
+      }
+      var steps = {};
+      steps[stepName] = func;
+      return method([stepName], steps, stepName);
+    };
+  })(); // */
+
   // Returns a function that will only be executed after being called N times.
   _.after = function(times, func) {
     if (times <= 0) return func();

@@ -242,6 +242,89 @@ $(document).ready(function() {
     equal(composed('moe'), 'hi: moe!', 'in this case, the functions are also commutative');
   });
 
+  test("tune", function () {
+    var assign = _.tune('assigner', function (obj, prop, value){
+      return obj[prop] = value;
+    });
+    deepEqual(assign.steps, ["assigner"], "`assign` function should have the specified steps");
+
+    var extend = assign.overrideWith('copier', function (target, source) {
+      for (var prop in source) {
+        if ( _.has(source, prop) ) {
+          this._yield(target, prop, source[prop]);
+        }
+      }
+      return target;
+    });
+    equal(assign.runner, extend.step('assigner').runner, "both algorithms should have the same assigner");
+    deepEqual(extend.steps, ["copier","assigner"], "`extend` function should have the specified steps");
+    deepEqual(extend({a:1}, {b:2}), {a:1,b:2}, "`extend` function should copy attributes between objects");
+
+    var unsafeExtend = extend.step('copier').replaceWith(function (target, source) {
+      for (var prop in source) {
+        this._yield(target, prop, source[prop]);
+      }
+      return target;
+    });
+    notEqual(unsafeExtend.step('copier').runner, extend.step('copier').runner, "`unsafeExtend` function should not have the same copier as `extend` function");
+    var defaultObj = function () {};
+    defaultObj.prototype.foo = "bar";
+    var result = new defaultObj();
+    ok(!result.hasOwnProperty("foo"), "result do not own the property `foo`");
+    equal(result.foo, "bar", "testing default values");
+    result.b = 2;
+    deepEqual(unsafeExtend({}, result), {b:2,foo:"bar"}, "`unsafeExtend` function should copy all attributes");
+    deepEqual(extend({}, result), {b:2}, "`extend` function should copy all attributes owned by source object");
+
+    var merge = extend.step('assigner').overrideWith('swallower', function (obj, prop, value) {
+      if ((typeof value === "object") && value.constructor === Object ) { // value is a generic object
+        var original = obj[prop];
+        if ((typeof original !== "object") || _.isArray(original)) {
+          original = this._yield(obj, prop, {});
+        }
+        return this._treat(original, value);
+      } else {
+        return this._yield(obj, prop, value);
+      }
+    });
+    deepEqual(merge.steps, ["copier","swallower","assigner"], "`merge` function should have the specified steps");
+    equal(merge.step('copier').runner, extend.step('copier').runner, "`merge` function should have the same copier as `extend` function");
+    deepEqual(extend({a:1,b:{c:3}}, {a:2,b:{d:4}}), {a:2,b:{d:4}}, "`extend` function should replace values");
+    deepEqual(merge({a:1,b:{c:3}}, {a:2,b:{d:4}}), {a:2,b:{c:3,d:4}}, "`merge` function should populate values");
+    var ctor = function () {}, obj = new ctor;
+    result = {};
+    extend(obj, {a:1,b:2});
+    deepEqual(merge({}, obj), {a:1,b:2}, "`merge` function should accept any other object to copy attributes");
+    notDeepEqual(merge(result, {c:obj}), {c:{a:1,b:2}}, "`merge` function should not touch non-basic-object values");
+    equal(result.c, obj, "`merge` function should keep original non-basic-object when merging");
+
+    var mergeAll = merge.step('copier').overrideWith('iterator', function(target) {
+      var source, other, ctx
+        , i = 1, args = arguments, len = args.length
+      ;
+      for ( ; i < len; i++) {
+        source = args[i];
+        if ( _.isString(source) ) {
+          ctx = source;
+        } else if (source) {
+          if (ctx) {
+            (other = {})[ctx] = source;
+            this._treat(target, other);
+          } else {
+            this._yield(target, source);
+          }
+        }
+      }
+      return target;
+    });
+    result = {};
+    deepEqual(mergeAll.steps, ["iterator", "copier", "swallower", "assigner"], "`mergeAll function should have the specified steps");
+    obj = extend(new ctor,{a:1,b:2});
+    deepEqual(mergeAll(result,obj,null,"d",{c: obj, a:3},"",{a:4}), {a:4,b:2,d:{c:obj,a:3}}, "`mergeAll` function should iterate and copy all deep attributes into result");
+    equal(result.d.c, obj, "`mergeAll` function should keep original non-basic-object when merging");
+    // applauses
+  });
+
   test("after", function() {
     var testAfter = function(afterAmount, timesCalled) {
       var afterCalled = 0;
