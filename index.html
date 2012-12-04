@@ -179,7 +179,7 @@
   <div id="sidebar" class="interface">
 
     <a class="toc_title" href="#">
-      Underscore.js <span class="version">(1.4.2)</span>
+      Underscore.js <span class="version">(1.4.3)</span>
     </a>
 
     <a class="toc_title" href="#">
@@ -374,11 +374,11 @@
 
     <table>
       <tr>
-        <td><a href="underscore.js">Development Version (1.4.2)</a></td>
+        <td><a href="underscore.js">Development Version (1.4.3)</a></td>
         <td><i>40kb, Uncompressed with Plentiful Comments</i></td>
       </tr>
       <tr>
-        <td><a href="underscore-min.js">Production Version (1.4.2)</a></td>
+        <td><a href="underscore-min.js">Production Version (1.4.3)</a></td>
         <td><i>4kb, Minified and Gzipped</i></td>
       </tr>
       <tr>
@@ -1763,7 +1763,32 @@ _([1, 2, 3]).value();
       <h2 id="changelog">Change Log</h2>
 
       <p>
-        <b class="header">1.4.2</b> &mdash; <small><i>Oct. 1, 2012</i></small>  &mdash; <a href="https://github.com/documentcloud/underscore/compare/1.4.1...1.4.2">Diff</a><br />
+        <b class="header">1.4.3</b> &mdash; <small><i>Dec. 4, 2012</i></small> &mdash; <a href="https://github.com/documentcloud/underscore/compare/1.4.2...1.4.3">Diff</a><br />
+        <ul>
+          <li>
+            Improved Underscore compatibility with Adobe's JS engine that can be
+            used to script Illustrator, Photoshop, and friends.
+          </li>
+          <li>
+            Added a default <tt>_.identity</tt> iterator to <tt>countBy</tt> and
+            <tt>groupBy</tt>.
+          </li>
+          <li>
+            The <tt>uniq</tt> function can now take <tt>array, iterator, context</tt>
+            as the argument list.
+          </li>
+          <li>
+            The <tt>times</tt> function now returns the mapped array of iterator
+            results.
+          </li>
+          <li>
+            Simplified and fixed bugs in <tt>throttle</tt>.
+          </li>
+        </ul>
+      </p>
+
+      <p>
+        <b class="header">1.4.2</b> &mdash; <small><i>Oct. 1, 2012</i></small> &mdash; <a href="https://github.com/documentcloud/underscore/compare/1.4.1...1.4.2">Diff</a><br />
         <ul>
           <li>
             For backwards compatibility, returned to pre-1.4.0 behavior when
@@ -1774,7 +1799,7 @@ _([1, 2, 3]).value();
       </p>
 
       <p>
-        <b class="header">1.4.1</b> &mdash; <small><i>Oct. 1, 2012</i></small>  &mdash; <a href="https://github.com/documentcloud/underscore/compare/1.4.0...1.4.1">Diff</a><br />
+        <b class="header">1.4.1</b> &mdash; <small><i>Oct. 1, 2012</i></small> &mdash; <a href="https://github.com/documentcloud/underscore/compare/1.4.0...1.4.1">Diff</a><br />
         <ul>
           <li>
             Fixed a 1.4.0 regression in the <tt>lastIndexOf</tt> function.
