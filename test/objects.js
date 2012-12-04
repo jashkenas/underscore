@@ -555,4 +555,19 @@ $(document).ready(function() {
       value();
     ok(returned == 6 && intercepted == 6, 'can use tapped objects in a chain');
   });
+
+  test("walk", function() {
+    var testObject  = {users: [{comments: [{id: 10}]}]};
+    var existent    = _.walk(testObject, 'users', 0, 'comments', 0, 'id');
+    var nonexistent = _.walk(testObject, 'posts', 10, 'authors', 0, 'id');
+    var noArgs      = _.walk();
+    var noPath      = _.walk(testObject);
+    var nonObject   = _.walk(1, 2, 3);
+
+    equal(existent, 10, "returns nested values when they exist");
+    ok(_.isUndefined(nonexistent), "returns undefined when values do not exist");
+    ok(_.isUndefined, noArgs, "returns undefined when no arguments are passed");
+    ok(_.isEqual(noPath, testObject), "returns the original object if no path is passed");
+    equal(nonObject, 1, "returns the first argument if it isn't an object");
+  });
 });
