@@ -1,0 +1,5 @@
+{
+  "name"          : "underscore",
+ 	"version"       : "1.4.2"
+  "main"          : "underscore.js"
+}
