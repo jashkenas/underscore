@@ -182,6 +182,21 @@ $(document).ready(function() {
     ok(/__p/.test(source));
   });
 
+  test('_.template provides the generated function source, when a ReferenceError occurs', function() {
+    try {
+      _.template('<b><%= inexist %></b>', {});
+    } catch (e) {
+      equal(e.name, "ReferenceError", "Exception should be ReferenceError");
+      ok(e.message.indexOf(' >> 1| <b><%= inexist %></b>') > 0);
+    }
+    try {
+      _.template($("#template").html(), {});
+    } catch (e) {
+      equal(e.name, "ReferenceError", "Exception should be ReferenceError");
+      ok(e.message.indexOf(' >> 4|') > 0);
+    }
+  });
+
   test('_.template handles \\u2028 & \\u2029', function() {
     var tmpl = _.template('<p>\u2028<%= "\\u2028\\u2029" %>\u2029</p>');
     strictEqual(tmpl(), '<p>\u2028\u2028\u2029\u2029</p>');

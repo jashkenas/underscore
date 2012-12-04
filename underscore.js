@@ -1120,24 +1120,35 @@
 
     // Compile the template source, escaping string literals appropriately.
     var index = 0;
-    var source = "__p+='";
+    var lineno = 1;
+    var source = "";
     text.replace(matcher, function(match, escape, interpolate, evaluate, offset) {
-      source += text.slice(index, offset)
-        .replace(escaper, function(match) { return '\\' + escapes[match]; });
+      source += "__p+='" + text.slice(index, offset)
+        .replace(escaper, function(match) {
+          lineno++;
+          return '\\' + escapes[match];
+        }) + "';\n";
 
+      source += "__stack.lineno = " + lineno + ";\n";
       if (escape) {
-        source += "'+\n((__t=(" + escape + "))==null?'':_.escape(__t))+\n'";
+        source += "__p+=((__t=(" + escape + "))==null?'':_.escape(__t));\n";
       }
       if (interpolate) {
-        source += "'+\n((__t=(" + interpolate + "))==null?'':__t)+\n'";
+        source += "__p+=((__t=(" + interpolate + "))==null?'':__t);\n";
       }
       if (evaluate) {
-        source += "';\n" + evaluate + "\n__p+='";
+        var lines = evaluate.split('\n');
+        _.forEach(lines, function (line) {
+          source += line + "\n";
+          lineno++;
+          source += "__stack.lineno = " + lineno + ";\n";
+        });
       }
+
       index = offset + match.length;
       return match;
     });
-    source += "';\n";
+    source += "\n";
 
     // If a variable is not specified, place data values in local scope.
     if (!settings.variable) source = 'with(obj||{}){\n' + source + '}\n';
@@ -1145,9 +1156,43 @@
     source = "var __t,__p='',__j=Array.prototype.join," +
       "print=function(){__p+=__j.call(arguments,'');};\n" +
       source + "return __p;\n";
+    function rethrow(err, str, lineno) {
+      var lines = str.split('\n');
+      var start = Math.max(lineno - 3, 0);
+      var end = Math.min(lines.length, lineno + 3);
+
+      // Error context
+      var context = _.map(lines.slice(start, end), function (line, i) {
+        var curr = i + start + 1;
+        return (curr == lineno ? ' >> ' : '    ') + curr + '| ' + line;
+      }).join('\n');
+
+      // Alter exception message
+      err.message = lineno + '\n' + context + '\n\n' + err.message;
+      throw err;
+    }
+
+    var input = text.replace(/\\/g, "\\\\")
+      .replace(/'/g, "\'")
+      .replace(/"/g, "\\\"")
+      .replace(/\n/g, "\\n")
+      .replace(/\u2028/g, "\\\u2028")
+      .replace(/\u2029/g, "\\\u2029");
+
+    var catched = [
+      'var input = "' + input + '";\n',
+      // 'var input = "' + text.replace(/\\/, "\\").replace(/'/g, "\'").replace(/"/g, "\"") + '";\n',
+      'var __stack = {lineno: 1};',
+      rethrow.toString(),
+      'try {',
+        source,
+      '} catch (err) {',
+      '  rethrow(err, input, __stack.lineno);',
+      '}'
+    ].join('\n');
 
     try {
-      var render = new Function(settings.variable || 'obj', '_', source);
+      var render = new Function(settings.variable || 'obj', '_', catched);
     } catch (e) {
       e.source = source;
       throw e;
