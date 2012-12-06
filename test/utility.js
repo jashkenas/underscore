@@ -196,6 +196,15 @@ $(document).ready(function() {
     strictEqual(_.result(null, 'x'), null);
   });
 
+  test('f returns functions that evaluate properties or methods', function() {
+    var obj = {w: '', x: 'x', y: function (y) { console.log(y, y ? y : this.x);return y ? y : this.x; }};
+    strictEqual(_.f('w')(obj), '');
+    strictEqual(_.f('x')(obj), 'x');
+    strictEqual(_.f('y')(obj), 'x');
+    strictEqual(_.f('z')(obj), undefined);
+    strictEqual(_.f('y', 'foo')(obj), 'foo');
+  });
+
   test('_.templateSettings.variable', function() {
     var s = '<%=data.x%>';
     var data = {x: 'x'};
