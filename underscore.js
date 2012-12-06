@@ -1061,10 +1061,10 @@
 
   // Returns a function that evaluates a property or a function.;
   // really useful for iterators
-  _.f = function(property_name) {
+  _.f = function(propertyName) {
     var args = slice.call(arguments, 1);
     return function(obj) {
-      var property = obj[property_name];
+      var property = obj[propertyName];
       return _.isFunction(property) ? property.apply(obj, args) : property;
     };
   };
