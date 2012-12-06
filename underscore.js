@@ -485,11 +485,9 @@
   _.zip = function() {
     var args = slice.call(arguments);
     var length = _.max(_.pluck(args, 'length'));
-    var results = new Array(length);
-    for (var i = 0; i < length; i++) {
-      results[i] = _.pluck(args, "" + i);
-    }
-    return results;
+    return _.map(_.range(length), function(i) {
+        return _.pluck(args, "" + i);
+    });
   };
 
   // Converts lists into objects. Pass either a single array of `[key, value]`
