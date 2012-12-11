@@ -557,14 +557,35 @@ $(document).ready(function() {
   });
   
   test("has", function () {
-     var obj = {foo: "bar", func: function () {} };
-     ok (_.has(obj, "foo"), "has() checks that the object has a property.");
-     ok (_.has(obj, "baz") == false, "has() returns false if the object doesn't have the property.");
-     ok (_.has(obj, "func"), "has() works for functions too.");
-     obj.hasOwnProperty = null;
-     ok (_.has(obj, "foo"), "has() works even when the hasOwnProperty method is deleted.");
-     child = {};
-     child.prototype = obj;
-     ok (_.has(child, "foo") == false, "has() does not check the prototype chain for a property.")
+    var Obj = function () {}
+    var obj = new Obj ();
+    obj.foo = "bar"
+    obj.func = function () {};
+    
+    ok (_.has(obj, "foo"), "has() checks that the object has a property.");
+    ok (_.has(obj, "baz") == false, "has() returns false if the object doesn't have the property.");
+    ok (_.has(obj, "func"), "has() works for functions too.");
+    obj.hasOwnProperty = null;
+    ok (_.has(obj, "foo"), "has() works even when the hasOwnProperty method is deleted.");
+    Obj.prototype.protoFunc = function () {};
+    ok (_.has(obj, "protoFunc") == false && _.isFunction(obj.protoFunc), "has() does not check the prototype chain for a property.")
+  });
+  
+  test("hasMethod", function () {
+    var Obj = function () {}
+    var obj = new Obj ();
+    obj.prop = "foo"
+    obj.func = function () {};
+    
+    ok (_.hasMethod(obj, "func"), "Returns true if the object has a function with specified name.");
+    equal (_.hasMethod(obj, "prop"), false, "Returns false if the specified name is not a function.");
+    equal (_.hasMethod(obj, "foo"), false, "Returns false if the specified function is undefined.");
+    
+    Obj.prototype.protoFunc = function () {};
+    ok (_.isFunction(obj.protoFunc) && _.hasMethod(obj, "protoFunc"), "Checks the prototype chain for a function and returns true if the function exists.")
+  
+    obj = null;
+    ok (!_.hasMethod(obj, "func"), "Returns false if object is null.");
+    ok (_.hasMethod === _.hasFunction, "The alias hasFunction() is identical to hasMethod().")
   });
 });
