@@ -990,6 +990,13 @@
   _.has = function(obj, key) {
     return hasOwnProperty.call(obj, key);
   };
+  
+  // Shortcut function for checking whether an object has a method with the specified name. 
+  // Unlike has() it will check the prototype chain too. 
+  // Aliased by hasFunction().
+  _.hasMethod = _.hasFunction = function (obj, func) {
+    return obj != null && obj[func] != null && _.isFunction(obj[func]);
+  }
 
   // Utility Functions
   // -----------------
