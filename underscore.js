@@ -18,27 +18,27 @@
   var breaker = {};
 
   // Save bytes in the minified version:
-  var array = [], object = {};
+  var _array = [], object = {};
 
   // Create quick reference variables for speed access to core prototypes.
-  var push             = array.push,
-      slice            = array.slice,
-      concat           = array.concat,
+  var push             = _array.push,
+      slice            = _array.slice,
+      concat           = _array.concat,
       toString         = object.toString,
       hasOwnProperty   = object.hasOwnProperty;
 
   // All **ECMAScript 5** native function implementations that we hope to use
   // are declared here.
   var
-    nativeForEach      = array.forEach,
-    nativeMap          = array.map,
-    nativeReduce       = array.reduce,
-    nativeReduceRight  = array.reduceRight,
-    nativeFilter       = array.filter,
-    nativeEvery        = array.every,
-    nativeSome         = array.some,
-    nativeIndexOf      = array.indexOf,
-    nativeLastIndexOf  = array.lastIndexOf,
+    nativeForEach      = _array.forEach,
+    nativeMap          = _array.map,
+    nativeReduce       = _array.reduce,
+    nativeReduceRight  = _array.reduceRight,
+    nativeFilter       = _array.filter,
+    nativeEvery        = _array.every,
+    nativeSome         = _array.some,
+    nativeIndexOf      = _array.indexOf,
+    nativeLastIndexOf  = _array.lastIndexOf,
     nativeIsArray      = Array.isArray,
     nativeKeys         = Object.keys,
     nativeBind         = Function.prototype.bind;
@@ -459,7 +459,7 @@
   // Produce an array that contains the union: each distinct element from all of
   // the passed-in arrays.
   _.union = function() {
-    return _.uniq(concat.apply(ArrayProto, arguments));
+    return _.uniq(concat.apply(_array, arguments));
   };
 
   // Produce an array that contains every item shared between all the
@@ -476,7 +476,7 @@
   // Take the difference between one array and a number of other arrays.
   // Only the elements present in just the first array will remain.
   _.difference = function(array) {
-    var rest = concat.apply(ArrayProto, slice.call(arguments, 1));
+    var rest = concat.apply(_array, slice.call(arguments, 1));
     return _.filter(array, function(value){ return !_.contains(rest, value); });
   };
 
@@ -774,7 +774,7 @@
   // Return a copy of the object only containing the whitelisted properties.
   _.pick = function(obj) {
     var copy = {};
-    var keys = concat.apply(ArrayProto, slice.call(arguments, 1));
+    var keys = concat.apply(_array, slice.call(arguments, 1));
     each(keys, function(key) {
       if (key in obj) copy[key] = obj[key];
     });
@@ -784,7 +784,7 @@
    // Return a copy of the object without the blacklisted properties.
   _.omit = function(obj) {
     var copy = {};
-    var keys = concat.apply(ArrayProto, slice.call(arguments, 1));
+    var keys = concat.apply(_array, slice.call(arguments, 1));
     for (var key in obj) {
       if (!_.contains(keys, key)) copy[key] = obj[key];
     }
@@ -1187,7 +1187,7 @@
 
   // Add all mutator Array functions to the wrapper.
   each(['pop', 'push', 'reverse', 'shift', 'sort', 'splice', 'unshift'], function(name) {
-    var method = ArrayProto[name];
+    var method = _array[name];
     _.prototype[name] = function() {
       var obj = this._wrapped;
       method.apply(obj, arguments);
@@ -1198,7 +1198,7 @@
 
   // Add all accessor Array functions to the wrapper.
   each(['concat', 'join', 'slice'], function(name) {
-    var method = ArrayProto[name];
+    var method = _array[name];
     _.prototype[name] = function() {
       return result.call(this, method.apply(this._wrapped, arguments));
     };
