@@ -29,6 +29,7 @@ $(document).ready(function() {
     equal(_.flatten(result).join(','), '2,3,2,3', 'works well with _.map');
     result = (function(){ return _(arguments).drop(); })(1, 2, 3, 4);
     equal(result.join(', '), '2, 3, 4', 'aliased as drop and works on arguments object');
+    equal(_.rest("-string").join(""), 'string', 'rest can works with string object')
   });
 
   test("initial", function() {
