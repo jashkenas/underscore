@@ -405,7 +405,7 @@
   // the rest N values in the array. The **guard**
   // check allows it to work with `_.map`.
   _.rest = _.tail = _.drop = function(array, n, guard) {
-    return slice.call(array, (n == null) || guard ? 1 : n);
+    return slice.call(_.isString(array) ? array.split("") : array, (n == null) || guard ? 1 : n);
   };
 
   // Trim out all falsy values from an array.
