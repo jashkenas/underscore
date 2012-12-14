@@ -965,9 +965,10 @@
     return isFinite(obj) && !isNaN(parseFloat(obj));
   };
 
-  // Is the given value `NaN`? (NaN is the only number which does not equal itself).
+  // Is the given value `NaN`?
   _.isNaN = function(obj) {
-    return _.isNumber(obj) && obj != +obj;
+    // `NaN` is the only value for which `===` is not reflexive.
+    return obj !== obj;
   };
 
   // Is a given value a boolean?
