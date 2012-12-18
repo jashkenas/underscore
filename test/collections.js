@@ -324,6 +324,24 @@ $(document).ready(function() {
     });
 
     deepEqual(actual, collection, 'sortBy should be stable');
+
+    list = [
+      {a: 2, '-b': 2, '\\c': 2},
+      {a: 3, '-b': 3, '\\c': 3},
+      {a: 1, '-b': 1, '\\c': 1}
+    ];
+    sorted = _.sortBy(list, 'a');
+    deepEqual(_.pluck(sorted, 'a'), [1, 2, 3]);
+    sorted = _.sortBy(list, '-a');
+    deepEqual(_.pluck(sorted, 'a'), [3, 2, 1], 'hyphen reverses the order');
+    sorted = _.sortBy(list, '\\-b');
+    deepEqual(_.pluck(sorted, '-b'), [1, 2, 3], "'-prop' needs backslash escaping");
+    sorted = _.sortBy(list, '--b');
+    deepEqual(_.pluck(sorted, '-b'), [3, 2, 1], 'hyphen reverses the order');
+    sorted = _.sortBy(list, '\\c');
+    deepEqual(_.pluck(sorted, '\\c'), [1, 2, 3]);
+    sorted = _.sortBy(list, '-\\c');
+    deepEqual(_.pluck(sorted, '\\c'), [3, 2, 1], 'hyphen reverses the order');
   });
 
   test('groupBy', function() {

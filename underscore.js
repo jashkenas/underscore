@@ -296,6 +296,15 @@
 
   // Sort the object's values by a criterion produced by an iterator.
   _.sortBy = function(obj, value, context) {
+    var reverse = false;
+    if (_.isString(value)) {
+      if (value.substr(0, 2) === '\\-') {
+        value = value.substr(1);
+      } else if (value.charAt(0) === '-') {
+        reverse = true;
+        value = value.substr(1);
+      }
+    }
     var iterator = lookupIterator(value);
     return _.pluck(_.map(obj, function(value, index, list) {
       return {
@@ -307,8 +316,8 @@
       var a = left.criteria;
       var b = right.criteria;
       if (a !== b) {
-        if (a > b || a === void 0) return 1;
-        if (a < b || b === void 0) return -1;
+        if (a > b || a === void 0) return reverse ? -1 : 1;
+        if (a < b || b === void 0) return reverse ? 1 : -1;
       }
       return left.index < right.index ? -1 : 1;
     }), 'value');
