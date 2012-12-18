@@ -240,7 +240,10 @@
     if (_.isEmpty(attrs)) return [];
     return _.filter(obj, function(value) {
       for (var key in attrs) {
-        if (attrs[key] !== value[key]) return false;
+        if (attrs[key] instanceof Array)
+          return _.include( attrs[key], value[key] );
+        else
+          if (attrs[key] !== value[key]) return false;
       }
       return true;
     });
