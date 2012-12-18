@@ -258,6 +258,11 @@ $(document).ready(function() {
     result = _.where(list, {b: 2});
     equal(result.length, 2);
     equal(result[0].a, 1);
+    result = _.where(list, {b: [3,4]});
+    equal(result.length, 2);
+    equal( true, _.include(_.pluck(result,'b'), 3));
+    equal( true, _.include(_.pluck(result,'b'), 4));
+    equal( false, _.include(_.pluck(result,'b'), 2));
   });
 
   test('max', function() {
