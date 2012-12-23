@@ -551,6 +551,24 @@
     };
   };
 
+  // Returns a function, that, when invoked, will only be triggered at
+  // specified sampling rate
+  // for saving cost of high frequence invoking functions
+
+  _.sampling = function(func, rate) {
+    var context, args;
+
+    return function() {
+
+      context = this; args = arguments;
+
+      if (Math.random() < rate){
+        func.apply(context, args);
+      }
+
+    };
+  };
+
   // Returns a function, that, as long as it continues to be invoked, will not
   // be triggered. The function will be called after it stops being called for
   // N milliseconds.
