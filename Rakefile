@@ -8,3 +8,7 @@ task :doc do
   sh "docco underscore.js"
 end
 
+desc "Build homepage documentation"
+task :homepage do
+  sh "nico build -I docs -O . --theme=docs -v"
+end
