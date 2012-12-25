@@ -324,6 +324,11 @@ $(document).ready(function() {
     });
 
     deepEqual(actual, collection, 'sortBy should be stable');
+
+    var otherPeople = [{name: 'Harry', age: 35}, {name: 'Sally', age: 25}];
+    var otherPeople = _.sortBy(otherPeople, function(person){ return person.age; }, true);
+    equal(_.pluck(otherPeople, 'name').join(', '), 'Harry, Sally', 'characters sorted by age in reverse');
+      
   });
 
   test('groupBy', function() {
