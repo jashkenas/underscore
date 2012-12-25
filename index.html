@@ -1,108 +1,105 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html>
-<head>
-  <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="chrome=1" />
-  <meta name="viewport" content="width=device-width" />
-  <link rel="canonical" href="http://underscorejs.org" />
-  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
-  <title>Underscore.js</title>
-  <style>
-    body {
-      font-size: 14px;
-      line-height: 22px;
-      background: #f4f4f4 url(docs/images/background.png);
-      color: #000;
-      font-family: Helvetica Neue, Helvetica, Arial;
-    }
-    .interface {
-      font-family: "Lucida Grande", "Lucida Sans Unicode", Helvetica, Arial, sans-serif !important;
-    }
-    div#sidebar {
-      background: #fff;
-      position: fixed;
-      top: 0; left: 0; bottom: 0;
-      width: 200px;
-      overflow-y: auto;
-      overflow-x: hidden;
-      -webkit-overflow-scrolling: touch;
-      padding: 15px 0 30px 30px;
-      border-right: 1px solid #bbb;
-      box-shadow: 0 0 20px #ccc; -webkit-box-shadow: 0 0 20px #ccc; -moz-box-shadow: 0 0 20px #ccc;
-    }
-    a.toc_title, a.toc_title:visited {
-      display: block;
-      color: black;
-      font-weight: bold;
-      margin-top: 15px;
-    }
-      a.toc_title:hover {
+  <head>
+    <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="canonical" href="http://underscorejs.org/" />
+    <title>Underscore.js</title>
+    <style>
+      body {
+        font-size: 14px;
+        line-height: 22px;
+        background: #f4f4f4 url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAIAAACRXR/mAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAB95JREFUeNq82dl23DoSRFFVSZ7+/1O9lse23EHu8jHt+3q7+VDiACRyiIxMQLdPnz79+PHj5eVlv+/fv//58+ftdvv27dvT09Pr6+se37179/Xr1w8fPnz+/Hm/e7+R+7Qpr+f15s2bp/P6z3ltyt48Pz9Pzqbs1+MG7HFLfP/+fS83bHOfz+t+vxu5tby8k7iZe2W9XRtn5vTY/X6/fPkyPdJpy2+AtWfDRu53A0zZyw3YyI3fdDe7Nn4Wbti+vn37disyY58SzoDbxu3Pvu15g6afb1PfaG8sP1tN3uPWm93cvOl73KyN2XrebIzB3ljPm/1urhW9FAch2sv7/vDq8XCuZObG0cn7ab/f+Yw4sziVoXu5WXvjfl+nYiP5GDYCySZ+OC9+2UswmJDDn/ssIl4RIbLzGX9ktyVNAZfJNXcvpze1aLmX4XW/m57Nu0nvPU5mX/f+zivTxmT3U4hvFv6W2QLUvZ0Xudy5R58osYlbI6S7vpwX7T1uzLTZMIFr5AHo/VmA+Bk4eILd8mi/HLYlNz8pk8vNEgIc2QDshJg7CyldKgDrt/OaKhL/AfnDY2d+Wga2BH5rS5ZptgnTXiB4nvSpZYrxIm58orb29JO2sYnkmByeps2GGXwHNKGkL+I5cHdipYQikQ2tLfR4ZKL3yCXg7BP0wIYcnNgf57WXFsUywjVf3IB/UoT56XKBs6wJj8xiqzWYgaim02ZBJOSJO2aZNliKyyNh9mf2QZwITVKwwGMcKFLyPLLmGAqhsbIEa3OYYiBXFAwJTiwVydxLOgwqR7ihUnYwUTJyEgcAEHBIdboGZ+G4wt8CSH9mgBGKQeAVCRQqfPvdgMN/cB3k2RqLlMlx2G72VSkM71P9WmH+khBhKohbDutOIGkbAKN0OuiTM7AtN5RlQWf2wbjAF1x200lGYyb8h5wJIXY3mKUQybaKh2GHSvsA7D7oJtS4MLt74ugUiauMr7+u3MN0EKw21DKUTASKI8dvOWnxYDzgDU+UEPsWfjmvRO+GtxrPDfJf7N6eVzWROxUfkeFaCnDExh/MAvn/VuXfFMkYyABZYkopbt5IIY5CD7o6lz7i26o+h5tEk8ugiRZZKc2MTcSc9JZ0pbbICg0JMKBtiaWVk4r94VUrWRs8a+J4UerRCUGAQu/FkXeRFiG7GYxgI42llETG7PjSmwdTprWmitbcTgmO0RjK7aNmnaWpyLIyupJcfB/8DVOj6mosaiTw/aHWteaEMNzYHMUfo9aPC4Eb8Nra9f4VwSBYqtIGs1T+ZcDBLFFieGz7ECdtgft5cTWymec0gDF+OYVWNgAzeY+00AQ6NPgqRDk/oqkbFsdSjBJXEroWcqLhF2fi0jK/btEwZpRYW0W6cI9P2jj0eSQptEbrZKWTmNJYjhAxPbARLaUb26JsLZemcv6mbu0NJaSkaKBWHeiji0+VK84AC6nKcLCrCln72qeLuzAJBwwVNZZUvKFFKcy2I58MLRy75Pl1B4tpICYYcfhf2xCQioSrgEjL+8pU2pekHg9IWEyAKkTPvy6Nds17cSxATJqQ9+dFKKfWqWIsVUUut0+OBWt6rX4DFNbHMcLEsZbR+7aD/Wtr30rtjuC1LpT7uYo79cMPJU61mI0Rbx8/fqzT+ucGsCIdW0L6VNFoZC4KEJE0KNBpJlXVK9hNSMx8lG1zaoKr/xpcPUJb3D3ahLGVNnsp0SJPZRg1VNT5iZ10Mt4AHuGzQ1GerO/hVYBARchMvK6VXzvF/9cuQ4vSFjdeYJuF+BtaaA+gufyBWUarGNFpJZYjOVWhbcPOXAnPpPZw2vb2pVo83Ytuqk+d8LTZ/F1xRZ3dYideiO2aR7Ub9HbS1JZhIzvYESyf6jGvdFBw7bklzeFvTXMb0UciXEhVYZHAnRaJo19nBVfkyhKq64uYtyVDT32iQgRhUuSQbC/fc2di0lVedBxSb14TITlAcL9TEUGgNAbURRqgiaoPsyu57jePWdc9TF5VWywPAQ8jziSoFZPqHByr2UppLdEenAiCS0unFyK2M4tpchCh0n2tlBVmM6+M1Ubjf71ZevQkjvbaQVhe+DA+nfSuKIfDJCbPqR61IYTw2VWy8R188H3dogR6Ub0fBxK/2qw2J+VOtARJagC4ZE/n0MFRBEMb9sf1V1K0EDWw5r0YdUpW81r7ANrtWNB0rMZzde6wUuoMK52AEmVkpyl1ab2H13u9B+YgtIYTI3fo0I60sxBwiZZ4q+MkKPbeOS8lRLDz3/bcwfeFQtfDnXZLlWFAbnteO1XJk+FutMLX6OPJvw7SQ86kIRTW/s7EtoQxjfl5zsY3t11PUNojoZJQ2IlBmU4z8Iqxebcd/OPcNVCLphiB2hQyGiQdv7bpu+6JAYgqkOvfIo4hiI3ZVQvAqu2mOocdaaSMt3YoacMumWsufu8wz/aGoGlcqeawGKcc1Adcd2CkdQIPagJyv55tdCLSIac2KNjltnYADahsy+gaww4vaJ/Y9m1s/iOCS6YaqWsfHGXEYfjp/7ajvHfkhZA0ME1QRq4nABVaNM1628ameGwnIqNpgzUkByZzTnZtER5qdW5R59m2RziYUpPeZr96otZWHzNDZDture3WShSZiYr6H/CoB9cmdORX/nPPdbPAZ1ijc9722Xa8ALT7/g2Dx+ukBcuUUMv+/f5XgAEA6lpT0Z1CkWAAAAAASUVORK5CYII=);
+        color: #000;
+        font-family: Helvetica Neue, Helvetica, Arial;
+      }
+      #sidebar {
+        font-family: "Lucida Grande", "Lucida Sans Unicode", Helvetica, Arial, sans-serif !important;
+        background: #fff;
+        position: fixed;
+        top: 0; left: 0; bottom: 0;
+        width: 200px;
+        overflow-y: auto;
+        overflow-x: hidden;
+        -webkit-overflow-scrolling: touch;
+        padding: 15px 0 30px 30px;
+        border-right: 1px solid #bbb;
+        box-shadow: 0 0 20px #ccc; -webkit-box-shadow: 0 0 20px #ccc; -moz-box-shadow: 0 0 20px #ccc;
+      }
+      a.toc-title, a.toc-title:visited {
+        display: block;
+        color: black;
+        font-weight: bold;
+        margin-top: 15px;
+      }
+      a.toc-title:hover {
         text-decoration: underline;
       }
       #sidebar .version {
         font-size: 10px;
         font-weight: normal;
       }
-    ul.toc_section {
-      font-size: 11px;
-      line-height: 14px;
-      margin: 5px 0 0 0;
-      padding-left: 0px;
-      list-style-type: none;
-      font-family: Lucida Grande;
-    }
-      .toc_section li {
+      ul.toc-section {
+        font-size: 11px;
+        line-height: 14px;
+        margin: 5px 0 0 0;
+        padding-left: 0px;
+        list-style-type: none;
+        font-family: Lucida Grande;
+      }
+      .toc-section li {
         cursor: pointer;
         margin: 0 0 3px 0;
       }
-        .toc_section li a {
-          text-decoration: none;
-          color: black;
-        }
-          .toc_section li a:hover {
-            text-decoration: underline;
-          }
-    div.container {
-      width: 550px;
-      margin: 40px 0 50px 260px;
-    }
-    img#logo {
-      width: 396px;
-      height: 69px;
-    }
-    div.warning {
-      margin-top: 15px;
-      font: bold 11px Arial;
-      color: #770000;
-    }
-    p {
-      margin: 20px 0;
-      width: 550px;
-    }
-    a, a:visited {
-      color: #444;
-    }
-    a:active, a:hover {
-      color: #000;
-    }
-    h1, h2, h3, h4, h5, h6 {
-      padding-top: 20px;
-    }
+      .toc-section li a {
+        text-decoration: none;
+        color: black;
+      }
+      .toc-section li a:hover {
+        text-decoration: underline;
+      }
+      div.container {
+        width: 550px;
+        margin: 40px 0 50px 260px;
+      }
+      #introduction img {
+        width: 396px;
+        height: 69px;
+      }
+      div.warning {
+        margin-top: 15px;
+        font: bold 11px Arial;
+        color: #770000;
+      }
+      p {
+        margin: 20px 0;
+        width: 550px;
+      }
+      a, a:visited {
+        color: #444;
+      }
+      a:active, a:hover {
+        color: #000;
+      }
+      h1, h2, h3, h4, h5, h6 {
+        padding-top: 20px;
+      }
       h2 {
         font-size: 20px;
       }
-    b.header {
-      font-size: 16px;
-      line-height: 30px;
-    }
-    span.alias {
-      font-size: 14px;
-      font-style: italic;
-      margin-left: 20px;
-    }
-    table, tr, td {
-      margin: 0; padding: 0;
-    }
+      strong.header, b.header {
+        font-size: 16px;
+        line-height: 30px;
+      }
+      span.alias {
+        font-size: 14px;
+        font-style: italic;
+        margin-left: 20px;
+      }
+      table, tr, td {
+        margin: 0; padding: 0;
+      }
       td {
         padding: 2px 12px 2px 0;
       }
@@ -111,10 +108,10 @@
         background: #ccc;
         margin: 5px 0;
       }
-    ul {
-      list-style-type: circle;
-      padding: 0 0 0 20px;
-    }
+      ul {
+        list-style-type: circle;
+        padding: 0 0 0 20px;
+      }
       li {
         width: 500px;
         margin-bottom: 10px;
@@ -125,777 +122,508 @@
         line-height: 18px;
         font-style: normal;
       }
-        tt {
-          padding: 0px 3px;
-          background: #fff;
-          border: 1px solid #ddd;
-          zoom: 1;
-        }
-        code {
-          margin-left: 20px;
-        }
-        pre {
-          font-size: 12px;
-          padding: 2px 0 2px 15px;
-          border-left: 5px solid #bbb;
-          margin: 0px 0 30px;
-        }
-    @media only screen and (-webkit-min-device-pixel-ratio: 1.5) and (max-width: 640px),
-          only screen and (-o-min-device-pixel-ratio: 3/2) and (max-width: 640px),
-          only screen and (min-device-pixel-ratio: 1.5) and (max-width: 640px) {
-      img {
-        max-width: 100%;
+      code, tt {
+        padding: 0px 3px;
+        background: #fff;
+        border: 1px solid #ddd;
+        zoom: 1;
       }
-      div#sidebar {
-        -webkit-overflow-scrolling: initial;
-        position: relative;
-        width: 90%;
-        height: 120px;
-        left: 0;
-        top: -7px;
-        padding: 10px 0 10px 30px;
-        border: 0;
-      }
-      img#logo {
-        width: auto;
-        height: auto;
-      }
-      div.container {
-        margin: 0;
-        width: 100%;
-      }
-      p, div.container ul {
-        max-width: 98%;
-        overflow-x: scroll;
+      code.api {
+        background: none;
+        padding: auto;
+        border: 0 none;
+        margin-left: 20px;
       }
       pre {
-        overflow: scroll;
+        font-size: 12px;
+        padding: 2px 0 2px 15px;
+        border-left: 5px solid #bbb;
+        margin: 0px 0 30px;
       }
-    }
-  </style>
-</head>
-<body>
-
-  <div id="sidebar" class="interface">
-
-    <a class="toc_title" href="#">
-      Underscore.js <span class="version">(1.4.3)</span>
-    </a>
-    <ul class="toc_section">
-      <li>&raquo; <a href="http://github.com/documentcloud/underscore">GitHub Repository</a></li>
-      <li>&raquo; <a href="docs/underscore.html">Annotated Source</a></li>
-    </ul>
-
-    <a class="toc_title" href="#">
-      Introduction
-    </a>
-
-    <a class="toc_title" href="#collections">
-      Collections
-    </a>
-    <ul class="toc_section">
-      <li>- <a href="#each">each</a></li>
-      <li>- <a href="#map">map</a></li>
-      <li>- <a href="#reduce">reduce</a></li>
-      <li>- <a href="#reduceRight">reduceRight</a></li>
-      <li>- <a href="#find">find</a></li>
-      <li>- <a href="#filter">filter</a></li>
-      <li>- <a href="#where">where</a></li>
-      <li>- <a href="#reject">reject</a></li>
-      <li>- <a href="#every">every</a></li>
-      <li>- <a href="#some">some</a></li>
-      <li>- <a href="#contains">contains</a></li>
-      <li>- <a href="#invoke">invoke</a></li>
-      <li>- <a href="#pluck">pluck</a></li>
-      <li>- <a href="#max">max</a></li>
-      <li>- <a href="#min">min</a></li>
-      <li>- <a href="#sortBy">sortBy</a></li>
-      <li>- <a href="#groupBy">groupBy</a></li>
-      <li>- <a href="#countBy">countBy</a></li>
-      <li>- <a href="#shuffle">shuffle</a></li>
-      <li>- <a href="#toArray">toArray</a></li>
-      <li>- <a href="#size">size</a></li>
-    </ul>
-
-    <a class="toc_title" href="#arrays">
-      Arrays
-    </a>
-    <ul class="toc_section">
-      <li>- <a href="#first">first</a></li>
-      <li>- <a href="#initial">initial</a></li>
-      <li>- <a href="#last">last</a></li>
-      <li>- <a href="#rest">rest</a></li>
-      <li>- <a href="#compact">compact</a></li>
-      <li>- <a href="#flatten">flatten</a></li>
-      <li>- <a href="#without">without</a></li>
-      <li>- <a href="#union">union</a></li>
-      <li>- <a href="#intersection">intersection</a></li>
-      <li>- <a href="#difference">difference</a></li>
-      <li>- <a href="#uniq">uniq</a></li>
-      <li>- <a href="#zip">zip</a></li>
-      <li>- <a href="#object">object</a></li>
-      <li>- <a href="#indexOf">indexOf</a></li>
-      <li>- <a href="#lastIndexOf">lastIndexOf</a></li>
-      <li>- <a href="#sortedIndex">sortedIndex</a></li>
-      <li>- <a href="#range">range</a></li>
-    </ul>
-
-    <a class="toc_title" href="#functions">
-      Functions
-    </a>
-    <ul class="toc_section">
-      <li>- <a href="#bind">bind</a></li>
-      <li>- <a href="#bindAll">bindAll</a></li>
-      <li>- <a href="#memoize">memoize</a></li>
-      <li>- <a href="#delay">delay</a></li>
-      <li>- <a href="#defer">defer</a></li>
-      <li>- <a href="#throttle">throttle</a></li>
-      <li>- <a href="#debounce">debounce</a></li>
-      <li>- <a href="#once">once</a></li>
-      <li>- <a href="#after">after</a></li>
-      <li>- <a href="#wrap">wrap</a></li>
-      <li>- <a href="#compose">compose</a></li>
-    </ul>
-
-    <a class="toc_title" href="#objects">
-      Objects
-    </a>
-    <ul class="toc_section">
-      <li>- <a href="#keys">keys</a></li>
-      <li>- <a href="#values">values</a></li>
-      <li>- <a href="#pairs">pairs</a></li>
-      <li>- <a href="#invert">invert</a></li>
-      <li>- <a href="#object-functions">functions</a></li>
-      <li>- <a href="#extend">extend</a></li>
-      <li>- <a href="#pick">pick</a></li>
-      <li>- <a href="#omit">omit</a></li>
-      <li>- <a href="#defaults">defaults</a></li>
-      <li>- <a href="#clone">clone</a></li>
-      <li>- <a href="#tap">tap</a></li>
-      <li>- <a href="#has">has</a></li>
-      <li>- <a href="#isEqual">isEqual</a></li>
-      <li>- <a href="#isEmpty">isEmpty</a></li>
-      <li>- <a href="#isElement">isElement</a></li>
-      <li>- <a href="#isArray">isArray</a></li>
-      <li>- <a href="#isObject">isObject</a></li>
-      <li>- <a href="#isArguments">isArguments</a></li>
-      <li>- <a href="#isFunction">isFunction</a></li>
-      <li>- <a href="#isString">isString</a></li>
-      <li>- <a href="#isNumber">isNumber</a></li>
-      <li>- <a href="#isFinite">isFinite</a></li>
-      <li>- <a href="#isBoolean">isBoolean</a></li>
-      <li>- <a href="#isDate">isDate</a></li>
-      <li>- <a href="#isRegExp">isRegExp</a></li>
-      <li>- <a href="#isNaN">isNaN</a></li>
-      <li>- <a href="#isNull">isNull</a></li>
-      <li>- <a href="#isUndefined">isUndefined</a></li>
-    </ul>
-
-    <a class="toc_title" href="#utility">
-      Utility
-    </a>
-    <ul class="toc_section">
-      <li>- <a href="#noConflict">noConflict</a></li>
-      <li>- <a href="#identity">identity</a></li>
-      <li>- <a href="#times">times</a></li>
-      <li>- <a href="#random">random</a></li>
-      <li>- <a href="#mixin">mixin</a></li>
-      <li>- <a href="#uniqueId">uniqueId</a></li>
-      <li>- <a href="#escape">escape</a></li>
-      <li>- <a href="#unescape">unescape</a></li>
-      <li>- <a href="#result">result</a></li>
-      <li>- <a href="#template">template</a></li>
-    </ul>
-
-    <a class="toc_title" href="#chaining">
-      Chaining
-    </a>
-    <ul class="toc_section">
-      <li>- <a href="#chain">chain</a></li>
-      <li>- <a href="#value">value</a></li>
-    </ul>
-
-    <a class="toc_title" href="#links">
-      Links
-    </a>
-
-    <a class="toc_title" href="#changelog">
-      Change Log
-    </a>
-
-  </div>
-
-  <div class="container">
-
-    <p id="introduction">
-      <img id="logo" src="docs/images/underscore.png" alt="Underscore.js" />
-    </p>
-
-    <p>
-      <a href="http://github.com/documentcloud/underscore/">Underscore</a> is a
-      utility-belt library for JavaScript that provides a lot of the
-      functional programming support that you would expect in
-      <a href="http://prototypejs.org/doc/latest/">Prototype.js</a>
-      (or <a href="http://www.ruby-doc.org/core/classes/Enumerable.html">Ruby</a>),
-      but without extending any of the built-in JavaScript objects. It's the
-      tie to go along with <a href="http://docs.jquery.com">jQuery</a>'s tux,
-      and <a href="http://backbonejs.org">Backbone.js</a>'s suspenders.
-    </p>
-
-    <p>
-      Underscore provides 80-odd functions that support both the usual
-      functional suspects: <b>map</b>, <b>select</b>, <b>invoke</b> &mdash;
-      as well as more specialized helpers: function binding, javascript
-      templating, deep equality testing, and so on. It delegates to built-in
-      functions, if present, so modern browsers will use the
-      native implementations of <b>forEach</b>, <b>map</b>, <b>reduce</b>,
-      <b>filter</b>, <b>every</b>, <b>some</b> and <b>indexOf</b>.
-    </p>
-
-    <p>
-      A complete <a href="test/">Test &amp; Benchmark Suite</a>
-      is included for your perusal.
-    </p>
-
-    <p>
-      You may also read through the <a href="docs/underscore.html">annotated source code</a>.
-    </p>
-
-    <p>
-      The project is
-      <a href="http://github.com/documentcloud/underscore/">hosted on GitHub</a>.
-      You can report bugs and discuss features on the
-      <a href="http://github.com/documentcloud/underscore/issues">issues page</a>,
-      on Freenode in the <tt>#documentcloud</tt> channel,
-      or send tweets to <a href="http://twitter.com/documentcloud">@documentcloud</a>.
-    </p>
-
-    <p>
-      <i>Underscore is an open-source component of <a href="http://documentcloud.org/">DocumentCloud</a>.</i>
-    </p>
-
-    <h2>Downloads <i style="padding-left: 12px; font-size:12px;">(Right-click, and use "Save As")</i></h2>
-
-    <table>
-      <tr>
-        <td><a href="underscore.js">Development Version (1.4.3)</a></td>
-        <td><i>40kb, Uncompressed with Plentiful Comments</i></td>
-      </tr>
-      <tr>
-        <td><a href="underscore-min.js">Production Version (1.4.3)</a></td>
-        <td><i>4kb, Minified and Gzipped</i></td>
-      </tr>
-      <tr>
-        <td colspan="2"><div class="rule"></div></td>
-      </tr>
-      <tr>
-        <td><a href="https://raw.github.com/documentcloud/underscore/master/underscore.js">Edge Version</a></td>
-        <td><i>Unreleased, current <tt>master</tt>, use at your own risk</i></td>
-      </tr>
-    </table>
-
-    <div id="documentation">
-
-      <h2 id="collections">Collection Functions (Arrays or Objects)</h2>
-
-      <p id="each">
-        <b class="header">each</b><code>_.each(list, iterator, [context])</code>
-        <span class="alias">Alias: <b>forEach</b></span>
-        <br />
-        Iterates over a <b>list</b> of elements, yielding each in turn to an <b>iterator</b>
-        function. The <b>iterator</b> is bound to the <b>context</b> object, if one is
-        passed. Each invocation of <b>iterator</b> is called with three arguments:
-        <tt>(element, index, list)</tt>. If <b>list</b> is a JavaScript object, <b>iterator</b>'s
-        arguments will be <tt>(value, key, list)</tt>. Delegates to the native
-        <b>forEach</b> function if it exists.
+      @media only screen and (-webkit-min-device-pixel-ratio: 1.5) and (max-width: 640px),
+      only screen and (-o-min-device-pixel-ratio: 3/2) and (max-width: 640px),
+      only screen and (min-device-pixel-ratio: 1.5) and (max-width: 640px) {
+        img {
+          max-width: 100%;
+        }
+        div#sidebar {
+          -webkit-overflow-scrolling: initial;
+          position: relative;
+          width: 90%;
+          height: 120px;
+          left: 0;
+          top: -7px;
+          padding: 10px 0 10px 30px;
+          border: 0;
+        }
+        #introduction img {
+          width: auto;
+          height: auto;
+        }
+        div.container {
+          margin: 0;
+          width: 100%;
+        }
+        p, div.container ul {
+          max-width: 98%;
+          overflow-x: scroll;
+        }
+        pre {
+          overflow: scroll;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="sidebar">
+      <a class="toc-title" href="#">
+        Underscore.js <span class="version">1.4.3</span>
+      </a>
+      <a class="toc-title" href="#introduction">
+        Introduction
+      </a>
+      <a class="toc-title" href="#collections">Collections</a>
+<ul class="toc-section">
+<li>- <a href="#each">each</a></li>
+<li>- <a href="#map">map</a></li>
+<li>- <a href="#reduce">reduce</a></li>
+<li>- <a href="#reduceright">reduceRight</a></li>
+<li>- <a href="#find">find</a></li>
+<li>- <a href="#filter">filter</a></li>
+<li>- <a href="#where">where</a></li>
+<li>- <a href="#reject">reject</a></li>
+<li>- <a href="#every">every</a></li>
+<li>- <a href="#some">some</a></li>
+<li>- <a href="#contains">contains</a></li>
+<li>- <a href="#invoke">invoke</a></li>
+<li>- <a href="#pluck">pluck</a></li>
+<li>- <a href="#max">max</a></li>
+<li>- <a href="#min">min</a></li>
+<li>- <a href="#sortby">sortBy</a></li>
+<li>- <a href="#groupby">groupBy</a></li>
+<li>- <a href="#countby">countBy</a></li>
+<li>- <a href="#shuffle">shuffle</a></li>
+<li>- <a href="#toarray">toArray</a></li>
+<li>- <a href="#size">size</a></li>
+</ul>
+<a class="toc-title" href="#arrays">Arrays</a>
+<ul class="toc-section">
+<li>- <a href="#first">first</a></li>
+<li>- <a href="#initial">initial</a></li>
+<li>- <a href="#last">last</a></li>
+<li>- <a href="#rest">rest</a></li>
+<li>- <a href="#compact">compact</a></li>
+<li>- <a href="#flatten">flatten</a></li>
+<li>- <a href="#without">without</a></li>
+<li>- <a href="#union">union</a></li>
+<li>- <a href="#intersection">intersection</a></li>
+<li>- <a href="#difference">difference</a></li>
+<li>- <a href="#uniq">uniq</a></li>
+<li>- <a href="#zip">zip</a></li>
+<li>- <a href="#object">object</a></li>
+<li>- <a href="#indexof">indexOf</a></li>
+<li>- <a href="#lastindexof">lastIndexOf</a></li>
+<li>- <a href="#sortedindex">sortedIndex</a></li>
+<li>- <a href="#range">range</a></li>
+</ul>
+<a class="toc-title" href="#functions">Functions</a>
+<ul class="toc-section">
+<li>- <a href="#bind">bind</a></li>
+<li>- <a href="#bindall">bindAll</a></li>
+<li>- <a href="#memoize">memoize</a></li>
+<li>- <a href="#delay">delay</a></li>
+<li>- <a href="#defer">defer</a></li>
+<li>- <a href="#throttle">throttle</a></li>
+<li>- <a href="#debounce">debounce</a></li>
+<li>- <a href="#once">once</a></li>
+<li>- <a href="#after">after</a></li>
+<li>- <a href="#wrap">wrap</a></li>
+<li>- <a href="#compose">compose</a></li>
+</ul>
+<a class="toc-title" href="#objects">Objects</a>
+<ul class="toc-section">
+<li>- <a href="#keys">keys</a></li>
+<li>- <a href="#values">values</a></li>
+<li>- <a href="#pairs">pairs</a></li>
+<li>- <a href="#invert">invert</a></li>
+<li>- <a href="#functions">functions</a></li>
+<li>- <a href="#extend">extend</a></li>
+<li>- <a href="#pick">pick</a></li>
+<li>- <a href="#omit">omit</a></li>
+<li>- <a href="#defaults">defaults</a></li>
+<li>- <a href="#clone">clone</a></li>
+<li>- <a href="#tap">tap</a></li>
+<li>- <a href="#has">has</a></li>
+<li>- <a href="#isequal">isEqual</a></li>
+<li>- <a href="#isempty">isEmpty</a></li>
+<li>- <a href="#iselement">isElement</a></li>
+<li>- <a href="#isarray">isArray</a></li>
+<li>- <a href="#isobject">isObject</a></li>
+<li>- <a href="#isarguments">isArguments</a></li>
+<li>- <a href="#isfunction">isFunction</a></li>
+<li>- <a href="#isstring">isString</a></li>
+<li>- <a href="#isnumber">isNumber</a></li>
+<li>- <a href="#isfinite">isFinite</a></li>
+<li>- <a href="#isboolean">isBoolean</a></li>
+<li>- <a href="#isdate">isDate</a></li>
+<li>- <a href="#isregexp">isRegExp</a></li>
+<li>- <a href="#isnan">isNaN</a></li>
+<li>- <a href="#isnull">isNull</a></li>
+<li>- <a href="#isundefined">isUndefined</a></li>
+</ul>
+<a class="toc-title" href="#utility">Utility</a>
+<ul class="toc-section">
+<li>- <a href="#noconflict">noConflict</a></li>
+<li>- <a href="#identity">identity</a></li>
+<li>- <a href="#times">times</a></li>
+<li>- <a href="#random">random</a></li>
+<li>- <a href="#mixin">mixin</a></li>
+<li>- <a href="#uniqueid">uniqueId</a></li>
+<li>- <a href="#escape">escape</a></li>
+<li>- <a href="#unescape">unescape</a></li>
+<li>- <a href="#result">result</a></li>
+<li>- <a href="#template">template</a></li>
+</ul>
+<a class="toc-title" href="#chaining">Chaining</a>
+<ul class="toc-section">
+<li>- <a href="#chain">chain</a></li>
+<li>- <a href="#value">value</a></li>
+</ul>
+<a class="toc-title" href="#links">Links</a>
+<a class="toc-title" href="#change-log">Change Log</a>
+    </div>
+    <div class="container">
+      <p id="introduction">
+      <p><img src="docs/images/underscore.png" alt="Underscore.js"></p>
       </p>
-      <pre>
-_.each([1, 2, 3], alert);
+      <p><a href="http://github.com/documentcloud/underscore/">Underscore</a> is a utility-belt library for JavaScript that provides a lot of the functional programming support that you would expect in <a href="http://prototypejs.org/doc/latest/">Prototype.js</a> (or <a href="http://www.ruby-doc.org/core/classes/Enumerable.html">Ruby</a>), but without extending any of the built-in JavaScript objects. It&#39;s the tie to go along with <a href="http://docs.jquery.com/">jQuery</a>&#39;s tux, and <a href="http://backbonejs.org/">Backbone.js</a>&#39;s suspenders.</p>
+
+<p>Underscore provides 80-odd functions that support both the usual functional suspects: <strong>map</strong>, <strong>select</strong>, <strong>invoke</strong> — as well as more specialized helpers: function binding, javascript templating, deep equality testing, and so on. It delegates to built-in functions, if present, so modern browsers will use the native implementations of <strong>forEach</strong>, <strong>map</strong>, <strong>reduce</strong>, <strong>filter</strong>, <strong>every</strong>, <strong>some</strong> and <strong>indexOf</strong>.</p>
+
+<p>A complete <a href="test/">Test &amp; Benchmark Suite</a> is included for your perusal.</p>
+
+<p>You may also read through the <a href="docs/underscore.html">annotated source code</a>.</p>
+
+<p>The project is <a href="http://github.com/documentcloud/underscore/">hosted on GitHub</a>.
+You can report bugs and discuss features on the <a href="http://github.com/documentcloud/underscore/issues">issues page</a>
+on Freenode in the <code>#documentcloud</code> channel,
+or send tweets to <a href="http://twitter.com/documentcloud">@documentcloud</a>.</p>
+
+<p><em>Underscore is an open-source component of <a href="http://documentcloud.org/">DocumentCloud</a>.</em></p>
+<h2 id="right-click-and-use-quot-save-as-quot">Downloads <em style="padding-left: 12px; font-size:12px;">(Right-click, and use &quot;Save As&quot;)</em></h2>
+<table><thead>
+<tr>
+<th align="left">Version</th>
+<th align="left">Size</th>
+</tr>
+</thead><tbody>
+<tr>
+<td align="left"><a href="underscore.js">Development Version (1.4.3)</a></td>
+<td align="left"><em>40kb, Uncompressed with Plentiful Comments</em></td>
+</tr>
+<tr>
+<td align="left"><a href="underscore-min.js">Production Version (1.4.3)</a></td>
+<td align="left"><em>4kb, Minified and Gzipped</em></td>
+</tr>
+<tr>
+<td align="left"><a href="https://raw.github.com/documentcloud/underscore/master/underscore.js">Edge Version</a></td>
+<td align="left"><em>Unreleased, current <code>master</code>, use at your own risk</em></td>
+</tr>
+</tbody></table>
+
+<h2 id="collections"> Collection Functions (Arrays or Objects)</h2>
+
+<p><strong id="each" class="header">each</strong> <code class="api">_.each(list, iterator, [context])</code> <span class="alias">Alias: <strong>forEach</strong></span><br />
+Iterates over a <strong>list</strong> of elements, yielding each in turn to an iterator function.
+The iterator is bound to the context object, if one is passed.
+Each invocation of iterator is called with three arguments: <code>(element, index, list)</code>.
+If list is a JavaScript object, iterator&#39;s arguments will be <code>(value, key, list)</code>.
+Delegates to the native forEach function if it exists.</p>
+
+<pre>_.each([1, 2, 3], alert);
 =&gt; alerts each number in turn...
 _.each({one : 1, two : 2, three : 3}, alert);
-=&gt; alerts each number value in turn...</pre>
+=&gt; alerts each number value in turn...
+</pre>
 
-      <p id="map">
-        <b class="header">map</b><code>_.map(list, iterator, [context])</code>
-        <span class="alias">Alias: <b>collect</b></span>
-        <br />
-        Produces a new array of values by mapping each value in <b>list</b>
-        through a transformation function (<b>iterator</b>). If the native <b>map</b> method
-        exists, it will be used instead. If <b>list</b> is a JavaScript object,
-        <b>iterator</b>'s arguments will be <tt>(value, key, list)</tt>.
-      </p>
-      <pre>
-_.map([1, 2, 3], function(num){ return num * 3; });
+<p><strong id="map" class="header">map</strong> <code class="api">_.map(list, iterator, [context])</code> <span class="alias">Alias: <strong>collect</strong></span><br />
+Produces a new array of values by mapping each value in list through a transformation function (<b>iterator</b>). If the native map method exists, it will be used instead. If list is a JavaScript object, iterator&#39;s arguments will be (value, key, list).</p>
+
+<pre>_.map([1, 2, 3], function(num){ return num * 3; });
 =&gt; [3, 6, 9]
 _.map({one : 1, two : 2, three : 3}, function(num, key){ return num * 3; });
-=&gt; [3, 6, 9]</pre>
+=&gt; [3, 6, 9]
+</pre>
 
-      <p id="reduce">
-        <b class="header">reduce</b><code>_.reduce(list, iterator, memo, [context])</code>
-        <span class="alias">Aliases: <b>inject, foldl</b></span>
-        <br />
-        Also known as <b>inject</b> and <b>foldl</b>, <b>reduce</b> boils down a
-        <b>list</b> of values into a single value. <b>Memo</b> is the initial state
-        of the reduction, and each successive step of it should be returned by
-        <b>iterator</b>. The iterator is passed four arguments: the <tt>memo</tt>,
-        then the <tt>value</tt> and <tt>index</tt> (or key) of the iteration,
-        and finally a reference to the entire <tt>list</tt>.
-      </p>
-      <pre>
-var sum = _.reduce([1, 2, 3], function(memo, num){ return memo + num; }, 0);
+<p><strong id="reduce" class="header">reduce</strong> <code class="api">_.reduce(list, iterator, memo, [context])</code> <span class="alias">Alias: <strong>inject, foldl</strong></span><br />
+Also known as inject and foldl, reduce boils down a list of values into a single value. Memo is the initial state of the reduction, and each successive step of it should be returned by iterator. The iterator is passed four arguments: the memo, then the value and index (or key) of the iteration, and finally a reference to the entire list.</p>
+
+<pre>var sum = _.reduce([1, 2, 3], function(memo, num){ return memo + num; }, 0);
 =&gt; 6
 </pre>
 
-      <p id="reduceRight">
-        <b class="header">reduceRight</b><code>_.reduceRight(list, iterator, memo, [context])</code>
-        <span class="alias">Alias: <b>foldr</b></span>
-        <br />
-        The right-associative version of <b>reduce</b>. Delegates to the
-        JavaScript 1.8 version of <b>reduceRight</b>, if it exists. <b>Foldr</b>
-        is not as useful in JavaScript as it would be in a language with lazy
-        evaluation.
-      </p>
-      <pre>
-var list = [[0, 1], [2, 3], [4, 5]];
+<p><strong id="reduceright" class="header">reduceRight</strong> <code class="api">_.reduceRight(list, iterator, memo, [context])</code> <span class="alias">Alias: <strong>foldr</strong></span><br />
+The right-associative version of reduce. Delegates to the JavaScript 1.8 version of reduceRight, if it exists. Foldr is not as useful in JavaScript as it would be in a language with lazy evaluation.</p>
+
+<pre>var list = [[0, 1], [2, 3], [4, 5]];
 var flat = _.reduceRight(list, function(a, b) { return a.concat(b); }, []);
 =&gt; [4, 5, 2, 3, 0, 1]
 </pre>
 
-      <p id="find">
-        <b class="header">find</b><code>_.find(list, iterator, [context])</code>
-        <span class="alias">Alias: <b>detect</b></span>
-        <br />
-        Looks through each value in the <b>list</b>, returning the first one that
-        passes a truth test (<b>iterator</b>). The function returns as
-        soon as it finds an acceptable element, and doesn't traverse the
-        entire list.
-      </p>
-      <pre>
-var even = _.find([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
+<p><strong id="find" class="header">find</strong> <code class="api">_.find(list, iterator, [context])</code> <span class="alias">Alias: <strong>detect</strong></span><br />
+Looks through each value in the list, returning the first one that passes a truth test (<b>iterator</b>). The function returns as soon as it finds an acceptable element, and doesn&#39;t traverse the entire list.</p>
+
+<pre>var even = _.find([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
 =&gt; 2
 </pre>
 
-      <p id="filter">
-        <b class="header">filter</b><code>_.filter(list, iterator, [context])</code>
-        <span class="alias">Alias: <b>select</b></span>
-        <br />
-        Looks through each value in the <b>list</b>, returning an array of all
-        the values that pass a truth test (<b>iterator</b>). Delegates to the
-        native <b>filter</b> method, if it exists.
-      </p>
-      <pre>
-var evens = _.filter([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
+<p><strong id="filter" class="header">filter</strong> <code class="api">_.filter(list, iterator, [context])</code> <span class="alias">Alias: <strong>select</strong></span><br />
+Looks through each value in the list, returning an array of all the values that pass a truth test (<b>iterator</b>). Delegates to the native filter method, if it exists.</p>
+
+<pre>var evens = _.filter([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
 =&gt; [2, 4, 6]
 </pre>
 
-      <p id="where">
-        <b class="header">where</b><code>_.where(list, properties)</code>
-        <br />
-        Looks through each value in the <b>list</b>, returning an array of all
-        the values that contain all of the key-value pairs listed in <b>properties</b>.
-      </p>
-      <pre>
-_.where(listOfPlays, {author: "Shakespeare", year: 1611});
-=&gt; [{title: "Cymbeline", author: "Shakespeare", year: 1611},
-    {title: "The Tempest", author: "Shakespeare", year: 1611}]
+<p><strong id="where" class="header">where</strong> <code class="api">_.where(list, properties)</code><br />
+Looks through each value in the list, returning an array of all the values that contain all of the key-value pairs listed in properties.</p>
+
+<pre>_.where(listOfPlays, {author: &quot;Shakespeare&quot;, year: 1611});
+=&gt; [{title: &quot;Cymbeline&quot;, author: &quot;Shakespeare&quot;, year: 1611},
+    {title: &quot;The Tempest&quot;, author: &quot;Shakespeare&quot;, year: 1611}]
 </pre>
 
-      <p id="reject">
-        <b class="header">reject</b><code>_.reject(list, iterator, [context])</code>
-        <br />
-        Returns the values in <b>list</b> without the elements that the truth
-        test (<b>iterator</b>) passes. The opposite of <b>filter</b>.
-      </p>
-      <pre>
-var odds = _.reject([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
+<p><strong id="reject" class="header">reject</strong> <code class="api">_.reject(list, iterator, [context])</code><br />
+Returns the values in list without the elements that the truth test (<b>iterator</b>) passes. The opposite of filter.</p>
+
+<pre>var odds = _.reject([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
 =&gt; [1, 3, 5]
 </pre>
 
-      <p id="every">
-        <b class="header">every</b><code>_.every(list, iterator, [context])</code>
-        <span class="alias">Alias: <b>all</b></span>
-        <br />
-        Returns <i>true</i> if all of the values in the <b>list</b> pass the <b>iterator</b>
-        truth test. Delegates to the native method <b>every</b>, if present.
-      </p>
-      <pre>
-_.every([true, 1, null, 'yes'], _.identity);
+<p><strong id="every" class="header">every</strong> <code class="api">_.every(list, iterator, [context])</code> <span class="alias">Alias: <strong>all</strong></span><br />
+Returns true if all of the values in the list pass the iterator truth test. Delegates to the native method every, if present.</p>
+
+<pre>_.every([true, 1, null, &#39;yes&#39;], _.identity);
 =&gt; false
 </pre>
 
-      <p id="some">
-        <b class="header">some</b><code>_.some(list, [iterator], [context])</code>
-        <span class="alias">Alias: <b>any</b></span>
-        <br />
-        Returns <i>true</i> if any of the values in the <b>list</b> pass the
-        <b>iterator</b> truth test. Short-circuits and stops traversing the list
-        if a true element is found. Delegates to the native method <b>some</b>,
-        if present.
-      </p>
-      <pre>
-_.some([null, 0, 'yes', false]);
+<p><strong id="some" class="header">some</strong> <code class="api">_.some(list, [iterator], [context])</code> <span class="alias">Alias: <strong>any</strong></span><br />
+Returns true if any of the values in the list pass the iterator truth test. Short-circuits and stops traversing the list if a true element is found. Delegates to the native method some, if present.</p>
+
+<pre>_.some([null, 0, &#39;yes&#39;, false]);
 =&gt; true
 </pre>
 
-      <p id="contains">
-        <b class="header">contains</b><code>_.contains(list, value)</code>
-        <span class="alias">Alias: <b>include</b></span>
-        <br />
-        Returns <i>true</i> if the <b>value</b> is present in the <b>list</b>.
-        Uses <b>indexOf</b> internally, if <b>list</b> is an Array.
-      </p>
-      <pre>
-_.contains([1, 2, 3], 3);
+<p><strong id="contains" class="header">contains</strong> <code class="api">_.contains(list, value)</code> <span class="alias">Alias: <strong>include</strong></span><br />
+Returns true if the value is present in the list. Uses indexOf internally, if list is an Array.</p>
+
+<pre>_.contains([1, 2, 3], 3);
 =&gt; true
 </pre>
 
-      <p id="invoke">
-        <b class="header">invoke</b><code>_.invoke(list, methodName, [*arguments])</code>
-        <br />
-        Calls the method named by <b>methodName</b> on each value in the <b>list</b>.
-        Any extra arguments passed to <b>invoke</b> will be forwarded on to the
-        method invocation.
-      </p>
-      <pre>
-_.invoke([[5, 1, 7], [3, 2, 1]], 'sort');
+<p><strong id="invoke" class="header">invoke</strong> <code class="api">_.invoke(list, methodName, [*arguments])</code><br />
+Calls the method named by methodName on each value in the list. Any extra arguments passed to invoke will be forwarded on to the method invocation.</p>
+
+<pre>_.invoke([[5, 1, 7], [3, 2, 1]], &#39;sort&#39;);
 =&gt; [[1, 5, 7], [1, 2, 3]]
 </pre>
 
-      <p id="pluck">
-        <b class="header">pluck</b><code>_.pluck(list, propertyName)</code>
-        <br />
-        A convenient version of what is perhaps the most common use-case for
-        <b>map</b>: extracting a list of property values.
-      </p>
-      <pre>
-var stooges = [{name : 'moe', age : 40}, {name : 'larry', age : 50}, {name : 'curly', age : 60}];
-_.pluck(stooges, 'name');
-=&gt; ["moe", "larry", "curly"]
+<p><strong id="pluck" class="header">pluck</strong> <code class="api">_.pluck(list, propertyName)</code><br />
+A convenient version of what is perhaps the most common use-case for map: extracting a list of property values.</p>
+
+<pre>var stooges = [{name : &#39;moe&#39;, age : 40}, {name : &#39;larry&#39;, age : 50}, {name : &#39;curly&#39;, age : 60}];
+_.pluck(stooges, &#39;name&#39;);
+=&gt; [&quot;moe&quot;, &quot;larry&quot;, &quot;curly&quot;]
 </pre>
 
-      <p id="max">
-        <b class="header">max</b><code>_.max(list, [iterator], [context])</code>
-        <br />
-        Returns the maximum value in <b>list</b>. If <b>iterator</b> is passed,
-        it will be used on each value to generate the criterion by which the
-        value is ranked.
-      </p>
-      <pre>
-var stooges = [{name : 'moe', age : 40}, {name : 'larry', age : 50}, {name : 'curly', age : 60}];
+<p><strong id="max" class="header">max</strong> <code class="api">_.max(list, [iterator], [context])</code><br />
+Returns the maximum value in list. If iterator is passed, it will be used on each value to generate the criterion by which the value is ranked.</p>
+
+<pre>var stooges = [{name : &#39;moe&#39;, age : 40}, {name : &#39;larry&#39;, age : 50}, {name : &#39;curly&#39;, age : 60}];
 _.max(stooges, function(stooge){ return stooge.age; });
-=&gt; {name : 'curly', age : 60};
+=&gt; {name : &#39;curly&#39;, age : 60};
 </pre>
 
-      <p id="min">
-        <b class="header">min</b><code>_.min(list, [iterator], [context])</code>
-        <br />
-        Returns the minimum value in <b>list</b>. If <b>iterator</b> is passed,
-        it will be used on each value to generate the criterion by which the
-        value is ranked.
-      </p>
-      <pre>
-var numbers = [10, 5, 100, 2, 1000];
+<p><strong id="min" class="header">min</strong> <code class="api">_.min(list, [iterator], [context])</code><br />
+Returns the minimum value in list. If iterator is passed, it will be used on each value to generate the criterion by which the value is ranked.</p>
+
+<pre>var numbers = [10, 5, 100, 2, 1000];
 _.min(numbers);
 =&gt; 2
 </pre>
 
-      <p id="sortBy">
-        <b class="header">sortBy</b><code>_.sortBy(list, iterator, [context])</code>
-        <br />
-        Returns a sorted copy of <b>list</b>, ranked in ascending order by the
-        results of running each value through <b>iterator</b>. Iterator may
-        also be the string name of the property to sort by (eg. <tt>length</tt>).
-      </p>
-      <pre>
-_.sortBy([1, 2, 3, 4, 5, 6], function(num){ return Math.sin(num); });
+<p><strong id="sortby" class="header">sortBy</strong> <code class="api">_.sortBy(list, iterator, [context])</code><br />
+Returns a sorted copy of list, ranked in ascending order by the results of running each value through iterator. Iterator may also be the string name of the property to sort by (eg. length).</p>
+
+<pre>_.sortBy([1, 2, 3, 4, 5, 6], function(num){ return Math.sin(num); });
 =&gt; [5, 4, 6, 3, 1, 2]
 </pre>
 
-      <p id="groupBy">
-        <b class="header">groupBy</b><code>_.groupBy(list, iterator)</code>
-        <br />
-        Splits a collection into sets, grouped by the result of running each
-        value through <b>iterator</b>. If <b>iterator</b> is a string instead of
-        a function, groups by the property named by <b>iterator</b> on each of
-        the values.
-      </p>
-      <pre>
-_.groupBy([1.3, 2.1, 2.4], function(num){ return Math.floor(num); });
+<p><strong id="groupby" class="header">groupBy</strong> <code class="api">_.groupBy(list, iterator)</code><br />
+Splits a collection into sets, grouped by the result of running each value through iterator. If iterator is a string instead of a function, groups by the property named by iterator on each of the values.</p>
+
+<pre>_.groupBy([1.3, 2.1, 2.4], function(num){ return Math.floor(num); });
 =&gt; {1: [1.3], 2: [2.1, 2.4]}
 
-_.groupBy(['one', 'two', 'three'], 'length');
-=&gt; {3: ["one", "two"], 5: ["three"]}
+_.groupBy([&#39;one&#39;, &#39;two&#39;, &#39;three&#39;], &#39;length&#39;);
+=&gt; {3: [&quot;one&quot;, &quot;two&quot;], 5: [&quot;three&quot;]}
 </pre>
 
-      <p id="countBy">
-        <b class="header">countBy</b><code>_.countBy(list, iterator)</code>
-        <br />
-        Sorts a list into groups and returns a count for the number of objects
-        in each group.
-        Similar to <tt>groupBy</tt>, but instead of returning a list of values,
-        returns a count for the number of values in that group.
-      </p>
-      <pre>
-_.countBy([1, 2, 3, 4, 5], function(num) {
-  return num % 2 == 0 ? 'even' : 'odd';
+<p><strong id="countby" class="header">countBy</strong> <code class="api">_.countBy(list, iterator)</code><br />
+Sorts a list into groups and returns a count for the number of objects in each group. Similar to groupBy, but instead of returning a list of values, returns a count for the number of values in that group.</p>
+
+<pre>_.countBy([1, 2, 3, 4, 5], function(num) {
+  return num % 2 == 0 ? &#39;even&#39; : &#39;odd&#39;;
 });
 =&gt; {odd: 3, even: 2}
 </pre>
 
-      <p id="shuffle">
-        <b class="header">shuffle</b><code>_.shuffle(list)</code>
-        <br />
-        Returns a shuffled copy of the <b>list</b>, using a version of the
-        <a href="http://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle">Fisher-Yates shuffle</a>.
-      </p>
-      <pre>
-_.shuffle([1, 2, 3, 4, 5, 6]);
+<p><strong id="shuffle" class="header">shuffle</strong> <code class="api">_.shuffle(list)</code><br />
+Returns a shuffled copy of the list, using a version of the Fisher-Yates shuffle.</p>
+
+<pre>_.shuffle([1, 2, 3, 4, 5, 6]);
 =&gt; [4, 1, 6, 3, 5, 2]
 </pre>
 
-      <p id="toArray">
-        <b class="header">toArray</b><code>_.toArray(list)</code>
-        <br />
-        Converts the <b>list</b> (anything that can be iterated over), into a
-        real Array. Useful for transmuting the <b>arguments</b> object.
-      </p>
-      <pre>
-(function(){ return _.toArray(arguments).slice(1); })(1, 2, 3, 4);
+<p><strong id="toarray" class="header">toArray</strong> <code class="api">_.toArray(list)</code><br />
+Converts the list (anything that can be iterated over), into a real Array. Useful for transmuting the arguments object.</p>
+
+<pre>(function(){ return _.toArray(arguments).slice(1); })(1, 2, 3, 4);
 =&gt; [2, 3, 4]
 </pre>
 
-      <p id="size">
-        <b class="header">size</b><code>_.size(list)</code>
-        <br />
-        Return the number of values in the <b>list</b>.
-      </p>
-      <pre>
-_.size({one : 1, two : 2, three : 3});
+<p><strong id="size" class="header">size</strong> <code class="api">_.size(list)</code><br />
+Return the number of values in the list.</p>
+
+<pre>_.size({one : 1, two : 2, three : 3});
 =&gt; 3
 </pre>
 
-      <h2 id="arrays">Array Functions</h2>
+<h2 id="arrays"> Array Functions</h2>
 
-      <p>
-        <i>
-          Note: All array functions will also work on the <b>arguments</b> object.
-          However, Underscore functions are not designed to work on "sparse" arrays.
-        </i>
-      </p>
+<p><em>Note: All array functions will also work on the <strong>arguments</strong> object. However, Underscore functions are not designed to work on &quot;sparse&quot; arrays.</em></p>
 
-      <p id="first">
-        <b class="header">first</b><code>_.first(array, [n])</code>
-        <span class="alias">Alias: <b>head</b>, <b>take</b></span>
-        <br />
-        Returns the first element of an <b>array</b>. Passing <b>n</b> will
-        return the first <b>n</b> elements of the array.
-      </p>
-      <pre>
-_.first([5, 4, 3, 2, 1]);
+<p><strong id="first" class="header">first</strong> <code class="api">_.first(array, [n])</code> <span class="alias">Alias: <strong>head, take</strong></span><br />
+Returns the first element of an array. Passing n will return the first n elements of the array.</p>
+
+<pre>_.first([5, 4, 3, 2, 1]);
 =&gt; 5
 </pre>
 
-      <p id="initial">
-        <b class="header">initial</b><code>_.initial(array, [n])</code>
-        <br />
-        Returns everything but the last entry of the array. Especially useful on
-        the arguments object. Pass <b>n</b> to exclude the last <b>n</b> elements
-        from the result.
-      </p>
-      <pre>
-_.initial([5, 4, 3, 2, 1]);
+<p><strong id="initial" class="header">initial</strong> <code class="api">_.initial(array, [n])</code><br />
+Returns everything but the last entry of the array. Especially useful on the arguments object. Pass n to exclude the last n elements from the result.</p>
+
+<pre>_.initial([5, 4, 3, 2, 1]);
 =&gt; [5, 4, 3, 2]
 </pre>
 
-      <p id="last">
-        <b class="header">last</b><code>_.last(array, [n])</code>
-        <br />
-        Returns the last element of an <b>array</b>. Passing <b>n</b> will return
-        the last <b>n</b> elements of the array.
-      </p>
-      <pre>
-_.last([5, 4, 3, 2, 1]);
+<p><strong id="last" class="header">last</strong> <code class="api">_.last(array, [n])</code><br />
+Returns the last element of an array. Passing n will return the last n elements of the array.</p>
+
+<pre>_.last([5, 4, 3, 2, 1]);
 =&gt; 1
 </pre>
 
-      <p id="rest">
-        <b class="header">rest</b><code>_.rest(array, [index])</code>
-        <span class="alias">Alias: <b>tail, drop</b></span>
-        <br />
-        Returns the <b>rest</b> of the elements in an array. Pass an <b>index</b>
-        to return the values of the array from that index onward.
-      </p>
-      <pre>
-_.rest([5, 4, 3, 2, 1]);
+<p><strong id="rest" class="header">rest</strong> <code class="api">_.rest(array, [index])</code> <span class="alias">Alias: <strong>tail, drop</strong></span><br />
+Returns the rest of the elements in an array. Pass an index to return the values of the array from that index onward.</p>
+
+<pre>_.rest([5, 4, 3, 2, 1]);
 =&gt; [4, 3, 2, 1]
 </pre>
 
-      <p id="compact">
-        <b class="header">compact</b><code>_.compact(array)</code>
-        <br />
-        Returns a copy of the <b>array</b> with all falsy values removed.
-        In JavaScript, <i>false</i>, <i>null</i>, <i>0</i>, <i>""</i>,
-        <i>undefined</i> and <i>NaN</i> are all falsy.
-      </p>
-      <pre>
-_.compact([0, 1, false, 2, '', 3]);
+<p><strong id="compact" class="header">compact</strong> <code class="api">_.compact(array)</code><br />
+Returns a copy of the array with all falsy values removed. In JavaScript, false, null, 0, &quot;&quot;, undefined and NaN are all falsy.</p>
+
+<pre>_.compact([0, 1, false, 2, &#39;&#39;, 3]);
 =&gt; [1, 2, 3]
 </pre>
 
-      <p id="flatten">
-        <b class="header">flatten</b><code>_.flatten(array, [shallow])</code>
-        <br />
-        Flattens a nested <b>array</b> (the nesting can be to any depth). If you
-        pass <b>shallow</b>, the array will only be flattened a single level.
-      </p>
-      <pre>
-_.flatten([1, [2], [3, [[4]]]]);
+<p><strong id="flatten" class="header">flatten</strong> <code class="api">_.flatten(array, [shallow])</code><br />
+Flattens a nested array (the nesting can be to any depth). If you pass shallow, the array will only be flattened a single level.</p>
+
+<pre>_.flatten([1, [2], [3, [[4]]]]);
 =&gt; [1, 2, 3, 4];
 
 _.flatten([1, [2], [3, [[4]]]], true);
 =&gt; [1, 2, 3, [[4]]];
 </pre>
 
-      <p id="without">
-        <b class="header">without</b><code>_.without(array, [*values])</code>
-        <br />
-        Returns a copy of the <b>array</b> with all instances of the <b>values</b>
-        removed.
-      </p>
-      <pre>
-_.without([1, 2, 1, 0, 3, 1, 4], 0, 1);
+<p><strong id="without" class="header">without</strong> <code class="api">_.without(array, [*values])</code><br />
+Returns a copy of the array with all instances of the values removed.</p>
+
+<pre>_.without([1, 2, 1, 0, 3, 1, 4], 0, 1);
 =&gt; [2, 3, 4]
 </pre>
 
-      <p id="union">
-        <b class="header">union</b><code>_.union(*arrays)</code>
-        <br />
-        Computes the union of the passed-in <b>arrays</b>: the list of unique items,
-        in order, that are present in one or more of the <b>arrays</b>.
-      </p>
-      <pre>
-_.union([1, 2, 3], [101, 2, 1, 10], [2, 1]);
+<p><strong id="union" class="header">union</strong> <code class="api">_.union(*arrays)</code><br />
+Computes the union of the passed-in arrays: the list of unique items, in order, that are present in one or more of the arrays.</p>
+
+<pre>_.union([1, 2, 3], [101, 2, 1, 10], [2, 1]);
 =&gt; [1, 2, 3, 101, 10]
 </pre>
 
-      <p id="intersection">
-        <b class="header">intersection</b><code>_.intersection(*arrays)</code>
-        <br />
-        Computes the list of values that are the intersection of all the <b>arrays</b>.
-        Each value in the result is present in each of the <b>arrays</b>.
-      </p>
-      <pre>
-_.intersection([1, 2, 3], [101, 2, 1, 10], [2, 1]);
+<p><strong id="intersection" class="header">intersection</strong> <code class="api">_.intersection(*arrays)</code><br />
+Computes the list of values that are the intersection of all the arrays. Each value in the result is present in each of the arrays.</p>
+
+<pre>_.intersection([1, 2, 3], [101, 2, 1, 10], [2, 1]);
 =&gt; [1, 2]
 </pre>
 
-      <p id="difference">
-        <b class="header">difference</b><code>_.difference(array, *others)</code>
-        <br />
-        Similar to <b>without</b>, but returns the values from <b>array</b> that
-        are not present in the <b>other</b> arrays.
-      </p>
-      <pre>
-_.difference([1, 2, 3, 4, 5], [5, 2, 10]);
+<p><strong id="difference" class="header">difference</strong> <code class="api">_.difference(array, *others)</code><br />
+Similar to without, but returns the values from array that are not present in the other arrays.</p>
+
+<pre>_.difference([1, 2, 3, 4, 5], [5, 2, 10]);
 =&gt; [1, 3, 4]
 </pre>
 
-      <p id="uniq">
-        <b class="header">uniq</b><code>_.uniq(array, [isSorted], [iterator])</code>
-        <span class="alias">Alias: <b>unique</b></span>
-        <br />
-        Produces a duplicate-free version of the <b>array</b>, using <i>===</i> to test
-        object equality. If you know in advance that the <b>array</b> is sorted,
-        passing <i>true</i> for <b>isSorted</b> will run a much faster algorithm.
-        If you want to compute unique items based on a transformation, pass an
-        <b>iterator</b> function.
-      </p>
-      <pre>
-_.uniq([1, 2, 1, 3, 1, 4]);
+<p><strong id="uniq" class="header">uniq</strong> <code class="api">_.uniq(array, [isSorted], [iterator])</code> <span class="alias">Alias: <strong>unique</strong></span><br />
+Produces a duplicate-free version of the array, using === to test object equality. If you know in advance that the array is sorted, passing true for isSorted will run a much faster algorithm. If you want to compute unique items based on a transformation, pass an iterator function.</p>
+
+<pre>_.uniq([1, 2, 1, 3, 1, 4]);
 =&gt; [1, 2, 3, 4]
 </pre>
 
-      <p id="zip">
-        <b class="header">zip</b><code>_.zip(*arrays)</code>
-        <br />
-        Merges together the values of each of the <b>arrays</b> with the
-        values at the corresponding position. Useful when you have separate
-        data sources that are coordinated through matching array indexes.
-        If you're working with a matrix of nested arrays, <b>zip.apply</b>
-        can transpose the matrix in a similar fashion.
-      </p>
-      <pre>
-_.zip(['moe', 'larry', 'curly'], [30, 40, 50], [true, false, false]);
-=&gt; [["moe", 30, true], ["larry", 40, false], ["curly", 50, false]]
+<p><strong id="zip" class="header">zip</strong> <code class="api">_.zip(*arrays)</code><br />
+Merges together the values of each of the arrays with the values at the corresponding position. Useful when you have separate data sources that are coordinated through matching array indexes. If you&#39;re working with a matrix of nested arrays, zip.apply can transpose the matrix in a similar fashion.</p>
+
+<pre>_.zip([&#39;moe&#39;, &#39;larry&#39;, &#39;curly&#39;], [30, 40, 50], [true, false, false]);
+=&gt; [[&quot;moe&quot;, 30, true], [&quot;larry&quot;, 40, false], [&quot;curly&quot;, 50, false]]
 </pre>
 
-      <p id="object">
-        <b class="header">object</b><code>_.object(list, [values])</code>
-        <br />
-        Converts arrays into objects. Pass either a single list of
-        <tt>[key, value]</tt> pairs, or a list of keys, and a list of values.
-      </p>
-      <pre>
-_.object(['moe', 'larry', 'curly'], [30, 40, 50]);
+<p><strong id="object" class="header">object</strong> <code class="api">_.object(list, [values])</code><br />
+Converts arrays into objects. Pass either a single list of [key, value] pairs, or a list of keys, and a list of values.</p>
+
+<pre>_.object([&#39;moe&#39;, &#39;larry&#39;, &#39;curly&#39;], [30, 40, 50]);
 =&gt; {moe: 30, larry: 40, curly: 50}
 
-_.object([['moe', 30], ['larry', 40], ['curly', 50]]);
+_.object([[&#39;moe&#39;, 30], [&#39;larry&#39;, 40], [&#39;curly&#39;, 50]]);
 =&gt; {moe: 30, larry: 40, curly: 50}
 </pre>
 
-      <p id="indexOf">
-        <b class="header">indexOf</b><code>_.indexOf(array, value, [isSorted])</code>
-        <br />
-        Returns the index at which <b>value</b> can be found in the <b>array</b>,
-        or <i>-1</i> if value is not present in the <b>array</b>. Uses the native
-        <b>indexOf</b> function unless it's missing. If you're working with a
-        large array, and you know that the array is already sorted, pass <tt>true</tt>
-        for <b>isSorted</b> to use a faster binary search ... or, pass a number as
-        the third argument in order to look for the first matching value in the
-        array after the given index.
-      </p>
-      <pre>
-_.indexOf([1, 2, 3], 2);
+<p><strong id="indexof" class="header">indexOf</strong> <code class="api">_.indexOf(array, value, [isSorted])</code><br />
+Returns the index at which value can be found in the array, or -1 if value is not present in the array. Uses the native indexOf function unless it&#39;s missing. If you&#39;re working with a large array, and you know that the array is already sorted, pass true for isSorted to use a faster binary search ... or, pass a number as the third argument in order to look for the first matching value in the array after the given index.</p>
+
+<pre>_.indexOf([1, 2, 3], 2);
 =&gt; 1
 </pre>
 
-      <p id="lastIndexOf">
-        <b class="header">lastIndexOf</b><code>_.lastIndexOf(array, value, [fromIndex])</code>
-        <br />
-        Returns the index of the last occurrence of <b>value</b> in the <b>array</b>,
-        or <i>-1</i> if value is not present. Uses the native <b>lastIndexOf</b>
-        function if possible. Pass <b>fromIndex</b> to start your search at a
-        given index.
-      </p>
-      <pre>
-_.lastIndexOf([1, 2, 3, 1, 2, 3], 2);
+<p><strong id="lastindexof" class="header">lastIndexOf</strong> <code class="api">_.lastIndexOf(array, value, [fromIndex])</code><br />
+Returns the index of the last occurrence of value in the array, or -1 if value is not present. Uses the native lastIndexOf function if possible. Pass fromIndex to start your search at a given index.</p>
+
+<pre>_.lastIndexOf([1, 2, 3, 1, 2, 3], 2);
 =&gt; 4
 </pre>
 
-      <p id="sortedIndex">
-        <b class="header">sortedIndex</b><code>_.sortedIndex(list, value, [iterator])</code>
-        <br />
-        Uses a binary search to determine the index at which the <b>value</b>
-        <i>should</i> be inserted into the <b>list</b> in order to maintain the <b>list</b>'s
-        sorted order. If an <b>iterator</b> is passed, it will be used to compute
-        the sort ranking of each value, including the <b>value</b> you pass.
-      </p>
-      <pre>
-_.sortedIndex([10, 20, 30, 40, 50], 35);
+<p><strong id="sortedindex" class="header">sortedIndex</strong> <code class="api">_.sortedIndex(list, value, [iterator])</code><br />
+Uses a binary search to determine the index at which the value should be inserted into the list in order to maintain the list&#39;s sorted order. If an iterator is passed, it will be used to compute the sort ranking of each value, including the value you pass.</p>
+
+<pre>_.sortedIndex([10, 20, 30, 40, 50], 35);
 =&gt; 3
 </pre>
 
-      <p id="range">
-        <b class="header">range</b><code>_.range([start], stop, [step])</code>
-        <br />
-        A function to create flexibly-numbered lists of integers, handy for
-        <tt>each</tt> and <tt>map</tt> loops. <b>start</b>, if omitted, defaults
-        to <i>0</i>; <b>step</b> defaults to <i>1</i>. Returns a list of integers
-        from <b>start</b> to <b>stop</b>, incremented (or decremented) by <b>step</b>,
-        exclusive.
-      </p>
-      <pre>
-_.range(10);
+<p><strong id="range" class="header">range</strong> <code class="api">_.range([start], stop, [step])</code><br />
+A function to create flexibly-numbered lists of integers, handy for each and map loops. start, if omitted, defaults to 0; step defaults to 1. Returns a list of integers from start to stop, incremented (or decremented) by step, exclusive.</p>
+
+<pre>_.range(10);
 =&gt; [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 _.range(1, 11);
 =&gt; [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
@@ -907,490 +635,313 @@ _.range(0);
 =&gt; []
 </pre>
 
-      <h2 id="functions">Function (uh, ahem) Functions</h2>
+<h2 id="functions"> Function (uh, ahem) Functions</h2>
 
-      <p id="bind">
-        <b class="header">bind</b><code>_.bind(function, object, [*arguments])</code>
-        <br />
-        Bind a <b>function</b> to an <b>object</b>, meaning that whenever
-        the function is called, the value of <i>this</i> will be the <b>object</b>.
-        Optionally, bind <b>arguments</b> to the <b>function</b> to pre-fill them,
-        also known as <b>partial application</b>.
-      </p>
-      <pre>
-var func = function(greeting){ return greeting + ': ' + this.name };
-func = _.bind(func, {name : 'moe'}, 'hi');
+<p><strong id="bind" class="header">bind</strong> <code class="api">_.bind(function, object, [*arguments])</code><br />
+Bind a function to an object, meaning that whenever the function is called, the value of this will be the object. Optionally, bind arguments to the function to pre-fill them, also known as partial application.</p>
+
+<pre>var func = function(greeting){ return greeting + &#39;: &#39; + this.name };
+func = _.bind(func, {name : &#39;moe&#39;}, &#39;hi&#39;);
 func();
-=&gt; 'hi: moe'
+=&gt; &#39;hi: moe&#39;
 </pre>
 
-      <p id="bindAll">
-        <b class="header">bindAll</b><code>_.bindAll(object, [*methodNames])</code>
-        <br />
-        Binds a number of methods on the <b>object</b>, specified by
-        <b>methodNames</b>, to be run in the context of that object whenever they
-        are invoked. Very handy for binding functions that are going to be used
-        as event handlers, which would otherwise be invoked with a fairly useless
-        <i>this</i>. If no <b>methodNames</b> are provided, all of the object's
-        function properties will be bound to it.
-      </p>
-      <pre>
-var buttonView = {
-  label   : 'underscore',
-  onClick : function(){ alert('clicked: ' + this.label); },
-  onHover : function(){ console.log('hovering: ' + this.label); }
+<p><strong id="bindall" class="header">bindAll</strong> <code class="api">_.bindAll(object, [*methodNames])</code><br />
+Binds a number of methods on the object, specified by methodNames, to be run in the context of that object whenever they are invoked. Very handy for binding functions that are going to be used as event handlers, which would otherwise be invoked with a fairly useless this. If no methodNames are provided, all of the object&#39;s function properties will be bound to it.</p>
+
+<pre>var buttonView = {
+  label   : &#39;underscore&#39;,
+  onClick : function(){ alert(&#39;clicked: &#39; + this.label); },
+  onHover : function(){ console.log(&#39;hovering: &#39; + this.label); }
 };
 _.bindAll(buttonView);
-jQuery('#underscore_button').bind('click', buttonView.onClick);
+jQuery(&#39;#underscore_button&#39;).bind(&#39;click&#39;, buttonView.onClick);
 =&gt; When the button is clicked, this.label will have the correct value...
 </pre>
 
-      <p id="memoize">
-        <b class="header">memoize</b><code>_.memoize(function, [hashFunction])</code>
-        <br />
-        Memoizes a given <b>function</b> by caching the computed result. Useful
-        for speeding up slow-running computations. If passed an optional
-        <b>hashFunction</b>, it will be used to compute the hash key for storing
-        the result, based on the arguments to the original function. The default
-        <b>hashFunction</b> just uses the first argument to the memoized function
-        as the key.
-      </p>
-      <pre>
-var fibonacci = _.memoize(function(n) {
+<p><strong id="memoize" class="header">memoize</strong> <code class="api">_.memoize(function, [hashFunction])</code><br />
+Memoizes a given function by caching the computed result. Useful for speeding up slow-running computations. If passed an optional hashFunction, it will be used to compute the hash key for storing the result, based on the arguments to the original function. The default hashFunction just uses the first argument to the memoized function as the key.</p>
+
+<pre>var fibonacci = _.memoize(function(n) {
   return n &lt; 2 ? n : fibonacci(n - 1) + fibonacci(n - 2);
 });
 </pre>
 
-      <p id="delay">
-        <b class="header">delay</b><code>_.delay(function, wait, [*arguments])</code>
-        <br />
-        Much like <b>setTimeout</b>, invokes <b>function</b> after <b>wait</b>
-        milliseconds. If you pass the optional <b>arguments</b>, they will be
-        forwarded on to the <b>function</b> when it is invoked.
-      </p>
-      <pre>
-var log = _.bind(console.log, console);
-_.delay(log, 1000, 'logged later');
-=&gt; 'logged later' // Appears after one second.
+<p><strong id="delay" class="header">delay</strong> <code class="api">_.delay(function, wait, [*arguments])</code><br />
+Much like setTimeout, invokes function after wait milliseconds. If you pass the optional arguments, they will be forwarded on to the function when it is invoked.</p>
+
+<pre>var log = _.bind(console.log, console);
+_.delay(log, 1000, &#39;logged later&#39;);
+=&gt; &#39;logged later&#39; &#47;&#47; Appears after one second.
 </pre>
 
-      <p id="defer">
-        <b class="header">defer</b><code>_.defer(function, [*arguments])</code>
-        <br />
-        Defers invoking the <b>function</b> until the current call stack has cleared,
-        similar to using <b>setTimeout</b> with a delay of 0. Useful for performing
-        expensive computations or HTML rendering in chunks without blocking the UI thread
-        from updating. If you pass the optional <b>arguments</b>, they will be
-        forwarded on to the <b>function</b> when it is invoked.
-      </p>
-      <pre>
-_.defer(function(){ alert('deferred'); });
-// Returns from the function before the alert runs.
+<p><strong id="defer" class="header">defer</strong> <code class="api">_.defer(function, [*arguments])</code><br />
+Defers invoking the function until the current call stack has cleared, similar to using setTimeout with a delay of 0. Useful for performing expensive computations or HTML rendering in chunks without blocking the UI thread from updating. If you pass the optional arguments, they will be forwarded on to the function when it is invoked.</p>
+
+<pre>_.defer(function(){ alert(&#39;deferred&#39;); });
+&#47;&#47; Returns from the function before the alert runs.
 </pre>
 
-      <p id="throttle">
-        <b class="header">throttle</b><code>_.throttle(function, wait)</code>
-        <br />
-        Creates and returns a new, throttled version of the passed function,
-        that, when invoked repeatedly, will only actually call the original function
-        at most once per every <b>wait</b>
-        milliseconds. Useful for rate-limiting events that occur faster than you
-        can keep up with.
-      </p>
-      <pre>
-var throttled = _.throttle(updatePosition, 100);
+<p><strong id="throttle" class="header">throttle</strong> <code class="api">_.throttle(function, wait)</code><br />
+Creates and returns a new, throttled version of the passed function, that, when invoked repeatedly, will only actually call the original function at most once per every wait milliseconds. Useful for rate-limiting events that occur faster than you can keep up with.</p>
+
+<pre>var throttled = _.throttle(updatePosition, 100);
 $(window).scroll(throttled);
 </pre>
 
-      <p id="debounce">
-        <b class="header">debounce</b><code>_.debounce(function, wait, [immediate])</code>
-        <br />
-        Creates and returns a new debounced version of the passed function that
-        will postpone its execution until after
-        <b>wait</b> milliseconds have elapsed since the last time it
-        was invoked. Useful for implementing behavior that should only happen
-        <i>after</i> the input has stopped arriving. For example: rendering a
-        preview of a Markdown comment, recalculating a layout after the window
-        has stopped being resized, and so on.
-      </p>
+<p><strong id="debounce" class="header">debounce</strong> <code class="api">_.debounce(function, wait, [immediate])</code><br />
+Creates and returns a new debounced version of the passed function that will postpone its execution until after wait milliseconds have elapsed since the last time it was invoked. Useful for implementing behavior that should only happen after the input has stopped arriving. For example: rendering a preview of a Markdown comment, recalculating a layout after the window has stopped being resized, and so on.</p>
 
-      <p>
-        Pass <tt>true</tt> for the <b>immediate</b> parameter to cause
-        <b>debounce</b> to trigger the function on the leading instead of the
-        trailing edge of the <b>wait</b> interval. Useful in circumstances like
-        preventing accidental double-clicks on a "submit" button from firing a
-        second time.
-      </p>
+<p>Pass true for the immediate parameter to cause debounce to trigger the function on the leading instead of the trailing edge of the wait interval. Useful in circumstances like preventing accidental double-clicks on a &quot;submit&quot; button from firing a second time.</p>
 
-      <pre>
-var lazyLayout = _.debounce(calculateLayout, 300);
+<pre>var lazyLayout = _.debounce(calculateLayout, 300);
 $(window).resize(lazyLayout);
 </pre>
 
-      <p id="once">
-        <b class="header">once</b><code>_.once(function)</code>
-        <br />
-        Creates a version of the function that can only be called one time.
-        Repeated calls to the modified function will have no effect, returning
-        the value from the original call. Useful for initialization functions,
-        instead of having to set a boolean flag and then check it later.
-      </p>
-      <pre>
-var initialize = _.once(createApplication);
+<p><strong id="once" class="header">once</strong> <code class="api">_.once(function)</code><br />
+Creates a version of the function that can only be called one time. Repeated calls to the modified function will have no effect, returning the value from the original call. Useful for initialization functions, instead of having to set a boolean flag and then check it later.</p>
+
+<pre>var initialize = _.once(createApplication);
 initialize();
 initialize();
-// Application is only created once.
+&#47;&#47; Application is only created once.
 </pre>
 
-      <p id="after">
-        <b class="header">after</b><code>_.after(count, function)</code>
-        <br />
-        Creates a version of the function that will only be run after first
-        being called <b>count</b> times. Useful for grouping asynchronous responses,
-        where you want to be sure that all the async calls have finished, before
-        proceeding.
-      </p>
-      <pre>
-var renderNotes = _.after(notes.length, render);
+<p><strong id="after" class="header">after</strong> <code class="api">_.after(count, function)</code><br />
+Creates a version of the function that will only be run after first being called count times. Useful for grouping asynchronous responses, where you want to be sure that all the async calls have finished, before proceeding.</p>
+
+<pre>var renderNotes = _.after(notes.length, render);
 _.each(notes, function(note) {
   note.asyncSave({success: renderNotes});
 });
-// renderNotes is run once, after all notes have saved.
+&#47;&#47; renderNotes is run once, after all notes have saved.
 </pre>
 
-      <p id="wrap">
-        <b class="header">wrap</b><code>_.wrap(function, wrapper)</code>
-        <br />
-        Wraps the first <b>function</b> inside of the <b>wrapper</b> function,
-        passing it as the first argument. This allows the <b>wrapper</b> to
-        execute code before and after the <b>function</b> runs, adjust the arguments,
-        and execute it conditionally.
-      </p>
-      <pre>
-var hello = function(name) { return "hello: " + name; };
+<p><strong id="wrap" class="header">wrap</strong> <code class="api">_.wrap(function, wrapper)</code><br />
+Wraps the first function inside of the wrapper function, passing it as the first argument. This allows the wrapper to execute code before and after the function runs, adjust the arguments, and execute it conditionally.</p>
+
+<pre>var hello = function(name) { return &quot;hello: &quot; + name; };
 hello = _.wrap(hello, function(func) {
-  return "before, " + func("moe") + ", after";
+  return &quot;before, &quot; + func(&quot;moe&quot;) + &quot;, after&quot;;
 });
 hello();
-=&gt; 'before, hello: moe, after'
+=&gt; &#39;before, hello: moe, after&#39;
 </pre>
 
-      <p id="compose">
-        <b class="header">compose</b><code>_.compose(*functions)</code>
-        <br />
-        Returns the composition of a list of <b>functions</b>, where each function
-        consumes the return value of the function that follows. In math terms,
-        composing the functions <i>f()</i>, <i>g()</i>, and <i>h()</i> produces
-        <i>f(g(h()))</i>.
-      </p>
-      <pre>
-var greet    = function(name){ return "hi: " + name; };
-var exclaim  = function(statement){ return statement + "!"; };
+<p><strong id="compose" class="header">compose</strong> <code class="api">_.compose(*functions)</code><br />
+Returns the composition of a list of functions, where each function consumes the return value of the function that follows. In math terms, composing the functions f(), g(), and h() produces f(g(h())).</p>
+
+<pre>var greet    = function(name){ return &quot;hi: &quot; + name; };
+var exclaim  = function(statement){ return statement + &quot;!&quot;; };
 var welcome = _.compose(exclaim, greet);
-welcome('moe');
-=&gt; 'hi: moe!'
+welcome(&#39;moe&#39;);
+=&gt; &#39;hi: moe!&#39;
 </pre>
 
-      <h2 id="objects">Object Functions</h2>
+<h2 id="objects"> Object Functions</h2>
 
-      <p id="keys">
-        <b class="header">keys</b><code>_.keys(object)</code>
-        <br />
-        Retrieve all the names of the <b>object</b>'s properties.
-      </p>
-      <pre>
-_.keys({one : 1, two : 2, three : 3});
-=&gt; ["one", "two", "three"]
+<p><strong id="keys" class="header">keys</strong> <code class="api">_.keys(object)</code><br />
+Retrieve all the names of the object&#39;s properties.</p>
+
+<pre>_.keys({one : 1, two : 2, three : 3});
+=&gt; [&quot;one&quot;, &quot;two&quot;, &quot;three&quot;]
 </pre>
 
-      <p id="values">
-        <b class="header">values</b><code>_.values(object)</code>
-        <br />
-        Return all of the values of the <b>object</b>'s properties.
-      </p>
-      <pre>
-_.values({one : 1, two : 2, three : 3});
+<p><strong id="values" class="header">values</strong> <code class="api">_.values(object)</code><br />
+Return all of the values of the object&#39;s properties.</p>
+
+<pre>_.values({one : 1, two : 2, three : 3});
 =&gt; [1, 2, 3]
 </pre>
 
-      <p id="pairs">
-        <b class="header">pairs</b><code>_.pairs(object)</code>
-        <br />
-        Convert an object into a list of <tt>[key, value]</tt> pairs.
-      </p>
-      <pre>
-_.pairs({one: 1, two: 2, three: 3});
-=&gt; [["one", 1], ["two", 2], ["three", 3]]
+<p><strong id="pairs" class="header">pairs</strong> <code class="api">_.pairs(object)</code><br />
+Convert an object into a list of [key, value] pairs.</p>
+
+<pre>_.pairs({one: 1, two: 2, three: 3});
+=&gt; [[&quot;one&quot;, 1], [&quot;two&quot;, 2], [&quot;three&quot;, 3]]
 </pre>
 
-      <p id="invert">
-        <b class="header">invert</b><code>_.invert(object)</code>
-        <br />
-        Returns a copy of the <b>object</b> where the keys have become the values
-        and the values the keys. For this to work, all of your object's values
-        should be unique and string serializable.
-      </p>
-      <pre>
-_.invert({Moe: "Moses", Larry: "Louis", Curly: "Jerome"});
-=&gt; {Moses: "Moe", Louis: "Larry", Jerome: "Curly"};
+<p><strong id="invert" class="header">invert</strong> <code class="api">_.invert(object)</code><br />
+Returns a copy of the object where the keys have become the values and the values the keys. For this to work, all of your object&#39;s values should be unique and string serializable.</p>
+
+<pre>_.invert({Moe: &quot;Moses&quot;, Larry: &quot;Louis&quot;, Curly: &quot;Jerome&quot;});
+=&gt; {Moses: &quot;Moe&quot;, Louis: &quot;Larry&quot;, Jerome: &quot;Curly&quot;};
 </pre>
 
-      <p id="object-functions">
-        <b class="header">functions</b><code>_.functions(object)</code>
-        <span class="alias">Alias: <b>methods</b></span>
-        <br />
-        Returns a sorted list of the names of every method in an object &mdash;
-        that is to say, the name of every function property of the object.
-      </p>
-      <pre>
-_.functions(_);
-=&gt; ["all", "any", "bind", "bindAll", "clone", "compact", "compose" ...
+<p><strong id="functions" class="header">functions</strong> <code class="api">_.functions(object)</code>  Alias: methods<br />
+Returns a sorted list of the names of every method in an object — that is to say, the name of every function property of the object.</p>
+
+<pre>_.functions(_);
+=&gt; [&quot;all&quot;, &quot;any&quot;, &quot;bind&quot;, &quot;bindAll&quot;, &quot;clone&quot;, &quot;compact&quot;, &quot;compose&quot; ...
 </pre>
 
-      <p id="extend">
-        <b class="header">extend</b><code>_.extend(destination, *sources)</code>
-        <br />
-        Copy all of the properties in the <b>source</b> objects over to the
-        <b>destination</b> object, and return the <b>destination</b> object.
-        It's in-order, so the last source will override properties of the same
-        name in previous arguments.
-      </p>
-      <pre>
-_.extend({name : 'moe'}, {age : 50});
-=&gt; {name : 'moe', age : 50}
+<p><strong id="extend" class="header">extend</strong> <code class="api">_.extend(destination, *sources)</code><br />
+Copy all of the properties in the source objects over to the destination object, and return the destination object. It&#39;s in-order, so the last source will override properties of the same name in previous arguments.</p>
+
+<pre>_.extend({name : &#39;moe&#39;}, {age : 50});
+=&gt; {name : &#39;moe&#39;, age : 50}
 </pre>
 
-      <p id="pick">
-        <b class="header">pick</b><code>_.pick(object, *keys)</code>
-        <br />
-        Return a copy of the <b>object</b>, filtered to only have values for
-        the whitelisted <b>keys</b> (or array of valid keys).
-      </p>
-      <pre>
-_.pick({name : 'moe', age: 50, userid : 'moe1'}, 'name', 'age');
-=&gt; {name : 'moe', age : 50}
+<p><strong id="pick" class="header">pick</strong> <code class="api">_.pick(object, *keys)</code><br />
+Return a copy of the object, filtered to only have values for the whitelisted keys (or array of valid keys).</p>
+
+<pre>_.pick({name : &#39;moe&#39;, age: 50, userid : &#39;moe1&#39;}, &#39;name&#39;, &#39;age&#39;);
+=&gt; {name : &#39;moe&#39;, age : 50}
 </pre>
 
-      <p id="omit">
-        <b class="header">omit</b><code>_.omit(object, *keys)</code>
-        <br />
-        Return a copy of the <b>object</b>, filtered to omit the blacklisted
-        <b>keys</b> (or array of keys).
-      </p>
-      <pre>
-_.omit({name : 'moe', age : 50, userid : 'moe1'}, 'userid');
-=&gt; {name : 'moe', age : 50}
+<p><strong id="omit" class="header">omit</strong> <code class="api">_.omit(object, *keys)</code><br />
+Return a copy of the object, filtered to omit the blacklisted keys (or array of keys).</p>
+
+<pre>_.omit({name : &#39;moe&#39;, age : 50, userid : &#39;moe1&#39;}, &#39;userid&#39;);
+=&gt; {name : &#39;moe&#39;, age : 50}
 </pre>
 
-      <p id="defaults">
-        <b class="header">defaults</b><code>_.defaults(object, *defaults)</code>
-        <br />
-        Fill in null and undefined properties in <b>object</b> with values from the
-        <b>defaults</b> objects, and return the <b>object</b>. As soon as the
-        property is filled, further defaults will have no effect.
-      </p>
-      <pre>
-var iceCream = {flavor : "chocolate"};
-_.defaults(iceCream, {flavor : "vanilla", sprinkles : "lots"});
-=&gt; {flavor : "chocolate", sprinkles : "lots"}
+<p><strong id="defaults" class="header">defaults</strong> <code class="api">_.defaults(object, *defaults)</code><br />
+Fill in null and undefined properties in object with values from the defaults objects, and return the object. As soon as the property is filled, further defaults will have no effect.</p>
+
+<pre>var iceCream = {flavor : &quot;chocolate&quot;};
+_.defaults(iceCream, {flavor : &quot;vanilla&quot;, sprinkles : &quot;lots&quot;});
+=&gt; {flavor : &quot;chocolate&quot;, sprinkles : &quot;lots&quot;}
 </pre>
 
-      <p id="clone">
-        <b class="header">clone</b><code>_.clone(object)</code>
-        <br />
-        Create a shallow-copied clone of the <b>object</b>. Any nested objects
-        or arrays will be copied by reference, not duplicated.
-      </p>
-      <pre>
-_.clone({name : 'moe'});
-=&gt; {name : 'moe'};
+<p><strong id="clone" class="header">clone</strong> <code class="api">_.clone(object)</code><br />
+Create a shallow-copied clone of the object. Any nested objects or arrays will be copied by reference, not duplicated.</p>
+
+<pre>_.clone({name : &#39;moe&#39;});
+=&gt; {name : &#39;moe&#39;};
 </pre>
 
-      <p id="tap">
-        <b class="header">tap</b><code>_.tap(object, interceptor)</code>
-        <br />
-        Invokes <b>interceptor</b> with the <b>object</b>, and then returns <b>object</b>.
-        The primary purpose of this method is to "tap into" a method chain, in order to perform operations on intermediate results within the chain.
-      </p>
-      <pre>
-_.chain([1,2,3,200])
+<p><strong id="tap" class="header">tap</strong> <code class="api">_.tap(object, interceptor)</code><br />
+Invokes interceptor with the object, and then returns object. The primary purpose of this method is to &quot;tap into&quot; a method chain, in order to perform operations on intermediate results within the chain.</p>
+
+<pre>_.chain([1,2,3,200])
   .filter(function(num) { return num % 2 == 0; })
   .tap(alert)
   .map(function(num) { return num * num })
   .value();
-=&gt; // [2, 200] (alerted)
+=&gt; &#47;&#47; [2, 200] (alerted)
 =&gt; [4, 40000]
 </pre>
 
-      <p id="has">
-        <b class="header">has</b><code>_.has(object, key)</code>
-        <br />
-        Does the object contain the given key? Identical to
-        <tt>object.hasOwnProperty(key)</tt>, but uses a safe reference to the
-        <tt>hasOwnProperty</tt> function, in case it's been
-        <a href="http://www.devthought.com/2012/01/18/an-object-is-not-a-hash/">overridden accidentally</a>.
-      </p>
-      <pre>
-_.has({a: 1, b: 2, c: 3}, "b");
+<p><strong id="has" class="header">has</strong> <code class="api">_.has(object, key)</code><br />
+Does the object contain the given key? Identical to object.hasOwnProperty(key), but uses a safe reference to the hasOwnProperty function, in case it&#39;s been overridden accidentally.</p>
+
+<pre>_.has({a: 1, b: 2, c: 3}, &quot;b&quot;);
 =&gt; true
 </pre>
 
-      <p id="isEqual">
-        <b class="header">isEqual</b><code>_.isEqual(object, other)</code>
-        <br />
-        Performs an optimized deep comparison between the two objects, to determine
-        if they should be considered equal.
-      </p>
-      <pre>
-var moe   = {name : 'moe', luckyNumbers : [13, 27, 34]};
-var clone = {name : 'moe', luckyNumbers : [13, 27, 34]};
+<p><strong id="isequal" class="header">isEqual</strong> <code class="api">_.isEqual(object, other)</code><br />
+Performs an optimized deep comparison between the two objects, to determine if they should be considered equal.</p>
+
+<pre>var moe   = {name : &#39;moe&#39;, luckyNumbers : [13, 27, 34]};
+var clone = {name : &#39;moe&#39;, luckyNumbers : [13, 27, 34]};
 moe == clone;
 =&gt; false
 _.isEqual(moe, clone);
 =&gt; true
 </pre>
 
-      <p id="isEmpty">
-        <b class="header">isEmpty</b><code>_.isEmpty(object)</code>
-        <br />
-        Returns <i>true</i> if <b>object</b> contains no values.
-      </p>
-      <pre>
-_.isEmpty([1, 2, 3]);
+<p><strong id="isempty" class="header">isEmpty</strong> <code class="api">_.isEmpty(object)</code><br />
+Returns true if object contains no values.</p>
+
+<pre>_.isEmpty([1, 2, 3]);
 =&gt; false
 _.isEmpty({});
 =&gt; true
 </pre>
 
-      <p id="isElement">
-        <b class="header">isElement</b><code>_.isElement(object)</code>
-        <br />
-        Returns <i>true</i> if <b>object</b> is a DOM element.
-      </p>
-      <pre>
-_.isElement(jQuery('body')[0]);
+<p><strong id="iselement" class="header">isElement</strong> <code class="api">_.isElement(object)</code><br />
+Returns true if object is a DOM element.</p>
+
+<pre>_.isElement(jQuery(&#39;body&#39;)[0]);
 =&gt; true
 </pre>
 
-      <p id="isArray">
-        <b class="header">isArray</b><code>_.isArray(object)</code>
-        <br />
-        Returns <i>true</i> if <b>object</b> is an Array.
-      </p>
-      <pre>
-(function(){ return _.isArray(arguments); })();
+<p><strong id="isarray" class="header">isArray</strong> <code class="api">_.isArray(object)</code><br />
+Returns true if object is an Array.</p>
+
+<pre>(function(){ return _.isArray(arguments); })();
 =&gt; false
 _.isArray([1,2,3]);
 =&gt; true
 </pre>
 
-      <p id="isObject">
-        <b class="header">isObject</b><code>_.isObject(value)</code>
-        <br />
-        Returns <i>true</i> if <b>value</b> is an Object. Note that JavaScript
-        arrays and functions are objects, while (normal) strings and numbers are not.
-      </p>
-      <pre>
-_.isObject({});
+<p><strong id="isobject" class="header">isObject</strong> <code class="api">_.isObject(value)</code><br />
+Returns true if value is an Object. Note that JavaScript arrays and functions are objects, while (normal) strings and numbers are not.</p>
+
+<pre>_.isObject({});
 =&gt; true
 _.isObject(1);
 =&gt; false
 </pre>
 
-      <p id="isArguments">
-        <b class="header">isArguments</b><code>_.isArguments(object)</code>
-        <br />
-        Returns <i>true</i> if <b>object</b> is an Arguments object.
-      </p>
-      <pre>
-(function(){ return _.isArguments(arguments); })(1, 2, 3);
+<p><strong id="isarguments" class="header">isArguments</strong> <code class="api">_.isArguments(object)</code><br />
+Returns true if object is an Arguments object.</p>
+
+<pre>(function(){ return _.isArguments(arguments); })(1, 2, 3);
 =&gt; true
 _.isArguments([1,2,3]);
 =&gt; false
 </pre>
 
-      <p id="isFunction">
-        <b class="header">isFunction</b><code>_.isFunction(object)</code>
-        <br />
-        Returns <i>true</i> if <b>object</b> is a Function.
-      </p>
-      <pre>
-_.isFunction(alert);
+<p><strong id="isfunction" class="header">isFunction</strong> <code class="api">_.isFunction(object)</code><br />
+Returns true if object is a Function.</p>
+
+<pre>_.isFunction(alert);
 =&gt; true
 </pre>
 
-      <p id="isString">
-        <b class="header">isString</b><code>_.isString(object)</code>
-        <br />
-        Returns <i>true</i> if <b>object</b> is a String.
-      </p>
-      <pre>
-_.isString("moe");
+<p><strong id="isstring" class="header">isString</strong> <code class="api">_.isString(object)</code><br />
+Returns true if object is a String.</p>
+
+<pre>_.isString(&quot;moe&quot;);
 =&gt; true
 </pre>
 
-      <p id="isNumber">
-        <b class="header">isNumber</b><code>_.isNumber(object)</code>
-        <br />
-        Returns <i>true</i> if <b>object</b> is a Number (including <tt>NaN</tt>).
-      </p>
-      <pre>
-_.isNumber(8.4 * 5);
+<p><strong id="isnumber" class="header">isNumber</strong> <code class="api">_.isNumber(object)</code><br />
+Returns true if object is a Number (including NaN).</p>
+
+<pre>_.isNumber(8.4 * 5);
 =&gt; true
 </pre>
 
-      <p id="isFinite">
-        <b class="header">isFinite</b><code>_.isFinite(object)</code>
-        <br />
-        Returns <i>true</i> if <b>object</b> is a finite Number.
-      </p>
-      <pre>
-_.isFinite(-101);
-=&gt; true
+<p><strong id="isfinite" class="header">isFinite</strong> <code class="api">_.isFinite(object)</code><br />
+Returns true if object is a finite Number.</p>
 
-_.isFinite(-Infinity);
+<pre>_.isFinite(-101);
+=&gt; true
+</pre>
+
+<pre>_.isFinite(-Infinity);
 =&gt; false
 </pre>
 
-      <p id="isBoolean">
-        <b class="header">isBoolean</b><code>_.isBoolean(object)</code>
-        <br />
-        Returns <i>true</i> if <b>object</b> is either <i>true</i> or <i>false</i>.
-      </p>
-      <pre>
-_.isBoolean(null);
+<p><strong id="isboolean" class="header">isBoolean</strong> <code class="api">_.isBoolean(object)</code><br />
+Returns true if object is either true or false.</p>
+
+<pre>_.isBoolean(null);
 =&gt; false
 </pre>
 
-      <p id="isDate">
-        <b class="header">isDate</b><code>_.isDate(object)</code>
-        <br />
-        Returns <i>true</i> if <b>object</b> is a Date.
-      </p>
-      <pre>
-_.isDate(new Date());
+<p><strong id="isdate" class="header">isDate</strong> <code class="api">_.isDate(object)</code><br />
+Returns true if object is a Date.</p>
+
+<pre>_.isDate(new Date());
 =&gt; true
 </pre>
 
-      <p id="isRegExp">
-        <b class="header">isRegExp</b><code>_.isRegExp(object)</code>
-        <br />
-        Returns <i>true</i> if <b>object</b> is a RegExp.
-      </p>
-      <pre>
-_.isRegExp(/moe/);
+<p><strong id="isregexp" class="header">isRegExp</strong> <code class="api">_.isRegExp(object)</code><br />
+Returns true if object is a RegExp.</p>
+
+<pre>_.isRegExp(&#47;moe&#47;);
 =&gt; true
 </pre>
 
-      <p id="isNaN">
-        <b class="header">isNaN</b><code>_.isNaN(object)</code>
-        <br />
-        Returns <i>true</i> if <b>object</b> is <i>NaN</i>.<br /> Note: this is not
-        the same as the native <b>isNaN</b> function, which will also return
-        true if the variable is <i>undefined</i>.
-      </p>
-      <pre>
-_.isNaN(NaN);
+<p><strong id="isnan" class="header">isNaN</strong> <code class="api">_.isNaN(object)</code><br />
+Returns true if object is NaN.
+Note: this is not the same as the native isNaN function, which will also return true if the variable is undefined.</p>
+
+<pre>_.isNaN(NaN);
 =&gt; true
 isNaN(undefined);
 =&gt; true
@@ -1398,1013 +949,556 @@ _.isNaN(undefined);
 =&gt; false
 </pre>
 
-      <p id="isNull">
-        <b class="header">isNull</b><code>_.isNull(object)</code>
-        <br />
-        Returns <i>true</i> if the value of <b>object</b> is <i>null</i>.
-      </p>
-      <pre>
-_.isNull(null);
+<p><strong id="isnull" class="header">isNull</strong> <code class="api">_.isNull(object)</code><br />
+Returns true if the value of object is null.</p>
+
+<pre>_.isNull(null);
 =&gt; true
 _.isNull(undefined);
 =&gt; false
 </pre>
 
-      <p id="isUndefined">
-        <b class="header">isUndefined</b><code>_.isUndefined(value)</code>
-        <br />
-        Returns <i>true</i> if <b>value</b> is <i>undefined</i>.
-      </p>
-      <pre>
-_.isUndefined(window.missingVariable);
+<p><strong id="isundefined" class="header">isUndefined</strong> <code class="api">_.isUndefined(value)</code><br />
+Returns true if value is undefined.</p>
+
+<pre>_.isUndefined(window.missingVariable);
 =&gt; true
 </pre>
 
-      <h2 id="utility">Utility Functions</h2>
+<h2 id="utility"> Utility Functions</h2>
 
-      <p id="noConflict">
-        <b class="header">noConflict</b><code>_.noConflict()</code>
-        <br />
-        Give control of the "_" variable back to its previous owner. Returns
-        a reference to the <b>Underscore</b> object.
-      </p>
-      <pre>
-var underscore = _.noConflict();</pre>
+<p><strong id="noconflict" class="header">noConflict</strong> <code class="api"><em>.noConflict()</code><br />
+Give control of the &quot;</em>&quot; variable back to its previous owner. Returns a reference to the Underscore object.</p>
 
-      <p id="identity">
-        <b class="header">identity</b><code>_.identity(value)</code>
-        <br />
-        Returns the same value that is used as the argument. In math:
-        <tt>f(x) = x</tt><br />
-        This function looks useless, but is used throughout Underscore as
-        a default iterator.
-      </p>
-      <pre>
-var moe = {name : 'moe'};
+<pre>var underscore = _.noConflict();
+</pre>
+
+<p><strong id="identity" class="header">identity</strong> <code class="api">_.identity(value)</code><br />
+Returns the same value that is used as the argument. In math: f(x) = x
+This function looks useless, but is used throughout Underscore as a default iterator.</p>
+
+<pre>var moe = {name : &#39;moe&#39;};
 moe === _.identity(moe);
-=&gt; true</pre>
+=&gt; true
+</pre>
 
-      <p id="times">
-        <b class="header">times</b><code>_.times(n, iterator, [context])</code>
-        <br />
-        Invokes the given iterator function <b>n</b> times. Each invocation of
-        <b>iterator</b> is called with an <tt>index</tt> argument.
-        <br />
-        <i>Note: this example uses the <a href="#chaining">chaining syntax</a></i>.
-      </p>
-      <pre>
-_(3).times(function(n){ genie.grantWishNumber(n); });</pre>
+<p><strong id="times" class="header">times</strong> <code class="api">_.times(n, iterator, [context])</code><br />
+Invokes the given iterator function n times. Each invocation of iterator is called with an index argument.
+Note: this example uses the chaining syntax.</p>
 
-      <p id="random">
-        <b class="header">random</b><code>_.random(min, max)</code>
-        <br />
-        Returns a random integer between <b>min</b> and <b>max</b>, inclusive.
-        If you only pass one argument, it will return a number between <tt>0</tt>
-        and that number.
-      </p>
-      <pre>
-_.random(0, 100);
-=&gt; 42</pre>
+<pre>_(3).times(function(n){ genie.grantWishNumber(n); });
+</pre>
 
-      <p id="mixin">
-        <b class="header">mixin</b><code>_.mixin(object)</code>
-        <br />
-        Allows you to extend Underscore with your own utility functions. Pass
-        a hash of <tt>{name: function}</tt> definitions to have your functions
-        added to the Underscore object, as well as the OOP wrapper.
-      </p>
-      <pre>
-_.mixin({
+<p><strong id="random" class="header">random</strong> <code class="api">_.random(min, max)</code><br />
+Returns a random integer between min and max, inclusive. If you only pass one argument, it will return a number between 0 and that number.</p>
+
+<pre>_.random(0, 100);
+=&gt; 42
+</pre>
+
+<p><strong id="mixin" class="header">mixin</strong> <code class="api">_.mixin(object)</code><br />
+Allows you to extend Underscore with your own utility functions. Pass a hash of {name: function} definitions to have your functions added to the Underscore object, as well as the OOP wrapper.</p>
+
+<pre>_.mixin({
   capitalize : function(string) {
     return string.charAt(0).toUpperCase() + string.substring(1).toLowerCase();
   }
 });
-_("fabio").capitalize();
-=&gt; "Fabio"
+_(&quot;fabio&quot;).capitalize();
+=&gt; &quot;Fabio&quot;
 </pre>
 
-      <p id="uniqueId">
-        <b class="header">uniqueId</b><code>_.uniqueId([prefix])</code>
-        <br />
-        Generate a globally-unique id for client-side models or DOM elements
-        that need one. If <b>prefix</b> is passed, the id will be appended to it.
-      </p>
-      <pre>
-_.uniqueId('contact_');
-=&gt; 'contact_104'</pre>
+<p><strong id="uniqueid" class="header">uniqueId</strong> <code class="api">_.uniqueId([prefix])</code><br />
+Generate a globally-unique id for client-side models or DOM elements that need one. If prefix is passed, the id will be appended to it.</p>
 
-      <p id="escape">
-        <b class="header">escape</b><code>_.escape(string)</code>
-        <br />
-        Escapes a string for insertion into HTML, replacing
-        <tt>&amp;</tt>, <tt>&lt;</tt>, <tt>&gt;</tt>, <tt>&quot;</tt>, <tt>&#x27;</tt>, and <tt>&#x2F;</tt> characters.
-      </p>
-      <pre>
-_.escape('Curly, Larry &amp; Moe');
-=&gt; "Curly, Larry &amp;amp; Moe"</pre>
+<pre>_.uniqueId(&#39;contact_&#39;);
+=&gt; &#39;contact_104&#39;
+</pre>
 
-      <p id="unescape">
-        <b class="header">unescape</b><code>_.unescape(string)</code>
-        <br />
-        The opposite of <a href="#escape"><b>escape</b></a>, replaces
-        <tt>&amp;amp;</tt>, <tt>&amp;lt;</tt>, <tt>&amp;gt;</tt>,
-        <tt>&amp;quot;</tt>, <tt>&amp;#x27;</tt>, and <tt>&amp;#x2F;</tt>
-        with their unescaped counterparts.
-      </p>
-      <pre>
-_.escape('Curly, Larry &amp;amp; Moe');
-=&gt; "Curly, Larry &amp; Moe"</pre>
+<p><strong id="escape" class="header">escape</strong> <code class="api">_.escape(string)</code><br />
+Escapes a string for insertion into HTML, replacing &amp;, &lt;, &gt;, &quot;, &#39;, and / characters.</p>
 
-      <p id="result">
-        <b class="header">result</b><code>_.result(object, property)</code>
-        <br />
-        If the value of the named property is a function then invoke it; otherwise, return it.
-      </p>
-      <pre>
-var object = {cheese: 'crumpets', stuff: function(){ return 'nonsense'; }};
-_.result(object, 'cheese');
-=&gt; "crumpets"
-_.result(object, 'stuff');
-=&gt; "nonsense"</pre>
+<pre>_.escape(&#39;Curly, Larry &amp; Moe&#39;);
+=&gt; &quot;Curly, Larry &amp;amp; Moe&quot;
+</pre>
 
-      <p id="template">
-        <b class="header">template</b><code>_.template(templateString, [data], [settings])</code>
-        <br />
-        Compiles JavaScript templates into functions that can be evaluated
-        for rendering. Useful for rendering complicated bits of HTML from JSON
-        data sources. Template functions can both interpolate variables, using
-        <tt>&lt;%= &hellip; %&gt;</tt>, as well as execute arbitrary JavaScript code, with
-        <tt>&lt;% &hellip; %&gt;</tt>. If you wish to interpolate a value, and have
-        it be HTML-escaped, use <tt>&lt;%- &hellip; %&gt;</tt> When you evaluate a template function, pass in a
-        <b>data</b> object that has properties corresponding to the template's free
-        variables. If you're writing a one-off, you can pass the <b>data</b>
-        object as the second parameter to <b>template</b> in order to render
-        immediately instead of returning a template function.  The <b>settings</b> argument
-        should be a hash containing any <tt>_.templateSettings</tt> that should be overridden.
-      </p>
+<p><strong id="unescape" class="header">unescape</strong> <code class="api">_.unescape(string)</code><br />
+The opposite of escape, replaces &amp;, &lt;, &gt;, &quot;, &#x27;, and &#x2F; with their unescaped counterparts.</p>
 
-      <pre>
-var compiled = _.template("hello: &lt;%= name %&gt;");
-compiled({name : 'moe'});
-=&gt; "hello: moe"
+<pre>_.escape(&#39;Curly, Larry &amp;amp; Moe&#39;);
+=&gt; &quot;Curly, Larry &amp; Moe&quot;
+</pre>
 
-var list = "&lt;% _.each(people, function(name) { %&gt; &lt;li&gt;&lt;%= name %&gt;&lt;/li&gt; &lt;% }); %&gt;";
-_.template(list, {people : ['moe', 'curly', 'larry']});
-=&gt; "&lt;li&gt;moe&lt;/li&gt;&lt;li&gt;curly&lt;/li&gt;&lt;li&gt;larry&lt;/li&gt;"
+<p><strong id="result" class="header">result</strong> <code class="api">_.result(object, property)</code><br />
+If the value of the named property is a function then invoke it; otherwise, return it.</p>
 
-var template = _.template("&lt;b&gt;&lt;%- value %&gt;&lt;/b&gt;");
-template({value : '&lt;script&gt;'});
-=&gt; "&lt;b&gt;&amp;lt;script&amp;gt;&lt;/b&gt;"</pre>
+<pre>var object = {cheese: &#39;crumpets&#39;, stuff: function(){ return &#39;nonsense&#39;; }};
+_.result(object, &#39;cheese&#39;);
+=&gt; &quot;crumpets&quot;
+_.result(object, &#39;stuff&#39;);
+=&gt; &quot;nonsense&quot;
+</pre>
 
-      <p>
-        You can also use <tt>print</tt> from within JavaScript code.  This is
-        sometimes more convenient than using <tt>&lt;%= ... %&gt;</tt>.
-      </p>
+<p><strong id="template" class="header">template</strong> <code class="api">_.template(templateString, [data], [settings])</code><br />
+Compiles JavaScript templates into functions that can be evaluated for rendering. Useful for rendering complicated bits of HTML from JSON data sources. Template functions can both interpolate variables, using <code>&lt;%= … %&gt;</code>, as well as execute arbitrary JavaScript code, with <code>&lt;% … %&gt;</code>. If you wish to interpolate a value, and have it be HTML-escaped, use <code>&lt;%- … %&gt;</code> When you evaluate a template function, pass in a data object that has properties corresponding to the template&#39;s free variables. If you&#39;re writing a one-off, you can pass the data object as the second parameter to template in order to render immediately instead of returning a template function. The settings argument should be a hash containing any <code>_.templateSettings</code> that should be overridden.</p>
 
-      <pre>
-var compiled = _.template("&lt;% print('Hello ' + epithet); %&gt;");
-compiled({epithet: "stooge"});
-=&gt; "Hello stooge."</pre>
+<pre>var compiled = _.template(&quot;hello: &lt;%= name %&gt;&quot;);
+compiled({name : &#39;moe&#39;});
+=&gt; &quot;hello: moe&quot;
 
-      <p>
-        If ERB-style delimiters aren't your cup of tea, you can change Underscore's
-        template settings to use different symbols to set off interpolated code.
-        Define an <b>interpolate</b> regex to match expressions that should be
-        interpolated verbatim, an <b>escape</b> regex to match expressions that should
-        be inserted after being HTML escaped, and an <b>evaluate</b> regex to match
-        expressions that should be evaluated without insertion into the resulting
-        string. You may define or omit any combination of the three.
-        For example, to perform
-        <a href="http://github.com/janl/mustache.js#readme">Mustache.js</a>
-        style templating:
-      </p>
+var list = &quot;&lt;% _.each(people, function(name) { %&gt; &lt;li&gt;&lt;%= name %&gt;&lt;&#47;li&gt; &lt;% }); %&gt;&quot;;
+_.template(list, {people : [&#39;moe&#39;, &#39;curly&#39;, &#39;larry&#39;]});
+=&gt; &quot;&lt;li&gt;moe&lt;&#47;li&gt;&lt;li&gt;curly&lt;&#47;li&gt;&lt;li&gt;larry&lt;&#47;li&gt;&quot;
 
-      <pre>
-_.templateSettings = {
-  interpolate : /\{\{(.+?)\}\}/g
+var template = _.template(&quot;&lt;b&gt;&lt;%- value %&gt;&lt;&#47;b&gt;&quot;);
+template({value : &#39;&lt;script&gt;&#39;});
+=&gt; &quot;&lt;b&gt;&amp;lt;script&amp;gt;&lt;&#47;b&gt;&quot;
+</pre>
+
+<p>You can also use <code>print</code> from within JavaScript code. This is sometimes more convenient than using <code>&lt;%= ... %&gt;</code>.</p>
+
+<pre>var compiled = _.template(&quot;&lt;% print(&#39;Hello &#39; + epithet); %&gt;&quot;);
+compiled({epithet: &quot;stooge&quot;});
+=&gt; &quot;Hello stooge.&quot;
+</pre>
+
+<p>If ERB-style delimiters aren&#39;t your cup of tea, you can change Underscore&#39;s template settings to use different symbols to set off interpolated code. Define an interpolate regex to match expressions that should be interpolated verbatim, an escape regex to match expressions that should be inserted after being HTML escaped, and an evaluate regex to match expressions that should be evaluated without insertion into the resulting string. You may define or omit any combination of the three. For example, to perform Mustache.js style templating:</p>
+
+<pre>_.templateSettings = {
+  interpolate : &#47;\{\{(.+?)\}\}&#47;g
 };
 
-var template = _.template("Hello {{ name }}!");
-template({name : "Mustache"});
-=&gt; "Hello Mustache!"</pre>
+var template = _.template(&quot;Hello {{ name }}!&quot;);
+template({name : &quot;Mustache&quot;});
+=&gt; &quot;Hello Mustache!&quot;
+</pre>
 
-      <p>
-        By default, <b>template</b> places the values from your data in the local scope
-        via the <tt>with</tt> statement.  However, you can specify a single variable name
-        with the <b>variable</b> setting. This can significantly improve the speed
-        at which a template is able to render.
-      </p>
+<p>By default, template places the values from your data in the local scope via the with statement. However, you can specify a single variable name with the variable setting. This can significantly improve the speed at which a template is able to render.</p>
 
-      <pre>
-_.template("Using 'with': <%= data.answer %>", {answer: 'no'}, {variable: 'data'});
-=&gt; "Using 'with': no"</pre>
+<pre>_.template(&quot;Using &#39;with&#39;: &lt;%= data.answer %&gt;&quot;, {answer: &#39;no&#39;}, {variable: &#39;data&#39;});
+=&gt; &quot;Using &#39;with&#39;: no&quot;
+</pre>
 
-      <p>
-        Precompiling your templates can be a big help when debugging errors you can't
-        reproduce.  This is because precompiled templates can provide line numbers and
-        a stack trace, something that is not possible when compiling templates on the client.
-        The <b>source</b> property is available on the compiled template
-        function for easy precompilation.
-      </p>
+<p>Precompiling your templates can be a big help when debugging errors you can&#39;t reproduce. This is because precompiled templates can provide line numbers and a stack trace, something that is not possible when compiling templates on the client. The source property is available on the compiled template function for easy precompilation.</p>
 
-      <pre>&lt;script&gt;
-  JST.project = <%= _.template(jstText).source %>;
-&lt;/script&gt;</pre>
+<pre>&lt;script&gt;
+  JST.project = &lt;%= _.template(jstText).source %&gt;;
+&lt;&#47;script&gt;
+</pre>
 
+<h2 id="chaining"> Chaining</h2>
 
-      <h2 id="chaining">Chaining</h2>
+<p>You can use Underscore in either an object-oriented or a functional style, depending on your preference. The following two lines of code are identical ways to double a list of numbers.</p>
 
-      <p>
-        You can use Underscore in either an object-oriented or a functional style,
-        depending on your preference. The following two lines of code are
-        identical ways to double a list of numbers.
-      </p>
+<pre>_.map([1, 2, 3], function(n){ return n * 2; });
+_([1, 2, 3]).map(function(n){ return n * 2; });
+</pre>
 
-    <pre>
-_.map([1, 2, 3], function(n){ return n * 2; });
-_([1, 2, 3]).map(function(n){ return n * 2; });</pre>
+<p>Calling chain will cause all future method calls to return wrapped objects. When you&#39;ve finished the computation, use value to retrieve the final value. Here&#39;s an example of chaining together a map/flatten/reduce, in order to get the word count of every word in a song.</p>
 
-      <p>
-        Calling <tt>chain</tt> will cause all future method calls to return
-        wrapped objects. When you've finished the computation, use
-        <tt>value</tt> to retrieve the final value. Here's an example of chaining
-        together a <b>map/flatten/reduce</b>, in order to get the word count of
-        every word in a song.
-      </p>
-
-<pre>
-var lyrics = [
-  {line : 1, words : "I'm a lumberjack and I'm okay"},
-  {line : 2, words : "I sleep all night and I work all day"},
-  {line : 3, words : "He's a lumberjack and he's okay"},
-  {line : 4, words : "He sleeps all night and he works all day"}
+<pre>var lyrics = [
+  {line : 1, words : &quot;I&#39;m a lumberjack and I&#39;m okay&quot;},
+  {line : 2, words : &quot;I sleep all night and I work all day&quot;},
+  {line : 3, words : &quot;He&#39;s a lumberjack and he&#39;s okay&quot;},
+  {line : 4, words : &quot;He sleeps all night and he works all day&quot;}
 ];
 
 _.chain(lyrics)
-  .map(function(line) { return line.words.split(' '); })
+  .map(function(line) { return line.words.split(&#39; &#39;); })
   .flatten()
   .reduce(function(counts, word) {
     counts[word] = (counts[word] || 0) + 1;
     return counts;
 }, {}).value();
 
-=&gt; {lumberjack : 2, all : 4, night : 2 ... }</pre>
-
-      <p>
-        In addition, the
-        <a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array/prototype">Array prototype's methods</a>
-        are proxied through the chained Underscore object, so you can slip a
-        <tt>reverse</tt> or a <tt>push</tt> into your chain, and continue to
-        modify the array.
-      </p>
-
-      <p id="chain">
-        <b class="header">chain</b><code>_.chain(obj)</code>
-        <br />
-        Returns a wrapped object. Calling methods on this object will continue
-        to return wrapped objects until <tt>value</tt> is used.
-      </p>
-      <pre>
-var stooges = [{name : 'curly', age : 25}, {name : 'moe', age : 21}, {name : 'larry', age : 23}];
-var youngest = _.chain(stooges)
-  .sortBy(function(stooge){ return stooge.age; })
-  .map(function(stooge){ return stooge.name + ' is ' + stooge.age; })
-  .first()
-  .value();
-=&gt; "moe is 21"
+=&gt; {lumberjack : 2, all : 4, night : 2 ... }
 </pre>
 
-      <p id="value">
-        <b class="header">value</b><code>_(obj).value()</code>
-        <br />
-        Extracts the value of a wrapped object.
-      </p>
-      <pre>
-_([1, 2, 3]).value();
+<p>In addition, the Array prototype&#39;s methods are proxied through the chained Underscore object, so you can slip a reverse or a push into your chain, and continue to modify the array.</p>
+
+<p><strong id="chain" class="header">chain</strong> <code class="api">_.chain(obj)</code><br />
+Returns a wrapped object. Calling methods on this object will continue to return wrapped objects until value is used.</p>
+
+<pre>var stooges = [{name : &#39;curly&#39;, age : 25}, {name : &#39;moe&#39;, age : 21}, {name : &#39;larry&#39;, age : 23}];
+var youngest = _.chain(stooges)
+  .sortBy(function(stooge){ return stooge.age; })
+  .map(function(stooge){ return stooge.name + &#39; is &#39; + stooge.age; })
+  .first()
+  .value();
+=&gt; &quot;moe is 21&quot;
+</pre>
+
+<p><strong id="value" class="header">value</strong> <code class="api">_(obj).value()</code><br />
+Extracts the value of a wrapped object.</p>
+
+<pre>_([1, 2, 3]).value();
 =&gt; [1, 2, 3]
 </pre>
 
-      <h2 id="links">Links &amp; Suggested Reading</h2>
-
-      <p>
-        The Underscore documentation is also available in
-        <a href="http://learning.github.com/underscore/">Simplified Chinese</a>.
-      </p>
-
-      <p>
-        <a href="http://mirven.github.com/underscore.lua/">Underscore.lua</a>,
-        a Lua port of the functions that are applicable in both languages.
-        Includes OOP-wrapping and chaining.
-        (<a href="http://github.com/mirven/underscore.lua">source</a>)
-      </p>
-
-      <p>
-        <a href="http://underscorem.org">Underscore.m</a>, an Objective-C port
-        of many of the Underscore.js functions, using a syntax that encourages
-        chaining.
-        (<a href="https://github.com/robb/Underscore.m">source</a>)
-      </p>
-
-      <p>
-        <a href="http://kmalakoff.github.com/_.m/">_.m</a>, an alternative
-        Objective-C port that tries to stick a little closer to the original
-        Underscore.js API.
-        (<a href="https://github.com/kmalakoff/_.m">source</a>)
-      </p>
-
-      <p>
-        <a href="http://brianhaveri.github.com/Underscore.php/">Underscore.php</a>,
-        a PHP port of the functions that are applicable in both languages.
-        Includes OOP-wrapping and chaining.
-        (<a href="http://github.com/brianhaveri/Underscore.php">source</a>)
-      </p>
-
-      <p>
-        <a href="http://vti.github.com/underscore-perl/">Underscore-perl</a>,
-        a Perl port of many of the Underscore.js functions,
-        aimed at on Perl hashes and arrays.
-        (<a href="https://github.com/vti/underscore-perl/">source</a>)
-      </p>
-
-      <p>
-        <a href="http://russplaysguitar.github.com/UnderscoreCF/">Underscore.cfc</a>,
-        a Coldfusion port of many of the Underscore.js functions.
-        (<a href="https://github.com/russplaysguitar/underscorecf">source</a>)
-      </p>
-
-      <p>
-        <a href="https://github.com/edtsech/underscore.string">Underscore.string</a>,
-        an Underscore extension that adds functions for string-manipulation:
-        <tt>trim</tt>, <tt>startsWith</tt>, <tt>contains</tt>, <tt>capitalize</tt>,
-        <tt>reverse</tt>, <tt>sprintf</tt>, and more.
-      </p>
-
-      <p>
-        Ruby's <a href="http://ruby-doc.org/core/classes/Enumerable.html">Enumerable</a> module.
-      </p>
-
-      <p>
-        <a href="http://www.prototypejs.org/">Prototype.js</a>, which provides
-        JavaScript with collection functions in the manner closest to Ruby's Enumerable.
-      </p>
-
-      <p>
-        Oliver Steele's
-        <a href="http://osteele.com/sources/javascript/functional/">Functional JavaScript</a>,
-        which includes comprehensive higher-order function support as well as string lambdas.
-      </p>
-
-      <p>
-        Michael Aufreiter's <a href="http://github.com/michael/data">Data.js</a>,
-        a data manipulation + persistence library for JavaScript.
-      </p>
-
-      <p>
-        Python's <a href="http://docs.python.org/library/itertools.html">itertools</a>.
-      </p>
-
-      <h2 id="changelog">Change Log</h2>
-
-      <p>
-        <b class="header">1.4.3</b> &mdash; <small><i>Dec. 4, 2012</i></small> &mdash; <a href="https://github.com/documentcloud/underscore/compare/1.4.2...1.4.3">Diff</a><br />
-        <ul>
-          <li>
-            Improved Underscore compatibility with Adobe's JS engine that can be
-            used to script Illustrator, Photoshop, and friends.
-          </li>
-          <li>
-            Added a default <tt>_.identity</tt> iterator to <tt>countBy</tt> and
-            <tt>groupBy</tt>.
-          </li>
-          <li>
-            The <tt>uniq</tt> function can now take <tt>array, iterator, context</tt>
-            as the argument list.
-          </li>
-          <li>
-            The <tt>times</tt> function now returns the mapped array of iterator
-            results.
-          </li>
-          <li>
-            Simplified and fixed bugs in <tt>throttle</tt>.
-          </li>
-        </ul>
-      </p>
-
-      <p>
-        <b class="header">1.4.2</b> &mdash; <small><i>Oct. 1, 2012</i></small> &mdash; <a href="https://github.com/documentcloud/underscore/compare/1.4.1...1.4.2">Diff</a><br />
-        <ul>
-          <li>
-            For backwards compatibility, returned to pre-1.4.0 behavior when
-            passing <tt>null</tt> to iteration functions. They now become no-ops
-            again.
-          </li>
-        </ul>
-      </p>
-
-      <p>
-        <b class="header">1.4.1</b> &mdash; <small><i>Oct. 1, 2012</i></small> &mdash; <a href="https://github.com/documentcloud/underscore/compare/1.4.0...1.4.1">Diff</a><br />
-        <ul>
-          <li>
-            Fixed a 1.4.0 regression in the <tt>lastIndexOf</tt> function.
-          </li>
-        </ul>
-      </p>
-
-      <p>
-        <b class="header">1.4.0</b> &mdash; <small><i>Sept. 27, 2012</i></small>  &mdash; <a href="https://github.com/documentcloud/underscore/compare/1.3.3...1.4.0">Diff</a><br />
-        <ul>
-          <li>
-            Added a <tt>pairs</tt> function, for turning a JavaScript object
-            into <tt>[key, value]</tt> pairs ... as well as an <tt>object</tt>
-            function, for converting an array of <tt>[key, value]</tt> pairs
-            into an object.
-          </li>
-          <li>
-            Added a <tt>countBy</tt> function, for counting the number of objects
-            in a list that match a certain criteria.
-          </li>
-          <li>
-            Added an <tt>invert</tt> function, for performing a simple inversion
-            of the keys and values in an object.
-          </li>
-          <li>
-            Added a <tt>where</tt> function, for easy cases of filtering a list
-            for objects with specific values.
-          </li>
-          <li>
-            Added an <tt>omit</tt> function, for filtering an object to remove
-            certain keys.
-          </li>
-          <li>
-            Added a <tt>random</tt> function, to return a random number in a
-            given range.
-          </li>
-          <li>
-            <tt>_.debounce</tt>'d functions now return their last updated value,
-            just like <tt>_.throttle</tt>'d functions do.
-          </li>
-          <li>
-            The <tt>sortBy</tt> function now runs a stable sort algorithm.
-          </li>
-          <li>
-            Added the optional <tt>fromIndex</tt> option to <tt>indexOf</tt> and
-            <tt>lastIndexOf</tt>.
-          </li>
-          <li>
-            "Sparse" arrays are no longer supported in Underscore iteration
-            functions. Use a <tt>for</tt> loop instead (or better yet, an object).
-          </li>
-          <li>
-            The <tt>min</tt> and <tt>max</tt> functions may now be called on
-            <i>very</i> large arrays.
-          </li>
-          <li>
-            Interpolation in templates now represents <tt>null</tt> and
-            <tt>undefined</tt> as the empty string.
-          </li>
-          <li>
-            <del>Underscore iteration functions no longer accept <tt>null</tt> values
-            as a no-op argument. You'll get an early error instead.</del>
-          </li>
-          <li>
-            A number of edge-cases fixes and tweaks, which you can spot in the
-            <a href="https://github.com/documentcloud/underscore/compare/1.3.3...1.4.0">diff</a>.
-            Depending on how you're using Underscore, <b>1.4.0</b> may be more
-            backwards-incompatible than usual &mdash; please test when you upgrade.
-          </li>
-        </ul>
-      </p>
-
-      <p>
-        <b class="header">1.3.3</b> &mdash; <small><i>April 10, 2012</i></small><br />
-        <ul>
-          <li>
-            Many improvements to <tt>_.template</tt>, which now provides the
-            <tt>source</tt> of the template function as a property, for potentially
-            even more efficient pre-compilation on the server-side. You may now
-            also set the <tt>variable</tt> option when creating a template,
-            which will cause your passed-in data to be made available under the
-            variable you named, instead of using a <tt>with</tt> statement &mdash;
-            significantly improving the speed of rendering the template.
-          </li>
-          <li>
-            Added the <tt>pick</tt> function, which allows you to filter an
-            object literal with a whitelist of allowed property names.
-          </li>
-          <li>
-            Added the <tt>result</tt> function, for convenience when working
-            with APIs that allow either functions or raw properties.
-          </li>
-          <li>
-            Added the <tt>isFinite</tt> function, because sometimes knowing that
-            a value is a number just ain't quite enough.
-          </li>
-          <li>
-            The <tt>sortBy</tt> function may now also be passed the string name
-            of a property to use as the sort order on each object.
-          </li>
-          <li>
-            Fixed <tt>uniq</tt> to work with sparse arrays.
-          </li>
-          <li>
-            The <tt>difference</tt> function now performs a shallow flatten
-            instead of a deep one when computing array differences.
-          </li>
-          <li>
-            The <tt>debounce</tt> function now takes an <tt>immediate</tt>
-            parameter, which will cause the callback to fire on the leading
-            instead of the trailing edge.
-          </li>
-        </ul>
-      </p>
-
-      <p>
-        <b class="header">1.3.1</b> &mdash; <small><i>Jan. 23, 2012</i></small><br />
-        <ul>
-          <li>
-            Added an <tt>_.has</tt> function, as a safer way to use <tt>hasOwnProperty</tt>.
-          </li>
-          <li>
-            Added <tt>_.collect</tt> as an alias for <tt>_.map</tt>. Smalltalkers, rejoice.
-          </li>
-          <li>
-            Reverted an old change so that <tt>_.extend</tt> will correctly copy
-            over keys with undefined values again.
-          </li>
-          <li>
-            Bugfix to stop escaping slashes within interpolations in <tt>_.template</tt>.
-          </li>
-        </ul>
-      </p>
-
-      <p>
-        <b class="header">1.3.0</b> &mdash; <small><i>Jan. 11, 2012</i></small><br />
-        <ul>
-          <li>
-            Removed AMD (RequireJS) support from Underscore. If you'd like to use
-            Underscore with RequireJS, you can load it as a normal script, wrap
-            or patch your copy, or download a forked version.
-          </li>
-        </ul>
-      </p>
-
-      <p>
-        <b class="header">1.2.4</b> &mdash; <small><i>Jan. 4, 2012</i></small><br />
-        <ul>
-          <li>
-            You now can (and probably should, as it's simpler)
-            write <tt>_.chain(list)</tt>
-            instead of <tt>_(list).chain()</tt>.
-          </li>
-          <li>
-            Fix for escaped characters in Underscore templates, and for supporting
-            customizations of <tt>_.templateSettings</tt> that only define one or
-            two of the required regexes.
-          </li>
-          <li>
-            Fix for passing an array as the first argument to an <tt>_.wrap</tt>'d function.
-          </li>
-          <li>
-            Improved compatibility with ClojureScript, which adds a <tt>call</tt>
-            function to <tt>String.prototype</tt>.
-          </li>
-        </ul>
-      </p>
-
-      <p>
-        <b class="header">1.2.3</b> &mdash; <small><i>Dec. 7, 2011</i></small><br />
-        <ul>
-          <li>
-            Dynamic scope is now preserved for compiled <tt>_.template</tt> functions,
-            so you can use the value of <tt>this</tt> if you like.
-          </li>
-          <li>
-            Sparse array support of <tt>_.indexOf</tt>, <tt>_.lastIndexOf</tt>.
-          </li>
-          <li>
-            Both <tt>_.reduce</tt> and <tt>_.reduceRight</tt> can now be passed an
-            explicitly <tt>undefined</tt> value. (There's no reason why you'd
-            want to do this.)
-          </li>
-        </ul>
-      </p>
-
-      <p>
-        <b class="header">1.2.2</b> &mdash; <small><i>Nov. 14, 2011</i></small><br />
-        <ul>
-          <li>
-            Continued tweaks to <tt>_.isEqual</tt> semantics. Now JS primitives are
-            considered equivalent to their wrapped versions, and arrays are compared
-            by their numeric properties only <small>(#351)</small>.
-          </li>
-          <li>
-            <tt>_.escape</tt> no longer tries to be smart about not double-escaping
-            already-escaped HTML entities. Now it just escapes regardless <small>(#350)</small>.
-          </li>
-          <li>
-            In <tt>_.template</tt>, you may now leave semicolons out of evaluated
-            statements if you wish: <tt>&lt;% }) %&gt;</tt> <small>(#369)</small>.
-          </li>
-          <li>
-            <tt>_.after(callback, 0)</tt> will now trigger the callback immediately,
-            making "after" easier to use with asynchronous APIs <small>(#366)</small>.
-          </li>
-        </ul>
-      </p>
-
-      <p>
-        <b class="header">1.2.1</b> &mdash; <small><i>Oct. 24, 2011</i></small><br />
-        <ul>
-          <li>
-            Several important bug fixes for <tt>_.isEqual</tt>, which should now
-            do better on mutated Arrays, and on non-Array objects with
-            <tt>length</tt> properties. <small>(#329)</small>
-          </li>
-          <li>
-            <b>jrburke</b> contributed Underscore exporting for AMD module loaders,
-            and <b>tonylukasavage</b> for Appcelerator Titanium.
-            <small>(#335, #338)</small>
-          </li>
-          <li>
-            You can now <tt>_.groupBy(list, 'property')</tt> as a shortcut for
-            grouping values by a particular common property.
-          </li>
-          <li>
-            <tt>_.throttle</tt>'d functions now fire immediately upon invocation,
-            and are rate-limited thereafter <small>(#170, #266)</small>.
-          </li>
-          <li>
-            Most of the <tt>_.is[Type]</tt> checks no longer ducktype.
-          </li>
-          <li>
-            The <tt>_.bind</tt> function now also works on constructors, a-la
-            ES5 ... but you would never want to use <tt>_.bind</tt> on a
-            constructor function.
-          </li>
-          <li>
-            <tt>_.clone</tt> no longer wraps non-object types in Objects.
-          </li>
-          <li>
-            <tt>_.find</tt> and <tt>_.filter</tt> are now the preferred names for
-            <tt>_.detect</tt> and <tt>_.select</tt>.
-          </li>
-        </ul>
-      </p>
-
-      <p>
-        <b class="header">1.2.0</b> &mdash; <small><i>Oct. 5, 2011</i></small><br />
-        <ul>
-          <li>
-            The <tt>_.isEqual</tt> function now
-            supports true deep equality comparisons, with checks for cyclic structures,
-            thanks to Kit Cambridge.
-          </li>
-          <li>
-            Underscore templates now support HTML escaping interpolations, using
-            <tt>&lt;%- ... %&gt;</tt> syntax.
-          </li>
-          <li>
-            Ryan Tenney contributed <tt>_.shuffle</tt>, which uses a modified
-            Fisher-Yates to give you a shuffled copy of an array.
-          </li>
-          <li>
-            <tt>_.uniq</tt> can now be passed an optional iterator, to determine by
-            what criteria an object should be considered unique.
-          </li>
-          <li>
-            <tt>_.last</tt> now takes an optional argument which will return the last
-            N elements of the list.
-          </li>
-          <li>
-            A new <tt>_.initial</tt> function was added, as a mirror of <tt>_.rest</tt>,
-            which returns all the initial values of a list (except the last N).
-          </li>
-        </ul>
-      </p>
-
-      <p>
-        <b class="header">1.1.7</b> &mdash; <small><i>July 13, 2011</i></small><br />
-        Added <tt>_.groupBy</tt>, which aggregates a collection into groups of like items.
-        Added <tt>_.union</tt> and <tt>_.difference</tt>, to complement the
-        (re-named) <tt>_.intersection</tt>.
-        Various improvements for support of sparse arrays.
-        <tt>_.toArray</tt> now returns a clone, if directly passed an array.
-        <tt>_.functions</tt> now also returns the names of functions that are present
-        in the prototype chain.
-      </p>
-
-      <p>
-        <b class="header">1.1.6</b> &mdash; <small><i>April 18, 2011</i></small><br />
-        Added <tt>_.after</tt>, which will return a function that only runs after
-        first being called a specified number of times.
-        <tt>_.invoke</tt> can now take a direct function reference.
-        <tt>_.every</tt> now requires an iterator function to be passed, which
-        mirrors the ECMA5 API.
-        <tt>_.extend</tt> no longer copies keys when the value is undefined.
-        <tt>_.bind</tt> now errors when trying to bind an undefined value.
-      </p>
-
-      <p>
-        <b class="header">1.1.5</b> &mdash; <small><i>Mar 20, 2011</i></small><br />
-        Added an <tt>_.defaults</tt> function, for use merging together JS objects
-        representing default options.
-        Added an <tt>_.once</tt> function, for manufacturing functions that should
-        only ever execute a single time.
-        <tt>_.bind</tt> now delegates to the native ECMAScript 5 version,
-        where available.
-        <tt>_.keys</tt> now throws an error when used on non-Object values, as in
-        ECMAScript 5.
-        Fixed a bug with <tt>_.keys</tt> when used over sparse arrays.
-      </p>
-
-      <p>
-        <b class="header">1.1.4</b> &mdash; <small><i>Jan 9, 2011</i></small><br />
-        Improved compliance with ES5's Array methods when passing <tt>null</tt>
-        as a value. <tt>_.wrap</tt> now correctly sets <tt>this</tt> for the
-        wrapped function. <tt>_.indexOf</tt> now takes an optional flag for
-        finding the insertion index in an array that is guaranteed to already
-        be sorted. Avoiding the use of <tt>.callee</tt>, to allow <tt>_.isArray</tt>
-        to work properly in ES5's strict mode.
-      </p>
-
-      <p>
-        <b class="header">1.1.3</b> &mdash; <small><i>Dec 1, 2010</i></small><br />
-        In CommonJS, Underscore may now be required with just: <br />
-        <tt>var _ = require("underscore")</tt>.
-        Added <tt>_.throttle</tt> and <tt>_.debounce</tt> functions.
-        Removed <tt>_.breakLoop</tt>, in favor of an ECMA5-style un-<i>break</i>-able
-        each implementation &mdash; this removes the try/catch, and you'll now have
-        better stack traces for exceptions that are thrown within an Underscore iterator.
-        Improved the <b>isType</b> family of functions for better interoperability
-        with Internet Explorer host objects.
-        <tt>_.template</tt> now correctly escapes backslashes in templates.
-        Improved <tt>_.reduce</tt> compatibility with the ECMA5 version:
-        if you don't pass an initial value, the first item in the collection is used.
-        <tt>_.each</tt> no longer returns the iterated collection, for improved
-        consistency with ES5's <tt>forEach</tt>.
-      </p>
-
-      <p>
-        <b class="header">1.1.2</b><br />
-        Fixed <tt>_.contains</tt>, which was mistakenly pointing at
-        <tt>_.intersect</tt> instead of <tt>_.include</tt>, like it should
-        have been. Added <tt>_.unique</tt> as an alias for <tt>_.uniq</tt>.
-      </p>
-
-      <p>
-        <b class="header">1.1.1</b><br />
-        Improved the speed of <tt>_.template</tt>, and its handling of multiline
-        interpolations. Ryan Tenney contributed optimizations to many Underscore
-        functions. An annotated version of the source code is now available.
-      </p>
-
-      <p>
-        <b class="header">1.1.0</b><br />
-        The method signature of <tt>_.reduce</tt> has been changed to match
-        the ECMAScript 5 signature, instead of the Ruby/Prototype.js version.
-        This is a backwards-incompatible change. <tt>_.template</tt> may now be
-        called with no arguments, and preserves whitespace. <tt>_.contains</tt>
-        is a new alias for <tt>_.include</tt>.
-      </p>
-
-      <p>
-        <b class="header">1.0.4</b><br />
-        <a href="http://themoell.com/">Andri Möll</a> contributed the <tt>_.memoize</tt>
-        function, which can be used to speed up expensive repeated computations
-        by caching the results.
-      </p>
-
-      <p>
-        <b class="header">1.0.3</b><br />
-        Patch that makes <tt>_.isEqual</tt> return <tt>false</tt> if any property
-        of the compared object has a <tt>NaN</tt> value. Technically the correct
-        thing to do, but of questionable semantics. Watch out for NaN comparisons.
-      </p>
-
-      <p>
-        <b class="header">1.0.2</b><br />
-        Fixes <tt>_.isArguments</tt> in recent versions of Opera, which have
-        arguments objects as real Arrays.
-      </p>
-
-      <p>
-        <b class="header">1.0.1</b><br />
-        Bugfix for <tt>_.isEqual</tt>, when comparing two objects with the same
-        number of undefined keys, but with different names.
-      </p>
-
-      <p>
-        <b class="header">1.0.0</b><br />
-        Things have been stable for many months now, so Underscore is now
-        considered to be out of beta, at <b>1.0</b>. Improvements since <b>0.6</b>
-        include <tt>_.isBoolean</tt>, and the ability to have <tt>_.extend</tt>
-        take multiple source objects.
-      </p>
-
-      <p>
-        <b class="header">0.6.0</b><br />
-        Major release. Incorporates a number of
-        <a href="http://github.com/ratbeard">Mile Frawley's</a> refactors for
-        safer duck-typing on collection functions, and cleaner internals. A new
-        <tt>_.mixin</tt> method that allows you to extend Underscore with utility
-        functions of your own. Added <tt>_.times</tt>, which works the same as in
-        Ruby or Prototype.js. Native support for ECMAScript 5's <tt>Array.isArray</tt>,
-        and <tt>Object.keys</tt>.
-      </p>
-
-      <p>
-        <b class="header">0.5.8</b><br />
-        Fixed Underscore's collection functions to work on
-        <a href="https://developer.mozilla.org/En/DOM/NodeList">NodeLists</a> and
-        <a href="https://developer.mozilla.org/En/DOM/HTMLCollection">HTMLCollections</a>
-        once more, thanks to
-        <a href="http://github.com/jmtulloss">Justin Tulloss</a>.
-      </p>
-
-      <p>
-        <b class="header">0.5.7</b><br />
-        A safer implementation of <tt>_.isArguments</tt>, and a
-        faster <tt>_.isNumber</tt>,<br />thanks to
-        <a href="http://jedschmidt.com/">Jed Schmidt</a>.
-      </p>
-
-      <p>
-        <b class="header">0.5.6</b><br />
-        Customizable delimiters for <tt>_.template</tt>, contributed by
-        <a href="http://github.com/iamnoah">Noah Sloan</a>.
-      </p>
-
-      <p>
-        <b class="header">0.5.5</b><br />
-        Fix for a bug in MobileSafari's OOP-wrapper, with the arguments object.
-      </p>
-
-      <p>
-        <b class="header">0.5.4</b><br />
-        Fix for multiple single quotes within a template string for
-        <tt>_.template</tt>. See:
-        <a href="http://www.west-wind.com/Weblog/posts/509108.aspx">Rick Strahl's blog post</a>.
-      </p>
-
-      <p>
-        <b class="header">0.5.2</b><br />
-        New implementations of <tt>isArray</tt>, <tt>isDate</tt>, <tt>isFunction</tt>,
-        <tt>isNumber</tt>, <tt>isRegExp</tt>, and <tt>isString</tt>, thanks to
-        a suggestion from
-        <a href="http://www.broofa.com/">Robert Kieffer</a>.
-        Instead of doing <tt>Object#toString</tt>
-        comparisons, they now check for expected properties, which is less safe,
-        but more than an order of magnitude faster. Most other Underscore
-        functions saw minor speed improvements as a result.
-        <a href="http://dolzhenko.org/">Evgeniy Dolzhenko</a>
-        contributed <tt>_.tap</tt>,
-        <a href="http://ruby-doc.org/core-1.9/classes/Object.html#M000191">similar to Ruby 1.9's</a>,
-        which is handy for injecting side effects (like logging) into chained calls.
-      </p>
-
-      <p>
-        <b class="header">0.5.1</b><br />
-        Added an <tt>_.isArguments</tt> function. Lots of little safety checks
-        and optimizations contributed by
-        <a href="http://github.com/iamnoah/">Noah Sloan</a> and
-        <a href="http://themoell.com/">Andri Möll</a>.
-      </p>
-
-      <p>
-        <b class="header">0.5.0</b><br />
-        <b>[API Changes]</b> <tt>_.bindAll</tt> now takes the context object as
-        its first parameter. If no method names are passed, all of the context
-        object's methods are bound to it, enabling chaining and easier binding.
-        <tt>_.functions</tt> now takes a single argument and returns the names
-        of its Function properties. Calling <tt>_.functions(_)</tt> will get you
-        the previous behavior.
-        Added <tt>_.isRegExp</tt> so that <tt>isEqual</tt> can now test for RegExp equality.
-        All of the "is" functions have been shrunk down into a single definition.
-        <a href="http://github.com/grayrest/">Karl Guertin</a> contributed patches.
-      </p>
-
-      <p>
-        <b class="header">0.4.7</b><br />
-        Added <tt>isDate</tt>, <tt>isNaN</tt>, and <tt>isNull</tt>, for completeness.
-        Optimizations for <tt>isEqual</tt> when checking equality between Arrays
-        or Dates. <tt>_.keys</tt> is now <small><i><b>25%&ndash;2X</b></i></small> faster (depending on your
-        browser) which speeds up the functions that rely on it, such as <tt>_.each</tt>.
-      </p>
-
-      <p>
-        <b class="header">0.4.6</b><br />
-        Added the <tt>range</tt> function, a port of the
-        <a href="http://docs.python.org/library/functions.html#range">Python
-        function of the same name</a>, for generating flexibly-numbered lists
-        of integers. Original patch contributed by
-        <a href="http://github.com/kylichuku">Kirill Ishanov</a>.
-      </p>
-
-      <p>
-        <b class="header">0.4.5</b><br />
-        Added <tt>rest</tt> for Arrays and arguments objects, and aliased
-        <tt>first</tt> as <tt>head</tt>, and <tt>rest</tt> as <tt>tail</tt>,
-        thanks to <a href="http://github.com/lukesutton/">Luke Sutton</a>'s patches.
-        Added tests ensuring that all Underscore Array functions also work on
-        <i>arguments</i> objects.
-      </p>
-
-      <p>
-        <b class="header">0.4.4</b><br />
-        Added <tt>isString</tt>, and <tt>isNumber</tt>, for consistency. Fixed
-        <tt>_.isEqual(NaN, NaN)</tt> to return <i>true</i> (which is debatable).
-      </p>
-
-      <p>
-        <b class="header">0.4.3</b><br />
-        Started using the native <tt>StopIteration</tt> object in browsers that support it.
-        Fixed Underscore setup for CommonJS environments.
-      </p>
-
-      <p>
-        <b class="header">0.4.2</b><br />
-        Renamed the unwrapping function to <tt>value</tt>, for clarity.
-      </p>
-
-      <p>
-        <b class="header">0.4.1</b><br />
-        Chained Underscore objects now support the Array prototype methods, so
-        that you can perform the full range of operations on a wrapped array
-        without having to break your chain. Added a <tt>breakLoop</tt> method
-        to <b>break</b> in the middle of any Underscore iteration. Added an
-        <tt>isEmpty</tt> function that works on arrays and objects.
-      </p>
-
-      <p>
-        <b class="header">0.4.0</b><br />
-        All Underscore functions can now be called in an object-oriented style,
-        like so: <tt>_([1, 2, 3]).map(...);</tt>. Original patch provided by
-        <a href="http://macournoyer.com/">Marc-André Cournoyer</a>.
-        Wrapped objects can be chained through multiple
-        method invocations. A <a href="#object-functions"><tt>functions</tt></a> method
-        was added, providing a sorted list of all the functions in Underscore.
-      </p>
-
-      <p>
-        <b class="header">0.3.3</b><br />
-        Added the JavaScript 1.8 function <tt>reduceRight</tt>. Aliased it
-        as <tt>foldr</tt>, and aliased <tt>reduce</tt> as <tt>foldl</tt>.
-      </p>
-
-      <p>
-        <b class="header">0.3.2</b><br />
-        Now runs on stock <a href="http://www.mozilla.org/rhino/">Rhino</a>
-        interpreters with: <tt>load("underscore.js")</tt>.
-        Added <a href="#identity"><tt>identity</tt></a> as a utility function.
-      </p>
-
-      <p>
-        <b class="header">0.3.1</b><br />
-        All iterators are now passed in the original collection as their third
-        argument, the same as JavaScript 1.6's <b>forEach</b>. Iterating over
-        objects is now called with <tt>(value, key, collection)</tt>, for details
-        see <a href="#each"><tt>_.each</tt></a>.
-      </p>
-
-      <p>
-        <b class="header">0.3.0</b><br />
-        Added <a href="http://github.com/dmitryBaranovskiy">Dmitry Baranovskiy</a>'s
-        comprehensive optimizations, merged in
-        <a href="http://github.com/kriskowal/">Kris Kowal</a>'s patches to make Underscore
-        <a href="http://wiki.commonjs.org/wiki/CommonJS">CommonJS</a> and
-        <a href="http://narwhaljs.org/">Narwhal</a> compliant.
-      </p>
-
-      <p>
-        <b class="header">0.2.0</b><br />
-        Added <tt>compose</tt> and <tt>lastIndexOf</tt>, renamed <tt>inject</tt> to
-        <tt>reduce</tt>, added aliases for <tt>inject</tt>, <tt>filter</tt>,
-        <tt>every</tt>, <tt>some</tt>, and <tt>forEach</tt>.
-      </p>
-
-      <p>
-        <b class="header">0.1.1</b><br />
-        Added <tt>noConflict</tt>, so that the "Underscore" object can be assigned to
-        other variables.
-      </p>
-
-      <p>
-        <b class="header">0.1.0</b><br />
-        Initial release of Underscore.js.
-      </p>
-
-      <p>
-        <a href="http://documentcloud.org/" title="A DocumentCloud Project" style="background:none;">
-          <img src="http://jashkenas.s3.amazonaws.com/images/a_documentcloud_project.png" alt="A DocumentCloud Project" />
-        </a>
-      </p>
+<h2 id="links"> Links & Suggested Reading</h2>
+
+<p>The Underscore documentation is also available in <a href="http://learning.github.com/underscore/">Simplified Chinese</a>.</p>
+
+<p><a href="http://mirven.github.com/underscore.lua/">Underscore.lua</a>, a Lua port of the functions that are applicable in both languages. Includes OOP-wrapping and chaining. (<a href="https://github.com/robb/Underscore.m">source</a>)</p>
+
+<p><a href="http://underscorem.org/">Underscore.m</a>, an Objective-C port of many of the Underscore.js functions, using a syntax that encourages chaining. (<a href="https://github.com/robb/Underscore.m">source</a>)</p>
+
+<p><a href="http://kmalakoff.github.com/_.m/">_.m</a>, an alternative Objective-C port that tries to stick a little closer to the original Underscore.js API. (<a href="https://github.com/kmalakoff/_.m">source</a>)</p>
+
+<p><a href="http://brianhaveri.github.com/Underscore.php/">Underscore.php</a>, a PHP port of the functions that are applicable in both languages. Includes OOP-wrapping and chaining. (<a href="http://github.com/brianhaveri/Underscore.php">source</a>)</p>
+
+<p><a href="http://vti.github.com/underscore-perl/">Underscore-perl</a>, a Perl port of many of the Underscore.js functions, aimed at on Perl hashes and arrays. (<a href="https://github.com/vti/underscore-perl/">source</a>)</p>
+
+<p><a href="http://russplaysguitar.github.com/UnderscoreCF/">Underscore.cfc</a>, a Coldfusion port of many of the Underscore.js functions. (<a href="https://github.com/russplaysguitar/underscorecf">source</a>)</p>
+
+<p><a href="https://github.com/edtsech/underscore.string">Underscore.string</a>, an Underscore extension that adds functions for string-manipulation: <code>trim</code>, <code>startsWith</code>, <code>contains</code>, <code>capitalize</code>, <code>reverse</code>, <code>sprintf</code>, and more.</p>
+
+<p>Ruby&#39;s <a href="http://ruby-doc.org/core/classes/Enumerable.html">Enumerable</a> module.</p>
+
+<p><a href="http://www.prototypejs.org/">Prototype.js</a>, which provides JavaScript with collection functions in the manner closest to Ruby&#39;s Enumerable.</p>
+
+<p>Oliver Steele&#39;s <a href="http://osteele.com/sources/javascript/functional/">Functional JavaScript</a>, which includes comprehensive higher-order function support as well as string lambdas.</p>
+
+<p>Michael Aufreiter&#39;s <a href="http://github.com/michael/data">Data.js</a>, a data manipulation + persistence library for JavaScript.</p>
+
+<p>Python&#39;s <a href="http://docs.python.org/library/itertools.html">itertools</a>.</p>
+
+<h2 id="change-log"> Change Log</h2>
+
+<p><strong>1.4.3</strong> -- <em>Dec. 4, 2012</em> -- <a href="https://github.com/documentcloud/underscore/compare/1.4.2...1.4.3">Diff</a>  </p>
+
+<ul>
+<li>Improved Underscore compatibility with Adobe&#39;s JS engine that can be used to script Illustrator, Photoshop, and friends. </li>
+<li>Added a default <code>_.identity</code> iterator to <code>countBy</code> and <code>groupBy</code>. </li>
+<li>The <code>uniq</code> function can now take <code>array, iterator, context</code> as the argument list. </li>
+<li>The <code>times</code> function now returns the mapped array of iterator results. </li>
+<li>Simplified and fixed bugs in <code>throttle</code>. </li>
+</ul>
+
+<p><strong>1.4.2</strong> -- <em>Oct. 1, 2012</em> -- <a href="https://github.com/documentcloud/underscore/compare/1.4.1...1.4.2">Diff</a>  </p>
+
+<ul>
+<li>For backwards compatibility, returned to pre-1.4.0 behavior when passing <code>null</code> to iteration functions. They now become no-ops again. </li>
+</ul>
+
+<p><strong>1.4.1</strong> -- <em>Oct. 1, 2012</em> -- <a href="https://github.com/documentcloud/underscore/compare/1.4.0...1.4.1">Diff</a>  </p>
+
+<ul>
+<li>Fixed a 1.4.0 regression in the <code>lastIndexOf</code> function. </li>
+</ul>
+
+<p><strong>1.4.0</strong> -- <em>Sept. 27, 2012</em> -- <a href="https://github.com/documentcloud/underscore/compare/1.3.3...1.4.0">Diff</a>  </p>
+
+<ul>
+<li>Added a <code>pairs</code> function, for turning a JavaScript object into <code>[key, value]</code> pairs ... as well as an <code>object</code> function, for converting an array of <code>[key, value]</code> pairs into an object. </li>
+<li>Added a <code>countBy</code> function, for counting the number of objects in a list that match a certain criteria. </li>
+<li>Added an <code>invert</code> function, for performing a simple inversion of the keys and values in an object. </li>
+<li>Added a <code>where</code> function, for easy cases of filtering a list for objects with specific values. </li>
+<li>Added an <code>omit</code> function, for filtering an object to remove certain keys. </li>
+<li>Added a <code>random</code> function, to return a random number in a given range. </li>
+<li><code>_.debounce</code>&#39;d functions now return their last updated value, just like <code>_.throttle</code>&#39;d functions do. </li>
+<li>The <code>sortBy</code> function now runs a stable sort algorithm. </li>
+<li>Added the optional <code>fromIndex</code> option to <code>indexOf</code> and <code>lastIndexOf</code>. </li>
+<li>&quot;Sparse&quot; arrays are no longer supported in Underscore iteration functions. Use a <code>for</code> loop instead (or better yet, an object). </li>
+<li>The <code>min</code> and <code>max</code> functions may now be called on <em>very</em> large arrays. </li>
+<li>Interpolation in templates now represents <code>null</code> and <code>undefined</code> as the empty string. </li>
+<li><del>Underscore iteration functions no longer accept <code>null</code> values as a no-op argument. You&#39;ll get an early error instead.</del></li>
+<li>A number of edge-cases fixes and tweaks, which you can spot in the <a href="https://github.com/documentcloud/underscore/compare/1.3.3...1.4.0">diff</a>. Depending on how you&#39;re using Underscore, <strong>1.4.0</strong> may be more backwards-incompatible than usual -- please test when you upgrade. </li>
+</ul>
+
+<p><strong>1.3.3</strong> -- <em>April 10, 2012</em>  </p>
+
+<ul>
+<li>Many improvements to <code>_.template</code>, which now provides the <code>source</code> of the template function as a property, for potentially even more efficient pre-compilation on the server-side. You may now also set the <code>variable</code> option when creating a template, which will cause your passed-in data to be made available under the variable you named, instead of using a <code>with</code> statement -- significantly improving the speed of rendering the template. </li>
+<li>Added the <code>pick</code> function, which allows you to filter an object literal with a whitelist of allowed property names. </li>
+<li>Added the <code>result</code> function, for convenience when working with APIs that allow either functions or raw properties. </li>
+<li>Added the <code>isFinite</code> function, because sometimes knowing that a value is a number just ain&#39;t quite enough. </li>
+<li>The <code>sortBy</code> function may now also be passed the string name of a property to use as the sort order on each object. </li>
+<li>Fixed <code>uniq</code> to work with sparse arrays. </li>
+<li>The <code>difference</code> function now performs a shallow flatten instead of a deep one when computing array differences. </li>
+<li>The <code>debounce</code> function now takes an <code>immediate</code> parameter, which will cause the callback to fire on the leading instead of the trailing edge. </li>
+</ul>
+
+<p><strong>1.3.1</strong> -- <em>Jan. 23, 2012</em>  </p>
+
+<ul>
+<li>Added an <code>_.has</code> function, as a safer way to use <code>hasOwnProperty</code>. </li>
+<li>Added <code>_.collect</code> as an alias for <code>_.map</code>. Smalltalkers, rejoice. </li>
+<li>Reverted an old change so that <code>_.extend</code> will correctly copy over keys with undefined values again. </li>
+<li>Bugfix to stop escaping slashes within interpolations in <code>_.template</code>. </li>
+</ul>
+
+<p><strong>1.3.0</strong> -- <em>Jan. 11, 2012</em>  </p>
+
+<ul>
+<li>Removed AMD (RequireJS) support from Underscore. If you&#39;d like to use Underscore with RequireJS, you can load it as a normal script, wrap or patch your copy, or download a forked version. </li>
+</ul>
+
+<p><strong>1.2.4</strong> -- <em>Jan. 4, 2012</em>  </p>
+
+<ul>
+<li>You now can (and probably should, as it&#39;s simpler) write <code>_.chain(list)</code> instead of <code>_(list).chain()</code>. </li>
+<li>Fix for escaped characters in Underscore templates, and for supporting customizations of <code>_.templateSettings</code> that only define one or two of the required regexes. </li>
+<li>Fix for passing an array as the first argument to an <code>_.wrap</code>&#39;d function. </li>
+<li>Improved compatibility with ClojureScript, which adds a <code>call</code> function to <code>String.prototype</code>. </li>
+</ul>
+
+<p><strong>1.2.3</strong> -- <em>Dec. 7, 2011</em>  </p>
+
+<ul>
+<li>Dynamic scope is now preserved for compiled <code>_.template</code> functions, so you can use the value of <code>this</code> if you like. </li>
+<li>Sparse array support of <code>_.indexOf</code>, <code>_.lastIndexOf</code>. </li>
+<li>Both <code>_.reduce</code> and <code>_.reduceRight</code> can now be passed an explicitly <code>undefined</code> value. (There&#39;s no reason why you&#39;d want to do this.) </li>
+</ul>
+
+<p><strong>1.2.2</strong> -- <em>Nov. 14, 2011</em>  </p>
+
+<ul>
+<li>Continued tweaks to <code>_.isEqual</code> semantics. Now JS primitives are considered equivalent to their wrapped versions, and arrays are compared by their numeric properties only (#351). </li>
+<li><code>_.escape</code> no longer tries to be smart about not double-escaping already-escaped HTML entities. Now it just escapes regardless (#350). </li>
+<li>In <code>_.template</code>, you may now leave semicolons out of evaluated statements if you wish: <code>&lt;% }) %&gt;</code> (#369). </li>
+<li><code>_.after(callback, 0)</code> will now trigger the callback immediately, making &quot;after&quot; easier to use with asynchronous APIs (#366). </li>
+</ul>
+
+<p><strong>1.2.1</strong> -- <em>Oct. 24, 2011</em>  </p>
+
+<ul>
+<li>Several important bug fixes for <code>_.isEqual</code>, which should now do better on mutated Arrays, and on non-Array objects with <code>length</code> properties. (#329)</li>
+<li><strong>jrburke</strong> contributed Underscore exporting for AMD module loaders, and <strong>tonylukasavage</strong> for Appcelerator Titanium. (#335, #338)</li>
+<li>You can now <code>_.groupBy(list, &#39;property&#39;)</code> as a shortcut for grouping values by a particular common property. </li>
+<li><code>_.throttle</code>&#39;d functions now fire immediately upon invocation, and are rate-limited thereafter (#170, #266). </li>
+<li>Most of the <code>_.is[Type]</code> checks no longer ducktype. </li>
+<li>The <code>_.bind</code> function now also works on constructors, a-la ES5 ... but you would never want to use <code>_.bind</code> on a constructor function. </li>
+<li><code>_.clone</code> no longer wraps non-object types in Objects. </li>
+<li><code>_.find</code> and <code>_.filter</code> are now the preferred names for <code>_.detect</code> and <code>_.select</code>. </li>
+</ul>
+
+<p><strong>1.2.0</strong> -- <em>Oct. 5, 2011</em>  </p>
+
+<ul>
+<li>The <code>_.isEqual</code> function now supports true deep equality comparisons, with checks for cyclic structures, thanks to Kit Cambridge. </li>
+<li>Underscore templates now support HTML escaping interpolations, using <code>&lt;%- ... %&gt;</code> syntax. </li>
+<li>Ryan Tenney contributed <code>_.shuffle</code>, which uses a modified Fisher-Yates to give you a shuffled copy of an array. </li>
+<li><code>_.uniq</code> can now be passed an optional iterator, to determine by what criteria an object should be considered unique. </li>
+<li><code>_.last</code> now takes an optional argument which will return the last N elements of the list. </li>
+<li>A new <code>_.initial</code> function was added, as a mirror of <code>_.rest</code>, which returns all the initial values of a list (except the last N). </li>
+</ul>
+
+<p><strong>1.1.7</strong> -- <em>July 13, 2011</em><br/>
+Added <code>_.groupBy</code>, which aggregates a collection into groups of like items.
+Added <code>_.union</code> and <code>_.difference</code>, to complement the (re-named)
+<code>_.intersection</code>. Various improvements for support of sparse arrays.
+<code>_.toArray</code> now returns a clone, if directly passed an array. <code>_.functions</code>
+now also returns the names of functions that are present in the prototype
+chain.</p>
+
+<p><strong>1.1.6</strong> -- <em>April 18, 2011</em><br/>
+Added <code>_.after</code>, which will return a function that only runs after first being
+called a specified number of times. <code>_.invoke</code> can now take a direct function
+reference. <code>_.every</code> now requires an iterator function to be passed, which
+mirrors the ECMA5 API. <code>_.extend</code> no longer copies keys when the value is
+undefined. <code>_.bind</code> now errors when trying to bind an undefined value.</p>
+
+<p><strong>1.1.5</strong> -- <em>Mar 20, 2011</em><br/>
+Added an <code>_.defaults</code> function, for use merging together JS objects
+representing default options. Added an <code>_.once</code> function, for manufacturing
+functions that should only ever execute a single time. <code>_.bind</code> now delegates
+to the native ECMAScript 5 version, where available. <code>_.keys</code> now throws an
+error when used on non-Object values, as in ECMAScript 5. Fixed a bug with
+<code>_.keys</code> when used over sparse arrays.</p>
+
+<p><strong>1.1.4</strong> -- <em>Jan 9, 2011</em><br/>
+Improved compliance with ES5&#39;s Array methods when passing <code>null</code> as a value.
+<code>_.wrap</code> now correctly sets <code>this</code> for the wrapped function. <code>_.indexOf</code> now
+takes an optional flag for finding the insertion index in an array that is
+guaranteed to already be sorted. Avoiding the use of <code>.callee</code>, to allow
+<code>_.isArray</code> to work properly in ES5&#39;s strict mode.</p>
+
+<p><strong>1.1.3</strong> -- <em>Dec 1, 2010</em><br/>
+In CommonJS, Underscore may now be required with just:</p>
+
+<p><code>var _ = require(&quot;underscore&quot;)</code>. Added <code>_.throttle</code> and <code>_.debounce</code>
+functions. Removed <code>_.breakLoop</code>, in favor of an ECMA5-style un-_break_-able
+each implementation -- this removes the try/catch, and you&#39;ll now have better
+stack traces for exceptions that are thrown within an Underscore iterator.
+Improved the <strong>isType</strong> family of functions for better interoperability with
+Internet Explorer host objects. <code>_.template</code> now correctly escapes backslashes
+in templates. Improved <code>_.reduce</code> compatibility with the ECMA5 version: if you
+don&#39;t pass an initial value, the first item in the collection is used.
+<code>_.each</code> no longer returns the iterated collection, for improved consistency
+with ES5&#39;s <code>forEach</code>.</p>
+
+<p><strong>1.1.2</strong><br/>
+Fixed <code>_.contains</code>, which was mistakenly pointing at <code>_.intersect</code> instead of
+<code>_.include</code>, like it should have been. Added <code>_.unique</code> as an alias for
+<code>_.uniq</code>.</p>
+
+<p><strong>1.1.1</strong><br/>
+Improved the speed of <code>_.template</code>, and its handling of multiline
+interpolations. Ryan Tenney contributed optimizations to many Underscore
+functions. An annotated version of the source code is now available.</p>
+
+<p><strong>1.1.0</strong><br/>
+The method signature of <code>_.reduce</code> has been changed to match the ECMAScript 5
+signature, instead of the Ruby/Prototype.js version. This is a backwards-
+incompatible change. <code>_.template</code> may now be called with no arguments, and
+preserves whitespace. <code>_.contains</code> is a new alias for <code>_.include</code>.</p>
+
+<p><strong>1.0.4</strong><br/>
+<a href="http://themoell.com/">Andri Möll</a> contributed the <code>_.memoize</code> function, which
+can be used to speed up expensive repeated computations by caching the
+results.</p>
+
+<p><strong>1.0.3</strong><br/>
+Patch that makes <code>_.isEqual</code> return <code>false</code> if any property of the compared
+object has a <code>NaN</code> value. Technically the correct thing to do, but of
+questionable semantics. Watch out for NaN comparisons.</p>
+
+<p><strong>1.0.2</strong><br/>
+Fixes <code>_.isArguments</code> in recent versions of Opera, which have arguments
+objects as real Arrays.</p>
+
+<p><strong>1.0.1</strong><br/>
+Bugfix for <code>_.isEqual</code>, when comparing two objects with the same number of
+undefined keys, but with different names.</p>
+
+<p><strong>1.0.0</strong><br/>
+Things have been stable for many months now, so Underscore is now considered
+to be out of beta, at <strong>1.0</strong>. Improvements since <strong>0.6</strong> include
+<code>_.isBoolean</code>, and the ability to have <code>_.extend</code> take multiple source
+objects.</p>
+
+<p><strong>0.6.0</strong><br/>
+Major release. Incorporates a number of <a href="http://github.com/ratbeard">Mile
+Frawley&#39;s</a> refactors for safer duck-typing on
+collection functions, and cleaner internals. A new <code>_.mixin</code> method that
+allows you to extend Underscore with utility functions of your own. Added
+<code>_.times</code>, which works the same as in Ruby or Prototype.js. Native support for
+ECMAScript 5&#39;s <code>Array.isArray</code>, and <code>Object.keys</code>.</p>
+
+<p><strong>0.5.8</strong><br/>
+Fixed Underscore&#39;s collection functions to work on
+<a href="https://developer.mozilla.org/En/DOM/NodeList">NodeLists</a> and
+<a href="https://developer.mozilla.org/En/DOM/HTMLCollection">HTMLCollections</a> once
+more, thanks to <a href="http://github.com/jmtulloss">Justin Tulloss</a>.</p>
+
+<p><strong>0.5.7</strong><br/>
+A safer implementation of <code>_.isArguments</code>, and a faster <code>_.isNumber</code>,</p>
+
+<p>thanks to <a href="http://jedschmidt.com/">Jed Schmidt</a>.</p>
+
+<p><strong>0.5.6</strong><br/>
+Customizable delimiters for <code>_.template</code>, contributed by <a href="http://github.com/iamnoah">Noah
+Sloan</a>.</p>
+
+<p><strong>0.5.5</strong><br/>
+Fix for a bug in MobileSafari&#39;s OOP-wrapper, with the arguments object.</p>
+
+<p><strong>0.5.4</strong><br/>
+Fix for multiple single quotes within a template string for <code>_.template</code>. See:
+<a href="http://www.west-wind.com/Weblog/posts/509108.aspx">Rick Strahl&#39;s blog post</a>.</p>
+
+<p><strong>0.5.2</strong><br/>
+New implementations of <code>isArray</code>, <code>isDate</code>, <code>isFunction</code>, <code>isNumber</code>,
+<code>isRegExp</code>, and <code>isString</code>, thanks to a suggestion from <a href="http://www.broofa.com/">Robert
+Kieffer</a>. Instead of doing <code>Object#toString</code>
+comparisons, they now check for expected properties, which is less safe, but
+more than an order of magnitude faster. Most other Underscore functions saw
+minor speed improvements as a result. <a href="http://dolzhenko.org/">Evgeniy
+Dolzhenko</a> contributed <code>_.tap</code>, <a href="http://ruby-doc.org/core-1.9/classes/Object.html#M000191">similar to Ruby
+1.9&#39;s</a>, which is
+handy for injecting side effects (like logging) into chained calls.</p>
+
+<p><strong>0.5.1</strong><br/>
+Added an <code>_.isArguments</code> function. Lots of little safety checks and
+optimizations contributed by <a href="http://github.com/iamnoah/">Noah Sloan</a> and
+<a href="http://themoell.com/">Andri Möll</a>.</p>
+
+<p><strong>0.5.0</strong><br/>
+<strong>[API Changes]</strong> <code>_.bindAll</code> now takes the context object as its first parameter. If no method names are passed, all of the context object&#39;s methods are bound to it, enabling chaining and easier binding. <code>_.functions</code> now takes a single argument and returns the names of its Function properties. Calling <code>_.functions(_)</code> will get you the previous behavior. Added <code>_.isRegExp</code> so that <code>isEqual</code> can now test for RegExp equality. All of the &quot;is&quot; functions have been shrunk down into a single definition. <a href="http://github.com/grayrest/">Karl Guertin</a> contributed patches. </p>
+
+<p><strong>0.4.7</strong><br/>
+Added <code>isDate</code>, <code>isNaN</code>, and <code>isNull</code>, for completeness. Optimizations for
+<code>isEqual</code> when checking equality between Arrays or Dates. <code>_.keys</code> is now
+<em><strong>25%-2X</strong></em> faster (depending on your browser) which speeds up the functions
+that rely on it, such as <code>_.each</code>.</p>
+
+<p><strong>0.4.6</strong><br/>
+Added the <code>range</code> function, a port of the <a href="http://docs.python.org/library/functions.html#range">Python function of the same
+name</a>, for generating
+flexibly-numbered lists of integers. Original patch contributed by <a href="http://github.com/kylichuku">Kirill
+Ishanov</a>.</p>
+
+<p><strong>0.4.5</strong><br/>
+Added <code>rest</code> for Arrays and arguments objects, and aliased <code>first</code> as <code>head</code>,
+and <code>rest</code> as <code>tail</code>, thanks to <a href="http://github.com/lukesutton/">Luke Sutton</a>&#39;s
+patches. Added tests ensuring that all Underscore Array functions also work on
+<em>arguments</em> objects.</p>
+
+<p><strong>0.4.4</strong><br/>
+Added <code>isString</code>, and <code>isNumber</code>, for consistency. Fixed <code>_.isEqual(NaN, NaN)</code>
+to return <em>true</em> (which is debatable).</p>
+
+<p><strong>0.4.3</strong><br/>
+Started using the native <code>StopIteration</code> object in browsers that support it.
+Fixed Underscore setup for CommonJS environments.</p>
+
+<p><strong>0.4.2</strong><br/>
+Renamed the unwrapping function to <code>value</code>, for clarity.</p>
+
+<p><strong>0.4.1</strong><br/>
+Chained Underscore objects now support the Array prototype methods, so that
+you can perform the full range of operations on a wrapped array without having
+to break your chain. Added a <code>breakLoop</code> method to <strong>break</strong> in the middle of
+any Underscore iteration. Added an <code>isEmpty</code> function that works on arrays and
+objects.</p>
+
+<p><strong>0.4.0</strong><br/>
+All Underscore functions can now be called in an object-oriented style, like
+so: <code>_([1, 2, 3]).map(...);</code>. Original patch provided by <a href="http://macournoyer.com/">Marc-André
+Cournoyer</a>. Wrapped objects can be chained through
+multiple method invocations. A <code>functions</code> method was added, providing a
+sorted list of all the functions in Underscore.</p>
+
+<p><strong>0.3.3</strong><br/>
+Added the JavaScript 1.8 function <code>reduceRight</code>. Aliased it as <code>foldr</code>, and
+aliased <code>reduce</code> as <code>foldl</code>.</p>
+
+<p><strong>0.3.2</strong><br/>
+Now runs on stock <a href="http://www.mozilla.org/rhino/">Rhino</a> interpreters with:
+<code>load(&quot;underscore.js&quot;)</code>. Added <code>identity</code> as a utility function.</p>
+
+<p><strong>0.3.1</strong><br/>
+All iterators are now passed in the original collection as their third
+argument, the same as JavaScript 1.6&#39;s <strong>forEach</strong>. Iterating over objects is
+now called with <code>(value, key, collection)</code>, for details see <code>_.each</code>.</p>
+
+<p><strong>0.3.0</strong><br/>
+Added <a href="http://github.com/dmitryBaranovskiy">Dmitry Baranovskiy</a>&#39;s
+comprehensive optimizations, merged in <a href="http://github.com/kriskowal/">Kris
+Kowal</a>&#39;s patches to make Underscore
+<a href="http://wiki.commonjs.org/wiki/CommonJS">CommonJS</a> and
+<a href="http://narwhaljs.org/">Narwhal</a> compliant.</p>
+
+<p><strong>0.2.0</strong><br/>
+Added <code>compose</code> and <code>lastIndexOf</code>, renamed <code>inject</code> to <code>reduce</code>, added aliases
+for <code>inject</code>, <code>filter</code>, <code>every</code>, <code>some</code>, and <code>forEach</code>.</p>
+
+<p><strong>0.1.1</strong><br/>
+Added <code>noConflict</code>, so that the &quot;Underscore&quot; object can be assigned to other
+variables.</p>
+
+<p><strong>0.1.0</strong><br/>
+Initial release of Underscore.js.</p>
+
+<p><a href="http://documentcloud.org/"> <img src="http://jashkenas.s3.amazonaws.com/images/a_documentcloud_project.png" alt="A DocumentCloud
+Project"/>
+</a></p>
+
+<!-- Include Underscore, so you can play with it in the console. -->
+
+<script type="text/javascript" src="underscore.js"></script>
 
     </div>
-
-  </div>
-
-  <!-- Include Underscore, so you can play with it in the console. -->
-  <script type="text/javascript" src="underscore.js"></script>
-
-</body>
+  </body>
 </html>
