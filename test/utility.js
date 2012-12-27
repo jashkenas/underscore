@@ -82,7 +82,7 @@ $(document).ready(function() {
     equal(escapeTemplate({a: true}), 'checked="checked"', 'can handle slash escapes in interpolations.');
 
     var fancyTemplate = _.template("<ul><% \
-      for (key in people) { \
+      for (var key in people) { \
     %><li><%= people[key] %></li><% } %></ul>");
     result = fancyTemplate({people : {moe : "Moe", larry : "Larry", curly : "Curly"}});
     equal(result, "<ul><li>Moe</li><li>Larry</li><li>Curly</li></ul>", 'can run arbitrary javascript in templates');
@@ -137,7 +137,7 @@ $(document).ready(function() {
       interpolate : /\{\{=([\s\S]+?)\}\}/g
     };
 
-    var custom = _.template("<ul>{{ for (key in people) { }}<li>{{= people[key] }}</li>{{ } }}</ul>");
+    var custom = _.template("<ul>{{ for (var key in people) { }}<li>{{= people[key] }}</li>{{ } }}</ul>");
     result = custom({people : {moe : "Moe", larry : "Larry", curly : "Curly"}});
     equal(result, "<ul><li>Moe</li><li>Larry</li><li>Curly</li></ul>", 'can run arbitrary javascript in templates');
 
@@ -152,7 +152,7 @@ $(document).ready(function() {
       interpolate : /<\?=([\s\S]+?)\?>/g
     };
 
-    var customWithSpecialChars = _.template("<ul><? for (key in people) { ?><li><?= people[key] ?></li><? } ?></ul>");
+    var customWithSpecialChars = _.template("<ul><? for (var key in people) { ?><li><?= people[key] ?></li><? } ?></ul>");
     result = customWithSpecialChars({people : {moe : "Moe", larry : "Larry", curly : "Curly"}});
     equal(result, "<ul><li>Moe</li><li>Larry</li><li>Curly</li></ul>", 'can run arbitrary javascript in templates');
 
