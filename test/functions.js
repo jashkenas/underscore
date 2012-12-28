@@ -257,4 +257,29 @@ $(document).ready(function() {
     equal(testAfter(0, 0), 1, "after(0) should fire immediately");
   });
 
+  test("functions: sampling", function() {
+    var testRepeat = function(Amount, Rate, timesTriggered) {
+      var timesTriggered = 0;
+      var sampling = _.sampling(function() {
+        timesTriggered++;
+      },Rate);
+
+      while (Amount--) sampling();
+
+      console.log(timesTriggered);
+      return timesTriggered;
+    };
+
+    equals(Math.round(testRepeat(10000, 0.01)/100), 1, "10,000 times called, will be triggered nealy(50~150) times at sampling rate 0.01");
+    equals(Math.round(testRepeat(10000, 0.02)/100), 2, "10,000 times called, will be triggered nealy(150~250) times at sampling rate 0.02");
+    equals(Math.round(testRepeat(10000, 0.03)/100), 3, "10,000 times called, will be triggered nealy(250~350) times at sampling rate 0.03");
+    equals(Math.round(testRepeat(10000, 0.04)/100), 4, "10,000 times called, will be triggered nealy(350~450) times at sampling rate 0.04");
+    equals(Math.round(testRepeat(10000, 0.05)/100), 5, "10,000 times called, will be triggered nealy(450~550) times at sampling rate 0.05");
+    equals(Math.round(testRepeat(10000, 0.06)/100), 6, "10,000 times called, will be triggered nealy(550~650) times at sampling rate 0.06");
+    equals(Math.round(testRepeat(10000, 0.07)/100), 7, "10,000 times called, will be triggered nealy(650~750) times at sampling rate 0.07");
+    equals(Math.round(testRepeat(10000, 0.08)/100), 8, "10,000 times called, will be triggered nealy(750~850) times at sampling rate 0.08");
+    equals(Math.round(testRepeat(10000, 0.09)/100), 9, "10,000 times called, will be triggered nealy(850~950) times at sampling rate 0.09");
+
+  });
+
 });
