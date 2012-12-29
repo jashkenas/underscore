@@ -25,6 +25,20 @@ $(document).ready(function() {
     equal(_.identity(moe), moe, 'moe is the same as his identity');
   });
 
+  test("random", function() {
+    var array = _.range(1000);
+    var min = Math.pow(2, 31);
+    var max = Math.pow(2, 62);
+
+    ok(_.every(array, function() {
+      return _.random(min, max) >= min;
+    }), "should produce a random number greater than or equal to the minimum number");
+
+    ok(_.some(array, function() {
+      return _.random(Number.MAX_VALUE) > 0;
+    }), "should produce a random number when passed `Number.MAX_VALUE`");
+  });
+
   test("uniqueId", function() {
     var ids = [], i = 0;
     while(i++ < 100) ids.push(_.uniqueId());
