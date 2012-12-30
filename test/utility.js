@@ -210,6 +210,12 @@ $(document).ready(function() {
     strictEqual(_.result(null, 'x'), null);
   });
 
+  test('result can accept an optional scope an arbitrary arguments', function() {
+    var a = {key: 'value'};
+    var b = {test: function() {return this.key}};
+    strictEqual(_.result(b, 'test', a), 'value');
+  });
+
   test('_.templateSettings.variable', function() {
     var s = '<%=data.x%>';
     var data = {x: 'x'};
