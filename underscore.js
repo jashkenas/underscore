@@ -937,6 +937,40 @@
   _.isObject = function(obj) {
     return obj === Object(obj);
   };
+  
+  // Is a given variable a circular object?
+  // Based on this stackoverflow post: http://stackoverflow.com/a/13619725
+  _.isCircularObject = function(obj, parents, tree) {
+    parents = parents || [];
+    tree = tree || [];
+
+    if (!obj || false === _.isObject(obj))
+        return false;
+
+    var keys = _.keys(obj), 
+        i = keys.length - 1, 
+        value;
+
+    parents.push(obj); // add self to current path
+    
+    for (; i >= 0; --i){
+        value = obj[keys[i]];
+        if (value && true === _.isObject(obj)) {
+            tree.push(keys[i]);
+            
+            if (parents.indexOf(obj) >= 0)
+                return true;
+                
+            // check child nodes
+            if (arguments.callee(value, parents, tree))
+                return tree.join('.');
+            tree.pop();
+        }
+    }
+    
+    parents.pop();
+    return false;
+  }
 
   // Add some isType methods: isArguments, isFunction, isString, isNumber, isDate, isRegExp.
   each(['Arguments', 'Function', 'String', 'Number', 'Date', 'RegExp'], function(name) {
