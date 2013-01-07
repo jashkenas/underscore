@@ -980,6 +980,11 @@
   _.isNull = function(obj) {
     return obj === null;
   };
+  
+  // Is a given varialbe not undefined?
+  _.isDefined = function(obj) {
+    return false === (obj === void 0);
+ 	};
 
   // Is a given variable undefined?
   _.isUndefined = function(obj) {
