@@ -992,6 +992,13 @@
     return hasOwnProperty.call(obj, key);
   };
 
+  // Removes and returns a value from an object for the given key.
+  _.remove = function(obj, key) {
+    var value = obj[key];
+    delete obj[key];
+    return value;
+  };
+
   // Utility Functions
   // -----------------
 
