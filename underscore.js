@@ -810,6 +810,21 @@
     return _.isArray(obj) ? obj.slice() : _.extend({}, obj);
   };
 
+  // Forward a 'message' to a different property of an object.
+  _.forward = function(obj, msgName, options) {
+    options = options || {};
+    var translation = options['as'] || msgName;
+    var target = options['to'];
+    if (!target) throw new TypeError('missing required option to:');
+    // shall we forbid overriding defined properties unless maybe a
+    // force option has been provided???
+    obj[msgName] = function(){
+      return obj[target][translation].apply(obj[target], ArrayProto.slice.call(arguments, 0));
+    };
+    // More complicated cases coming soon, I hope
+    // standars practice?
+    return obj;
+  };
   // Invokes interceptor with the obj, and then returns obj.
   // The primary purpose of this method is to "tap into" a method chain, in
   // order to perform operations on intermediate results within the chain.
