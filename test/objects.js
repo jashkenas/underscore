@@ -128,6 +128,20 @@ $(document).ready(function() {
     equal(_.clone(null), null, 'non objects should not be changed by clone');
   });
 
+  test("forward", 6, function() {
+    var obj = {
+      name: "without a name"
+    };
+    _.forward(obj, 'split', {to: "name"})
+    deepEqual(obj.split(' '),['without', 'a', 'name'], 'split is forwarded to name prop');
+    _.forward(obj, 'seperate', {to: "name", as: "split"})
+    deepEqual(obj.split(' '),['without', 'a', 'name'], 'split is still forwarded to name prop');
+    deepEqual(obj.seperate('t'),['wi', 'hou', ' a name'], 'seperate is forwarded to name prop as split');
+    raises(function(){ obj.trim(); }, TypeError, 'trim is not forwarded' );
+    raises(function(){ _.forward(obj, 'anything' ); }, TypeError, 'need to provide at least the to: option');
+    _.forward(obj, 'anything', {to: "doesNotExist"});
+    raises(function(){ obj.anything(); }, TypeError, 'error is thrown only upon application');
+  });
   test("isEqual", function() {
     function First() {
       this.value = 1;
