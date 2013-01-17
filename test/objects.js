@@ -358,6 +358,23 @@ $(document).ready(function() {
 
     // Objects from another frame.
     ok(_.isEqual({}, iObject));
+
+    // DOM elements
+    var aDom = document.createElement('div'),
+        bDom = document.createElement('span'),
+        $aDom = $(aDom),
+        $bDom = $(bDom),
+        $allDoms = $aDom.add($bDom);
+
+    ok(!_.isEqual(aDom, bDom), 'DOM Elements are not always equal.');
+
+    ok(!_.isEqual($aDom, $bDom), 'jQuery DOM Elements are not always equal.');
+
+    ok(_.isEqual(aDom, aDom), 'Same DOM Elements are equal.');
+
+    ok(_.isEqual($aDom, $aDom), 'Same jQuery DOM Elements are equal.');
+
+    ok(_.isEqual($allDoms, $allDoms), 'Same jQuery Elements are equal.');
   });
 
   test("isEmpty", function() {
