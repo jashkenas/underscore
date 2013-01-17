@@ -828,6 +828,10 @@
     // Unwrap any wrapped objects.
     if (a instanceof _) a = a._wrapped;
     if (b instanceof _) b = b._wrapped;
+    // Compare DOM elements.
+    if (a && a.nodeName || b && b.nodeName) {
+      return a === b;
+    }
     // Compare `[[Class]]` names.
     var className = toString.call(a);
     if (className != toString.call(b)) return false;
