@@ -612,7 +612,7 @@ _.sortBy([1, 2, 3, 4, 5, 6], function(num){ return Math.sin(num); });
 </pre>
 
       <p id="groupBy">
-        <b class="header">groupBy</b><code>_.groupBy(list, iterator)</code>
+        <b class="header">groupBy</b><code>_.groupBy(list, iterator, [context])</code>
         <br />
         Splits a collection into sets, grouped by the result of running each
         value through <b>iterator</b>. If <b>iterator</b> is a string instead of
@@ -628,7 +628,7 @@ _.groupBy(['one', 'two', 'three'], 'length');
 </pre>
 
       <p id="countBy">
-        <b class="header">countBy</b><code>_.countBy(list, iterator)</code>
+        <b class="header">countBy</b><code>_.countBy(list, iterator, [context])</code>
         <br />
         Sorts a list into groups and returns a count for the number of objects
         in each group.
@@ -873,7 +873,7 @@ _.lastIndexOf([1, 2, 3, 1, 2, 3], 2);
 </pre>
 
       <p id="sortedIndex">
-        <b class="header">sortedIndex</b><code>_.sortedIndex(list, value, [iterator])</code>
+        <b class="header">sortedIndex</b><code>_.sortedIndex(list, value, [iterator], [context])</code>
         <br />
         Uses a binary search to determine the index at which the <b>value</b>
         <i>should</i> be inserted into the <b>list</b> in order to maintain the <b>list</b>'s
