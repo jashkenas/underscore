@@ -567,4 +567,14 @@ $(document).ready(function() {
      child.prototype = obj;
      ok (_.has(child, "foo") == false, "has() does not check the prototype chain for a property.")
   });
+
+  test("remove", function() {
+    var val = "bar", obj = {foo: val};
+    ok (_.remove(obj, "foo") === val, "remove() returns the value of the key.");
+    ok (obj.hasOwnProperty("foo") === false, "remove() deletes the key value pair from the object.");
+    ok (_.remove(obj, "notThere") === undefined, "remove() returns undefined for keys not on the object.");
+    var child = {};
+    child.prototype = {foo: val};
+    ok (_.remove(obj, "foo") === undefined, "remove() should not remove the object from the prototype chain.");
+  });
 });
