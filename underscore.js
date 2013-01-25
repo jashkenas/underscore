@@ -653,7 +653,8 @@
   // Returns a function, that, as long as it continues to be invoked, will not
   // be triggered. The function will be called after it stops being called for
   // N milliseconds. If `immediate` is passed, trigger the function on the
-  // leading edge, instead of the trailing.
+  // leading edge, instead of the trailing. If `immediate` is not passed, 
+  // calling the debounced function will always return the timeout ID.
   _.debounce = function(func, wait, immediate) {
     var timeout, result;
     return function() {
@@ -665,6 +666,7 @@
       var callNow = immediate && !timeout;
       clearTimeout(timeout);
       timeout = setTimeout(later, wait);
+      if (!immediate) return timeout;
       if (callNow) result = func.apply(context, args);
       return result;
     };
