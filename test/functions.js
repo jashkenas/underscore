@@ -185,10 +185,9 @@ $(document).ready(function() {
     var counter = 0;
     var incr = function(){ counter++; };
     var debouncedIncr = _.debounce(incr, 32);
-    debouncedIncr(); debouncedIncr();
     var debouncedIncrTimeout = debouncedIncr();
     clearTimeout(debouncedIncrTimeout);
-    _.delay(function(){ equal(counter, 0, "incr was cleared"); start(); }, 96);    
+    _.delay(function(){ equal(counter, 0, "incr was cleared"); start(); }, 40);    
   });
 
   asyncTest("debounce asap", 4, function() {
