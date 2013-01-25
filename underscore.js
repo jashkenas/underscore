@@ -436,6 +436,37 @@
     return _.difference(array, slice.call(arguments, 1));
   };
 
+  // Drop elements from left until one does not match a truth test.
+  _.dropWhile = function(array, iterator, context) {
+    iterator || (iterator = _.identity);
+    var result = [];
+    var drop = true;
+    if (array == null) return result;
+    each(array, function(value, index, list) {
+      if (!(drop = drop && iterator.call(context, value, index, list))) {
+        result.push(value);
+      }
+    });
+    return result;
+  };
+
+  // Drop elements from right until one does not match a truth test.
+  _.dropRightWhile = function(array, iterator, context) {
+    iterator || (iterator = _.identity);
+    var result = [];
+    var drop = true;
+    if (array == null) return result;
+    var l = array.length || 0;
+
+    while(--l >= 0) {
+      if (!(drop = drop && iterator.call(context, array[l], l, array))) {
+        result.unshift(array[l]);
+      }
+    }
+
+    return result;
+  };
+
   // Produce a duplicate-free version of the array. If the array has already
   // been sorted, you have the option of using a faster algorithm.
   // Aliased as `unique`.

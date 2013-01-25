@@ -78,6 +78,16 @@ $(document).ready(function() {
     ok(_.without(list, list[0]).length == 1, 'ditto.');
   });
 
+  test("dropWhile", function() {
+    var list = [1, 2, 3, 2, 1];
+    equal(_.dropWhile(list, function(x) { return x < 3; }).join(', '), '3, 2, 1', 'can drop elements from left while they are less than 3');
+  });
+
+  test("dropRightWhile", function() {
+    var list = [1, 2, 3, 2, 1];
+    equal(_.dropRightWhile(list, function(x) { return x < 3; }).join(', '), '1, 2, 3', 'can drop elements from right while they are less than 3');
+  });
+
   test("uniq", function() {
     var list = [1, 2, 1, 3, 1, 4];
     equal(_.uniq(list).join(', '), '1, 2, 3, 4', 'can find the unique values of an unsorted array');
