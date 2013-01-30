@@ -1060,10 +1060,10 @@
 
   // If the value of the named property is a function then invoke it;
   // otherwise, return it.
-  _.result = function(object, property) {
-    if (object == null) return null;
-    var value = object[property];
-    return _.isFunction(value) ? value.call(object) : value;
+  _.result = function(obj, key) {
+    if (obj == null) return null;
+    var val = obj[key];
+    return _.isFunction(val) ? val.apply(obj, slice.call(arguments, 2)) : val;
   };
 
   // Add your own custom functions to the Underscore object.

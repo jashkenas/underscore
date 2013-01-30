@@ -210,6 +210,11 @@ $(document).ready(function() {
     strictEqual(_.result(null, 'x'), null);
   });
 
+  test('result can be passed arguments', function() {
+    var obj = {fn: function(arg) { return arg; }};
+    strictEqual(_.result(obj, 'fn', 1), 1);
+  });
+
   test('_.templateSettings.variable', function() {
     var s = '<%=data.x%>';
     var data = {x: 'x'};
