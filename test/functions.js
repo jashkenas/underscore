@@ -18,10 +18,10 @@ $(document).ready(function() {
     func = _.bind(func, this, 'hello');
     equal(func('moe'), 'hello: moe', 'the function was partially applied in advance');
 
-    var func = _.bind(func, this, 'curly');
+    func = _.bind(func, this, 'curly');
     equal(func(), 'hello: curly', 'the function was completely applied in advance');
 
-    var func = function(salutation, firstname, lastname) { return salutation + ': ' + firstname + ' ' + lastname; };
+    func = function(salutation, firstname, lastname) { return salutation + ': ' + firstname + ' ' + lastname; };
     func = _.bind(func, this, 'hello', 'moe', 'curly');
     equal(func(), 'hello: moe curly', 'the function was partially applied in advance and can accept multiple arguments');
 
@@ -35,6 +35,14 @@ $(document).ready(function() {
     var F = function () { return this; };
     var Boundf = _.bind(F, {hello: "moe curly"});
     equal(Boundf().hello, "moe curly", "When called without the new operator, it's OK to be bound to the context");
+  });
+
+  test("partial", function() {
+    var obj = {name: 'moe'};
+    var func = function() { return this.name + ' ' + _.toArray(arguments).join(' '); };
+
+    obj.func = _.partial(func, 'a', 'b');
+    equal(obj.func('c', 'd'), 'moe a b c d', 'can partially apply');
   });
 
   test("bindAll", function() {
