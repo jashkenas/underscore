@@ -179,7 +179,7 @@
   <div id="sidebar" class="interface">
 
     <a class="toc_title" href="#">
-      Underscore.js <span class="version">(1.4.3)</span>
+      Underscore.js <span class="version">(1.4.4)</span>
     </a>
     <ul class="toc_section">
       <li>&raquo; <a href="http://github.com/documentcloud/underscore">GitHub Repository</a></li>
@@ -201,6 +201,7 @@
       <li>- <a href="#find">find</a></li>
       <li>- <a href="#filter">filter</a></li>
       <li>- <a href="#where">where</a></li>
+      <li>- <a href="#findWhere">findWhere</a></li>
       <li>- <a href="#reject">reject</a></li>
       <li>- <a href="#every">every</a></li>
       <li>- <a href="#some">some</a></li>
@@ -246,6 +247,7 @@
     <ul class="toc_section">
       <li>- <a href="#bind">bind</a></li>
       <li>- <a href="#bindAll">bindAll</a></li>
+      <li>- <a href="#partial">partial</a></li>
       <li>- <a href="#memoize">memoize</a></li>
       <li>- <a href="#delay">delay</a></li>
       <li>- <a href="#defer">defer</a></li>
@@ -378,11 +380,11 @@
 
     <table>
       <tr>
-        <td><a href="underscore.js">Development Version (1.4.3)</a></td>
+        <td><a href="underscore.js">Development Version (1.4.4)</a></td>
         <td><i>40kb, Uncompressed with Plentiful Comments</i></td>
       </tr>
       <tr>
-        <td><a href="underscore-min.js">Production Version (1.4.3)</a></td>
+        <td><a href="underscore-min.js">Production Version (1.4.4)</a></td>
         <td><i>4kb, Minified and Gzipped</i></td>
       </tr>
       <tr>
@@ -498,6 +500,20 @@ var evens = _.filter([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
 _.where(listOfPlays, {author: "Shakespeare", year: 1611});
 =&gt; [{title: "Cymbeline", author: "Shakespeare", year: 1611},
     {title: "The Tempest", author: "Shakespeare", year: 1611}]
+</pre>
+
+      <p id="findWhere">
+        <b class="header">findWhere</b><code>_.findWhere(list, properties)</code>
+        <br />
+        Looks through the <b>list</b> and returns the <i>first</i> value that matches
+        all of the key-value pairs listed in <b>properties</b>.
+      </p>
+      <pre>
+_.findWhere(publicServicePulitzers, {newsroom: "The New York Times"});
+=&gt; {year: 1918, newsroom: "The New York Times",
+  reason: "For its public service in publishing in full so many official reports,
+  documents and speeches by European statesmen relating to the progress and
+  conduct of the war."}
 </pre>
 
       <p id="reject">
@@ -914,7 +930,7 @@ _.range(0);
         <br />
         Bind a <b>function</b> to an <b>object</b>, meaning that whenever
         the function is called, the value of <i>this</i> will be the <b>object</b>.
-        Optionally, bind <b>arguments</b> to the <b>function</b> to pre-fill them,
+        Optionally, pass <b>arguments</b> to the <b>function</b> to pre-fill them,
         also known as <b>partial application</b>.
       </p>
       <pre>
@@ -943,6 +959,20 @@ var buttonView = {
 _.bindAll(buttonView);
 jQuery('#underscore_button').bind('click', buttonView.onClick);
 =&gt; When the button is clicked, this.label will have the correct value...
+</pre>
+
+      <p id="partial">
+        <b class="header">partial</b><code>_.partial(function, [*arguments])</code>
+        <br />
+        Partially apply a function by filling in any number of its arguments,
+        <i>without</i> changing its dynamic <tt>this</tt> value. A close cousin
+        of <a href="#bind">bind</a>.
+      </p>
+      <pre>
+var add = function(a, b) { return a + b; };
+add5 = _.partial(add, 5);
+add5(10);
+=&gt; 15
 </pre>
 
       <p id="memoize">
@@ -1765,6 +1795,32 @@ _([1, 2, 3]).value();
       </p>
 
       <h2 id="changelog">Change Log</h2>
+
+      <p>
+        <b class="header">1.4.4</b> &mdash; <small><i>Jan. 30, 2013</i></small> &mdash; <a href="https://github.com/documentcloud/underscore/compare/1.4.3...1.4.4">Diff</a><br />
+        <ul>
+          <li>
+            Added <tt>_.findWhere</tt>, for finding the first element in a list
+            that matches a particular set of keys and values.
+          </li>
+          <li>
+            Added <tt>_.partial</tt>, for partially applying a function <i>without</i>
+            changing its dynamic reference to <tt>this</tt>.
+          </li>
+          <li>
+            Simplified <tt>bind</tt> by removing some edge cases involving
+            constructor functions. In short: don't <tt>_.bind</tt> your
+            constructors.
+          </li>
+          <li>
+            A minor optimization to <tt>invoke</tt>.
+          </li>
+          <li>
+            Fix bug in the minified version due to the minifier incorrectly
+            optimizing-away <tt>isFunction</tt>.
+          </li>
+        </ul>
+      </p>
 
       <p>
         <b class="header">1.4.3</b> &mdash; <small><i>Dec. 4, 2012</i></small> &mdash; <a href="https://github.com/documentcloud/underscore/compare/1.4.2...1.4.3">Diff</a><br />
