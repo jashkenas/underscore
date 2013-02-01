@@ -598,7 +598,7 @@
   // all callbacks defined on an object belong to it.
   _.bindAll = function(obj) {
     var funcs = slice.call(arguments, 1);
-    if (funcs.length === 0) funcs = _.functions(obj);
+    if (funcs.length === 0) throw new Error("bindAll must be passed function names");
     each(funcs, function(f) { obj[f] = _.bind(obj[f], obj); });
     return obj;
   };

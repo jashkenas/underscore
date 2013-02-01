@@ -63,9 +63,12 @@ $(document).ready(function() {
       getName : function() { return 'name: ' + this.name; },
       sayHi   : function() { return 'hi: ' + this.name; }
     };
-    _.bindAll(moe);
+
+    raises(function() { _.bindAll(moe); }, Error, 'throws an error for bindAll with no functions named');
+
+    _.bindAll(moe, 'sayHi');
     curly.sayHi = moe.sayHi;
-    equal(curly.sayHi(), 'hi: moe', 'calling bindAll with no arguments binds all functions to the object');
+    equal(curly.sayHi(), 'hi: moe');
   });
 
   test("memoize", function() {
