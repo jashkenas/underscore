@@ -1062,6 +1062,13 @@
     var value = object[property];
     return _.isFunction(value) ? value.call(object) : value;
   };
+  
+  // If Bool is truthy, return This, otherwise return That.
+  // Lets you do stuff like "_.if(foo, 4, 29) * 50".
+  _.if = function(Bool, This, That) {
+		if(Bool) {return This;}
+    else {return That;}
+  }
 
   // Add your own custom functions to the Underscore object.
   _.mixin = function(obj) {
