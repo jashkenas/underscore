@@ -292,7 +292,7 @@
     } else {
       var sampled_indices = _.shuffle(_.range(obj.length));
       var sampled_values = [];
-      while (number-- > 0 && sampled_indices.length > 0) {
+      for (; number > 0 && sampled_indices.length > 0; --number) {
         sampled_values.push(obj[sampled_indices.pop()]);
       }
       return sampled_values;
