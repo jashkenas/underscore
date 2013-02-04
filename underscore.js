@@ -283,6 +283,22 @@
     return result.value;
   };
 
+  // Sample a number of random values from an array.
+  // If number is not specified, returns only a single sampled object
+  // Otherwise, returns an array of (min of number and length of array) sampled objects
+  _.sample = function(obj, number) {
+    if (!number) {
+      return obj.length > 0 ? obj[_.random(obj.length - 1)] : null;
+    } else {
+      var sampled_indices = _.shuffle(_.range(obj.length));
+      var sampled_values = [];
+      while (number-- > 0 && sampled_indices.length > 0) {
+        sampled_values.push(obj[sampled_indices.pop()]);
+      }
+      return sampled_values;
+    }
+  };
+
   // Shuffle an array.
   _.shuffle = function(obj) {
     var rand;
