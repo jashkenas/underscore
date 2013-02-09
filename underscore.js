@@ -795,6 +795,15 @@
     return copy;
   };
 
+  // Return a copy of the object only containing own properties.
+  _.pickOwn = function(obj) {
+    var copy = {};
+    for (var key in obj) {
+      if (_.has(obj, key)) copy[key] = obj[key];
+    }
+    return copy;
+  };
+
   // Fill in a given object with default properties.
   _.defaults = function(obj) {
     each(slice.call(arguments, 1), function(source) {
