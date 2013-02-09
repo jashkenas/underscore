@@ -90,6 +90,19 @@ $(document).ready(function() {
     ok(_.isEqual(_.omit(new Obj, 'b'), {a:1, c: 3}), 'include prototype props');
   });
 
+  test("pickOwn", function() {
+    var result;
+
+    var Obj = function(){};
+    Obj.prototype = {x: 1, y: 2};
+    var obj = new Obj();
+    obj.a = 3;
+    obj.z = 4;
+
+    result = _.pickOwn(obj);
+    ok(_.isEqual(result, {a:3, z:4}), 'returns only own properties');
+  });
+
   test("defaults", function() {
     var result;
     var options = {zero: 0, one: 1, empty: "", nan: NaN, string: "string"};
