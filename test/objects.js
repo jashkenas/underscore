@@ -2,8 +2,6 @@ $(document).ready(function() {
 
   module("Objects");
 
-  var undefined; //ensure undefined is really undefined
-
   test("keys", function() {
     equal(_.keys({one : 1, two : 2}).join(', '), 'one, two', 'can extract the keys from an object');
     // the test above is not safe because it relies on for-in enumeration order
