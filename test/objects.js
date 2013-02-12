@@ -92,12 +92,13 @@ $(document).ready(function() {
 
   test("defaults", function() {
     var result;
-    var options = {zero: 0, one: 1, empty: "", nan: NaN, string: "string"};
+    var options = {zero: 0, one: 1, empty: "", nan: NaN, nothing: null};
 
-    _.defaults(options, {zero: 1, one: 10, twenty: 20});
+    _.defaults(options, {zero: 1, one: 10, twenty: 20, nothing: 'str'});
     equal(options.zero, 0, 'value exists');
     equal(options.one, 1, 'value exists');
     equal(options.twenty, 20, 'default applied');
+    equal(options.nothing, null, "null isn't overriden");
 
     _.defaults(options, {empty: "full"}, {nan: "nan"}, {word: "word"}, {word: "dog"});
     equal(options.empty, "", 'value exists');
