@@ -438,6 +438,7 @@ $(document).ready(function() {
   test('size', function() {
     equal(_.size({one : 1, two : 2, three : 3}), 3, 'can compute the size of an object');
     equal(_.size([1, 2, 3]), 3, 'can compute the size of an array');
+    equal(_.size($('<div>').add('<span>').add('<span>')), 3, 'can compute the size of jQuery objects');
 
     var func = function() {
       return _.size(arguments);
@@ -445,7 +446,8 @@ $(document).ready(function() {
 
     equal(func(1, 2, 3, 4), 4, 'can test the size of the arguments object');
 
-    equal(_.size('hello'), 5, 'can compute the size of a string');
+    equal(_.size('hello'), 5, 'can compute the size of a string literal');
+    equal(_.size(new String('hello')), 5, 'can compute the size of string object');
 
     equal(_.size(null), 0, 'handles nulls');
   });

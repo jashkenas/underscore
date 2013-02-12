@@ -2,6 +2,8 @@ $(document).ready(function() {
 
   module("Objects");
 
+  var undefined; //ensure undefined is really undefined
+
   test("keys", function() {
     equal(_.keys({one : 1, two : 2}).join(', '), 'one, two', 'can extract the keys from an object');
     // the test above is not safe because it relies on for-in enumeration order
@@ -432,15 +434,19 @@ $(document).ready(function() {
   });
 
   test("isArray", function() {
+    ok(!_.isArray(undefined), 'undefined vars are not arrays');
     ok(!_.isArray(arguments), 'the arguments object is not an array');
     ok(_.isArray([1, 2, 3]), 'but arrays are');
     ok(_.isArray(iArray), 'even from another frame');
   });
 
   test("isString", function() {
+    var obj = new String("I am a string object");
     ok(!_.isString(document.body), 'the document body is not a string');
     ok(_.isString([1, 2, 3].join(', ')), 'but strings are');
     ok(_.isString(iString), 'even from another frame');
+    ok(_.isString("I am a string literal"), 'string literals are');
+    ok(_.isString(obj), 'so are String objects');
   });
 
   test("isNumber", function() {
@@ -469,10 +475,12 @@ $(document).ready(function() {
   });
 
   test("isFunction", function() {
+    ok(!_.isFunction(undefined), 'undefined vars are not functions');
     ok(!_.isFunction([1, 2, 3]), 'arrays are not functions');
     ok(!_.isFunction('moe'), 'strings are not functions');
     ok(_.isFunction(_.isFunction), 'but functions are');
     ok(_.isFunction(iFunction), 'even from another frame');
+    ok(_.isFunction(function(){}), 'even anonymous ones');
   });
 
   test("isDate", function() {
