@@ -392,6 +392,42 @@ $(document).ready(function() {
     equal(grouped['3'], 1);
   });
 
+  test('collateBy', function() {
+    var list = ["one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"];
+
+    var collatedByLength = _.collateBy(list, 'length');
+    deepEqual(collatedByLength, [
+      [3, ["one", "two"]],
+      [5, ["three"]],
+      [4, ["four", "five"]],
+      [3, ["six"]],
+      [5, ["seven", "eight"]],
+      [4, ["nine"]],
+      [3, ["ten"]]
+    ]);
+
+    var collatedByFirstLetter = _.collateBy(list, function(value) { return value.charAt(0) });
+    deepEqual(collatedByFirstLetter, [
+      ["o", ["one"]],
+      ["t", ["two", "three"]],
+      ["f", ["four", "five"]],
+      ["s", ["six", "seven"]],
+      ["e", ["eight"]],
+      ["n", ["nine"]],
+      ["t", ["ten"]]
+    ]);
+
+    var context = {};
+    _.collateBy([{}], function(){ ok(this === context); }, context);
+
+    var array = ["a", "a", "b", "a", "c", "c", "c"];
+    var collated = _.collateBy(array);
+    deepEqual(collated, [["a", ["a", "a"]], ["b", ["b"]], ["a", ["a"]], ["c", ["c", "c", "c"]]]);
+
+    deepEqual(_.collateBy([]), []);
+    deepEqual(_.collateBy([0]), [[0, [0]]]);
+  });
+
   test('sortedIndex', function() {
     var numbers = [10, 20, 30, 40, 50], num = 35;
     var indexForNum = _.sortedIndex(numbers, num);

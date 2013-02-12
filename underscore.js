@@ -322,8 +322,8 @@
   };
 
   // An internal function used for aggregate "group by" operations.
-  var group = function(obj, value, context, behavior) {
-    var result = {};
+  var group = function(obj, value, context, behavior, result) {
+    if (_.isUndefined(result)) result = {};
     var iterator = lookupIterator(value || _.identity);
     each(obj, function(value, index) {
       var key = iterator.call(context, value, index, obj);
@@ -348,6 +348,24 @@
       if (!_.has(result, key)) result[key] = 0;
       result[key]++;
     });
+  };
+
+  // Collates the object's values by a criterion, preserving their original
+  // order. Pass either a string attribute to group by, or a function that
+  // returns the criterion. The result will be an array of `[key, values]`
+  // pairs.
+  _.collateBy = function(obj, value, context) {
+    var lastKey = {}, set = null;
+    var result = group(obj, value, context, function(result, key, value) {
+      if (key === lastKey) {
+        set.push(value);
+      } else {
+        if (set) result.push([lastKey, set]);
+        set = [value], lastKey = key;
+      }
+    }, []);
+    if (set) result.push([lastKey, set]);
+    return result;
   };
 
   // Use a comparator function to figure out the smallest index at which
