@@ -417,6 +417,15 @@ _.each([1, 2, 3], alert);
 _.each({one : 1, two : 2, three : 3}, alert);
 =&gt; alerts each number value in turn...</pre>
 
+      <p>
+        <i>
+          Note: Collection functions work on arrays, objects, and
+          array-like objects such as</i> <tt>arguments</tt>, <tt>NodeList</tt><i>
+          and similar. But it works by duck-typing, so avoid passing objects with
+          a numeric <tt>length</tt> property.
+        </i>
+      </p>
+
       <p id="map">
         <b class="header">map</b><code>_.map(list, iterator, [context])</code>
         <span class="alias">Alias: <b>collect</b></span>
