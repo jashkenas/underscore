@@ -361,6 +361,14 @@ $(document).ready(function() {
     var grouped = _.groupBy(array);
     equal(grouped['1'].length, 2);
     equal(grouped['3'].length, 1);
+
+    var matrix = [
+      [1,2],
+      [1,3],
+      [2,3]
+    ];
+    deepEqual(_.groupBy(matrix, 0), {1: [[1,2], [1,3]], 2: [[2,3]]})
+    deepEqual(_.groupBy(matrix, 1), {2: [[1,2]], 3: [[1,3], [2,3]]})
   });
 
   test('countBy', function() {
