@@ -324,7 +324,6 @@
   // An internal function used for aggregate "group by" operations.
   var group = function(obj, value, context, behavior) {
     var result = {};
-    // If the iterator is null or undefined it defaults to _.identity.
     var iterator = lookupIterator(value == null ? _.identity : value);
     each(obj, function(value, index) {
       var key = iterator.call(context, value, index, obj);
@@ -335,7 +334,6 @@
 
   // Groups the object's values by a criterion. Pass either a string attribute
   // to group by, or a function that returns the criterion.
-  // You may also pass in a integer for the array index to group by.
   _.groupBy = function(obj, value, context) {
     return group(obj, value, context, function(result, key, value) {
       (_.has(result, key) ? result[key] : (result[key] = [])).push(value);
