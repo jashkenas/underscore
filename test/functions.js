@@ -34,7 +34,10 @@ $(document).ready(function() {
     // To test this with a modern browser, set underscore's nativeBind to undefined
     var F = function () { return this; };
     var Boundf = _.bind(F, {hello: "moe curly"});
+    var newBoundf = new Boundf();
+    equal(newBoundf.hello, undefined, "function should not be bound to the context, to comply with ECMAScript 5");
     equal(Boundf().hello, "moe curly", "When called without the new operator, it's OK to be bound to the context");
+    ok(newBoundf instanceof F, "a bound instance is an instance of the original function");
   });
 
   test("partial", function() {
