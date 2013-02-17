@@ -639,7 +639,7 @@
   // Defers a function, scheduling it to run after the current call stack has
   // cleared.
   _.defer = function(func) {
-    var args = slice.call(arguments, 2);
+    var args = slice.call(arguments, 1);
     return nativeDefer(function(){ return func.apply(null, args); }, 1);
   };
 
