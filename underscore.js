@@ -41,7 +41,12 @@
     nativeLastIndexOf  = ArrayProto.lastIndexOf,
     nativeIsArray      = Array.isArray,
     nativeKeys         = Object.keys,
-    nativeBind         = FuncProto.bind;
+    nativeBind         = FuncProto.bind,
+    
+    // Create a reference to either process.nextTick or setTimeout,
+    // to defer function execution in the most efficient way possible.
+    nativeDefer = (typeof process !== 'undefined' && typeof process.nextTick === 'function') ?
+      process.nextTick : setTimeout;
 
   // Create a safe reference to the Underscore object for use below.
   var _ = function(obj) {
@@ -634,7 +639,8 @@
   // Defers a function, scheduling it to run after the current call stack has
   // cleared.
   _.defer = function(func) {
-    return _.delay.apply(_, [func, 1].concat(slice.call(arguments, 1)));
+    var args = slice.call(arguments, 2);
+    return nativeDefer(function(){ return func.apply(null, args); }, 1);
   };
 
   // Returns a function, that, when invoked, will only be triggered at most once
