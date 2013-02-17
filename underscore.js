@@ -46,10 +46,10 @@
   // Create a reference to either process.nextTick, setImmediate or setTimeout,
   // to defer function execution in the most efficient way possible.
   var nativeDefer;
-  if (typeof process !== 'undefined' && typeof process.nextTick === 'function')
-    nativeDefer = process.nextTick;
-  else if (typeof setImmediate !== 'undefined')
+  if (typeof setImmediate !== 'undefined')
     nativeDefer = setImmediate;
+  else if (typeof process !== 'undefined' && typeof process.nextTick === 'function')
+    nativeDefer = process.nextTick;
   else
     nativeDefer = function (func) { return setTimeout(func, 0) };
   
