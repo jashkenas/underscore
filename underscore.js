@@ -100,6 +100,32 @@
     });
     return results;
   };
+  
+  // Return the results of applying the iterator to each element.
+  // And then front to the first element, and back to the last element.
+  _.cycle = function(obj, middleIterator, front, back, context) {
+    var results = {};
+    if (obj instanceof Array) results = [];
+    if (obj == null) return results;
+    var firstIndex
+    var length = 0
+    for (var index in obj) {
+      if (!obj.hasOwnProperty(index))
+        continue
+      if (typeof firstIndex === 'undefined')
+        firstIndex = index;
+      if (middleIterator)
+        results[index] = middleIterator.call(context, obj[index], index, obj);
+      else
+        results[index] = obj[index]
+      length++
+    }
+    if (front)
+      results[firstIndex] = front.call(context, obj[firstIndex], firstIndex, obj, length);
+    if (back)
+      results[index] = back.call(context, obj[index], index, obj, length);
+    return results;
+  };
 
   var reduceError = 'Reduce of empty array with no initial value';
 

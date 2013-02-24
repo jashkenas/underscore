@@ -58,6 +58,45 @@ $(document).ready(function() {
     var ifnull = _.map(null, function(){});
     ok(_.isArray(ifnull) && ifnull.length === 0, 'handles a null properly');
   });
+  
+  test('cycle', function() {
+    // Double the ends. Keep the middle the same
+    var bigEnds = _.cycle([1, 2, 3], function (num) {return num}, function(num){ return num * 2; }, function(num){ return num * 2; });
+    equal(bigEnds.join(', '), '2, 2, 6', 'doubled the ends. middle the same');
+    
+    var doubled = _.cycle([1, 2, 3], function (num) {return num * 2 });
+    equal(doubled.join(', '), '2, 4, 6', 'doubled all');
+    
+    var bigEnds = _.cycle([1, 2, 3], null, function(num){ return num * 2; }, function(num){ return num * 2; });
+    equal(bigEnds.join(', '), '2, 2, 6', 'doubled the ends. middle the same');
+    
+    var list = ['home', 'about', 'contact', 'help']
+    var html = _.cycle(list,
+      function (value) {return '&nbsp;<a>' + value +'</a>&nbsp;'},
+      function (value) {return '<a>' + value +'</a>&nbsp;'},
+      function (value) {return '&nbsp;<a>' + value +'</a>'}
+    )
+    equal(html.join(''), '<a>home</a>&nbsp;&nbsp;<a>about</a>&nbsp;&nbsp;<a>contact</a>&nbsp;&nbsp;<a>help</a>')
+    
+    // Create a circular doubly linked list
+    var book = [{ title : 'Chapter 1'}, { title : 'Chapter 2'}, { title : 'Chapter 3'}]
+    var links = _.cycle(book, function (value, index, object) {
+      value.next = index + 1;
+      value.previous = index - 1;
+      return value;
+    }, function (value, index, object, length) {
+      value.next = 1;
+      value.previous = length - 1;
+      return value;
+    }, function (value, index, object) {
+      value.next = 0;
+      value.previous = index - 1;
+      return value;
+    })
+    equal(links[0].previous, 2, 'chapter 1 previous is chapter 3');
+    equal(links[2].next, 0, 'chapter 3 next is chapter 1');
+
+  });
 
   test('reduce', function() {
     var sum = _.reduce([1, 2, 3], function(sum, num){ return sum + num; }, 0);
