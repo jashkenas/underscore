@@ -179,7 +179,7 @@ $(document).ready(function() {
     equal(_.lastIndexOf(numbers, 0), 8, 'lastIndexOf the other element');
     var result = (function(){ return _.lastIndexOf(arguments, 1); })(1, 0, 1, 0, 0, 1, 0, 0, 0);
     equal(result, 5, 'works on an arguments object');
-    equal(_.indexOf(null, 2), -1, 'handles nulls properly');
+    equal(_.lastIndexOf(null, 2), -1, 'handles nulls properly');
 
     numbers = [1, 2, 3, 1, 2, 3, 1, 2, 3];
     var index = _.lastIndexOf(numbers, 2, 2);
