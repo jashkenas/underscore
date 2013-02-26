@@ -263,4 +263,8 @@ $(document).ready(function() {
     strictEqual(template(), '<<\nx\n>>');
   });
 
+  test('toInt works as expected', function() {
+    equal(_.toInt('4'), 4);
+    equal(_.toInt('08'), 8);
+  });
 });

@@ -1016,6 +1016,11 @@
     return this;
   };
 
+  // Simple wrapper around parseInt that defaults to base 10.
+  _.toInt = function(obj, radix) {
+    return parseInt(obj, radix || 10);
+  };
+
   // Keep the identity function around for default iterators.
   _.identity = function(value) {
     return value;
