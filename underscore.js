@@ -779,7 +779,7 @@
     each(slice.call(arguments, 1), function(source) {
       if (source) {
         for (var prop in source) {
-          obj[prop] = source[prop];
+          Object.defineProperty(obj, prop, Object.getOwnPropertyDescriptor(source, prop));
         }
       }
     });

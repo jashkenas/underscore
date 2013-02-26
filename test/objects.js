@@ -60,6 +60,19 @@ $(document).ready(function() {
     } catch(ex) {}
 
     equal(result.a, 1, 'should not error on `null` or `undefined` sources');
+
+    var value = 'Test value';
+    result = _.extend({}, {
+        get test() {
+            return this._test;
+        },
+        set test (newValue) {
+            equal(newValue, value, 'ES5 Setter was called with the correct arguments');
+            this._test = newValue;
+        }
+    });
+    result.test = value;
+    equal(result.test, value, 'ES5 Getter was copied over successfully');
   });
 
   test("pick", function() {
