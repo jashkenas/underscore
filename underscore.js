@@ -41,7 +41,9 @@
     nativeLastIndexOf  = ArrayProto.lastIndexOf,
     nativeIsArray      = Array.isArray,
     nativeKeys         = Object.keys,
-    nativeBind         = FuncProto.bind;
+    nativeBind         = FuncProto.bind,
+    nativeDefine       = Object.defineProperty,
+    nativeDescriptor   = Object.getOwnPropertyDescriptor;
 
   // Create a safe reference to the Underscore object for use below.
   var _ = function(obj) {
@@ -777,9 +779,15 @@
   // Extend a given object with all the properties in passed-in object(s).
   _.extend = function(obj) {
     each(slice.call(arguments, 1), function(source) {
+      var supported = ((nativeDefine && Object.defineProperty === nativeDefine) &&
+                       (nativeDescriptor && Object.getOwnPropertyDescriptor === nativeDescriptor));
       if (source) {
         for (var prop in source) {
-          Object.defineProperty(obj, prop, Object.getOwnPropertyDescriptor(source, prop));
+          if (supported) {
+              nativeDefine(obj, prop, nativeDescriptor(source, prop));
+          } else {
+              obj[prop] = source[prop];
+          }
         }
       }
     });
