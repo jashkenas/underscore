@@ -178,15 +178,21 @@
 
   // Trim out all falsy values from an array or object.
   _.compact = function(obj) {
-    if (_.isArray(obj)) return _.filter(obj, _.identity);
-    var copy = {};
-    each(obj, function(value, key){
-      if(value)
-        copy[key] = obj[key];
-    });
-    return copy;
+    var keys = Object.keys(obj);
+    for (var i = 0; i < keys.length; i++) {
+      if (keys[i] != i) {
+        var copy = {};
+        each(obj, function(value, key) {
+          if(value)
+            copy[key] = obj[key];
+        });
+        return copy;
+      }
+    }
+    if (_.isObject(obj))
+      obj = slice.call(obj);
+    return _.filter(obj, _.identity);
   };
-
 
   // Return all the elements for which a truth test fails.
   _.reject = function(obj, iterator, context) {
