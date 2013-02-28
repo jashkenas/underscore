@@ -200,6 +200,7 @@
       <li>- <a href="#reduceRight">reduceRight</a></li>
       <li>- <a href="#find">find</a></li>
       <li>- <a href="#filter">filter</a></li>
+      <li>- <a href="#compact">compact</a></li>
       <li>- <a href="#where">where</a></li>
       <li>- <a href="#findWhere">findWhere</a></li>
       <li>- <a href="#reject">reject</a></li>
@@ -226,7 +227,6 @@
       <li>- <a href="#initial">initial</a></li>
       <li>- <a href="#last">last</a></li>
       <li>- <a href="#rest">rest</a></li>
-      <li>- <a href="#compact">compact</a></li>
       <li>- <a href="#flatten">flatten</a></li>
       <li>- <a href="#without">without</a></li>
       <li>- <a href="#union">union</a></li>
@@ -499,6 +499,17 @@ var evens = _.filter([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
 =&gt; [2, 4, 6]
 </pre>
 
+      <p id="compact">
+        <b class="header">compact</b><code>_.compact(list)</code>
+        <br />
+        Returns a copy of the <b>list</b> with all falsy values removed.
+        In JavaScript, <i>false</i>, <i>null</i>, <i>0</i>, <i>""</i>,
+        <i>undefined</i> and <i>NaN</i> are all falsy.
+      </p>
+      <pre>
+_.compact([0, 1, false, 2, '', 3]);
+=&gt; [1, 2, 3]
+</pre>
       <p id="where">
         <b class="header">where</b><code>_.where(list, properties)</code>
         <br />
@@ -753,18 +764,6 @@ _.last([5, 4, 3, 2, 1]);
       <pre>
 _.rest([5, 4, 3, 2, 1]);
 =&gt; [4, 3, 2, 1]
-</pre>
-
-      <p id="compact">
-        <b class="header">compact</b><code>_.compact(array)</code>
-        <br />
-        Returns a copy of the <b>array</b> with all falsy values removed.
-        In JavaScript, <i>false</i>, <i>null</i>, <i>0</i>, <i>""</i>,
-        <i>undefined</i> and <i>NaN</i> are all falsy.
-      </p>
-      <pre>
-_.compact([0, 1, false, 2, '', 3]);
-=&gt; [1, 2, 3]
 </pre>
 
       <p id="flatten">

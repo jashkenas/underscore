@@ -176,6 +176,18 @@
     return results;
   };
 
+  // Trim out all falsy values from an array or object.
+  _.compact = function(obj) {
+    if (_.isArray(obj)) return _.filter(obj, _.identity);
+    var copy = {};
+    each(obj, function(value, key){
+      if(value)
+        copy[key] = obj[key];
+    });
+    return copy;
+  };
+
+
   // Return all the elements for which a truth test fails.
   _.reject = function(obj, iterator, context) {
     return _.filter(obj, function(value, index, list) {
@@ -413,11 +425,6 @@
   // check allows it to work with `_.map`.
   _.rest = _.tail = _.drop = function(array, n, guard) {
     return slice.call(array, (n == null) || guard ? 1 : n);
-  };
-
-  // Trim out all falsy values from an array.
-  _.compact = function(array) {
-    return _.filter(array, _.identity);
   };
 
   // Internal implementation of a recursive `flatten` function.
