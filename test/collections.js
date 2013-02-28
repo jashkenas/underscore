@@ -157,7 +157,7 @@ $(document).ready(function() {
 
   test("compact", function() {
     equal(_.compact([0, 1, false, 2, false, 3]).length, 3, 'can trim out all falsy values from an array');
-    equal(_.compact({a: 0, b: 1, c: 2, d: false, e: 3, f: NaN}), {b: 1, c: 2, e: 3}, 'can trim out all falsy values from an object');
+    deepEqual(_.compact({a: 0, b: 1, c: 2, d: false, e: 3, f: NaN}), {b: 1, c: 2, e: 3}, 'can trim out all falsy values from an object');
     var result = (function(){ return _.compact(arguments).length; })(0, 1, false, 2, false, 3);
     equal(result, 3, 'works on an arguments object');
   });
