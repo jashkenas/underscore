@@ -89,6 +89,14 @@
     }
   };
 
+  // Iterates over each item in `obj` and calls the method named `property` if
+  // it exists and is a function.
+  _.callEach = function(obj, property) {
+    _.each(obj, function(o) {
+      if (o != null && _.isFunction(o[property])) o[property]();
+    })
+  }
+
   // Return the results of applying the iterator to each element.
   // Delegates to **ECMAScript 5**'s native `map` if available.
   _.map = _.collect = function(obj, iterator, context) {
@@ -100,6 +108,16 @@
     });
     return results;
   };
+
+  // Iterates over each item in `obj` and calls the method named `property` if
+  // it exists and is a function. A array containing the result of each call is
+  // returned. For items that the property doesn't exist or isn't a function
+  // `undefined` is returned.
+  _.callMap = function(obj, property) {
+    return _.map(obj, function(o) {
+      if (o != null && _.isFunction(o[property])) return o[property]();
+    })
+  }
 
   var reduceError = 'Reduce of empty array with no initial value';
 

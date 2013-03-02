@@ -460,4 +460,38 @@ $(document).ready(function() {
     equal(_.size(null), 0, 'handles nulls');
   });
 
+  test('callEach', function() {
+    var count = 0;
+
+    function MyClass() {
+      this.someMethod = function() {
+        ok(this == items[count], "The method is called with the correct context");
+        equal(arguments.length, 0);
+        ++count;
+      }
+    }
+
+    var items = [new MyClass(), new MyClass(), {}];
+    var result = _.callEach(items, 'someMethod');
+    equal(count, 2);
+    equal(result, undefined);
+  });
+
+  test('callMap', function() {
+    var count = 0;
+
+    function MyClass() {
+      this.someMethod = function() {
+        ok(this == items[count], "The method is called with the correct context");
+        equal(arguments.length, 0);
+        ++count;
+        return count;
+      }
+    }
+
+    var items = [new MyClass(), new MyClass(), {}];
+    var result = _.callMap(items, 'someMethod');
+    equal(count, 2);
+    equal(result.join(', '), "1, 2, ");
+  });
 });
