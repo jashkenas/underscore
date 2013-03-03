@@ -1,0 +1,17 @@
+{
+  "name"          : "documentcloud/underscore",
+  "description"   : "JavaScript's functional programming helper library.",
+  "homepage"      : "http://underscorejs.org",
+  "keywords"      : ["util", "functional", "server", "client", "browser", "component"],
+  "license"       : "MIT",
+  "type"          : "component",
+  "authors"       : [
+    {
+      "name" : "Jeremy Ashkenas",
+      "email" : "jeremy@documentcloud.org"
+    }
+  ],
+  "require": {
+    "robloach/component-installer": "*"
+  }
+}
