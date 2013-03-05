@@ -46,7 +46,7 @@ $(document).ready(function() {
     var result;
     equal(_.extend({}, {a:'b'}).a, 'b', 'can extend an object with the attributes of another');
     equal(_.extend({a:'x'}, {a:'b'}).a, 'b', 'properties in source override destination');
-    equal(_.extend({x:'x'}, {a:'b'}).x, 'x', 'properties not in source don't get overriden');
+    equal(_.extend({x:'x'}, {a:'b'}).x, 'x', "properties not in source don't get overriden");
     result = _.extend({x:'x'}, {a:'a'}, {b:'b'});
     ok(_.isEqual(result, {x:'x', a:'a', b:'b'}), 'can extend from multiple source objects');
     result = _.extend({x:'x'}, {a:'a', x:2}, {a:'b'});
