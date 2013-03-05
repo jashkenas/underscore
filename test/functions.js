@@ -230,7 +230,7 @@ $(document).ready(function() {
   test("wrap", function() {
     var greet = function(name){ return "hi: " + name; };
     var backwards = _.wrap(greet, function(func, name){ return func(name) + ' ' + name.split('').reverse().join(''); });
-    equal(backwards('moe'), 'hi: moe eom', 'wrapped the saluation function');
+    equal(backwards('moe'), 'hi: moe eom', 'wrapped the salutation function');
 
     var inner = function(){ return "Hello "; };
     var obj   = {name : "Moe"};
