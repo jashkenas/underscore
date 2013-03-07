@@ -431,6 +431,23 @@ $(document).ready(function() {
     ok(_.isObject(new String('string')), 'but new String()');
   });
 
+  test("isObject (plain)", function() {
+    ok(_.isObject({}, true), 'this object is a "plain" object');
+    ok(_.isObject({a: [], b: {}, c: "d"}, true), 'even this one');
+    ok(!_.isObject(arguments, true), 'the arguments object is object (but not plain)');
+    ok(!_.isObject([1, 2, 3], true), 'and arrays (but not plain)');
+    ok(!_.isObject($('html')[0], true), 'and DOM element (but not plain)');
+    ok(!_.isObject(iElement, true), 'even from another frame (but not plain)');
+    ok(!_.isObject(function () {}, true), 'and functions (but not plain)');
+    ok(!_.isObject(iFunction, true), 'even from another frame (but not plain)');
+    ok(!_.isObject(null, true), 'but not null (but not plain)');
+    ok(!_.isObject(undefined, true), 'and not undefined (but not plain)');
+    ok(!_.isObject('string', true), 'and not string (but not plain)');
+    ok(!_.isObject(12, true), 'and not number (but not plain)');
+    ok(!_.isObject(true, true), 'and not boolean (but not plain)');
+    ok(!_.isObject(new String('string'), true), 'but new String() (but not plain)');
+  });
+
   test("isArray", function() {
     ok(!_.isArray(undefined), 'undefined vars are not arrays');
     ok(!_.isArray(arguments), 'the arguments object is not an array');
