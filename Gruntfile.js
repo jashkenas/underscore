@@ -56,25 +56,18 @@ module.exports = function(grunt) {
 
     });
     
-    // shortcut task to test
     grunt.registerTask('test', ['qunit']);
 
-    // shortcut task to generate docs
     grunt.registerTask('docs', ['docco']);
 
-    //Load the plugin that provides the "docco" task.
     grunt.loadNpmTasks('grunt-docco');
 
-    //Load the plugin that provides the "qunit" task.
     grunt.loadNpmTasks('grunt-contrib-qunit');
 
-    //Load the plugin that provides the "jshint" task.
     grunt.loadNpmTasks('grunt-contrib-jshint');
-    
-    //Load the plugin that provides the "uglify" task.
+
     grunt.loadNpmTasks('grunt-contrib-uglify');
-    
-    //Load the plugin that provides the "watch" task.
+
     grunt.loadNpmTasks('grunt-contrib-watch');
 
 
