@@ -1,0 +1,65 @@
+'use strict';
+
+module.exports = function(grunt) {
+
+    grunt.initConfig({
+
+        pkg: grunt.file.readJSON('package.json'),
+
+        jshint: {
+            options: {
+                curly: false,
+                eqeqeq: false,
+                latedef: false,
+                eqnull: true,
+                expr: true,
+                supernew: true,
+                evil: true
+            },
+
+            src: ['underscore.js'],
+            node: ['index.js']
+        },
+
+        uglify: {
+            options: {
+                banner: '//     Underscore.js <%= pkg.version %>'+ '\n' +
+                        '//     http://underscorejs.org' + '\n' +
+                        '//     (c) 2009-2013 Jeremy Ashkenas, DocumentCloud Inc.' + '\n' +
+                        '//     Underscore may be freely distributed under the MIT license.'
+            },
+
+            src: {
+                'underscore-min.js': ['underscore.js']
+            }
+        },
+
+        qunit: {
+            all: ['test/**/*.html']
+        },
+        
+        watch: {
+            src: {
+                files: ['*.js'],
+                tasks: ['qunit', 'uglify']
+            }
+        },
+
+    });
+
+    grunt.registerTask('test', ['qunit']);
+
+    //Load the plugin that provides the "qunit" task.
+    grunt.loadNpmTasks('grunt-contrib-qunit');
+
+    //Load the plugin that provides the "jshint" task.
+    grunt.loadNpmTasks('grunt-contrib-jshint');
+    
+    //Load the plugin that provides the "uglify" task.
+    grunt.loadNpmTasks('grunt-contrib-uglify');
+    
+    //Load the plugin that provides the "watch" task.
+    grunt.loadNpmTasks('grunt-contrib-watch');
+
+
+}
