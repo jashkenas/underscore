@@ -37,6 +37,15 @@ module.exports = function(grunt) {
         qunit: {
             all: ['test/**/*.html']
         },
+
+        docco: {
+            annotated: {
+                src: ['underscore.js'],
+                options: {
+                    output: 'docs/'
+                }
+            }
+        },
         
         watch: {
             src: {
@@ -46,8 +55,15 @@ module.exports = function(grunt) {
         },
 
     });
-
+    
+    // shortcut task to test
     grunt.registerTask('test', ['qunit']);
+
+    // shortcut task to generate docs
+    grunt.registerTask('docs', ['docco']);
+
+    //Load the plugin that provides the "docco" task.
+    grunt.loadNpmTasks('grunt-docco');
 
     //Load the plugin that provides the "qunit" task.
     grunt.loadNpmTasks('grunt-contrib-qunit');
