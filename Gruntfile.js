@@ -24,7 +24,7 @@ module.exports = function(grunt) {
         uglify: {
             options: {
                 banner: '//     Underscore.js <%= pkg.version %>'+ '\n' +
-                        '//     http://underscorejs.org' + '\n' +
+                        '//     <%= pkg.url %>' + '\n' +
                         '//     (c) 2009-2013 Jeremy Ashkenas, DocumentCloud Inc.' + '\n' +
                         '//     Underscore may be freely distributed under the MIT license.'
             },
@@ -49,7 +49,7 @@ module.exports = function(grunt) {
         
         watch: {
             src: {
-                files: ['*.js'],
+                files: ['underscore.js', 'test/*.js'],
                 tasks: ['qunit', 'uglify']
             }
         },
