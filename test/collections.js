@@ -371,6 +371,55 @@ $(document).ready(function() {
     deepEqual(_.groupBy(matrix, 1), {2: [[1,2]], 3: [[1,3], [2,3]]})
   });
 
+  test('indexBy', function() {
+    var objectModels = [
+      {id: 'abc', name: 'Foo'},
+      {id: 'xyz', name: 'Bar'},
+      {id: 'mno', name: 'Baz'}
+    ];
+
+    var expectedObjectIndex = {
+      abc: {id: 'abc', name: 'Foo'},
+      xyz: {id: 'xyz', name: 'Bar'},
+      mno: {id: 'mno', name: 'Baz'}
+    };
+
+    var actualIndex = _.indexBy(objectModels, function(m) { return m.id });
+    deepEqual(actualIndex, expectedObjectIndex, 'can index by a function');
+
+    var actualIndex = _.indexBy(objectModels, 'id');
+    deepEqual(actualIndex, expectedObjectIndex, 'can index by a property');
+
+    var listModels = [
+      ['foo'],
+      ['bar'],
+      ['baz']
+    ];
+
+    var actualIndex = _.indexBy(listModels, 0);
+    deepEqual(actualIndex, {foo: ['foo'], bar: ['bar'], baz: ['baz']}, 'can index by array index');
+
+    var obj = {foo: 'bar'};
+    var objectIterator = function() {
+      var args = Array.prototype.slice.call(arguments, 0);
+      deepEqual(args.slice(0), ['bar', 'foo', obj], 'passes the value, key and object to the iterator when using objects');
+    };
+    _.indexBy(obj, objectIterator);
+
+    var list = ['foo'];
+    var listIterator = function() {
+      var args = Array.prototype.slice.call(arguments, 0);
+      deepEqual(args, ['foo', 0, list], 'passes the value, index and list to the iterator when using lists');
+    };
+    _.indexBy(list, listIterator);
+
+    var contextChecker = function() { equal(this, window, 'defaults the context to window') };
+    _.indexBy(list, listIterator);
+
+    contextChecker = function() { equal(this, obj, 'can accept a context') };
+    _.indexBy(list, listIterator, obj);
+  });
+
   test('countBy', function() {
     var parity = _.countBy([1, 2, 3, 4, 5], function(num){ return num % 2 == 0; });
     equal(parity['true'], 2);

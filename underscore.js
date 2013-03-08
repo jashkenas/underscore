@@ -340,6 +340,15 @@
     });
   };
 
+  //
+  // Index the object's values by a criterion. Pass either a string attribute
+  // to index by, or a function that returns the criterion.
+  _.indexBy = function(obj, value, context) {
+    return group(obj, value, context, function(result, key, value) {
+      result[key] = value;
+    });
+  };
+
   // Counts instances of an object that group by a certain criterion. Pass
   // either a string attribute to count by, or a function that returns the
   // criterion.
