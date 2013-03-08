@@ -1067,7 +1067,7 @@
   });
 
   // If the value of the named property is a function then invoke it;
-  // otherwise, return it.
+  // otherwise, return it. If it is a function it will be bound to that object.
   _.result = function(object, property) {
     if (object == null) return void 0;
     var value = object[property];
