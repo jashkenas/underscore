@@ -215,6 +215,8 @@
   // Aliased as `include`.
   _.contains = _.include = function(obj, target) {
     if (obj == null) return false;
+    if (arguments.length > 2)
+      return _.every(slice.call(arguments, 1), function(value) { return _.contains(obj, value); });
     if (nativeIndexOf && obj.indexOf === nativeIndexOf) return obj.indexOf(target) != -1;
     return any(obj, function(value) {
       return value === target;
