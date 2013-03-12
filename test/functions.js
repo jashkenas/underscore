@@ -78,9 +78,9 @@ $(document).ready(function() {
     var fib = function(n) {
       return n < 2 ? n : fib(n - 1) + fib(n - 2);
     };
-    var fastFib = _.memoize(fib);
     equal(fib(10), 55, 'a memoized version of fibonacci produces identical results');
-    equal(fastFib(10), 55, 'a memoized version of fibonacci produces identical results');
+    fib = _.memoize(fib); // Redefine `fib` for memoization
+    equal(fib(10), 55, 'a memoized version of fibonacci produces identical results');
 
     var o = function(str) {
       return str;
