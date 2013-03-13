@@ -479,6 +479,10 @@ $(document).ready(function() {
     ok(_.isFunction(_.isFunction), 'but functions are');
     ok(_.isFunction(iFunction), 'even from another frame');
     ok(_.isFunction(function(){}), 'even anonymous ones');
+    if (window && window.document) {
+      ok(_.isFunction(window.alert), "host-functions are functions (test for IE < 9)");
+      ok(_.isFunction(document.getElementById), "DOM-functions are functions (test for IE < 9)");
+    }
   });
 
   test("isDate", function() {
