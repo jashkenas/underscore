@@ -571,6 +571,22 @@
     return range;
   };
 
+  // Slice the given array invoking callback for every `num` elements.
+  _.slicer = function(array, num, callback) {
+    var len;
+    var slice;
+    var i = 0;
+    var index = num;
+
+    if (!array || !array.length) return;
+    for (len = array.length; i < len; i+= num) {
+      slice = array.slice(i, index);
+      callback(slice, i, index, array);
+      index += num;
+    }
+  };
+
+
   // Function (ahem) Functions
   // ------------------
 
