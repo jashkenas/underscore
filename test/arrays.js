@@ -129,6 +129,15 @@ $(document).ready(function() {
     equal(String(stooges), 'moe,30,true,larry,40,,curly,50,', 'zipped together arrays of different lengths');
   });
 
+  test('unzip', function() {
+    var stoogesZipped = [['moe',30],['larry',40],['curly',50]];
+    var stoogesUnzipped = _.unzip(stoogesZipped);
+    equal(String(stoogesUnzipped), 'moe,larry,curly,30,40,50', 'unzipped pairs');
+
+    var emptyUnzipped = _.unzip([]);
+    equal(String(emptyUnzipped), ',', 'unzipped empty pairs');
+  });
+
   test('object', function() {
     var result = _.object(['moe', 'larry', 'curly'], [30, 40, 50]);
     var shouldBe = {moe: 30, larry: 40, curly: 50};
