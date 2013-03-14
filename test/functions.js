@@ -183,6 +183,20 @@ $(document).ready(function() {
     }, 96);
   });
 
+  asyncTest("throttle does not trigger leading call when immediate is set to false", 2, function() {
+    var counter = 0;
+    var incr = function(){ counter++; };
+    var throttledIncr = _.throttle(incr, 60, false);
+
+    throttledIncr(); throttledIncr();
+    ok(counter == 0);
+
+    _.delay(function() {
+      ok(counter == 1);
+      start();
+    }, 96);
+  });
+
   asyncTest("debounce", 1, function() {
     var counter = 0;
     var incr = function(){ counter++; };
