@@ -42,7 +42,17 @@
     nativeIsArray      = Array.isArray,
     nativeKeys         = Object.keys,
     nativeBind         = FuncProto.bind;
-
+    
+  // Create a reference to either process.nextTick, setImmediate or setTimeout,
+  // to defer function execution in the most efficient way possible.
+  var nativeDefer;
+  if (typeof setImmediate !== 'undefined')
+    nativeDefer = setImmediate;
+  else if (typeof process !== 'undefined' && typeof process.nextTick === 'function')
+    nativeDefer = process.nextTick;
+  else
+    nativeDefer = function (func) { return setTimeout(func, 0) };
+  
   // Create a safe reference to the Underscore object for use below.
   var _ = function(obj) {
     if (obj instanceof _) return obj;
@@ -634,7 +644,8 @@
   // Defers a function, scheduling it to run after the current call stack has
   // cleared.
   _.defer = function(func) {
-    return _.delay.apply(_, [func, 1].concat(slice.call(arguments, 1)));
+    var args = slice.call(arguments, 1);
+    return nativeDefer(function(){ return func.apply(null, args); });
   };
 
   // Returns a function, that, when invoked, will only be triggered at most once
