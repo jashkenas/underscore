@@ -3,8 +3,7 @@ $(document).ready(function() {
   module("Objects");
 
   test("keys", function() {
-    equal(_.keys({one : 1, two : 2}).join(', '), 'one, two', 'can extract the keys from an object');
-    // the test above is not safe because it relies on for-in enumeration order
+    equal(_.keys({one: 1, two: 2}).sort().join(', '), 'one, two', 'can extract the keys from an object');
     var a = []; a[1] = 0;
     equal(_.keys(a).join(', '), '1', 'is not fooled by sparse arrays; see issue #95');
     raises(function() { _.keys(null); }, TypeError, 'throws an error for `null` values');
@@ -15,22 +14,22 @@ $(document).ready(function() {
   });
 
   test("values", function() {
-    equal(_.values({one: 1, two: 2}).join(', '), '1, 2', 'can extract the values from an object');
-    equal(_.values({one: 1, two: 2, length: 3}).join(', '), '1, 2, 3', '... even when one of them is "length"');
+    equal(_.values({one: 1, two: 2}).sort().join(', '), '1, 2', 'can extract the values from an object');
+    equal(_.values({one: 1, two: 2, length: 3}).sort().join(', '), '1, 2, 3', '... even when one of them is "length"');
   });
 
   test("pairs", function() {
-    deepEqual(_.pairs({one: 1, two: 2}), [['one', 1], ['two', 2]], 'can convert an object into pairs');
-    deepEqual(_.pairs({one: 1, two: 2, length: 3}), [['one', 1], ['two', 2], ['length', 3]], '... even when one of them is "length"');
+    deepEqual(_.pairs({one: 1, two: 2}).sort(), [['one', 1], ['two', 2]], 'can convert an object into pairs');
+    deepEqual(_.pairs({one: 1, two: 2, length: 3}).sort(), [['length', 3], ['one', 1], ['two', 2]], '... even when one of them is "length"');
   });
 
   test("invert", function() {
     var obj = {first: 'Moe', second: 'Larry', third: 'Curly'};
-    equal(_.keys(_.invert(obj)).join(' '), 'Moe Larry Curly', 'can invert an object');
+    equal(_.keys(_.invert(obj)).sort().join(' '), 'Curly Larry Moe', 'can invert an object');
     ok(_.isEqual(_.invert(_.invert(obj)), obj), 'two inverts gets you back where you started');
 
     var obj = {length: 3};
-    ok(_.invert(obj)['3'] == 'length', 'can invert an object with "length"')
+    ok(_.invert(obj)['3'] == 'length', 'can invert an object with "length"');
   });
 
   test("functions", function() {
