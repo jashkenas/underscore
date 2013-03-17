@@ -327,7 +327,7 @@
     var iterator = lookupIterator(value == null ? _.identity : value);
     each(obj, function(value, index) {
       var key = iterator.call(context, value, index, obj);
-      behavior(result, key, value);
+      behavior(result, key, value, index);
     });
     return result;
   };
@@ -335,8 +335,11 @@
   // Groups the object's values by a criterion. Pass either a string attribute
   // to group by, or a function that returns the criterion.
   _.groupBy = function(obj, value, context) {
-    return group(obj, value, context, function(result, key, value) {
-      (_.has(result, key) ? result[key] : (result[key] = [])).push(value);
+    return group(obj, value, context, function(result, key, value, index) {
+      if (obj instanceof Array)
+        (_.has(result, key) ? result[key] : (result[key] = [])).push(value);
+      else
+        (_.has(result, key) ? result[key] : (result[key] = {}))[index] = value;
     });
   };
 
