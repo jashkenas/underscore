@@ -76,6 +76,9 @@ $(document).ready(function() {
     var sum = _.reduce([1, 2, 3], function(sum, num){ return sum + num; });
     equal(sum, 6, 'default initial value');
 
+    var prod = _.reduce([1, 2, 3, 4], function(prod, num){ return prod * num; });
+    equal(prod, 24, 'can reduce via multiplication');
+
     var ifnull;
     try {
       _.reduce(null, function(){});
