@@ -747,14 +747,14 @@
   // Retrieve the values of an object's properties.
   _.values = function(obj) {
     var values = [];
-    for (var key in obj) if (_.has(obj, key)) values.push(obj[key]);
+    for (var key in obj) if (_.has(obj, key)) values[values.length] = obj[key];
     return values;
   };
 
   // Convert an object into a list of `[key, value]` pairs.
   _.pairs = function(obj) {
     var pairs = [];
-    for (var key in obj) if (_.has(obj, key)) pairs.push([key, obj[key]]);
+    for (var key in obj) if (_.has(obj, key)) pairs[pairs.length] = [key, obj[key]];
     return pairs;
   };
 
@@ -770,7 +770,7 @@
   _.functions = _.methods = function(obj) {
     var names = [];
     for (var key in obj) {
-      if (_.isFunction(obj[key])) names.push(key);
+      if (_.isFunction(obj[key])) names[names.length] = key;
     }
     return names.sort();
   };
