@@ -12,5 +12,6 @@
   },
   "scripts": {
     "test": "phantomjs test/vendor/runner.js test/index.html?noglobals=true"
-  }
+  },
+  "license"       : "MIT"
 }
