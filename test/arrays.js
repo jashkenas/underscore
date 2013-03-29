@@ -130,12 +130,18 @@ $(document).ready(function() {
   });
 
   test('unzip', function() {
-    var stoogesZipped = [['moe',30],['larry',40],['curly',50]];
+    var stoogesZipped = [['moe',30, 'stooge 1'],['larry',40, 'stooge 2'],['curly',50, 'stooge 3']];
     var stoogesUnzipped = _.unzip(stoogesZipped);
-    equal(String(stoogesUnzipped), 'moe,larry,curly,30,40,50', 'unzipped pairs');
+    deepEqual(stoogesUnzipped, [['moe','larry','curly'],[30,40,50], ['stooge 1', 'stooge 2', 'stooge 3']], 'unzipped pairs');
+
+    // In the case of difference lengths of the tuples undefineds
+    // should be used as placeholder
+    stoogesZipped = [['moe',30],['larry',40],['curly',50, 'extra data']];
+    stoogesUnzipped = _.unzip(stoogesZipped);
+    deepEqual(stoogesUnzipped, [['moe','larry','curly'],[30,40,50], [undefined, undefined, 'extra data']], 'unzipped pairs');
 
     var emptyUnzipped = _.unzip([]);
-    equal(String(emptyUnzipped), ',', 'unzipped empty pairs');
+    deepEqual(emptyUnzipped, [], 'unzipped empty');
   });
 
   test('object', function() {

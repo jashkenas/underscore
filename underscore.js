@@ -499,20 +499,23 @@
     return results;
   };
 
-  // Internal helper function for `_.unzip`.  Builds arrays out of the 
-  // first and second elements.
-  function constructPair(pair, rests) {
-    return [[_.first(pair)].concat(_.first(rests)),
-            [_.first(_.rest(pair))].concat(_.first(_.rest(rests)))];
-  }
-
-  // The inverse operation to `_.zip`.  That is, takes an array of pairs and 
-  // returns an array of the paired elements split into two left and right
-  // element arrays. For example, `_.unzip` given `[['a',1],['b',2],['c',3]]` 
-  // returns the array [['a','b','c'],[1,2,3]].
-  _.unzip = function(pairs) {
-    if (_.isEmpty(pairs)) return [[],[]];
-    return constructPair(_.first(pairs), _.unzip(_.rest(pairs)));
+  // The inverse operation to `_.zip`. If given an array of pairs it
+  // returns an array of the paired elements split into two left and
+  // right element arrays, if given an array of triples it returns a
+  // three element array and so on. For example, `_.unzip` given
+  // `[['a',1],['b',2],['c',3]]` returns the array
+  // [['a','b','c'],[1,2,3]].
+  _.unzip = function(tuples) {
+      var results = [];
+      _.each(tuples, function (tuple, tupleIndex) {
+          _.each(tuple, function (value, itemIndex) {
+              if (results.length <= itemIndex) {
+                  results[itemIndex] = [];
+              }
+              results[itemIndex][tupleIndex] = value;
+          });
+      });
+      return results;
   };
 
   // Converts lists into objects. Pass either a single array of `[key, value]`
