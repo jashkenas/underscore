@@ -499,6 +499,25 @@
     return results;
   };
 
+  // The inverse operation to `_.zip`. If given an array of pairs it
+  // returns an array of the paired elements split into two left and
+  // right element arrays, if given an array of triples it returns a
+  // three element array and so on. For example, `_.unzip` given
+  // `[['a',1],['b',2],['c',3]]` returns the array
+  // [['a','b','c'],[1,2,3]].
+  _.unzip = function(tuples) {
+      var results = [];
+      _.each(tuples, function (tuple, tupleIndex) {
+          _.each(tuple, function (value, itemIndex) {
+              if (results.length <= itemIndex) {
+                  results[itemIndex] = [];
+              }
+              results[itemIndex][tupleIndex] = value;
+          });
+      });
+      return results;
+  };
+
   // Converts lists into objects. Pass either a single array of `[key, value]`
   // pairs, or two parallel arrays of the same length -- one of keys, and one of
   // the corresponding values.
