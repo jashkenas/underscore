@@ -55,6 +55,7 @@ $(document).ready(function() {
     ok(_.isEqual(vals, [0,1,2]), "works as a wrapper");
     // collects return values
     ok(_.isEqual([0, 1, 2], _.times(3, function(i) { return i; })), "collects return values");
+    ok(_.isEqual([], _.times(-3, function(i) { return i; })), "accepts non-integers and negative numbers");
   });
 
   test("mixin", function() {
