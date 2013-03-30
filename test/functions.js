@@ -282,4 +282,10 @@ $(document).ready(function() {
     equal(testAfter(0, 0), 1, "after(0) should fire immediately");
   });
 
+  test("flip", function() {
+    var func = function(x, y) { return [x, y]; };
+    var flipped = _.flip(func);
+
+    deepEqual(flipped(1, 2), [2, 1], 'can flip a functions argument order');
+  });
 });

@@ -751,6 +751,13 @@
     };
   };
 
+  // Returns a function with the argument order of the first function flipped.
+  _.flip = function(func) {
+    return function() {
+      return func.apply(this, slice.call(arguments, 0).reverse());
+    };
+  };
+
   // Object Functions
   // ----------------
 
