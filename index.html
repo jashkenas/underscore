@@ -1486,12 +1486,14 @@ moe === _.identity(moe);
         <b class="header">times</b><code>_.times(n, iterator, [context])</code>
         <br />
         Invokes the given iterator function <b>n</b> times. Each invocation of
-        <b>iterator</b> is called with an <tt>index</tt> argument.
+        <b>iterator</b> is called with an <tt>index</tt> argument. Produces an
+        array of the returned values.
         <br />
         <i>Note: this example uses the <a href="#chaining">chaining syntax</a></i>.
       </p>
       <pre>
-_(3).times(function(n){ genie.grantWishNumber(n); });</pre>
+_(4).times(function(n){ return Math.pow(n, 2) });
+=&gt; [0, 1, 4, 9]</pre>
 
       <p id="random">
         <b class="header">random</b><code>_.random(min, max)</code>

@@ -49,12 +49,14 @@ $(document).ready(function() {
     var vals = [];
     _.times(3, function (i) { vals.push(i); });
     ok(_.isEqual(vals, [0,1,2]), "is 0 indexed");
+
+    ok(_.isEqual(_.times(4, function(n){ return Math.pow(n, 2) }), [0, 1, 4, 9]), "collects return values");
     //
     vals = [];
     _(3).times(function(i) { vals.push(i); });
     ok(_.isEqual(vals, [0,1,2]), "works as a wrapper");
     // collects return values
-    ok(_.isEqual([0, 1, 2], _.times(3, function(i) { return i; })), "collects return values");
+    ok(_.isEqual([0, 1, 2], _.times(3, _.identity)), "can be used to mimic _.range()");
   });
 
   test("mixin", function() {
