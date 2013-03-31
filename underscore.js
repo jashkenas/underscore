@@ -747,8 +747,8 @@
   // Example: `_.curry(function (a,b) { return a+b; })(1)(2)` would equal 3.
   // At each step you can optionally give more than 1 argument.
   _.curry = function (func, argCount) {
-   var args = _.toArray(arguments).slice(2);
-   if (typeof argCount === "undefined") argCount = func.length;
+   var args = slice.call(arguments, 2);
+   if (argCount == null) argCount = func.length;
    return function () {
        var args2 = args.concat(_.toArray(arguments));
        if (argCount <= args2.length) {
