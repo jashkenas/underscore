@@ -41,6 +41,10 @@ $(document).ready(function() {
       equal(partial2("curly"),  "moelarrycurly", "starting a partial with multiple arguments");
       equal(curried("moe", "larry", "curly"),  "moelarrycurly", "curried functions act like normal ones if all arguments suppplied");
       equal(curried("moe", "larry", "curly", "bob"),  "moelarrycurly", "extra arguments allowed");
+
+      var partially_curried = _.curry(func, 2);
+      equal(partially_curried("moe")("larry"), "moelarryundefined", "argCount overrides func.length");
+      equal(partially_curried("moe")("larry","curly"), "moelarrycurly", "Still possible to pass in the extra arguments");
   });
 
   test("random", function() {
