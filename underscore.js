@@ -507,7 +507,7 @@
   // [['a','b','c'],[1,2,3]].
   _.unzip = function(tuples) {
       var maxLen = _.max(_.pluck(tuples, "length"))
-      return _.map(_.range(maxLen), _.bind(_.pluck, null, tuples));
+      return _.map(_.range(maxLen), _.partial(_.pluck, tuples));
   };
 
   // Converts lists into objects. Pass either a single array of `[key, value]`
