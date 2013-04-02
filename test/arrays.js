@@ -212,4 +212,16 @@ $(document).ready(function() {
     equal(_.range(0, -10, -1).join(' '), '0 -1 -2 -3 -4 -5 -6 -7 -8 -9', 'final example in the Python docs');
   });
 
+  test("columnize", function() {
+    equal(_.columnize([], 2).join(''), '', 'columnize with empty array as the first argument generates an empty array');
+    equal(_.columnize([1, 2, 3, 4, 5, 6]).join(''), '123456', 'columnize with no valid number as the second argument returns the given array as it is');
+    equal(_.columnize([1, 2, 3, 4, 5, 6], 1).join('-'), '1-2-3-4-5-6', 'columnize [1, 2, 3, 4, 5, 6] with 1 as the second argument returns the given array as it is');
+    equal(_.columnize([1, 2, 3, 4, 5, 6], 2).join('-'), '1-4-2-5-3-6', 'columnize [1, 2, 3, 4, 5, 6] with 2 as the second argument returns the array in a two column structure: 1-4-2-5-3-6');
+    equal(_.columnize([1, 2, 3, 4, 5, 6], 3).join('-'), '1-3-5-2-4-6', 'columnize [1, 2, 3, 4, 5, 6] with 3 as the second argument returns the array in a two column structure: 1-3-5-2-4-6');
+    equal(_.columnize([1, 2, 3, 4, 5, 6], 4).join('-'), '1-3-5--2-4-6-', 'columnize [1, 2, 3, 4, 5, 6] with 4 as the second argument returns the array in a four column structure (with empty last column): 1-3-5--2-4-6-');
+    equal(_.columnize([1, 2, 3, 4, 5, 6], 5).join('-'), '1-3-5---2-4-6--', 'columnize [1, 2, 3, 4, 5, 6] with 5 as the second argument returns the array in a four column structure (with empty last two column): 1-3-5---2-4-6--');
+    equal(_.columnize([1, 2, 3, 4, 5, 6], 6).join('-'), '1-2-3-4-5-6', 'columnize [1, 2, 3, 4, 5, 6] with 6 as the second argument returns the array in a six column structure (which is the given array): 1-2-3-4-5-6');
+    equal(_.columnize([1, 2, 3, 4, 5, 6], 7).join('-'), '1-2-3-4-5-6', 'columnize [1, 2, 3, 4, 5, 6] with 7 as the second argument returns the array in a six column structure (number of items is the max number of columns): 1-2-3-4-5-6');
+  });
+
 });

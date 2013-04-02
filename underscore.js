@@ -590,6 +590,29 @@
     return range;
   };
 
+  _.columnize = function(array, numColumns) {
+    if(!(array && array.length)) {
+      return [];
+    }
+    if(!(numColumns > 0)) {
+      return array;
+    }
+
+    numColumns = numColumns > array.length ? array.length : numColumns;
+
+    while(array.length % numColumns !== 0) {
+      array.push('');
+    }
+
+    var numRows =  array.length / numColumns;
+    var columns = [];
+    for(var i = 0; i < (numColumns * numRows); i += numRows) {
+      columns[columns.length] = array.splice(0, numRows);
+    }
+
+    return _.flatten(_.zip.apply(_, columns));
+  };
+
   // Function (ahem) Functions
   // ------------------
 
