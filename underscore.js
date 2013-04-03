@@ -1042,7 +1042,9 @@
 
   // Run a function **n** times.
   _.times = function(n, iterator, context) {
-    return _.map(_.range(n), _.bind(iterator, context))
+    var accum = Array(Math.max(0,n));
+    for (var i = 0; i < n; i++) accum[i] = iterator.call(context, i);
+    return accum;
   };
 
   // Return a random integer between min and max (inclusive).
