@@ -506,8 +506,16 @@
   // `[['a',1],['b',2],['c',3]]` returns the array
   // [['a','b','c'],[1,2,3]].
   _.unzip = function(tuples) {
-      var maxLen = _.max(_.pluck(tuples, "length"))
-      return _.times(maxLen, _.partial(_.pluck, tuples));
+    var result = [];
+    for(var i = 0; i < tuples.length; i++) {
+      for(var j = 0; j < tuples[i].length; j++) {
+        if (result.length === j) {
+          result.push(Array(tuples.length));
+        }
+        result[j][i] = tuples[i][j];
+      }
+    }
+    return result;
   };
 
   // Converts lists into objects. Pass either a single array of `[key, value]`
