@@ -453,10 +453,13 @@
     }
     var initial = iterator ? _.map(array, iterator, context) : array;
     var results = [];
-    var seen = [];
-    each(initial, function(value, index) {
-      if (isSorted ? (!index || seen[seen.length - 1] !== value) : !_.contains(seen, value)) {
+    var seen = isSorted ? [] : {};
+    _.each(initial, function(value, index) {
+      if (isSorted && (!index || seen[seen.length - 1] !== value)) {
         seen.push(value);
+        results.push(array[index]);
+      } else if (!isSorted && !seen[value]) {
+        seen[value] = true;
         results.push(array[index]);
       }
     });
