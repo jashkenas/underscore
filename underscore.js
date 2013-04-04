@@ -96,7 +96,7 @@
     if (obj == null) return results;
     if (nativeMap && obj.map === nativeMap) return obj.map(iterator, context);
     each(obj, function(value, index, list) {
-      results[results.length] = iterator.call(context, value, index, list);
+      results.push(iterator.call(context, value, index, list));
     });
     return results;
   };
@@ -171,7 +171,7 @@
     if (obj == null) return results;
     if (nativeFilter && obj.filter === nativeFilter) return obj.filter(iterator, context);
     each(obj, function(value, index, list) {
-      if (iterator.call(context, value, index, list)) results[results.length] = value;
+      if (iterator.call(context, value, index, list)) results.push(value);
     });
     return results;
   };
@@ -650,7 +650,7 @@
 
   // Returns a function, that, when invoked, will only be triggered at most once
   // during a given window of time.
-  _.throttle = function(func, wait) {
+  _.throttle = function(func, wait, immediate) {
     var context, args, timeout, result;
     var previous = 0;
     var later = function() {
@@ -660,6 +660,7 @@
     };
     return function() {
       var now = new Date;
+      if (!previous && immediate === false) previous = now;
       var remaining = wait - (now - previous);
       context = this;
       args = arguments;
@@ -750,7 +751,7 @@
   _.keys = nativeKeys || function(obj) {
     if (obj !== Object(obj)) throw new TypeError('Invalid object');
     var keys = [];
-    for (var key in obj) if (_.has(obj, key)) keys[keys.length] = key;
+    for (var key in obj) if (_.has(obj, key)) keys.push(key);
     return keys;
   };
 
@@ -1034,7 +1035,7 @@
 
   // Run a function **n** times.
   _.times = function(n, iterator, context) {
-    var accum = Array(n);
+    var accum = Array(Math.max(0, n));
     for (var i = 0; i < n; i++) accum[i] = iterator.call(context, i);
     return accum;
   };

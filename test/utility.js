@@ -55,6 +55,10 @@ $(document).ready(function() {
     ok(_.isEqual(vals, [0,1,2]), "works as a wrapper");
     // collects return values
     ok(_.isEqual([0, 1, 2], _.times(3, function(i) { return i; })), "collects return values");
+
+    deepEqual(_.times(0, _.identity), []);
+    deepEqual(_.times(-1, _.identity), []);
+    deepEqual(_.times(parseFloat('-Infinity'), _.identity), []);
   });
 
   test("mixin", function() {
