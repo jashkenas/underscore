@@ -798,6 +798,20 @@
     return obj;
   };
 
+  // Extend a given object with properties in passed-in object(s), without overwriting existing properties
+  _.softExtend = function(obj){
+    each(slice.call(arguments, 1), function(source) {
+      if (source) {
+        for (var prop in source) {
+          if(! _.has(obj, prop)){
+            obj[prop] = source[prop];            
+          }
+        }
+      }
+    });
+    return obj;
+  };
+  
   // Return a copy of the object only containing the whitelisted properties.
   _.pick = function(obj) {
     var copy = {};
