@@ -239,6 +239,13 @@ $(document).ready(function() {
     increment();
     increment();
     equal(num, 1);
+
+    var CustomError = function(message) { this.message = message; };
+    var dofail = _.once(function(){ throw new CustomError("stop"); });
+    var r1, r2;
+    try { dofail(); ok(false, "it should not happen"); } catch(e) { r1 = e; }
+    try { dofail(); ok(false, "it should not happen"); } catch(e) { r2 = e; }
+    strictEqual(r1, r2);
   });
 
   test("wrap", function() {
