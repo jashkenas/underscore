@@ -47,6 +47,14 @@ $(document).ready(function() {
     obj.func = _.partial(func, 'a', 'b');
     equal(obj.func('c', 'd'), 'moe a b c d', 'can partially apply');
   });
+  
+  test("flip", function() {
+    var obj = {name: 'moe'};
+    var func = function() { return this.name + ' ' + _.toArray(arguments).join(' '); };
+
+    obj.func = _.flip(func);
+    equal(obj.func('a', 'b', 'c', 'd'), 'moe d c b a', 'can do backflips.');
+  });
 
   test("bindAll", function() {
     var curly = {name : 'curly'}, moe = {
