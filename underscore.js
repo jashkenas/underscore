@@ -733,6 +733,49 @@
     };
   };
 
+  
+  //Following the convention that:
+  //- For a giving function, the last argument is a callback 
+  // And for that callback, the first argument is the error.
+  //This function allows us to get our original function to retry itself N times whenever there is failure 
+  //(when the first argument of the callback is true) before giving up.
+  //It overrides the original callback  function in order to test for the value of the first argument until it 
+  //is false (no error) or the retry cap is reached.
+  _.retry = function(times, func) {
+    var retries = 0;
+    if(typeof times == "function") {
+        func = times;
+        times = 5; //Default
+    }
+    return function() {
+        var args = arguments;
+        function retry(original_fn) {
+             original_fn.apply(null,args);
+        }
+
+        var real_cb = args[String(args.length - 1)];
+        if(typeof real_cb != "function") {
+          throw new Error("Last argument expected to be a callback");
+        }
+        args[String(args.length - 1)] = function() {
+            var err = arguments['0'];
+            if(err) {
+                retries++;
+                if(retries == times) {
+                   real_cb.apply(null, arguments);
+                } else {
+                    retry(func);
+                    return;
+                }
+            } else {
+                real_cb.apply(null, arguments);
+            }
+
+        };
+        func.apply(null, args)
+    }
+  }
+
   // Returns a function that will only be executed after being called N times.
   _.after = function(times, func) {
     if (times <= 0) return func();
