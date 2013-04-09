@@ -606,6 +606,13 @@
       return self;
     };
   };
+  
+  // Reverses the arguments of a function, preserving its dynamic `this` context.
+  _.flip = function(func) {
+    return function() {
+      return func.apply(this, slice.call(arguments).reverse());
+    };
+  }
 
   // Partially apply a function by creating a version that has had some of its
   // arguments pre-filled, without changing its dynamic `this` context.
