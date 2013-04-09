@@ -241,6 +241,14 @@ $(document).ready(function() {
     equal(num, 1);
   });
 
+  test("Recursive onced function.", 1, function() {
+    var f = _.once(function(){
+      ok(true);
+      f();
+    });
+    f();
+  });
+
   test("wrap", function() {
     var greet = function(name){ return "hi: " + name; };
     var backwards = _.wrap(greet, function(func, name){ return func(name) + ' ' + name.split('').reverse().join(''); });
