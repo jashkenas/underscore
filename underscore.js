@@ -101,6 +101,19 @@
     return results;
   };
 
+
+  // transforms values of a object for each key/value pair
+  // returns a new object
+  _.transform = function(obj, func) {
+    var result = {};
+
+    _.each(obj, function(value, key, item) {
+      result[key] = func(value);
+    });
+
+    return result;
+  }
+
   var reduceError = 'Reduce of empty array with no initial value';
 
   // **Reduce** builds up a single result from a list of values, aka `inject`,

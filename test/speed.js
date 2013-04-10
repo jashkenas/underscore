@@ -32,6 +32,10 @@
     return jQuery.map(objects, function(obj){ return obj.num; });
   });
 
+  JSLitmus.test('_.transform()', function() {
+    return _.transform(objects, function(value){ return value + 1;});
+  });
+
   JSLitmus.test('_.pluck()', function() {
     return _.pluck(objects, 'num');
   });

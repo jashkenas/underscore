@@ -19,6 +19,11 @@ $(document).ready(function() {
     equal(_.values({one: 1, two: 2, length: 3}).join(', '), '1, 2, 3', '... even when one of them is "length"');
   });
 
+  test("transform", function() {
+    ok(_.isEqual(_.transform({one: 1, two: 2}, function(value) {return value * value;}), {one: 1, two: 4}), 'can transform values of an object');
+    ok(_.isEqual(_.transform({1: 'one', 2: 'two'}, function(value) {return value + ' hundred';}), {1: 'one hundred', 2: 'two hundred'}), '... even using string values');
+  });
+
   test("pairs", function() {
     deepEqual(_.pairs({one: 1, two: 2}), [['one', 1], ['two', 2]], 'can convert an object into pairs');
     deepEqual(_.pairs({one: 1, two: 2, length: 3}), [['one', 1], ['two', 2], ['length', 3]], '... even when one of them is "length"');
