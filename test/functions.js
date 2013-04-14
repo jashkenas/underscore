@@ -290,4 +290,22 @@ $(document).ready(function() {
     equal(testAfter(0, 0), 1, "after(0) should fire immediately");
   });
 
+
+  test("maybe", 5, function() {
+    var maybeTest = function(value) {
+      var stack = [];
+      var pushStack = _.maybe(function(value){
+        stack.push(value);    
+      });
+      pushStack(value);
+      return stack.length;
+    };
+    
+    equal(maybeTest(null), 0, "maybe should not allow null");
+    equal(maybeTest(undefined), 0, "maybe should not allow undefined");    
+    equal(maybeTest(0), 1, "maybe should allow numbers");
+    equal(maybeTest(""), 1, "maybe should allow strings");   
+    equal(maybeTest({}), 1, "maybe should allow objects");
+  });
+
 });
