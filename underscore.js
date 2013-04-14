@@ -235,6 +235,20 @@
     return _.map(obj, function(value){ return value[key]; });
   };
 
+  // Convenience version of a common use case of `map`: fetching multiple properties.
+  _.pluckMany = function (obj, keys) {
+    // walk through each item in obj
+    return _.map(obj, function (value) { 
+      var mapped = {};
+      each(keys, function(key, index, list) {
+        // store requested keys and their values in a separate object
+        mapped[key] = value[key]; 
+      });
+      // serve now
+      return mapped;
+    });
+  };
+
   // Convenience version of a common use case of `filter`: selecting only objects
   // containing specific `key:value` pairs.
   _.where = function(obj, attrs, first) {

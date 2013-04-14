@@ -253,6 +253,12 @@ $(document).ready(function() {
     equal(_.pluck(people, 'name').join(', '), 'moe, curly', 'pulls names out of objects');
   });
 
+  test('pluckMany', function() {
+    var people = [{name : 'moe', age : 30, location: 'California'}, {name : 'curly', age : 50, location: 'New York'}];
+    var result = [{name : 'moe', location: 'California'}, {name : 'curly', location: 'New York'}];
+    deepEqual(_.pluckMany(people, ['name', 'location']), result);
+  });
+
   test('where', function() {
     var list = [{a: 1, b: 2}, {a: 2, b: 2}, {a: 1, b: 3}, {a: 1, b: 4}];
     var result = _.where(list, {a: 1});
