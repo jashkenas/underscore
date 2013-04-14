@@ -212,8 +212,8 @@
   };
 
   // Determine if the array or object contains a given value (using `===`).
-  // Aliased as `include`.
-  _.contains = _.include = function(obj, target) {
+  // Aliased as `includes`.
+  _.contains = _.includes = function(obj, target) {
     if (obj == null) return false;
     if (nativeIndexOf && obj.indexOf === nativeIndexOf) return obj.indexOf(target) != -1;
     return any(obj, function(value) {
@@ -233,6 +233,20 @@
   // Convenience version of a common use case of `map`: fetching a property.
   _.pluck = function(obj, key) {
     return _.map(obj, function(value){ return value[key]; });
+  };
+
+  // Convenience version of a common use case of `map`: fetching multiple properties.
+  _.pluckMany = function (obj, keys) {
+    // walk through each item in obj
+    return _.map(obj, function (value) { 
+      var mapped = {};
+      each(keys, function(key, index, list) {
+        // store requested keys and their values in a separate object
+        mapped[key] = value[key]; 
+      });
+      // serve now
+      return mapped;
+    });
   };
 
   // Convenience version of a common use case of `filter`: selecting only objects

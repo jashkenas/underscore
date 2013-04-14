@@ -23,7 +23,7 @@ $(document).ready(function() {
     delete obj.constructor.prototype.four;
 
     var answer = null;
-    _.each([1, 2, 3], function(num, index, arr){ if (_.include(arr, num)) answer = true; });
+    _.each([1, 2, 3], function(num, index, arr){ if (_.includes(arr, num)) answer = true; });
     ok(answer, 'can reference the original collection from inside the iterator');
 
     answers = 0;
@@ -212,11 +212,11 @@ $(document).ready(function() {
     Array.prototype.some = nativeSome;
   });
 
-  test('include', function() {
-    ok(_.include([1,2,3], 2), 'two is in the array');
-    ok(!_.include([1,3,9], 2), 'two is not in the array');
-    ok(_.contains({moe:1, larry:3, curly:9}, 3) === true, '_.include on objects checks their values');
-    ok(_([1,2,3]).include(2), 'OO-style include');
+  test('includes', function() {
+    ok(_.includes([1,2,3], 2), 'two is in the array');
+    ok(!_.includes([1,3,9], 2), 'two is not in the array');
+    ok(_.contains({moe:1, larry:3, curly:9}, 3) === true, '_.includes on objects checks their values');
+    ok(_([1,2,3]).includes(2), 'OO-style includes');
   });
 
   test('invoke', function() {
@@ -251,6 +251,12 @@ $(document).ready(function() {
   test('pluck', function() {
     var people = [{name : 'moe', age : 30}, {name : 'curly', age : 50}];
     equal(_.pluck(people, 'name').join(', '), 'moe, curly', 'pulls names out of objects');
+  });
+
+  test('pluckMany', function() {
+    var people = [{name : 'moe', age : 30, location: 'California'}, {name : 'curly', age : 50, location: 'New York'}];
+    var result = [{name : 'moe', location: 'California'}, {name : 'curly', location: 'New York'}];
+    deepEqual(_.pluckMany(people, ['name', 'location']), result);
   });
 
   test('where', function() {
