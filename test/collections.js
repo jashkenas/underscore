@@ -22,6 +22,11 @@ $(document).ready(function() {
     equal(answers.join(", "), 'one, two, three', 'iterating over objects works, and ignores the object prototype.');
     delete obj.constructor.prototype.four;
 
+    answers = [];
+    var box = {length : 2, width : 2, height : 2};
+    _.each(box, function(value, key){ answers.push(key); });
+    equal(answers.join(", "), 'length, width, height', 'objects with a length property treated as objects not arrays');
+
     var answer = null;
     _.each([1, 2, 3], function(num, index, arr){ if (_.include(arr, num)) answer = true; });
     ok(answer, 'can reference the original collection from inside the iterator');
