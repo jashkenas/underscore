@@ -463,4 +463,16 @@ $(document).ready(function() {
     equal(_.size(null), 0, 'handles nulls');
   });
 
+  test("positionOf", function() {
+    var answers = [];
+    answers.push( _.positionOf([{i:0}, {i:100}, {i:200}], 'i', 200) );
+    answers.push( _.positionOf([{name:'bob',i:0}, {name:'jill',i:100}, {name:'daisy',i:200}], 'name', 'bob') );
+    answers.push( _.positionOf([{name:'bob',i:0}, {name:'jill',i:100}, {name:'daisy',i:200}], 'name', 'jim') );
+    answers.push( _.positionOf([{name:'bob',i:0}, {name:'jill',i:100}, {name:'daisy',i:200}], 'age', 3) );
+    equal(answers[0], 2, 'can compute positionOf an item, given a key value pair (number)');
+    equal(answers[1], 0, 'can compute positionOf an item, given a key value pair (string)');
+    equal(answers[2], -1, 'can handle value not found');
+    equal(answers[3], -1, 'can handle key not found');
+  });
+
 });

@@ -235,6 +235,12 @@
     return _.map(obj, function(value){ return value[key]; });
   };
 
+  // Convenience version of a common use case of `map`: fetching a property.
+  _.positionOf = function(obj, key, value) {
+    var array = _.pluck(obj, key);
+    return (array.length>0) ? _.indexOf(array, value) : -1 ;
+  };
+
   // Convenience version of a common use case of `filter`: selecting only objects
   // containing specific `key:value` pairs.
   _.where = function(obj, attrs, first) {
