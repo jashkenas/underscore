@@ -1193,6 +1193,16 @@
     return template;
   };
 
+  // Dependency Injection/IOC component. Inject values into a constructor context.
+  // Parameters passed into this function will exist at constructor time when called with "new".
+  _.preload = function (constructor, params) {
+    var context = function () {};
+    context.prototype = constructor.prototype;
+    var instance = _.defaults(new context(), params);
+    constructor.prototype.constructor.call(instance);
+    return instance;
+  };
+
   // Add a "chain" function, which will delegate to the wrapper.
   _.chain = function(obj) {
     return _(obj).chain();

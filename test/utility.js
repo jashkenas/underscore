@@ -267,4 +267,18 @@ $(document).ready(function() {
     strictEqual(template(), '<<\nx\n>>');
   });
 
+  test('preload', 2, function() {
+    var object = function () {
+      this.value = this.value || 911;
+    };
+    object.prototype = {
+      test: function () {
+        return this.value;
+      }
+    };
+    var instance = _.preload(object, { value: 1337 });
+    strictEqual(instance.value, 1337);
+    strictEqual(instance.test(), 1337);
+  });
+
 });
