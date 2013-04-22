@@ -290,4 +290,26 @@ $(document).ready(function() {
     equal(testAfter(0, 0), 1, "after(0) should fire immediately");
   });
 
+  test("retry", function() {
+
+    var retries = 0;
+    var error_final_value;
+    var testFunc = function(param1, cb) {
+      retries++;
+      var err = retries < 5;
+      cb(err, "Callback result value");
+    };
+
+    var retryTest = _.retry(5, testFunc);
+    retryTest("test", function(err, result) {
+      error_final_value = err;
+    });
+
+    var badRetry = _.retry(5,testFunc);
+    raises(function() { badRetry("param", function(err, res){},6); }, Error, "Last argument expected to be a callback");
+
+    equal(error_final_value, false, "retry(N, func) should call the function N times before giving up ");
+
+  });
+
 });
