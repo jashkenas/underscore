@@ -178,7 +178,7 @@
   };
 
   // Return all the elements for which a truth test fails.
-  _.reject = function(obj, iterator, context) {
+  _.remove = _.reject = function(obj, iterator, context) {
     return _.filter(obj, function(value, index, list) {
       return !iterator.call(context, value, index, list);
     }, context);
