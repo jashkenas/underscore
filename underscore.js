@@ -286,16 +286,17 @@
   };
 
   // Shuffle an array.
-  _.shuffle = function(obj) {
-    var rand;
-    var index = 0;
-    var shuffled = [];
-    each(obj, function(value) {
-      rand = _.random(index++);
-      shuffled[index - 1] = shuffled[rand];
-      shuffled[rand] = value;
+  _.shuffle = function (obj, limit) {
+    if(limit == 0){ return [] }
+    var rand, temp, len = obj.length, shuffled = obj.slice();
+    _.some(shuffled, function(value, index) {
+      if(index >= limit){ return true }
+      rand = index + Math.floor(Math.random() * (len - index) );
+      temp = shuffled[index];
+      shuffled[index] = shuffled[rand];
+      shuffled[rand] = temp;
     });
-    return shuffled;
+    return shuffled.slice(0, limit||len);
   };
 
   // An internal function to generate lookup iterators.
