@@ -288,7 +288,9 @@
   // Shuffle an array.
   _.shuffle = function (obj, limit) {
     if(limit == 0){ return [] }
-    var rand, temp, len = obj.length, shuffled = obj.slice();
+    var shuffled = _.isArray(obj) ? obj.slice() : _.values(obj);
+    var len = shuffled.length;
+    var rand, temp;
     _.some(shuffled, function(value, index) {
       if(index >= limit){ return true }
       rand = index + Math.floor(Math.random() * (len - index) );
