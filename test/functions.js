@@ -48,6 +48,17 @@ $(document).ready(function() {
     equal(obj.func('c', 'd'), 'moe a b c d', 'can partially apply');
   });
 
+  test("partial with custom arguments",  function(){
+    var func = function(x, y) {
+      return x-y;
+    };
+
+    strictEqual(_.partial(func)(1, 1), 0);
+    strictEqual(_.partial(func, 3)(2), 1);
+    strictEqual(_.partial(func, undefined, 3)(5), 2);
+    strictEqual(_.partial(func, 8, 5)(4), 3);
+  });
+
   test("bindAll", function() {
     var curly = {name : 'curly'}, moe = {
       name    : 'moe',
