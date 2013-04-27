@@ -584,6 +584,26 @@
     return range;
   };
 
+  // Generate an array from sparseArray using elements from fillerArray.
+  // By default, an element of sparseArray is considered vaccuous if it's undefined.
+  _.fill = function(sparseArray, fillerArray) {
+    var fillerIndex = 0, fillerLength = fillerArray.length,
+        sparseIndex, sparseElement, sparseLength = sparseArray.length, 
+        filledArray = [];
+
+    for(sparseIndex = 0; sparseIndex < sparseLength; sparseIndex++) {
+      sparseElement = sparseArray[sparseIndex];
+      if(_.isUndefined(sparseElement) && fillerIndex < fillerLength) {
+        filledArray.push(fillerArray[fillerIndex++]);
+      }
+      else {
+        filledArray.push(sparseElement);
+      }
+    }
+
+    return filledArray.concat(_.rest(fillerArray, fillerIndex));
+  };
+
   // Function (ahem) Functions
   // ------------------
 

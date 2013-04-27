@@ -212,4 +212,17 @@ $(document).ready(function() {
     equal(_.range(0, -10, -1).join(' '), '0 -1 -2 -3 -4 -5 -6 -7 -8 -9', 'final example in the Python docs');
   });
 
+  test("fill", function(){
+    deepEqual(_.fill([], []), []);
+    deepEqual(_.fill([], [1]), [1]);
+    deepEqual(_.fill([2], []), [2]);
+    deepEqual(_.fill([3], [4]), [3, 4]);
+    deepEqual(_.fill([, 5], [6]), [6, 5]);
+    deepEqual(_.fill([, ], [7, 8]), [7, 8]);
+    deepEqual(_.fill([9, , 0], [1, 2]), [9, 1, 0, 2]);
+    deepEqual(_.fill(['a', , 'b'], []), ['a', , 'b']);
+    deepEqual(_.fill([, 'c', ], ['d']), ['d', 'c', ]);
+    deepEqual(_.fill([, ], ['e', 'f', 'g']), ['e', 'f', 'g']);
+  });
+
 });
