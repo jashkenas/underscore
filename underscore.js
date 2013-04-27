@@ -745,6 +745,19 @@
     };
   };
 
+  // Returns a function that will only be executed if all of its
+  // arguments are not null or undefined.
+  _.maybe = function(fn) {
+    return function() {
+      var hasNullValue = _.some(arguments, function(value) {
+        return _.isNull(value) || _.isUndefined(value);
+      });
+      if (!hasNullValue) {
+        return fn.apply(this, arguments);
+      }
+    };
+  };
+
   // Object Functions
   // ----------------
 
