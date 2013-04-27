@@ -586,14 +586,15 @@
 
   // Generate an array from sparseArray using elements from fillerArray.
   // By default, an element of sparseArray is considered vaccuous if it's undefined.
-  _.fill = function(sparseArray, fillerArray) {
+  _.fill = function(sparseArray, fillerArray, options) {
     var fillerIndex = 0, fillerLength = fillerArray.length,
         sparseIndex, sparseElement, sparseLength = sparseArray.length, 
+        vacua = (options && options.vacua) || [undefined], 
         filledArray = [];
 
     for(sparseIndex = 0; sparseIndex < sparseLength; sparseIndex++) {
       sparseElement = sparseArray[sparseIndex];
-      if(_.isUndefined(sparseElement) && fillerIndex < fillerLength) {
+      if(_.contains(vacua, sparseElement) && fillerIndex < fillerLength) {
         filledArray.push(fillerArray[fillerIndex++]);
       }
       else {
@@ -601,7 +602,8 @@
       }
     }
 
-    return filledArray.concat(_.rest(fillerArray, fillerIndex));
+    return options && options.strict ? filledArray : 
+      filledArray.concat(_.rest(fillerArray, fillerIndex));
   };
 
   // Function (ahem) Functions

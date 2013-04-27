@@ -225,4 +225,14 @@ $(document).ready(function() {
     deepEqual(_.fill([, ], ['e', 'f', 'g']), ['e', 'f', 'g']);
   });
 
+  test("fill with options",  function(){
+    var vacOptions = {vacua:[null, 'x']};
+    deepEqual(_.fill([, null, 'w', 'x', 'y', ], [1, 2, 3], vacOptions), [, 1, 'w', 2, 'y', 3]);
+    deepEqual(_.fill([, null, NaN, undefined], [4, 5], {vacua:[]}), [, null, NaN, , 4, 5]);
+
+    var strict = {strict:true};
+    deepEqual(_.fill(['h', , 'i'], ['j', 'k'], strict), ['h', 'j', 'i']);
+    deepEqual(_.fill([], ['l'], strict), []);
+  });
+
 });
