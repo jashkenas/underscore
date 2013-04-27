@@ -584,6 +584,32 @@
     return range;
   };
 
+  // Generate an array from sparseArray using elements from fillerArray.
+  // By default, an element of sparseArray is considered vaccuous if it's undefined
+  // and the remaining part of the fillerArray is appended to the filledArray.
+  // These behaviors can be changed by passing an optional options hash as third parameter:
+  // options.strict is a boolean disabling the concatenation behavior, while options.vacua
+  // is an array of elements to be considered vacuous, overriding the default vacuum 'undefined'.
+  _.fill = function(sparseArray, fillerArray, options) {
+    var fillerIndex = 0, fillerLength = fillerArray.length,
+        sparseIndex, sparseElement, sparseLength = sparseArray.length, 
+        vacua = (options && options.vacua) || [undefined], 
+        filledArray = [];
+
+    for(sparseIndex = 0; sparseIndex < sparseLength; sparseIndex++) {
+      sparseElement = sparseArray[sparseIndex];
+      if(_.contains(vacua, sparseElement) && fillerIndex < fillerLength) {
+        filledArray.push(fillerArray[fillerIndex++]);
+      }
+      else {
+        filledArray.push(sparseElement);
+      }
+    }
+
+    return options && options.strict ? filledArray : 
+      filledArray.concat(_.rest(fillerArray, fillerIndex));
+  };
+
   // Function (ahem) Functions
   // ------------------
 
@@ -614,7 +640,7 @@
   _.partial = function(func) {
     var args = slice.call(arguments, 1);
     return function() {
-      return func.apply(this, args.concat(slice.call(arguments)));
+      return func.apply(this, _.fill(args, (slice.call(arguments))));
     };
   };
 
