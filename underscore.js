@@ -585,7 +585,11 @@
   };
 
   // Generate an array from sparseArray using elements from fillerArray.
-  // By default, an element of sparseArray is considered vaccuous if it's undefined.
+  // By default, an element of sparseArray is considered vaccuous if it's undefined
+  // and the remaining part of the fillerArray is appended to the filledArray.
+  // These behaviors can be changed by passing an optional options hash as third parameter:
+  // options.strict is a boolean disabling the concatenation behavior, while options.vacua
+  // is an array of elements to be considered vacuous, overriding the default vacuum 'undefined'.
   _.fill = function(sparseArray, fillerArray, options) {
     var fillerIndex = 0, fillerLength = fillerArray.length,
         sparseIndex, sparseElement, sparseLength = sparseArray.length, 
