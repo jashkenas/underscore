@@ -463,4 +463,27 @@ $(document).ready(function() {
     equal(_.size(null), 0, 'handles nulls');
   });
 
+  test("positionOf", function() {
+    var answers = [];
+    answers.push( _.positionOf([{i:0}, {i:100}, {i:200}], 'i', 200) );
+    answers.push( _.positionOf([{name:'bob',i:0}, {name:'jill',i:100}, {name:'daisy',i:200}], 'name', 'bob') );
+    answers.push( _.positionOf([{name:'bob',i:0}, {name:'jill',i:100}, {name:'daisy',i:200}], 'name', 'i-cant-be-found') );
+    answers.push( _.positionOf([{name:'bob',i:0}, {name:'jill',i:100}, {name:'daisy',i:200}], 'age', 100) );
+
+    answers.push( _.positionOf(null, 'age', 3) );
+    answers.push( _.positionOf([{name:'bob',i:0}, {name:'jill',i:100}, {name:'daisy',i:200}], null, 3) );
+    answers.push( _.positionOf([{name:'bob',i:0}, {name:'jill',i:100}, {name:'daisy',i:200}], 'age', null) );
+    answers.push( _.positionOf(null, null, null) );
+
+    equal(answers[0], 2, 'can compute positionOf an item, given a key value pair (number)');
+    equal(answers[1], 0, 'can compute positionOf an item, given a key value pair (string)');
+    equal(answers[2], -1, 'can handle value not found');
+    equal(answers[3], -1, 'can handle key not found');
+
+    equal(answers[4], -1, 'can handle null value, object');
+    equal(answers[5], -1, 'can handle null value, key');
+    equal(answers[6], -1, 'can handle null value, value');
+    equal(answers[7], -1, 'can handle null value, all');
+  });
+
 });
