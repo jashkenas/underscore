@@ -35,6 +35,9 @@ task :component_json do
   component["repo"] = "documentcloud/underscore"
   component["scripts"] = [component['main']]
 
+  # Add namespaced comment about not editing component.json manually.
+  component["underscore_comment"] = "Don't edit this component.json directly. It is automatically built from package.json via 'rake component_json'."
+
   # Save component.json
   save_json_file("component.json", component)
 end

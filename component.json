@@ -15,5 +15,6 @@
   "repo": "documentcloud/underscore",
   "scripts": [
     "underscore.js"
-  ]
+  ],
+  "underscore_comment": "Don't edit this component.json directly. It is automatically built from package.json via 'rake component_json'."
 }
