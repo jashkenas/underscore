@@ -1,5 +1,5 @@
 desc "Use Uglify JS to compress Underscore.js"
-task :build do
+task :build => [:component_json] do
   sh "uglifyjs underscore.js -c \"evaluate=false\" --comments \"/    .*/\" -m -o underscore-min.js"
 end
 
