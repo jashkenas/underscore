@@ -1195,6 +1195,16 @@
     return template;
   };
 
+  // Automate the creation of errors
+  _.error = function(msg, AbstractError){
+    AbstractError || (AbstractError = Error);
+    var E = function(msg){
+      if(msg) this.message = msg;
+    }
+    E.prototype = new AbstractError(msg);
+    return E;
+  }
+
   // Add a "chain" function, which will delegate to the wrapper.
   _.chain = function(obj) {
     return _(obj).chain();

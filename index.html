@@ -307,6 +307,7 @@
       <li>- <a href="#unescape">unescape</a></li>
       <li>- <a href="#result">result</a></li>
       <li>- <a href="#template">template</a></li>
+      <li>- <a href="#error">error</a></li>
     </ul>
 
     <a class="toc_title" href="#chaining">
@@ -1651,6 +1652,40 @@ _.template("Using 'with': <%= data.answer %>", {answer: 'no'}, {variable: 'data'
   JST.project = <%= _.template(jstText).source %>;
 &lt;/script&gt;</pre>
 
+      <p id="error">
+        <b class="header">error</b><code>_.error(errorMessage, [AbstractError])</code>
+        <br />
+        Helps create new JavaScript errors. If an abstract error is not provided, <b>error</b> will extend the generic JavaScript <tt>Error</tt>. 
+      </p>
+
+      <pre>
+var FOO_ERROR = _.error('There was an error with FOO');
+
+var e = new FOO_ERROR();
+
+e instanceof Error
+=> true
+
+e instanceof FOO_ERROR
+=> true
+
+e.message
+=> 'There was an error with FOO'</pre>
+
+      <p>To build a more specific error, provide an <b>AbstractError</b> to extend:</p>
+
+      <pre>
+var FOO_AUTH_ERROR = _.error('FOO could not authenticate', FOO_ERROR);
+
+var e = new FOO_AUTH_ERROR();
+
+e instanceof FOO_ERROR
+=> true
+
+e.message
+=> 'FOO could not authenticate'
+
+throw e;</pre>
 
       <h2 id="chaining">Chaining</h2>
 

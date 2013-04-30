@@ -267,4 +267,20 @@ $(document).ready(function() {
     strictEqual(template(), '<<\nx\n>>');
   });
 
+  test('error', 6, function(){
+    var errorMsg = 'oh, no!';
+    var MyError = _.error(errorMsg);
+    var error = new MyError();
+    ok(error instanceof Error);
+    ok(error instanceof MyError)
+    ok(error.message === errorMsg);
+
+    var specificErrorMsg = 'this error is even more useful';
+    var SpecificError = _.error(specificErrorMsg, MyError);
+    error = new SpecificError();
+    ok(error instanceof MyError);
+    ok(error instanceof SpecificError);
+    ok(error.message === specificErrorMsg);
+  })
+
 });
