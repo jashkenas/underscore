@@ -73,7 +73,7 @@ $(document).ready(function() {
     var result = (function(){ return _.without(arguments, 0, 1); })(1, 2, 1, 0, 3, 1, 4);
     equal(result.join(', '), '2, 3, 4', 'works on an arguments object');
 
-    var list = [{one : 1}, {two : 2}];
+    list = [{one : 1}, {two : 2}];
     ok(_.without(list, {one : 1}).length == 2, 'uses real object identity for comparisons.');
     ok(_.without(list, list[0]).length == 1, 'ditto.');
   });
@@ -82,17 +82,17 @@ $(document).ready(function() {
     var list = [1, 2, 1, 3, 1, 4];
     equal(_.uniq(list).join(', '), '1, 2, 3, 4', 'can find the unique values of an unsorted array');
 
-    var list = [1, 1, 1, 2, 2, 3];
+    list = [1, 1, 1, 2, 2, 3];
     equal(_.uniq(list, true).join(', '), '1, 2, 3', 'can find the unique values of a sorted array faster');
 
-    var list = [{name:'moe'}, {name:'curly'}, {name:'larry'}, {name:'curly'}];
+    list = [{name:'moe'}, {name:'curly'}, {name:'larry'}, {name:'curly'}];
     var iterator = function(value) { return value.name; };
     equal(_.map(_.uniq(list, false, iterator), iterator).join(', '), 'moe, curly, larry', 'can find the unique values of an array using a custom iterator');
 
     equal(_.map(_.uniq(list, iterator), iterator).join(', '), 'moe, curly, larry', 'can find the unique values of an array using a custom iterator without specifying whether array is sorted');
 
-    var iterator = function(value) { return value +1; };
-    var list = [1, 2, 2, 3, 4, 4];
+    iterator = function(value) { return value +1; };
+    list = [1, 2, 2, 3, 4, 4];
     equal(_.uniq(list, true, iterator).join(', '), '1, 2, 3, 4', 'iterator works with sorted array');
 
     var result = (function(){ return _.uniq(arguments); })(1, 2, 1, 3, 1, 4);
@@ -111,15 +111,20 @@ $(document).ready(function() {
     var result = _.union([1, 2, 3], [2, 30, 1], [1, 40]);
     equal(result.join(' '), '1 2 3 30 40', 'takes the union of a list of arrays');
 
-    var result = _.union([1, 2, 3], [2, 30, 1], [1, 40, [1]]);
+    result = _.union([1, 2, 3], [2, 30, 1], [1, 40, [1]]);
     equal(result.join(' '), '1 2 3 30 40 1', 'takes the union of a list of nested arrays');
+
+    var args = null;
+    (function(){ args = arguments; })(1, 2, 3);
+    result = _.union(args, [2, 30, 1], [1, 40]);
+    equal(result.join(' '), '1 2 3 30 40', 'takes the union of a list of arrays');
   });
 
   test("difference", function() {
     var result = _.difference([1, 2, 3], [2, 30, 40]);
     equal(result.join(' '), '1 3', 'takes the difference of two arrays');
 
-    var result = _.difference([1, 2, 3, 4], [2, 30, 40], [1, 11, 111]);
+    result = _.difference([1, 2, 3, 4], [2, 30, 40], [1, 11, 111]);
     equal(result.join(' '), '3 4', 'takes the difference of three arrays');
   });
 
@@ -167,7 +172,7 @@ $(document).ready(function() {
     equal(result, 1, 'works on an arguments object');
     equal(_.indexOf(null, 2), -1, 'handles nulls properly');
 
-    var numbers = [10, 20, 30, 40, 50], num = 35;
+    numbers = [10, 20, 30, 40, 50], num = 35;
     var index = _.indexOf(numbers, num, true);
     equal(index, -1, '35 is not in the list');
 
