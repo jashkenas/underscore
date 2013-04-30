@@ -172,7 +172,8 @@ $(document).ready(function() {
     equal(result, 1, 'works on an arguments object');
     equal(_.indexOf(null, 2), -1, 'handles nulls properly');
 
-    numbers = [10, 20, 30, 40, 50], num = 35;
+    var num = 35;
+    numbers = [10, 20, 30, 40, 50];
     var index = _.indexOf(numbers, num, true);
     equal(index, -1, '35 is not in the list');
 
