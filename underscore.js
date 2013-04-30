@@ -489,15 +489,6 @@
     return _.filter(array, function(value){ return !_.contains(rest, value); });
   };
 
-  var zip = function(list) {
-    var length = _.max(_.pluck(list, "length").concat(0));
-    var results = new Array(length);
-    for (var i = 0; i < length; i++) {
-      results[i] = _.pluck(list, '' + i);
-    }
-    return results;
-  };
-
   // Zip together multiple lists into a single array -- elements that share
   // an index go together.
   _.zip = function() {
