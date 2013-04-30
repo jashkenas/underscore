@@ -1,11 +1,19 @@
 {
   "name": "underscore",
   "description": "JavaScript's functional programming helper library.",
-  "keywords": ["util", "functional", "server", "client", "browser"],
+  "keywords": [
+    "util",
+    "functional",
+    "server",
+    "client",
+    "browser"
+  ],
   "author": "Jeremy Ashkenas <jeremy@documentcloud.org>",
   "main": "underscore.js",
   "version": "1.4.4",
   "license": "MIT",
   "repo": "documentcloud/underscore",
-  "scripts": ["underscore.js"]
+  "scripts": [
+    "underscore.js"
+  ]
 }
