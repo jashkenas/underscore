@@ -39,9 +39,14 @@
     nativeSome         = ArrayProto.some,
     nativeIndexOf      = ArrayProto.indexOf,
     nativeLastIndexOf  = ArrayProto.lastIndexOf,
+    // nativeFindIndex    = ArrayProto.findIndex,
     nativeIsArray      = Array.isArray,
     nativeKeys         = Object.keys,
     nativeBind         = FuncProto.bind;
+
+  // All **ECMAScript 6** native function implementations that we hope to use
+//  var
+    // nativeFindIndex    = ArrayProto.findIndex;
 
   // Create a safe reference to the Underscore object for use below.
   var _ = function(obj) {
@@ -163,6 +168,14 @@
     return result;
   };
 
+  // Return the index of the first item which passes a truth test.
+  _.findIndex = function(array, iterator, context) {
+    var i = 0, l = array.length;
+    // if (nativeFindIndex && array.findIndex === nativeFindIndex) return array.findIndex(iterator, context);
+    for (; i < l; i++) if (iterator.call(array, array[i])) return i;
+    return -1;
+  };
+
   // Return all the elements that pass a truth test.
   // Delegates to **ECMAScript 5**'s native `filter` if available.
   // Aliased as `select`.
@@ -233,12 +246,6 @@
   // Convenience version of a common use case of `map`: fetching a property.
   _.pluck = function(obj, key) {
     return _.map(obj, function(value){ return value[key]; });
-  };
-
-  // Convenience version of a common use case of `map`: fetching a property.
-  _.positionOf = function(obj, key, value) {
-    var array = _.pluck(obj, key);
-    return (array.length>0) ? _.indexOf(array, value) : -1 ;
   };
 
   // Convenience version of a common use case of `filter`: selecting only objects
