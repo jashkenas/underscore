@@ -1,4 +1,4 @@
-<!DOCTYPE HTML>
+﻿<!DOCTYPE HTML>
 <html>
 <head>
   <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
@@ -1000,10 +1000,11 @@ var fibonacci = _.memoize(function(n) {
 </pre>
 
       <p id="delay">
-        <b class="header">delay</b><code>_.delay(function, wait, [*arguments])</code>
+        <b class="header">delay</b><code>_.delay(function, wait, [context], [*arguments])</code>
         <br />
         Much like <b>setTimeout</b>, invokes <b>function</b> after <b>wait</b>
-        milliseconds. If you pass the optional <b>arguments</b>, they will be
+        milliseconds. function is bound to the context object, if one is passed.
+          If you pass the optional <b>arguments</b>, they will be
         forwarded on to the <b>function</b> when it is invoked.
       </p>
       <pre>
@@ -1013,12 +1014,13 @@ _.delay(log, 1000, 'logged later');
 </pre>
 
       <p id="defer">
-        <b class="header">defer</b><code>_.defer(function, [*arguments])</code>
+        <b class="header">defer</b><code>_.defer(function, [context], [*arguments])</code>
         <br />
         Defers invoking the <b>function</b> until the current call stack has cleared,
         similar to using <b>setTimeout</b> with a delay of 0. Useful for performing
         expensive computations or HTML rendering in chunks without blocking the UI thread
-        from updating. If you pass the optional <b>arguments</b>, they will be
+        from updating. function is bound to the context object, if one is passed.
+          If you pass the optional <b>arguments</b>, they will be
         forwarded on to the <b>function</b> when it is invoked.
       </p>
       <pre>
