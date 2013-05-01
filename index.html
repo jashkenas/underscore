@@ -477,7 +477,8 @@ var flat = _.reduceRight(list, function(a, b) { return a.concat(b); }, []);
         <span class="alias">Alias: <b>detect</b></span>
         <br />
         Looks through each value in the <b>list</b>, returning the first one that
-        passes a truth test (<b>iterator</b>). The function returns as
+        passes a truth test (<b>iterator</b>), or <code>undefined</code> if no value
+        passes the test. The function returns as
         soon as it finds an acceptable element, and doesn't traverse the
         entire list.
       </p>
