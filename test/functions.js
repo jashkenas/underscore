@@ -99,7 +99,7 @@ $(document).ready(function() {
 
   asyncTest("defer", 1, function() {
     var deferred = false;
-    _.defer(function(bool){ deferred = bool; }, true);
+    _.defer(function(bool){ deferred = bool; }, this, true);
     _.delay(function(){ ok(deferred, "deferred the function"); start(); }, 50);
   });
 
