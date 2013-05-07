@@ -641,6 +641,21 @@
     var args = slice.call(arguments, 2);
     return setTimeout(function(){ return func.apply(null, args); }, wait);
   };
+ 
+  // Calls a function a given number of times with a given interval delay between each call 
+  _.interval = function(func,wait,times)
+  {
+    var args = slice.call(arguments, 3);
+    var interv = function(w,t){
+       return function(){
+         if(t-- > 0){
+          _.delay(interv,w);
+          func.apply(null,args);
+         }
+       };
+    }(wait,times);
+    _.delay(interv,wait);
+  };
 
   // Defers a function, scheduling it to run after the current call stack has
   // cleared.
