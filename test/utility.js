@@ -214,6 +214,11 @@ $(document).ready(function() {
     strictEqual(_.result(null, 'x'), undefined);
   });
 
+  test("result calls functions with arguments", function() {
+    var obj = { echo: function () { return _.toArray(arguments); }};
+    deepEqual([1,2,3], _.result(obj, 'echo', [1,2,3]));
+  });
+
   test('_.templateSettings.variable', function() {
     var s = '<%=data.x%>';
     var data = {x: 'x'};
