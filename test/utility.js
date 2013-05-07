@@ -25,6 +25,28 @@ $(document).ready(function() {
     equal(_.identity(moe), moe, 'moe is the same as his identity');
   });
 
+  test("curry", function () {
+      var func = function (a,b,c) {
+          return a+b+c;
+      }
+      var curried = _.curry(func);
+      equal(curried("moe")("larry")("curly"), "moelarrycurly",
+            "curried fuctions can be called one argument at a time");
+      var partial = curried("moe");
+      equal(partial("LARRY")("CURLY"),  "moeLARRYCURLY", "completing a partial call");
+      equal(partial("larry")("curly"),  "moelarrycurly", "completing the same call again")
+      equal(partial("larry","curly"),  "moelarrycurly", "passing multiple arguments in a single step");
+
+      var partial2 = curried("moe", "larry");
+      equal(partial2("curly"),  "moelarrycurly", "starting a partial with multiple arguments");
+      equal(curried("moe", "larry", "curly"),  "moelarrycurly", "curried functions act like normal ones if all arguments suppplied");
+      equal(curried("moe", "larry", "curly", "bob"),  "moelarrycurly", "extra arguments allowed");
+
+      var partially_curried = _.curry(func, 2);
+      equal(partially_curried("moe")("larry"), "moelarryundefined", "argCount overrides func.length");
+      equal(partially_curried("moe")("larry","curly"), "moelarrycurly", "Still possible to pass in the extra arguments");
+  });
+
   test("random", function() {
     var array = _.range(1000);
     var min = Math.pow(2, 31);

@@ -733,6 +733,25 @@
     };
   };
 
+  // Transforms a multiple-argument function into one that can be
+  // called a bit at a time. An optional second argument gives the
+  // number of arguments of the function, if this is not supplied it
+  // is set to `func.length`.
+  // Example: `_.curry(function (a,b) { return a+b; })(1)(2)` would equal 3.
+  // At each step you can optionally give more than 1 argument.
+  _.curry = function (func, argCount) {
+   var args = slice.call(arguments, 2);
+   if (argCount == null) argCount = func.length;
+   return function () {
+       var args2 = args.concat(_.toArray(arguments));
+       if (argCount <= args2.length) {
+           return func.apply(this, args2);
+       } else {
+           return _.curry.apply(null, [func, argCount].concat(args2));
+       }
+   }
+  },
+
   // Returns a function that will only be executed after being called N times.
   _.after = function(times, func) {
     if (times <= 0) return func();
