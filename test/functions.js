@@ -97,6 +97,14 @@ $(document).ready(function() {
     setTimeout(function(){ ok(delayed, 'delayed the function'); start(); }, 150);
   });
 
+  asyncTest("interval", 2, function() {
+  var calls = 0;
+  var n = 5;
+  _.interval(function(){ calls++; }, 100, n);
+    setTimeout(function(){ ok((calls < n), "not all called yet") }, 50);
+    setTimeout(function(){ ok((calls == n), 'function called'+n+'times'); start(); }, 550);
+  });
+ 
   asyncTest("defer", 1, function() {
     var deferred = false;
     _.defer(function(bool){ deferred = bool; }, true);
