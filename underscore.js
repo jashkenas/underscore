@@ -844,22 +844,15 @@
     return obj;
   };
 
-  var brackets = /^(\S+)\[(['"](\S+)["']|(\d+))\]$/;
-
   // Resolves the property path, returning the value of that property.
   // The path can be a combination of dot and bracket notation.
-  // TODO: Allow direct bracket notatation on obj (e.g. path can be "[0]" or "['foo']")
   _.resolve = function(obj, path) {
     if (!path) return void 0;
-    var match, target, paths = path.split('.'), result = obj;
+    var paths = path.replace(/^[\.\[]/g, '').split(/[\.\[]/);
+    var result = obj;
+    var stripper = /(^['"]|['"]?\]$)/g;
     while (result != null && paths.length > 0) {
-      target = paths.shift();
-      match = target.match(brackets);
-      if (match) {
-        paths.shift(match[1], match[3] || match[4]);
-      } else {
-        result = result[target];
-      }
+      result = result[paths.shift().replace(stripper, '')];
     }
     return result;
   };
