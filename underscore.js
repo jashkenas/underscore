@@ -844,6 +844,26 @@
     return obj;
   };
 
+  var brackets = /^(\S+)\[(['"](\S+)["']|(\d+))\]$/;
+
+  // Resolves the property path, returning the value of that property.
+  // The path can be a combination of dot and bracket notation.
+  // TODO: Allow direct bracket notatation on obj (e.g. path can be "[0]" or "['foo']")
+  _.resolve = function(obj, path) {
+    if (!path) return void 0;
+    var match, target, paths = path.split('.'), result = obj;
+    while (result != null && paths.length > 0) {
+      target = paths.shift();
+      match = target.match(brackets);
+      if (match) {
+        paths.shift(match[1], match[3] || match[4]);
+      } else {
+        result = result[target];
+      }
+    }
+    return result;
+  };
+
   // Internal recursive comparison function for `isEqual`.
   var eq = function(a, b, aStack, bStack) {
     // Identical objects are equal. `0 === -0`, but they aren't identical.
