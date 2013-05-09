@@ -204,14 +204,27 @@ $(document).ready(function() {
     var tmpl = _.template('<p>\u2028<%= "\\u2028\\u2029" %>\u2029</p>');
     strictEqual(tmpl(), '<p>\u2028\u2028\u2029\u2029</p>');
   });
-
-  test('result calls functions and returns primitives', function() {
-    var obj = {w: '', x: 'x', y: function(){ return this.x; }};
-    strictEqual(_.result(obj, 'w'), '');
-    strictEqual(_.result(obj, 'x'), 'x');
-    strictEqual(_.result(obj, 'y'), 'x');
-    strictEqual(_.result(obj, 'z'), undefined);
+  
+  test('_.result returns object properties and calls methods with surplus args', function(){
+    var methodcontext, methodargs, returnval = _.uniqueId(), obj = {
+      valprop:_.uniqueId(),
+      objprop:{a:1},
+      emptystring:'',
+      method: function(){
+        methodcontext = this; methodargs = arguments; return returnval;
+      }
+    };
+    // test prop access
+    ok(_.result(obj,"emptystring") === '');
+    ok(_.result(obj,"objprop") === obj.objprop);
+    strictEqual(_.result(obj,"valprop"), obj.valprop);
+    strictEqual(_.result(obj, 'emptystring'), '');
+    strictEqual(_.result(obj, 'nonexistingprop'), undefined);
     strictEqual(_.result(null, 'x'), undefined);
+    // test method call
+    ok(_.result(obj,"method",1,2,3) === returnval);
+    ok(methodcontext === obj);
+    deepEqual(Array.prototype.slice.call(methodargs,0),[1,2,3]);
   });
 
   test('_.templateSettings.variable', function() {
