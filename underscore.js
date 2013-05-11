@@ -846,6 +846,12 @@
     return obj;
   };
 
+  // Applies the function on the object and return
+  // the result of the function return
+  _.transform = function(obj, func) {
+    return func(obj)
+  };
+
   // Internal recursive comparison function for `isEqual`.
   var eq = function(a, b, aStack, bStack) {
     // Identical objects are equal. `0 === -0`, but they aren't identical.
