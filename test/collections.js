@@ -251,6 +251,7 @@ $(document).ready(function() {
   test('pluck', function() {
     var people = [{name : 'moe', age : 30}, {name : 'curly', age : 50}];
     equal(_.pluck(people, 'name').join(', '), 'moe, curly', 'pulls names out of objects');
+    equal(_.pluck(people, ['name', 'age']).join(' '), 'moe,30 curly,50', 'allow key argument to be an array');
   });
 
   test('where', function() {
