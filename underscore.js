@@ -743,6 +743,17 @@
     };
   };
 
+  function NEGATE(value) {
+    return !value;
+  }
+
+  // Returns a function that will negate the value of the function
+  // passed as an argument.
+  _.negate = function (func, context) {
+    func = _.bind(func, context || {});
+    return _.compose(NEGATE, func);
+  };
+
   // Object Functions
   // ----------------
 
