@@ -290,4 +290,45 @@ $(document).ready(function() {
     equal(testAfter(0, 0), 1, "after(0) should fire immediately");
   });
 
+  test("negate without context", function () {
+    function returnTrue() { return true; }
+    function returnFalse() { return !returnTrue(); }
+
+    var isFalse = _.negate(returnTrue)();
+    equal(isFalse, false, "should be converted to false after negation");
+
+    var isTrue = _.negate(returnFalse)();
+    equal(isTrue, true, "should be converted to true after negation");
+  });
+
+  test("negate without context and with arguments", function () {
+    function returnArg(wat) { return wat; }
+
+    var isFalse = _.negate(returnArg)(true);
+    equal(isFalse, false, "should be converted to false after negation");
+
+    var isTrue = _.negate(returnArg)(false);
+    equal(isTrue, true, "should be converted to true after negation");
+  });
+
+  test("negate with context", function () {
+    function returnContextProperty() { return this.wat; }
+
+    var isFalse = _.negate(returnContextProperty, {wat: true})();
+    equal(isFalse, false, "should be converted to false after negation");
+
+    var isTrue = _.negate(returnContextProperty, {wat: false})();
+    equal(isTrue, true, "should be converted to true after negation");
+  });
+
+  test("negate with context and with arguments", function () {
+    function returnContextPropertyAndArg(wat) { return this.wat && wat; }
+
+    var isFalse = _.negate(returnContextPropertyAndArg, {wat: true})(true);
+    equal(isFalse, false, "should be converted to false after negation");
+
+    var isTrue = _.negate(returnContextPropertyAndArg, {wat: true})(false);
+    equal(isTrue, true, "should be converted to true after negation");
+  });
+  
 });
