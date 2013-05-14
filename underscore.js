@@ -844,6 +844,17 @@
     return obj;
   };
 
+  // Resolves the property path in dot notation, returning the value of that property.
+  _.resolve = function(obj, path) {
+    if (!path) return void 0;
+    var paths = path.split('.');
+    var result = obj;
+    while (result != null && paths.length > 0) {
+      result = result[paths.shift()];
+    }
+    return result;
+  };
+
   // Internal recursive comparison function for `isEqual`.
   var eq = function(a, b, aStack, bStack) {
     // Identical objects are equal. `0 === -0`, but they aren't identical.

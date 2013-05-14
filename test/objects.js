@@ -563,6 +563,22 @@ $(document).ready(function() {
     ok(returned == 6 && intercepted == 6, 'can use tapped objects in a chain');
   });
 
+  test("resolve", function() {
+    var obj = {foo: {bar: "bingo"}, fu: ["baz", {a: 1, b: 2, c: 3}], fizz: "buzz"};
+    ok(!_.resolve(null, "foo"), "requires an object to work on");
+    ok(!_.resolve({}, "foo"), "can't do anything with empty objects");
+    ok(!_.resolve(obj, null), "requires a path to resolve");
+    ok(!_.resolve(obj, "buzz"), "returns undefined for unresolved paths");
+    deepEqual(_.resolve(obj, "foo"), obj.foo, "works with single property paths");
+    equal(_.resolve(obj, "foo.bar.0"), obj.foo.bar[0], "works with numbers in dot notation");
+    equal(_.resolve(obj, "foo.bar.length"), obj.foo.bar.length, "works with nested paths with dot notation");
+    strictEqual(_.resolve(obj, "fu.1.a.toString"), Number.prototype.toString, "returns resolved prototype properties");
+    ok(!_.resolve(obj, "foo..bar"), "stops at empty property paths in dot notation");
+    ok(!_.resolve(obj, ".foo"), "trailing dots cannot be resolved");
+    ok(!_.resolve(obj, "foo..bar"), "stops at empty property paths in dot notation");
+    ok(!_.resolve(obj, "foo.baz.length"), "stops at unresolved properties in dot notation");
+  });
+
   test("has", function () {
      var obj = {foo: "bar", func: function () {} };
      ok (_.has(obj, "foo"), "has() checks that the object has a property.");
