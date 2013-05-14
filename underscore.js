@@ -844,15 +844,13 @@
     return obj;
   };
 
-  // Resolves the property path, returning the value of that property.
-  // The path can be a combination of dot and bracket notation.
+  // Resolves the property path in dot notation, returning the value of that property.
   _.resolve = function(obj, path) {
     if (!path) return void 0;
-    var paths = path.replace(/^[\.\[]/g, '').split(/[\.\[]/);
+    var paths = path.split('.');
     var result = obj;
-    var stripper = /(^['"]|['"]?\]$)/g;
     while (result != null && paths.length > 0) {
-      result = result[paths.shift().replace(stripper, '')];
+      result = result[paths.shift()];
     }
     return result;
   };
