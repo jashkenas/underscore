@@ -233,7 +233,7 @@
   };
 
   // Convenience version of a common use case of `map`: fetching a property or properties.
-  _.pluck2 = function(obj, keys) {
+  _.pluck = function(obj, keys) {
 	if(_.isArray(keys)) {
 	  var result = new Object();
 	  for(var key in keys) {
