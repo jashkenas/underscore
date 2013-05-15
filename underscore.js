@@ -232,9 +232,17 @@
     });
   };
 
-  // Convenience version of a common use case of `map`: fetching a property.
-  _.pluck = function(obj, key) {
-    return _.map(obj, function(value){ return value[key]; });
+  // Convenience version of a common use case of `map`: fetching a property or properties.
+  _.pluck2 = function(obj, keys) {
+	if(_.isArray(keys)) {
+	  var result = new Object();
+	  for(var key in keys) {
+	    result[keys[key]] = _.map(obj, function(value){ return value[key]; });
+	  }
+	  return result;
+	}
+	else
+	  return _.map(obj, function(value){ return value[keys]; });
   };
 
   // Convenience version of a common use case of `filter`: selecting only objects
