@@ -60,6 +60,9 @@ $(document).ready(function() {
     } catch(ex) {}
 
     equal(result.a, 1, 'should not error on `null` or `undefined` sources');
+    result = _.extend({}, {get a() {return this._a;}, set a(val) {this._a = val+val}});
+    result.a = 'b';
+    equal(result.a, 'bb', 'can extend getters and setters');
   });
 
   test("pick", function() {
