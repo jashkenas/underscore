@@ -32,18 +32,30 @@
   // All **ECMAScript 5** native function implementations that we hope to use
   // are declared here.
   var
-    nativeForEach      = ArrayProto.forEach,
-    nativeMap          = ArrayProto.map,
-    nativeReduce       = ArrayProto.reduce,
-    nativeReduceRight  = ArrayProto.reduceRight,
-    nativeFilter       = ArrayProto.filter,
-    nativeEvery        = ArrayProto.every,
-    nativeSome         = ArrayProto.some,
-    nativeIndexOf      = ArrayProto.indexOf,
-    nativeLastIndexOf  = ArrayProto.lastIndexOf,
-    nativeIsArray      = Array.isArray,
-    nativeKeys         = Object.keys,
-    nativeBind         = FuncProto.bind;
+    nativeForEach                   = ArrayProto.forEach,
+    nativeMap                       = ArrayProto.map,
+    nativeReduce                    = ArrayProto.reduce,
+    nativeReduceRight               = ArrayProto.reduceRight,
+    nativeFilter                    = ArrayProto.filter,
+    nativeEvery                     = ArrayProto.every,
+    nativeSome                      = ArrayProto.some,
+    nativeIndexOf                   = ArrayProto.indexOf,
+    nativeLastIndexOf               = ArrayProto.lastIndexOf,
+    nativeIsArray                   = Array.isArray,
+    nativeKeys                      = Object.keys,
+    nativeBind                      = FuncProto.bind;
+    nativeDefineProperty            = Object.defineProperty,
+    nativeGetOwnPropertyDescriptor  = Object.getOwnPropertyDescriptor;
+
+  // Detect faulty Object.defineProperty implementation (IE 8)
+  if (nativeDefineProperty) {
+    try {
+      nativeDefineProperty({}, 'a', {value: 1});
+    } catch (e) {
+      nativeDefineProperty = null;
+    }
+  }
+
 
   // Create a safe reference to the Underscore object for use below.
   var _ = function(obj) {
@@ -791,7 +803,12 @@
     each(slice.call(arguments, 1), function(source) {
       if (source) {
         for (var prop in source) {
-          obj[prop] = source[prop];
+          if (nativeGetOwnPropertyDescriptor && nativeDefineProperty) {
+            var propertyDescriptor = nativeGetOwnPropertyDescriptor(source, prop);
+            nativeDefineProperty(obj, prop, propertyDescriptor);
+          } else {
+            obj[prop] = source[prop];
+          }
         }
       }
     });
