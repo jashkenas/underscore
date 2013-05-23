@@ -406,11 +406,7 @@
   // values in the array. The **guard** check allows it to work with `_.map`.
   _.last = function(array, n, guard) {
     if (array == null) return void 0;
-    if ((n != null) && !guard) {
-      return slice.call(array, Math.max(array.length - n, 0));
-    } else {
-      return array[array.length - 1];
-    }
+    return (n != null) && !guard ? slice.call(array, Math.max(array.length - n, 0)) : array[array.length - 1];
   };
 
   // Returns everything but the first entry of the array. Aliased as `tail` and `drop`.
