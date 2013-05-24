@@ -426,7 +426,7 @@
   var flatten = function(input, shallow, output) {
     each(input, function(value) {
       if (_.isArray(value) || _.isArguments(value)) {
-        shallow ? push.apply(output, value) : flatten(value, shallow, output);
+        shallow ? push.apply(output, value) : flatten(value, 0, output);
       } else {
         output.push(value);
       }
