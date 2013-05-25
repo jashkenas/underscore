@@ -162,6 +162,13 @@ $(document).ready(function() {
     ok(_.isEqual(_.object(_.pairs(stooges)), stooges), 'an object converted to pairs and back to an object');
 
     ok(_.isEqual(_.object(null), {}), 'handles nulls');
+
+    var list = new Array(5);
+    list[0] = 'one';
+    values = [1,2,3,4,5];
+    result = _.object(list, values);;
+    shouldBe = {one: 1};
+    ok(_.isEqual(result, shouldBe), 'handles holes');
   });
 
   test("indexOf", function() {
