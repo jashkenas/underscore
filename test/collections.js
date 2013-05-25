@@ -29,6 +29,12 @@ $(document).ready(function() {
     answers = 0;
     _.each(null, function(){ ++answers; });
     equal(answers, 0, 'handles a null properly');
+
+    answers = 0;
+    var arr = new Array(10);
+    arr[5] = 1;
+    _.each(arr, function(){++answers; });
+    equal(answers, 1, 'handles holes');
   });
 
   test('map', function() {

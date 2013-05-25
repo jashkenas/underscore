@@ -80,7 +80,9 @@
       obj.forEach(iterator, context);
     } else if (obj.length === +obj.length) {
       for (var i = 0, l = obj.length; i < l; i++) {
-        if (iterator.call(context, obj[i], i, obj) === breaker) return;
+        if (i in obj){
+          if (iterator.call(context, obj[i], i, obj) === breaker) return;
+        }
       }
     } else {
       for (var key in obj) {
@@ -517,10 +519,12 @@
     if (list == null) return {};
     var result = {};
     for (var i = 0, l = list.length; i < l; i++) {
-      if (values) {
-        result[list[i]] = values[i];
-      } else {
-        result[list[i][0]] = list[i][1];
+      if ( i in list){
+        if (values) {
+          result[list[i]] = values[i];
+        } else {
+          result[list[i][0]] = list[i][1];
+        }
       }
     }
     return result;
