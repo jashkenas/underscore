@@ -34,7 +34,7 @@ $(document).ready(function() {
     var arr = new Array(10);
     arr[5] = 1;
     _.each(arr, function(){++answers; });
-    equal(answers, 1, 'handle holes');
+    equal(answers, 1, 'handles holes');
   });
 
   test('map', function() {

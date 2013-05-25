@@ -163,9 +163,9 @@ $(document).ready(function() {
 
     ok(_.isEqual(_.object(null), {}), 'handles nulls');
 
-    var list = new Array(5);
+    var list = new Array(5),
+        values = [1,2,3,4,5];
     list[0] = 'one';
-    values = [1,2,3,4,5];
     result = _.object(list, values);;
     shouldBe = {one: 1};
     ok(_.isEqual(result, shouldBe), 'handles holes');
