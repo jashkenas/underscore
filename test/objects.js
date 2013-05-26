@@ -573,5 +573,6 @@ $(document).ready(function() {
      var child = {};
      child.prototype = obj;
      ok (_.has(child, "foo") == false, "has() does not check the prototype chain for a property.")
+     ok (_.has(null, "foo") == false, "has() will not fail when object isn't an object")
   });
 });
