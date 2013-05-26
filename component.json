@@ -1,0 +1,20 @@
+{
+  "name": "underscore",
+  "description": "JavaScript's functional programming helper library.",
+  "keywords": [
+    "util",
+    "functional",
+    "server",
+    "client",
+    "browser"
+  ],
+  "author": "Jeremy Ashkenas <jeremy@documentcloud.org>",
+  "main": "underscore.js",
+  "version": "1.4.4",
+  "license": "MIT",
+  "repo": "documentcloud/underscore",
+  "scripts": [
+    "underscore.js"
+  ],
+  "underscore_comment": "Don't edit this component.json directly. It is automatically built from package.json via 'rake component_json'."
+}
