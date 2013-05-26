@@ -8,7 +8,8 @@
   "main"          : "underscore.js",
   "version"       : "1.4.4",
   "devDependencies": {
-    "phantomjs": "1.9.0-1"
+    "phantomjs": "1.9.0-1",
+    "jshint": "1.1.0"
   },
   "scripts": {
     "test": "phantomjs test/vendor/runner.js test/index.html?noglobals=true"
