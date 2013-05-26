@@ -989,6 +989,23 @@
     };
   }
 
+  // `isFunction` for IE < 9.
+  // Host-functions (alert, document.getElementById) are always [object Object].
+  if ((typeof root.alert === "object") && (!root.alert.toString)) {
+    _.isFunction = function(obj) {
+        if (typeof obj === "function") {
+            return true;
+        }
+        if (!obj) {
+            return false;
+        }
+        if (typeof obj.toString === "function") {
+            return false;
+        }
+        return ("" + obj).indexOf("[native code]") > 0;
+    };
+  }
+
   // Is a given object a finite number?
   _.isFinite = function(obj) {
     return isFinite(obj) && !isNaN(parseFloat(obj));
