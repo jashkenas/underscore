@@ -170,9 +170,9 @@
 
   // Return the index of the first item which passes a truth test.
   _.findIndex = function(array, iterator, context) {
-    var i = 0, l = array.length;
+    var i = 0, l = array.length, thisArg = context || array;
     // if (nativeFindIndex && array.findIndex === nativeFindIndex) return array.findIndex(iterator, context);
-    for (; i < l; i++) if (iterator.call(array, array[i])) return i;
+    for (; i < l; i++) if (iterator.call(thisArg, array[i])) return i;
     return -1;
   };
 
