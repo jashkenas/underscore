@@ -616,6 +616,24 @@
     };
   };
 
+    // Create simple handlers that may be passed to Underscore functions
+    // Properties may be specified as an array or string, e.g., "toString().toLowerCase().length"
+    _.lambda = function(prop) {
+      var args = slice.call(arguments, 1);
+      if (typeof prop === "string") prop = prop.split(".");
+      return function(obj) {
+        return _.reduce(prop, function (memo, next){
+            if (next.substr(next.length-2) == "()") {
+                var name = next.substr(0, next.length-2);
+                return typeof memo[name] !== "undefined" ? memo[name].apply(memo, args) : null;
+            }
+            else {
+                return typeof memo[next] !== "undefined" ? memo[next] : null;
+            }
+        }, obj);
+      };
+    };
+
   // Bind all of an object's methods to that object. Useful for ensuring that
   // all callbacks defined on an object belong to it.
   _.bindAll = function(obj) {
