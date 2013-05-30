@@ -41,14 +41,14 @@ $(document).ready(function() {
   });
 
    test("lambda", function(){
-       var number = 100;
-       var length = _.lambda("toString().length");
-       equal(length(number), 3, "lambda allows compound statements");
+     var number = 100;
+     var length = _.lambda("toString().length");
+     equal(length(number), 3, "lambda allows compound statements");
 
-       // Source is 83 characters
-       var source = "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.";
-       var summarize = _.lambda("substr()", 0, 30);
-       equal(summarize(source).length, 30, "lambda passes arguments to function");
+     // Source is 83 characters
+     var source = "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.";
+     var summarize = _.lambda("substr()", 0, 30);
+     equal(summarize(source).length, 30, "lambda passes arguments to function");
    });
 
   test("partial", function() {
