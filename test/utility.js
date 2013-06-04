@@ -208,12 +208,16 @@ $(document).ready(function() {
   });
 
   test('result calls functions and returns primitives', function() {
-    var obj = {w: '', x: 'x', y: function(){ return this.x; }};
+    var obj = {v: {a: null, b: {c: 'b'}}, w: '', x: 'x', y: function(){ return this.x; }};
     strictEqual(_.result(obj, 'w'), '');
     strictEqual(_.result(obj, 'x'), 'x');
     strictEqual(_.result(obj, 'y'), 'x');
     strictEqual(_.result(obj, 'z'), undefined);
     strictEqual(_.result(null, 'x'), undefined);
+    strictEqual(_.result(obj, 'v.a'), null);
+    strictEqual(_.result(obj, 'v.a.b'), undefined);
+    strictEqual(_.result(obj, 'v.b'), obj.v.b);
+    strictEqual(_.result(obj, 'v.b.c'), 'b');
   });
 
   test('_.templateSettings.variable', function() {

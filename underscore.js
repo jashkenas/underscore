@@ -1085,6 +1085,16 @@
   _.result = function(object, property) {
     if (object == null) return void 0;
     var value = object[property];
+    // If property is a dot-notation nested property, attempt to retrieve it,
+    // returning undefined if any step in the path does not exist
+    if (property.indexOf('.') != -1) {
+      var props = property.split('.');
+      value = object;
+      for (var i = 0, l = props.length; i < l; i++) {
+        value = (value != null) ? value[props[i]] : void 0;
+        if (value === void 0) return value;
+      }
+    }
     return _.isFunction(value) ? value.call(object) : value;
   };
 
