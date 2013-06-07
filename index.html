@@ -952,7 +952,7 @@ func();
 </pre>
 
       <p id="bindAll">
-        <b class="header">bindAll</b><code>_.bindAll(object, [*methodNames])</code>
+        <b class="header">bindAll</b><code>_.bindAll(object, *methodNames)</code>
         <br />
         Binds a number of methods on the <b>object</b>, specified by
         <b>methodNames</b>, to be run in the context of that object whenever they
@@ -966,9 +966,9 @@ var buttonView = {
   onClick : function(){ alert('clicked: ' + this.label); },
   onHover : function(){ console.log('hovering: ' + this.label); }
 };
-_.bindAll(buttonView);
+_.bindAll(buttonView, 'onClick', 'onHover');
+// When the button is clicked, this.label will have the correct value.
 jQuery('#underscore_button').bind('click', buttonView.onClick);
-=&gt; When the button is clicked, this.label will have the correct value...
 </pre>
 
       <p id="partial">
