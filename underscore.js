@@ -637,6 +637,23 @@
     return _.delay.apply(_, [func, 1].concat(slice.call(arguments, 1)));
   };
 
+  // Returns a function that will execute only once using _.defer, no matter how many times
+  // it is invoked before it is executed.  The function will be executed using the context (this)
+  // and arguments of its first invocation.
+  _.deferred = function(func) {
+    var pending = false;
+    return function() {
+      if (!pending) {
+        var context = this, args = arguments;
+        pending = true;
+        _.defer(function() {
+          pending = false;
+          func.apply(context, args);
+        });
+      }
+    };
+  };
+
   // Returns a function, that, when invoked, will only be triggered at most once
   // during a given window of time.
   _.throttle = function(func, wait, immediate) {
@@ -670,7 +687,6 @@
   // N milliseconds. If `immediate` is passed, trigger the function on the
   // leading edge, instead of the trailing.
   _.debounce = function(func, wait, immediate) {
-    var defaultDebounce = function() {
       var timeout, result;
       return function() {
         var context = this, args = arguments;
@@ -684,27 +700,6 @@
         if (callNow) result = func.apply(context, args);
         return result;
       };
-    };
-
-    // optimize _.debounce(fn)
-    var optimizedDebounce = function() {
-      var pending = false;
-      var context;
-      var args;
-      return function () {
-        context = this;
-        args = arguments;
-        if (!pending) {
-          pending = true;
-          _.defer(function() {
-            pending = false;
-            func.apply(context, args);
-          });
-        }
-      };
-    };
-
-    return wait || immediate ? defaultDebounce() : optimizedDebounce();
   };
 
   // Returns a function that will be executed at most one time, no matter how

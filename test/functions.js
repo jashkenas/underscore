@@ -233,12 +233,12 @@ $(document).ready(function() {
     _.delay(function(){ equal(counter, 1, "incr was debounced"); start(); }, 96);
   });
 
-  asyncTest("debounce with one argument", 2, function() {
+  asyncTest("deferred function invokes target once", 2, function() {
     var counter = 0;
-    var debouncedIncr = _.debounce(function(){
+    var deferredIncr = _.deferred(function(){
       counter++;
     });
-    _(_.range(2)).each(debouncedIncr);
+    _.times(2, deferredIncr);
     equal(counter, 0, "incr was not called immediately");
     _.defer(function() {
       equal(counter, 1, "incr called only once");
@@ -246,18 +246,18 @@ $(document).ready(function() {
     });
   });
 
-  asyncTest("debounce uses arguments of last invocation", 2, function() {
+  asyncTest("deferred function uses arguments of first invocation", 2, function() {
     var context, args;
-    var debouncedSpy = _.debounce(function(){
+    var deferredSpy = _.deferred(function(){
       context = this;
       args = _.toArray(arguments);
     });
-    debouncedSpy.call({id: 1}, 1);
-    debouncedSpy.call({id: 2}, 2);
+    deferredSpy.call({id: 1}, 1);
+    deferredSpy.call({id: 2}, 2);
 
     _.defer(function() {
-      deepEqual(context, {id: 2});
-      deepEqual(args, [2]);
+      deepEqual(context, {id: 1});
+      deepEqual(args, [1]);
       start();
     });
   });
