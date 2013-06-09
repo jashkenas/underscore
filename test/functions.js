@@ -248,12 +248,12 @@ $(document).ready(function() {
 
   asyncTest("debounce uses arguments of last invocation", 2, function() {
     var context, args;
-    var debouncedIncr = _.debounce(function(){
+    var debouncedSpy = _.debounce(function(){
       context = this;
       args = _.toArray(arguments);
     });
-    debouncedIncr.call({id: 1}, 1);
-    debouncedIncr.call({id: 2}, 2);
+    debouncedSpy.call({id: 1}, 1);
+    debouncedSpy.call({id: 2}, 2);
 
     _.defer(function() {
       deepEqual(context, {id: 2});
