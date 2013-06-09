@@ -246,6 +246,22 @@ $(document).ready(function() {
     });
   });
 
+  asyncTest("debounce uses arguments of last invocation", 2, function() {
+    var context, args;
+    var debouncedIncr = _.debounce(function(){
+      context = this;
+      args = _.toArray(arguments);
+    });
+    debouncedIncr.call({id: 1}, 1);
+    debouncedIncr.call({id: 2}, 2);
+
+    _.defer(function() {
+      deepEqual(context, {id: 2});
+      deepEqual(args, [2]);
+      start();
+    });
+  });
+
   test("once", function() {
     var num = 0;
     var increment = _.once(function(){ num++; });

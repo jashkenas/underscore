@@ -689,9 +689,12 @@
     // optimize _.debounce(fn)
     var optimizedDebounce = function() {
       var pending = false;
+      var context;
+      var args;
       return function () {
+        context = this;
+        args = arguments;
         if (!pending) {
-          var context = this, args = arguments;
           pending = true;
           _.defer(function() {
             pending = false;
