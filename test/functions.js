@@ -233,6 +233,19 @@ $(document).ready(function() {
     _.delay(function(){ equal(counter, 1, "incr was debounced"); start(); }, 96);
   });
 
+  asyncTest("debounce with one argument", 2, function() {
+    var counter = 0;
+    var debouncedIncr = _.debounce(function(){
+      counter++;
+    });
+    _(_.range(2)).each(debouncedIncr);
+    equal(counter, 0, "incr was not called immediately");
+    _.defer(function() {
+      equal(counter, 1, "incr called only once");
+      start();
+    });
+  });
+
   test("once", function() {
     var num = 0;
     var increment = _.once(function(){ num++; });

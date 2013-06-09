@@ -670,19 +670,38 @@
   // N milliseconds. If `immediate` is passed, trigger the function on the
   // leading edge, instead of the trailing.
   _.debounce = function(func, wait, immediate) {
-    var timeout, result;
-    return function() {
-      var context = this, args = arguments;
-      var later = function() {
-        timeout = null;
-        if (!immediate) result = func.apply(context, args);
+    var defaultDebounce = function() {
+      var timeout, result;
+      return function() {
+        var context = this, args = arguments;
+        var later = function() {
+          timeout = null;
+          if (!immediate) result = func.apply(context, args);
+        };
+        var callNow = immediate && !timeout;
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+        if (callNow) result = func.apply(context, args);
+        return result;
       };
-      var callNow = immediate && !timeout;
-      clearTimeout(timeout);
-      timeout = setTimeout(later, wait);
-      if (callNow) result = func.apply(context, args);
-      return result;
     };
+
+    // optimize _.debounce(fn)
+    var optimizedDebounce = function() {
+      var pending = false;
+      return function () {
+        if (!pending) {
+          var context = this, args = arguments;
+          pending = true;
+          _.defer(function() {
+            pending = false;
+            func.apply(context, args);
+          });
+        }
+      };
+    };
+
+    return wait || immediate ? defaultDebounce() : optimizedDebounce();
   };
 
   // Returns a function that will be executed at most one time, no matter how
