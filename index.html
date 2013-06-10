@@ -518,6 +518,10 @@ _.where(listOfPlays, {author: "Shakespeare", year: 1611});
         Looks through the <b>list</b> and returns the <i>first</i> value that matches
         all of the key-value pairs listed in <b>properties</b>.
       </p>
+      <p>
+        If no match is found, or if <b>list</b> is empty, <i>undefined</i> will be
+        returned.
+      </p>
       <pre>
 _.findWhere(publicServicePulitzers, {newsroom: "The New York Times"});
 =&gt; {year: 1918, newsroom: "The New York Times",
