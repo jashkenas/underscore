@@ -628,11 +628,10 @@ _.min(numbers);
       <p id="sortBy">
         <b class="header">sortBy</b><code>_.sortBy(list, iterator, [context])</code>
         <br />
-        Returns a sorted copy of <b>list</b>, ranked in ascending order by the
-        results of running each value through <b>iterator</b>. Iterator may
-        also be the string name of the property to sort by (eg. <tt>length</tt>).
-        The sort algorithm used is stable. That is, order is preserved for equal
-        iterator results.
+        Returns a (stably) sorted copy of <b>list</b>, ranked in ascending
+        order by the results of running each value through <b>iterator</b>.
+        Iterator may also be the string name of the property to sort by (eg.
+        <tt>length</tt>).
       </p>
       <pre>
 _.sortBy([1, 2, 3, 4, 5, 6], function(num){ return Math.sin(num); });
