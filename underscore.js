@@ -1082,9 +1082,12 @@
 
   // If the value of the named `property` is a function then invoke it with the
   // `object` as context; otherwise, return it.
+  //
+  // If the `property` argument is omitted, `object` itself is examined instead:
+  // if `object` is a function it is invoked, else it is returned.
   _.result = function(object, property) {
     if (object == null) return void 0;
-    var value = object[property];
+    var value = property == null ? object : object[property];
     return _.isFunction(value) ? value.call(object) : value;
   };
 

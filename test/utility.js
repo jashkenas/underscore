@@ -214,6 +214,10 @@ $(document).ready(function() {
     strictEqual(_.result(obj, 'y'), 'x');
     strictEqual(_.result(obj, 'z'), undefined);
     strictEqual(_.result(null, 'x'), undefined);
+
+    var fun = function() { return obj; };
+    strictEqual(_.result(obj), obj);
+    strictEqual(_.result(fun), obj);
   });
 
   test('_.templateSettings.variable', function() {
