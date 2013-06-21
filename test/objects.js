@@ -437,6 +437,16 @@ $(document).ready(function() {
     ok(_.isArray([1, 2, 3]), 'but arrays are');
     ok(_.isArray(iArray), 'even from another frame');
   });
+  
+  test("isFile", function() {
+    ok(_.isFile(new Blob), 'a Blob is a file');
+    ok(!_.isFile(iObject), 'but an object is not');
+    ok(!_.isFile(undefined), 'and not undefined');
+  });
+
+  test("isBlob", function() {
+    ok(_.isBlob(new Blob), 'a Blob object is a Blob');
+  });
 
   test("isString", function() {
     var obj = new String("I am a string object");

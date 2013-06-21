@@ -961,14 +961,19 @@
   _.isArray = nativeIsArray || function(obj) {
     return toString.call(obj) == '[object Array]';
   };
+  
+  // Is a given variable a file?
+  _.isFile = function(obj) {
+    return toString.call(obj) == '[object File]' || _.isBlob(obj);
+  }
 
   // Is a given variable an object?
   _.isObject = function(obj) {
     return obj === Object(obj);
   };
 
-  // Add some isType methods: isArguments, isFunction, isString, isNumber, isDate, isRegExp.
-  each(['Arguments', 'Function', 'String', 'Number', 'Date', 'RegExp'], function(name) {
+  // Add some isType methods: isArguments, isFunction, isString, isNumber, isDate, isRegExp, Blob.
+  each(['Arguments', 'Function', 'String', 'Number', 'Date', 'RegExp', 'Blob'], function(name) {
     _['is' + name] = function(obj) {
       return toString.call(obj) == '[object ' + name + ']';
     };
