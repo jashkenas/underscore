@@ -1019,6 +1019,21 @@
   _.has = function(obj, key) {
     return hasOwnProperty.call(obj, key);
   };
+  
+  // Allows to call folded properties on an object.
+  // Imagine we have this structure: var a = { b: { c: { d: "folded property value" }}}
+  // The following call to this function:
+  //   _.foldedProp(a, "b.c.d");
+  // will return "folded property value" 
+  _.foldedProp = function(obj, property_chain) {
+    var properties = property_chain.split(".");
+    var result = obj;
+    for (i in properties) {
+      result = result[properties[i]];
+      if(_.isUndefined(result)) { return result; };
+    };
+    return result;
+  };
 
   // Utility Functions
   // -----------------

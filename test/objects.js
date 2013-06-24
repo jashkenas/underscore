@@ -574,4 +574,13 @@ $(document).ready(function() {
      child.prototype = obj;
      ok (_.has(child, "foo") == false, "has() does not check the prototype chain for a property.")
   });
+
+  test("foldedProp", function () {
+    var obj = { foo_a: { foo_b: { foo_c: "folded property value" }}};
+    ok (_.foldedProp(obj, "foo_a.foo_b.foo_c") == "folded property value",
+       "foldedProp() gives access to a folded property");
+    ok (_.isUndefined(_.foldedProp(obj, "foo_a.foo_x.foo_c")),
+       "foldedProp() returns undefined if property within the chain doesn't exist or is empty");
+  });
+
 });
