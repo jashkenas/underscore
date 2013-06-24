@@ -237,24 +237,6 @@
     return _.map(obj, function(value){ return value[key]; });
   };
 
-  // Convenience version of a common use case of `filter`: selecting only objects
-  // containing specific `key:value` pairs.
-  _.where = function(obj, attrs, first) {
-    if (_.isEmpty(attrs)) return first ? void 0 : [];
-    return _[first ? 'find' : 'filter'](obj, function(value) {
-      for (var key in attrs) {
-        if (attrs[key] !== value[key]) return false;
-      }
-      return true;
-    });
-  };
-
-  // Convenience version of a common use case of `find`: getting the first object
-  // containing specific `key:value` pairs.
-  _.findWhere = function(obj, attrs) {
-    return _.where(obj, attrs, true);
-  };
-
   // Return the maximum element or (element-based computation).
   // Can't optimize arrays of integers longer than 65,535 elements.
   // See [WebKit Bug 80797](https://bugs.webkit.org/show_bug.cgi?id=80797)
@@ -1015,9 +997,22 @@
   };
 
   // Shortcut function for checking if an object has a given property directly
-  // on itself (in other words, not on a prototype).
-  _.has = function(obj, key) {
-    return hasOwnProperty.call(obj, key);
+  // on itself (in other words, not on a prototype).  Alternately, can check if
+  // an object contains specific `key:value` pairs per a given attributes template.
+  // Can be partially applied to return a comparator.
+  _.has = function() {
+    if (arguments.length > 2) throw new Error("has cannot accept more than 2 arguments")
+    var key = _.last(arguments), attrs = key;  //either key or attributes template
+    var comparator = _.isObject(attrs) ? function(obj) {
+      for (var key in attrs) {
+        if (attrs[key] !== obj[key]) return false;
+      }
+      return true;
+    } : function(obj){
+      return hasOwnProperty.call(obj, key)
+    };
+    if (arguments.length === 1) return comparator;
+    return comparator(arguments[0]);
   };
 
   // Utility Functions

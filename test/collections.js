@@ -158,6 +158,17 @@ $(document).ready(function() {
     strictEqual(_.find(array, function() { return false; }), void 0, 'should return `undefined` if `value` is not found');
   });
 
+  test('find/has', function() {
+    var list = [{a: 1, b: 2}, {a: 2, b: 2}, {a: 1, b: 3}, {a: 1, b: 4}, {a: 2, b: 4}];
+    var a1 = _.has({a: 1}); //curried
+    var result = _.find(list, a1);
+    deepEqual(result, {a: 1, b: 2});
+    result = _.find(list, _.has({b: 4}));
+    deepEqual(result, {a: 1, b: 4});
+    result = _.find(list, _.has({b: 4, a: 1}));
+    deepEqual(result, {a: 1, b: 4});
+  });
+
   test('detect', function() {
     var result = _.detect([1, 2, 3], function(num){ return num * 2 == 4; });
     equal(result, 2, 'found the first "2" and broke the loop');
@@ -169,6 +180,19 @@ $(document).ready(function() {
 
     evens = _.filter([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
     equal(evens.join(', '), '2, 4, 6', 'aliased as "filter"');
+  });
+
+  test('select/has', function() {
+    var list = [{a: 1, b: 2}, {a: 2, b: 2}, {a: 1, b: 3}, {a: 1, b: 4}];
+    var a1 = _.has({a: 1}); //curried
+    var result = _.select(list, a1);
+    equal(result.length, 3);
+    equal(result[result.length - 1].b, 4);
+    result = _.select(list, _.has({b: 2}));
+    equal(result.length, 2);
+    equal(result[0].a, 1);
+    result = _.select(list, a1);
+    equal(result.length, 3);
   });
 
   test('reject', function() {
@@ -251,29 +275,6 @@ $(document).ready(function() {
   test('pluck', function() {
     var people = [{name : 'moe', age : 30}, {name : 'curly', age : 50}];
     equal(_.pluck(people, 'name').join(', '), 'moe, curly', 'pulls names out of objects');
-  });
-
-  test('where', function() {
-    var list = [{a: 1, b: 2}, {a: 2, b: 2}, {a: 1, b: 3}, {a: 1, b: 4}];
-    var result = _.where(list, {a: 1});
-    equal(result.length, 3);
-    equal(result[result.length - 1].b, 4);
-    result = _.where(list, {b: 2});
-    equal(result.length, 2);
-    equal(result[0].a, 1);
-    
-    result = _.where(list, {a: 1}, true);
-    equal(result.b, 2, "Only get the first object matched.")
-    result = _.where(list, {a: 1}, false);
-    equal(result.length, 3);
-  });
-
-  test('findWhere', function() {
-    var list = [{a: 1, b: 2}, {a: 2, b: 2}, {a: 1, b: 3}, {a: 1, b: 4}, {a: 2, b: 4}];
-    var result = _.findWhere(list, {a: 1});
-    deepEqual(result, {a: 1, b: 2});
-    result = _.findWhere(list, {b: 4});
-    deepEqual(result, {a: 1, b: 4});
   });
 
   test('max', function() {
