@@ -237,6 +237,18 @@
     return _.map(obj, function(value){ return value[key]; });
   };
 
+  // Convenience version of a common use case of `filter`: selecting only objects
+  // containing specific `key:value` pairs.
+  _.where = function(obj, attrs, first) {
+    return _[first ? 'find' : 'filter'](obj, _.has(attrs));
+  };
+
+  // Convenience version of a common use case of `find`: getting the first object
+  // containing specific `key:value` pairs.
+  _.findWhere = function(obj, attrs) {
+    return _.find(obj, _.has(attrs));
+  };
+
   // Return the maximum element or (element-based computation).
   // Can't optimize arrays of integers longer than 65,535 elements.
   // See [WebKit Bug 80797](https://bugs.webkit.org/show_bug.cgi?id=80797)
@@ -1001,18 +1013,21 @@
   // an object contains specific `key:value` pairs per a given attributes template.
   // Can be partially applied to return a comparator.
   _.has = function() {
-    if (arguments.length > 2) throw new Error("has cannot accept more than 2 arguments")
     var key = _.last(arguments), attrs = key;  //either key or attributes template
-    var comparator = _.isObject(attrs) ? function(obj) {
+    if (arguments.length === 1) {
+      return function(obj){
+        return _.has(obj, key);
+      }
+    }
+    var obj = arguments[0];
+    if (_.isObject(attrs)) {
       for (var key in attrs) {
         if (attrs[key] !== obj[key]) return false;
       }
       return true;
-    } : function(obj){
+    } else {
       return hasOwnProperty.call(obj, key)
-    };
-    if (arguments.length === 1) return comparator;
-    return comparator(arguments[0]);
+    }
   };
 
   // Utility Functions
