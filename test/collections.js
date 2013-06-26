@@ -254,7 +254,7 @@ $(document).ready(function() {
   });
 
   test('where', function() {
-    var list = [{a: 1, b: 2}, {a: 2, b: 2}, {a: 1, b: 3}, {a: 1, b: 4}];
+    var list = [{a: 1, b: 2}, {a: 2, b: 2}, {a: 1, b: 3}, {a: 1, b: 4, c: 5}];
     var result = _.where(list, {a: 1});
     equal(result.length, 3);
     equal(result[result.length - 1].b, 4);
@@ -266,14 +266,22 @@ $(document).ready(function() {
     equal(result.b, 2, "Only get the first object matched.")
     result = _.where(list, {a: 1}, false);
     equal(result.length, 3);
+    result = _.where(list, 'a');
+    equal(result.length, 4);
+    result = _.where(list, 'c');
+    equal(result.length, 1);
+    result = _.where(list, 'd');
+    equal(result.length, 0);   
   });
 
   test('findWhere', function() {
-    var list = [{a: 1, b: 2}, {a: 2, b: 2}, {a: 1, b: 3}, {a: 1, b: 4}, {a: 2, b: 4}];
+    var list = [{a: 1, b: 2}, {a: 2, b: 2}, {a: 1, b: 3}, {a: 1, b: 4}, {a: 2, b: 4, c: 5}];
     var result = _.findWhere(list, {a: 1});
     deepEqual(result, {a: 1, b: 2});
     result = _.findWhere(list, {b: 4});
     deepEqual(result, {a: 1, b: 4});
+    result = _.findWhere(list, 'a');
+    deepEqual(result, {a: 1, b: 2});
   });
 
   test('max', function() {

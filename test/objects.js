@@ -564,10 +564,16 @@ $(document).ready(function() {
   });
 
   test("has", function () {
-     var obj = {foo: "bar", func: function () {} };
+     var obj = {foo: "bar", func: _.identity};
      ok (_.has(obj, "foo"), "has() checks that the object has a property.");
+     ok (_.has("foo")(obj), "has() curries to a comparator that checks that the object has a property.");
      ok (_.has(obj, "baz") == false, "has() returns false if the object doesn't have the property.");
      ok (_.has(obj, "func"), "has() works for functions too.");
+     ok (_.has(obj, {foo: "bar"}), "has() checks that the object matches a template.")
+     ok (_.has(obj, {foo: "bar", func: _.identity}), "has() checks that the object matches a template having multiple key/value pairs.")
+     ok (_.has(obj, obj), "has() checks that the object matches itself.")
+     ok (!_.has(obj, {foo: "bar", func: function(){}}), "has() fails a check when the object and template are mismatched.")
+     ok (_.has({foo: "bar"})(obj), "has() curries to a comparator that checks that the object matches a template.")
      obj.hasOwnProperty = null;
      ok (_.has(obj, "foo"), "has() works even when the hasOwnProperty method is deleted.");
      var child = {};
