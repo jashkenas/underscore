@@ -197,6 +197,8 @@ $(document).ready(function() {
   });
 
   test('any', function() {
+    var nativeSome = Array.prototype.some;
+    Array.prototype.some = null;
     ok(!_.any([]), 'the empty set');
     ok(!_.any([false, false, false]), 'all false values');
     ok(_.any([false, false, true]), 'one true value');
@@ -207,6 +209,7 @@ $(document).ready(function() {
     ok(_.any([1], _.identity) === true, 'cast to boolean - true');
     ok(_.any([0], _.identity) === false, 'cast to boolean - false');
     ok(_.some([false, false, true]), 'aliased as "some"');
+    Array.prototype.some = nativeSome;
   });
 
   test('include', function() {
@@ -258,7 +261,7 @@ $(document).ready(function() {
     result = _.where(list, {b: 2});
     equal(result.length, 2);
     equal(result[0].a, 1);
-
+    
     result = _.where(list, {a: 1}, true);
     equal(result.b, 2, "Only get the first object matched.")
     result = _.where(list, {a: 1}, false);
