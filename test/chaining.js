@@ -56,4 +56,17 @@ $(document).ready(function() {
     equal(numbers.join(', '), "34, 10, 8, 6, 4, 2, 10, 10", 'can chain together array functions.');
   });
 
+  test("groupBy/sortBy/first/passthru", function() {
+      var result = _.chain($('td'))
+          .groupBy('cellIndex')
+          .sortBy(function(__, key) { return Number(key) })
+          .first()
+          .passthru($)
+          .value()
+
+      var passthru = _.chain({}).passthru
+
+      equal(result instanceof $, true, 'able to pass jQuery thru to object inside chain')
+      notEqual(passthru, _.passthru, 'passthru should only exist on the chain object')
+  })
 });

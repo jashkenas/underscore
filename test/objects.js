@@ -563,20 +563,6 @@ $(document).ready(function() {
     ok(returned == 6 && intercepted == 6, 'can use tapped objects in a chain');
   });
 
-  test("transform", function() {
-    var obj = {};
-    var num = 1;
-
-    equal(obj, _.transform(obj, _.identity));
-    equal(2, _.transform(num, function(num) {
-      return num + 1;
-    }));
-    equal(3, _.transform(num, function(num) {
-      return 2 + 1;
-    }));
-
-  });
-
   test("has", function () {
      var obj = {foo: "bar", func: function () {} };
      ok (_.has(obj, "foo"), "has() checks that the object has a property.");
