@@ -781,7 +781,7 @@
   // Return a sorted list of the function names available on the object.
   // Aliased as `methods`
   _.functions = _.methods = function(obj) {
-    var names = [],val;
+    var names = [];
     for (var key in obj) {
       try {
         if (_.isFunction(obj[key])) names.push(key);
