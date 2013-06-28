@@ -543,7 +543,7 @@
         return array[i] === item ? i : -1;
       }
     }
-    if (nativeIndexOf && array.indexOf === nativeIndexOf) return array.indexOf(item, isSorted);
+    if (nativeIndexOf && array.indexOf === nativeIndexOf) return array.indexOf(item);
     for (; i < l; i++) if (array[i] === item) return i;
     return -1;
   };
