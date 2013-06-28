@@ -1244,6 +1244,14 @@
     // Extracts the result from a wrapped and chained object.
     value: function() {
       return this._wrapped;
+    },
+
+    // Applies the function on the object and return
+    // the result of the function return
+    passthru: function(func) {
+      var args = [this._wrapped];
+      push.apply(args, arguments);
+      return result.call(this, func.apply(_, args));
     }
 
   });
