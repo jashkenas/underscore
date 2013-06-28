@@ -574,4 +574,30 @@ $(document).ready(function() {
      child.prototype = obj;
      ok (_.has(child, "foo") == false, "has() does not check the prototype chain for a property.")
   });
+
+  test("deep", function() {
+    var tree = {one : 1, two : { three: "four", "three.five": "six" }, seven : ["eight", {nine: "ten"}, "eleven"]};
+    equal(_.deep(tree, "one"), 1, 'can get existent values at top level');
+    equal(_.deep(tree, "zero"), undefined, 'non-existent values at top level are undefined');
+    equal(_.deep(tree, "zero.five"), undefined, 'non-existent values at second level are undefined');
+    equal(_.deep(tree, "two.three"), 'four', 'can get existent values with dot notation');
+    equal(_.deep(tree, ["two", "three"]), 'four', 'can get existent values with array');
+    equal(_.deep(tree, ["two", "three.five"]), 'six', 'can use keys with periods');
+    equal(_.deep(tree, "two.six"), undefined, 'miss is undefined');
+    equal(_.deep(tree, ["seven", 0]), "eight", 'Can access arrays');
+    equal(_.deep(tree, ["seven", 1, "nine"]), "ten", 'Can access arrays');
+    equal(_.deep(tree, ["seven", 4]), undefined, 'Array miss is undefined');
+    equal(_.deep(tree, ["seven", 4, "twelve"]), undefined, 'Array deep miss is undefined');
+    equal(_.deep([0, 1, 2], 1), 1, 'Numbers work');
+    equal(_.deep([0, 1, 2], 3), undefined, 'Number hits work');
+    equal(_.deep(tree, null), undefined, "Null properties are undefined");
+    equal(_.deep(tree, {a: 1, b: 2}), undefined, "Object properties are undefined");
+    equal(_.deep(undefined, "alpha.beta.gamma"), undefined, 'Undefined root is undefined');
+    equal(_.deep(42, "alpha.beta.gamma"), undefined, 'Number root is undefined');
+    equal(_.deep("forty-two", "alpha.beta.gamma"), undefined, 'String root is undefined');
+    equal(_.deep(null, "alpha.beta.gamma"), undefined, 'Null root is undefined');
+    equal(_.deep(null), null, 'Null with no properties is null');
+    equal(_.deep(42), 42, 'Number with no properties is null');
+    equal(_.deep("forty-two"), "forty-two", 'String with no properties is null');
+  });
 });

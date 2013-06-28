@@ -1020,6 +1020,24 @@
     return hasOwnProperty.call(obj, key);
   };
 
+  // Access deep properties of an object. Properties can be a dot-delimited string
+  // or an array of strings or numbers.
+  _.deep = function(obj, properties) {
+    if (_.isString(properties)) {
+      return _.deep(obj, properties.split("."));
+    } else if (_.isNumber(properties)) {
+      return _.deep(obj, [properties]);
+    } else if (_.isUndefined(properties) || (_.isArray(properties) && properties.length == 0)) {
+      return obj;
+    } else if (!_.isArray(properties) || !_.isObject(obj)) {
+      return undefined;
+    } else if (!_.has(obj, properties[0])) {
+      return undefined;
+    } else {
+      return _.deep(obj[properties[0]], properties.slice(1));
+    }
+  };
+
   // Utility Functions
   // -----------------
 
