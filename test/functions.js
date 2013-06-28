@@ -290,4 +290,21 @@ $(document).ready(function() {
     equal(testAfter(0, 0), 1, "after(0) should fire immediately");
   });
 
+  test("functions", function() {
+    var failingObj = function(propertyName){
+      var obj = {};
+      Object.defineProperty(obj,propertyName, {
+        get: function () { throw new Error(); },
+        enumerable: true
+      });
+      return obj;
+    };
+
+    deepEqual(_.functions({a:function(){},b:0}),['a']);
+    var obj=failingObj("a");
+    deepEqual(_.functions(obj),[]);
+    obj.b = function(){};
+    deepEqual(_.functions(obj),['b']);
+  });
+
 });
