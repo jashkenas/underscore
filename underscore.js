@@ -423,10 +423,10 @@
   };
 
   // Internal implementation of a recursive `flatten` function.
-  var flatten = function(input, shallow, output) {
+  var flatten = function(input, level, output) {
     each(input, function(value) {
       if (_.isArray(value) || _.isArguments(value)) {
-        shallow ? push.apply(output, value) : flatten(value, shallow, output);
+        level > 1 ? flatten(value, level - 1, output) : push.apply(output, value);
       } else {
         output.push(value);
       }
@@ -435,8 +435,9 @@
   };
 
   // Return a completely flattened version of an array.
-  _.flatten = function(array, shallow) {
-    return flatten(array, shallow, []);
+  _.flatten = function(array, level) {
+    if (_.isUndefined(level)) level = Infinity;
+    return flatten(array, level, []);
   };
 
   // Return a version of the array that does not contain the specified value(s).
