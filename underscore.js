@@ -436,6 +436,7 @@
 
   // Return a completely flattened version of an array.
   _.flatten = function(array, level) {
+    if (level === 0) return array;
     level = level || Infinity;
     return flatten(array, level, []);
   };
