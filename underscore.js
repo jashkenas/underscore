@@ -1200,6 +1200,71 @@
     return _(obj).chain();
   };
 
+  // Provides a Lisp-like chaining alternative where a chain is
+  // terminated by a function call with no arguments.
+  // When terminating a chain where a seed was already provided
+  // the result is returned.
+  // When terminating a chain where no seed was provided a
+  // composed function -- one that awaits the seed -- is returned.
+  _.pipe = function(seed){
+    var seeded = arguments.length > 0, composed = [];
+    return function piping(verb){
+      if (arguments.length === 0) {
+        var fn = _.compose.apply(null, composed);
+        return seeded ? fn(seed) : fn;
+      }
+      var args = _.rest(arguments);
+      composed.unshift(function(obj){
+        return verb.apply(null, [obj].concat(args));
+      });        
+      return piping;
+    }
+  };
+
+  _.attach = function(fn){
+    return function(){
+      return fn.apply(null, construct(this, arguments));
+    }
+  }
+
+  _.detach = function(fn){ //extract a object function for general use
+    return function(obj){
+      return fn.apply(obj, _.rest(arguments));
+    }
+  }
+
+  //transform array mutators methods to non-mutating functional transformations
+  _.concat = _.detach(Array.prototype.concat);
+
+  _.unshift = function(list, item){ //NOTE unlike native `unshift` does not return new length --> RENAME prepend?
+    return [item].concat(list);
+  }
+
+  _.push = function(list, item){ //NOTE unlike native `push` does not return new length --> RENAME append?
+    return list.concat([item]);
+  }
+
+  _.pop = function(list){ //NOTE unlike native `pop` does not return removed item --> USE initial/last.
+    return _.initial(list);
+  }
+  
+  _.shift = function(list){ //NOTE unlike native `shift` does not return removed item --> USE rest/first.
+    return _.rest(list);
+  }
+
+  _.reverse = _.compose(_.detach(Array.prototype.reverse), _.clone);
+
+  _.join = _.detach(Array.prototype.join);
+
+  _.sort = _.compose(_.detach(Array.prototype.sort), _.clone);
+
+  _.splice = function(list, idx, removeCount){ //NOTE unlike native `splice` does not return removed items --> RENAME update.
+    var additions = Array.prototype.slice.call(arguments, 3);
+    return _.slice(list, 0, idx).concat(additions).concat(_.slice(list, idx));
+  }
+
+  _.slice = _.detach(Array.prototype.slice);
+
   // OOP
   // ---------------
   // If Underscore is called as a function, it returns a wrapped object that
@@ -1213,25 +1278,6 @@
 
   // Add all of the Underscore functions to the wrapper object.
   _.mixin(_);
-
-  // Add all mutator Array functions to the wrapper.
-  each(['pop', 'push', 'reverse', 'shift', 'sort', 'splice', 'unshift'], function(name) {
-    var method = ArrayProto[name];
-    _.prototype[name] = function() {
-      var obj = this._wrapped;
-      method.apply(obj, arguments);
-      if ((name == 'shift' || name == 'splice') && obj.length === 0) delete obj[0];
-      return result.call(this, obj);
-    };
-  });
-
-  // Add all accessor Array functions to the wrapper.
-  each(['concat', 'join', 'slice'], function(name) {
-    var method = ArrayProto[name];
-    _.prototype[name] = function() {
-      return result.call(this, method.apply(this._wrapped, arguments));
-    };
-  });
 
   _.extend(_.prototype, {
 
