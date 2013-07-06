@@ -1,4 +1,4 @@
-//     Underscore.js 1.4.4
+//     Underscore.js 1.5.0
 //     http://underscorejs.org
 //     (c) 2009-2011 Jeremy Ashkenas, DocumentCloud Inc.
 //     (c) 2011-2013 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
@@ -66,7 +66,7 @@
   }
 
   // Current version.
-  _.VERSION = '1.4.4';
+  _.VERSION = '1.5.0';
 
   // Collection Functions
   // --------------------
@@ -495,7 +495,7 @@
   // Zip together multiple lists into a single array -- elements that share
   // an index go together.
   _.zip = function() {
-    return _.unzip(slice.call(arguments));
+    return _.unzip.apply(_, slice.call(arguments));
   };
 
   // The inverse operation to `_.zip`. If given an array of pairs it
@@ -504,11 +504,11 @@
   // three element array and so on. For example, `_.unzip` given
   // `[['a',1],['b',2],['c',3]]` returns the array
   // [['a','b','c'],[1,2,3]].
-  _.unzip = function(list) {
-    var length = _.max(_.pluck(list, "length").concat(0));
+  _.unzip = function() {
+    var length = _.max(_.pluck(arguments, "length").concat(0));
     var results = new Array(length);
     for (var i = 0; i < length; i++) {
-      results[i] = _.pluck(list, '' + i);
+      results[i] = _.pluck(arguments, '' + i);
     }
     return results;
   };
@@ -652,7 +652,10 @@
   };
 
   // Returns a function, that, when invoked, will only be triggered at most once
-  // during a given window of time.
+  // during a given window of time. Normally, the throttled function will run
+  // as much as it can, without ever going more than once per `wait` duration;
+  // but if you'd like to disable the execution on the leading edge, pass
+  // `{leading: false}`. To disable execution on the trailing edge, ditto.
   _.throttle = function(func, wait, options) {
     var context, args, result;
     var timeout = null;

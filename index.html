@@ -3,8 +3,8 @@
 <head>
   <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="chrome=1" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/> 
-  <meta name="viewport" content="target-densitydpi=device-dpi" /> 
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="target-densitydpi=device-dpi" />
   <meta name="HandheldFriendly" content="true"/>
   <link rel="canonical" href="http://underscorejs.org" />
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
@@ -181,7 +181,7 @@
   <div id="sidebar" class="interface">
 
     <a class="toc_title" href="#">
-      Underscore.js <span class="version">(1.4.4)</span>
+      Underscore.js <span class="version">(1.5.0)</span>
     </a>
     <ul class="toc_section">
       <li>&raquo; <a href="http://github.com/documentcloud/underscore">GitHub Repository</a></li>
@@ -236,6 +236,7 @@
       <li>- <a href="#difference">difference</a></li>
       <li>- <a href="#uniq">uniq</a></li>
       <li>- <a href="#zip">zip</a></li>
+      <li>- <a href="#unzip">unzip</a></li>
       <li>- <a href="#object">object</a></li>
       <li>- <a href="#indexOf">indexOf</a></li>
       <li>- <a href="#lastIndexOf">lastIndexOf</a></li>
@@ -382,12 +383,15 @@
 
     <table>
       <tr>
-        <td><a href="underscore.js">Development Version (1.4.4)</a></td>
-        <td><i>40kb, Uncompressed with Plentiful Comments</i></td>
+        <td><a href="underscore.js">Development Version (1.5.0)</a></td>
+        <td><i>42kb, Uncompressed with Plentiful Comments</i></td>
       </tr>
       <tr>
-        <td><a href="underscore-min.js">Production Version (1.4.4)</a></td>
-        <td><i>4kb, Minified and Gzipped</i></td>
+        <td><a href="underscore-min.js">Production Version (1.5.0)</a></td>
+        <td>
+          <i>5kb, Minified and Gzipped</i>
+          &nbsp;<small>(<a href="underscore-min.map">Source Map</a>)</small>
+        </td>
       </tr>
       <tr>
         <td colspan="2"><div class="rule"></div></td>
@@ -850,12 +854,25 @@ _.uniq([1, 2, 1, 3, 1, 4]);
         Merges together the values of each of the <b>arrays</b> with the
         values at the corresponding position. Useful when you have separate
         data sources that are coordinated through matching array indexes.
-        If you're working with a matrix of nested arrays, <b>zip.apply</b>
+        If you're working with a matrix of nested arrays, <tt>_.zip.apply</tt>
         can transpose the matrix in a similar fashion.
       </p>
       <pre>
 _.zip(['moe', 'larry', 'curly'], [30, 40, 50], [true, false, false]);
 =&gt; [["moe", 30, true], ["larry", 40, false], ["curly", 50, false]]
+</pre>
+
+      <p id="unzip">
+        <b class="header">unzip</b><code>_.unzip(*arrays)</code>
+        <br />
+        The opposite of <a href="#zip">zip</a>. Given a number of <b>arrays</b>, returns a
+        series of new arrays, the first of which contains all of the first elements
+        in the input arrays, the second of which contains all of the second elements,
+        and so on. Use with <tt>apply</tt> to pass in an array of arrays.
+      </p>
+      <pre>
+_.unzip(["moe", 30, true], ["larry", 40, false], ["curly", 50, false]);
+=&gt; [['moe', 'larry', 'curly'], [30, 40, 50], [true, false, false]]
 </pre>
 
       <p id="object">
@@ -1037,13 +1054,21 @@ _.defer(function(){ alert('deferred'); });
 </pre>
 
       <p id="throttle">
-        <b class="header">throttle</b><code>_.throttle(function, wait)</code>
+        <b class="header">throttle</b><code>_.throttle(function, wait, [options])</code>
         <br />
         Creates and returns a new, throttled version of the passed function,
         that, when invoked repeatedly, will only actually call the original function
         at most once per every <b>wait</b>
         milliseconds. Useful for rate-limiting events that occur faster than you
         can keep up with.
+      </p>
+      <p>
+        By default, <b>throttle</b> will execute the function as soon as you call it
+        for the first time, and, if you call it again any number of times
+        during the <b>wait</b> period, as soon as that period is over.
+        If you'd like to disable the leading-edge
+        call, pass <tt>{leading: false}</tt>, and if you'd like to disable the
+        execution on the trailing-edge, pass <br /> <tt>{trailing: false}</tt>.
       </p>
       <pre>
 var throttled = _.throttle(updatePosition, 100);
@@ -1233,7 +1258,7 @@ _.omit({name : 'moe', age : 50, userid : 'moe1'}, 'userid');
       <p id="defaults">
         <b class="header">defaults</b><code>_.defaults(object, *defaults)</code>
         <br />
-        Fill in undefined properties in <b>object</b> with values from the
+        Fill in <tt>undefined</tt> properties in <b>object</b> with values from the
         <b>defaults</b> objects, and return the <b>object</b>. As soon as the
         property is filled, further defaults will have no effect.
       </p>
@@ -1816,6 +1841,37 @@ _([1, 2, 3]).value();
       </p>
 
       <h2 id="changelog">Change Log</h2>
+
+      <p>
+        <b class="header">1.5.0</b> &mdash; <small><i>Jul. 6, 2013</i></small> &mdash; <a href="https://github.com/documentcloud/underscore/compare/1.4.4...1.4.5">Diff</a><br />
+        <ul>
+          <li>
+            Added a new <tt>unzip</tt> function, as the inverse of <tt>_.zip</tt>.
+          </li>
+          <li>
+            The <tt>throttle</tt> function now takes an <tt>options</tt> argument,
+            allowing you to disable execution of the throttled function on either
+            the <b>leading</b> or <b>trailing</b> edge.
+          </li>
+          <li>
+            A source map is now supplied for easier debugging of the minified
+            production build of Underscore.
+          </li>
+          <li>
+            The <tt>defaults</tt> function now only overrides <tt>undefined</tt>
+            values, not <tt>null</tt> ones.
+          </li>
+          <li>
+            Removed the ability to call <tt>_.bindAll</tt> with no method name
+            arguments. It's pretty much always wiser to white-list the names of
+            the methods you'd like to bind.
+          </li>
+          <li>
+            Removed the ability to call <tt>_.after</tt> with an invocation count
+            of zero. The minimum number of calls is (naturally) now <tt>1</tt>.
+          </li>
+        </ul>
+      </p>
 
       <p>
         <b class="header">1.4.4</b> &mdash; <small><i>Jan. 30, 2013</i></small> &mdash; <a href="https://github.com/documentcloud/underscore/compare/1.4.3...1.4.4">Diff</a><br />
