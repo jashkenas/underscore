@@ -211,6 +211,27 @@ $(document).ready(function() {
     }, 96);
   });
 
+  asyncTest("more throttle does not trigger leading call when leading is set to false", 3, function() {
+    var counter = 0;
+    var incr = function(){ counter++; };
+    var throttledIncr = _.throttle(incr, 100, {leading: false});
+
+    throttledIncr();
+    _.delay(throttledIncr, 50);
+    _.delay(throttledIncr, 60);
+    _.delay(throttledIncr, 200);
+    ok(counter === 0);
+
+    _.delay(function() {
+      ok(counter == 1);
+    }, 250);
+
+    _.delay(function() {
+      ok(counter == 2);
+      start();
+    }, 350);
+  });
+
   asyncTest("throttle does not trigger trailing call when trailing is set to false", 4, function() {
     var counter = 0;
     var incr = function(){ counter++; };
