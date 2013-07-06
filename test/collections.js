@@ -158,6 +158,13 @@ $(document).ready(function() {
     strictEqual(_.find(array, function() { return false; }), void 0, 'should return `undefined` if `value` is not found');
   });
 
+  test("compact", function() {
+    equal(_.compact([0, 1, false, 2, false, 3]).length, 3, 'can trim out all falsy values from an array');
+    deepEqual(_.compact({a: 0, b: 1, c: 2, d: false, e: 3, f: NaN}), {b: 1, c: 2, e: 3}, 'can trim out all falsy values from an object');
+    var result = (function(){ return _.compact(arguments).length; })(0, 1, false, 2, false, 3);
+    equal(result, 3, 'works on an arguments object');
+  });
+
   test('detect', function() {
     var result = _.detect([1, 2, 3], function(num){ return num * 2 == 4; });
     equal(result, 2, 'found the first "2" and broke the loop');

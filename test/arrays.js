@@ -53,12 +53,6 @@ $(document).ready(function() {
     equal(_.last(null), undefined, 'handles nulls');
   });
 
-  test("compact", function() {
-    equal(_.compact([0, 1, false, 2, false, 3]).length, 3, 'can trim out all falsy values');
-    var result = (function(){ return _.compact(arguments).length; })(0, 1, false, 2, false, 3);
-    equal(result, 3, 'works on an arguments object');
-  });
-
   test("flatten", function() {
     var list = [1, [2], [3, [[[4]]]]];
     deepEqual(_.flatten(list), [1,2,3,4], 'can flatten nested arrays');
