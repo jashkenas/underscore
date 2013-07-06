@@ -915,15 +915,17 @@
       var aCtor = a.constructor, bCtor = b.constructor;
       if (aCtor !== bCtor && !(_.isFunction(aCtor) && (aCtor instanceof aCtor) &&
                                _.isFunction(bCtor) && (bCtor instanceof bCtor))) {
-        return false;
+        result = false;
       }
       // Deep compare objects.
-      for (var key in a) {
-        if (_.has(a, key)) {
-          // Count the expected number of properties.
-          size++;
-          // Deep compare each member.
-          if (!(result = _.has(b, key) && eq(a[key], b[key], aStack, bStack))) break;
+      if (result) {
+        for (var key in a) {
+          if (_.has(a, key)) {
+            // Count the expected number of properties.
+            size++;
+            // Deep compare each member.
+            if (!(result = _.has(b, key) && eq(a[key], b[key], aStack, bStack))) break;
+          }
         }
       }
       // Ensure that both objects contain the same number of properties.
