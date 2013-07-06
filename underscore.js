@@ -653,10 +653,11 @@
 
   // Returns a function, that, when invoked, will only be triggered at most once
   // during a given window of time.
-  _.throttle = function(func, wait, immediate) {
+  _.throttle = function(func, wait, options) {
     var context, args, result;
     var timeout = null;
     var previous = 0;
+    options || (options = {});
     var later = function() {
       previous = new Date;
       timeout = null;
@@ -664,7 +665,7 @@
     };
     return function() {
       var now = new Date;
-      if (!previous && immediate === false) previous = now;
+      if (!previous && options.leading === false) previous = now;
       var remaining = wait - (now - previous);
       context = this;
       args = arguments;
@@ -673,7 +674,7 @@
         timeout = null;
         previous = now;
         result = func.apply(context, args);
-      } else if (!timeout) {
+      } else if (!timeout && options.trailing !== false) {
         timeout = setTimeout(later, remaining);
       }
       return result;

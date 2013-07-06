@@ -183,17 +183,38 @@ $(document).ready(function() {
     }, 96);
   });
 
-  asyncTest("throttle does not trigger leading call when immediate is set to false", 2, function() {
+  asyncTest("throttle does not trigger leading call when leading is set to false", 2, function() {
     var counter = 0;
     var incr = function(){ counter++; };
-    var throttledIncr = _.throttle(incr, 60, false);
+    var throttledIncr = _.throttle(incr, 60, {leading: false});
 
     throttledIncr(); throttledIncr();
-    ok(counter == 0);
+    ok(counter === 0);
 
     _.delay(function() {
       ok(counter == 1);
       start();
+    }, 96);
+  });
+
+  asyncTest("throttle does not trigger trailing call when trailing is set to false", 4, function() {
+    var counter = 0;
+    var incr = function(){ counter++; };
+    var throttledIncr = _.throttle(incr, 60, {trailing: false});
+
+    throttledIncr(); throttledIncr(); throttledIncr();
+    ok(counter === 1);
+
+    _.delay(function() {
+      ok(counter == 1);
+
+      throttledIncr(); throttledIncr();
+      ok(counter == 2);
+
+      _.delay(function() {
+        ok(counter == 2);
+        start();
+      }, 96);
     }, 96);
   });
 
