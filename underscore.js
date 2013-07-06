@@ -1211,12 +1211,7 @@
 
   // Helper function to continue chaining intermediate results.
   var result = function(obj) {
-    if (this._chain) {
-      this._wrapped = obj;
-      return this;
-    } else {
-      return obj;
-    }
+    return this._chain ? _(obj).chain() : obj;
   };
 
   // Add all of the Underscore functions to the wrapper object.
