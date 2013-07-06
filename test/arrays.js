@@ -65,6 +65,8 @@ $(document).ready(function() {
     deepEqual(_.flatten(list, true), [1,2,3,[[[4]]]], 'can shallowly flatten nested arrays');
     var result = (function(){ return _.flatten(arguments); })(1, [2], [3, [[[4]]]]);
     deepEqual(result, [1,2,3,4], 'works on an arguments object');
+    list = [[1], [2], [3], [[4]]];
+    deepEqual(_.flatten(list, true), [1, 2, 3, [4]], 'can shallowly flatten arrays containing only other arrays');
   });
 
   test("without", function() {
