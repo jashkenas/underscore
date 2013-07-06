@@ -142,6 +142,20 @@ $(document).ready(function() {
     _.delay(function(){ equal(counter, 2, "incr was called twice"); start(); }, 64);
   });
 
+  asyncTest("more throttling", 3, function() {
+    var counter = 0;
+    var incr = function(){ counter++; };
+    var throttledIncr = _.throttle(incr, 30);
+    throttledIncr(); throttledIncr();
+    ok(counter == 1);
+    _.delay(function(){
+      ok(counter == 2);
+      throttledIncr();
+      ok(counter == 3);
+      start();
+    }, 85);
+  });
+
   asyncTest("throttle repeatedly with results", 6, function() {
     var counter = 0;
     var incr = function(){ return ++counter; };
