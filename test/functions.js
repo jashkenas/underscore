@@ -232,6 +232,21 @@ $(document).ready(function() {
     }, 350);
   });
 
+  asyncTest("one more throttle with leading: false test", 2, function() {
+    var counter = 0;
+    var incr = function(){ counter++; };
+    var throttledIncr = _.throttle(incr, 100, {leading: false});
+
+    var time = new Date;
+    while (new Date - time < 350) throttledIncr();
+    ok(counter === 3);
+
+    _.delay(function() {
+      equal(counter, 4);
+      start();
+    }, 200);
+  });
+
   asyncTest("throttle does not trigger trailing call when trailing is set to false", 4, function() {
     var counter = 0;
     var incr = function(){ counter++; };
