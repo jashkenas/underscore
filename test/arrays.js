@@ -60,11 +60,14 @@ $(document).ready(function() {
   });
 
   test("flatten", function() {
-    var list = [1, [2], [3, [[[4]]]]];
-    deepEqual(_.flatten(list), [1,2,3,4], 'can flatten nested arrays');
-    deepEqual(_.flatten(list, true), [1,2,3,[[[4]]]], 'can shallowly flatten nested arrays');
-    var result = (function(){ return _.flatten(arguments); })(1, [2], [3, [[[4]]]]);
-    deepEqual(result, [1,2,3,4], 'works on an arguments object');
+    var list = [1, 2, [3, [4, [5]]]];
+    deepEqual(_.flatten(list), [1,2,3,4,5], 'can flatten nested arrays');
+    deepEqual(_.flatten(list, true), [1,2,3,[4,[5]]], 'can shallowly flatten with a boolean');
+    deepEqual(_.flatten(list, 1), [1,2,3,[4,[5]]], 'can flatten to a depth of 1');
+    deepEqual(_.flatten(list, 2), [1,2,3,4,[5]], 'can flatten to a depth of 2');
+    deepEqual(_.flatten(list, 0), list, 'flatten to a depth of 0 does not flatten');
+    var result = (function(){ return _.flatten(arguments); })(1, 2, [3, [4, [5]]]);
+    deepEqual(result, [1,2,3,4,5], 'works on an arguments object');
   });
 
   test("without", function() {
