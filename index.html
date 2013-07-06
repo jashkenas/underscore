@@ -913,9 +913,9 @@ _.lastIndexOf([1, 2, 3, 1, 2, 3], 2);
 _.sortedIndex([10, 20, 30, 40, 50], 35);
 =&gt; 3
 
-var stooges = [{name : 'moe', age : 40}, {name : 'larry', age : 50}, {name : 'curly', age : 60}];
-_.sortedIndex(stooges, {name: 'jill', age: 55}, 'age');
-=&gt; 2
+var stooges = [{name : 'moe', age : 40}, {name : 'curly', age : 60}];
+_.sortedIndex(stooges, {name : 'larry', age : 50}, 'age');
+=&gt; 1
 </pre>
 
       <p id="range">
