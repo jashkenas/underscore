@@ -574,4 +574,22 @@ $(document).ready(function() {
      child.prototype = obj;
      ok (_.has(child, "foo") == false, "has() does not check the prototype chain for a property.")
   });
+
+  test("createIndex", function(){
+    var array = [{foo:'bar'},{foo:'baz'}];
+    var obj = _.createIndex(array,'foo');
+    equal (obj.bar[0].foo, 'bar', 'can create an index');
+
+    array = [{foo:{bar:'baz'}},{foo:{bar:'boop'}}];
+    obj = _.createIndex(array,'foo.bar');
+    equal (obj.baz[0].foo.bar, 'baz', 'can expand the dot separated path');
+
+    array = [{foo:'bar'},{foo:'baz'}];
+    obj = _.createIndex(array,'foo',true);
+    equal (obj.bar.foo, 'bar', 'can create a unique index');
+
+    array = [{foo:{bar:'baz'}},{foo:{bar:'boop'}}];
+    obj = _.createIndex(array,'foo.bar',true);
+    equal (obj.baz.foo.bar, 'baz', 'can create an expanded unique index');
+  });
 });

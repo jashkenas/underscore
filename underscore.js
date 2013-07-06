@@ -1203,6 +1203,39 @@
     return _(obj).chain();
   };
 
+  // Turn an array into an object of arrays, keyed off the specified parameter
+  // array - the array of objects
+  // path - a dot separated string, or array, of the nested parameters to base the key on
+  // unique - boolean, whether to return an object of arrays of elements matching a key,
+  //          or an object of objects. assumed to be true
+  _.createIndex = function(array,path,unique){
+    if( _.isString(path) ){
+      path = path.split(".");
+    }
+    unique = !!unique;
+    var obj = {};
+    for (var i = 0, l = array.length; i < l; i++) {
+      var el = array[i]
+        , id = el;
+
+      // expand the path if the user passed 'foo.bar.baz'
+      for(var i =0, l = path.length; i < l; i++){
+        id = id[path[i]];
+      }
+
+      if( unique ){
+        obj[id] = el;
+      } else {
+        if( obj[id] === void 0 ){
+          obj[id] = [];
+        }
+        obj[id].push( el );
+      }
+    }
+    return obj;
+  };
+
+
   // OOP
   // ---------------
   // If Underscore is called as a function, it returns a wrapped object that
