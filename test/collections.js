@@ -158,6 +158,16 @@ $(document).ready(function() {
     strictEqual(_.find(array, function() { return false; }), void 0, 'should return `undefined` if `value` is not found');
   });
 
+  test('findIndex', function() {
+    var myObject = {}
+        array = [1, 2, 3, 4, 3, 2, 1, myObject];
+    strictEqual(_.findIndex(array, function(n) { return n > 2; }), 2, 'should return the index of the first found `value`');
+    strictEqual(_.findIndex(array, function() { return false; }), -1, 'should return `-1` if `value` is not found');
+    strictEqual(_.findIndex(array, function(n) { return n > 2; }, window), 2, 'should return the index of the first found `value` with context');
+    strictEqual(_.findIndex(array, function() { return false; }, window), -1, 'should return `-1` if `value` is not found, with context');
+    strictEqual(_.findIndex(array, function(el) { return this === el; }, myObject), 7, 'should return `7` if `this` equals the context variable');
+  });
+
   test('detect', function() {
     var result = _.detect([1, 2, 3], function(num){ return num * 2 == 4; });
     equal(result, 2, 'found the first "2" and broke the loop');
