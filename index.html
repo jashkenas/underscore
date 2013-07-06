@@ -907,10 +907,15 @@ _.lastIndexOf([1, 2, 3, 1, 2, 3], 2);
         <i>should</i> be inserted into the <b>list</b> in order to maintain the <b>list</b>'s
         sorted order. If an <b>iterator</b> is passed, it will be used to compute
         the sort ranking of each value, including the <b>value</b> you pass.
+        Iterator may also be the string name of the property to sort by (eg. <tt>length</tt>).
       </p>
       <pre>
 _.sortedIndex([10, 20, 30, 40, 50], 35);
 =&gt; 3
+
+var stooges = [{name : 'moe', age : 40}, {name : 'larry', age : 50}, {name : 'curly', age : 60}];
+_.sortedIndex(stooges, {name: 'jill', age: 55}, 'age');
+=&gt; 2
 </pre>
 
       <p id="range">
