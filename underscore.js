@@ -498,12 +498,11 @@
     return _.unzip.apply(_, slice.call(arguments));
   };
 
-  // The inverse operation to `_.zip`. If given an array of pairs it
-  // returns an array of the paired elements split into two left and
-  // right element arrays, if given an array of triples it returns a
-  // three element array and so on. For example, `_.unzip` given
-  // `[['a',1],['b',2],['c',3]]` returns the array
-  // [['a','b','c'],[1,2,3]].
+  // The complementary operation to `_.zip`. Passed a list of arrays, returns
+  // a list of arrays, the first of which contains all of the first elements,
+  // the second the second, and so on. For example, `_.unzip` given
+  // `['a',1],['b',2],['c',3]` returns the array
+  // `[['a','b','c'],[1,2,3]]`.
   _.unzip = function() {
     var length = _.max(_.pluck(arguments, "length").concat(0));
     var results = new Array(length);
