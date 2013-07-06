@@ -893,6 +893,13 @@
       // unique nested structures.
       if (aStack[length] == a) return bStack[length] == b;
     }
+    // Objects with different constructors are not equivalent, but `Object`s
+    // from different frames are.
+    var aCtor = a.constructor, bCtor = b.constructor;
+    if (aCtor !== bCtor && !(_.isFunction(aCtor) && (aCtor instanceof aCtor) &&
+                             _.isFunction(bCtor) && (bCtor instanceof bCtor))) {
+      return false;
+    }
     // Add the first object to the stack of traversed objects.
     aStack.push(a);
     bStack.push(b);
@@ -909,13 +916,6 @@
         }
       }
     } else {
-      // Objects with different constructors are not equivalent, but `Object`s
-      // from different frames are.
-      var aCtor = a.constructor, bCtor = b.constructor;
-      if (aCtor !== bCtor && !(_.isFunction(aCtor) && (aCtor instanceof aCtor) &&
-                               _.isFunction(bCtor) && (bCtor instanceof bCtor))) {
-        return false;
-      }
       // Deep compare objects.
       for (var key in a) {
         if (_.has(a, key)) {
