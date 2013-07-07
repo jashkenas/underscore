@@ -16,4 +16,4 @@ For Docs, License, Tests, and pre-packed downloads, see:
 http://underscorejs.org
 
 Many thanks to our contributors:
-https://github.com/documentcloud/underscore/contributors
+https://github.com/jashkenas/underscore/contributors

@@ -4,7 +4,7 @@
   "homepage"      : "http://underscorejs.org",
   "keywords"      : ["util", "functional", "server", "client", "browser"],
   "author"        : "Jeremy Ashkenas <jeremy@documentcloud.org>",
-  "repository"    : {"type": "git", "url": "git://github.com/documentcloud/underscore.git"},
+  "repository"    : {"type": "git", "url": "git://github.com/jashkenas/underscore.git"},
   "main"          : "underscore.js",
   "version"       : "1.5.0",
   "devDependencies": {
