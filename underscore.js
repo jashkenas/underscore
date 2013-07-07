@@ -106,7 +106,7 @@
               }
           }, interval)
       }
-  }
+  };
 
   // Return the results of applying the iterator to each element.
   // Delegates to **ECMAScript 5**'s native `map` if available.
