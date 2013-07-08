@@ -495,15 +495,6 @@
   // Zip together multiple lists into a single array -- elements that share
   // an index go together.
   _.zip = function() {
-    return _.unzip.apply(_, slice.call(arguments));
-  };
-
-  // The complementary operation to `_.zip`. Passed a list of arrays, returns
-  // a list of arrays, the first of which contains all of the first elements,
-  // the second the second, and so on. For example, `_.unzip` given
-  // `['a',1],['b',2],['c',3]` returns the array
-  // `[['a','b','c'],[1,2,3]]`.
-  _.unzip = function() {
     var length = _.max(_.pluck(arguments, "length").concat(0));
     var results = new Array(length);
     for (var i = 0; i < length; i++) {
