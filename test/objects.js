@@ -111,6 +111,10 @@ $(document).ready(function() {
     } catch(ex) {}
 
     equal(options.a, 1, 'should not error on `null` or `undefined` sources');
+    
+    options = {};
+    _.defaults(options, { lazy: function() { return 'invoked'; } });
+    equal(options.lazy, 'invoked', 'invoked default value');
   });
 
   test("clone", function() {
