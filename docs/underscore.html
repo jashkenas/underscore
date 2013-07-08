@@ -27,10 +27,9 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-1">&#182;</a>
               </div>
-              <pre><code>Underscore.js 1.5.0
+              <pre><code>Underscore.js 1.5.1
 http://underscorejs.org
-(c) 2009-2011 Jeremy Ashkenas, DocumentCloud Inc.
-(c) 2011-2013 Jeremy Ashkenas, DocumentCloud and Investigative Reporters &amp; Editors
+(c) 2009-2013 Jeremy Ashkenas, DocumentCloud and Investigative Reporters &amp; Editors
 Underscore may be freely distributed under the MIT license.</code></pre>
 
             </div>
@@ -237,7 +236,7 @@ for Closure Compiler &quot;advanced&quot; mode.
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  _.VERSION = <span class="string">'1.5.0'</span>;</pre></div></div>
+            <div class="content"><div class='highlight'><pre>  _.VERSION = <span class="string">'1.5.1'</span>;</pre></div></div>
             
         </li>
         
@@ -1204,29 +1203,6 @@ an index go together.
             </div>
             
             <div class="content"><div class='highlight'><pre>  _.zip = <span class="keyword">function</span>() {
-    <span class="keyword">return</span> _.unzip.apply(_, slice.call(arguments));
-  };</pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-55">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-55">&#182;</a>
-              </div>
-              <p>The inverse operation to <code>_.zip</code>. If given an array of pairs it
-returns an array of the paired elements split into two left and
-right element arrays, if given an array of triples it returns a
-three element array and so on. For example, <code>_.unzip</code> given
-<code>[[&#39;a&#39;,1],[&#39;b&#39;,2],[&#39;c&#39;,3]]</code> returns the array
-[[&#39;a&#39;,&#39;b&#39;,&#39;c&#39;],[1,2,3]].
-</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>  _.unzip = <span class="keyword">function</span>() {
     <span class="keyword">var</span> length = _.max(_.pluck(arguments, <span class="string">"length"</span>).concat(<span class="number">0</span>));
     <span class="keyword">var</span> results = <span class="keyword">new</span> Array(length);
     <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; length; i++) {
@@ -1238,11 +1214,11 @@ three element array and so on. For example, <code>_.unzip</code> given
         </li>
         
         
-        <li id="section-56">
+        <li id="section-55">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-56">&#182;</a>
+                <a class="pilcrow" href="#section-55">&#182;</a>
               </div>
               <p>Converts lists into objects. Pass either a single array of <code>[key, value]</code>
 pairs, or two parallel arrays of the same length -- one of keys, and one of
@@ -1267,11 +1243,11 @@ the corresponding values.
         </li>
         
         
-        <li id="section-57">
+        <li id="section-56">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-57">&#182;</a>
+                <a class="pilcrow" href="#section-56">&#182;</a>
               </div>
               <p>If the browser doesn&#39;t supply us with indexOf (I&#39;m looking at you, <strong>MSIE</strong>),
 we need this function. Return the position of the first occurrence of an
@@ -1302,11 +1278,11 @@ for <strong>isSorted</strong> to use binary search.
         </li>
         
         
-        <li id="section-58">
+        <li id="section-57">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-58">&#182;</a>
+                <a class="pilcrow" href="#section-57">&#182;</a>
               </div>
               <p>Delegates to <strong>ECMAScript 5</strong>&#39;s native <code>lastIndexOf</code> if available.
 </p>
@@ -1327,11 +1303,11 @@ for <strong>isSorted</strong> to use binary search.
         </li>
         
         
-        <li id="section-59">
+        <li id="section-58">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-59">&#182;</a>
+                <a class="pilcrow" href="#section-58">&#182;</a>
               </div>
               <p>Generate an integer Array containing an arithmetic progression. A port of
 the native Python <code>range()</code> function. See
@@ -1362,14 +1338,26 @@ the native Python <code>range()</code> function. See
         </li>
         
         
-        <li id="section-60">
+        <li id="section-59">
             <div class="annotation">
               
               <div class="pilwrap for-h2">
-                <a class="pilcrow" href="#section-60">&#182;</a>
+                <a class="pilcrow" href="#section-59">&#182;</a>
               </div>
               <h2>Function (ahem) Functions</h2>
 
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-60">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-60">&#182;</a>
+              </div>
+              
             </div>
             
         </li>
@@ -1381,18 +1369,6 @@ the native Python <code>range()</code> function. See
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-61">&#182;</a>
               </div>
-              
-            </div>
-            
-        </li>
-        
-        
-        <li id="section-62">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-62">&#182;</a>
-              </div>
               <p>Reusable constructor function for prototype setting.
 </p>
 
@@ -1403,11 +1379,11 @@ the native Python <code>range()</code> function. See
         </li>
         
         
-        <li id="section-63">
+        <li id="section-62">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-63">&#182;</a>
+                <a class="pilcrow" href="#section-62">&#182;</a>
               </div>
               <p>Create a function bound to a given object (assigning <code>this</code>, and arguments,
 optionally). Delegates to <strong>ECMAScript 5</strong>&#39;s native <code>Function.bind</code> if
@@ -1435,11 +1411,11 @@ available.
         </li>
         
         
-        <li id="section-64">
+        <li id="section-63">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-64">&#182;</a>
+                <a class="pilcrow" href="#section-63">&#182;</a>
               </div>
               <p>Partially apply a function by creating a version that has had some of its
 arguments pre-filled, without changing its dynamic <code>this</code> context.
@@ -1457,11 +1433,11 @@ arguments pre-filled, without changing its dynamic <code>this</code> context.
         </li>
         
         
-        <li id="section-65">
+        <li id="section-64">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-65">&#182;</a>
+                <a class="pilcrow" href="#section-64">&#182;</a>
               </div>
               <p>Bind all of an object&#39;s methods to that object. Useful for ensuring that
 all callbacks defined on an object belong to it.
@@ -1479,11 +1455,11 @@ all callbacks defined on an object belong to it.
         </li>
         
         
-        <li id="section-66">
+        <li id="section-65">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-66">&#182;</a>
+                <a class="pilcrow" href="#section-65">&#182;</a>
               </div>
               <p>Memoize an expensive function by storing its results.
 </p>
@@ -1502,11 +1478,11 @@ all callbacks defined on an object belong to it.
         </li>
         
         
-        <li id="section-67">
+        <li id="section-66">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-67">&#182;</a>
+                <a class="pilcrow" href="#section-66">&#182;</a>
               </div>
               <p>Delays a function for the given number of milliseconds, and then calls
 it with the arguments supplied.
@@ -1522,11 +1498,11 @@ it with the arguments supplied.
         </li>
         
         
-        <li id="section-68">
+        <li id="section-67">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-68">&#182;</a>
+                <a class="pilcrow" href="#section-67">&#182;</a>
               </div>
               <p>Defers a function, scheduling it to run after the current call stack has
 cleared.
@@ -1541,11 +1517,11 @@ cleared.
         </li>
         
         
-        <li id="section-69">
+        <li id="section-68">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-69">&#182;</a>
+                <a class="pilcrow" href="#section-68">&#182;</a>
               </div>
               <p>Returns a function, that, when invoked, will only be triggered at most once
 during a given window of time. Normally, the throttled function will run
@@ -1562,7 +1538,7 @@ but if you&#39;d like to disable the execution on the leading edge, pass
     <span class="keyword">var</span> previous = <span class="number">0</span>;
     options || (options = {});
     <span class="keyword">var</span> later = <span class="keyword">function</span>() {
-      previous = <span class="keyword">new</span> Date;
+      previous = options.leading === <span class="literal">false</span> ? <span class="number">0</span> : <span class="keyword">new</span> Date;
       timeout = <span class="literal">null</span>;
       result = func.apply(context, args);
     };
@@ -1587,11 +1563,11 @@ but if you&#39;d like to disable the execution on the leading edge, pass
         </li>
         
         
-        <li id="section-70">
+        <li id="section-69">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-70">&#182;</a>
+                <a class="pilcrow" href="#section-69">&#182;</a>
               </div>
               <p>Returns a function, that, as long as it continues to be invoked, will not
 be triggered. The function will be called after it stops being called for
@@ -1621,11 +1597,11 @@ leading edge, instead of the trailing.
         </li>
         
         
-        <li id="section-71">
+        <li id="section-70">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-71">&#182;</a>
+                <a class="pilcrow" href="#section-70">&#182;</a>
               </div>
               <p>Returns a function that will be executed at most one time, no matter how
 often you call it. Useful for lazy initialization.
@@ -1647,11 +1623,11 @@ often you call it. Useful for lazy initialization.
         </li>
         
         
-        <li id="section-72">
+        <li id="section-71">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-72">&#182;</a>
+                <a class="pilcrow" href="#section-71">&#182;</a>
               </div>
               <p>Returns the first function passed as an argument to the second,
 allowing you to adjust arguments, run code before and after, and
@@ -1671,11 +1647,11 @@ conditionally execute the original function.
         </li>
         
         
-        <li id="section-73">
+        <li id="section-72">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-73">&#182;</a>
+                <a class="pilcrow" href="#section-72">&#182;</a>
               </div>
               <p>Returns a function that is the composition of a list of functions, each
 consuming the return value of the function that follows.
@@ -1697,11 +1673,11 @@ consuming the return value of the function that follows.
         </li>
         
         
-        <li id="section-74">
+        <li id="section-73">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-74">&#182;</a>
+                <a class="pilcrow" href="#section-73">&#182;</a>
               </div>
               <p>Returns a function that will only be executed after being called N times.
 </p>
@@ -1719,14 +1695,26 @@ consuming the return value of the function that follows.
         </li>
         
         
-        <li id="section-75">
+        <li id="section-74">
             <div class="annotation">
               
               <div class="pilwrap for-h2">
-                <a class="pilcrow" href="#section-75">&#182;</a>
+                <a class="pilcrow" href="#section-74">&#182;</a>
               </div>
               <h2>Object Functions</h2>
 
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-75">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-75">&#182;</a>
+              </div>
+              
             </div>
             
         </li>
@@ -1737,18 +1725,6 @@ consuming the return value of the function that follows.
               
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-76">&#182;</a>
-              </div>
-              
-            </div>
-            
-        </li>
-        
-        
-        <li id="section-77">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-77">&#182;</a>
               </div>
               <p>Retrieve the names of an object&#39;s properties.
 Delegates to <strong>ECMAScript 5</strong>&#39;s native <code>Object.keys</code>
@@ -1766,11 +1742,11 @@ Delegates to <strong>ECMAScript 5</strong>&#39;s native <code>Object.keys</code>
         </li>
         
         
-        <li id="section-78">
+        <li id="section-77">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-78">&#182;</a>
+                <a class="pilcrow" href="#section-77">&#182;</a>
               </div>
               <p>Retrieve the values of an object&#39;s properties.
 </p>
@@ -1786,11 +1762,11 @@ Delegates to <strong>ECMAScript 5</strong>&#39;s native <code>Object.keys</code>
         </li>
         
         
-        <li id="section-79">
+        <li id="section-78">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-79">&#182;</a>
+                <a class="pilcrow" href="#section-78">&#182;</a>
               </div>
               <p>Convert an object into a list of <code>[key, value]</code> pairs.
 </p>
@@ -1806,11 +1782,11 @@ Delegates to <strong>ECMAScript 5</strong>&#39;s native <code>Object.keys</code>
         </li>
         
         
-        <li id="section-80">
+        <li id="section-79">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-80">&#182;</a>
+                <a class="pilcrow" href="#section-79">&#182;</a>
               </div>
               <p>Invert the keys and values of an object. The values must be serializable.
 </p>
@@ -1826,11 +1802,11 @@ Delegates to <strong>ECMAScript 5</strong>&#39;s native <code>Object.keys</code>
         </li>
         
         
-        <li id="section-81">
+        <li id="section-80">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-81">&#182;</a>
+                <a class="pilcrow" href="#section-80">&#182;</a>
               </div>
               <p>Return a sorted list of the function names available on the object.
 Aliased as <code>methods</code>
@@ -1849,11 +1825,11 @@ Aliased as <code>methods</code>
         </li>
         
         
-        <li id="section-82">
+        <li id="section-81">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-82">&#182;</a>
+                <a class="pilcrow" href="#section-81">&#182;</a>
               </div>
               <p>Extend a given object with all the properties in passed-in object(s).
 </p>
@@ -1874,11 +1850,11 @@ Aliased as <code>methods</code>
         </li>
         
         
-        <li id="section-83">
+        <li id="section-82">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-83">&#182;</a>
+                <a class="pilcrow" href="#section-82">&#182;</a>
               </div>
               <p>Return a copy of the object only containing the whitelisted properties.
 </p>
@@ -1897,11 +1873,11 @@ Aliased as <code>methods</code>
         </li>
         
         
-        <li id="section-84">
+        <li id="section-83">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-84">&#182;</a>
+                <a class="pilcrow" href="#section-83">&#182;</a>
               </div>
               <p>Return a copy of the object without the blacklisted properties.
 </p>
@@ -1920,11 +1896,11 @@ Aliased as <code>methods</code>
         </li>
         
         
-        <li id="section-85">
+        <li id="section-84">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-85">&#182;</a>
+                <a class="pilcrow" href="#section-84">&#182;</a>
               </div>
               <p>Fill in a given object with default properties.
 </p>
@@ -1945,11 +1921,11 @@ Aliased as <code>methods</code>
         </li>
         
         
-        <li id="section-86">
+        <li id="section-85">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-86">&#182;</a>
+                <a class="pilcrow" href="#section-85">&#182;</a>
               </div>
               <p>Create a (shallow-cloned) duplicate of an object.
 </p>
@@ -1964,11 +1940,11 @@ Aliased as <code>methods</code>
         </li>
         
         
-        <li id="section-87">
+        <li id="section-86">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-87">&#182;</a>
+                <a class="pilcrow" href="#section-86">&#182;</a>
               </div>
               <p>Invokes interceptor with the obj, and then returns obj.
 The primary purpose of this method is to &quot;tap into&quot; a method chain, in
@@ -1985,11 +1961,11 @@ order to perform operations on intermediate results within the chain.
         </li>
         
         
-        <li id="section-88">
+        <li id="section-87">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-88">&#182;</a>
+                <a class="pilcrow" href="#section-87">&#182;</a>
               </div>
               <p>Internal recursive comparison function for <code>isEqual</code>.
 </p>
@@ -2001,11 +1977,11 @@ order to perform operations on intermediate results within the chain.
         </li>
         
         
-        <li id="section-89">
+        <li id="section-88">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-89">&#182;</a>
+                <a class="pilcrow" href="#section-88">&#182;</a>
               </div>
               <p>Identical objects are equal. <code>0 === -0</code>, but they aren&#39;t identical.
 See the <a href="http://wiki.ecmascript.org/doku.php?id=harmony:egal">Harmony <code>egal</code> proposal</a>.
@@ -2018,11 +1994,11 @@ See the <a href="http://wiki.ecmascript.org/doku.php?id=harmony:egal">Harmony <c
         </li>
         
         
-        <li id="section-90">
+        <li id="section-89">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-90">&#182;</a>
+                <a class="pilcrow" href="#section-89">&#182;</a>
               </div>
               <p>A strict comparison is necessary because <code>null == undefined</code>.
 </p>
@@ -2034,11 +2010,11 @@ See the <a href="http://wiki.ecmascript.org/doku.php?id=harmony:egal">Harmony <c
         </li>
         
         
-        <li id="section-91">
+        <li id="section-90">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-91">&#182;</a>
+                <a class="pilcrow" href="#section-90">&#182;</a>
               </div>
               <p>Unwrap any wrapped objects.
 </p>
@@ -2051,11 +2027,11 @@ See the <a href="http://wiki.ecmascript.org/doku.php?id=harmony:egal">Harmony <c
         </li>
         
         
-        <li id="section-92">
+        <li id="section-91">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-92">&#182;</a>
+                <a class="pilcrow" href="#section-91">&#182;</a>
               </div>
               <p>Compare <code>[[Class]]</code> names.
 </p>
@@ -2069,11 +2045,11 @@ See the <a href="http://wiki.ecmascript.org/doku.php?id=harmony:egal">Harmony <c
         </li>
         
         
-        <li id="section-93">
+        <li id="section-92">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-93">&#182;</a>
+                <a class="pilcrow" href="#section-92">&#182;</a>
               </div>
               <p>Strings, numbers, dates, and booleans are compared by value.
 </p>
@@ -2085,11 +2061,11 @@ See the <a href="http://wiki.ecmascript.org/doku.php?id=harmony:egal">Harmony <c
         </li>
         
         
-        <li id="section-94">
+        <li id="section-93">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-94">&#182;</a>
+                <a class="pilcrow" href="#section-93">&#182;</a>
               </div>
               <p>Primitives and their corresponding object wrappers are equivalent; thus, <code>&quot;5&quot;</code> is
 equivalent to <code>new String(&quot;5&quot;)</code>.
@@ -2103,11 +2079,11 @@ equivalent to <code>new String(&quot;5&quot;)</code>.
         </li>
         
         
-        <li id="section-95">
+        <li id="section-94">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-95">&#182;</a>
+                <a class="pilcrow" href="#section-94">&#182;</a>
               </div>
               <p><code>NaN</code>s are equivalent, but non-reflexive. An <code>egal</code> comparison is performed for
 other numeric values.
@@ -2122,11 +2098,11 @@ other numeric values.
         </li>
         
         
-        <li id="section-96">
+        <li id="section-95">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-96">&#182;</a>
+                <a class="pilcrow" href="#section-95">&#182;</a>
               </div>
               <p>Coerce dates and booleans to numeric primitive values. Dates are compared by their
 millisecond representations. Note that invalid dates with millisecond representations
@@ -2140,11 +2116,11 @@ of <code>NaN</code> are not equivalent.
         </li>
         
         
-        <li id="section-97">
+        <li id="section-96">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-97">&#182;</a>
+                <a class="pilcrow" href="#section-96">&#182;</a>
               </div>
               <p>RegExps are compared by their source patterns and flags.
 </p>
@@ -2162,11 +2138,11 @@ of <code>NaN</code> are not equivalent.
         </li>
         
         
-        <li id="section-98">
+        <li id="section-97">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-98">&#182;</a>
+                <a class="pilcrow" href="#section-97">&#182;</a>
               </div>
               <p>Assume equality for cyclic structures. The algorithm for detecting cyclic
 structures is adapted from ES 5.1 section 15.12.3, abstract operation <code>JO</code>.
@@ -2180,11 +2156,11 @@ structures is adapted from ES 5.1 section 15.12.3, abstract operation <code>JO</
         </li>
         
         
-        <li id="section-99">
+        <li id="section-98">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-99">&#182;</a>
+                <a class="pilcrow" href="#section-98">&#182;</a>
               </div>
               <p>Linear search. Performance is inversely proportional to the number of
 unique nested structures.
@@ -2198,11 +2174,11 @@ unique nested structures.
         </li>
         
         
-        <li id="section-100">
+        <li id="section-99">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-100">&#182;</a>
+                <a class="pilcrow" href="#section-99">&#182;</a>
               </div>
               <p>Objects with different constructors are not equivalent, but <code>Object</code>s
 from different frames are.
@@ -2219,11 +2195,11 @@ from different frames are.
         </li>
         
         
-        <li id="section-101">
+        <li id="section-100">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-101">&#182;</a>
+                <a class="pilcrow" href="#section-100">&#182;</a>
               </div>
               <p>Add the first object to the stack of traversed objects.
 </p>
@@ -2237,11 +2213,11 @@ from different frames are.
         </li>
         
         
-        <li id="section-102">
+        <li id="section-101">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-102">&#182;</a>
+                <a class="pilcrow" href="#section-101">&#182;</a>
               </div>
               <p>Recursively compare objects and arrays.
 </p>
@@ -2253,11 +2229,11 @@ from different frames are.
         </li>
         
         
-        <li id="section-103">
+        <li id="section-102">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-103">&#182;</a>
+                <a class="pilcrow" href="#section-102">&#182;</a>
               </div>
               <p>Compare array lengths to determine if a deep comparison is necessary.
 </p>
@@ -2271,11 +2247,11 @@ from different frames are.
         </li>
         
         
-        <li id="section-104">
+        <li id="section-103">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-104">&#182;</a>
+                <a class="pilcrow" href="#section-103">&#182;</a>
               </div>
               <p>Deep compare the contents, ignoring non-numeric properties.
 </p>
@@ -2291,11 +2267,11 @@ from different frames are.
         </li>
         
         
-        <li id="section-105">
+        <li id="section-104">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-105">&#182;</a>
+                <a class="pilcrow" href="#section-104">&#182;</a>
               </div>
               <p>Deep compare objects.
 </p>
@@ -2308,11 +2284,11 @@ from different frames are.
         </li>
         
         
-        <li id="section-106">
+        <li id="section-105">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-106">&#182;</a>
+                <a class="pilcrow" href="#section-105">&#182;</a>
               </div>
               <p>Count the expected number of properties.
 </p>
@@ -2324,11 +2300,11 @@ from different frames are.
         </li>
         
         
-        <li id="section-107">
+        <li id="section-106">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-107">&#182;</a>
+                <a class="pilcrow" href="#section-106">&#182;</a>
               </div>
               <p>Deep compare each member.
 </p>
@@ -2342,11 +2318,11 @@ from different frames are.
         </li>
         
         
-        <li id="section-108">
+        <li id="section-107">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-108">&#182;</a>
+                <a class="pilcrow" href="#section-107">&#182;</a>
               </div>
               <p>Ensure that both objects contain the same number of properties.
 </p>
@@ -2364,11 +2340,11 @@ from different frames are.
         </li>
         
         
-        <li id="section-109">
+        <li id="section-108">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-109">&#182;</a>
+                <a class="pilcrow" href="#section-108">&#182;</a>
               </div>
               <p>Remove the first object from the stack of traversed objects.
 </p>
@@ -2383,11 +2359,11 @@ from different frames are.
         </li>
         
         
-        <li id="section-110">
+        <li id="section-109">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-110">&#182;</a>
+                <a class="pilcrow" href="#section-109">&#182;</a>
               </div>
               <p>Perform a deep comparison to check if two objects are equal.
 </p>
@@ -2401,11 +2377,11 @@ from different frames are.
         </li>
         
         
-        <li id="section-111">
+        <li id="section-110">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-111">&#182;</a>
+                <a class="pilcrow" href="#section-110">&#182;</a>
               </div>
               <p>Is a given array, string, or object empty?
 An &quot;empty&quot; object has no enumerable own-properties.
@@ -2423,11 +2399,11 @@ An &quot;empty&quot; object has no enumerable own-properties.
         </li>
         
         
-        <li id="section-112">
+        <li id="section-111">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-112">&#182;</a>
+                <a class="pilcrow" href="#section-111">&#182;</a>
               </div>
               <p>Is a given value a DOM element?
 </p>
@@ -2441,11 +2417,11 @@ An &quot;empty&quot; object has no enumerable own-properties.
         </li>
         
         
-        <li id="section-113">
+        <li id="section-112">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-113">&#182;</a>
+                <a class="pilcrow" href="#section-112">&#182;</a>
               </div>
               <p>Is a given value an array?
 Delegates to ECMA5&#39;s native Array.isArray
@@ -2460,11 +2436,11 @@ Delegates to ECMA5&#39;s native Array.isArray
         </li>
         
         
-        <li id="section-114">
+        <li id="section-113">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-114">&#182;</a>
+                <a class="pilcrow" href="#section-113">&#182;</a>
               </div>
               <p>Is a given variable an object?
 </p>
@@ -2478,11 +2454,11 @@ Delegates to ECMA5&#39;s native Array.isArray
         </li>
         
         
-        <li id="section-115">
+        <li id="section-114">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-115">&#182;</a>
+                <a class="pilcrow" href="#section-114">&#182;</a>
               </div>
               <p>Add some isType methods: isArguments, isFunction, isString, isNumber, isDate, isRegExp.
 </p>
@@ -2498,11 +2474,11 @@ Delegates to ECMA5&#39;s native Array.isArray
         </li>
         
         
-        <li id="section-116">
+        <li id="section-115">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-116">&#182;</a>
+                <a class="pilcrow" href="#section-115">&#182;</a>
               </div>
               <p>Define a fallback version of the method in browsers (ahem, IE), where
 there isn&#39;t any inspectable &quot;Arguments&quot; type.
@@ -2519,11 +2495,11 @@ there isn&#39;t any inspectable &quot;Arguments&quot; type.
         </li>
         
         
-        <li id="section-117">
+        <li id="section-116">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-117">&#182;</a>
+                <a class="pilcrow" href="#section-116">&#182;</a>
               </div>
               <p>Optimize <code>isFunction</code> if appropriate.
 </p>
@@ -2539,11 +2515,11 @@ there isn&#39;t any inspectable &quot;Arguments&quot; type.
         </li>
         
         
-        <li id="section-118">
+        <li id="section-117">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-118">&#182;</a>
+                <a class="pilcrow" href="#section-117">&#182;</a>
               </div>
               <p>Is a given object a finite number?
 </p>
@@ -2557,11 +2533,11 @@ there isn&#39;t any inspectable &quot;Arguments&quot; type.
         </li>
         
         
-        <li id="section-119">
+        <li id="section-118">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-119">&#182;</a>
+                <a class="pilcrow" href="#section-118">&#182;</a>
               </div>
               <p>Is the given value <code>NaN</code>? (NaN is the only number which does not equal itself).
 </p>
@@ -2575,11 +2551,11 @@ there isn&#39;t any inspectable &quot;Arguments&quot; type.
         </li>
         
         
-        <li id="section-120">
+        <li id="section-119">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-120">&#182;</a>
+                <a class="pilcrow" href="#section-119">&#182;</a>
               </div>
               <p>Is a given value a boolean?
 </p>
@@ -2593,11 +2569,11 @@ there isn&#39;t any inspectable &quot;Arguments&quot; type.
         </li>
         
         
-        <li id="section-121">
+        <li id="section-120">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-121">&#182;</a>
+                <a class="pilcrow" href="#section-120">&#182;</a>
               </div>
               <p>Is a given value equal to null?
 </p>
@@ -2611,11 +2587,11 @@ there isn&#39;t any inspectable &quot;Arguments&quot; type.
         </li>
         
         
-        <li id="section-122">
+        <li id="section-121">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-122">&#182;</a>
+                <a class="pilcrow" href="#section-121">&#182;</a>
               </div>
               <p>Is a given variable undefined?
 </p>
@@ -2629,11 +2605,11 @@ there isn&#39;t any inspectable &quot;Arguments&quot; type.
         </li>
         
         
-        <li id="section-123">
+        <li id="section-122">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-123">&#182;</a>
+                <a class="pilcrow" href="#section-122">&#182;</a>
               </div>
               <p>Shortcut function for checking if an object has a given property directly
 on itself (in other words, not on a prototype).
@@ -2648,14 +2624,26 @@ on itself (in other words, not on a prototype).
         </li>
         
         
-        <li id="section-124">
+        <li id="section-123">
             <div class="annotation">
               
               <div class="pilwrap for-h2">
-                <a class="pilcrow" href="#section-124">&#182;</a>
+                <a class="pilcrow" href="#section-123">&#182;</a>
               </div>
               <h2>Utility Functions</h2>
 
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-124">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-124">&#182;</a>
+              </div>
+              
             </div>
             
         </li>
@@ -2666,18 +2654,6 @@ on itself (in other words, not on a prototype).
               
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-125">&#182;</a>
-              </div>
-              
-            </div>
-            
-        </li>
-        
-        
-        <li id="section-126">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-126">&#182;</a>
               </div>
               <p>Run Underscore.js in <em>noConflict</em> mode, returning the <code>_</code> variable to its
 previous owner. Returns a reference to the Underscore object.
@@ -2693,11 +2669,11 @@ previous owner. Returns a reference to the Underscore object.
         </li>
         
         
-        <li id="section-127">
+        <li id="section-126">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-127">&#182;</a>
+                <a class="pilcrow" href="#section-126">&#182;</a>
               </div>
               <p>Keep the identity function around for default iterators.
 </p>
@@ -2711,11 +2687,11 @@ previous owner. Returns a reference to the Underscore object.
         </li>
         
         
-        <li id="section-128">
+        <li id="section-127">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-128">&#182;</a>
+                <a class="pilcrow" href="#section-127">&#182;</a>
               </div>
               <p>Run a function <strong>n</strong> times.
 </p>
@@ -2731,11 +2707,11 @@ previous owner. Returns a reference to the Underscore object.
         </li>
         
         
-        <li id="section-129">
+        <li id="section-128">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-129">&#182;</a>
+                <a class="pilcrow" href="#section-128">&#182;</a>
               </div>
               <p>Return a random integer between min and max (inclusive).
 </p>
@@ -2753,11 +2729,11 @@ previous owner. Returns a reference to the Underscore object.
         </li>
         
         
-        <li id="section-130">
+        <li id="section-129">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-130">&#182;</a>
+                <a class="pilcrow" href="#section-129">&#182;</a>
               </div>
               <p>List of HTML entities for escaping.
 </p>
@@ -2779,11 +2755,11 @@ previous owner. Returns a reference to the Underscore object.
         </li>
         
         
-        <li id="section-131">
+        <li id="section-130">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-131">&#182;</a>
+                <a class="pilcrow" href="#section-130">&#182;</a>
               </div>
               <p>Regexes containing the keys and values listed immediately above.
 </p>
@@ -2798,11 +2774,11 @@ previous owner. Returns a reference to the Underscore object.
         </li>
         
         
-        <li id="section-132">
+        <li id="section-131">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-132">&#182;</a>
+                <a class="pilcrow" href="#section-131">&#182;</a>
               </div>
               <p>Functions for escaping and unescaping strings to/from HTML interpolation.
 </p>
@@ -2821,11 +2797,11 @@ previous owner. Returns a reference to the Underscore object.
         </li>
         
         
-        <li id="section-133">
+        <li id="section-132">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-133">&#182;</a>
+                <a class="pilcrow" href="#section-132">&#182;</a>
               </div>
               <p>If the value of the named <code>property</code> is a function then invoke it with the
 <code>object</code> as context; otherwise, return it.
@@ -2842,11 +2818,11 @@ previous owner. Returns a reference to the Underscore object.
         </li>
         
         
-        <li id="section-134">
+        <li id="section-133">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-134">&#182;</a>
+                <a class="pilcrow" href="#section-133">&#182;</a>
               </div>
               <p>Add your own custom functions to the Underscore object.
 </p>
@@ -2867,11 +2843,11 @@ previous owner. Returns a reference to the Underscore object.
         </li>
         
         
-        <li id="section-135">
+        <li id="section-134">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-135">&#182;</a>
+                <a class="pilcrow" href="#section-134">&#182;</a>
               </div>
               <p>Generate a unique integer id (unique within the entire client session).
 Useful for temporary DOM ids.
@@ -2888,11 +2864,11 @@ Useful for temporary DOM ids.
         </li>
         
         
-        <li id="section-136">
+        <li id="section-135">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-136">&#182;</a>
+                <a class="pilcrow" href="#section-135">&#182;</a>
               </div>
               <p>By default, Underscore uses ERB-style template delimiters, change the
 following template settings to use alternative delimiters.
@@ -2909,11 +2885,11 @@ following template settings to use alternative delimiters.
         </li>
         
         
-        <li id="section-137">
+        <li id="section-136">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-137">&#182;</a>
+                <a class="pilcrow" href="#section-136">&#182;</a>
               </div>
               <p>When customizing <code>templateSettings</code>, if you don&#39;t want to define an
 interpolation, evaluation or escaping regex, we need one that is
@@ -2927,11 +2903,11 @@ guaranteed not to match.
         </li>
         
         
-        <li id="section-138">
+        <li id="section-137">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-138">&#182;</a>
+                <a class="pilcrow" href="#section-137">&#182;</a>
               </div>
               <p>Certain characters need to be escaped so that they can be put into a
 string literal.
@@ -2954,11 +2930,11 @@ string literal.
         </li>
         
         
-        <li id="section-139">
+        <li id="section-138">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-139">&#182;</a>
+                <a class="pilcrow" href="#section-138">&#182;</a>
               </div>
               <p>JavaScript micro-templating, similar to John Resig&#39;s implementation.
 Underscore templating handles arbitrary delimiters, preserves whitespace,
@@ -2974,11 +2950,11 @@ and correctly escapes quotes within interpolated code.
         </li>
         
         
-        <li id="section-140">
+        <li id="section-139">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-140">&#182;</a>
+                <a class="pilcrow" href="#section-139">&#182;</a>
               </div>
               <p>Combine delimiters into one regular expression via alternation.
 </p>
@@ -2994,11 +2970,11 @@ and correctly escapes quotes within interpolated code.
         </li>
         
         
-        <li id="section-141">
+        <li id="section-140">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-141">&#182;</a>
+                <a class="pilcrow" href="#section-140">&#182;</a>
               </div>
               <p>Compile the template source, escaping string literals appropriately.
 </p>
@@ -3028,11 +3004,11 @@ and correctly escapes quotes within interpolated code.
         </li>
         
         
-        <li id="section-142">
+        <li id="section-141">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-142">&#182;</a>
+                <a class="pilcrow" href="#section-141">&#182;</a>
               </div>
               <p>If a variable is not specified, place data values in local scope.
 </p>
@@ -3060,11 +3036,11 @@ and correctly escapes quotes within interpolated code.
         </li>
         
         
-        <li id="section-143">
+        <li id="section-142">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-143">&#182;</a>
+                <a class="pilcrow" href="#section-142">&#182;</a>
               </div>
               <p>Provide the compiled function source as a convenience for precompilation.
 </p>
@@ -3079,11 +3055,11 @@ and correctly escapes quotes within interpolated code.
         </li>
         
         
-        <li id="section-144">
+        <li id="section-143">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-144">&#182;</a>
+                <a class="pilcrow" href="#section-143">&#182;</a>
               </div>
               <p>Add a &quot;chain&quot; function, which will delegate to the wrapper.
 </p>
@@ -3097,11 +3073,11 @@ and correctly escapes quotes within interpolated code.
         </li>
         
         
-        <li id="section-145">
+        <li id="section-144">
             <div class="annotation">
               
               <div class="pilwrap for-h2">
-                <a class="pilcrow" href="#section-145">&#182;</a>
+                <a class="pilcrow" href="#section-144">&#182;</a>
               </div>
               <h2>OOP</h2>
 
@@ -3110,11 +3086,11 @@ and correctly escapes quotes within interpolated code.
         </li>
         
         
-        <li id="section-146">
+        <li id="section-145">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-146">&#182;</a>
+                <a class="pilcrow" href="#section-145">&#182;</a>
               </div>
               <p>If Underscore is called as a function, it returns a wrapped object that
 can be used OO-style. This wrapper holds altered versions of all the
@@ -3126,11 +3102,11 @@ underscore functions. Wrapped objects may be chained.
         </li>
         
         
-        <li id="section-147">
+        <li id="section-146">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-147">&#182;</a>
+                <a class="pilcrow" href="#section-146">&#182;</a>
               </div>
               <p>Helper function to continue chaining intermediate results.
 </p>
@@ -3144,11 +3120,11 @@ underscore functions. Wrapped objects may be chained.
         </li>
         
         
-        <li id="section-148">
+        <li id="section-147">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-148">&#182;</a>
+                <a class="pilcrow" href="#section-147">&#182;</a>
               </div>
               <p>Add all of the Underscore functions to the wrapper object.
 </p>
@@ -3160,11 +3136,11 @@ underscore functions. Wrapped objects may be chained.
         </li>
         
         
-        <li id="section-149">
+        <li id="section-148">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-149">&#182;</a>
+                <a class="pilcrow" href="#section-148">&#182;</a>
               </div>
               <p>Add all mutator Array functions to the wrapper.
 </p>
@@ -3184,11 +3160,11 @@ underscore functions. Wrapped objects may be chained.
         </li>
         
         
-        <li id="section-150">
+        <li id="section-149">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-150">&#182;</a>
+                <a class="pilcrow" href="#section-149">&#182;</a>
               </div>
               <p>Add all accessor Array functions to the wrapper.
 </p>
@@ -3207,11 +3183,11 @@ underscore functions. Wrapped objects may be chained.
         </li>
         
         
-        <li id="section-151">
+        <li id="section-150">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-151">&#182;</a>
+                <a class="pilcrow" href="#section-150">&#182;</a>
               </div>
               <p>Start chaining a wrapped Underscore object.
 </p>
@@ -3226,11 +3202,11 @@ underscore functions. Wrapped objects may be chained.
         </li>
         
         
-        <li id="section-152">
+        <li id="section-151">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-152">&#182;</a>
+                <a class="pilcrow" href="#section-151">&#182;</a>
               </div>
               <p>Extracts the result from a wrapped and chained object.
 </p>

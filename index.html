@@ -181,7 +181,7 @@
   <div id="sidebar" class="interface">
 
     <a class="toc_title" href="#">
-      Underscore.js <span class="version">(1.5.0)</span>
+      Underscore.js <span class="version">(1.5.1)</span>
     </a>
     <ul class="toc_section">
       <li>&raquo; <a href="http://github.com/jashkenas/underscore">GitHub Repository</a></li>
@@ -382,11 +382,11 @@
 
     <table>
       <tr>
-        <td><a href="underscore.js">Development Version (1.5.0)</a></td>
-        <td><i>42kb, Uncompressed with Plentiful Comments</i></td>
+        <td><a href="underscore.js">Development Version (1.5.1)</a></td>
+        <td><i>41kb, Uncompressed with Plentiful Comments</i></td>
       </tr>
       <tr>
-        <td><a href="underscore-min.js">Production Version (1.5.0)</a></td>
+        <td><a href="underscore-min.js">Production Version (1.5.1)</a></td>
         <td>
           <i>5kb, Minified and Gzipped</i>
           &nbsp;<small>(<a href="underscore-min.map">Source Map</a>)</small>
@@ -1830,6 +1830,17 @@ _([1, 2, 3]).value();
       </p>
 
       <h2 id="changelog">Change Log</h2>
+
+      <p>
+        <b class="header">1.5.1</b> &mdash; <small><i>Jul. 8, 2013</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.5.0...1.5.1">Diff</a><br />
+        <ul>
+          <li>
+            Removed <tt>unzip</tt>, as it's simply the application of <tt>zip</tt>
+            to an array of arguments. Use <tt>_.zip.apply(_, list)</tt> to
+            transpose instead.
+          </li>
+        </ul>
+      </p>
 
       <p>
         <b class="header">1.5.0</b> &mdash; <small><i>Jul. 6, 2013</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.4.4...1.5.0">Diff</a><br />
