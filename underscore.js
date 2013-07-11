@@ -335,8 +335,13 @@
 
   // Groups the object's values by a criterion. Pass either a string attribute
   // to group by, or a function that returns the criterion.
-  _.groupBy = function(obj, value, context) {
+  _.groupBy = function(obj, value, dict, context) {
+    if (!_.isBoolean(dict)) {
+      context = dict;
+      dict = false;
+    }
     return group(obj, value, context, function(result, key, value) {
+      if (dict) return result[key] = value;
       (_.has(result, key) ? result[key] : (result[key] = [])).push(value);
     });
   };
