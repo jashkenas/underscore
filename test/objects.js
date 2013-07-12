@@ -24,6 +24,15 @@ $(document).ready(function() {
     deepEqual(_.pairs({one: 1, two: 2, length: 3}), [['one', 1], ['two', 2], ['length', 3]], '... even when one of them is "length"');
   });
 
+  test('combine', function() {
+    var names = ['moe', 'larry', 'curly'], ages = [41, 42, 43];
+    var stooges = _.combine(names, ages);
+
+    deepEqual(stooges, {'moe': 41, 'larry': 42, 'curly': 43}, 'merged object');
+    equal(JSON.stringify(stooges), '{"moe":41,"larry":42,"curly":43}', 'stringified');
+    deepEqual(_.size(stooges), names.length, 'output has the same number of elements as input');
+  });
+
   test("invert", function() {
     var obj = {first: 'Moe', second: 'Larry', third: 'Curly'};
     equal(_.keys(_.invert(obj)).join(' '), 'Moe Larry Curly', 'can invert an object');

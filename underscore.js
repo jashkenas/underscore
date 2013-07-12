@@ -766,6 +766,16 @@
     return pairs;
   };
 
+  // Create an object using one array for its keys and another for its values
+  _.combine = function(keys, values) {
+    if (keys.length != values.length) throw new Error("Arrays must have the same number of elements");
+    var c = {};
+    for (var i = 0, l = keys.length; i < l; ++i) {
+      c[keys[i]] = values[i];
+    }
+    return c;
+  };
+
   // Invert the keys and values of an object. The values must be serializable.
   _.invert = function(obj) {
     var result = {};
