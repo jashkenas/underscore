@@ -470,7 +470,7 @@
   // Produce an array that contains the union: each distinct element from all of
   // the passed-in arrays.
   _.union = function() {
-    return _.uniq(_.flatten(arguments, true));
+    return _.uniq(_.flatten(_.compact(arguments), true));
   };
 
   // Produce an array that contains every item shared between all the

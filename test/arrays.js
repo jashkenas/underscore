@@ -121,8 +121,8 @@ $(document).ready(function() {
     result = _.union(args, [2, 30, 1], [1, 40]);
     equal(result.join(' '), '1 2 3 30 40', 'takes the union of a list of arrays');
 
-    result = _.union(null, [1, 2, 3]);
-    deepEqual(result, [null, 1, 2, 3]);
+    deepEqual(_.union(null, [1, 2, 3]), [1, 2, 3]);
+    deepEqual(_.union([1, 2, 3], null), [1, 2, 3]);
   });
 
   test("difference", function() {
