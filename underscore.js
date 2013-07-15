@@ -574,6 +574,16 @@
     return range;
   };
 
+  // Return a 2 dimensional array from the target array splitting the array at a specified interval.
+  // Any remaining elements will be returned in the array as well.
+  _.chunk = function(array, chunk) {
+    return [].concat.apply([],
+      array.map(function(elem, i) {
+        return i % chunk ? [] : [array.slice(i, i + chunk)];
+      })
+    );
+  };
+
   // Function (ahem) Functions
   // ------------------
 
