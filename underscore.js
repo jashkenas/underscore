@@ -512,7 +512,10 @@
       if (values) {
         result[list[i]] = values[i];
       } else {
-        result[list[i][0]] = list[i][1];
+        var listI = list[i];
+        if (listI != null) {
+          result[listI[0]] = listI[1];
+        }
       }
     }
     return result;
