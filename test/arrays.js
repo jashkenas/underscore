@@ -163,6 +163,10 @@ $(document).ready(function() {
     ok(_.isEqual(_.object(_.pairs(stooges)), stooges), 'an object converted to pairs and back to an object');
 
     ok(_.isEqual(_.object(null), {}), 'handles nulls');
+
+    result = _.object([['one', 1], ['two', 2], null, ['three', 3]]);
+    shouldBe = {one: 1, two: 2, three: 3};
+    ok(_.isEqual(result, shouldBe), "null value as pair doesn't get added to object");
   });
 
   test("indexOf", function() {
