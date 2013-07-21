@@ -754,9 +754,9 @@
 
   // Retrieve the values of an object's properties.
   _.values = function(obj) {
-    var values = [];
-    for (var key in obj) if (_.has(obj, key)) values.push(obj[key]);
-    return values;
+    return _.map(_.keys(obj), (function(key){
+      return obj[key];
+    })).concat();
   };
 
   // Convert an object into a list of `[key, value]` pairs.
