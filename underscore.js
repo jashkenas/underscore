@@ -756,7 +756,7 @@
   _.values = function(obj) {
     return _.map(_.keys(obj), function(key){
       return obj[key];
-    }).concat();
+    });
   };
 
   // Convert an object into a list of `[key, value]` pairs.
