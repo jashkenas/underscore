@@ -731,6 +731,23 @@
     };
   };
 
+  // Returns a function that is decorated by a list of functions
+  _.decorate = function() {
+    var args = slice.call(arguments);
+    if (args.length < 2) { return args[0]; }
+
+    var func = args.pop();
+    var decorator = args.pop();
+    while (decorator) {
+      func = decorator.call(this, func);
+      decorator = args.pop();
+    }
+
+    return function(){
+      return func.apply(this, arguments);
+    };
+  };
+
   // Returns a function that will only be executed after being called N times.
   _.after = function(times, func) {
     return function() {

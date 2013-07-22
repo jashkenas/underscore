@@ -362,4 +362,45 @@ $(document).ready(function() {
     equal(testAfter(0, 1), 1, "after(0) should fire when first invoked");
   });
 
+  test("decorate", function() {
+    var assertIsNumber = function(func) {
+      return function(val1, val2) {
+        if (!_.isNumber(val1) || !_.isNumber(val2)) {
+          return null;
+        }
+
+        return func.apply(this, arguments);
+      };
+    };
+
+    var bothPositive = function(func) {
+      return function(val1, val2) {
+        if (val1 < 0 || val2 < 0) {
+          return null;
+        }
+
+        return func.apply(this, arguments);
+      };
+    };
+
+    var add = _.decorate(assertIsNumber, bothPositive, function(val1, val2) {
+        return val1 + val2;
+    });
+
+    equal(add('1', 2), null, 'can run decorator first');
+    equal(add(-2, 2), null, 'can add multiple decorators');
+    equal(add(1, 2), 3, 'run decorated function at last');
+
+    var originAdd = function(val1, val2) {
+        return val1 + val2;
+    };
+
+    equal(_.decorate(originAdd), originAdd, 'if there is only one argument, return it');
+
+    var decoratedAdd = _.decorate(assertIsNumber, _.decorate(bothPositive, originAdd));
+    equal(decoratedAdd('1', 2), null, 'decorate twice, can run decorator first');
+    equal(decoratedAdd(-2, 2), null, 'decorate twice, can add multiple decorators');
+    equal(decoratedAdd(1, 2), 3, 'decorate twice, run decorated function at last');
+  });
+
 });
