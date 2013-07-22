@@ -375,7 +375,7 @@ $(document).ready(function() {
 
     var bothPositive = function(func) {
       return function(val1, val2) {
-        if (val1 < 0 || val2 < 0) {
+        if (val1 <= 0 || val2 <= 0) {
           return null;
         }
 
@@ -399,7 +399,7 @@ $(document).ready(function() {
 
     var decoratedAdd = _.decorate(assertIsNumber, _.decorate(bothPositive, originAdd));
     equal(decoratedAdd('1', 2), null, 'decorate twice, can run decorator first');
-    equal(decoratedAdd(-2, 2), null, 'decorate twice, can add multiple decorators');
+    equal(decoratedAdd(0, 2), null, 'decorate twice, can add multiple decorators');
     equal(decoratedAdd(1, 2), 3, 'decorate twice, run decorated function at last');
   });
 
