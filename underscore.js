@@ -731,7 +731,9 @@
     };
   };
 
-  // Returns a function that is decorated by a list of functions
+  // Returns a function that is decorated by a list of functions, each
+  // consuming the arguments of the function that follows. 
+  // Useful for validating arguments.
   _.decorate = function() {
     var args = slice.call(arguments);
     if (args.length < 2) { return args[0]; }
