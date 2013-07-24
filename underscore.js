@@ -756,7 +756,7 @@
   _.values = function(obj) {
     var keys = _.keys(obj);
     var values = [];
-    for (var i = 0, l = keys.length; i < l; i++) {
+    for (var i = 0, length = keys.length; i < length; i++) {
       values[i] = obj[keys[i]];
     }
     return values;
