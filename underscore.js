@@ -757,18 +757,18 @@
     var keys = _.keys(obj);
     var values = [];
     for (var i = 0, l = keys.length; i < l; i++) {
-      values[i] = obj[keys[i]]; 
+      values[i] = obj[keys[i]];
     }
     return values;
   };
 
   // Convert an object into a list of `[key, value]` pairs.
   _.pairs = function(obj) {
-    var keys = _.keys(obj),
-        l = keys.length,
-        pairs = Array(l);
-    for (var i = 0; i < l; i++){
-      pairs[i] = ([keys[i], obj[keys[i]]]);
+    var keys = _.keys(obj);
+    var length = keys.length;
+    var pairs = new Array(length);
+    for (var i = 0; i < length; i++) {
+      pairs[i] = [keys[i], obj[keys[i]]];
     }
     return pairs;
   };
