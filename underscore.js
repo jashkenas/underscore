@@ -755,8 +755,9 @@
   // Retrieve the values of an object's properties.
   _.values = function(obj) {
     var keys = _.keys(obj);
-    var values = [];
-    for (var i = 0, length = keys.length; i < length; i++) {
+    var length = keys.length;
+    var values = new Array(length);
+    for (var i = 0; i < length; i++) {
       values[i] = obj[keys[i]];
     }
     return values;
