@@ -775,12 +775,11 @@
 
   // Invert the keys and values of an object. The values must be serializable.
   _.invert = function(obj) {
-    var result = {},
-      keys = _.keys(obj);
-    for (var i = 0, l = keys.length; i < l; i++) {
+    var result = {};
+    var keys = _.keys(obj);
+    for (var i = 0, length = keys.length; i < length; i++) {
       result[obj[keys[i]]] = keys[i];
     }
-
     return result;
   };
 
