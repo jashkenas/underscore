@@ -764,8 +764,12 @@
 
   // Convert an object into a list of `[key, value]` pairs.
   _.pairs = function(obj) {
-    var pairs = [];
-    for (var key in obj) if (_.has(obj, key)) pairs.push([key, obj[key]]);
+    var keys = _.keys(obj),
+        l = keys.length,
+        pairs = Array(l);
+    for (var i = 0; i < l; i++){
+      pairs[i] = ([keys[i], obj[keys[i]]]);
+    }
     return pairs;
   };
 
