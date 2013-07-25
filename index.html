@@ -937,7 +937,9 @@ _.sortedIndex(stooges, {name : 'larry', age : 50}, 'age');
         <tt>each</tt> and <tt>map</tt> loops. <b>start</b>, if omitted, defaults
         to <i>0</i>; <b>step</b> defaults to <i>1</i>. Returns a list of integers
         from <b>start</b> to <b>stop</b>, incremented (or decremented) by <b>step</b>,
-        exclusive.
+        exclusive. Note that ranges that <b>stop</b> before they <b>start</b> 
+        are considered to be zero-length instead of negative — if you'd like a 
+        negative range, use a negative <b>step</b>.
       </p>
       <pre>
 _.range(10);
