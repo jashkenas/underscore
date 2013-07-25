@@ -261,7 +261,7 @@ $(document).ready(function() {
     result = _.where(list, {b: 2});
     equal(result.length, 2);
     equal(result[0].a, 1);
-    
+
     result = _.where(list, {a: 1}, true);
     equal(result.b, 2, "Only get the first object matched.")
     result = _.where(list, {a: 1}, false);
@@ -383,6 +383,13 @@ $(document).ready(function() {
     ];
     deepEqual(_.groupBy(matrix, 0), {1: [[1,2], [1,3]], 2: [[2,3]]})
     deepEqual(_.groupBy(matrix, 1), {2: [[1,2]], 3: [[1,3], [2,3]]})
+
+    var stooges = [{name: 'Larry'}, {name: 'Curly'}, {name: 'Moe'}];
+    deepEqual(_.groupBy(stooges, 'name', true), {
+      'Larry': stooges[0],
+      'Curly': stooges[1],
+      'Moe': stooges[2]
+    }, 'creates a dictionary with when a property is given');
   });
 
   test('indexBy', function() {
