@@ -379,6 +379,24 @@ $(document).ready(function() {
     deepEqual(_.groupBy(matrix, 1), {2: [[1,2]], 3: [[1,3], [2,3]]})
   });
 
+  test('indexBy', function() {
+    var parity = _.indexBy([1, 2, 3, 4, 5], function(num){ return num % 2 == 0; });
+    equal(parity['true'], 4);
+    equal(parity['false'], 5);
+
+    var list = ["one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"];
+    var grouped = _.indexBy(list, 'length');
+    equal(grouped['3'], 'ten');
+    equal(grouped['4'], 'nine');
+    equal(grouped['5'], 'eight');
+
+    var array = [1, 2, 1, 2, 3];
+    var grouped = _.indexBy(array);
+    equal(grouped['1'], 1);
+    equal(grouped['2'], 2);
+    equal(grouped['3'], 3);
+  });
+
   test('countBy', function() {
     var parity = _.countBy([1, 2, 3, 4, 5], function(num){ return num % 2 == 0; });
     equal(parity['true'], 2);
