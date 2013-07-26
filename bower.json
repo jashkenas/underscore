@@ -1,0 +1,9 @@
+{
+  "name": "underscore",
+  "version": "1.5.1",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/jashkenas/underscore.git"
+  },
+  "main": "underscore.js"
+}
