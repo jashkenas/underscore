@@ -443,7 +443,9 @@
     return output;
   };
 
-  // Return a completely flattened version of an array.
+  // Return a completely flattened version of an array, unless the shallow
+  // parameter is specified as `true`, in which case the array will only
+  // be flattened a single level.
   _.flatten = function(array, shallow) {
     return flatten(array, shallow, []);
   };
