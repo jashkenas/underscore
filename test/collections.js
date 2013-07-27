@@ -432,6 +432,36 @@ $(document).ready(function() {
     equal(grouped['3'], 1);
   });
 
+  test('count', function() {
+    var pairNumbers = _.count([1, 2, 3, 4, 5], function(num){ return num % 2 == 0; });
+    equal(pairNumbers, 2);
+
+    var count1s = _.count([1, 1, 2, 1, 1, 2, 3, 4, 5], 1);
+    equal(count1s, 4);
+
+    var score = { jonh: 1, judit: 2, carl: 1, junior: 3, andrew: 1, bob: 10, alice: 5 };
+    var playersWithScoreOne = _.count(score, 1);
+    equal(playersWithScoreOne, 3);
+
+    var loc = [{alice: 'USA'}, {bob: 'ES'}, {jonh: 'FR'}, {alice: 'USA'}];
+    var howManiTimesAliceHasBeenInUSA = _.count(loc, {alice: 'USA'});
+    equal(howManiTimesAliceHasBeenInUSA, 2);    
+
+    var context = {};
+    _.count([{}], function(){ ok(this === context); }, context);
+
+    var array = [{}];
+    _.count(array, function(value, index, obj){ ok(obj === array); });
+
+    var array = [1, 2, 1, 2, 3];
+    var length = _.count(array);
+    equal(array.length, length);
+
+    var obj = {alice: 1, john: 3, bob: 1, peter: 10};
+    var length = _.count(obj);
+    equal(length, 4);
+  });
+
   test('sortedIndex', function() {
     var numbers = [10, 20, 30, 40, 50], num = 35;
     var indexForNum = _.sortedIndex(numbers, num);
