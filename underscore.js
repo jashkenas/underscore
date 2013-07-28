@@ -322,41 +322,36 @@
   };
 
   // An internal function used for aggregate "group by" operations.
-  var group = function(obj, value, context, behavior) {
-    var result = {};
-    var iterator = lookupIterator(value == null ? _.identity : value);
-    each(obj, function(value, index) {
-      var key = iterator.call(context, value, index, obj);
-      behavior(result, key, value);
-    });
-    return result;
+  var group = function(behavior) {
+    return function(obj, value, context) {
+      var result = {};
+      var iterator = value == null ? _.identity : lookupIterator(value);
+      each(obj, function(value, index) {
+        var key = iterator.call(context, value, index, obj);
+        behavior(result, key, value);
+      });
+      return result;
+    };
   };
 
   // Groups the object's values by a criterion. Pass either a string attribute
   // to group by, or a function that returns the criterion.
-  _.groupBy = function(obj, value, context) {
-    return group(obj, value, context, function(result, key, value) {
-      (_.has(result, key) ? result[key] : (result[key] = [])).push(value);
-    });
-  };
+  _.groupBy = group(function(result, key, value) {
+    (_.has(result, key) ? result[key] : (result[key] = [])).push(value);
+  });
 
-  // Indexes the object's values by a criterion, similar to `groupBy`, but for 
+  // Indexes the object's values by a criterion, similar to `groupBy`, but for
   // when you know that your index values will be unique.
-  _.indexBy = function(obj, value, context) {
-    return group(obj, value, context, function(result, key, value) {
-      result[key] = value;
-    });
-  };
+  _.indexBy = group(function(result, key, value) {
+    result[key] = value;
+  });
 
   // Counts instances of an object that group by a certain criterion. Pass
   // either a string attribute to count by, or a function that returns the
   // criterion.
-  _.countBy = function(obj, value, context) {
-    return group(obj, value, context, function(result, key) {
-      if (!_.has(result, key)) result[key] = 0;
-      result[key]++;
-    });
-  };
+  _.countBy = group(function(result, key, value) {
+    _.has(result, key) ? result[key]++ : result[key] = 1;
+  });
 
   // Use a comparator function to figure out the smallest index at which
   // an object should be inserted so as to maintain order. Uses binary search.
