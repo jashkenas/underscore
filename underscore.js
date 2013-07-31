@@ -301,6 +301,14 @@
     return _.isFunction(value) ? value : function(obj){ return obj[value]; };
   };
 
+  var objLookupIterator = function(value) {
+    return _.isFunction(value) ? 
+      value : 
+      _.isObject(value) ?
+        function(obj){ return _.isEqual(obj, value) } :
+        function(obj){ return obj[value] || obj === value; };
+  };
+
   // Sort the object's values by a criterion produced by an iterator.
   _.sortBy = function(obj, value, context) {
     var iterator = lookupIterator(value);
@@ -352,6 +360,19 @@
   _.countBy = group(function(result, key, value) {
     _.has(result, key) ? result[key]++ : result[key] = 1;
   });
+
+  // Counts instances of an object that apply to a certain criterion. Pass
+  // either a string attribute to count by, or a function that returns the
+  // criterion.
+  _.count = function(obj, value, context) {
+    var count = 0;
+    var iterator = objLookupIterator(value == null ? _.identity : value);
+    each(obj, function(value, index) {
+      var result = iterator.call(context, value, index, obj);
+      if(result) ++count;
+    });
+    return count;
+  }
 
   // Use a comparator function to figure out the smallest index at which
   // an object should be inserted so as to maintain order. Uses binary search.
