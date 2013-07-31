@@ -1153,10 +1153,10 @@ hello();
       </p>
       <pre>
 var greet    = function(name){ return "hi: " + name; };
-var exclaim  = function(statement){ return statement + "!"; };
-var welcome = _.compose(exclaim, greet);
+var exclaim  = function(statement){ return statement.toUpperCase() + "!"; };
+var welcome = _.compose(greet, exclaim);
 welcome('moe');
-=&gt; 'hi: moe!'
+=&gt; 'hi: MOE!'
 </pre>
 
       <h2 id="objects">Object Functions</h2>
