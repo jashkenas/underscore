@@ -611,9 +611,9 @@ _.pluck(stooges, 'name');
       <p id="max">
         <b class="header">max</b><code>_.max(list, [iterator], [context])</code>
         <br />
-        Returns the maximum value in <b>list</b>. If <b>iterator</b> is passed,
-        it will be used on each value to generate the criterion by which the
-        value is ranked.
+        Returns the maximum value in <b>list</b>. If an <b>iterator</b>
+        function is provided, it will be used on each value to generate the
+        criterion by which the value is ranked.
       </p>
       <pre>
 var stooges = [{name : 'moe', age : 40}, {name : 'larry', age : 50}, {name : 'curly', age : 60}];
@@ -624,9 +624,9 @@ _.max(stooges, function(stooge){ return stooge.age; });
       <p id="min">
         <b class="header">min</b><code>_.min(list, [iterator], [context])</code>
         <br />
-        Returns the minimum value in <b>list</b>. If <b>iterator</b> is passed,
-        it will be used on each value to generate the criterion by which the
-        value is ranked.
+        Returns the minimum value in <b>list</b>. If an <b>iterator</b>
+        function is provided, it will be used on each value to generate the
+        criterion by which the value is ranked.
       </p>
       <pre>
 var numbers = [10, 5, 100, 2, 1000];
@@ -917,7 +917,7 @@ _.lastIndexOf([1, 2, 3, 1, 2, 3], 2);
         <br />
         Uses a binary search to determine the index at which the <b>value</b>
         <i>should</i> be inserted into the <b>list</b> in order to maintain the <b>list</b>'s
-        sorted order. If an <b>iterator</b> is passed, it will be used to compute
+        sorted order. If an <b>iterator</b> function is provided, it will be used to compute
         the sort ranking of each value, including the <b>value</b> you pass.
         Iterator may also be the string name of the property to sort by (eg. <tt>length</tt>).
       </p>
