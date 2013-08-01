@@ -1095,6 +1095,15 @@
     return _.isFunction(value) ? value.call(object) : value;
   };
 
+  // If object is not undefined or null then invoke the named `method` function
+  // with `object` as context and arguments; otherwise, return undefined.
+  _.attempt = function(object, method) {
+    if (object == null) return void 0;
+    var func = object[method];
+    var args = slice.call(arguments, 2);
+    return _.isFunction(func) ? func.apply(object, args) : void 0;
+  };
+
   // Add your own custom functions to the Underscore object.
   _.mixin = function(obj) {
     each(_.functions(obj), function(name) {
