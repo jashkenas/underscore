@@ -616,6 +616,10 @@ _.pluck(stooges, 'name');
         value is ranked.
       </p>
       <pre>
+var numbers = [10, 5, 100, 2, 1000];
+_.max(numbers);
+=&gt; 1000
+
 var stooges = [{name : 'moe', age : 40}, {name : 'larry', age : 50}, {name : 'curly', age : 60}];
 _.max(stooges, function(stooge){ return stooge.age; });
 =&gt; {name : 'curly', age : 60};
@@ -632,6 +636,10 @@ _.max(stooges, function(stooge){ return stooge.age; });
 var numbers = [10, 5, 100, 2, 1000];
 _.min(numbers);
 =&gt; 2
+
+var stooges = [{name : 'moe', age : 40}, {name : 'larry', age : 50}, {name : 'curly', age : 60}];
+_.min(stooges, function(stooge){ return stooge.age; });
+=&gt; {name : 'curly', age : 40};
 </pre>
 
       <p id="sortBy">
