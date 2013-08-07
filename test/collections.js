@@ -22,6 +22,12 @@ $(document).ready(function() {
     equal(answers.join(", "), 'one, two, three', 'iterating over objects works, and ignores the object prototype.');
     delete obj.constructor.prototype.four;
 
+    answers = [];
+    var movie = {title : "Pi", rating : 7.5, length : 84};
+    _.each(movie, function(value, key){ answers.push(key + ":" + value); });
+    equal(answers.join(", "), 'title:Pi, rating:7.5, length:84',
+        'can iterate over objects with a numeric length property');
+
     var answer = null;
     _.each([1, 2, 3], function(num, index, arr){ if (_.include(arr, num)) answer = true; });
     ok(answer, 'can reference the original collection from inside the iterator');
@@ -464,8 +470,8 @@ $(document).ready(function() {
     ok(_.toArray(a) !== a, 'array is cloned');
     equal(_.toArray(a).join(', '), '1, 2, 3', 'cloned array contains same elements');
 
-    var numbers = _.toArray({one : 1, two : 2, three : 3});
-    equal(numbers.join(', '), '1, 2, 3', 'object flattened into array');
+    var numbers = _.toArray({one : 1, two : 2, three : 3, length : 5});
+    equal(numbers.join(', '), '1, 2, 3, 5', 'object flattened into array');
 
     // test in IE < 9
     try {
@@ -476,7 +482,7 @@ $(document).ready(function() {
   });
 
   test('size', function() {
-    equal(_.size({one : 1, two : 2, three : 3}), 3, 'can compute the size of an object');
+    equal(_.size({one : 1, two : 2, three : 3, length: 5}), 4, 'can compute the size of an object');
     equal(_.size([1, 2, 3]), 3, 'can compute the size of an array');
     equal(_.size($('<div>').add('<span>').add('<span>')), 3, 'can compute the size of jQuery objects');
 
