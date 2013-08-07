@@ -71,13 +71,14 @@
   // --------------------
 
   // The cornerstone, an `each` implementation, aka `forEach`.
-  // Handles objects with the built-in `forEach`, arrays, and raw objects.
-  // Delegates to **ECMAScript 5**'s native `forEach` if available.
+  // Handles objects with the built-in `forEach`, arrays, jQuery objects and 
+  // raw objects. Delegates to **ECMAScript 5**'s native `forEach` if
+  // available.
   var each = _.each = _.forEach = function(obj, iterator, context) {
     if (obj == null) return;
     if (nativeForEach && obj.forEach === nativeForEach) {
       obj.forEach(iterator, context);
-    } else if (obj.length === +obj.length) {
+    } else if (obj instanceof Array || obj instanceof jQuery) {
       for (var i = 0, length = obj.length; i < length; i++) {
         if (iterator.call(context, obj[i], i, obj) === breaker) return;
       }
@@ -377,7 +378,11 @@
   // Return the number of elements in an object.
   _.size = function(obj) {
     if (obj == null) return 0;
-    return (obj.length === +obj.length) ? obj.length : _.keys(obj).length;
+    if (obj instanceof Array || obj instanceof jQuery ||
+        typeof obj === 'string') {
+      return obj.length;
+    }
+    return _.keys(obj).length;
   };
 
   // Array Functions
