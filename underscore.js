@@ -311,6 +311,9 @@
         criteria : iterator.call(context, value, index, list)
       };
     }).sort(function(left, right) {
+      if(left === right){
+        return 0;
+      }
       var a = left.criteria;
       var b = right.criteria;
       if (a !== b) {
