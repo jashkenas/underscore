@@ -2,6 +2,16 @@ $(document).ready(function() {
 
   module("Objects");
 
+  test("depth", function () {
+    var obj = {foo: "bar", depth: {object: {really: "depth"}}};
+
+    ok (_.depth(obj, "foo") === "bar", "depth() match a first level object");
+
+    ok (_.depth(obj, "bin") === false, "depth() return false if no property is equal to the arguments");
+
+    ok (_.depth(obj, "depth", "object").really === "depth", "depth() return the content of a matching result");
+  });
+
   test("keys", function() {
     equal(_.keys({one : 1, two : 2}).join(', '), 'one, two', 'can extract the keys from an object');
     // the test above is not safe because it relies on for-in enumeration order
@@ -574,4 +584,6 @@ $(document).ready(function() {
      child.prototype = obj;
      ok (_.has(child, "foo") == false, "has() does not check the prototype chain for a property.")
   });
+
+
 });
