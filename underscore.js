@@ -418,6 +418,12 @@
     return slice.call(array, (n == null) || guard ? 1 : n);
   };
 
+  // Returns the nth element of the array.
+  _.nth = function(n, array) {
+    if(array == null) return void 0;
+    return array[n];
+  }
+
   // Trim out all falsy values from an array.
   _.compact = function(array) {
     return _.filter(array, _.identity);
