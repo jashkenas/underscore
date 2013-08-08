@@ -945,6 +945,29 @@
     return result;
   };
 
+  // Search a depth value with keys
+  _.depth = function (obj) {
+
+    var start = 1, L = arguments.length, resultObject = _.clone(obj);
+
+    // If no argument or just obj
+    if (!L || L === 1) {
+      return false;
+    }
+
+    // Walk argument to match, at first undefined we return false
+    for (start; start < L; start++) {
+
+      if (!hasOwnProperty.call(resultObject, arguments[start])) {
+        return false;
+      }
+
+      resultObject = resultObject[arguments[start]];
+    }
+
+    return resultObject;
+
+  };
   // Perform a deep comparison to check if two objects are equal.
   _.isEqual = function(a, b) {
     return eq(a, b, [], []);
