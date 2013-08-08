@@ -958,10 +958,10 @@
     // Walk argument to match, at first undefined we return false
     for (start; start < L; start++) {
 
-        if (typeof resultObject[arguments[start]] === 'undefined') {
-            return false;
-        }
-        resultObject = resultObject[arguments[start]];
+      if (typeof resultObject[arguments[start]] === 'undefined') {
+        return false;
+      }
+      resultObject = resultObject[arguments[start]];
     }
 
     return resultObject;
