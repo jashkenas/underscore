@@ -958,9 +958,10 @@
     // Walk argument to match, at first undefined we return false
     for (start; start < L; start++) {
 
-      if (typeof resultObject[arguments[start]] === 'undefined') {
+      if (!hasOwnProperty.call(resultObject, arguments[start])) {
         return false;
       }
+
       resultObject = resultObject[arguments[start]];
     }
 
