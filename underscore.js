@@ -287,15 +287,13 @@
   // If number is not specified, returns only a single sampled object
   // Otherwise, returns an array of (min of number and length of array) sampled objects
   _.sample = function(obj, number) {
-    if (!number) {
-      return obj.length > 0 ? obj[_.random(obj.length - 1)] : null;
-    } else {
-      var sampled_indices = _.shuffle(_.range(obj.length));
-      var sampled_values = [];
-      for (; number > 0 && sampled_indices.length > 0; --number) {
-        sampled_values.push(obj[sampled_indices.pop()]);
+    if (typeof number === 'number') {
+      if (number < 0) {
+        throw new Error('sample cannot be called with a negative number of picks');
       }
-      return sampled_values;
+      return _.shuffle(obj).slice(0, number);
+    } else {
+      return obj.length > 0 ? obj[_.random(obj.length - 1)] : null;
     }
   };
 

@@ -426,6 +426,8 @@ $(document).ready(function() {
     ok(_.contains(numbers, _.sample(numbers)), 'sampling a single element returns something from the array');
     strictEqual(_.sample([]), null, 'sampling empty array with no number returns null');
     notStrictEqual(_.sample([], 5), [], 'sampling empty array with a number returns an empty array');
+    notStrictEqual(_.sample([1, 2, 3], 0), [], 'sampling an array with 0 picks returns an empty array');
+    throws(function() { _.sample([], -1); }, 'cannot sample a negative number of picks');
   });
 
   test('toArray', function() {
