@@ -292,9 +292,8 @@
         throw new Error('sample cannot be called with a negative number of picks');
       }
       return _.shuffle(obj).slice(0, number);
-    } else {
-      return obj.length > 0 ? obj[_.random(obj.length - 1)] : null;
     }
+    return obj[_.random(obj.length - 1)];
   };
 
   // Shuffle an array.
