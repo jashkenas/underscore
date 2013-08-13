@@ -312,6 +312,41 @@ $(document).ready(function() {
     equal(1, _.min(_.range(1,300000)), "Minimum value of a too-big array");
   });
 
+  test('maxmin', function() {
+    var range = _.maxmin([1, 2, 3])
+    equal(range.max, 3, "Regular maxmin, max value");
+    equal(range.min, 1, "Regular maxmin, min value");
+
+    range = _.maxmin([1, 2, 3], function(num){ return -num; });
+    equal(range.max, 1, 'can perform a computation-based maxmin, max value');
+    equal(range.min, 3, 'can perform a computation-based maxmin, min value');
+
+    range = _.maxmin([-1]);
+    equal(range.max, -1, 'Regular maxmin on an array with only one element, max value');
+    equal(range.min, -1, 'Regular maxmin on an array with only one element, min value');
+
+    range = _.maxmin([-1], function(num){ return num * num; });
+    equal(range.max, -1, 'can perform a computation-based maxmin on an array with only one element, max value');
+    equal(range.min, -1, 'can perform a computation-based maxmin on an array with only one element, min value');
+
+    range = _.maxmin({});
+    equal(-Infinity, range.max, 'call maxmin for an empty object, max value');
+    equal(Infinity, range.min, 'call maxmin for an empty object, min value');
+
+    range = _.maxmin([]);
+    equal(-Infinity, range.max, 'call maxmin for an empty array, max value');
+    equal(Infinity, range.min, 'call maxmin for an empty array, min value');
+
+
+    range = _.maxmin({'a': 'a'});
+    equal(-Infinity, range.max, 'call maxmin for a non-numeric collection, max value');
+    equal(Infinity, range.min, 'call maxmin for a non-numeric collection, min value');
+
+    range = _.maxmin(_.range(1,300000));
+    equal(299999, range.max, "Maxmin, Maximum value of a too-big array");
+    equal(1, range.min, "Maxmin, Minimum value of a too-big array");
+  });
+
   test('sortBy', function() {
     var people = [{name : 'curly', age : 50}, {name : 'moe', age : 30}];
     people = _.sortBy(people, function(person){ return person.age; });

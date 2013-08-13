@@ -283,6 +283,28 @@
     return result.value;
   };
 
+  _.maxmin = function(obj, iterator, context) {
+    var values = {max : -Infinity, min : Infinity}
+    if (!iterator && _.isArray(obj) && obj[0] === +obj[0] && obj.length < 65535) {
+      values.max = Math.max.apply(Math, obj);
+      values.min = Math.min.apply(Math, obj);
+      return values;
+    }
+    if (!iterator && _.isEmpty(obj)) return values;
+    var computedRange = {max : -Infinity, min : Infinity};
+    each(obj, function(value, index, list) {
+      var computed = iterator ? iterator.call(context, value, index, list) : value;
+      if(computed > computedRange.max) {
+        values.max = value;
+        computedRange.max = computed;
+      }
+      if(computed < computedRange.min) {
+        values.min = value;
+        computedRange.min = computed;
+      }
+    });
+    return values;
+  }
   // Shuffle an array.
   _.shuffle = function(obj) {
     var rand;
