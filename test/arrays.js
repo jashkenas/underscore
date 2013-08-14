@@ -53,6 +53,13 @@ $(document).ready(function() {
     equal(_.last(null), undefined, 'handles nulls');
   });
 
+  test("at", function() {
+    equal(_.at(2, [1,2,3]), 3, 'can get an element');
+    var result = _.map([[1,2,3],[1,2,3]], _.partial(_.at, 1));
+    equal(result.join(','), '2,2', 'works with _.map and _.partial');
+    equal(_.at(2, null), undefined, 'handles nulls');
+  });
+
   test("compact", function() {
     equal(_.compact([0, 1, false, 2, false, 3]).length, 3, 'can trim out all falsy values');
     var result = (function(){ return _.compact(arguments).length; })(0, 1, false, 2, false, 3);
