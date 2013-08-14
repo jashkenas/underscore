@@ -419,7 +419,7 @@
   };
 
   // Returns the nth element of the array.
-  _.at = _.nth = function(n, array) {
+  _.at = function(n, array) {
     if(array == null) return void 0;
     return array[n];
   }
