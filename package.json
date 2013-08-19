@@ -13,6 +13,11 @@
   "scripts": {
     "test": "phantomjs test/vendor/runner.js test/index.html?noglobals=true"
   },
-  "license"       : "MIT",
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://raw.github.com/jashkenas/underscore/master/LICENSE"
+    }
+  ],
   "files"         : ["underscore.js", "LICENSE"]
 }
