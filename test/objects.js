@@ -574,4 +574,18 @@ $(document).ready(function() {
      child.prototype = obj;
      ok (_.has(child, "foo") == false, "has() does not check the prototype chain for a property.")
   });
+
+  test("hasEvery", function () {
+     var obj = {foo: "bar", baz: "bax"};
+     ok (_.hasEvery(obj, ["foo", "baz"]), "hasEvery() checks that the object has every property.");
+     ok (_.hasEvery(obj, ["foo", "baz", "bax"]) == false, "hasEvery() returns false if the object doesn't have every property.");
+     ok (_.hasAll(obj, ["foo", "baz"]), 'aliased as "hasAll"');
+  });
+
+  test("hasSome", function () {
+     var obj = {foo: "bar", baz: "bax"};
+     ok (_.hasSome(obj, ["foo", "zab"]), "hasSome() checks that the object has some of the properties.");
+     ok (_.hasSome(obj, ["oof", "zab"]) == false, "hasSome() returns false if the object doesn't have any of the properties.");
+     ok (_.hasAny(obj, ["foo", "zab"]), 'aliased as "hasAny"');
+  });
 });
