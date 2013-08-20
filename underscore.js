@@ -1028,6 +1028,15 @@
     return hasOwnProperty.call(obj, key);
   };
 
+  // Add some hasProperties shortcut methods: hasEvery, hasSome
+  each(['Every', 'Some', 'All', 'Any'], function(name) {
+    _['has' + name] = function(obj, keys) {
+      return _[name.toLowerCase()].call(undefined, keys, function(key) {
+        return _.has(obj, key);
+      });
+    };
+  });
+
   // Utility Functions
   // -----------------
 
