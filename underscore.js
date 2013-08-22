@@ -680,7 +680,7 @@
   // N milliseconds. If `immediate` is passed, trigger the function on the
   // leading edge, instead of the trailing.
   _.debounce = function(func, wait, immediate) {
-    var timeout, args, context, timestamp;
+    var timeout, args, context, timestamp, result;
     return function() {
       context = this;
       args = arguments;
