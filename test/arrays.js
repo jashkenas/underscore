@@ -2,6 +2,24 @@ $(document).ready(function() {
 
   module("Arrays");
 
+  test("toggle", function() {
+    var result = _.toggle([],1);
+    strictEqual(result[0], 1, 'if array hasn\'t such item, then add it');
+    strictEqual(result.join(','), '1', 'if array hasn\'t such item, then add it');
+    result = _.toggle([1],1);
+    strictEqual(result[0], undefined, 'if array has such item, then remove it');
+    strictEqual(result.join(','), '', 'if array has such item, then remove it');
+    result = _.toggle([1,2,4,1],1);
+    strictEqual(result.length, 2, 'if array has many such items, then remove all of them');
+    strictEqual(result.join(','), '2,4', 'if array has many such items, then remove all of them');
+    result = _.toggle([1,2,4,1],1, true);
+    strictEqual(result.length, 3, 'if array has many such items and isSingle was passed then remove only the first such item');
+    strictEqual(result.join(','), '2,4,1', 'if array has many such items and isSingle was passed then remove only the first such item');
+    result = _([1,2,4,1]).toggle(2);
+    strictEqual(result.length, 3, 'can perform OOP style toggle');
+    strictEqual(result.join(','), '1,4,1', 'can perform OOP style toggle');
+  });
+
   test("first", function() {
     equal(_.first([1,2,3]), 1, 'can pull out the first element of an array');
     equal(_([1, 2, 3]).first(), 1, 'can perform OO-style "first()"');

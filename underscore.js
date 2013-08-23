@@ -382,6 +382,16 @@
 
   // Array Functions
   // ---------------
+  
+  // Toggle an item in array. If array contains many such items, they will be removed
+  // entirely. If you pass isSingle then only first one of them will be removed.
+  _.toggle = function(array, item, isSingle) {
+    if (array == null) return void 0;
+    var newArray = array.slice(0),
+        indexOfItem = _.indexOf(newArray,item);
+    (indexOfItem === -1) ? newArray.push(item) : (isSingle) ? newArray.splice(indexOfItem, 1) : newArray = _.without(newArray,item);
+    return newArray;
+  };
 
   // Get the first element of an array. Passing **n** will return the first N
   // values in the array. Aliased as `head` and `take`. The **guard** check
