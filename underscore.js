@@ -17,6 +17,9 @@
   // Establish the object that gets returned to break out of a loop iteration.
   var breaker = {};
 
+  // Array to hold up elements for _.deepWhere
+  var deeparray = [];
+
   // Save bytes in the minified (but not gzipped) version:
   var ArrayProto = Array.prototype, ObjProto = Object.prototype, FuncProto = Function.prototype;
 
@@ -245,6 +248,33 @@
       }
       return true;
     });
+  };
+
+  //a deeper version of _.where to find at any depth
+  _.deepWhere = function(obj, attrs, parent, arr) {
+    deeparray = arr || [];
+    if(_.isObject(obj)) {
+      for(var k in obj) {
+        _.deepWhere(obj[k], attrs, obj, deeparray);   
+      }
+    }else if(_.isArray(obj)){
+      for(var i = 0, j = obj.length; i < j; i++) {
+        _.deepWhere(obj[i], attrs, obj, deeparray);   
+      }
+    }else {
+      for(var key in attrs) {
+        if(!_.isArray(key)) {
+          if(attrs[key] !== obj) return false;
+        } else {
+          for(var j=0, t = key.length; j < t; j++){
+            if(key[j] !== obj) return false;   
+          }
+        }
+      }
+      deeparray.push(parent);
+    }
+
+    return deeparray;
   };
 
   // Convenience version of a common use case of `find`: getting the first object
