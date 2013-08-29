@@ -614,7 +614,7 @@
         var appliedArgs = [],
           index = 0;
 
-        for (var i=0, l=args.length; i<l; i++) {
+        for (var i = 0, l = args.length; i < l; i++) {
           if (args[i] === _) {
             appliedArgs[i] = arguments[index];
             index++;
