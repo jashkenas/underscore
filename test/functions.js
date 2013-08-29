@@ -46,6 +46,8 @@ $(document).ready(function() {
 
     obj.func = _.partial(func, 'a', 'b');
     equal(obj.func('c', 'd'), 'moe a b c d', 'can partially apply');
+    obj.func = _.partial(func, _, 'f', _, 'h');
+    equal(obj.func('e', 'g'), 'moe e f g h', 'can partially apply with placeholders');
   });
 
   test("bindAll", function() {
