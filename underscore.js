@@ -603,11 +603,31 @@
 
   // Partially apply a function by creating a version that has had some of its
   // arguments pre-filled, without changing its dynamic `this` context.
+  // The _ object can be used as a placeholder for arguments that need to be
+  // pre-filled at a given position.
   _.partial = function(func) {
     var args = slice.call(arguments, 1);
-    return function() {
-      return func.apply(this, args.concat(slice.call(arguments)));
-    };
+
+    //If placeholders are not used then return the better performing function.
+    return  _.contains(args, _) ?
+      function() {
+        var appliedArgs = [],
+          index = 0;
+
+        for (var i=0, l=args.length; i<l; i++) {
+          if (args[i] === _) {
+            appliedArgs[i] = arguments[index];
+            index++;
+          } else {
+            appliedArgs[i] = args[i];
+          }
+        }
+
+        return func.apply(this, appliedArgs);
+      } :
+      function() {
+        return func.apply(this, args.concat(slice.call(arguments)));
+      };
   };
 
   // Bind all of an object's methods to that object. Useful for ensuring that
