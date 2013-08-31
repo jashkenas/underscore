@@ -312,6 +312,24 @@ $(document).ready(function() {
     equal(1, _.min(_.range(1,300000)), "Minimum value of a too-big array");
   });
 
+  
+  test('superlative', function() {
+    var numericComp =  function(n1, n2){return (n1 < n2);};
+
+    equal(_.superlative([1, 2, 3], numericComp), 1, 'Least from an array of numbers');
+    equal(_.superlative([], numericComp), undefined, 'Least from an empty array');
+
+    equal(_.superlative({}, numericComp), undefined, 'Least from an empty object');    
+
+    var obj = {a:'foo', b:1};
+    var arr = [{a:'bar', b:2}, {a:'foo', b:1}, {a:'baz', b:6}];
+    var comp = function (first, second) {return (first.b < second.b);}
+    deepEqual(_.superlative(arr, comp), obj, 'Array of objects with comparator');
+
+    deepEqual(_.superlative(arr, comp, this), obj, 'Array of objects with comparator with context');
+
+  });
+
   test('sortBy', function() {
     var people = [{name : 'curly', age : 50}, {name : 'moe', age : 30}];
     people = _.sortBy(people, function(person){ return person.age; });
