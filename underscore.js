@@ -268,6 +268,29 @@
     });
     return result.value;
   };
+  
+  // Return the most 'superior' element from an array or object. 
+  // Comparison is based on a comparator function that takes in two objects
+  // and returns truthy value if first element is more superior to second
+  // else returns a falsy value
+  _.superlative = function(obj, comparator, context) {
+
+    var result;
+    var first = true;
+    var found = false;
+
+    each(obj, function(value, index, list) {
+      if(first) {
+        result = value;
+        first = false;
+      }
+      else if(comparator.call(context, value, result)) {
+          result = value;
+          found = true;
+      }
+    });
+    return result;
+  };
 
   // Return the minimum element (or element-based computation).
   _.min = function(obj, iterator, context) {
