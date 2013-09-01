@@ -277,6 +277,7 @@
 
     var result;
     var first = true;
+    var found = false;
 
     each(obj, function(value, index, list) {
       if(first) {
