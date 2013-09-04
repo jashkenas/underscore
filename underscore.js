@@ -283,19 +283,6 @@
     return result.value;
   };
 
-  // Sample a number of random values from an array.
-  // If number is not specified, returns only a single sampled object
-  // Otherwise, returns an array of (min of number and length of array) sampled objects
-  _.sample = function(obj, number) {
-    if (typeof number === 'number') {
-      if (number < 0) {
-        throw new Error('sample cannot be called with a negative number of picks');
-      }
-      return _.shuffle(obj).slice(0, number);
-    }
-    return obj[_.random(obj.length - 1)];
-  };
-
   // Shuffle an array.
   _.shuffle = function(obj) {
     var rand;
@@ -307,6 +294,16 @@
       shuffled[rand] = value;
     });
     return shuffled;
+  };
+
+  // Sample **n** random values from an array.
+  // If **n** is not specified, returns a single random element from the array.
+  // The internal `guard` argument allows it to work with `map`.
+  _.sample = function(obj, n, guard) {
+    if (arguments.length < 2 || guard) {
+      return obj[_.random(obj.length - 1)];
+    }
+    return _.shuffle(obj).slice(0, Math.max(0, n));
   };
 
   // An internal function to generate lookup iterators.
