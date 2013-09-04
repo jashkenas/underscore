@@ -283,6 +283,19 @@
     return result.value;
   };
 
+  // Sample a number of random values from an array.
+  // If number is not specified, returns only a single sampled object
+  // Otherwise, returns an array of (min of number and length of array) sampled objects
+  _.sample = function(obj, number) {
+    if (typeof number === 'number') {
+      if (number < 0) {
+        throw new Error('sample cannot be called with a negative number of picks');
+      }
+      return _.shuffle(obj).slice(0, number);
+    }
+    return obj[_.random(obj.length - 1)];
+  };
+
   // Shuffle an array.
   _.shuffle = function(obj) {
     var rand;
