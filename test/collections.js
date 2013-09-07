@@ -268,6 +268,16 @@ $(document).ready(function() {
     equal(result.length, 3);
   });
 
+   test('deepWhere', function() {
+    var list = {a: "h", c: {d: [1, 2], b: "test"}, b: "ts", e: {b: "ts"}};
+    var result = _.deepWhere(list, {b: "test"});
+    equal(result.length, 1);
+    equal(result[result.length - 1].d[0], 1);
+    result = _.deepWhere(list, {b: "ts"});
+    equal(result.length, 2);
+    equal(result[0].a, "h");
+  });
+
   test('findWhere', function() {
     var list = [{a: 1, b: 2}, {a: 2, b: 2}, {a: 1, b: 3}, {a: 1, b: 4}, {a: 2, b: 4}];
     var result = _.findWhere(list, {a: 1});
