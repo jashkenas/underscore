@@ -6,7 +6,7 @@
   "author"        : "Jeremy Ashkenas <jeremy@documentcloud.org>",
   "repository"    : {"type": "git", "url": "git://github.com/jashkenas/underscore.git"},
   "main"          : "underscore.js",
-  "version"       : "1.5.1",
+  "version"       : "1.5.2",
   "devDependencies": {
     "phantomjs": "1.9.0-1"
   },

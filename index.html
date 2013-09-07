@@ -181,7 +181,7 @@
   <div id="sidebar" class="interface">
 
     <a class="toc_title" href="#">
-      Underscore.js <span class="version">(1.5.1)</span>
+      Underscore.js <span class="version">(1.5.2)</span>
     </a>
     <ul class="toc_section">
       <li>&raquo; <a href="http://github.com/jashkenas/underscore">GitHub Repository</a></li>
@@ -214,8 +214,10 @@
       <li>- <a href="#min">min</a></li>
       <li>- <a href="#sortBy">sortBy</a></li>
       <li>- <a href="#groupBy">groupBy</a></li>
+      <li>- <a href="#indexBy">indexBy</a></li>
       <li>- <a href="#countBy">countBy</a></li>
       <li>- <a href="#shuffle">shuffle</a></li>
+      <li>- <a href="#sample">sample</a></li>
       <li>- <a href="#toArray">toArray</a></li>
       <li>- <a href="#size">size</a></li>
     </ul>
@@ -382,13 +384,13 @@
 
     <table>
       <tr>
-        <td><a href="underscore.js">Development Version (1.5.1)</a></td>
-        <td><i>41kb, Uncompressed with Plentiful Comments</i></td>
+        <td><a href="underscore.js">Development Version (1.5.2)</a></td>
+        <td><i>43kb, Uncompressed with Plentiful Comments</i></td>
       </tr>
       <tr>
-        <td><a href="underscore-min.js">Production Version (1.5.1)</a></td>
+        <td><a href="underscore-min.js">Production Version (1.5.2)</a></td>
         <td>
-          <i>5kb, Minified and Gzipped</i>
+          <i>4.9kb, Minified and Gzipped</i>
           &nbsp;<small>(<a href="underscore-min.map">Source Map</a>)</small>
         </td>
       </tr>
@@ -419,7 +421,7 @@
       <pre>
 _.each([1, 2, 3], alert);
 =&gt; alerts each number in turn...
-_.each({one : 1, two : 2, three : 3}, alert);
+_.each({one: 1, two: 2, three: 3}, alert);
 =&gt; alerts each number value in turn...</pre>
 
       <p>
@@ -443,7 +445,7 @@ _.each({one : 1, two : 2, three : 3}, alert);
       <pre>
 _.map([1, 2, 3], function(num){ return num * 3; });
 =&gt; [3, 6, 9]
-_.map({one : 1, two : 2, three : 3}, function(num, key){ return num * 3; });
+_.map({one: 1, two: 2, three: 3}, function(num, key){ return num * 3; });
 =&gt; [3, 6, 9]</pre>
 
       <p id="reduce">
@@ -603,7 +605,7 @@ _.invoke([[5, 1, 7], [3, 2, 1]], 'sort');
         <b>map</b>: extracting a list of property values.
       </p>
       <pre>
-var stooges = [{name : 'moe', age : 40}, {name : 'larry', age : 50}, {name : 'curly', age : 60}];
+var stooges = [{name: 'moe', age: 40}, {name: 'larry', age: 50}, {name: 'curly', age: 60}];
 _.pluck(stooges, 'name');
 =&gt; ["moe", "larry", "curly"]
 </pre>
@@ -616,9 +618,9 @@ _.pluck(stooges, 'name');
         criterion by which the value is ranked.
       </p>
       <pre>
-var stooges = [{name : 'moe', age : 40}, {name : 'larry', age : 50}, {name : 'curly', age : 60}];
+var stooges = [{name: 'moe', age: 40}, {name: 'larry', age: 50}, {name: 'curly', age: 60}];
 _.max(stooges, function(stooge){ return stooge.age; });
-=&gt; {name : 'curly', age : 60};
+=&gt; {name: 'curly', age: 60};
 </pre>
 
       <p id="min">
@@ -663,6 +665,25 @@ _.groupBy(['one', 'two', 'three'], 'length');
 =&gt; {3: ["one", "two"], 5: ["three"]}
 </pre>
 
+      <p id="indexBy">
+        <b class="header">indexBy</b><code>_.indexBy(list, iterator, [context])</code>
+        <br />
+        Given a <b>list</b>, and an <b>iterator</b> function that returns a 
+        key for each element in the list (or a property name), 
+        returns an object with an index of each item. 
+        Just like <a href="#groupBy">groupBy</a>, but for when you know your 
+        keys are unique.
+      </p>
+      <pre>
+var stooges = [{name: 'moe', age: 40}, {name: 'larry', age: 50}, {name: 'curly', age: 60}];
+_.indexBy(stooges, 'age');
+=&gt; {
+  "40": {name: 'moe', age: 40},
+  "50": {name: 'larry', age: 50},
+  "60": {name: 'curly', age: 60}
+}
+</pre>
+
       <p id="countBy">
         <b class="header">countBy</b><code>_.countBy(list, iterator, [context])</code>
         <br />
@@ -673,7 +694,7 @@ _.groupBy(['one', 'two', 'three'], 'length');
       </p>
       <pre>
 _.countBy([1, 2, 3, 4, 5], function(num) {
-  return num % 2 == 0 ? 'even' : 'odd';
+  return num % 2 == 0 ? 'even': 'odd';
 });
 =&gt; {odd: 3, even: 2}
 </pre>
@@ -687,6 +708,21 @@ _.countBy([1, 2, 3, 4, 5], function(num) {
       <pre>
 _.shuffle([1, 2, 3, 4, 5, 6]);
 =&gt; [4, 1, 6, 3, 5, 2]
+</pre>
+
+      <p id="sample">
+        <b class="header">sample</b><code>_.sample(list, [n])</code>
+        <br />
+        Produce a random sample from the <b>list</b>. Pass a number to
+        return <b>n</b> random elements from the list. Otherwise a single random
+        item will be returned.
+      </p>
+      <pre>
+_.sample([1, 2, 3, 4, 5, 6]);
+=&gt; 4
+
+_.sample([1, 2, 3, 4, 5, 6], 3);
+=&gt; [1, 6, 2]
 </pre>
 
       <p id="toArray">
@@ -706,7 +742,7 @@ _.shuffle([1, 2, 3, 4, 5, 6]);
         Return the number of values in the <b>list</b>.
       </p>
       <pre>
-_.size({one : 1, two : 2, three : 3});
+_.size({one: 1, two: 2, three: 3});
 =&gt; 3
 </pre>
 
@@ -925,8 +961,8 @@ _.lastIndexOf([1, 2, 3, 1, 2, 3], 2);
 _.sortedIndex([10, 20, 30, 40, 50], 35);
 =&gt; 3
 
-var stooges = [{name : 'moe', age : 40}, {name : 'curly', age : 60}];
-_.sortedIndex(stooges, {name : 'larry', age : 50}, 'age');
+var stooges = [{name: 'moe', age: 40}, {name: 'curly', age: 60}];
+_.sortedIndex(stooges, {name: 'larry', age: 50}, 'age');
 =&gt; 1
 </pre>
 
@@ -966,7 +1002,7 @@ _.range(0);
       </p>
       <pre>
 var func = function(greeting){ return greeting + ': ' + this.name };
-func = _.bind(func, {name : 'moe'}, 'hi');
+func = _.bind(func, {name: 'moe'}, 'hi');
 func();
 =&gt; 'hi: moe'
 </pre>
@@ -982,9 +1018,9 @@ func();
       </p>
       <pre>
 var buttonView = {
-  label   : 'underscore',
-  onClick : function(){ alert('clicked: ' + this.label); },
-  onHover : function(){ console.log('hovering: ' + this.label); }
+  label  : 'underscore',
+  onClick: function(){ alert('clicked: ' + this.label); },
+  onHover: function(){ console.log('hovering: ' + this.label); }
 };
 _.bindAll(buttonView, 'onClick', 'onHover');
 // When the button is clicked, this.label will have the correct value.
@@ -1017,7 +1053,7 @@ add5(10);
       </p>
       <pre>
 var fibonacci = _.memoize(function(n) {
-  return n &lt; 2 ? n : fibonacci(n - 1) + fibonacci(n - 2);
+  return n &lt; 2 ? n: fibonacci(n - 1) + fibonacci(n - 2);
 });
 </pre>
 
@@ -1167,7 +1203,7 @@ welcome('moe');
         Retrieve all the names of the <b>object</b>'s properties.
       </p>
       <pre>
-_.keys({one : 1, two : 2, three : 3});
+_.keys({one: 1, two: 2, three: 3});
 =&gt; ["one", "two", "three"]
 </pre>
 
@@ -1177,7 +1213,7 @@ _.keys({one : 1, two : 2, three : 3});
         Return all of the values of the <b>object</b>'s properties.
       </p>
       <pre>
-_.values({one : 1, two : 2, three : 3});
+_.values({one: 1, two: 2, three: 3});
 =&gt; [1, 2, 3]
 </pre>
 
@@ -1224,8 +1260,8 @@ _.functions(_);
         name in previous arguments.
       </p>
       <pre>
-_.extend({name : 'moe'}, {age : 50});
-=&gt; {name : 'moe', age : 50}
+_.extend({name: 'moe'}, {age: 50});
+=&gt; {name: 'moe', age: 50}
 </pre>
 
       <p id="pick">
@@ -1235,8 +1271,8 @@ _.extend({name : 'moe'}, {age : 50});
         the whitelisted <b>keys</b> (or array of valid keys).
       </p>
       <pre>
-_.pick({name : 'moe', age: 50, userid : 'moe1'}, 'name', 'age');
-=&gt; {name : 'moe', age : 50}
+_.pick({name: 'moe', age: 50, userid: 'moe1'}, 'name', 'age');
+=&gt; {name: 'moe', age: 50}
 </pre>
 
       <p id="omit">
@@ -1246,8 +1282,8 @@ _.pick({name : 'moe', age: 50, userid : 'moe1'}, 'name', 'age');
         <b>keys</b> (or array of keys).
       </p>
       <pre>
-_.omit({name : 'moe', age : 50, userid : 'moe1'}, 'userid');
-=&gt; {name : 'moe', age : 50}
+_.omit({name: 'moe', age: 50, userid: 'moe1'}, 'userid');
+=&gt; {name: 'moe', age: 50}
 </pre>
 
       <p id="defaults">
@@ -1258,9 +1294,9 @@ _.omit({name : 'moe', age : 50, userid : 'moe1'}, 'userid');
         property is filled, further defaults will have no effect.
       </p>
       <pre>
-var iceCream = {flavor : "chocolate"};
-_.defaults(iceCream, {flavor : "vanilla", sprinkles : "lots"});
-=&gt; {flavor : "chocolate", sprinkles : "lots"}
+var iceCream = {flavor: "chocolate"};
+_.defaults(iceCream, {flavor: "vanilla", sprinkles: "lots"});
+=&gt; {flavor: "chocolate", sprinkles: "lots"}
 </pre>
 
       <p id="clone">
@@ -1270,8 +1306,8 @@ _.defaults(iceCream, {flavor : "vanilla", sprinkles : "lots"});
         or arrays will be copied by reference, not duplicated.
       </p>
       <pre>
-_.clone({name : 'moe'});
-=&gt; {name : 'moe'};
+_.clone({name: 'moe'});
+=&gt; {name: 'moe'};
 </pre>
 
       <p id="tap">
@@ -1310,8 +1346,8 @@ _.has({a: 1, b: 2, c: 3}, "b");
         if they should be considered equal.
       </p>
       <pre>
-var moe   = {name : 'moe', luckyNumbers : [13, 27, 34]};
-var clone = {name : 'moe', luckyNumbers : [13, 27, 34]};
+var moe   = {name: 'moe', luckyNumbers: [13, 27, 34]};
+var clone = {name: 'moe', luckyNumbers: [13, 27, 34]};
 moe == clone;
 =&gt; false
 _.isEqual(moe, clone);
@@ -1509,7 +1545,7 @@ var underscore = _.noConflict();</pre>
         a default iterator.
       </p>
       <pre>
-var moe = {name : 'moe'};
+var moe = {name: 'moe'};
 moe === _.identity(moe);
 =&gt; true</pre>
 
@@ -1545,7 +1581,7 @@ _.random(0, 100);
       </p>
       <pre>
 _.mixin({
-  capitalize : function(string) {
+  capitalize: function(string) {
     return string.charAt(0).toUpperCase() + string.substring(1).toLowerCase();
   }
 });
@@ -1616,15 +1652,15 @@ _.result(object, 'stuff');
 
       <pre>
 var compiled = _.template("hello: &lt;%= name %&gt;");
-compiled({name : 'moe'});
+compiled({name: 'moe'});
 =&gt; "hello: moe"
 
 var list = "&lt;% _.each(people, function(name) { %&gt; &lt;li&gt;&lt;%= name %&gt;&lt;/li&gt; &lt;% }); %&gt;";
-_.template(list, {people : ['moe', 'curly', 'larry']});
+_.template(list, {people: ['moe', 'curly', 'larry']});
 =&gt; "&lt;li&gt;moe&lt;/li&gt;&lt;li&gt;curly&lt;/li&gt;&lt;li&gt;larry&lt;/li&gt;"
 
 var template = _.template("&lt;b&gt;&lt;%- value %&gt;&lt;/b&gt;");
-template({value : '&lt;script&gt;'});
+template({value: '&lt;script&gt;'});
 =&gt; "&lt;b&gt;&amp;lt;script&amp;gt;&lt;/b&gt;"</pre>
 
       <p>
@@ -1652,11 +1688,11 @@ compiled({epithet: "stooge"});
 
       <pre>
 _.templateSettings = {
-  interpolate : /\{\{(.+?)\}\}/g
+  interpolate: /\{\{(.+?)\}\}/g
 };
 
 var template = _.template("Hello {{ name }}!");
-template({name : "Mustache"});
+template({name: "Mustache"});
 =&gt; "Hello Mustache!"</pre>
 
       <p>
@@ -1705,10 +1741,10 @@ _([1, 2, 3]).map(function(n){ return n * 2; });</pre>
 
 <pre>
 var lyrics = [
-  {line : 1, words : "I'm a lumberjack and I'm okay"},
-  {line : 2, words : "I sleep all night and I work all day"},
-  {line : 3, words : "He's a lumberjack and he's okay"},
-  {line : 4, words : "He sleeps all night and he works all day"}
+  {line: 1, words: "I'm a lumberjack and I'm okay"},
+  {line: 2, words: "I sleep all night and I work all day"},
+  {line: 3, words: "He's a lumberjack and he's okay"},
+  {line: 4, words: "He sleeps all night and he works all day"}
 ];
 
 _.chain(lyrics)
@@ -1720,7 +1756,7 @@ _.chain(lyrics)
   }, {})
   .value();
 
-=&gt; {lumberjack : 2, all : 4, night : 2 ... }</pre>
+=&gt; {lumberjack: 2, all: 4, night: 2 ... }</pre>
 
       <p>
         In addition, the
@@ -1737,7 +1773,7 @@ _.chain(lyrics)
         to return wrapped objects until <tt>value</tt> is used.
       </p>
       <pre>
-var stooges = [{name : 'curly', age : 25}, {name : 'moe', age : 21}, {name : 'larry', age : 23}];
+var stooges = [{name: 'curly', age: 25}, {name: 'moe', age: 21}, {name: 'larry', age: 23}];
 var youngest = _.chain(stooges)
   .sortBy(function(stooge){ return stooge.age; })
   .map(function(stooge){ return stooge.name + ' is ' + stooge.age; })
@@ -1836,6 +1872,25 @@ _([1, 2, 3]).value();
       </p>
 
       <h2 id="changelog">Change Log</h2>
+
+      <p>
+        <b class="header">1.5.2</b> &mdash; <small><i>Sept. 7, 2013</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.5.1...1.5.2">Diff</a><br />
+        <ul>
+          <li>
+            Added an <tt>indexBy</tt> function, which fits in alongside its 
+            cousins, <tt>countBy</tt> and <tt>groupBy</tt>.
+          </li>
+          <li>
+            Added a <tt>sample</tt> function, for sampling random elements from
+            arrays.
+          </li>
+          <li>
+            Some optimizations relating to functions that can be implemented
+            in terms of <tt>_.keys</tt> (which includes, significantly, 
+            <tt>each</tt> on objects). Also for <tt>debounce</tt> in a tight loop.
+          </li>
+        </ul>
+      </p>
 
       <p>
         <b class="header">1.5.1</b> &mdash; <small><i>Jul. 8, 2013</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.5.0...1.5.1">Diff</a><br />

@@ -1,4 +1,4 @@
-//     Underscore.js 1.5.1
+//     Underscore.js 1.5.2
 //     http://underscorejs.org
 //     (c) 2009-2013 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 //     Underscore may be freely distributed under the MIT license.
@@ -65,7 +65,7 @@
   }
 
   // Current version.
-  _.VERSION = '1.5.1';
+  _.VERSION = '1.5.2';
 
   // Collection Functions
   // --------------------
@@ -283,7 +283,8 @@
     return result.value;
   };
 
-  // Shuffle an array.
+  // Shuffle an array, using the modern version of the 
+  // [Fisher-Yates shuffle](http://en.wikipedia.org/wiki/Fisher–Yates_shuffle).
   _.shuffle = function(obj) {
     var rand;
     var index = 0;
