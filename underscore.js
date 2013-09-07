@@ -302,9 +302,11 @@
   // The internal `guard` argument allows it to work with `map`.
   _.sample = function(obj, n, guard) {
     if (n == null || guard) {
-      return obj[obj.length === +obj.length ?
-        _.random(obj.length - 1) : _.sample(_.keys(obj))
-      ];
+      if (obj.length === +obj.length) {
+        return obj[_.random(obj.length - 1)];
+      } else {
+        return obj[_.sample(_.keys(obj))];
+      }
     }
     return _.shuffle(obj).slice(0, Math.max(0, n));
   };
