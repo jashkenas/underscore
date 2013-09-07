@@ -359,7 +359,7 @@
   // Counts instances of an object that group by a certain criterion. Pass
   // either a string attribute to count by, or a function that returns the
   // criterion.
-  _.countBy = group(function(result, key, value) {
+  _.countBy = group(function(result, key) {
     _.has(result, key) ? result[key]++ : result[key] = 1;
   });
 
