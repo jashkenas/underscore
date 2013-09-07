@@ -19,5 +19,5 @@
       "url": "https://raw.github.com/jashkenas/underscore/master/LICENSE"
     }
   ],
-  "files"         : ["underscore.js", "LICENSE"]
+  "files"         : ["underscore.js", "underscore-min.js", "LICENSE"]
 }
