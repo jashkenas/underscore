@@ -11,7 +11,9 @@
     "phantomjs": "1.9.0-1"
   },
   "scripts": {
-    "test": "phantomjs test/vendor/runner.js test/index.html?noglobals=true"
+    "test": "phantomjs test/vendor/runner.js test/index.html?noglobals=true",
+    "build": "uglifyjs underscore.js -c \"evaluate=false\" --comments \"/    .*/\" -m --source-map underscore-min.map -o underscore-min.js",
+    "doc": "docco underscore.js"
   },
   "licenses": [
     {
