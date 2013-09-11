@@ -17,6 +17,7 @@ $(document).ready(function() {
   test("values", function() {
     equal(_.values({one: 1, two: 2}).join(', '), '1, 2', 'can extract the values from an object');
     equal(_.values({one: 1, two: 2, length: 3}).join(', '), '1, 2, 3', '... even when one of them is "length"');
+    deepEqual(_.values(null), []);
   });
 
   test("pairs", function() {

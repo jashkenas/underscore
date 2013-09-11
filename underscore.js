@@ -775,6 +775,7 @@
 
   // Retrieve the values of an object's properties.
   _.values = function(obj) {
+    if (!_.isObject(obj)) return [];
     var keys = _.keys(obj);
     var length = keys.length;
     var values = new Array(length);
