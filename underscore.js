@@ -706,8 +706,8 @@
           if (!immediate) result = func.apply(context, args);
         }
       };
-      var callNow = immediate && !timeout;
-      if (!timeout) {
+      var callNow = immediate && !timeout || wait === 0;
+      if (!timeout && wait > 0) {
         timeout = setTimeout(later, wait);
       }
       if (callNow) result = func.apply(context, args);
