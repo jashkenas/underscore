@@ -315,7 +315,7 @@
 
   // Sort the object's values by a criterion produced by an iterator.
   _.sortBy = function(obj, value, context) {
-    var iterator = lookupIterator(value);
+    var iterator = value == null ? _.identity : lookupIterator(value);
     return _.pluck(_.map(obj, function(value, index, list) {
       return {
         value: value,

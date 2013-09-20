@@ -346,6 +346,10 @@ $(document).ready(function() {
     });
 
     deepEqual(actual, collection, 'sortBy should be stable');
+
+  	var list = ["q", "w", "e", "r", "t", "y"];
+    var sorted = _.sortBy(list);
+    equal(sorted.join(''), 'eqrtwy', 'uses _.identity if iterator is not specified');
   });
 
   test('groupBy', function() {
