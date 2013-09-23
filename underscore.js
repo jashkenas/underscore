@@ -232,7 +232,12 @@
 
   // Convenience version of a common use case of `map`: fetching a property.
   _.pluck = function(obj, key) {
-    return _.map(obj, function(value){ return value[key]; });
+    if (arguments.length > 2) {
+      var otherKeys = _.toArray(arguments).slice(2);
+      return _.pluck.apply(this, [_.pluck(obj, key)].concat(otherKeys));
+    } else {
+      return _.map(obj, function(value){ return value[key]; });
+    }
   };
 
   // Convenience version of a common use case of `filter`: selecting only objects
