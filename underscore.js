@@ -20,6 +20,11 @@
   // Save bytes in the minified (but not gzipped) version:
   var ArrayProto = Array.prototype, ObjProto = Object.prototype, FuncProto = Function.prototype;
 
+  //use the faster Date.now if available.
+  var getTime = (Date.now || function() {
+    return new Date().getTime();
+  });
+
   // Create quick reference variables for speed access to core prototypes.
   var
     push             = ArrayProto.push,
@@ -665,12 +670,12 @@
     var previous = 0;
     options || (options = {});
     var later = function() {
-      previous = options.leading === false ? 0 : new Date;
+      previous = options.leading === false ? 0 : getTime();
       timeout = null;
       result = func.apply(context, args);
     };
     return function() {
-      var now = new Date;
+      var now = getTime();
       if (!previous && options.leading === false) previous = now;
       var remaining = wait - (now - previous);
       context = this;
@@ -696,9 +701,9 @@
     return function() {
       context = this;
       args = arguments;
-      timestamp = new Date();
+      timestamp = getTime();
       var later = function() {
-        var last = (new Date()) - timestamp;
+        var last = getTime() - timestamp;
         if (last < wait) {
           timeout = setTimeout(later, wait - last);
         } else {
