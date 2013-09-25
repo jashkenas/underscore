@@ -832,6 +832,23 @@
     return obj;
   };
 
+  // Deep merge a given object with properties in passed-in object.
+  // Second object wins
+  _.merge = function(obj1, obj2) {
+    if(_.isObject(obj2)){
+      for (var prop in obj2) {
+        if(_.has(obj1, prop)){
+          obj1[prop] = _.merge(obj1[prop],obj2[prop]);  
+        } else {
+          obj1[prop] = obj2[prop];
+        }
+      }
+    } else { 
+      return obj2;
+    }
+    return obj1;
+  };
+
   // Return a copy of the object only containing the whitelisted properties.
   _.pick = function(obj) {
     var copy = {};

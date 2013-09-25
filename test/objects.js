@@ -62,6 +62,19 @@ $(document).ready(function() {
     equal(result.a, 1, 'should not error on `null` or `undefined` sources');
   });
 
+  test("merge", function() {
+    var result;
+    equal(_.merge({}, {a:'b'}).a, 'b', 'can merge an object with the attributes of another');
+    equal(_.merge({a:'x'}, {a:'b'}).a, 'b', 'properties in source override destination');
+    equal(_.merge({x:'x'}, {a:'b'}).x, 'x', "properties not in source don't get overriden");
+
+    result = _.merge({}, {a:{b:'c'}});
+    ok(_.isEqual(result,{a:{b:'c'}}, 'can merge an object with embedded attributes of another'));
+    result = _.merge({a:{b:'c', d:'z'}}, {a:{b:'x', c:'y'}, b:'c'});
+    ok(_.isEqual(result,{a:{b:'x', c:'y', d:'z'}, b:'c'}, 'can merge two objects with embedded attributes into one'));
+  });
+
+
   test("pick", function() {
     var result;
     result = _.pick({a:1, b:2, c:3}, 'a', 'c');
