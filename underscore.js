@@ -527,13 +527,10 @@
   _.object = function(list, values) {
     if (list == null) return {};
     var result = {};
-    for (var i = 0, length = list.length; i < length; i++) {
-      if (values) {
-        result[list[i]] = values[i];
-      } else {
-        result[list[i][0]] = list[i][1];
-      }
-    }
+    var iterator;
+    if (values) iterator = function(item, index) { result[item] = values[index]; };
+    else iterator = function(item) { result[item[0]] = item[1]; };
+    each(list, iterator);
     return result;
   };
 
