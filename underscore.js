@@ -105,6 +105,19 @@
     });
     return results;
   };
+  
+  // Returns the results of applying the iterator to each element 
+  // with the exception that returning false will cause the element
+  // to be omitted from the array.
+  _.mapfilter = function(obj,iterator,context) {
+    var results = [];
+    if(obj == null) return results;
+    each(obj, function(value, index, list) {
+      var ret;
+      if(false !== (ret = iterator.call(context, value, index, list))) results.push(ret);
+    });
+    return results;
+  };
 
   var reduceError = 'Reduce of empty array with no initial value';
 
