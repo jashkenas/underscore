@@ -668,10 +668,10 @@ _.groupBy(['one', 'two', 'three'], 'length');
       <p id="indexBy">
         <b class="header">indexBy</b><code>_.indexBy(list, iterator, [context])</code>
         <br />
-        Given a <b>list</b>, and an <b>iterator</b> function that returns a 
-        key for each element in the list (or a property name), 
-        returns an object with an index of each item. 
-        Just like <a href="#groupBy">groupBy</a>, but for when you know your 
+        Given a <b>list</b>, and an <b>iterator</b> function that returns a
+        key for each element in the list (or a property name),
+        returns an object with an index of each item.
+        Just like <a href="#groupBy">groupBy</a>, but for when you know your
         keys are unique.
       </p>
       <pre>
@@ -973,8 +973,8 @@ _.sortedIndex(stooges, {name: 'larry', age: 50}, 'age');
         <tt>each</tt> and <tt>map</tt> loops. <b>start</b>, if omitted, defaults
         to <i>0</i>; <b>step</b> defaults to <i>1</i>. Returns a list of integers
         from <b>start</b> to <b>stop</b>, incremented (or decremented) by <b>step</b>,
-        exclusive. Note that ranges that <b>stop</b> before they <b>start</b> 
-        are considered to be zero-length instead of negative — if you'd like a 
+        exclusive. Note that ranges that <b>stop</b> before they <b>start</b>
+        are considered to be zero-length instead of negative — if you'd like a
         negative range, use a negative <b>step</b>.
       </p>
       <pre>
@@ -1877,7 +1877,7 @@ _([1, 2, 3]).value();
         <b class="header">1.5.2</b> &mdash; <small><i>Sept. 7, 2013</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.5.1...1.5.2">Diff</a><br />
         <ul>
           <li>
-            Added an <tt>indexBy</tt> function, which fits in alongside its 
+            Added an <tt>indexBy</tt> function, which fits in alongside its
             cousins, <tt>countBy</tt> and <tt>groupBy</tt>.
           </li>
           <li>
@@ -1886,7 +1886,7 @@ _([1, 2, 3]).value();
           </li>
           <li>
             Some optimizations relating to functions that can be implemented
-            in terms of <tt>_.keys</tt> (which includes, significantly, 
+            in terms of <tt>_.keys</tt> (which includes, significantly,
             <tt>each</tt> on objects). Also for <tt>debounce</tt> in a tight loop.
           </li>
         </ul>
