@@ -17,6 +17,8 @@ $(document).ready(function() {
   test("values", function() {
     equal(_.values({one: 1, two: 2}).join(', '), '1, 2', 'can extract the values from an object');
     equal(_.values({one: 1, two: 2, length: 3}).join(', '), '1, 2, 3', '... even when one of them is "length"');
+    equal(_.values({one: 1, two: 2, three: 3}, 'three', 'two').join(', '), '3, 2', 'can extract the values with the specified keys from an object');
+    equal(_.values({one: 1, two: 2, three: 3}, ['three', 'two']).join(', '), '3, 2', 'can extract the values with the specified array of keys from an object');
   });
 
   test("pairs", function() {
