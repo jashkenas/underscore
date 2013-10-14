@@ -779,14 +779,14 @@
   };
 
   // Retrieve the values of an object's properties.
-  _.values = function(obj) {
-    var keys = _.keys(obj);
-    var length = keys.length;
-    var values = new Array(length);
-    for (var i = 0; i < length; i++) {
-      values[i] = obj[keys[i]];
-    }
-    return values;
+  _.values = function (obj) {
+      var values = [], item;
+      var keys = slice.call(arguments, 1);
+      keys = !keys[0] ? _.keys(obj) : (_.isArray(keys[0]) ? keys[0] : keys);
+      for (var i = 0, len = keys.length; i < len; i++) {
+        if (item = obj[keys[i]]) values.push(item);
+      }
+      return values;
   };
 
   // Convert an object into a list of `[key, value]` pairs.

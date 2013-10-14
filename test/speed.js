@@ -5,6 +5,8 @@
   var objArray = _.map(numbers, function(n){ return {num : n}; });
   var bigObj = {};
   _.times(1000, function(n){ bigObj['key' + n] = n; });
+  var keys = [];
+  _.times(100, function (n) { keys.push('key' + n); });
   var randomized = _.sortBy(numbers, function(){ return Math.random(); });
   var deep = _.map(_.range(100), function() { return _.range(1000); });
 
@@ -60,6 +62,10 @@
 
   JSLitmus.test('_.values()', function() {
     return _.values(bigObj);
+  });
+
+  JSLitmus.test('_.values() (' + keys.length + ' keys of 1000)', function() {
+    return _.values(bigObj, keys);
   });
 
   JSLitmus.test('_.intersection()', function() {
