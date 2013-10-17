@@ -359,6 +359,13 @@ $(document).ready(function() {
 
     // Objects from another frame.
     ok(_.isEqual({}, iObject));
+
+    // Objects without a `constructor` property
+    if (Object.create) {
+        a = Object.create(null, {x: {value: 1, enumerable: true}});
+        b = {x: 1};
+        ok(_.isEqual(a, b));
+    }
   });
 
   test("isEmpty", function() {
