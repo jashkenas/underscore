@@ -631,7 +631,6 @@
   // all callbacks defined on an object belong to it.
   _.bindAll = function(obj) {
     var funcs = slice.call(arguments, 1);
-    if (!obj) throw new Error("bindAll must be passed an object");
     if (funcs.length === 0) throw new Error("bindAll must be passed function names");
     each(funcs, function(f) {
       if (!obj[f]) throw new Error('Method doesn\'t exist: ' + f);
