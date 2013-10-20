@@ -110,6 +110,7 @@ $(document).ready(function() {
     var theSixStooges = ['moe', 'moe', 'curly', 'curly', 'larry', 'larry'];
     equal(_.intersection(theSixStooges, leaders).join(''), 'moe', 'returns a duplicate-free array');
     equal(_.intersection(stooges, 'moe').join(''), 'moe', 'can take the set intersection of some arrays with a none array');
+    equal(_.intersection('moe', stooges).join(''), 'moe', 'can take the set intersection of some arrays with a none array as the first parameter');
   });
 
   test("union", function() {
@@ -131,6 +132,15 @@ $(document).ready(function() {
   test("difference", function() {
     var result = _.difference([1, 2, 3], [2, 30, 40]);
     equal(result.join(' '), '1 3', 'takes the difference of two arrays');
+
+    result = _.difference([1], 2);
+    equal(result.join(' '), '1', 'takes the difference of an array and a none array');
+
+    result = _.difference(1, [2]);
+    equal(result.join(' '), '1', 'takes the difference of a none array and an array');
+
+    result = _.difference(1, 2);
+    equal(result.join(' '), '1', 'takes the difference of two none array');
 
     result = _.difference([1, 2, 3, 4], [2, 30, 40], [1, 11, 111]);
     equal(result.join(' '), '3 4', 'takes the difference of three arrays');
