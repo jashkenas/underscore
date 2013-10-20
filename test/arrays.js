@@ -109,6 +109,7 @@ $(document).ready(function() {
     equal(result.join(''), 'moe', 'works on an arguments object');
     var theSixStooges = ['moe', 'moe', 'curly', 'curly', 'larry', 'larry'];
     equal(_.intersection(theSixStooges, leaders).join(''), 'moe', 'returns a duplicate-free array');
+    equal(_.intersection(stooges, 'moe').join(''), 'moe', 'can take the set intersection of some arrays with a none array');
   });
 
   test("union", function() {
