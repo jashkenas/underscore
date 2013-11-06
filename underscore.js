@@ -82,7 +82,7 @@
     if (obj == null) return;
     if (nativeForEach && obj.forEach === nativeForEach) {
       obj.forEach(iterator, context);
-    } else if (obj.length === +obj.length) {
+    } else if (Object.prototype.toString.call( obj ) === '[object Array]') {
       for (var i = 0, length = obj.length; i < length; i++) {
         if (iterator.call(context, obj[i], i, obj) === breaker) return;
       }
