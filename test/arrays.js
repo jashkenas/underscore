@@ -99,6 +99,11 @@ $(document).ready(function() {
 
     var result = (function(){ return _.uniq(arguments); })(1, 2, 1, 3, 1, 4);
     equal(result.join(', '), '1, 2, 3, 4', 'works on an arguments object');
+    
+    list = [{name:'moe'}, {name:'curly'}, {name:'larry'}, {name:'curly'}];
+    deepEqual(_.uniq(list, false, undefined, undefined, true), [{name:'moe'}, {name:'curly'}, {name:'larry'}]);
+    
+    
   });
 
   test("intersection", function() {
@@ -109,6 +114,8 @@ $(document).ready(function() {
     equal(result.join(''), 'moe', 'works on an arguments object');
     var theSixStooges = ['moe', 'moe', 'curly', 'curly', 'larry', 'larry'];
     equal(_.intersection(theSixStooges, leaders).join(''), 'moe', 'returns a duplicate-free array');
+    var stoogesOO = [{name: 'moe'}, {name: 'curly'}, {name: 'larry'}], leadersOO = [{name: 'moe'}, {name: 'groucho'}];
+    deepEqual(_.intersectionDeep(stoogesOO, leadersOO), [{name: 'moe'}], 'performs deep comparison correctly while computing intersections');
   });
 
   test("union", function() {
@@ -125,6 +132,9 @@ $(document).ready(function() {
 
     result = _.union(null, [1, 2, 3]);
     deepEqual(result, [null, 1, 2, 3]);
+    
+    result = _.unionDeep([{name: 'Marx'}, {name: 'Engels'}], [{name: 'Engels'}, {name: 'Bebel'}]);
+    deepEqual(result, [{name: 'Marx'}, {name: 'Engels'}, {name: 'Bebel'}]);
   });
 
   test("difference", function() {
@@ -133,6 +143,9 @@ $(document).ready(function() {
 
     result = _.difference([1, 2, 3, 4], [2, 30, 40], [1, 11, 111]);
     equal(result.join(' '), '3 4', 'takes the difference of three arrays');
+    
+    result = _.differenceDeep([{name: 'porkchop'}, {name: 'steak'}, {name: 'potato'}], [{name: 'steak'}]);
+    deepEqual(result, [{name: 'porkchop'}, {name: 'potato'}], 'takes object properties into account when computing set difference');
   });
 
   test('zip', function() {

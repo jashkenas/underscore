@@ -217,9 +217,15 @@
   };
 
   // Determine if the array or object contains a given value (using `===`).
+  // Additionally, a deep comparison (using _.isEqual) may be performed if the target is an object and deepCompare is passed as true.
   // Aliased as `include`.
-  _.contains = _.include = function(obj, target) {
+  _.contains = _.include = function(obj, target, deepCompare) {
     if (obj == null) return false;
+    if (deepCompare && _.isObject(target)) {
+      return any(obj, function(value){
+        return _.isEqual(value, target);
+      });
+    }
     if (nativeIndexOf && obj.indexOf === nativeIndexOf) return obj.indexOf(target) != -1;
     return any(obj, function(value) {
       return value === target;
@@ -468,8 +474,9 @@
   // Produce a duplicate-free version of the array. If the array has already
   // been sorted, you have the option of using a faster algorithm.
   // Aliased as `unique`.
-  _.uniq = _.unique = function(array, isSorted, iterator, context) {
+  _.uniq = _.unique = function(array, isSorted, iterator, context, deepCompare) {
     if (_.isFunction(isSorted)) {
+      deepCompare = context;
       context = iterator;
       iterator = isSorted;
       isSorted = false;
@@ -478,9 +485,17 @@
     var results = [];
     var seen = [];
     each(initial, function(value, index) {
-      if (isSorted ? (!index || seen[seen.length - 1] !== value) : !_.contains(seen, value)) {
-        seen.push(value);
-        results.push(array[index]);
+      if (isSorted){
+        if (!index || (!deepCompare && seen[seen.length - 1] !== value) || (deepCompare && !_.isEqual(seen[seen.length - 1], value))){
+          seen.push(value);
+          results.push(array[index]);
+        }
+      }
+      else{
+        if (!_.contains(seen, value, deepCompare)){
+          seen.push(value);
+          results.push(array[index]);
+        }
       }
     });
     return results;
@@ -491,24 +506,36 @@
   _.union = function() {
     return _.uniq(_.flatten(arguments, true));
   };
+  _.unionDeep = function() {
+    return _.uniq(_.flatten(arguments, true), false, undefined, undefined, true);
+  };
 
   // Produce an array that contains every item shared between all the
   // passed-in arrays.
-  _.intersection = function(array) {
-    var rest = slice.call(arguments, 1);
-    return _.filter(_.uniq(array), function(item) {
-      return _.every(rest, function(other) {
-        return _.indexOf(other, item) >= 0;
+  function makeIntersectionFunction(deepCompare) {
+    return function(array) {
+      var rest = slice.call(arguments, 1);
+      return _.filter(_.uniq(array), function(item) {
+        return _.every(rest, function(other) {
+          return _.contains(other, item, deepCompare);
+        });
       });
-    });
-  };
+    };
+  }
+  _.intersection = makeIntersectionFunction(false);
+  _.intersectionDeep = makeIntersectionFunction(true);
 
+  function makeDifferenceFunction(deepCompare) {
+    return function(array) {
+      var rest = concat.apply(ArrayProto, slice.call(arguments, 1));
+      return _.filter(array, function(value){ return !_.contains(rest, value, deepCompare); });
+    };
+  }
+  
   // Take the difference between one array and a number of other arrays.
   // Only the elements present in just the first array will remain.
-  _.difference = function(array) {
-    var rest = concat.apply(ArrayProto, slice.call(arguments, 1));
-    return _.filter(array, function(value){ return !_.contains(rest, value); });
-  };
+  _.difference = makeDifferenceFunction(false);
+  _.differenceDeep = makeDifferenceFunction(true);
 
   // Zip together multiple lists into a single array -- elements that share
   // an index go together.
