@@ -639,6 +639,7 @@
   // Memoize an expensive function by storing its results.
   _.memoize = function(func, hasher) {
     var memo = {};
+    // _.identity will return just the *first* argument when `.apply`ed to `arguments`.
     hasher || (hasher = _.identity);
     return function() {
       var key = hasher.apply(this, arguments);
