@@ -59,6 +59,31 @@ $(document).ready(function() {
     ok(_.isArray(ifnull) && ifnull.length === 0, 'handles a null properly');
   });
 
+  test('mapfilter', function() {
+    var doubled = _.mapfilter([1, 2, 3, 4, 5], function(num){ return num===3?false:num * 2; });
+    equal(doubled.join(', '), '2, 4, 8, 10', 'doubled numbers');
+
+    var tripled = _.mapfilter([1, 2, 3, 4, 5], function(num){ return num===3?false:num * this.multiplier; }, {multiplier : 3});
+    equal(tripled.join(', '), '3, 6, 12, 15', 'tripled numbers with context');
+
+    var doubled = _([1, 2, 3, 4, 5]).mapfilter(function(num){ return num===3?false:num * 2; });
+    equal(doubled.join(', '), '2, 4, 8, 10', 'OO-style doubled numbers');
+
+    if (document.querySelectorAll) {
+      var ids = _.mapfilter(document.querySelectorAll('#map-test *'), function(n){ return n.id==='id2'?false:n.id; });
+      deepEqual(ids, ['id1'], 'Can use collection methods on NodeLists.');
+    }
+
+    var ids = _.mapfilter($('#map-test').children(), function(n){ return n.id==='id2'?false:n.id; });
+    deepEqual(ids, ['id1'], 'Can use collection methods on jQuery Array-likes.');
+
+    var ids = _.mapfilter(document.images, function(n){ return n.id!=='chart_image'?false:n.id; });
+    ok(ids[0] == 'chart_image', 'can use collection methods on HTMLCollections');
+
+    var ifnull = _.mapfilter(null, function(){});
+    ok(_.isArray(ifnull) && ifnull.length === 0, 'handles a null properly');
+  });
+
   test('reduce', function() {
     var sum = _.reduce([1, 2, 3], function(sum, num){ return sum + num; }, 0);
     equal(sum, 6, 'can sum up an array');
