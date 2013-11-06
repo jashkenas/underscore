@@ -36,15 +36,15 @@
   // All **ECMAScript 5** native function implementations that we hope to use
   // are declared here.
   var
-    nativeForEach      = ArrayProto.forEach,
-    nativeMap          = ArrayProto.map,
-    nativeReduce       = ArrayProto.reduce,
-    nativeReduceRight  = ArrayProto.reduceRight,
-    nativeFilter       = ArrayProto.filter,
-    nativeEvery        = ArrayProto.every,
-    nativeSome         = ArrayProto.some,
-    nativeIndexOf      = ArrayProto.indexOf,
-    nativeLastIndexOf  = ArrayProto.lastIndexOf,
+    nativeForEach,
+    nativeMap,
+    nativeReduce,
+    nativeReduceRight,
+    nativeFilter,
+    nativeEvery,
+    nativeSome,
+    nativeIndexOf,
+    nativeLastIndexOf,
     nativeIsArray      = Array.isArray,
     nativeKeys         = Object.keys,
     nativeBind         = FuncProto.bind;
@@ -72,6 +72,31 @@
   // Current version.
   _.VERSION = '1.5.2';
 
+  // Switches usage ES5 Array methods on/off
+  _.useE55Arrays = function(useEs5) {
+    var useEs5 = _.isUndefined(useEs5) || !!useEs5;
+    if (useEs5) {
+      nativeForEach      = ArrayProto.forEach;
+      nativeMap          = ArrayProto.map;
+      nativeReduce       = ArrayProto.reduce;
+      nativeReduceRight  = ArrayProto.reduceRight;
+      nativeFilter       = ArrayProto.filter;
+      nativeEvery        = ArrayProto.every;
+      nativeSome         = ArrayProto.some;
+      nativeIndexOf      = ArrayProto.indexOf;
+      nativeLastIndexOf  = ArrayProto.lastIndexOf;
+    } else {
+      nativeForEach      = null;
+      nativeMap          = null;
+      nativeReduce       = null;
+      nativeReduceRight  = null;
+      nativeFilter       = null;
+      nativeEvery        = null;
+      nativeSome         = null;
+      nativeIndexOf      = null;
+      nativeLastIndexOf  = null;
+    }
+  }
   // Collection Functions
   // --------------------
 
