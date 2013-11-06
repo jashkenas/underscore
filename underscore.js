@@ -673,6 +673,7 @@
       previous = options.leading === false ? 0 : getTime();
       timeout = null;
       result = func.apply(context, args);
+      context = args = null;
     };
     return function() {
       var now = getTime();
@@ -685,6 +686,7 @@
         timeout = null;
         previous = now;
         result = func.apply(context, args);
+        context = args = null;
       } else if (!timeout && options.trailing !== false) {
         timeout = setTimeout(later, remaining);
       }
