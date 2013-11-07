@@ -366,6 +366,12 @@ $(document).ready(function() {
         b = {x: 1};
         ok(_.isEqual(a, b));
     }
+
+    function Foo() { this.a = 1; }
+    Foo.prototype.constructor = null;
+
+    var other = { 'a': 1 };
+    strictEqual(_.isEqual(new Foo, other), false);
   });
 
   test("isEmpty", function() {

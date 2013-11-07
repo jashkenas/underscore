@@ -933,7 +933,7 @@
     var aCtor = a.constructor, bCtor = b.constructor;
     if (aCtor !== bCtor && !(_.isFunction(aCtor) && (aCtor instanceof aCtor) &&
                              _.isFunction(bCtor) && (bCtor instanceof bCtor))
-                        && !(aCtor == null || bCtor == null)) {
+                        && ('constructor' in a && 'constructor' in b)) {
       return false;
     }
     // Add the first object to the stack of traversed objects.
