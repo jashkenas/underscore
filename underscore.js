@@ -628,19 +628,15 @@
 
     return function() {
       var applied = [],
-        pIndex = 0,
-        aIndex = 0,
         pLen = partialArgs.length,
         aLen = arguments.length;
 
-        for (var i = 0; pIndex < pLen || aIndex < aLen; i++) {
+        for (var i = 0, pIndex = 0, aIndex = 0; pIndex < pLen || aIndex < aLen; i++) {
           if (partialArgs[pIndex] === _ ){
-            applied[i] = aIndex < aLen ? arguments[aIndex++] : _;
+            applied[i] = aIndex < aLen ? arguments[aIndex++] : _ ;
             pIndex++;
-          } else if (pLen <= i) {
-            applied[i] = arguments[aIndex++];
           } else {
-            applied[i] = partialArgs[pIndex++];
+            applied[i] = pIndex < pLen ? partialArgs[pIndex++] : arguments[aIndex++];
           }
         }
 
