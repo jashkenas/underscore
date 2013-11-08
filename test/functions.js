@@ -57,6 +57,10 @@ $(document).ready(function() {
     obj.func = obj.func('e');
     obj.func = obj.func('g');
     equal(obj.func('l'), 'moe e f g h l', 'continues to apply until all placeholders are filled');
+
+    var f = obj.func = _.partial(func, _, 'f');
+    f('e');
+    equal(obj.func('f'), 'moe f f', 'calls with correct args, even after partialing a copy');
   });
 
   test("bindAll", function() {
