@@ -624,25 +624,17 @@
   // pre-filled at a given position.
   _.partial = function(func) {
     var partialArgs = slice.call(arguments, 1),
-        placeHolders = _.filter(partialArgs, function(v) {return v === _}).length;
+      placeHolders = _.foldl(partialArgs, function(a,v,i) {if (v === _) a.push(i); return a}, []);
 
     return function() {
-      var applied = [],
-        pLen = partialArgs.length,
-        aLen = arguments.length;
-
-        for (var i = 0, pIndex = 0, aIndex = 0; pIndex < pLen || aIndex < aLen; i++) {
-          if (partialArgs[pIndex] === _ ){
-            applied[i] = aIndex < aLen ? arguments[aIndex++] : _ ;
-            pIndex++;
-          } else {
-            applied[i] = pIndex < pLen ? partialArgs[pIndex++] : arguments[aIndex++];
-          }
-        }
-
-        return aLen < placeHolders ?
-          _.partial.apply(_, [func].concat(applied)) : func.apply(this, applied);
+      for (var i = 0, l = placeHolders.length; i < l; i++) {
+        partialArgs[placeHolders[i]] = i < arguments.length ? arguments[i] : _;
       }
+
+      return arguments.length < placeHolders.length ?
+        _.partial.apply(_, [func].concat(partialArgs)) :
+        func.apply(this, partialArgs.concat(slice.call(arguments,i)));
+    };
   };
 
   // Bind all of an object's methods to that object. Useful for ensuring that
