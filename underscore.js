@@ -626,19 +626,21 @@
     var partialArgs = slice.call(arguments, 1),
       placeHolders = [],
       index = -1;
-    while ((index = _.indexOf(partialArgs, _, index + 1)) !== -1) {
+    while ((index = _.indexOf(partialArgs, _, index + 1)) > -1) {
       placeHolders.push(index);
     }
 
     return function() {
-      var args = slice.call(arguments);
-      each(placeHolders, function(index) {
-        partialArgs[index] = args.length ? args.shift() : _;
-      });
+      var pLen = placeHolders.length,
+        aLen = arguments.length,
+        i = 0;
+      for (; i < pLen; i++) {
+        partialArgs[placeHolders[i]] = i < aLen ? arguments[i] : _;
+      }
 
-      return arguments.length < placeHolders.length ?
+      return aLen < pLen ?
         _.partial.apply(_, [func].concat(partialArgs)) :
-        func.apply(this, partialArgs.concat(args));
+        func.apply(this, partialArgs.concat(slice.call(arguments, i)));
     };
   };
 

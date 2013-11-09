@@ -46,8 +46,8 @@ $(document).ready(function() {
 
     obj.func = _.partial(func, 'a', 'b');
     equal(obj.func('c', 'd'), 'moe a b c d', 'can partially apply');
-    obj.func = _.partial(func, _, 'f', _, 'h');
-    equal(obj.func('e', 'g'), 'moe e f g h', 'can partially apply with placeholders');
+    obj.func = _.partial(func, _, 1, _, 3);
+    equal(obj.func(0, 2), 'moe 0 1 2 3', 'can partially apply with placeholders');
     obj.func = _.partial(func, _, 'f', _, 'h');
     equal(obj.func('e', 'g', 'l', 'k', 'm'), 'moe e f g h l k m', 'can partially apply with more arguments than partials');
     obj.func = _.partial(func, _, 'f', _, 'h');
