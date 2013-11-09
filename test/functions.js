@@ -58,9 +58,11 @@ $(document).ready(function() {
     obj.func = obj.func('g');
     equal(obj.func('l'), 'moe e f g h l', 'continues to apply until all placeholders are filled');
 
-    var f = obj.func = _.partial(func, _, 'f');
-    f('e');
-    equal(obj.func('f'), 'moe f f', 'calls with correct args, even after partialing a copy');
+    function add4(n1,n2,n3,n4) {return n1+n2+n3+n4}
+    var addx = _.partial(add4, 1, _, _,4)
+    addx(5,6) //-> 16
+    var addy = addx(5)
+    equal(addy(10), 20, 'creates new placeholder partials, even after calling the partial');
   });
 
   test("bindAll", function() {

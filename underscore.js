@@ -633,10 +633,10 @@
     return function() {
       var args = slice.call(arguments);
       each(placeHolders, function(index) {
-        if (args.length > 0) partialArgs[index] = args.shift();
+        partialArgs[index] = args.length ? args.shift() : _;
       });
 
-      return (arguments.length < placeHolders.length) ?
+      return arguments.length < placeHolders.length ?
         _.partial.apply(_, [func].concat(partialArgs)) :
         func.apply(this, partialArgs.concat(args));
     };
