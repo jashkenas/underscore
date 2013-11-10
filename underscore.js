@@ -664,27 +664,32 @@
   // as much as it can, without ever going more than once per `wait` duration;
   // but if you'd like to disable the execution on the leading edge, pass
   // `{leading: false}`. To disable execution on the trailing edge, ditto.
+  // You can also pass `{exponential: true}` to increase the wait time 
+  // exponentially. 
   _.throttle = function(func, wait, options) {
     var context, args, result;
     var timeout = null;
     var previous = 0;
+    var count = 1;
     options || (options = {});
     var later = function() {
       previous = options.leading === false ? 0 : getTime();
       timeout = null;
+      count++;
       result = func.apply(context, args);
       context = args = null;
     };
     return function() {
       var now = getTime();
       if (!previous && options.leading === false) previous = now;
-      var remaining = wait - (now - previous);
+      var remaining = wait * (options.exponential === true ? Math.pow(count,2) : 1)  - (now - previous);
       context = this;
       args = arguments;
       if (remaining <= 0) {
         clearTimeout(timeout);
         timeout = null;
         previous = now;
+        count++;
         result = func.apply(context, args);
         context = args = null;
       } else if (!timeout && options.trailing !== false) {
