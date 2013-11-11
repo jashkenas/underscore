@@ -682,7 +682,7 @@
     return function() {
       var now = getTime();
       if (!previous && options.leading === false) previous = now;
-      var remaining = wait * (options.exponential === true ? Math.pow(count,2) : 1)  - (now - previous);
+      var remaining = wait * (options.exponential === true ? Math.pow(2,count) : 1)  - (now - previous);
       context = this;
       args = arguments;
       if (remaining <= 0) {
