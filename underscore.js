@@ -1080,13 +1080,17 @@
     return accum;
   };
 
-  // Return a random integer between min and max (inclusive).
-  _.random = function(min, max) {
-    if (max == null) {
-      max = min;
-      min = 0;
+  // Return a random integer or decimal between min and max (inclusive)
+  _.random = function(min, max, fixed) {
+    if (fixed == null) {
+      if (max == null) {
+        max = min;
+        min = 0;
+      }
+      return min + Math.floor(Math.random() * (max - min + 1));
+    } else {
+      return +(min + Math.random() * (max - min)).toFixed(fixed);
     }
-    return min + Math.floor(Math.random() * (max - min + 1));
   };
 
   // List of HTML entities for escaping.
