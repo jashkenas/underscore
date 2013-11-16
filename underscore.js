@@ -1082,15 +1082,12 @@
 
   // Return a random integer or decimal between min and max (inclusive)
   _.random = function(min, max, fixed) {
-    if (fixed == null) {
-      if (max == null) {
-        max = min;
-        min = 0;
-      }
-      return min + Math.floor(Math.random() * (max - min + 1));
-    } else {
-      return +(min + Math.random() * (max - min)).toFixed(fixed);
+    var fixed = fixed || 0;
+    if (max == null) {
+      max = min;
+      min = 0;
     }
+    return +(min + Math.random() * (max - min)).toFixed(fixed);
   };
 
   // List of HTML entities for escaping.
