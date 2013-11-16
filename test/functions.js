@@ -206,7 +206,7 @@ $(document).ready(function() {
     ok(counter === 0);
 
     _.delay(function() {
-      ok(counter == 1);
+      ok(counter === 1);
       start();
     }, 96);
   });
@@ -223,11 +223,11 @@ $(document).ready(function() {
     ok(counter === 0);
 
     _.delay(function() {
-      ok(counter == 1);
+      ok(counter === 1);
     }, 250);
 
     _.delay(function() {
-      ok(counter == 2);
+      ok(counter === 2);
       start();
     }, 350);
   });
@@ -256,13 +256,13 @@ $(document).ready(function() {
     ok(counter === 1);
 
     _.delay(function() {
-      ok(counter == 1);
+      ok(counter === 1);
 
       throttledIncr(); throttledIncr();
-      ok(counter == 2);
+      ok(counter === 2);
 
       _.delay(function() {
-        ok(counter == 2);
+        ok(counter === 2);
         start();
       }, 96);
     }, 96);
