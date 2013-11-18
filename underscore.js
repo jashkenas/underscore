@@ -315,7 +315,7 @@
 
   // An internal function to generate lookup iterators.
   var lookupIterator = function(value) {
-    return _.isFunction(value) ? value : function(obj){ return obj[value]; };
+    return _.isFunction(value) ? value : _.property(value);
   };
 
   // Sort the object's values by a criterion produced by an iterator.
