@@ -1073,6 +1073,10 @@
     return value;
   };
 
+  _.constant = function(value) {
+    return _.partial(_.identity, value);
+  };
+
   _.property = function(key) {
     return function(obj) {
       return obj[key];
