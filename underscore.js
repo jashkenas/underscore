@@ -1073,6 +1073,12 @@
     return value;
   };
 
+  _.property = function(key) {
+    return function(obj) {
+      return obj[key];
+    };
+  };
+
   // Run a function **n** times.
   _.times = function(n, iterator, context) {
     var accum = Array(Math.max(0, n));
