@@ -25,6 +25,11 @@ $(document).ready(function() {
     equal(_.identity(moe), moe, 'moe is the same as his identity');
   });
 
+  test("property", function() {
+    var moe = {name : 'moe'};
+    equal(_.property('name')(moe), 'moe', 'should return the property with the given name');
+  });
+
   test("random", function() {
     var array = _.range(1000);
     var min = Math.pow(2, 31);
