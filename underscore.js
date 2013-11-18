@@ -1073,8 +1073,11 @@
     return value;
   };
 
-  _.constant = function(value) {
-    return _.partial(_.identity, value);
+  //Using bracket notation for const to avoid problems with legacy engines
+  _['const'] = _.constant = function(value) {
+    return function () {
+      return value;
+    };
   };
 
   _.property = function(key) {
