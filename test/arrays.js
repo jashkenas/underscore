@@ -16,6 +16,7 @@ $(document).ready(function() {
     equal(result.join(','), '1,2', 'aliased as take');
 
     equal(_.first(null), undefined, 'handles nulls');
+    strictEqual(_.first([1, 2, 3], -1).length, 0);
   });
 
   test("rest", function() {
@@ -51,6 +52,7 @@ $(document).ready(function() {
     equal(result.join(','), '3,3', 'works well with _.map');
 
     equal(_.last(null), undefined, 'handles nulls');
+    strictEqual(_.last([1, 2, 3], -1).length, 0);
   });
 
   test("compact", function() {
