@@ -405,7 +405,9 @@
   // allows it to work with `_.map`.
   _.first = _.head = _.take = function(array, n, guard) {
     if (array == null) return void 0;
-    return (n == null) || guard ? array[0] : slice.call(array, 0, n);
+    if ((n == null) || guard) return array[0];
+    if (n < 0) return [];
+    return slice.call(array, 0, n);
   };
 
   // Returns everything but the last entry of the array. Especially useful on
@@ -420,11 +422,8 @@
   // values in the array. The **guard** check allows it to work with `_.map`.
   _.last = function(array, n, guard) {
     if (array == null) return void 0;
-    if ((n == null) || guard) {
-      return array[array.length - 1];
-    } else {
-      return slice.call(array, Math.max(array.length - n, 0));
-    }
+    if ((n == null) || guard) return array[array.length - 1];
+    return slice.call(array, Math.max(array.length - n, 0));
   };
 
   // Returns everything but the first entry of the array. Aliased as `tail` and `drop`.
