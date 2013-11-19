@@ -1073,8 +1073,7 @@
     return value;
   };
 
-  //Using bracket notation for const to avoid problems with legacy engines
-  _['const'] = _.constant = function(value) {
+  _.constant = function(value) {
     return function () {
       return value;
     };
