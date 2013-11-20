@@ -274,31 +274,58 @@ $(document).ready(function() {
     strictEqual(template(), '<<\nx\n>>');
   });
 
-  test('iter', function () {
+  test('loop with iterator', 3, function () {
+
+    var c = 0;
+    _.loop(10, function(num, i) {
+      c = num;
+    });
+    equal(c, 9, 'iter should iterate from 0 to end of range specified');
+
+    c = 0;
+    _.loop(1, 5, function(num, i) {
+      c += num;
+    });
+    equal(c, 10, 'iter should iterate from start to end of range specified');
+
+    c = 0;
+    _.loop(2, 6, 2, function(num, i) {
+      c += num;
+    });
+    equal(c, 6, 'iter should iterate from start to stop by step of range specified');
+  });
+
+  test('loop with lazy iterator', 5, function () {
+    var loop = _.loop(10);
+    ok(_.isFunction(loop), 'loop should be a function');
+
     var err;
     try {
-      _.iter();
+      loop();
     } catch (e) {
       err = e;
     }
     ok(err instanceof TypeError, 'throws an error if an interator is not provided');
 
     var c = 0;
-    _.iter(10, function(num, i) {
+    loop(function(num, i) {
       c = num;
     });
     equal(c, 9, 'iter should iterate from 0 to end of range specified');
 
     c = 0;
-    _.iter(1, 5, function(num, i) {
+    loop = _.loop(1, 5);
+    loop(function(num, i) {
       c += num;
     });
     equal(c, 10, 'iter should iterate from start to end of range specified');
 
     c = 0;
-    _.iter(2, 6, 2, function(num, i) {
+    loop = _.loop(2, 6, 2);
+    loop(function(num, i) {
       c += num;
     });
     equal(c, 6, 'iter should iterate from start to stop by step of range specified');
+
   });
 });

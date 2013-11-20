@@ -1239,13 +1239,25 @@
   };
 
   // Iterates through a range of values by piggybacking on _.range and _.each
-  _.iter = function (start, stop, step, iterator) {
+  // if no iterator function is provided then a function for the iteration
+  // is returned
+  _.loop = function (start, stop, step, iterator) {
     var args = slice.call(arguments);
 
     iterator = args.pop();
-    if (!_.isFunction(iterator)) throw new TypeError;
+    if (_.isFunction(iterator)) {
+        each(_.range.apply(_, args), iterator);
+    } else {
+        // last argument was not an iterator function, put it back
+        args.push(iterator);
+        var range = _.range.apply(_, args);
 
-    each(_.range.apply(_, args), iterator);
+        // return a function that can be reused for iteration
+        return function(iterator) {
+            if (!_.isFunction(iterator)) throw new TypeError;
+            each(range, iterator);
+        };
+    }
   };
 
 
