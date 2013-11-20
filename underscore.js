@@ -1238,6 +1238,18 @@
     return template;
   };
 
+  // Iterates through a range of values by piggybacking on _.range and _.each
+  _.iter = function (start, stop, step, iterator) {
+    var args = slice.call(arguments);
+
+    iterator = args.pop();
+    if (!_.isFunction(iterator)) throw new TypeError;
+
+    var range = _.range.apply(_, args);
+    each(range, iterator);
+  };
+
+
   // Add a "chain" function, which will delegate to the wrapper.
   _.chain = function(obj) {
     return _(obj).chain();

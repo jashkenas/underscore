@@ -274,4 +274,33 @@ $(document).ready(function() {
     strictEqual(template(), '<<\nx\n>>');
   });
 
+  test('iter', function () {
+    var c = 0;
+    _.iter(10, function(num, i) {
+      c = num;
+    });
+    equal(c, 9, 'iter should iterate from 0 to end of range specified');
+
+    c = 0;
+    _.iter(1, 5, function(num, i) {
+      c += num;
+    });
+    equal(c, 10, 'iter should iterate from start to end of range specified');
+
+    c = 0;
+    _.iter(2, 6, 2, function(num, i) {
+      c += num;
+    });
+    equal(c, 6, 'iter should iterate from start to stop by step of range specified');
+
+    var err;
+    try {
+        _.iter();
+    } catch (e) {
+        err = e;
+    }
+    ok(err instanceof TypeError, 'throws an error if an interator is not provided');
+
+    
+  });
 });
