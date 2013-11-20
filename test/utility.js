@@ -275,6 +275,14 @@ $(document).ready(function() {
   });
 
   test('iter', function () {
+    var err;
+    try {
+      _.iter();
+    } catch (e) {
+      err = e;
+    }
+    ok(err instanceof TypeError, 'throws an error if an interator is not provided');
+
     var c = 0;
     _.iter(10, function(num, i) {
       c = num;
@@ -292,15 +300,5 @@ $(document).ready(function() {
       c += num;
     });
     equal(c, 6, 'iter should iterate from start to stop by step of range specified');
-
-    var err;
-    try {
-      _.iter();
-    } catch (e) {
-      err = e;
-    }
-    ok(err instanceof TypeError, 'throws an error if an interator is not provided');
-
-    
   });
 });
