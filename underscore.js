@@ -1245,8 +1245,7 @@
     iterator = args.pop();
     if (!_.isFunction(iterator)) throw new TypeError;
 
-    var range = _.range.apply(_, args);
-    each(range, iterator);
+    each(_.range.apply(_, args), iterator);
   };
 
 
