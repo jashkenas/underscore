@@ -303,6 +303,7 @@
     <ul class="toc_section">
       <li>- <a href="#noConflict">noConflict</a></li>
       <li>- <a href="#identity">identity</a></li>
+      <li>- <a href="#constant">constant</a></li>
       <li>- <a href="#times">times</a></li>
       <li>- <a href="#random">random</a></li>
       <li>- <a href="#mixin">mixin</a></li>
@@ -1549,6 +1550,16 @@ var underscore = _.noConflict();</pre>
       <pre>
 var moe = {name: 'moe'};
 moe === _.identity(moe);
+=&gt; true</pre>
+
+      <p id="constant">
+        <b class="header">constant</b><code>_.constant(value)</code>
+        <br />
+        Creates a function that returns the same value that is used as the argument of <tt>_.constant</tt>.
+      </p>
+      <pre>
+var moe = {name: 'moe'};
+moe === _.constant(moe)();
 =&gt; true</pre>
 
       <p id="times">

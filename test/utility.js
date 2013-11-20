@@ -25,6 +25,11 @@ $(document).ready(function() {
     equal(_.identity(moe), moe, 'moe is the same as his identity');
   });
 
+  test("constant", function() {
+    var moe = {name : 'moe'};
+    equal(_.constant(moe)(), moe, 'should create a function that returns moe');
+  });
+
   test("property", function() {
     var moe = {name : 'moe'};
     equal(_.property('name')(moe), 'moe', 'should return the property with the given name');

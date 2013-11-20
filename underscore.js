@@ -1074,6 +1074,12 @@
     return value;
   };
 
+  _.constant = function(value) {
+    return function () {
+      return value;
+    };
+  };
+
   _.property = function(key) {
     return function(obj) {
       return obj[key];
