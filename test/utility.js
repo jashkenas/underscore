@@ -295,9 +295,9 @@ $(document).ready(function() {
 
     var err;
     try {
-        _.iter();
+      _.iter();
     } catch (e) {
-        err = e;
+      err = e;
     }
     ok(err instanceof TypeError, 'throws an error if an interator is not provided');
 
