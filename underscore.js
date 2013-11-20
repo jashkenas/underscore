@@ -322,7 +322,21 @@
 
   // Sort the object's values by a criterion produced by an iterator.
   _.sortBy = function(obj, iterator, context) {
-    iterator = lookupIterator(iterator);
+    var multi = false, diff,
+        compare = function (a, b) {
+          if (a !== b) {
+            if (a > b || a === void 0) return 1;
+            if (a < b || b === void 0) return -1;
+          }
+        };
+    if (_.isArray(iterator)) {
+      multi = true;
+      iterator = (function (iterator) {
+        return function (value) { return _.map(iterator, function (item) { return value[item]; }) };
+      })(iterator);
+    } else {
+      iterator = lookupIterator(iterator);
+    }
     return _.pluck(_.map(obj, function(value, index, list) {
       return {
         value: value,
@@ -332,9 +346,14 @@
     }).sort(function(left, right) {
       var a = left.criteria;
       var b = right.criteria;
-      if (a !== b) {
-        if (a > b || a === void 0) return 1;
-        if (a < b || b === void 0) return -1;
+      if (multi) {
+        for (var i = 0, len = a.length; i < len; i++) {
+          diff = compare(a[i], b[i]);
+          if (diff) return diff;
+        }
+      } else {
+          diff = compare(a, b);
+          if (diff) return diff;
       }
       return left.index - right.index;
     }), 'value');
