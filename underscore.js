@@ -1239,6 +1239,29 @@
     return template;
   };
 
+  // Iterates through a range of values by piggybacking on _.range and _.each
+  // if no iterator function is provided then a function for the iteration
+  // is returned
+  _.loop = function (start, stop, step, iterator) {
+    var args = slice.call(arguments);
+
+    iterator = args.pop();
+    if (_.isFunction(iterator)) {
+        each(_.range.apply(_, args), iterator);
+    } else {
+        // last argument was not an iterator function, put it back
+        args.push(iterator);
+        var range = _.range.apply(_, args);
+
+        // return a function that can be reused for iteration
+        return function(iterator) {
+            if (!_.isFunction(iterator)) throw new TypeError;
+            each(range, iterator);
+        };
+    }
+  };
+
+
   // Add a "chain" function, which will delegate to the wrapper.
   _.chain = function(obj) {
     return _(obj).chain();
