@@ -496,10 +496,11 @@
   // Produce an array that contains every item shared between all the
   // passed-in arrays.
   _.intersection = function(array) {
+    array = _.isArray(array) ? array : (_.isArguments(array) ? slice.call(array) : [array]);
     var rest = slice.call(arguments, 1);
     return _.filter(_.uniq(array), function(item) {
       return _.every(rest, function(other) {
-        return _.indexOf(other, item) >= 0;
+        return other === item || _.indexOf(other, item) >= 0;
       });
     });
   };
@@ -507,6 +508,7 @@
   // Take the difference between one array and a number of other arrays.
   // Only the elements present in just the first array will remain.
   _.difference = function(array) {
+    array = _.isArray(array) ? array : (_.isArguments(array) ? slice.call(array) : [array]);
     var rest = concat.apply(ArrayProto, slice.call(arguments, 1));
     return _.filter(array, function(value){ return !_.contains(rest, value); });
   };
