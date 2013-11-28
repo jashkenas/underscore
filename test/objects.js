@@ -64,6 +64,8 @@ $(document).ready(function() {
 
   test("pick", function() {
     var result;
+    result = _.pick({a:1, b:2, c:3}, function(key) { if(key !== 'b') return true; });
+    ok(_.isEqual(result, {a:1, c:3}), 'can restrict properties to those who pass the test');
     result = _.pick({a:1, b:2, c:3}, 'a', 'c');
     ok(_.isEqual(result, {a:1, c:3}), 'can restrict properties to those named');
     result = _.pick({a:1, b:2, c:3}, ['b', 'c']);
