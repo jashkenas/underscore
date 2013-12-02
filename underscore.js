@@ -240,6 +240,15 @@
     return _.map(obj, _.property(key));
   };
 
+  // Draw a list of values from an object/array,
+  // using a list of corresponding keys/indexes
+  _.draw = function(obj) {
+    var keys = concat.apply(ArrayProto, slice.call(arguments, 1));
+    return _.map(keys, function(key){
+      return obj[key];
+    });
+  };
+
   // Convenience version of a common use case of `filter`: selecting only objects
   // containing specific `key:value` pairs.
   _.where = function(obj, attrs, first) {

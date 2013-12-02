@@ -210,6 +210,7 @@
       <li>- <a href="#contains">contains</a></li>
       <li>- <a href="#invoke">invoke</a></li>
       <li>- <a href="#pluck">pluck</a></li>
+      <li>- <a href="#draw">draw</a></li>
       <li>- <a href="#max">max</a></li>
       <li>- <a href="#min">min</a></li>
       <li>- <a href="#sortBy">sortBy</a></li>
@@ -612,6 +613,19 @@ _.invoke([[5, 1, 7], [3, 2, 1]], 'sort');
 var stooges = [{name: 'moe', age: 40}, {name: 'larry', age: 50}, {name: 'curly', age: 60}];
 _.pluck(stooges, 'name');
 =&gt; ["moe", "larry", "curly"]
+</pre>
+      
+      <p id="draw">
+        <b class="header">draw</b><code>_.draw(list, *keys)</code>
+        <br />
+        A convenient version of what is perhaps the most common use-case for
+        <b>map</b>: extracting an <b>array</b> of values by <b>keys</b>/<b>indexes</b>.
+      </p>
+      <pre>
+_.draw({name: 'moe', age: 50, userid: 'moe1'}, 'name', 'userid');
+=&gt; ["moe", "moe1"]
+_.draw(['a', 'b', 'c', 'd', 'e'], [0, 3, 1]);
+=&gt; ['a', 'd', 'b']
 </pre>
 
       <p id="max">

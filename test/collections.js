@@ -253,6 +253,15 @@ $(document).ready(function() {
     equal(_.pluck(people, 'name').join(', '), 'moe, curly', 'pulls names out of objects');
   });
 
+  test('draw', function() {
+    var person = {name: 'moe', age: 50, userid: 'moe1'};
+    var letters = ['a', 'b', 'c', 'd', 'e'];
+    equal(_.draw(person, ['name', 'userid']).join(', '), 'moe, moe1', 'pulls values out of object');
+    equal(_.draw(person, 'name', 'userid').join(', '), 'moe, moe1', 'pulls values out of object');
+    equal(_.draw(letters, [0, 3, 1]).join(', '), 'a, d, b', 'pulls values out of array');
+    equal(_.draw(letters, 0, 3, 1).join(', '), 'a, d, b', 'pulls values out of array');
+  });
+
   test('where', function() {
     var list = [{a: 1, b: 2}, {a: 2, b: 2}, {a: 1, b: 3}, {a: 1, b: 4}];
     var result = _.where(list, {a: 1});
