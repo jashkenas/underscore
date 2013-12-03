@@ -188,6 +188,13 @@
     }, context);
   };
 
+  // Return the first element for which a truth test fails.
+  _.rejectWhere = function(obj, iterator, context) {
+    return _.find(obj, function(value, index, list) {
+      return !iterator.call(context, value, index, list);
+    }, context);
+  };
+
   // Determine whether all of the elements match a truth test.
   // Delegates to **ECMAScript 5**'s native `every` if available.
   // Aliased as `all`.

@@ -184,6 +184,19 @@ $(document).ready(function() {
     equal(evens.join(', '), '2, 4, 6', 'rejected each odd number');
   });
 
+  test('rejectWhere', function() {
+    var odds = _.rejectWhere([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
+    equal(odds, 1, 'rejected each even number');
+
+    var context = "obj";
+
+    var evens = _.rejectWhere([1, 2, 3, 4, 5, 6], function(num){
+      equal(context, "obj");
+      return num % 2 != 0;
+    }, context);
+    equal(evens, 2, 'rejected each odd number');
+  });
+
   test('all', function() {
     ok(_.all([], _.identity), 'the empty set');
     ok(_.all([true, true, true], _.identity), 'all true values');
