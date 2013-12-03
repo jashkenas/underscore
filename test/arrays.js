@@ -113,6 +113,31 @@ $(document).ready(function() {
     equal(_.intersection(theSixStooges, leaders).join(''), 'moe', 'returns a duplicate-free array');
   });
 
+  test("intersection with comparators", function() {
+      var compDeepEqual = _.isEqual;
+
+      var compNormal = function(a, b) { return a == b; };
+
+      var object1 = {foo: 1, bar: 2, baz: 3};
+      var object2 = {foo: 2, bar: 5, baz: 8};
+      // object3 is equivalent to object 1
+      var object3 = {foo: 1, bar: 2, baz: 3};
+
+      var big_set = [object1, object2];
+      var smaller_set = [object3];
+      var result = _.intersection(compNormal, big_set, smaller_set);
+
+      // With ==, the objects aren't equal so no objects intersect
+      equal(JSON.stringify(result), '[]');
+
+      // With deep equality, the object should be removed
+      result = _.intersection(compDeepEqual, big_set, smaller_set);
+      equal(JSON.stringify(result), '[{"foo":1,"bar":2,"baz":3}]');
+
+      result = _.deepIntersection(big_set, smaller_set);
+      equal(JSON.stringify(result), '[{"foo":1,"bar":2,"baz":3}]');
+  });
+
   test("union", function() {
     var result = _.union([1, 2, 3], [2, 30, 1], [1, 40]);
     equal(result.join(' '), '1 2 3 30 40', 'takes the union of a list of arrays');
@@ -128,6 +153,34 @@ $(document).ready(function() {
     result = _.union(null, [1, 2, 3]);
     deepEqual(result, [null, 1, 2, 3]);
   });
+  
+  test("union with comparators", function() {
+      var compDeepEqual = _.isEqual;
+
+      var compNormal = function(a, b) { return a == b; };
+
+      var object1 = {foo: 1, bar: 2, baz: 3};
+      var object2 = {foo: 2, bar: 5, baz: 8};
+      // object3 is equivalent to object 1
+      var object3 = {foo: 1, bar: 2, baz: 3};
+
+      var big_set = [object1, object2];
+      var smaller_set = [object3];
+      var result = _.union(compNormal, big_set, smaller_set);
+
+      // With ==, the objects aren't equal so the union has 3 objects
+      equal(JSON.stringify(result), 
+          '[{"foo":1,"bar":2,"baz":3},{"foo":2,"bar":5,"baz":8},{"foo":1,"bar":2,"baz":3}]');
+
+      // With deep equality, the object should be removed
+      result = _.union(compDeepEqual, big_set, smaller_set);
+      equal(JSON.stringify(result), 
+          '[{"foo":1,"bar":2,"baz":3},{"foo":2,"bar":5,"baz":8}]');
+
+      result = _.deepUnion(big_set, smaller_set);
+      equal(JSON.stringify(result), 
+              '[{"foo":1,"bar":2,"baz":3},{"foo":2,"bar":5,"baz":8}]');  
+  });
 
   test("difference", function() {
     var result = _.difference([1, 2, 3], [2, 30, 40]);
@@ -135,6 +188,34 @@ $(document).ready(function() {
 
     result = _.difference([1, 2, 3, 4], [2, 30, 40], [1, 11, 111]);
     equal(result.join(' '), '3 4', 'takes the difference of three arrays');
+  });
+
+  test("difference with custom comparators", function() {
+      var compFoo = function(a,b) {
+          return a.foo == b.foo;
+      }
+
+      var compDeepEqual = _.isEqual;
+
+      var compNormal = function(a, b) { return a == b; };
+
+      var object1 = {foo: 1, bar: 2, baz: 3};
+      var object2 = {foo: 2, bar: 5, baz: 8};
+      var object3 = {foo: 1, bar: 2, baz: 3};
+
+      var big_set = [object1, object2];
+      var smaller_set = [object3];
+      var result = _.difference(compNormal, big_set, smaller_set);
+
+      // With ==, the objects aren't equal so no objects are removed
+      equal(JSON.stringify(result), '[{"foo":1,"bar":2,"baz":3},{"foo":2,"bar":5,"baz":8}]');
+
+      // With deep equality, the object should be removed
+      result = _.difference(compDeepEqual, big_set, smaller_set);
+      equal(JSON.stringify(result), '[{"foo":2,"bar":5,"baz":8}]');
+
+      result = _.deepDifference(big_set, smaller_set);
+      equal(JSON.stringify(result), '[{"foo":2,"bar":5,"baz":8}]');
   });
 
   test('zip', function() {
