@@ -1753,7 +1753,7 @@ _.template("Using 'with': <%= data.answer %>", {answer: 'no'}, {variable: 'data'
 
     <pre>
 _.map([1, 2, 3], function(n){ return n * 2; });
-_([1, 2, 3]).map(function(n){ return n * 2; });</pre>
+_.chain([1, 2, 3]).map(function(n){ return n * 2; }).value();</pre>
 
       <p>
         Calling <tt>chain</tt> will cause all future method calls to return
