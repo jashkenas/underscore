@@ -285,7 +285,6 @@ $(document).ready(function() {
     returnedValue = _.namespace('GLOBAL_TEST.a.b');
     equal(_.all([GLOBAL_TEST, GLOBAL_TEST.a, GLOBAL_TEST.a.b], _.isObject) , true, "All namespace elements are now objects");
     equal(GLOBAL_TEST.a.b === returnedValue, true, "The returned value was the last element of the namespace chain");
-    debugger;
     returnedValue = _.namespace('LOCAL_TEST.a.b', {parent: LOCAL_TEST});
     if (typeof GLOBAL_TEST !== "undefined") {
       GLOBAL_TEST = undefined;
