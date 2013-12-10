@@ -1260,10 +1260,9 @@
   // TODO: ADD DESCRIPTION
   _.namespace = function(namespace, options) {
     var elements = namespace.split('.'),
-        parent,
-        next;
     options = _.defaults({}, options, _.namespaceSettings);
-    parent = options.parent;
+    var parent = options.parent;
+    var next;
     // Iterate through the namespace elements
     for (var i = 0, length = elements.length; i < length; i += 1) {
       next = elements[i];
