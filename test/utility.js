@@ -279,4 +279,17 @@ $(document).ready(function() {
     strictEqual(template(), '<<\nx\n>>');
   });
 
+  test('_.namespace tests.', function() {
+    var returnedValue, LOCAL_TEST;
+    equal(typeof GLOBAL_TEST, "undefined", "The parent element was not defined before starting the tests");
+    returnedValue = _.namespace('GLOBAL_TEST.a.b');
+    equal(_.all([GLOBAL_TEST, GLOBAL_TEST.a, GLOBAL_TEST.a.b], _.isObject) , true, "All namespace elements are now objects");
+    equal(GLOBAL_TEST.a.b === returnedValue, true, "The returned value was the last element of the namespace chain");
+    debugger;
+    returnedValue = _.namespace('LOCAL_TEST.a.b', {parent: LOCAL_TEST});
+    if (typeof GLOBAL_TEST !== "undefined") {
+      GLOBAL_TEST = undefined;
+    }
+  });
+
 });

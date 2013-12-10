@@ -1251,6 +1251,31 @@
     return _(obj).chain();
   };
 
+  // TODO: ADD DESCRIPTION
+  _.namespaceSettings = {
+    parent : (function(){ return this }()),
+    strict : false
+  };
+
+  // TODO: ADD DESCRIPTION
+  _.namespace = function(namespace, options) {
+    var elements = namespace.split('.'),
+        parent,
+        next;
+    options = _.defaults({}, options, _.namespaceSettings);
+    parent = options.parent;
+    // Iterate through the namespace elements
+    for (var i = 0, length = elements.length; i < length; i += 1) {
+      next = elements[i];
+      // Create a property if it doesn't exist
+      if (!parent[next]) { // TODO: CHECK STRICT MODE
+        parent[next] = {};
+      }
+      parent = parent[next];
+    }
+    return parent;
+  };
+
   // OOP
   // ---------------
   // If Underscore is called as a function, it returns a wrapped object that
