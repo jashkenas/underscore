@@ -286,6 +286,7 @@ $(document).ready(function() {
     equal(GLOBAL_TEST.a.b === returnedValue1, true, "The returned value was the last element of the namespace chain");
     equal(_.all([GLOBAL_TEST, GLOBAL_TEST.a, GLOBAL_TEST.a.b], _.isObject) , true, "All global namespace elements are now objects");
     equal(_.namespace('GLOBAL_TEST.a.b'), returnedValue1, 'Does not create new properties if called again');
+    delete GLOBAL_TEST;
 
     var returnedValue2, LOCAL_TEST = {};
     returnedValue2 = _.namespace('c.d', {parent: LOCAL_TEST});
