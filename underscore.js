@@ -1251,6 +1251,35 @@
     return _(obj).chain();
   };
 
+  // By default, namespace roots will be the global object
+  // and strict mode will be disabled.
+  _.namespaceSettings = {
+    parent : (function(){return this;}()),
+    strict : false
+  };
+
+  // Returns or creates a set of nested objects as specified by a '.' separated string, 
+  // attached either to the default global object or in a parent object specified in options. 
+  // If the strict option is set to true, object creation is disabled.
+  _.namespace = function(namespace, options) {
+    options = _.defaults({}, options, _.namespaceSettings);
+    var elements = namespace.split('.');
+    var parent = options.parent;
+    var strict = options.strict;
+    var next;
+    // Iterate through the namespace elements
+    for (var i = 0, length = elements.length; i < length; i += 1) {
+      next = elements[i];
+      // Create a property if it doesn't exist
+      if (!parent[next]) {
+        if (strict) throw new Error(next + " is not defined and strict mode is enabled");
+        parent[next] = {};
+      }
+      parent = parent[next];
+    }
+    return parent;
+  };
+
   // OOP
   // ---------------
   // If Underscore is called as a function, it returns a wrapped object that
@@ -1295,7 +1324,7 @@
     // Extracts the result from a wrapped and chained object.
     value: function() {
       return this._wrapped;
-    }
+    }na
 
   });
 
