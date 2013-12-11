@@ -1258,7 +1258,9 @@
     strict : false
   };
 
-  // Create namespaces to promote good practices in code organization.
+  // Returns or creates a set of nested objects as specified by a '.' separated string, 
+  // attached either to the default global object or in a parent object specified in options. 
+  // If the strict option is set to true, object creation is disabled.
   _.namespace = function(namespace, options) {
     options = _.defaults({}, options, _.namespaceSettings);
     var elements = namespace.split('.');
@@ -1322,7 +1324,7 @@
     // Extracts the result from a wrapped and chained object.
     value: function() {
       return this._wrapped;
-    }
+    }na
 
   });
 
