@@ -280,15 +280,21 @@ $(document).ready(function() {
   });
 
   test('_.namespace tests.', function() {
-    var returnedValue, LOCAL_TEST;
+    var returnedValue1;
     equal(typeof GLOBAL_TEST, "undefined", "The parent element was not defined before starting the tests");
-    returnedValue = _.namespace('GLOBAL_TEST.a.b');
-    equal(_.all([GLOBAL_TEST, GLOBAL_TEST.a, GLOBAL_TEST.a.b], _.isObject) , true, "All namespace elements are now objects");
-    equal(GLOBAL_TEST.a.b === returnedValue, true, "The returned value was the last element of the namespace chain");
-    returnedValue = _.namespace('LOCAL_TEST.a.b', {parent: LOCAL_TEST});
-    if (typeof GLOBAL_TEST !== "undefined") {
-      GLOBAL_TEST = undefined;
-    }
+    returnedValue1 = _.namespace('GLOBAL_TEST.a.b');
+    equal(GLOBAL_TEST.a.b === returnedValue1, true, "The returned value was the last element of the namespace chain");
+    equal(_.all([GLOBAL_TEST, GLOBAL_TEST.a, GLOBAL_TEST.a.b], _.isObject) , true, "All global namespace elements are now objects");
+    equal(_.namespace('GLOBAL_TEST.a.b'), returnedValue1, 'Does not create new properties if called again');
+
+    var returnedValue2, LOCAL_TEST = {};
+    returnedValue2 = _.namespace('c.d', {parent: LOCAL_TEST});
+    equal(LOCAL_TEST.c.d === returnedValue2, true, "The returned value was the last element of the namespace chain");
+    equal(_.all([LOCAL_TEST, LOCAL_TEST.c, LOCAL_TEST.c.d], _.isObject) , true, "All local namespace elements are now objects");
+    equal(_.namespace('c.d', {parent: LOCAL_TEST}), returnedValue2, 'Does not create new properties if called again');
+    
+    var returnedValue3, STRICT_TEST = {};
+    raises(function() { _.namespace('e.f', {parent: STRICT_TEST, strict: true}); }, Error, 'Throws an error using strict mode');
   });
 
 });
