@@ -15,12 +15,12 @@ void forEach/each(list, void f(item, indexOrKey, list), [context])
 
 # MapReduce
 # map
-array collect/map(list, void f(value, [key], [list]), [context])
+array collect/map(list, value f(value, [key], [list]), [context])
 array invoke(list, String functionName, [*arguments])
 # reduce
-value inject/foldl/reduce(list, f(memo, value, indexOrKey, list), memo, [context])
+value inject/foldl/reduce(list, memo f(memo, value, indexOrKey, list), memo, [context])
 # scan array backwards
-value foldr/reduceRight(list, f(memo, value, indexOrKey, list), memo, [context])
+value foldr/reduceRight(list, memo f(memo, value, indexOrKey, list), memo, [context])
 
 # numerical
 number max(list, [number f(value)], [context])
@@ -44,14 +44,14 @@ bool include/contains(list, value)
 
 # reordering
 array pluck(list<object>, key)
-array sortBy(list, val f(item), [context])
+array sortBy(list, value f(value), [context])
 array shuffle(array) # TODO This should be in the array category.
 
 # grouping
-object groupBy(list, group f(item), [context])
-object indexBy(list, uniqueGroup f(item), [context])
+object groupBy(list, group f(value, indexOrKey, list), [context])
+object indexBy(list, uniqueGroup f(value, indexOrKey, list), [context])
 # histogram
-object countBy(list, group f(item), [context])
+object countBy(list, group f(value, indexOrKey, list), [context])
 
 # Arrays
 
@@ -78,16 +78,16 @@ array flatten(array, [bool shallow])
 array zip(*arrays)
 
 # object factory
-object object([key, val], ...)
-object object([key1, ...], [val1, ...])
+object object([key, value], ...)
+object object([key1, ...], [value1, ...])
 
 # array factory
 array range([start], stop, [step])
 
 # search
-index indexOf(array, val, [bool isSorted])
-index lastIndexOf(array, val, [bool isSorted])
-index sortedIndex(array, val, [rank f(item)], [context])
+index indexOf(array, value, [bool isSorted])
+index lastIndexOf(array, value, [bool isSorted])
+index sortedIndex(array, value, [rank f(value)], [context])
 
 # Functions
 
@@ -114,17 +114,17 @@ array keys(object)
 array values(object)
 array<String> = methods/functions(object)
 bool has(object, key)
-[[key1, val1], ...] pairs(object)
-{val1: key1, ...} invert({key1: val1, ...})
+[[key1, value1], ...] pairs(object)
+{value1: key1, ...} invert({key1: value1, ...})
 
 # copy
 object clone(object) # shallow
 
-# augment
-# append missing & override present
-extend(destination, *sources)
 # append missing
 defaults(object, *defaults)
+# and override
+extend(destination, *sources)
+
 
 # predicate
 bool isEqual(object, other)
@@ -155,7 +155,7 @@ pick(object, *keys)
 omit(object, *keys)
 
 # chain
-object tap(object, f(object))
+X tap(object X, void f(object))
 
 # Utility
 
@@ -173,7 +173,7 @@ string escape(string)
 string unescape(string)
 
 # misc
-[val1, ..., valn] times(n, val f(index), [context])
+[value1, ..., valuen] times(n, value f(index), [context])
 
 # _
 var underscore = _.noConflict();
