@@ -62,4 +62,10 @@ $(document).ready(function() {
     deepEqual(o.filter(function(i) { return i > 2; }).value(), [3, 4]);
   });
 
+  test("shift, pop, join all return value unless chaining", function() {
+    strictEqual(_([1, 2, 3]).pop(), 3);
+    strictEqual(_([1, 2, 3]).shift(), 1);
+    strictEqual(_([1, 2, 3]).join(), '1,2,3');
+  });
+
 });
