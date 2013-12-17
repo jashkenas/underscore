@@ -193,6 +193,10 @@ $(document).ready(function() {
     numbers = [1, 2, 3, 1, 2, 3, 1, 2, 3];
     index = _.indexOf(numbers, 2, 5);
     equal(index, 7, 'supports the fromIndex argument');
+
+    var string = 'foo';
+    index = _.indexOf(string, 'oo');
+    equal(index, 1, 'should operate on strings of lengths greater than 1');
   });
 
   test("lastIndexOf", function() {
