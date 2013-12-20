@@ -807,6 +807,16 @@
     return pairs;
   };
 
+  // Serialize key-value pairs of an object into urlencoded format
+  _.serialize = function(obj) {
+    var pairs = _.pairs(obj);
+    return _.reduce(pairs, function(memo, pair) {
+      var key = _.first(pair), value = _.last(pair);
+      value = _.isFunction(value) ? value() : value;
+      return memo + '&' + encodeURIComponent(key) + '=' + encodeURIComponent(value);
+    }, '').replace('&', '').replace(/%20/g, '+');
+  };
+
   // Invert the keys and values of an object. The values must be serializable.
   _.invert = function(obj) {
     var result = {};

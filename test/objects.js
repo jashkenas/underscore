@@ -24,6 +24,13 @@ $(document).ready(function() {
     deepEqual(_.pairs({one: 1, two: 2, length: 3}), [['one', 1], ['two', 2], ['length', 3]], '... even when one of them is "length"');
   });
 
+  test("serialize", function() {
+    equal(_.serialize({foo: 'bar', baz: 'qux'}), 'foo=bar&baz=qux', 'can serialize an object');
+    equal(_.serialize({foo: function() { return 'bar';}, baz: 'qux'}), 'foo=bar&baz=qux', 'can serialize an object, with an invoked function');
+    equal(_.serialize({foo: 'foo bar', baz: 'qux'}), 'foo=foo+bar&baz=qux', 'can correctly encode spaces in serialized object');
+    equal(_.serialize({'foo bar': '!@#$%^&*()"\''}), 'foo+bar=!%40%23%24%25%5E%26*()%22\'', 'urlencodes characters in serialized result');
+  });
+
   test("invert", function() {
     var obj = {first: 'Moe', second: 'Larry', third: 'Curly'};
     equal(_.keys(_.invert(obj)).join(' '), 'Moe Larry Curly', 'can invert an object');
