@@ -620,11 +620,19 @@
   };
 
   // Partially apply a function by creating a version that has had some of its
-  // arguments pre-filled, without changing its dynamic `this` context.
+  // arguments pre-filled, without changing its dynamic `this` context. _ acts
+  // as a placeholder, allowing any combination of arguments to be pre-filled.
   _.partial = function(func) {
-    var args = slice.call(arguments, 1);
+    var boundArgs = slice.call(arguments, 1);
     return function() {
-      return func.apply(this, args.concat(slice.call(arguments)));
+      var args = slice.call(boundArgs);
+      _.each(arguments, function(arg) {
+        var index = args.indexOf(_);
+        args[index >= 0 ? index : args.length] = arg;
+      });
+      return func.apply(this, _.map(args, function(value) {
+        return value === _ ? void 0 : value;
+      }));
     };
   };
 

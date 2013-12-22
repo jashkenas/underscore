@@ -46,6 +46,16 @@ $(document).ready(function() {
 
     obj.func = _.partial(func, 'a', 'b');
     equal(obj.func('c', 'd'), 'moe a b c d', 'can partially apply');
+
+    obj.func = _.partial(func, _, 'b', _, 'd');
+    equal(obj.func('a', 'c'), 'moe a b c d', 'can partially apply with placeholders');
+
+    func = _.partial(function() { return arguments.length; }, _, 'b', _, 'd');
+    equal(func('a', 'c', 'e'), 5, 'accepts more arguments than the number of placeholders');
+    equal(func('a'), 4, 'accepts fewer arguments than the number of placeholders');
+
+    func = _.partial(function() { return typeof arguments[2]; }, _, 'b', _, 'd');
+    equal(func('a'), 'undefined', 'unfilled placeholders are undefined');
   });
 
   test("bindAll", function() {
