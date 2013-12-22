@@ -1172,7 +1172,8 @@
   _.templateSettings = {
     evaluate    : /<%([\s\S]+?)%>/g,
     interpolate : /<%=([\s\S]+?)%>/g,
-    escape      : /<%-([\s\S]+?)%>/g
+    escape      : /<%-([\s\S]+?)%>/g,
+    trim        : undefined  // e.g. /\n\s*/g
   };
 
   // When customizing `templateSettings`, if you don't want to define an
@@ -1195,8 +1196,9 @@
   var escaper = /\\|'|\r|\n|\t|\u2028|\u2029/g;
 
   // JavaScript micro-templating, similar to John Resig's implementation.
-  // Underscore templating handles arbitrary delimiters, preserves whitespace,
-  // and correctly escapes quotes within interpolated code.
+  // Underscore templating handles arbitrary delimiters, preserves whitespace
+  // (unless _.templateSettings.trim is set), and correctly escapes quotes,
+  // within interpolated code.
   _.template = function(text, data, settings) {
     var render;
     settings = _.defaults({}, settings, _.templateSettings);
@@ -1243,9 +1245,9 @@
       throw e;
     }
 
-    if (data) return render(data, _);
+    if (data) return render(data, _).replace(settings.trim || noMatch, '');
     var template = function(data) {
-      return render.call(this, data, _);
+      return render.call(this, data, _).replace(settings.trim || noMatch, '');
     };
 
     // Provide the compiled function source as a convenience for precompilation.
