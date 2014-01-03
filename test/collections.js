@@ -266,6 +266,11 @@ $(document).ready(function() {
     equal(result.b, 2, "Only get the first object matched.")
     result = _.where(list, {a: 1}, false);
     equal(result.length, 3);
+
+    result = _.where(list, {});
+    equal(result.length, list.length);
+    result = _.where(list, {}, true);
+    equal(result, list[0]);
   });
 
   test('findWhere', function() {
