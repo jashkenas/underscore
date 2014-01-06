@@ -984,6 +984,12 @@
     return result;
   };
 
+  // What is the given's type ? (more specific than typeof operator)
+  // inspired by http://javascriptweblog.wordpress.com/2011/08/08/fixing-the-javascript-typeof-operator/
+  _.typeOf = function (obj) {
+    return toString.call(obj).match(/\s([a-zA-Z]+)/)[1].toLowerCase();
+  };
+
   // Perform a deep comparison to check if two objects are equal.
   _.isEqual = function(a, b) {
     return eq(a, b, [], []);
