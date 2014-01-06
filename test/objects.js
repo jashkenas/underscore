@@ -549,6 +549,18 @@ $(document).ready(function() {
     ok(_.isUndefined(iUndefined), 'even from another frame');
   });
 
+  test("typeOf", function () {
+    ok(_.isEqual(_.typeOf("foo"), "string"), '"foo" is a string');
+    ok(_.isEqual(_.typeOf(NaN), "number"), "(plot twist) NaN is actually a number");
+    ok(_.isEqual(_.typeOf(), "undefined"), "nothing is a undefined");
+    ok(_.isEqual(_.typeOf([]), "array"), "[] is an array");
+    ok(_.isEqual(_.typeOf({}), "object"), "{} is an object");
+    ok(_.isEqual(_.typeOf(false), "boolean"), "false is a boolean");
+    ok(_.isEqual(_.typeOf(true), "boolean"), "true is a boolean");
+    ok(_.isEqual(_.typeOf(null), "null"), "null is null");
+    ok(_.isEqual(_.typeOf(new Date()), "date"), "new Date() is a date");
+  });
+
   if (window.ActiveXObject) {
     test("IE host objects", function() {
       var xml = new ActiveXObject("Msxml2.DOMDocument.3.0");
