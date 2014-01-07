@@ -35,6 +35,12 @@ $(document).ready(function() {
     equal(_.property('name')(moe), 'moe', 'should return the property with the given name');
   });
 
+  test("method", function() {
+    var foo = { bar: function(num) { return num + 2; } };
+    equal(_.method("bar", 4)(foo), 6, 'should curry correctly via name');
+    equal(_.method(foo.bar, 5)(foo), 7, 'should curry correctly');
+  });
+
   test("random", function() {
     var array = _.range(1000);
     var min = Math.pow(2, 31);
