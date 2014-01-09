@@ -779,6 +779,17 @@
       }
     };
   };
+  
+  // Returns a function that will be executed every time when function was called interval times.
+  _.interval = function(interval, func) {
+    var called = interval;
+    return function() {
+      if (--called == 0) {
+        called = interval;
+        return func.apply(this, arguments);
+      }
+    };
+  };
 
   // Object Functions
   // ----------------
