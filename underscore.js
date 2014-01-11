@@ -492,6 +492,15 @@
     return _.uniq(_.flatten(arguments, true));
   };
 
+  // Get the value of array using positive and negative index
+  // the passed-in arrays. 
+  _.get=function(array, index){
+    if(index < 0 ) {
+      index=array.length-Math.abs(index);
+    }
+    return array[index];
+  }
+
   // Produce an array that contains every item shared between all the
   // passed-in arrays.
   _.intersection = function(array) {
