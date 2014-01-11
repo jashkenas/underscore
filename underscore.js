@@ -495,10 +495,7 @@
   // Get the value of array using positive and negative index
   // the passed-in arrays. 
   _.get=function(array, index){
-    if(index < 0 ) {
-      index=array.length-Math.abs(index);
-    }
-    return array[index];
+    return array[index < 0 ? (array.length + index) : index]
   }
 
   // Produce an array that contains every item shared between all the
