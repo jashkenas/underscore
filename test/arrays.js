@@ -227,7 +227,7 @@ $(document).ready(function() {
     strictEqual(_.get([1,2,3,4],-1), 4, 'should return last element of array');
     strictEqual(_.get([1,2,3,4],-2), 3, 'should return second last element of array');
     strictEqual(_.get([1,2,3,4], 0), 1, 'should return first element of array');
-    strictEqual(_.get([1,2,3,4], 1), 2, 'should return first element of array');  
+    strictEqual(_.get([1,2,3,4], 1), 2, 'should return second element of array');  
     strictEqual(_.get([1,2,3,4], 4),undefined , 'should return undefined if positive out of index');
     strictEqual(_.get([1,2,3,4], -5), undefined, 'should return undefined if negative out of index');     
   });
