@@ -492,11 +492,11 @@
     return _.uniq(_.flatten(arguments, true));
   };
 
-  // Get the value of array using positive and negative index
+  // Get the value of array using positive or negative index
   // the passed-in arrays. 
-  _.get=function(array, index){
+  _.get = function(array, index) {
     return array[index < 0 ? (array.length + index) : index]
-  }
+  };
 
   // Produce an array that contains every item shared between all the
   // passed-in arrays.
