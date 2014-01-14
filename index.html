@@ -304,6 +304,7 @@
       <li>- <a href="#noConflict">noConflict</a></li>
       <li>- <a href="#identity">identity</a></li>
       <li>- <a href="#constant">constant</a></li>
+      <li>- <a href="#property">property</a></li>
       <li>- <a href="#times">times</a></li>
       <li>- <a href="#random">random</a></li>
       <li>- <a href="#mixin">mixin</a></li>
@@ -1560,6 +1561,16 @@ moe === _.identity(moe);
       <pre>
 var moe = {name: 'moe'};
 moe === _.constant(moe)();
+=&gt; true</pre>
+
+      <p id="property">
+        <b class="header">property</b><code>_.property(key)</code>
+        <br />
+        Creates a function that gets the value of <tt>key</tt> in the object passed as parameter.
+      </p>
+      <pre>
+var moe = {name: 'moe'};
+'moe' === _.property('name')(moe);
 =&gt; true</pre>
 
       <p id="times">
