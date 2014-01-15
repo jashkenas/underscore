@@ -517,7 +517,7 @@ Aliased as <code>include</code>.</p>
     <span class="keyword">var</span> args = slice.call(arguments, <span class="number">2</span>);
     <span class="keyword">var</span> isFunc = _.isFunction(method);
     <span class="keyword">return</span> _.map(obj, <span class="keyword">function</span>(value) {
-      <span class="keyword">return</span> (isFunc ? method : value[method]).apply(value, args);
+      <span class="keyword">return</span> (isFunc ? method : method ? value[method] : value).apply(value, args);
     });
   };</pre></div></div>
             
