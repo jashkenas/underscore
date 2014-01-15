@@ -468,7 +468,10 @@
   // Produce a duplicate-free version of the array. If the array has already
   // been sorted, you have the option of using a faster algorithm.
   // Aliased as `unique`.
-  _.uniq = _.unique = function(array, isSorted, iterator, context) {
+  _.uniq = _.unique = function(array, isSorted, iterator, context, containsFunc) {
+    if (!containsFunc) {
+        containsFunc = _.contains;
+    }
     if (_.isFunction(isSorted)) {
       context = iterator;
       iterator = isSorted;
@@ -478,37 +481,110 @@
     var results = [];
     var seen = [];
     each(initial, function(value, index) {
-      if (isSorted ? (!index || seen[seen.length - 1] !== value) : !_.contains(seen, value)) {
+      if (isSorted ? (!index || seen[seen.length - 1] !== value) : !containsFunc(seen, value)) {
         seen.push(value);
         results.push(array[index]);
       }
     });
     return results;
   };
+  
+  var splitBehaviorOnFirstArg = function(argIsFunction, argIsntFunction) {
+      return function(first) {
+          if (_.isFunction(first)) {
+              return argIsFunction.apply(this, arguments);
+          } else {
+              return argIsntFunction.apply(this, arguments);
+          }
+      }
+  }
 
   // Produce an array that contains the union: each distinct element from all of
   // the passed-in arrays.
-  _.union = function() {
-    return _.uniq(_.flatten(arguments, true));
+  _.union = splitBehaviorOnFirstArg(function(comparator) {
+        var containFunc = containsClosure(comparator);
+        return _.uniq(_.flatten(slice.call(arguments, 1), true), 
+            undefined, undefined, undefined, containFunc);
+    }, function() {
+        return _.uniq(_.flatten(arguments, true));
+    });
+
+  _.deepUnion = function() {
+      return withPrependedArg(_.isEqual, arguments, _.union);
+  }
+
+  var withPrependedArg = function(firstArg, otherArgs, func) {
+      var args = slice.call(otherArgs, 0);
+      args.unshift(firstArg);
+      return func.apply(this, args);
   };
 
-  // Produce an array that contains every item shared between all the
-  // passed-in arrays.
-  _.intersection = function(array) {
-    var rest = slice.call(arguments, 1);
-    return _.filter(_.uniq(array), function(item) {
+  _.deepContains = function(list, item, equalityFunction) {
+      if (!equalityFunction) {
+          equalityFunction = _.isEqual
+      } 
+      return any(list, function(li) {
+          if (equalityFunction(li, item)) {
+              return true;
+          } else {
+              return false;
+          }
+      });
+  };
+
+  var containsClosure = function(equalityFunction) {
+      return function(list, item) {
+          return _.deepContains(list, item, equalityFunction);
+      }
+  }
+
+  var intersectionWithComparator = function(comparator, array) {
+      return withPrependedArg(containsClosure(comparator), slice.call(arguments, 1), intersectionWithContainment);
+  }
+  
+  var intersectionSansComparator = function(array) {
+      return withPrependedArg(_.contains, arguments, intersectionWithContainment);
+  }
+
+  var intersectionWithContainment = function(containmentFunc, array) {
+    var rest = slice.call(arguments, 2);
+    return _.filter(_.uniq(array, undefined, undefined, undefined, containmentFunc), function(item) {
       return _.every(rest, function(other) {
-        return _.indexOf(other, item) >= 0;
+        return containmentFunc(other, item);
       });
     });
+  };
+  
+
+  
+  _.intersection = splitBehaviorOnFirstArg(intersectionWithComparator, intersectionSansComparator);
+
+  _.deepIntersection = function() {
+      return withPrependedArg(_.isEqual, arguments, intersectionWithComparator);
+  }
+  
+  var differenceWithContainment = function(containmentFunc, array) {
+    var rest = concat.apply(ArrayProto, slice.call(arguments, 2));
+    return _.filter(array, function(value){ return !containmentFunc(rest, value); });
   };
 
   // Take the difference between one array and a number of other arrays.
   // Only the elements present in just the first array will remain.
-  _.difference = function(array) {
-    var rest = concat.apply(ArrayProto, slice.call(arguments, 1));
-    return _.filter(array, function(value){ return !_.contains(rest, value); });
+  var differenceSansComparator = function() {
+      return withPrependedArg(_.contains, arguments, differenceWithContainment);
   };
+
+
+  var differenceWithComparator = function(comparator) {
+      return withPrependedArg(containsClosure(comparator), slice.call(arguments, 1), differenceWithContainment);
+  }
+
+
+  _.difference = splitBehaviorOnFirstArg(differenceWithComparator, differenceSansComparator);
+
+  _.deepDifference = function() {
+      return withPrependedArg(_.isEqual, arguments, differenceWithComparator);
+  }
 
   // Zip together multiple lists into a single array -- elements that share
   // an index go together.
