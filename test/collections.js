@@ -29,6 +29,8 @@ $(document).ready(function() {
     answers = 0;
     _.each(null, function(){ ++answers; });
     equal(answers, 0, 'handles a null properly');
+
+    _.each(false, function(){});
   });
 
   test('map', function() {
