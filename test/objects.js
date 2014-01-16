@@ -7,11 +7,11 @@ $(document).ready(function() {
     // the test above is not safe because it relies on for-in enumeration order
     var a = []; a[1] = 0;
     equal(_.keys(a).join(', '), '1', 'is not fooled by sparse arrays; see issue #95');
-    raises(function() { _.keys(null); }, TypeError, 'throws an error for `null` values');
-    raises(function() { _.keys(void 0); }, TypeError, 'throws an error for `undefined` values');
-    raises(function() { _.keys(1); }, TypeError, 'throws an error for number primitives');
-    raises(function() { _.keys('a'); }, TypeError, 'throws an error for string primitives');
-    raises(function() { _.keys(true); }, TypeError, 'throws an error for boolean primitives');
+    deepEqual(_.keys(null), []);
+    deepEqual(_.keys(void 0), []);
+    deepEqual(_.keys(1), []);
+    deepEqual(_.keys('a'), []);
+    deepEqual(_.keys(true), []);
   });
 
   test("values", function() {
