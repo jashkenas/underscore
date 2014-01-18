@@ -321,8 +321,8 @@
 
   // Sort the object's values by a criterion produced by an iterator.
   _.sortBy = function(obj, iterator, context) {
-    var props, cb;
-    if (_.isArray(iterator)) {
+    var props, cb, multi = _.isArray(iterator), length = multi ? iterator.length : 1;
+    if (multi) {
       props = iterator;
       iterator = function (value) { return _.map(props, function (item) { return value[item]; }); };
     } else {
@@ -338,7 +338,7 @@
     }).sort(function(left, right) {
       var a = left.criteria;
       var b = right.criteria;
-      for (var i = 0, len = a.length; i < len; i++) {
+      for (var i = 0; i < length; i++) {
           if (a[i] !== b[i]) {
             if (a[i] > b[i] || a[i] === void 0) return 1;
             if (a[i] < b[i] || b[i] === void 0) return -1;
