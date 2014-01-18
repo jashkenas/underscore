@@ -321,19 +321,13 @@
 
   // Sort the object's values by a criterion produced by an iterator.
   _.sortBy = function(obj, iterator, context) {
-    var multi = false, diff, props,
-        compare = function (a, b) {
-          if (a !== b) {
-            if (a > b || a === void 0) return 1;
-            if (a < b || b === void 0) return -1;
-          }
-        };
+    var props, cb;
     if (_.isArray(iterator)) {
-      multi = true;
       props = iterator;
-      iterator = function (value) { return _.map(props, function (item) { return value[item]; }) };
+      iterator = function (value) { return _.map(props, function (item) { return value[item]; }); };
     } else {
-      iterator = lookupIterator(iterator);
+      cb = lookupIterator(iterator);
+      iterator = function () { return [cb.apply(this, arguments)]; };
     }
     return _.pluck(_.map(obj, function(value, index, list) {
       return {
@@ -344,14 +338,11 @@
     }).sort(function(left, right) {
       var a = left.criteria;
       var b = right.criteria;
-      if (multi) {
-        for (var i = 0, len = a.length; i < len; i++) {
-          diff = compare(a[i], b[i]);
-          if (diff) return diff;
-        }
-      } else {
-          diff = compare(a, b);
-          if (diff) return diff;
+      for (var i = 0, len = a.length; i < len; i++) {
+          if (a[i] !== b[i]) {
+            if (a[i] > b[i] || a[i] === void 0) return 1;
+            if (a[i] < b[i] || b[i] === void 0) return -1;
+          }
       }
       return left.index - right.index;
     }), 'value');

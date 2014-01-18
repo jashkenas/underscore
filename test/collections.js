@@ -326,10 +326,6 @@ $(document).ready(function() {
     people = _.sortBy(people, ['name', 'age']);
     equal(_.pluck(people, 'age').join(', '), '30, 50, 20', 'stooges sorted by name, age');
 
-    people = _.sortBy(people, function (person) { return [person.name.length, person.age] });
-    equal(_.pluck(people, 'age').join(', '), '20, 30, 50', 'stooges sorted by name, age via iterator');
-
-
     var list = [undefined, 4, 1, undefined, 3, 2];
     equal(_.sortBy(list, _.identity).join(','), '1,2,3,4,,', 'sortBy with undefined values');
 
