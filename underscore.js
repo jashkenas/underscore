@@ -1,6 +1,6 @@
 //     Underscore.js 1.5.2
 //     http://underscorejs.org
-//     (c) 2009-2013 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+//     (c) 2009-2014 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 //     Underscore may be freely distributed under the MIT license.
 
 (function() {
@@ -243,7 +243,6 @@
   // Convenience version of a common use case of `filter`: selecting only objects
   // containing specific `key:value` pairs.
   _.where = function(obj, attrs, first) {
-    if (_.isEmpty(attrs)) return first ? void 0 : [];
     return _[first ? 'find' : 'filter'](obj, function(value) {
       for (var key in attrs) {
         if (attrs[key] !== value[key]) return false;
@@ -359,7 +358,7 @@
   // Groups the object's values by a criterion. Pass either a string attribute
   // to group by, or a function that returns the criterion.
   _.groupBy = group(function(result, key, value) {
-    (_.has(result, key) ? result[key] : (result[key] = [])).push(value);
+    _.has(result, key) ? result[key].push(value) : result[key] = [value];
   });
 
   // Indexes the object's values by a criterion, similar to `groupBy`, but for
@@ -623,16 +622,25 @@
   };
 
   // Partially apply a function by creating a version that has had some of its
-  // arguments pre-filled, without changing its dynamic `this` context.
+  // arguments pre-filled, without changing its dynamic `this` context. _ acts
+  // as a placeholder, allowing any combination of arguments to be pre-filled.
   _.partial = function(func) {
-    var args = slice.call(arguments, 1);
+    var boundArgs = slice.call(arguments, 1);
     return function() {
-      return func.apply(this, args.concat(slice.call(arguments)));
+      var args = slice.call(boundArgs);
+      _.each(arguments, function(arg) {
+        var index = args.indexOf(_);
+        args[index >= 0 ? index : args.length] = arg;
+      });
+      return func.apply(this, _.map(args, function(value) {
+        return value === _ ? void 0 : value;
+      }));
     };
   };
 
-  // Bind all of an object's methods to that object. Useful for ensuring that
-  // all callbacks defined on an object belong to it.
+  // Bind a number of an object's methods to that object. Remaining arguments
+  // are the method names to be bound. Useful for ensuring that all callbacks
+  // defined on an object belong to it.
   _.bindAll = function(obj) {
     var funcs = slice.call(arguments, 1);
     if (funcs.length === 0) throw new Error("bindAll must be passed function names");
