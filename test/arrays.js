@@ -223,13 +223,13 @@ $(document).ready(function() {
     equal(_.range(0, -10, -1).join(' '), '0 -1 -2 -3 -4 -5 -6 -7 -8 -9', 'final example in the Python docs');
   });
 
-  test("get", function() {
-    strictEqual(_.get([1,2,3,4],-1), 4, 'should return last element of array');
-    strictEqual(_.get([1,2,3,4],-2), 3, 'should return second last element of array');
-    strictEqual(_.get([1,2,3,4], 0), 1, 'should return first element of array');
-    strictEqual(_.get([1,2,3,4], 1), 2, 'should return second element of array');  
-    strictEqual(_.get([1,2,3,4], 4),undefined , 'should return undefined if positive out of index');
-    strictEqual(_.get([1,2,3,4], -5), undefined, 'should return undefined if negative out of index');     
+  test("at", function() {
+    strictEqual(_.at([1,2,3,4],-1), 4, 'should return last element of array');
+    strictEqual(_.at([1,2,3,4],-2), 3, 'should return second last element of array');
+    strictEqual(_.at([1,2,3,4], 0), 1, 'should return first element of array');
+    strictEqual(_.at([1,2,3,4], 1), 2, 'should return second element of array');  
+    strictEqual(_.at([1,2,3,4], 4),undefined , 'should return undefined if positive out of index');
+    strictEqual(_.at([1,2,3,4], -5), undefined, 'should return undefined if negative out of index');     
   });
 
 });
