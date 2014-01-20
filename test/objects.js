@@ -577,23 +577,29 @@ $(document).ready(function() {
   });
 
   test("has", function () {
-     var obj = {foo: "bar", func: function () {} };
-     ok (_.has(obj, "foo"), "has() checks that the object has a property.");
-     ok (_.has(obj, "baz") == false, "has() returns false if the object doesn't have the property.");
-     ok (_.has(obj, "func"), "has() works for functions too.");
-     obj.hasOwnProperty = null;
-     ok (_.has(obj, "foo"), "has() works even when the hasOwnProperty method is deleted.");
-     var child = {};
-     child.prototype = obj;
-     ok (_.has(child, "foo") == false, "has() does not check the prototype chain for a property.")
+    var obj = {foo: "bar", func: function () {} };
+    var moe = {name: 'Moe Howard', hair: 'bowl cut'}, curly = {name: 'Curly Howard', brother: moe, hair: 'bald'}, stooges = [moe, curly];
+    moe.brother = curly;
+    ok(_.has(obj, "foo"), "has() checks that the object has a property.");
+    ok(_.has(obj, "baz") == false, "has() returns false if the object doesn't have the property.");
+    ok(_.has(obj, "func"), "has() works for functions too.");
+    obj.hasOwnProperty = null;
+    ok(_.has(obj, "foo"), "has() works even when the hasOwnProperty method is deleted.");
+    var child = {};
+    child.prototype = obj;
+    ok(_.has(child, "foo") == false, "has() does not check the prototype chain for a property.")
+    ok(_.has(moe, {name: 'Moe Howard'}), "has() checks that the object has a designated set of property values.")
+    ok(!_.has(moe, {name: 'Moe Howard', hair: 'bald'}), "has() returns false if the object doesn't match the designated property values.")
+    ok(_.has(moe, moe), "has() indicates that an object matches itself.")
   });
 
   test("match", function() {
-    var moe = {name: 'Moe Howard', hair: 'bowl cut'}, curly = {name: 'Curly Howard', brother: moe, hair: 'bald'};
+    var moe = {name: 'Moe Howard', hair: 'bowl cut'}, curly = {name: 'Curly Howard', brother: moe, hair: 'bald'}, stooges = [moe, curly];
     moe.brother = curly;
-    ok(_.match(moe, {name: 'Moe Howard'}), "match() checks that the object has a designated set of property values.")
-    ok(!_.match(moe, {name: 'Moe Howard', hair: 'bald'}), "match() returns false if the object doesn't match the designated property values.")
-    ok(_.match({brother: moe})(curly), "match() returns a predicate that awaits an object.")
-    ok(_.match(moe, moe), "match() indicates that an object matches itself.")
+    ok(_.match({brother: moe})(curly), "match() returns a predicate that awaits a matching object.")
+    ok(_.find(stooges, _.match({brother: moe})) === curly, "match() returns a predicate that awaits a matching object for finding/filtering.")
+    ok(_.find(stooges, _.match('name')), "match() returns a predicate that checks for a given property.")
+    ok(!_.find(stooges, _.match('sister')), "match() returns a predicate that checks for a given property which may not exist.")
+    ok(_.find(stooges, _.match(moe)) === moe, "match() can be used to test whether an object exists in a collection.")
   })
 });
