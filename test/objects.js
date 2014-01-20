@@ -587,4 +587,13 @@ $(document).ready(function() {
      child.prototype = obj;
      ok (_.has(child, "foo") == false, "has() does not check the prototype chain for a property.")
   });
+
+  test("match", function() {
+    var moe = {name: 'Moe Howard', hair: 'bowl cut'}, curly = {name: 'Curly Howard', brother: moe, hair: 'bald'};
+    moe.brother = curly;
+    ok(_.match(moe, {name: 'Moe Howard'}), "match() checks that the object has a designated set of property values.")
+    ok(!_.match(moe, {name: 'Moe Howard', hair: 'bald'}), "match() returns false if the object doesn't match the designated property values.")
+    ok(_.match({brother: moe})(curly), "match() returns a predicate that awaits an object.")
+    ok(_.match(moe, moe), "match() indicates that an object matches itself.")
+  })
 });

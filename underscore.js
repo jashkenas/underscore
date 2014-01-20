@@ -243,18 +243,13 @@
   // Convenience version of a common use case of `filter`: selecting only objects
   // containing specific `key:value` pairs.
   _.where = function(obj, attrs, first) {
-    return _[first ? 'find' : 'filter'](obj, function(value) {
-      for (var key in attrs) {
-        if (attrs[key] !== value[key]) return false;
-      }
-      return true;
-    });
+    return _[first ? 'find' : 'filter'](obj, _.match(attrs));
   };
 
   // Convenience version of a common use case of `find`: getting the first object
   // containing specific `key:value` pairs.
   _.findWhere = function(obj, attrs) {
-    return _.where(obj, attrs, true);
+    return _.find(obj, _.match(attrs));
   };
 
   // Return the maximum element or (element-based computation).
@@ -1066,6 +1061,17 @@
   // on itself (in other words, not on a prototype).
   _.has = function(obj, key) {
     return hasOwnProperty.call(obj, key);
+  };
+
+  //Does an object match a set of attributes?
+  //Alternately, return a predicate that matches a given set of attributes.
+  _.match = function(obj, attrs){
+    if (!attrs) return _.partial(_.match, _, obj);
+    for (var key in attrs) {
+      if (attrs[key] !== obj[key])
+        return false;
+    }
+    return true;
   };
 
   // Utility Functions
