@@ -1106,8 +1106,8 @@
     return min + Math.floor(Math.random() * (max - min + 1));
   };
 
-  //use the faster Date.now if available.
-  _.now = _.getTime = Date.now || function() { return +new Date; };
+  // A (possibly faster) way to get the current timestamp as an integer.
+  _.now = Date.now || function() { return +new Date; };
 
   // List of HTML entities for escaping.
   var entityMap = {
