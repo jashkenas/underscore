@@ -578,8 +578,6 @@ $(document).ready(function() {
 
   test("has", function () {
     var obj = {foo: "bar", func: function () {} };
-    var moe = {name: 'Moe Howard', hair: 'bowl cut'}, curly = {name: 'Curly Howard', brother: moe, hair: 'bald'}, stooges = [moe, curly];
-    moe.brother = curly;
     ok(_.has(obj, "foo"), "has() checks that the object has a property.");
     ok(_.has(obj, "baz") == false, "has() returns false if the object doesn't have the property.");
     ok(_.has(obj, "func"), "has() works for functions too.");
@@ -588,18 +586,23 @@ $(document).ready(function() {
     var child = {};
     child.prototype = obj;
     ok(_.has(child, "foo") == false, "has() does not check the prototype chain for a property.")
-    ok(_.has(moe, {name: 'Moe Howard'}), "has() checks that the object has a designated set of property values.")
-    ok(!_.has(moe, {name: 'Moe Howard', hair: 'bald'}), "has() returns false if the object doesn't match the designated property values.")
-    ok(_.has(moe, moe), "has() indicates that an object matches itself.")
   });
 
   test("match", function() {
-    var moe = {name: 'Moe Howard', hair: 'bowl cut'}, curly = {name: 'Curly Howard', brother: moe, hair: 'bald'}, stooges = [moe, curly];
-    moe.brother = curly;
-    ok(_.match({brother: moe})(curly), "match() returns a predicate that awaits a matching object.")
-    ok(_.find(stooges, _.match({brother: moe})) === curly, "match() returns a predicate that awaits a matching object for finding/filtering.")
-    ok(_.find(stooges, _.match('name')), "match() returns a predicate that checks for a given property.")
-    ok(!_.find(stooges, _.match('sister')), "match() returns a predicate that checks for a given property which may not exist.")
-    ok(_.find(stooges, _.match(moe)) === moe, "match() can be used to test whether an object exists in a collection.")
+    var moe     = {name: 'Moe Howard', hair: true, dob: new Date('1897-06-19')},
+        curly   = {name: 'Curly Howard', hair: false, dob: new Date('1903-10-22')},
+        shemp   = _.extend(Object.create(moe), {name: 'Shemp Howard', dob: new Date('1895-03-11')}),
+        larry   = {name: 'Larry Fine', hair: true, dob: new Date('1902-10-05')}
+        isBald  = _.match({hair: false}),
+        stooges = [moe, curly, shemp, larry];
+    function howards(person){
+      return person.name.indexOf(' Howard') > -1;
+    }
+    ok(isBald(curly), "returns a predicate that awaits a matching object.")
+    ok(_.filter(stooges, _.match({hair: true}, howards, 'name')).length === 2, "A compound predicate can be built from functions, objects, and keys.")
+    ok(_.find(stooges, isBald) === curly, "returns a predicate that awaits a matching object for finding/filtering.")
+    ok(_.filter(stooges, _.match('name', 'hair')).length === 4, "returns a predicate that checks for a given set of properties even inherited ones.") // Useful for duck typing.
+    ok(!_.find(stooges, _.match('sister')), "returns a predicate that checks for a given property which may not exist.")
+    ok(_.find(stooges, _.match(moe)) === moe, "can be used to test whether an object exists in a collection.")
   })
 });

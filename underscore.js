@@ -1057,26 +1057,10 @@
     return obj === void 0;
   };
 
-  //Internal test that an object has a given set of attributes.
-  function hasAttributes(attrs) {
-    if (this === attrs) return true;
-    for (var key in attrs) {
-      if (attrs[key] !== this[key])
-        return false;
-    }
-    return true;
-  }
-
   // Shortcut function for checking if an object has a given property directly
-  // on itself (in other words, not on a prototype) or a given set of
-  // properties/values (attributes).
+  // on itself (in other words, not on a prototype).
   _.has = function(obj, key) {
-    return (_.isObject(key) ? hasAttributes : hasOwnProperty).call(obj, key);
-  };
-
-  //Returns a predicate for checking whether an object has a key or a given set of attributes.
-  _.match = function(key){
-    return _.partial(_.has, _, key);
+    return hasOwnProperty.call(obj, key);
   };
 
   // Utility Functions
@@ -1104,6 +1088,34 @@
     return function(obj) {
       return obj[key];
     };
+  };
+
+  // Checks whether an object has a given set of key/value pairs.  Internal use.
+  function hasAttributes(obj, attrs) {
+    if (obj === attrs) return true;
+    for (var key in attrs) {
+      if (attrs[key] !== obj[key])
+        return false;
+    }
+    return true;
+  }
+
+  // Unlike _.has the key need not exist directly on the object.  Internal use.
+  function hasProperty(obj, key) {
+    return !_.isUndefined(obj[key]);
+  }
+
+  // Returns a predicate for checking whether an object has a given set of
+  // properties/values/conditions.
+  _.match = function() {
+    var checks = _.map(arguments, function(attrs){
+      return _.isFunction(attrs) ? attrs : _.partial(_.isObject(attrs) ? hasAttributes : hasProperty, _, attrs);
+    });
+    return function(obj) {
+      return _.all(checks, function(check){
+        return check(obj);
+      });
+    }
   };
 
   // Run a function **n** times.
