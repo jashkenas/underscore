@@ -594,6 +594,7 @@ _.contains([1, 2, 3], 3);
         <b class="header">invoke</b><code>_.invoke(list, methodName, [*arguments])</code>
         <br />
         Calls the method named by <b>methodName</b> on each value in the <b>list</b>.
+        Passing false as the method name will invoke the objects in the collection themselves as functions.
         Any extra arguments passed to <b>invoke</b> will be forwarded on to the
         method invocation.
       </p>

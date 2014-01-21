@@ -250,6 +250,12 @@ $(document).ready(function() {
     equal(s.call, undefined, "call function removed");
   });
 
+  test('invoke each object w/ falsy method', function(){
+    var list = [function(a){return a;}, function(a){return a*2}];
+    var result = _.invoke(list, null, 42);
+    equal(result.join(', '), '42, 84', 'invoked on functions themselves');
+  });
+
   test('pluck', function() {
     var people = [{name : 'moe', age : 30}, {name : 'curly', age : 50}];
     equal(_.pluck(people, 'name').join(', '), 'moe, curly', 'pulls names out of objects');
