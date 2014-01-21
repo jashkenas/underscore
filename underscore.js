@@ -322,6 +322,7 @@
   // Sort the object's values by a criterion produced by an iterator.
   _.sortBy = function(obj, iterator, context) {
     var diff, multi = _.isArray(iterator),
+        iterator = multi ? iterator : lookupIterator(iterator),
         length = multi ? iterator.length : 1,
         compare = function (a, b) {
           if (a !== b) {
@@ -329,7 +330,6 @@
             if (a < b || b === void 0) return -1;
           }
         };
-    if (!multi) iterator = lookupIterator(iterator);
     return _.pluck(_.map(obj, function(value, index, list) {
       return {
         value: value,
