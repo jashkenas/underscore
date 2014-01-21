@@ -242,8 +242,8 @@
 
   // Convenience version of a common use case of `filter`: selecting only objects
   // containing specific `key:value` pairs.
-  _.where = function(obj, attrs, first) {
-    return _[first ? 'find' : 'filter'](obj, _.match(attrs));
+  _.where = function(obj, attrs) {
+    return _.filter(obj, _.match(attrs));
   };
 
   // Convenience version of a common use case of `find`: getting the first object
