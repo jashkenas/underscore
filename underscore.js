@@ -1107,9 +1107,7 @@
   };
 
   //use the faster Date.now if available.
-  _.now = _.getTime = (Date.now || function() {
-    return new Date().getTime();
-  });
+  _.now = _.getTime = Date.now || function() { return +new Date; };
 
   // List of HTML entities for escaping.
   var entityMap = {
