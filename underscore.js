@@ -1102,7 +1102,7 @@
 
   // Unlike _.has the key need not exist directly on the object.  Internal use.
   function hasProperty(obj, key) {
-    return !_.isUndefined(obj[key]);
+    return key in obj;
   }
 
   // Returns a predicate for checking whether an object has a given set of
