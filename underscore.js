@@ -20,11 +20,6 @@
   // Save bytes in the minified (but not gzipped) version:
   var ArrayProto = Array.prototype, ObjProto = Object.prototype, FuncProto = Function.prototype;
 
-  //use the faster Date.now if available.
-  var getTime = (Date.now || function() {
-    return new Date().getTime();
-  });
-
   // Create quick reference variables for speed access to core prototypes.
   var
     push             = ArrayProto.push,
@@ -679,13 +674,13 @@
     var previous = 0;
     options || (options = {});
     var later = function() {
-      previous = options.leading === false ? 0 : getTime();
+      previous = options.leading === false ? 0 : _.now();
       timeout = null;
       result = func.apply(context, args);
       context = args = null;
     };
     return function() {
-      var now = getTime();
+      var now = _.now();
       if (!previous && options.leading === false) previous = now;
       var remaining = wait - (now - previous);
       context = this;
@@ -712,9 +707,9 @@
     return function() {
       context = this;
       args = arguments;
-      timestamp = getTime();
+      timestamp = _.now();
       var later = function() {
-        var last = getTime() - timestamp;
+        var last = _.now() - timestamp;
         if (last < wait) {
           timeout = setTimeout(later, wait - last);
         } else {
@@ -1110,6 +1105,11 @@
     }
     return min + Math.floor(Math.random() * (max - min + 1));
   };
+
+  //use the faster Date.now if available.
+  _.now = _.getTime = (Date.now || function() {
+    return new Date().getTime();
+  });
 
   // List of HTML entities for escaping.
   var entityMap = {

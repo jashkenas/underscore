@@ -49,6 +49,11 @@ $(document).ready(function() {
     }), "should produce a random number when passed `Number.MAX_VALUE`");
   });
 
+  test("now", function() {
+    var diff = _.now() - new Date().getTime();
+    ok(diff <= 0 && diff > -5, "Produces the correct time in milliseconds");//within 5ms
+  });
+
   test("uniqueId", function() {
     var ids = [], i = 0;
     while(i++ < 100) ids.push(_.uniqueId());
