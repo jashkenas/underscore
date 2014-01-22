@@ -1090,31 +1090,15 @@
     };
   };
 
-  // Checks whether an object has a given set of key/value pairs.  Internal use.
-  function hasAttributes(obj, attrs) {
-    if (obj === attrs) return true;
-    for (var key in attrs) {
-      if (attrs[key] !== obj[key])
-        return false;
-    }
-    return true;
-  }
-
-  // Unlike _.has the key need not exist directly on the object.  Internal use.
-  function hasProperty(obj, key) {
-    return key in obj;
-  }
-
-  // Returns a predicate for checking whether an object has a given set of
-  // properties/values/conditions.
-  _.match = function() {
-    var checks = _.map(arguments, function(attrs){
-      return _.isFunction(attrs) ? attrs : _.partial(_.isObject(attrs) ? hasAttributes : hasProperty, _, attrs);
-    });
+  // Returns a predicate for checking whether an object has a given set of `key:value` pairs.
+  _.match = function(attrs) {
     return function(obj) {
-      return _.all(checks, function(check){
-        return check(obj);
-      });
+      if (obj === attrs) return true; //avoid comparing an object to itself.
+      for (var key in attrs) {
+        if (attrs[key] !== obj[key])
+          return false;
+      }
+      return true;
     }
   };
 
