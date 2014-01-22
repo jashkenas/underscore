@@ -1107,7 +1107,7 @@
   };
 
   // A (possibly faster) way to get the current timestamp as an integer.
-  _.now = Date.now || function() { return +new Date; };
+  _.now = Date.now || function() { return new Date().getTime(); };
 
   // List of HTML entities for escaping.
   var entityMap = {
