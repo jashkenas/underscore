@@ -380,9 +380,10 @@
   };
 
   // Safely create a real, live array from anything iterable.
-  _.toArray = function(obj) {
+  _.toArray = function(obj, noCoerce) {
     if (!obj) return [];
     if (_.isArray(obj)) return slice.call(obj);
+    if (noCoerce) return [obj];
     if (obj.length === +obj.length) return _.map(obj, _.identity);
     return _.values(obj);
   };

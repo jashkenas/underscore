@@ -491,6 +491,13 @@ $(document).ready(function() {
     var numbers = _.toArray({one : 1, two : 2, three : 3});
     equal(numbers.join(', '), '1, 2, 3', 'object flattened into array');
 
+    var string = 'abc';
+    var emptyString = '';
+    equal(_.toArray(string).join(', '), 'a, b, c', 'string into array of characters');
+    equal(_.toArray(string, true).join(', '), 'abc', 'string not coerced');
+    equal(_.toArray(emptyString).join(', '), '', 'empty string into empty array');
+    equal(_.toArray(emptyString, true).join(', '), '', 'empty string not coerced');
+
     // test in IE < 9
     try {
       var actual = _.toArray(document.childNodes);
