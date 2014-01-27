@@ -167,6 +167,10 @@ $(document).ready(function() {
     ok(_.isEqual(_.object(_.pairs(stooges)), stooges), 'an object converted to pairs and back to an object');
 
     ok(_.isEqual(_.object(null), {}), 'handles nulls');
+
+    ok(_.isEqual(_.object(["a", "b", "c"], [1, 2, 3, 4, 5]), {"a": 1, "b": 2, "c": 3}), 'extra values are ignored');
+    ok(_.isEqual(_.object([void 0, "b", "c"], [1, 2, 3]), {undefined: 1, "b": 2, "c": 3}), '"void 0" is handled in keys');
+    ok(_.isEqual(_.object([void 0, "b", void 0], [1, 2, 3]), {"b": 2, undefined: 3}), 'several "void 0" are handled in keys');
   });
 
   test("indexOf", function() {

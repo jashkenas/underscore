@@ -519,15 +519,11 @@
   // the corresponding values.
   _.object = function(list, values) {
     if (list == null) return {};
-    var result = {};
-    for (var i = 0, length = list.length; i < length; i++) {
-      if (values) {
-        result[list[i]] = values[i];
-      } else {
-        result[list[i][0]] = list[i][1];
-      }
-    }
-    return result;
+    var pairs = values ? _.zip(list, _.take(values, list.length)) : list;
+    return _.reduce(pairs, function(result, pair) {
+        result[pair[0]] = pair[1];
+        return result;
+    }, {});
   };
 
   // If the browser doesn't supply us with indexOf (I'm looking at you, **MSIE**),
