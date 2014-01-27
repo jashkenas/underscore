@@ -619,7 +619,7 @@
     return function() {
       var position = 0;
       var args = boundArgs.slice();
-      for (var i = 0; i < args.length; i++) {
+      for (var i = 0, length = args.length; i < length; i++) {
         if (args[i] === _) args[i] = arguments[position++];
       }
       while (position < arguments.length) args.push(arguments[position++]);
