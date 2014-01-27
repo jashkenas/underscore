@@ -1,4 +1,4 @@
-$(document).ready(function() {
+(function() {
 
   module("Objects");
 
@@ -392,8 +392,9 @@ $(document).ready(function() {
 
   // Setup remote variables for iFrame tests.
   var iframe = document.createElement('iframe');
-  jQuery(iframe).appendTo(document.body);
-  var iDoc = iframe.contentDocument || iframe.contentWindow.document;
+  iframe.frameBorder = iframe.height = iframe.width = 0
+  document.body.appendChild(iframe);
+  var iDoc = (iDoc = iframe.contentDocument || iframe.contentWindow).document || iDoc;
   iDoc.write(
     "<script>\
       parent.iElement   = document.createElement('div');\
@@ -415,7 +416,7 @@ $(document).ready(function() {
 
   test("isElement", function() {
     ok(!_.isElement('div'), 'strings are not dom elements');
-    ok(_.isElement($('html')[0]), 'the html tag is a DOM element');
+    ok(_.isElement(document.body), 'the body tag is a DOM element');
     ok(_.isElement(iElement), 'even from another frame');
   });
 
@@ -432,7 +433,7 @@ $(document).ready(function() {
   test("isObject", function() {
     ok(_.isObject(arguments), 'the arguments object is object');
     ok(_.isObject([1, 2, 3]), 'and arrays');
-    ok(_.isObject($('html')[0]), 'and DOM element');
+    ok(_.isObject(document.body), 'and DOM element');
     ok(_.isObject(iElement), 'even from another frame');
     ok(_.isObject(function () {}), 'and functions');
     ok(_.isObject(iFunction), 'even from another frame');
@@ -587,4 +588,4 @@ $(document).ready(function() {
      child.prototype = obj;
      ok (_.has(child, "foo") == false, "has() does not check the prototype chain for a property.")
   });
-});
+})();

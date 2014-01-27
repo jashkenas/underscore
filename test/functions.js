@@ -1,4 +1,4 @@
-$(document).ready(function() {
+(function() {
 
   module("Functions");
 
@@ -372,4 +372,4 @@ $(document).ready(function() {
     equal(testAfter(0, 1), 1, "after(0) should fire when first invoked");
   });
 
-});
+})();
