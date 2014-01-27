@@ -1089,6 +1089,16 @@
     };
   };
 
+  _.method = function(fn) {
+    var curry = _.rest(arguments),
+        fnStr = _.isString(fn);
+
+    return function(obj) {
+      var f = (fnStr ? obj[fn] : fn);
+      return f.apply(obj, curry);
+    };
+  };
+
   // Run a function **n** times.
   _.times = function(n, iterator, context) {
     var accum = Array(Math.max(0, n));
