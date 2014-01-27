@@ -1,4 +1,4 @@
-$(document).ready(function() {
+(function() {
 
   module("Chaining");
 
@@ -62,4 +62,4 @@ $(document).ready(function() {
     deepEqual(o.filter(function(i) { return i > 2; }).value(), [3, 4]);
   });
 
-});
+})();

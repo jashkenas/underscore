@@ -1,4 +1,4 @@
-$(document).ready(function() {
+(function() {
 
   module("Collections");
 
@@ -51,11 +51,10 @@ $(document).ready(function() {
       deepEqual(ids, ['id1', 'id2'], 'Can use collection methods on NodeLists.');
     }
 
-    var ids = _.map($('#map-test').children(), function(n){ return n.id; });
-    deepEqual(ids, ['id1', 'id2'], 'Can use collection methods on jQuery Array-likes.');
-
-    var ids = _.map(document.images, function(n){ return n.id; });
-    ok(ids[0] == 'chart_image', 'can use collection methods on HTMLCollections');
+    var ids = _.map({length: 2, 0: {id: '1'}, 1: {id: '2'}}, function(n){
+      return n.id;
+    });
+    deepEqual(ids, ['1', '2'], 'Can use collection methods on Array-likes.');
 
     var ifnull = _.map(null, function(){});
     ok(_.isArray(ifnull) && ifnull.length === 0, 'handles a null properly');
@@ -502,7 +501,7 @@ $(document).ready(function() {
   test('size', function() {
     equal(_.size({one : 1, two : 2, three : 3}), 3, 'can compute the size of an object');
     equal(_.size([1, 2, 3]), 3, 'can compute the size of an array');
-    equal(_.size($('<div>').add('<span>').add('<span>')), 3, 'can compute the size of jQuery objects');
+    equal(_.size({length: 3, 0: 0, 1: 0, 2: 0}), 3, 'can compute the size of Array-likes');
 
     var func = function() {
       return _.size(arguments);
@@ -516,4 +515,4 @@ $(document).ready(function() {
     equal(_.size(null), 0, 'handles nulls');
   });
 
-});
+})();

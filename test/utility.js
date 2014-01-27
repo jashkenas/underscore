@@ -1,4 +1,4 @@
-$(document).ready(function() {
+(function() {
 
   var templateSettings;
 
@@ -162,10 +162,13 @@ $(document).ready(function() {
     };
     equal(stooge.template(), "I'm Moe");
 
-    if (!$.browser.msie) {
-      var fromHTML = _.template($('#template').html());
-      equal(fromHTML({data : 12345}).replace(/\s/g, ''), '<li>24690</li>');
-    }
+    template = _.template('\n \
+      <%\n \
+      // a comment\n \
+      if (data) { data += 12345; }; %>\n \
+      <li><%= data %></li>\n \
+    ');
+    equal(template({data : 12345}).replace(/\s/g, ''), '<li>24690</li>');
 
     _.templateSettings = {
       evaluate    : /\{\{([\s\S]+?)\}\}/g,
@@ -284,4 +287,4 @@ $(document).ready(function() {
     strictEqual(template(), '<<\nx\n>>');
   });
 
-});
+})();
