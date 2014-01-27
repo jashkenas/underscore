@@ -617,14 +617,13 @@
   _.partial = function(func) {
     var boundArgs = slice.call(arguments, 1);
     return function() {
-      var args = slice.call(boundArgs);
-      _.each(arguments, function(arg) {
-        var index = args.indexOf(_);
-        args[index >= 0 ? index : args.length] = arg;
-      });
-      return func.apply(this, _.map(args, function(value) {
-        return value === _ ? void 0 : value;
-      }));
+      var position = 0;
+      var args = boundArgs.slice();
+      for (var i = 0, length = args.length; i < length; i++) {
+        if (args[i] === _) args[i] = arguments[position++];
+      }
+      while (position < arguments.length) args.push(arguments[position++]);
+      return func.apply(this, args);
     };
   };
 
