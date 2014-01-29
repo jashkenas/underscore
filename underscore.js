@@ -1141,7 +1141,7 @@
   _.result = function(object, property) {
     if (object == null) return void 0;
     var value = object[property];
-    return _.isFunction(value) ? value.call(object) : value;
+    return _.isFunction(value) ? value.apply(object, _.rest(arguments, 2)) : value;
   };
 
   // Add your own custom functions to the Underscore object.
