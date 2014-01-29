@@ -340,9 +340,10 @@
       var a = left.criteria;
       var b = right.criteria;
       for (var i = 0; i < length; i++) {
-        if (a[i] !== b[i]) {
-          if (a[i] > b[i] || a[i] === void 0) return 1;
-          if (a[i] < b[i] || b[i] === void 0) return -1;
+        var m = a[i], n = b[i];
+        if (m !== n) {
+          if (m > n || m === void 0) return 1;
+          if (m < n || n === void 0) return -1;
         }
       }
       return left.index - right.index;
