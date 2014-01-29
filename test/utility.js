@@ -226,12 +226,13 @@
   });
 
   test('result calls functions and returns primitives', function() {
-    var obj = {w: '', x: 'x', y: function(){ return this.x; }};
+    var obj = {w: '', x: 'x', y: function(){ return this.x; }, z: function(p){ return p + this.x; }};
     strictEqual(_.result(obj, 'w'), '');
     strictEqual(_.result(obj, 'x'), 'x');
     strictEqual(_.result(obj, 'y'), 'x');
-    strictEqual(_.result(obj, 'z'), undefined);
+    strictEqual(_.result(obj, 'v'), undefined);
     strictEqual(_.result(null, 'x'), undefined);
+    strictEqual(_.result(obj, 'z', 'foo'), 'foox');
   });
 
   test('_.templateSettings.variable', function() {
