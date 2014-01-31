@@ -1019,7 +1019,7 @@
 
   // Is a given variable an object?
   _.isObject = function(obj) {
-    return obj === Object(obj);
+    return !_.isArray(obj) && obj === Object(obj)
   };
 
   // Add some isType methods: isArguments, isFunction, isString, isNumber, isDate, isRegExp.
