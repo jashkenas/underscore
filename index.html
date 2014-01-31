@@ -851,7 +851,7 @@ _.without([1, 2, 1, 0, 3, 1, 4], 0, 1);
         <b>predicate</b>, and one whose elements all do not satisfy <b>predicate</b>.
       </p>
       <pre>
-_.partition([0, 1, 2, 3, 4, 5], function(e) { return isOdd(e); });
+_.partition([0, 1, 2, 3, 4, 5], isOdd);
 =&gt; [[1, 3, 5], [0, 2, 4]]
 </pre>
 
