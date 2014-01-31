@@ -31,6 +31,10 @@
     equal(answers, 0, 'handles a null properly');
 
     _.each(false, function(){});
+
+    var a = [1, 2, 3];
+    strictEqual(_.each(a, function(){}), a);
+    strictEqual(_.each(null, function(){}), null);
   });
 
   test('map', function() {
