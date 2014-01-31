@@ -460,8 +460,8 @@
     return _.difference(array, slice.call(arguments, 1));
   };
 
-  // Split a list into two lists: one whose elements satisfies the given
-  // predicate, and one whose elements do not satisfy the predicate.
+  // Split an array into two arrays: one whose elements all satisfy the given
+  // predicate, and one whose elements all do not satisfy the predicate.
   _.partition = function(array, predicate) {
     var pass = [], fail = [];
     each(array, function(elem) {
