@@ -1,8 +1,8 @@
 (function() {
 
-  module("Collections");
+  module('Collections');
 
-  test("each", function() {
+  test('each', function() {
     _.each([1, 2, 3], function(num, i) {
       equal(num, i + 1, 'each iterators provide value and iteration count');
     });
@@ -19,7 +19,7 @@
     var obj = {one : 1, two : 2, three : 3};
     obj.constructor.prototype.four = 4;
     _.each(obj, function(value, key){ answers.push(key); });
-    equal(answers.join(", "), 'one, two, three', 'iterating over objects works, and ignores the object prototype.');
+    equal(answers.join(', '), 'one, two, three', 'iterating over objects works, and ignores the object prototype.');
     delete obj.constructor.prototype.four;
 
     var answer = null;
@@ -98,13 +98,13 @@
   });
 
   test('reduceRight', function() {
-    var list = _.reduceRight(["foo", "bar", "baz"], function(memo, str){ return memo + str; }, '');
+    var list = _.reduceRight(['foo', 'bar', 'baz'], function(memo, str){ return memo + str; }, '');
     equal(list, 'bazbarfoo', 'can perform right folds');
 
-    var list = _.foldr(["foo", "bar", "baz"], function(memo, str){ return memo + str; }, '');
+    var list = _.foldr(['foo', 'bar', 'baz'], function(memo, str){ return memo + str; }, '');
     equal(list, 'bazbarfoo', 'aliased as "foldr"');
 
-    var list = _.foldr(["foo", "bar", "baz"], function(memo, str){ return memo + str; });
+    var list = _.foldr(['foo', 'bar', 'baz'], function(memo, str){ return memo + str; });
     equal(list, 'bazbarfoo', 'default initial value');
 
     var ifnull;
@@ -180,10 +180,10 @@
     var odds = _.reject([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
     equal(odds.join(', '), '1, 3, 5', 'rejected each even number');
 
-    var context = "obj";
+    var context = 'obj';
 
     var evens = _.reject([1, 2, 3, 4, 5, 6], function(num){
-      equal(context, "obj");
+      equal(context, 'obj');
       return num % 2 != 0;
     }, context);
     equal(evens.join(', '), '2, 4, 6', 'rejected each odd number');
@@ -244,13 +244,13 @@
       return 42;
     };
     var list = [[5, 1, 7], [3, 2, 1]];
-    var s = "foo";
-    equal(s.call(), 42, "call function exists");
+    var s = 'foo';
+    equal(s.call(), 42, 'call function exists');
     var result = _.invoke(list, 'sort');
     equal(result[0].join(', '), '1, 5, 7', 'first array sorted');
     equal(result[1].join(', '), '1, 2, 3', 'second array sorted');
     delete String.prototype.call;
-    equal(s.call, undefined, "call function removed");
+    equal(s.call, undefined, 'call function removed');
   });
 
   test('pluck', function() {
@@ -268,7 +268,7 @@
     equal(result[0].a, 1);
 
     result = _.where(list, {a: 1}, true);
-    equal(result.b, 2, "Only get the first object matched.")
+    equal(result.b, 2, 'Only get the first object matched.')
     result = _.where(list, {a: 1}, false);
     equal(result.length, 3);
 
@@ -286,10 +286,10 @@
     deepEqual(result, {a: 1, b: 4});
 
     result = _.findWhere(list, {c:1})
-    ok(_.isUndefined(result), "undefined when not found");
+    ok(_.isUndefined(result), 'undefined when not found');
 
     result = _.findWhere([], {c:1});
-    ok(_.isUndefined(result), "undefined when searching empty list");
+    ok(_.isUndefined(result), 'undefined when searching empty list');
   });
 
   test('max', function() {
@@ -302,7 +302,7 @@
     equal(-Infinity, _.max([]), 'Maximum value of an empty array');
     equal(_.max({'a': 'a'}), -Infinity, 'Maximum value of a non-numeric collection');
 
-    equal(299999, _.max(_.range(1,300000)), "Maximum value of a too-big array");
+    equal(299999, _.max(_.range(1,300000)), 'Maximum value of a too-big array');
   });
 
   test('min', function() {
@@ -319,7 +319,7 @@
     var then = new Date(0);
     equal(_.min([now, then]), then);
 
-    equal(1, _.min(_.range(1,300000)), "Minimum value of a too-big array");
+    equal(1, _.min(_.range(1,300000)), 'Minimum value of a too-big array');
   });
 
   test('sortBy', function() {
@@ -330,7 +330,7 @@
     var list = [undefined, 4, 1, undefined, 3, 2];
     equal(_.sortBy(list, _.identity).join(','), '1,2,3,4,,', 'sortBy with undefined values');
 
-    var list = ["one", "two", "three", "four", "five"];
+    var list = ['one', 'two', 'three', 'four', 'five'];
     var sorted = _.sortBy(list, 'length');
     equal(sorted.join(' '), 'one two four five three', 'sorted by length');
 
@@ -366,7 +366,7 @@
     ok('0' in parity && '1' in parity, 'created a group for each value');
     equal(parity[0].join(', '), '2, 4, 6', 'put each even number in the right group');
 
-    var list = ["one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"];
+    var list = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten'];
     var grouped = _.groupBy(list, 'length');
     equal(grouped['3'].join(' '), 'one two six ten');
     equal(grouped['4'].join(' '), 'four five nine');
@@ -403,7 +403,7 @@
     equal(parity['true'], 4);
     equal(parity['false'], 5);
 
-    var list = ["one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"];
+    var list = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten'];
     var grouped = _.indexBy(list, 'length');
     equal(grouped['3'], 'ten');
     equal(grouped['4'], 'nine');
@@ -421,7 +421,7 @@
     equal(parity['true'], 2);
     equal(parity['false'], 3);
 
-    var list = ["one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"];
+    var list = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten'];
     var grouped = _.countBy(list, 'length');
     equal(grouped['3'], 4);
     equal(grouped['4'], 3);
