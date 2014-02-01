@@ -235,7 +235,7 @@
 
   test("replaceItems", function() {
     equal(_.replaceItems([1, 'a', 'b'], 'b', 'c').join(', '), '1, a, c', 'can replace a item');
-    equal(_.replaceItems([2, 'a', 'b'], 'd', 'c').join(', '), '1, a, b', 'can ignore if the replacer not exist in the array');
+    equal(_.replaceItems([2, 'a', 'b'], 'd', 'c').join(', '), '2, a, b', 'can ignore if the replacer not exist in the array');
     equal(_.replaceItems(['a', 'b', 'b'], 'b', 'c').join(', '), 'a, c, c', 'can replace multiple items');
   });
 
