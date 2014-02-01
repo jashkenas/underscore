@@ -755,6 +755,16 @@
     }
     return output;
   };
+  
+  // Runs AND operation on a array of booleans
+  _.AND = function(array) {
+    return _.sum(array) === array.length;
+  }
+  
+  // Runs OR operation on a array of booleans
+  _.OR = function(array) {
+    return _.sum(array) != 0
+  }
 
   // Function (ahem) Functions
   // ------------------
