@@ -485,11 +485,11 @@ var flat = _.reduceRight(list, function(a, b) { return a.concat(b); }, []);
 </pre>
 
       <p id="find">
-        <b class="header">find</b><code>_.find(list, iterator, [context])</code>
+        <b class="header">find</b><code>_.find(list, predicate, [context])</code>
         <span class="alias">Alias: <b>detect</b></span>
         <br />
         Looks through each value in the <b>list</b>, returning the first one that
-        passes a truth test (<b>iterator</b>), or <tt>undefined</tt> if no value
+        passes a truth test (<b>predicate</b>), or <tt>undefined</tt> if no value
         passes the test. The function returns as
         soon as it finds an acceptable element, and doesn't traverse the
         entire list.
@@ -500,11 +500,11 @@ var even = _.find([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
 </pre>
 
       <p id="filter">
-        <b class="header">filter</b><code>_.filter(list, iterator, [context])</code>
+        <b class="header">filter</b><code>_.filter(list, predicate, [context])</code>
         <span class="alias">Alias: <b>select</b></span>
         <br />
         Looks through each value in the <b>list</b>, returning an array of all
-        the values that pass a truth test (<b>iterator</b>). Delegates to the
+        the values that pass a truth test (<b>predicate</b>). Delegates to the
         native <b>filter</b> method, if it exists.
       </p>
       <pre>
@@ -543,10 +543,10 @@ _.findWhere(publicServicePulitzers, {newsroom: "The New York Times"});
 </pre>
 
       <p id="reject">
-        <b class="header">reject</b><code>_.reject(list, iterator, [context])</code>
+        <b class="header">reject</b><code>_.reject(list, predicate, [context])</code>
         <br />
         Returns the values in <b>list</b> without the elements that the truth
-        test (<b>iterator</b>) passes. The opposite of <b>filter</b>.
+        test (<b>predicate</b>) passes. The opposite of <b>filter</b>.
       </p>
       <pre>
 var odds = _.reject([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
@@ -554,10 +554,10 @@ var odds = _.reject([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
 </pre>
 
       <p id="every">
-        <b class="header">every</b><code>_.every(list, [iterator], [context])</code>
+        <b class="header">every</b><code>_.every(list, [predicate], [context])</code>
         <span class="alias">Alias: <b>all</b></span>
         <br />
-        Returns <i>true</i> if all of the values in the <b>list</b> pass the <b>iterator</b>
+        Returns <i>true</i> if all of the values in the <b>list</b> pass the <b>predicate</b>
         truth test. Delegates to the native method <b>every</b>, if present.
       </p>
       <pre>
@@ -566,11 +566,11 @@ _.every([true, 1, null, 'yes'], _.identity);
 </pre>
 
       <p id="some">
-        <b class="header">some</b><code>_.some(list, [iterator], [context])</code>
+        <b class="header">some</b><code>_.some(list, [predicate], [context])</code>
         <span class="alias">Alias: <b>any</b></span>
         <br />
         Returns <i>true</i> if any of the values in the <b>list</b> pass the
-        <b>iterator</b> truth test. Short-circuits and stops traversing the list
+        <b>predicate</b> truth test. Short-circuits and stops traversing the list
         if a true element is found. Delegates to the native method <b>some</b>,
         if present.
       </p>
