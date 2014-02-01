@@ -617,7 +617,7 @@
   _.properties = function(array, property) {
     var properties = [];
     for (var i in array) {
-      if (!isUndefined(array[i][property])) {
+      if (!_.isUndefined(array[i][property])) {
         properties.push(array[i][property]);
       }
     }
