@@ -646,19 +646,6 @@
     return duplicate;
   };
   
-  _.removeDuplicates = function(array) {
-    var parsed = {};
-    for (var i in array) {
-      if (!parsed[array[i]]) {
-        parsed[array[i]] = true;
-      }
-      else {
-        array[i] = undefined;
-      }
-    }
-    return _.clear(array);
-  };
-  
   // Just a shortcut to slice(item,1).
   _.remove = function(array, item) {
     return array.splice(item, 1);
