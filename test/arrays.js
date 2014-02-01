@@ -233,4 +233,82 @@
     equal(_.range(0, -10, -1).join(' '), '0 -1 -2 -3 -4 -5 -6 -7 -8 -9', 'final example in the Python docs');
   });
 
+  test("replaceItems", function() {
+    equal(_.replaceItems([1, 'a', 'b'], 'b', 'c').join(', '), '1, a, c', 'can replace a item');
+    equal(_.replaceItems([2, 'a', 'b'], 'd', 'c').join(', '), '2, a, b', 'can ignore if the replacer not exist in the array');
+    equal(_.replaceItems(['a', 'b', 'b'], 'b', 'c').join(', '), 'a, c, c', 'can replace multiple items');
+  });
+
+  test("properties", function() {
+    equal(_.properties([{a: 2, b: 3}, {a: 3, c: 4}, {a: 4, hey: true}], 'a').join(', '), '2, 3, 4', 'can create a array of properties which is number');
+    equal(_.properties([{abc: 'c', b: 3, why: 'because'}, {abc: 'b', c: 4}, {abc: 'a', hey: true},{}], 'abc').join(', '), 'c, b, a', 'can ignore undefined properties');
+  });
+
+  test("numberOf", function() {
+    equal(JSON.stringify(_.numberOf([1, 2, 3, 4, 4, 5, 5, 5])), '{"1":1,"2":1,"3":1,"4":2,"5":3}', 'can count the number of items in an ordered array');
+    equal(JSON.stringify(_.numberOf([1, 2, 3, 4, 4, 2, 5, 5, 5, 3, 4])), '{"1":1,"2":2,"3":2,"4":3,"5":3}', 'can count the number of items in an unordered array');
+  });
+
+  test("duplicates", function() {
+    equal(_.duplicates([1, 2, 3, 3, 4, 4]).toString(), 'true', 'can detect a array with duplicates');
+    equal(_.duplicates([4, 3, 2, 1]).toString(), 'false', 'can detect a array without duplicates');
+  });
+
+  test("remove", function() {
+    equal(_.remove([1, 2, 3, 4], 1).join(', '), '1, 3, 4', 'can remove item from array');
+  });
+
+  test("clear", function() {
+    equal(_.clear([1, 0, NaN, undefined, false, '']).join(', '), '1, 0, false', 'can clear an array for NaNs, undefineds and ""s');
+    equal(_.clear([1, 0, false]).join(', '), '1, 0, false', 'can ignore clearing when there is no NaNs, undefineds and ""s');
+  });
+
+  test("move", function() {
+    equal(_.move([1, 2, 3, 4], 0, 1).join(', '), '2, 1, 3, 4', 'can move item in array');
+  });
+
+  test("keep", function() {
+    equal(_.keep([1,2,3,4,5],function(N) {return N < 4;}).join(', '), '1, 2, 3', 'can keep items defined by a rule');
+  });
+
+  test("sum", function() {
+    equal(_.sum([1, 2, 3]), 6, 'can sum up a array');
+  });
+  
+  test("mean", function() {
+    equal(_.mean([1, 2, 3]), 2, 'can find the mean-value of the array');
+  });
+
+  test("delta", function() {
+    equal(_.delta([1,2, 3],[2, 2, 4]).join(', '), '1, 0, 1', 'can find the delta of two arrays');
+  });
+
+  // Of course are there no tests for the randomArray() and randomPick() functions.
+
+  test("removeItems", function() {
+    equal(_.removeItems([1, 2, 3], 3).join(', '), '1, 2', 'can remove item');
+    equal(_.removeItems([1, 2, 3, 3], 3).join(', '), '1, 2', 'can remove multiple items');
+    equal(_.removeItems([1, 2, 3], 4).join(', '), '1, 2, 3', 'can ignore when no items match the keyword');
+  });
+
+  test("unify", function() {
+    equal(_.unify([1, 2, 3],[3, 2, 1]).join(', '), '1, 2, 3, 3, 2, 1', 'can unify two arrays');
+    equal(JSON.stringify(_.unify({a: 2, b: 3}, {alpha: 1, beta: 5})), '{"a":2,"b":3,"alpha":1,"beta":5}', 'can unify two objects');
+  });
+
+  test("in", function() {
+    equal(_.in([1, 2, 3], [2, 3]).toString(), 'true', 'can see that the first array contains the second array');
+    equal(_.in([1, 2, 3], [2, 5]).toString(), 'false', 'cannot detect items there not are there');
+  });
+
+  test("AND", function() {
+    equal(_.AND([true, true, true, true]).toString(), 'true', 'can calculate that all the items states true');
+    equal(_.AND([true, false, true]).toString(), 'false', 'can see that there is one (or more) items there not is true');
+  });
+  
+  test("OR", function() {
+    equal(_.OR([true, true, false, true]).toString(), 'true', 'can see that there are at least one item which states true');
+    equal(_.OR([false, false, false]).toString(), 'false', 'can see that there is no items there is true');
+  });
+
 })();
