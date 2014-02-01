@@ -650,7 +650,8 @@
   
   // Just a shortcut to slice(item,1).
   _.remove = function(array, item) {
-    return array.splice(item, 1);
+    array[item] = null;
+    return _.clear(array);
   };
 
   // Move a item in array.
