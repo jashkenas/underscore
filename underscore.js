@@ -1254,14 +1254,6 @@
     }
     return contains;
   };
-  
-  // Adds every item, described in a array of item-names and a array of item-contents, to a object
-  _.set = function(object, A, B) {
-    for (var i in A) {
-      object[A[i]] = B[i]; 
-    }
-    return object;
-  };
 
   // Utility Functions
   // -----------------
