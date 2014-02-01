@@ -763,7 +763,7 @@
   
   // Runs OR operation on a array of booleans
   _.OR = function(array) {
-    return _.sum(array) != 0
+    return _.sum(array) != 0;
   }
 
   // Function (ahem) Functions
