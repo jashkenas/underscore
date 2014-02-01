@@ -637,7 +637,7 @@
   };
 
   // Is there duplicates in the array?
-  _.duplicate = function(array) {
+  _.duplicates = function(array) {
     var duplicate = false,
     NOD = _.numberOf(array);
     for (var i in NOD) {
