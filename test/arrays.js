@@ -241,7 +241,7 @@
 
   test("properties", function() {
     equal(_.properties([{a: 2, b: 3}, {a: 3, c: 4}, {a: 4, hey: true}], 'a').join(', '), '2, 3, 4', 'can create a array of properties which is number');
-    equal(_.properties([{abc: 'c', b: 3, why: 'because'}, {abc: 'b', c: 4}, {abc: 'a', hey: true},{}], 'abc').join(', '), '"c", "b", "a"', 'can ignore undefined properties');
+    equal(_.properties([{abc: 'c', b: 3, why: 'because'}, {abc: 'b', c: 4}, {abc: 'a', hey: true},{}], 'abc').join(', '), 'c, b, a', 'can ignore undefined properties');
   });
 
   test("numberOf", function() {
