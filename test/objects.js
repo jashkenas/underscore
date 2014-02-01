@@ -141,7 +141,7 @@
 
     // Basic equality and identity comparisons.
     ok(_.isEqual(null, null), '`null` is equal to `null`');
-    ok(_.isEqual(), '`undefined` is equal to `undefined`');
+    ok(_.isEqual(undefined, undefined), '`undefined` is equal to `undefined`');
 
     ok(!_.isEqual(0, -0), '`0` is not equal to `-0`');
     ok(!_.isEqual(-0, 0), 'Commutative equality is implemented for `0` and `-0`');
@@ -372,6 +372,17 @@
 
     var other = { 'a': 1 };
     strictEqual(_.isEqual(new Foo, other), false);
+
+    // Various numbers of arguments
+    strictEqual(_.isEqual(), true);
+    strictEqual(_.isEqual(0), true);
+    strictEqual(_.isEqual(0, 0), true);
+    strictEqual(_.isEqual(0, 0, 0), true);
+    strictEqual(_.isEqual(0, 0, 0, 0), true);
+    strictEqual(_.isEqual(0, 0, 0, 1), false);
+    strictEqual(_.isEqual(0, 0, 1, 0), false);
+    strictEqual(_.isEqual(0, 1, 0, 0), false);
+    strictEqual(_.isEqual(1, 0, 0, 0), false);
   });
 
   test('isEmpty', function() {
