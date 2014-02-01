@@ -519,7 +519,7 @@
   // Zip together multiple lists into a single array -- elements that share
   // an index go together.
   _.zip = function() {
-    var length = _.max(_.pluck(arguments, "length").concat(0));
+    var length = _.max(_.pluck(arguments, 'length').concat(0));
     var results = new Array(length);
     for (var i = 0; i < length; i++) {
       results[i] = _.pluck(arguments, '' + i);
@@ -645,7 +645,7 @@
   // defined on an object belong to it.
   _.bindAll = function(obj) {
     var funcs = slice.call(arguments, 1);
-    if (funcs.length === 0) throw new Error("bindAll must be passed function names");
+    if (funcs.length === 0) throw new Error('bindAll must be passed function names');
     each(funcs, function(f) { obj[f] = _.bind(obj[f], obj); });
     return obj;
   };
