@@ -591,6 +591,6 @@
 
   test("propertyContains", function () {
      equal(_.contains({a: 1, b: 3, c: 'a'}, 1).toString(), 'true', 'can detect that there exist at least one property which is one')
-     equal(_.contains({a: 1, b: 3, c: 'a'}, 100).toString(), 'true', 'can detect that there is not any property which is 100')
+     equal(_.contains({a: 1, b: 3, c: 'a'}, 100).toString(), 'false', 'can detect that there is not any property which is 100')
   });
 })();
