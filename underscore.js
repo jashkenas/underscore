@@ -703,7 +703,7 @@
   };
   
   // Remove all items, which is x.
-  _.removeItem = function(array, x) {
+  _.removeItems = function(array, x) {
     return _.keep(array, function(char) {
       return char != x;
     });
