@@ -419,7 +419,7 @@
         passed. Each invocation of <b>iterator</b> is called with three arguments:
         <tt>(element, index, list)</tt>. If <b>list</b> is a JavaScript object, <b>iterator</b>'s
         arguments will be <tt>(value, key, list)</tt>. Delegates to the native
-        <b>forEach</b> function if it exists.
+        <b>forEach</b> function if it exists, and returns the original <b>list</b> for chaining.
       </p>
       <pre>
 _.each([1, 2, 3], alert);
