@@ -599,6 +599,176 @@
     return range;
   };
 
+  // This function replaces items in array.
+  _.replaceItems = function(array, replaceThis, withThis) {
+    for (var i in array) {
+      if (array[i] == replaceThis) {
+        array[i] = withThis;
+      }
+    }
+    return array;
+  };
+
+  // This function creates a array of contents of given property in object.
+  // Fx.
+  // _.propertyArray([{a: 2,b: 3},{a: 3,c: 4},{a: 4,hey: true}],'a')
+  // => [2,3,4]
+  // (The a property in every item in the array)
+  _.properties = function(array, property) {
+    var properties = [];
+    for (var i in array) {
+      properties.push(array[i][property]);
+    }
+    return properties;
+  };
+
+  // This function creates a object there contains all of the number of duplicates in items.
+  _.numberOf = function(array) {
+    var numberOfCopies = {};
+    for (var i in array) {
+      if (!numberOfCopies[array[i]]) {
+        numberOfCopies[array[i]] = 0;
+      }
+      numberOfCopies[array[i]]++;
+    }
+    return numberOfCopies;
+  };
+
+  // Is there duplicates in the array?
+  _.duplicate = function(array) {
+    var duplicate = false,
+    NOD = _.numberOf(array);
+    for (var i in NOD) {
+      if (NOD[i] != 1) {
+        duplicate = true;
+      }
+    }
+    return duplicate;
+  };
+  
+  _.removeDuplicates = function(array) {
+    var parsed = {};
+    for (var i in array) {
+      if (!parsed[array[i]]) {
+        parsed[array[i]] = true;
+      }
+      else {
+        array[i] = undefined;
+      }
+    }
+    return _.clear(array);
+  };
+  
+  // Just a shortcut to slice(item,1).
+  _.remove = function(array, item) {
+    return array.splice(item, 1);
+  };
+
+  // Move a item in array.
+  _.move = function(array, from, to) {
+    if (to >= array.length) {
+        var i = to - array.length;
+        while ((i--) + 1) {
+          array.push(undefined);
+        }
+    }
+    array.splice(to, 0, array.splice(from, 1)[0]);
+    return array;
+  };
+
+  // Sum of the numbers in a array.
+  _.sum = function(array) {
+    var sum = 0;
+    for (var i in array) {
+      sum += array[i];
+    }
+    return sum;
+  };
+
+  // Mean-value of numbers in a array.
+  _.mean = function(array) {
+    return _.sum(array)/array.length;
+  };
+
+  // The delta of array A and array B (the difference in the numbers).
+  _.delta = function(A, B) {
+    var C = [];
+    for (var i in A) {
+      C.push(B[i]-A[i]);
+    }
+    return C;
+  };
+
+  // Array filled with random intengers.
+  _.randomArray = function(length, from, to) {
+    var array=[]
+    for (var i = 0;i < length;i++) {
+      array.push(_.random(from, to));
+    }
+    return array
+  };
+  
+  // Pick random item from array.
+  _.randomPick = function(array) {
+    return array[_.random(0, array.length)];
+  };
+  
+  // Remove all items, which is x.
+  _.removeItem = function(array, x) {
+    return _.keep(array, function(char) {
+      return char != x;
+    });
+  };
+  
+  // Unify two objects or two arrays.
+  // Fx.
+  // _.unify([1,2,3],[3,2,1])
+  // => [1, 2, 3, 3, 2, 1]
+  _.unify = function(A, B) {
+    if(!_.isArray(A) && !_.isArray(B)) {
+      for (var i in B)
+      {
+        A[i] = B[i];
+      }
+    }
+    else {
+      for (var i in B)
+      {
+        A.push(B[i]);
+      }
+    }
+    return A;
+  };
+  
+  // Did a array contains all items from another array?
+  _.in = function(array, keyarray) {
+    var unified = true;
+    for (var i in keyarray) {
+      if (_.indexOf(array, keyarray[i]) == -1) {
+        unified = false;
+      }
+    }
+    return unified;
+  };
+  
+  // Remove all undefined, "" and nulls from array
+  _.clear = function(array) {
+    return _.keep(array,function(i) {
+  		return !(_.isNaN(i) || _.isUndefined(i) || _.isNull(i) || i === '');
+  	});
+  };
+  
+  // If rule(item) states false then remove the item
+  _.keep = function(array, rule) {
+    output = [];	
+    for (var i in array) {
+      if (rule(array[i])) {
+        output.push(array[i]);
+      }
+    }
+    return output;
+  };
+
   // Function (ahem) Functions
   // ------------------
 
@@ -1073,6 +1243,25 @@
   // on itself (in other words, not on a prototype).
   _.has = function(obj, key) {
     return hasOwnProperty.call(obj, key);
+  };
+
+  // Did a object contains a given keyword?
+  _.propertyContains = function(object, keyword) {
+    var contains = false;
+    for (var i in object) {
+      if (object[i] == keyword) {
+        contains = true;
+      }
+    }
+    return contains;
+  };
+  
+  // Adds every item, described in a array of item-names and a array of item-contents, to a object
+  _.set = function(object, A, B) {
+    for (var i in A) {
+      object[A[i]] = B[i]; 
+    }
+    return object;
   };
 
   // Utility Functions
