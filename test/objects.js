@@ -183,7 +183,7 @@
     ok(!_.isEqual(new Boolean(true), new Boolean), 'Boolean objects with different primitive values are not equal');
 
     // Common type coercions.
-    ok(!_.isEqual(true, new Boolean(false)), 'Boolean objects are not equal to the boolean primitive `true`');
+    ok(!_.isEqual(new Boolean(false), true), '`new Boolean(false)` is not equal to `true`');
     ok(!_.isEqual('75', 75), 'String and number primitives with like values are not equal');
     ok(!_.isEqual(new Number(63), new String(63)), 'String and number objects with like values are not equal');
     ok(!_.isEqual(75, '75'), 'Commutative equality is implemented for like string and number values');
