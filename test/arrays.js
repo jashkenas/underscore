@@ -137,6 +137,9 @@
 
     result = _.union(null, [1, 2, 3]);
     deepEqual(result, [null, 1, 2, 3]);
+
+    result = _.union([1, 2, 3], 4);
+    equal(result.join(' '), '1 2 3', 'restrict the union to arrays only');
   });
 
   test('difference', function() {
@@ -145,6 +148,9 @@
 
     result = _.difference([1, 2, 3, 4], [2, 30, 40], [1, 11, 111]);
     equal(result.join(' '), '3 4', 'takes the difference of three arrays');
+
+    result = _.difference([1, 2, 3], 1);
+    equal(result.join(' '), '1 2 3', 'restrict the difference to arrays only');
   });
 
   test('zip', function() {
