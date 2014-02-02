@@ -2232,19 +2232,23 @@ _([1, 2, 3]).value();
           <li>
             Continued tweaks to <tt>_.isEqual</tt> semantics. Now JS primitives are
             considered equivalent to their wrapped versions, and arrays are compared
-            by their numeric properties only <small>(#351)</small>.
+            by their numeric properties only
+            <small>(<a href="https://github.com/jashkenas/underscore/pull/351">#351</a>)</small>.
           </li>
           <li>
             <tt>_.escape</tt> no longer tries to be smart about not double-escaping
-            already-escaped HTML entities. Now it just escapes regardless <small>(#350)</small>.
+            already-escaped HTML entities. Now it just escapes regardless
+            <small>(<a href="https://github.com/jashkenas/underscore/issues/350">#350</a>)</small>.
           </li>
           <li>
             In <tt>_.template</tt>, you may now leave semicolons out of evaluated
-            statements if you wish: <tt>&lt;% }) %&gt;</tt> <small>(#369)</small>.
+            statements if you wish: <tt>&lt;% }) %&gt;</tt>
+            <small>(<a href="https://github.com/jashkenas/underscore/issues/369">#369</a>)</small>.
           </li>
           <li>
             <tt>_.after(callback, 0)</tt> will now trigger the callback immediately,
-            making "after" easier to use with asynchronous APIs <small>(#366)</small>.
+            making "after" easier to use with asynchronous APIs
+            <small>(<a href="https://github.com/jashkenas/underscore/pull/366">#366</a>)</small>.
           </li>
         </ul>
       </p>
@@ -2255,12 +2259,14 @@ _([1, 2, 3]).value();
           <li>
             Several important bug fixes for <tt>_.isEqual</tt>, which should now
             do better on mutated Arrays, and on non-Array objects with
-            <tt>length</tt> properties. <small>(#329)</small>
+            <tt>length</tt> properties.
+            <small>(<a href="https://github.com/jashkenas/underscore/issues/329">#329</a>)</small>
           </li>
           <li>
             <b>jrburke</b> contributed Underscore exporting for AMD module loaders,
             and <b>tonylukasavage</b> for Appcelerator Titanium.
-            <small>(#335, #338)</small>
+            <small>(<a href="https://github.com/jashkenas/underscore/pull/335">#335</a>,
+                    <a href="https://github.com/jashkenas/underscore/pull/338">#338</a>)</small>
           </li>
           <li>
             You can now <tt>_.groupBy(list, 'property')</tt> as a shortcut for
@@ -2268,7 +2274,9 @@ _([1, 2, 3]).value();
           </li>
           <li>
             <tt>_.throttle</tt>'d functions now fire immediately upon invocation,
-            and are rate-limited thereafter <small>(#170, #266)</small>.
+            and are rate-limited thereafter
+            <small>(<a href="https://github.com/jashkenas/underscore/issues/170">#170</a>,
+                    <a href="https://github.com/jashkenas/underscore/pull/266">#266</a>)</small>.
           </li>
           <li>
             Most of the <tt>_.is[Type]</tt> checks no longer ducktype.
