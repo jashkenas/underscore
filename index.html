@@ -592,7 +592,7 @@ _.contains([1, 2, 3], 3);
 </pre>
 
       <p id="invoke">
-        <b class="header">invoke</b><code>_.invoke(list, methodName, [*arguments])</code>
+        <b class="header">invoke</b><code>_.invoke(list, methodName, *arguments)</code>
         <br />
         Calls the method named by <b>methodName</b> on each value in the <b>list</b>.
         Any extra arguments passed to <b>invoke</b> will be forwarded on to the
@@ -834,7 +834,7 @@ _.flatten([1, [2], [3, [[4]]]], true);
 </pre>
 
       <p id="without">
-        <b class="header">without</b><code>_.without(array, [*values])</code>
+        <b class="header">without</b><code>_.without(array, *values)</code>
         <br />
         Returns a copy of the <b>array</b> with all instances of the <b>values</b>
         removed.
@@ -1009,7 +1009,7 @@ _.range(0);
       <h2 id="functions">Function (uh, ahem) Functions</h2>
 
       <p id="bind">
-        <b class="header">bind</b><code>_.bind(function, object, [*arguments])</code>
+        <b class="header">bind</b><code>_.bind(function, object, *arguments)</code>
         <br />
         Bind a <b>function</b> to an <b>object</b>, meaning that whenever
         the function is called, the value of <i>this</i> will be the <b>object</b>.
@@ -1044,7 +1044,7 @@ jQuery('#underscore_button').bind('click', buttonView.onClick);
 </pre>
 
       <p id="partial">
-        <b class="header">partial</b><code>_.partial(function, [*arguments])</code>
+        <b class="header">partial</b><code>_.partial(function, *arguments)</code>
         <br />
         Partially apply a function by filling in any number of its arguments,
         <i>without</i> changing its dynamic <tt>this</tt> value. A close cousin
@@ -1074,7 +1074,7 @@ var fibonacci = _.memoize(function(n) {
 </pre>
 
       <p id="delay">
-        <b class="header">delay</b><code>_.delay(function, wait, [*arguments])</code>
+        <b class="header">delay</b><code>_.delay(function, wait, *arguments)</code>
         <br />
         Much like <b>setTimeout</b>, invokes <b>function</b> after <b>wait</b>
         milliseconds. If you pass the optional <b>arguments</b>, they will be
@@ -1087,7 +1087,7 @@ _.delay(log, 1000, 'logged later');
 </pre>
 
       <p id="defer">
-        <b class="header">defer</b><code>_.defer(function, [*arguments])</code>
+        <b class="header">defer</b><code>_.defer(function, *arguments)</code>
         <br />
         Defers invoking the <b>function</b> until the current call stack has cleared,
         similar to using <b>setTimeout</b> with a delay of 0. Useful for performing
