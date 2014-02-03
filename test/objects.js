@@ -176,19 +176,19 @@
     ok(!_.isEqual(Infinity, NaN), '`Infinity` is not equal to `NaN`');
 
     // Boolean object and primitive comparisons.
-    ok(_.isEqual(true, true), 'Identical Boolean primitives are equal');
+    ok(_.isEqual(true, true), 'Identical boolean primitives are equal');
     ok(_.isEqual(new Boolean, new Boolean), 'Boolean objects with identical primitive values are equal');
     ok(_.isEqual(true, new Boolean(true)), 'Boolean primitives and their corresponding object wrappers are equal');
-    ok(_.isEqual(new Boolean(true), true), 'Commutative equality is implemented for Booleans');
+    ok(_.isEqual(new Boolean(true), true), 'Commutative equality is implemented for booleans');
     ok(!_.isEqual(new Boolean(true), new Boolean), 'Boolean objects with different primitive values are not equal');
 
     // Common type coercions.
-    ok(!_.isEqual(true, new Boolean(false)), 'Boolean objects are not equal to the Boolean primitive `true`');
+    ok(!_.isEqual(true, new Boolean(false)), 'Boolean objects are not equal to the boolean primitive `true`');
     ok(!_.isEqual('75', 75), 'String and number primitives with like values are not equal');
     ok(!_.isEqual(new Number(63), new String(63)), 'String and number objects with like values are not equal');
     ok(!_.isEqual(75, '75'), 'Commutative equality is implemented for like string and number values');
     ok(!_.isEqual(0, ''), 'Number and string primitives with like values are not equal');
-    ok(!_.isEqual(1, true), 'Number and Boolean primitives with like values are not equal');
+    ok(!_.isEqual(1, true), 'Number and boolean primitives with like values are not equal');
     ok(!_.isEqual(new Boolean(false), new Number(0)), 'Boolean and number objects with like values are not equal');
     ok(!_.isEqual(false, new String('')), 'Boolean primitives and string objects with like values are not equal');
     ok(!_.isEqual(12564504e5, new Date(2009, 9, 25)), 'Dates and their corresponding numeric primitive values are not equal');
@@ -442,7 +442,7 @@
     ok(!_.isObject(undefined), 'and not undefined');
     ok(!_.isObject('string'), 'and not string');
     ok(!_.isObject(12), 'and not number');
-    ok(!_.isObject(true), 'and not Boolean');
+    ok(!_.isObject(true), 'and not boolean');
     ok(_.isObject(new String('string')), 'but new String()');
   });
 
@@ -474,14 +474,14 @@
   });
 
   test('isBoolean', function() {
-    ok(!_.isBoolean(2), 'a number is not a Boolean');
-    ok(!_.isBoolean('string'), 'a string is not a Boolean');
-    ok(!_.isBoolean('false'), 'the string "false" is not a Boolean');
-    ok(!_.isBoolean('true'), 'the string "true" is not a Boolean');
-    ok(!_.isBoolean(arguments), 'the arguments object is not a Boolean');
-    ok(!_.isBoolean(undefined), 'undefined is not a Boolean');
-    ok(!_.isBoolean(NaN), 'NaN is not a Boolean');
-    ok(!_.isBoolean(null), 'null is not a Boolean');
+    ok(!_.isBoolean(2), 'a number is not a boolean');
+    ok(!_.isBoolean('string'), 'a string is not a boolean');
+    ok(!_.isBoolean('false'), 'the string "false" is not a boolean');
+    ok(!_.isBoolean('true'), 'the string "true" is not a boolean');
+    ok(!_.isBoolean(arguments), 'the arguments object is not a boolean');
+    ok(!_.isBoolean(undefined), 'undefined is not a boolean');
+    ok(!_.isBoolean(NaN), 'NaN is not a boolean');
+    ok(!_.isBoolean(null), 'null is not a boolean');
     ok(_.isBoolean(true), 'but true is');
     ok(_.isBoolean(false), 'and so is false');
     ok(_.isBoolean(iBoolean), 'even from another frame');

@@ -914,7 +914,7 @@
     var className = toString.call(a);
     if (className != toString.call(b)) return false;
     switch (className) {
-      // Strings, numbers, dates, and Booleans are compared by value.
+      // Strings, numbers, dates, and booleans are compared by value.
       case '[object String]':
         // Primitives and their corresponding object wrappers are equivalent; thus, `"5"` is
         // equivalent to `new String("5")`.
@@ -925,7 +925,7 @@
         return a != +a ? b != +b : (a == 0 ? 1 / a == 1 / b : a == +b);
       case '[object Date]':
       case '[object Boolean]':
-        // Coerce dates and Booleans to numeric primitive values. Dates are compared by their
+        // Coerce dates and booleans to numeric primitive values. Dates are compared by their
         // millisecond representations. Note that invalid dates with millisecond representations
         // of `NaN` are not equivalent.
         return +a == +b;
@@ -1054,7 +1054,7 @@
     return _.isNumber(obj) && obj != +obj;
   };
 
-  // Is a given value a Boolean?
+  // Is a given value a boolean?
   _.isBoolean = function(obj) {
     return obj === true || obj === false || toString.call(obj) == '[object Boolean]';
   };
