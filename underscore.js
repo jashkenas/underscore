@@ -260,11 +260,13 @@
     if (!iterator && _.isArray(obj) && obj[0] === +obj[0] && obj.length < 65535) {
       return Math.max.apply(Math, obj);
     }
-    if (!iterator && _.isEmpty(obj)) return -Infinity;
     var result = -Infinity, lastComputed = -Infinity;
     each(obj, function(value, index, list) {
       var computed = iterator ? iterator.call(context, value, index, list) : value;
-      computed > lastComputed && (result = value, lastComputed = computed);
+      if (computed > lastComputed) {
+        result = value;
+        lastComputed = computed;
+      }
     });
     return result;
   };
@@ -274,11 +276,13 @@
     if (!iterator && _.isArray(obj) && obj[0] === +obj[0] && obj.length < 65535) {
       return Math.min.apply(Math, obj);
     }
-    if (!iterator && _.isEmpty(obj)) return Infinity;
     var result = Infinity, lastComputed = Infinity;
     each(obj, function(value, index, list) {
       var computed = iterator ? iterator.call(context, value, index, list) : value;
-      computed < lastComputed && (result = value, lastComputed = computed);
+      if (computed < lastComputed) {
+        result = value;
+        lastComputed = computed;
+      }
     });
     return result;
   };
