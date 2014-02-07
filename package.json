@@ -9,13 +9,12 @@
   "version"       : "1.5.2",
   "devDependencies": {
     "tape": "2.4.2",
-    "faucet": "0.0.0",
     "docco": "0.6.x",
     "uglify-js": "2.4.x",
     "browserify": "3.24.13"
   },
   "scripts": {
-    "test": "faucet",
+    "test": "tape test/*.js",
     "bundle": "browserify test/*.js -o bundle.js",
     "build": "uglifyjs underscore.js -c \"evaluate=false\" --comments \"/    .*/\" -m --source-map underscore-min.map -o underscore-min.js",
     "doc": "docco underscore.js"
