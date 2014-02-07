@@ -1,8 +1,9 @@
+var test = require('tape');
+var _ = require('../underscore');
+
 (function() {
 
-  module('Chaining');
-
-  test('map/flatten/reduce', function() {
+  test('map/flatten/reduce', function(t) {
     var lyrics = [
       "I'm a lumberjack and I'm okay",
       "I sleep all night and I work all day",
@@ -17,10 +18,11 @@
         hash[l]++;
         return hash;
     }, {}).value();
-    ok(counts.a == 16 && counts.e == 10, 'counted all the letters in the song');
+    t.ok(counts.a == 16 && counts.e == 10, 'counted all the letters in the song');
+    t.end();
   });
 
-  test('select/reject/sortBy', function() {
+  test('select/reject/sortBy', function(t) {
     var numbers = [1,2,3,4,5,6,7,8,9,10];
     numbers = _(numbers).chain().select(function(n) {
       return n % 2 === 0;
@@ -29,10 +31,11 @@
     }).sortBy(function(n) {
       return -n;
     }).value();
-    equal(numbers.join(', '), '10, 6, 2', 'filtered and reversed the numbers');
+    t.is(numbers.join(', '), '10, 6, 2', 'filtered and reversed the numbers');
+    t.end();
   });
 
-  test('select/reject/sortBy in functional style', function() {
+  test('select/reject/sortBy in functional style', function(t) {
     var numbers = [1,2,3,4,5,6,7,8,9,10];
     numbers = _.chain(numbers).select(function(n) {
       return n % 2 === 0;
@@ -41,10 +44,11 @@
     }).sortBy(function(n) {
       return -n;
     }).value();
-    equal(numbers.join(', '), '10, 6, 2', 'filtered and reversed the numbers');
+    t.is(numbers.join(', '), '10, 6, 2', 'filtered and reversed the numbers');
+    t.end();
   });
 
-  test('reverse/concat/unshift/pop/map', function() {
+  test('reverse/concat/unshift/pop/map', function(t) {
     var numbers = [1,2,3,4,5];
     numbers = _(numbers).chain()
       .reverse()
@@ -53,13 +57,15 @@
       .pop()
       .map(function(n){ return n * 2; })
       .value();
-    equal(numbers.join(', '), '34, 10, 8, 6, 4, 2, 10, 10', 'can chain together array functions.');
+    t.is(numbers.join(', '), '34, 10, 8, 6, 4, 2, 10, 10', 'can chain together array functions.');
+    t.end();
   });
 
-  test('chaining works in small stages', function() {
+  test('chaining works in small stages', function(t) {
     var o = _([1, 2, 3, 4]).chain();
-    deepEqual(o.filter(function(i) { return i < 3; }).value(), [1, 2]);
-    deepEqual(o.filter(function(i) { return i > 2; }).value(), [3, 4]);
+    t.same(o.filter(function(i) { return i < 3; }).value(), [1, 2]);
+    t.same(o.filter(function(i) { return i > 2; }).value(), [3, 4]);
+    t.end();
   });
 
 })();

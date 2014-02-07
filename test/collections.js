@@ -1,88 +1,86 @@
+var test = require('tape');
+var _ = require('../underscore');
+
 (function() {
 
-  module('Collections');
-
-  test('each', function() {
+  test('each', function(t) {
     _.each([1, 2, 3], function(num, i) {
-      equal(num, i + 1, 'each iterators provide value and iteration count');
+      t.is(num, i + 1, 'each iterators provide value and iteration count');
     });
 
     var answers = [];
     _.each([1, 2, 3], function(num){ answers.push(num * this.multiplier);}, {multiplier : 5});
-    equal(answers.join(', '), '5, 10, 15', 'context object property accessed');
+    t.is(answers.join(', '), '5, 10, 15', 'context object property accessed');
 
     answers = [];
     _.forEach([1, 2, 3], function(num){ answers.push(num); });
-    equal(answers.join(', '), '1, 2, 3', 'aliased as "forEach"');
+    t.is(answers.join(', '), '1, 2, 3', 'aliased as "forEach"');
 
     answers = [];
     var obj = {one : 1, two : 2, three : 3};
     obj.constructor.prototype.four = 4;
     _.each(obj, function(value, key){ answers.push(key); });
-    equal(answers.join(', '), 'one, two, three', 'iterating over objects works, and ignores the object prototype.');
+    t.is(answers.join(', '), 'one, two, three', 'iterating over objects works, and ignores the object prototype.');
     delete obj.constructor.prototype.four;
 
     var answer = null;
     _.each([1, 2, 3], function(num, index, arr){ if (_.include(arr, num)) answer = true; });
-    ok(answer, 'can reference the original collection from inside the iterator');
+    t.ok(answer, 'can reference the original collection from inside the iterator');
 
     answers = 0;
     _.each(null, function(){ ++answers; });
-    equal(answers, 0, 'handles a null properly');
+    t.is(answers, 0, 'handles a null properly');
 
     _.each(false, function(){});
 
     var a = [1, 2, 3];
-    strictEqual(_.each(a, function(){}), a);
-    strictEqual(_.each(null, function(){}), null);
+    t.is(_.each(a, function(){}), a);
+    t.is(_.each(null, function(){}), null);
+    t.end();
   });
 
-  test('map', function() {
+  test('map', function(t) {
     var doubled = _.map([1, 2, 3], function(num){ return num * 2; });
-    equal(doubled.join(', '), '2, 4, 6', 'doubled numbers');
+    t.is(doubled.join(', '), '2, 4, 6', 'doubled numbers');
 
     doubled = _.collect([1, 2, 3], function(num){ return num * 2; });
-    equal(doubled.join(', '), '2, 4, 6', 'aliased as "collect"');
+    t.is(doubled.join(', '), '2, 4, 6', 'aliased as "collect"');
 
     var tripled = _.map([1, 2, 3], function(num){ return num * this.multiplier; }, {multiplier : 3});
-    equal(tripled.join(', '), '3, 6, 9', 'tripled numbers with context');
+    t.is(tripled.join(', '), '3, 6, 9', 'tripled numbers with context');
 
     var doubled = _([1, 2, 3]).map(function(num){ return num * 2; });
-    equal(doubled.join(', '), '2, 4, 6', 'OO-style doubled numbers');
-
-    if (document.querySelectorAll) {
-      var ids = _.map(document.querySelectorAll('#map-test *'), function(n){ return n.id; });
-      deepEqual(ids, ['id1', 'id2'], 'Can use collection methods on NodeLists.');
-    }
+    t.is(doubled.join(', '), '2, 4, 6', 'OO-style doubled numbers');
 
     var ids = _.map({length: 2, 0: {id: '1'}, 1: {id: '2'}}, function(n){
       return n.id;
     });
-    deepEqual(ids, ['1', '2'], 'Can use collection methods on Array-likes.');
+    t.same(ids, ['1', '2'], 'Can use collection methods on Array-likes.');
 
     var ifnull = _.map(null, function(){});
-    ok(_.isArray(ifnull) && ifnull.length === 0, 'handles a null properly');
+    t.ok(_.isArray(ifnull) && ifnull.length === 0, 'handles a null properly');
+    t.end();
   });
 
-  test('reduce', function() {
+  test('reduce', function(t) {
     var sum = _.reduce([1, 2, 3], function(sum, num){ return sum + num; }, 0);
-    equal(sum, 6, 'can sum up an array');
+    t.is(sum, 6, 'can sum up an array');
 
     var context = {multiplier : 3};
     sum = _.reduce([1, 2, 3], function(sum, num){ return sum + num * this.multiplier; }, 0, context);
-    equal(sum, 18, 'can reduce with a context object');
+    t.is(sum, 18, 'can reduce with a context object');
 
     sum = _.inject([1, 2, 3], function(sum, num){ return sum + num; }, 0);
-    equal(sum, 6, 'aliased as "inject"');
+    t.is(sum, 6, 'aliased as "inject"');
 
     sum = _([1, 2, 3]).reduce(function(sum, num){ return sum + num; }, 0);
-    equal(sum, 6, 'OO-style reduce');
+    t.is(sum, 6, 'OO-style reduce');
 
     var sum = _.reduce([1, 2, 3], function(sum, num){ return sum + num; });
-    equal(sum, 6, 'default initial value');
+    t.is(sum, 6, 'default initial value');
 
     var prod = _.reduce([1, 2, 3, 4], function(prod, num){ return prod * num; });
-    equal(prod, 24, 'can reduce via multiplication');
+    t.is(prod, 24, 'can reduce via multiplication');
 
     var ifnull;
     try {
@@ -90,22 +88,23 @@
     } catch (ex) {
       ifnull = ex;
     }
-    ok(ifnull instanceof TypeError, 'handles a null (without initial value) properly');
+    t.ok(ifnull instanceof TypeError, 'handles a null (without initial value) properly');
 
-    ok(_.reduce(null, function(){}, 138) === 138, 'handles a null (with initial value) properly');
-    equal(_.reduce([], function(){}, undefined), undefined, 'undefined can be passed as a special case');
-    raises(function() { _.reduce([], function(){}); }, TypeError, 'throws an error for empty arrays with no initial value');
+    t.ok(_.reduce(null, function(){}, 138) === 138, 'handles a null (with initial value) properly');
+    t.is(_.reduce([], function(){}, undefined), undefined, 'undefined can be passed as a special case');
+    t.throws(function() { _.reduce([], function(){}); }, TypeError, 'throws an error for empty arrays with no initial value');
+    t.end();
   });
 
-  test('reduceRight', function() {
+  test('reduceRight', function(t) {
     var list = _.reduceRight(['foo', 'bar', 'baz'], function(memo, str){ return memo + str; }, '');
-    equal(list, 'bazbarfoo', 'can perform right folds');
+    t.is(list, 'bazbarfoo', 'can perform right folds');
 
     var list = _.foldr(['foo', 'bar', 'baz'], function(memo, str){ return memo + str; }, '');
-    equal(list, 'bazbarfoo', 'aliased as "foldr"');
+    t.is(list, 'bazbarfoo', 'aliased as "foldr"');
 
     var list = _.foldr(['foo', 'bar', 'baz'], function(memo, str){ return memo + str; });
-    equal(list, 'bazbarfoo', 'default initial value');
+    t.is(list, 'bazbarfoo', 'default initial value');
 
     var ifnull;
     try {
@@ -113,15 +112,15 @@
     } catch (ex) {
       ifnull = ex;
     }
-    ok(ifnull instanceof TypeError, 'handles a null (without initial value) properly');
+    t.ok(ifnull instanceof TypeError, 'handles a null (without initial value) properly');
 
     var sum = _.reduceRight({a: 1, b: 2, c: 3}, function(sum, num){ return sum + num; });
-    equal(sum, 6, 'default initial value on object');
+    t.is(sum, 6, 'default initial value on object');
 
-    ok(_.reduceRight(null, function(){}, 138) === 138, 'handles a null (with initial value) properly');
+    t.ok(_.reduceRight(null, function(){}, 138) === 138, 'handles a null (with initial value) properly');
 
-    equal(_.reduceRight([], function(){}, undefined), undefined, 'undefined can be passed as a special case');
-    raises(function() { _.reduceRight([], function(){}); }, TypeError, 'throws an error for empty arrays with no initial value');
+    t.is(_.reduceRight([], function(){}, undefined), undefined, 'undefined can be passed as a special case');
+    t.throws(function() { _.reduceRight([], function(){}); }, TypeError, 'throws an error for empty arrays with no initial value');
 
     // Assert that the correct arguments are being passed.
 
@@ -138,7 +137,7 @@
       args || (args = _.toArray(arguments));
     }, memo);
 
-    deepEqual(args, expected);
+    t.same(args, expected);
 
     // And again, with numeric keys.
 
@@ -154,185 +153,201 @@
       args || (args = _.toArray(arguments));
     }, memo);
 
-    deepEqual(args, expected);
+    t.same(args, expected);
+    t.end();
   });
 
-  test('find', function() {
+  test('find', function(t) {
     var array = [1, 2, 3, 4];
-    strictEqual(_.find(array, function(n) { return n > 2; }), 3, 'should return first found `value`');
-    strictEqual(_.find(array, function() { return false; }), void 0, 'should return `undefined` if `value` is not found');
+    t.is(_.find(array, function(n) { return n > 2; }), 3, 'should return first found `value`');
+    t.is(_.find(array, function() { return false; }), void 0, 'should return `undefined` if `value` is not found');
+    t.end();
   });
 
-  test('detect', function() {
+  test('detect', function(t) {
     var result = _.detect([1, 2, 3], function(num){ return num * 2 == 4; });
-    equal(result, 2, 'found the first "2" and broke the loop');
+    t.is(result, 2, 'found the first "2" and broke the loop');
+    t.end();
   });
 
-  test('select', function() {
+  test('select', function(t) {
     var evens = _.select([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
-    equal(evens.join(', '), '2, 4, 6', 'selected each even number');
+    t.is(evens.join(', '), '2, 4, 6', 'selected each even number');
 
     evens = _.filter([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
-    equal(evens.join(', '), '2, 4, 6', 'aliased as "filter"');
+    t.is(evens.join(', '), '2, 4, 6', 'aliased as "filter"');
+    t.end();
   });
 
-  test('reject', function() {
+  test('reject', function(t) {
     var odds = _.reject([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
-    equal(odds.join(', '), '1, 3, 5', 'rejected each even number');
+    t.is(odds.join(', '), '1, 3, 5', 'rejected each even number');
 
     var context = 'obj';
 
     var evens = _.reject([1, 2, 3, 4, 5, 6], function(num){
-      equal(context, 'obj');
+      t.is(context, 'obj');
       return num % 2 != 0;
     }, context);
-    equal(evens.join(', '), '2, 4, 6', 'rejected each odd number');
+    t.is(evens.join(', '), '2, 4, 6', 'rejected each odd number');
+    t.end();
   });
 
-  test('all', function() {
-    ok(_.all([], _.identity), 'the empty set');
-    ok(_.all([true, true, true], _.identity), 'all true values');
-    ok(!_.all([true, false, true], _.identity), 'one false value');
-    ok(_.all([0, 10, 28], function(num){ return num % 2 == 0; }), 'even numbers');
-    ok(!_.all([0, 11, 28], function(num){ return num % 2 == 0; }), 'an odd number');
-    ok(_.all([1], _.identity) === true, 'cast to boolean - true');
-    ok(_.all([0], _.identity) === false, 'cast to boolean - false');
-    ok(_.every([true, true, true], _.identity), 'aliased as "every"');
-    ok(!_.all([undefined, undefined, undefined], _.identity), 'works with arrays of undefined');
+  test('all', function(t) {
+    t.ok(_.all([], _.identity), 'the empty set');
+    t.ok(_.all([true, true, true], _.identity), 'all true values');
+    t.ok(!_.all([true, false, true], _.identity), 'one false value');
+    t.ok(_.all([0, 10, 28], function(num){ return num % 2 == 0; }), 'even numbers');
+    t.ok(!_.all([0, 11, 28], function(num){ return num % 2 == 0; }), 'an odd number');
+    t.ok(_.all([1], _.identity) === true, 'cast to boolean - true');
+    t.ok(_.all([0], _.identity) === false, 'cast to boolean - false');
+    t.ok(_.every([true, true, true], _.identity), 'aliased as "every"');
+    t.ok(!_.all([undefined, undefined, undefined], _.identity), 'works with arrays of undefined');
+    t.end();
   });
 
-  test('any', function() {
+  test('any', function(t) {
     var nativeSome = Array.prototype.some;
     Array.prototype.some = null;
-    ok(!_.any([]), 'the empty set');
-    ok(!_.any([false, false, false]), 'all false values');
-    ok(_.any([false, false, true]), 'one true value');
-    ok(_.any([null, 0, 'yes', false]), 'a string');
-    ok(!_.any([null, 0, '', false]), 'falsy values');
-    ok(!_.any([1, 11, 29], function(num){ return num % 2 == 0; }), 'all odd numbers');
-    ok(_.any([1, 10, 29], function(num){ return num % 2 == 0; }), 'an even number');
-    ok(_.any([1], _.identity) === true, 'cast to boolean - true');
-    ok(_.any([0], _.identity) === false, 'cast to boolean - false');
-    ok(_.some([false, false, true]), 'aliased as "some"');
+    t.ok(!_.any([]), 'the empty set');
+    t.ok(!_.any([false, false, false]), 'all false values');
+    t.ok(_.any([false, false, true]), 'one true value');
+    t.ok(_.any([null, 0, 'yes', false]), 'a string');
+    t.ok(!_.any([null, 0, '', false]), 'falsy values');
+    t.ok(!_.any([1, 11, 29], function(num){ return num % 2 == 0; }), 'all odd numbers');
+    t.ok(_.any([1, 10, 29], function(num){ return num % 2 == 0; }), 'an even number');
+    t.ok(_.any([1], _.identity) === true, 'cast to boolean - true');
+    t.ok(_.any([0], _.identity) === false, 'cast to boolean - false');
+    t.ok(_.some([false, false, true]), 'aliased as "some"');
     Array.prototype.some = nativeSome;
+    t.end();
   });
 
-  test('include', function() {
-    ok(_.include([1,2,3], 2), 'two is in the array');
-    ok(!_.include([1,3,9], 2), 'two is not in the array');
-    ok(_.contains({moe:1, larry:3, curly:9}, 3) === true, '_.include on objects checks their values');
-    ok(_([1,2,3]).include(2), 'OO-style include');
+  test('include', function(t) {
+    t.ok(_.include([1,2,3], 2), 'two is in the array');
+    t.ok(!_.include([1,3,9], 2), 'two is not in the array');
+    t.ok(_.contains({moe:1, larry:3, curly:9}, 3) === true, '_.include on objects checks their values');
+    t.ok(_([1,2,3]).include(2), 'OO-style include');
+    t.end();
   });
 
-  test('invoke', function() {
+  test('invoke', function(t) {
     var list = [[5, 1, 7], [3, 2, 1]];
     var result = _.invoke(list, 'sort');
-    equal(result[0].join(', '), '1, 5, 7', 'first array sorted');
-    equal(result[1].join(', '), '1, 2, 3', 'second array sorted');
+    t.is(result[0].join(', '), '1, 5, 7', 'first array sorted');
+    t.is(result[1].join(', '), '1, 2, 3', 'second array sorted');
+    t.end();
   });
 
-  test('invoke w/ function reference', function() {
+  test('invoke w/ function reference', function(t) {
     var list = [[5, 1, 7], [3, 2, 1]];
     var result = _.invoke(list, Array.prototype.sort);
-    equal(result[0].join(', '), '1, 5, 7', 'first array sorted');
-    equal(result[1].join(', '), '1, 2, 3', 'second array sorted');
+    t.is(result[0].join(', '), '1, 5, 7', 'first array sorted');
+    t.is(result[1].join(', '), '1, 2, 3', 'second array sorted');
+    t.end();
   });
 
   // Relevant when using ClojureScript
-  test('invoke when strings have a call method', function() {
+  test('invoke when strings have a call method', function(t) {
     String.prototype.call = function() {
       return 42;
     };
     var list = [[5, 1, 7], [3, 2, 1]];
     var s = 'foo';
-    equal(s.call(), 42, 'call function exists');
+    t.is(s.call(), 42, 'call function exists');
     var result = _.invoke(list, 'sort');
-    equal(result[0].join(', '), '1, 5, 7', 'first array sorted');
-    equal(result[1].join(', '), '1, 2, 3', 'second array sorted');
+    t.is(result[0].join(', '), '1, 5, 7', 'first array sorted');
+    t.is(result[1].join(', '), '1, 2, 3', 'second array sorted');
     delete String.prototype.call;
-    equal(s.call, undefined, 'call function removed');
+    t.is(s.call, undefined, 'call function removed');
+    t.end();
   });
 
-  test('pluck', function() {
+  test('pluck', function(t) {
     var people = [{name : 'moe', age : 30}, {name : 'curly', age : 50}];
-    equal(_.pluck(people, 'name').join(', '), 'moe, curly', 'pulls names out of objects');
+    t.is(_.pluck(people, 'name').join(', '), 'moe, curly', 'pulls names out of objects');
+    t.end();
   });
 
-  test('where', function() {
+  test('where', function(t) {
     var list = [{a: 1, b: 2}, {a: 2, b: 2}, {a: 1, b: 3}, {a: 1, b: 4}];
     var result = _.where(list, {a: 1});
-    equal(result.length, 3);
-    equal(result[result.length - 1].b, 4);
+    t.is(result.length, 3);
+    t.is(result[result.length - 1].b, 4);
     result = _.where(list, {b: 2});
-    equal(result.length, 2);
-    equal(result[0].a, 1);
+    t.is(result.length, 2);
+    t.is(result[0].a, 1);
 
     result = _.where(list, {a: 1}, true);
-    equal(result.b, 2, 'Only get the first object matched.')
+    t.is(result.b, 2, 'Only get the first object matched.')
     result = _.where(list, {a: 1}, false);
-    equal(result.length, 3);
+    t.is(result.length, 3);
 
     result = _.where(list, {});
-    equal(result.length, list.length);
+    t.is(result.length, list.length);
     result = _.where(list, {}, true);
-    equal(result, list[0]);
+    t.is(result, list[0]);
+    t.end();
   });
 
-  test('findWhere', function() {
+  test('findWhere', function(t) {
     var list = [{a: 1, b: 2}, {a: 2, b: 2}, {a: 1, b: 3}, {a: 1, b: 4}, {a: 2, b: 4}];
     var result = _.findWhere(list, {a: 1});
-    deepEqual(result, {a: 1, b: 2});
+    t.same(result, {a: 1, b: 2});
     result = _.findWhere(list, {b: 4});
-    deepEqual(result, {a: 1, b: 4});
+    t.same(result, {a: 1, b: 4});
 
     result = _.findWhere(list, {c:1})
-    ok(_.isUndefined(result), 'undefined when not found');
+    t.ok(_.isUndefined(result), 'undefined when not found');
 
     result = _.findWhere([], {c:1});
-    ok(_.isUndefined(result), 'undefined when searching empty list');
+    t.ok(_.isUndefined(result), 'undefined when searching empty list');
+    t.end();
   });
 
-  test('max', function() {
-    equal(3, _.max([1, 2, 3]), 'can perform a regular Math.max');
+  test('max', function(t) {
+    t.is(3, _.max([1, 2, 3]), 'can perform a regular Math.max');
 
     var neg = _.max([1, 2, 3], function(num){ return -num; });
-    equal(neg, 1, 'can perform a computation-based max');
+    t.is(neg, 1, 'can perform a computation-based max');
 
-    equal(-Infinity, _.max({}), 'Maximum value of an empty object');
-    equal(-Infinity, _.max([]), 'Maximum value of an empty array');
-    equal(_.max({'a': 'a'}), -Infinity, 'Maximum value of a non-numeric collection');
+    t.is(-Infinity, _.max({}), 'Maximum value of an empty object');
+    t.is(-Infinity, _.max([]), 'Maximum value of an empty array');
+    t.is(_.max({'a': 'a'}), -Infinity, 'Maximum value of a non-numeric collection');
 
-    equal(299999, _.max(_.range(1,300000)), 'Maximum value of a too-big array');
+    t.is(299999, _.max(_.range(1,300000)), 'Maximum value of a too-big array');
+    t.end();
   });
 
-  test('min', function() {
-    equal(1, _.min([1, 2, 3]), 'can perform a regular Math.min');
+  test('min', function(t) {
+    t.is(1, _.min([1, 2, 3]), 'can perform a regular Math.min');
 
     var neg = _.min([1, 2, 3], function(num){ return -num; });
-    equal(neg, 3, 'can perform a computation-based min');
+    t.is(neg, 3, 'can perform a computation-based min');
 
-    equal(Infinity, _.min({}), 'Minimum value of an empty object');
-    equal(Infinity, _.min([]), 'Minimum value of an empty array');
-    equal(_.min({'a': 'a'}), Infinity, 'Minimum value of a non-numeric collection');
+    t.is(Infinity, _.min({}), 'Minimum value of an empty object');
+    t.is(Infinity, _.min([]), 'Minimum value of an empty array');
+    t.is(_.min({'a': 'a'}), Infinity, 'Minimum value of a non-numeric collection');
 
     var now = new Date(9999999999);
     var then = new Date(0);
-    equal(_.min([now, then]), then);
+    t.is(_.min([now, then]), then);
 
-    equal(1, _.min(_.range(1,300000)), 'Minimum value of a too-big array');
+    t.is(1, _.min(_.range(1,300000)), 'Minimum value of a too-big array');
+    t.end();
   });
 
-  test('sortBy', function() {
+  test('sortBy', function(t) {
     var people = [{name : 'curly', age : 50}, {name : 'moe', age : 30}];
     people = _.sortBy(people, function(person){ return person.age; });
-    equal(_.pluck(people, 'name').join(', '), 'moe, curly', 'stooges sorted by age');
+    t.is(_.pluck(people, 'name').join(', '), 'moe, curly', 'stooges sorted by age');
 
     var list = [undefined, 4, 1, undefined, 3, 2];
-    equal(_.sortBy(list, _.identity).join(','), '1,2,3,4,,', 'sortBy with undefined values');
+    t.is(_.sortBy(list, _.identity).join(','), '1,2,3,4,,', 'sortBy with undefined values');
 
     var list = ['one', 'two', 'three', 'four', 'five'];
     var sorted = _.sortBy(list, 'length');
-    equal(sorted.join(' '), 'one two four five three', 'sorted by length');
+    t.is(sorted.join(' '), 'one two four five three', 'sorted by length');
 
     function Pair(x, y) {
       this.x = x;
@@ -355,168 +370,179 @@
       return pair.x;
     });
 
-    deepEqual(actual, collection, 'sortBy should be stable');
+    t.same(actual, collection, 'sortBy should be stable');
 
     var list = ['q', 'w', 'e', 'r', 't', 'y'];
-    strictEqual(_.sortBy(list).join(''), 'eqrtwy', 'uses _.identity if iterator is not specified');
+    t.is(_.sortBy(list).join(''), 'eqrtwy', 'uses _.identity if iterator is not specified');
+    t.end();
   });
 
-  test('groupBy', function() {
+  test('groupBy', function(t) {
     var parity = _.groupBy([1, 2, 3, 4, 5, 6], function(num){ return num % 2; });
-    ok('0' in parity && '1' in parity, 'created a group for each value');
-    equal(parity[0].join(', '), '2, 4, 6', 'put each even number in the right group');
+    t.ok('0' in parity && '1' in parity, 'created a group for each value');
+    t.is(parity[0].join(', '), '2, 4, 6', 'put each even number in the right group');
 
     var list = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten'];
     var grouped = _.groupBy(list, 'length');
-    equal(grouped['3'].join(' '), 'one two six ten');
-    equal(grouped['4'].join(' '), 'four five nine');
-    equal(grouped['5'].join(' '), 'three seven eight');
+    t.is(grouped['3'].join(' '), 'one two six ten');
+    t.is(grouped['4'].join(' '), 'four five nine');
+    t.is(grouped['5'].join(' '), 'three seven eight');
 
     var context = {};
-    _.groupBy([{}], function(){ ok(this === context); }, context);
+    _.groupBy([{}], function(){ t.ok(this === context); }, context);
 
     grouped = _.groupBy([4.2, 6.1, 6.4], function(num) {
       return Math.floor(num) > 4 ? 'hasOwnProperty' : 'constructor';
     });
-    equal(grouped.constructor.length, 1);
-    equal(grouped.hasOwnProperty.length, 2);
+    t.is(grouped.constructor.length, 1);
+    t.is(grouped.hasOwnProperty.length, 2);
 
     var array = [{}];
-    _.groupBy(array, function(value, index, obj){ ok(obj === array); });
+    _.groupBy(array, function(value, index, obj){ t.ok(obj === array); });
 
     var array = [1, 2, 1, 2, 3];
     var grouped = _.groupBy(array);
-    equal(grouped['1'].length, 2);
-    equal(grouped['3'].length, 1);
+    t.is(grouped['1'].length, 2);
+    t.is(grouped['3'].length, 1);
 
     var matrix = [
       [1,2],
       [1,3],
       [2,3]
     ];
-    deepEqual(_.groupBy(matrix, 0), {1: [[1,2], [1,3]], 2: [[2,3]]})
-    deepEqual(_.groupBy(matrix, 1), {2: [[1,2]], 3: [[1,3], [2,3]]})
+    t.same(_.groupBy(matrix, 0), {1: [[1,2], [1,3]], 2: [[2,3]]})
+    t.same(_.groupBy(matrix, 1), {2: [[1,2]], 3: [[1,3], [2,3]]})
+    t.end();
   });
 
-  test('indexBy', function() {
+  test('indexBy', function(t) {
     var parity = _.indexBy([1, 2, 3, 4, 5], function(num){ return num % 2 == 0; });
-    equal(parity['true'], 4);
-    equal(parity['false'], 5);
+    t.is(parity['true'], 4);
+    t.is(parity['false'], 5);
 
     var list = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten'];
     var grouped = _.indexBy(list, 'length');
-    equal(grouped['3'], 'ten');
-    equal(grouped['4'], 'nine');
-    equal(grouped['5'], 'eight');
+    t.is(grouped['3'], 'ten');
+    t.is(grouped['4'], 'nine');
+    t.is(grouped['5'], 'eight');
 
     var array = [1, 2, 1, 2, 3];
     var grouped = _.indexBy(array);
-    equal(grouped['1'], 1);
-    equal(grouped['2'], 2);
-    equal(grouped['3'], 3);
+    t.is(grouped['1'], 1);
+    t.is(grouped['2'], 2);
+    t.is(grouped['3'], 3);
+    t.end();
   });
 
-  test('countBy', function() {
+  test('countBy', function(t) {
     var parity = _.countBy([1, 2, 3, 4, 5], function(num){ return num % 2 == 0; });
-    equal(parity['true'], 2);
-    equal(parity['false'], 3);
+    t.is(parity['true'], 2);
+    t.is(parity['false'], 3);
 
     var list = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten'];
     var grouped = _.countBy(list, 'length');
-    equal(grouped['3'], 4);
-    equal(grouped['4'], 3);
-    equal(grouped['5'], 3);
+    t.is(grouped['3'], 4);
+    t.is(grouped['4'], 3);
+    t.is(grouped['5'], 3);
 
     var context = {};
-    _.countBy([{}], function(){ ok(this === context); }, context);
+    _.countBy([{}], function(){ t.ok(this === context); }, context);
 
     grouped = _.countBy([4.2, 6.1, 6.4], function(num) {
       return Math.floor(num) > 4 ? 'hasOwnProperty' : 'constructor';
     });
-    equal(grouped.constructor, 1);
-    equal(grouped.hasOwnProperty, 2);
+    t.is(grouped.constructor, 1);
+    t.is(grouped.hasOwnProperty, 2);
 
     var array = [{}];
-    _.countBy(array, function(value, index, obj){ ok(obj === array); });
+    _.countBy(array, function(value, index, obj){ t.ok(obj === array); });
 
     var array = [1, 2, 1, 2, 3];
     var grouped = _.countBy(array);
-    equal(grouped['1'], 2);
-    equal(grouped['3'], 1);
+    t.is(grouped['1'], 2);
+    t.is(grouped['3'], 1);
+    t.end();
   });
 
-  test('sortedIndex', function() {
+  test('sortedIndex', function(t) {
     var numbers = [10, 20, 30, 40, 50], num = 35;
     var indexForNum = _.sortedIndex(numbers, num);
-    equal(indexForNum, 3, '35 should be inserted at index 3');
+    t.is(indexForNum, 3, '35 should be inserted at index 3');
 
     var indexFor30 = _.sortedIndex(numbers, 30);
-    equal(indexFor30, 2, '30 should be inserted at index 2');
+    t.is(indexFor30, 2, '30 should be inserted at index 2');
 
     var objects = [{x: 10}, {x: 20}, {x: 30}, {x: 40}];
     var iterator = function(obj){ return obj.x; };
-    strictEqual(_.sortedIndex(objects, {x: 25}, iterator), 2);
-    strictEqual(_.sortedIndex(objects, {x: 35}, 'x'), 3);
+    t.is(_.sortedIndex(objects, {x: 25}, iterator), 2);
+    t.is(_.sortedIndex(objects, {x: 35}, 'x'), 3);
 
     var context = {1: 2, 2: 3, 3: 4};
     iterator = function(obj){ return this[obj]; };
-    strictEqual(_.sortedIndex([1, 3], 2, iterator, context), 1);
+    t.is(_.sortedIndex([1, 3], 2, iterator, context), 1);
+    t.end();
   });
 
-  test('shuffle', function() {
+  test('shuffle', function(t) {
     var numbers = _.range(10);
     var shuffled = _.shuffle(numbers).sort();
-    notStrictEqual(numbers, shuffled, 'original object is unmodified');
-    equal(shuffled.join(','), numbers.join(','), 'contains the same members before and after shuffle');
+    t.isNot(numbers, shuffled, 'original object is unmodified');
+    t.is(shuffled.join(','), numbers.join(','), 'contains the same members before and after shuffle');
+    t.end();
   });
 
-  test('sample', function() {
+  test('sample', function(t) {
     var numbers = _.range(10);
     var all_sampled = _.sample(numbers, 10).sort();
-    equal(all_sampled.join(','), numbers.join(','), 'contains the same members before and after sample');
+    t.is(all_sampled.join(','), numbers.join(','), 'contains the same members before and after sample');
     all_sampled = _.sample(numbers, 20).sort();
-    equal(all_sampled.join(','), numbers.join(','), 'also works when sampling more objects than are present');
-    ok(_.contains(numbers, _.sample(numbers)), 'sampling a single element returns something from the array');
-    strictEqual(_.sample([]), undefined, 'sampling empty array with no number returns undefined');
-    notStrictEqual(_.sample([], 5), [], 'sampling empty array with a number returns an empty array');
-    notStrictEqual(_.sample([1, 2, 3], 0), [], 'sampling an array with 0 picks returns an empty array');
-    deepEqual(_.sample([1, 2], -1), [], 'sampling a negative number of picks returns an empty array');
-    ok(_.contains([1, 2, 3], _.sample({a: 1, b: 2, c: 3})), 'sample one value from an object');
+    t.is(all_sampled.join(','), numbers.join(','), 'also works when sampling more objects than are present');
+    t.ok(_.contains(numbers, _.sample(numbers)), 'sampling a single element returns something from the array');
+    t.is(_.sample([]), undefined, 'sampling empty array with no number returns undefined');
+    t.isNot(_.sample([], 5), [], 'sampling empty array with a number returns an empty array');
+    t.isNot(_.sample([1, 2, 3], 0), [], 'sampling an array with 0 picks returns an empty array');
+    t.same(_.sample([1, 2], -1), [], 'sampling a negative number of picks returns an empty array');
+    t.ok(_.contains([1, 2, 3], _.sample({a: 1, b: 2, c: 3})), 'sample one value from an object');
+    t.end();
   });
 
-  test('toArray', function() {
-    ok(!_.isArray(arguments), 'arguments object is not an array');
-    ok(_.isArray(_.toArray(arguments)), 'arguments object converted into array');
+  test('toArray', function(t) {
+    t.ok(!_.isArray(arguments), 'arguments object is not an array');
+    t.ok(_.isArray(_.toArray(arguments)), 'arguments object converted into array');
     var a = [1,2,3];
-    ok(_.toArray(a) !== a, 'array is cloned');
-    equal(_.toArray(a).join(', '), '1, 2, 3', 'cloned array contains same elements');
+    t.ok(_.toArray(a) !== a, 'array is cloned');
+    t.is(_.toArray(a).join(', '), '1, 2, 3', 'cloned array contains same elements');
 
     var numbers = _.toArray({one : 1, two : 2, three : 3});
-    equal(numbers.join(', '), '1, 2, 3', 'object flattened into array');
+    t.is(numbers.join(', '), '1, 2, 3', 'object flattened into array');
 
     // test in IE < 9
-    try {
-      var actual = _.toArray(document.childNodes);
-    } catch(ex) { }
+    if (typeof document !== 'undefined') {
+      try {
+        var actual = _.toArray(document.childNodes);
+      } catch(ex) { }
+      t.ok(_.isArray(actual), 'should not throw converting a node list');
+    }
 
-    ok(_.isArray(actual), 'should not throw converting a node list');
+    t.end();
   });
 
-  test('size', function() {
-    equal(_.size({one : 1, two : 2, three : 3}), 3, 'can compute the size of an object');
-    equal(_.size([1, 2, 3]), 3, 'can compute the size of an array');
-    equal(_.size({length: 3, 0: 0, 1: 0, 2: 0}), 3, 'can compute the size of Array-likes');
+  test('size', function(t) {
+    t.is(_.size({one : 1, two : 2, three : 3}), 3, 'can compute the size of an object');
+    t.is(_.size([1, 2, 3]), 3, 'can compute the size of an array');
+    t.is(_.size({length: 3, 0: 0, 1: 0, 2: 0}), 3, 'can compute the size of Array-likes');
 
     var func = function() {
       return _.size(arguments);
     };
 
-    equal(func(1, 2, 3, 4), 4, 'can test the size of the arguments object');
+    t.is(func(1, 2, 3, 4), 4, 'can test the size of the arguments object');
 
-    equal(_.size('hello'), 5, 'can compute the size of a string literal');
-    equal(_.size(new String('hello')), 5, 'can compute the size of string object');
+    t.is(_.size('hello'), 5, 'can compute the size of a string literal');
+    t.is(_.size(new String('hello')), 5, 'can compute the size of string object');
 
-    equal(_.size(null), 0, 'handles nulls');
+    t.is(_.size(null), 0, 'handles nulls');
+    t.end();
   });
 
 })();

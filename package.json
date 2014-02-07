@@ -8,12 +8,15 @@
   "main"          : "underscore.js",
   "version"       : "1.5.2",
   "devDependencies": {
+    "tape": "2.4.2",
+    "faucet": "0.0.0",
     "docco": "0.6.x",
-    "phantomjs": "1.9.0-1",
-    "uglify-js": "2.4.x"
+    "uglify-js": "2.4.x",
+    "browserify": "3.24.13"
   },
   "scripts": {
-    "test": "phantomjs test/vendor/runner.js test/index.html?noglobals=true",
+    "test": "faucet",
+    "bundle": "browserify test/*.js -o bundle.js",
     "build": "uglifyjs underscore.js -c \"evaluate=false\" --comments \"/    .*/\" -m --source-map underscore-min.map -o underscore-min.js",
     "doc": "docco underscore.js"
   },
@@ -23,5 +26,17 @@
       "url": "https://raw.github.com/jashkenas/underscore/master/LICENSE"
     }
   ],
-  "files"         : ["underscore.js", "underscore-min.js", "LICENSE"]
+  "files"         : ["underscore.js", "underscore-min.js", "LICENSE"],
+  "testling": {
+    "files": "test/*.js",
+    "browsers": [
+      "ie/8..latest",
+      "chrome/latest",
+      "firefox/latest",
+      "safari/latest",
+      "opera/latest",
+      "iphone/6..latest",
+      "ipad/6..latest"
+    ]
+  }
 }
