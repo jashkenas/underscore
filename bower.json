@@ -2,6 +2,7 @@
   "name": "underscore",
   "version": "1.5.2",
   "main": "underscore.js",
+  "keywords": ["util", "functional", "server", "client", "browser"],
   "ignore" : ["underscore-min.js", "docs", "test", "*.yml", "*.map",
               "CNAME", "index.html", "favicon.ico", "CONTRIBUTING.md"]
 }
