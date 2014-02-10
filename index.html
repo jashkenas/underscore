@@ -1688,7 +1688,8 @@ _.uniqueId('contact_');
         <b class="header">escape</b><code>_.escape(string)</code>
         <br />
         Escapes a string for insertion into HTML, replacing
-        <tt>&amp;</tt>, <tt>&lt;</tt>, <tt>&gt;</tt>, <tt>&quot;</tt>, and <tt>&#x27;</tt> characters.
+        <tt>&amp;</tt>, <tt>&lt;</tt>, <tt>&gt;</tt>, <tt>&quot;</tt>, and
+        <tt>&#x27;</tt> characters.
       </p>
       <pre>
 _.escape('Curly, Larry &amp; Moe');
@@ -2024,6 +2025,10 @@ _([1, 2, 3]).value();
             Some optimizations relating to functions that can be implemented
             in terms of <tt>_.keys</tt> (which includes, significantly,
             <tt>each</tt> on objects). Also for <tt>debounce</tt> in a tight loop.
+          </li>
+          <li>
+            <tt>escape</tt> and <tt>unescape</tt> no longer affect
+            <tt>&#x2F;</tt> and <tt>&amp;#x2F;</tt>.
           </li>
         </ul>
       </p>
