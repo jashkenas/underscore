@@ -587,14 +587,15 @@
     ok(_.has(obj, "foo"), "has() works even when the hasOwnProperty method is deleted.");
     var child = {};
     child.prototype = obj;
-    ok(_.has(child, "foo") == false, "has() does not check the prototype chain for a property.")
+    ok(_.has(child, "foo") == false, "has() does not check the prototype chain for a property.");
   });
 
   test("matches", function() {
-    var moe     = {name: 'Moe Howard',   hair: true},
-        curly   = {name: 'Curly Howard', hair: false},
-        stooges = [moe, curly];
-    ok(_.find(stooges, _.matches({hair: false})) === curly, "returns a predicate that can be used by finding functions.")
-    ok(_.find(stooges, _.matches(moe)) === moe, "can be used to locate an object exists in a collection.")
-  })
+    var moe = {name: 'Moe Howard', hair: true};
+    var curly = {name: 'Curly Howard', hair: false};
+    var stooges = [moe, curly];
+    ok(_.find(stooges, _.matches({hair: false})) === curly, "returns a predicate that can be used by finding functions.");
+    ok(_.find(stooges, _.matches(moe)) === moe, "can be used to locate an object exists in a collection.");
+  });
+
 })();
