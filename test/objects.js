@@ -90,6 +90,24 @@ $(document).ready(function() {
     ok(_.isEqual(_.omit(new Obj, 'b'), {a:1, c: 3}), 'include prototype props');
   });
 
+  test("omitValues", function() {
+    var result;
+    result = _.omitValues({a:1, b:2, c:3}, 2);
+    ok(_.isEqual(result, {a:1, c:3}), 'can omit a single value');
+    result = _.omitValues({a:1, b:2, c:3}, 1, 3);
+    ok(_.isEqual(result, {b:2}), 'can omit several named values');
+    result = _.omitValues({a:1, b:2, c:3}, [2, 3]);
+    ok(_.isEqual(result, {a:1}), 'can omit values named in an array');
+    result = _.omitValues({a:1, b:null, c:false, d:'', e:2}, [2, '', false, null]);
+    ok(_.isEqual(result, {a:1}), 'can omit primatives');
+    result = _.omitValues({a:1, b:{foo: 'bar' }}, {foo: 'bar' });
+    ok(!_.isEqual(result, {a:1}), 'can not omit non-primatives');
+
+    var Obj = function(){};
+    Obj.prototype = {a: 1, b: 2, c: 3};
+    ok(_.isEqual(_.omitValues(new Obj, 2), {a:1, c: 3}), 'include prototype props');
+  });
+
   test("defaults", function() {
     var result;
     var options = {zero: 0, one: 1, empty: "", nan: NaN, nothing: null};

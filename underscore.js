@@ -857,6 +857,18 @@
     return copy;
   };
 
+   // Return a copy of the object without the blacklisted values (primatives or references only).
+  _.omitValues = function(obj) {
+    var copy = {};
+    var vals = concat.apply(ArrayProto, slice.call(arguments, 1));
+    var val;
+    for (var key in obj) {
+      val = obj[key]; 
+      if (!_.contains(vals, val)) copy[key] = val;
+    }
+    return copy;
+  };
+
   // Fill in a given object with default properties.
   _.defaults = function(obj) {
     each(slice.call(arguments, 1), function(source) {
