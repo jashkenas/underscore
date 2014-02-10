@@ -1,4 +1,4 @@
-//     Underscore.js 1.5.2
+//     Underscore.js 1.6.0
 //     http://underscorejs.org
 //     (c) 2009-2014 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 //     Underscore may be freely distributed under the MIT license.
@@ -65,7 +65,7 @@
   }
 
   // Current version.
-  _.VERSION = '1.5.2';
+  _.VERSION = '1.6.0';
 
   // Collection Functions
   // --------------------
@@ -239,13 +239,13 @@
   // Convenience version of a common use case of `filter`: selecting only objects
   // containing specific `key:value` pairs.
   _.where = function(obj, attrs) {
-    return _.filter(obj, _.match(attrs));
+    return _.filter(obj, _.matches(attrs));
   };
 
   // Convenience version of a common use case of `find`: getting the first object
   // containing specific `key:value` pairs.
   _.findWhere = function(obj, attrs) {
-    return _.find(obj, _.match(attrs));
+    return _.find(obj, _.matches(attrs));
   };
 
   // Return the maximum element or (element-based computation).
@@ -1102,7 +1102,7 @@
   };
 
   // Returns a predicate for checking whether an object has a given set of `key:value` pairs.
-  _.match = function(attrs) {
+  _.matches = function(attrs) {
     return function(obj) {
       if (obj === attrs) return true; //avoid comparing an object to itself.
       for (var key in attrs) {

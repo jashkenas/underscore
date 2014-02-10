@@ -181,7 +181,7 @@
   <div id="sidebar" class="interface">
 
     <a class="toc_title" href="#">
-      Underscore.js <span class="version">(1.5.2)</span>
+      Underscore.js <span class="version">(1.6.0)</span>
     </a>
     <ul class="toc_section">
       <li>&raquo; <a href="https://github.com/jashkenas/underscore">GitHub Repository</a></li>
@@ -261,6 +261,7 @@
       <li>- <a href="#debounce">debounce</a></li>
       <li>- <a href="#once">once</a></li>
       <li>- <a href="#after">after</a></li>
+      <li>- <a href="#now">now</a></li>
       <li>- <a href="#wrap">wrap</a></li>
       <li>- <a href="#compose">compose</a></li>
     </ul>
@@ -281,6 +282,7 @@
       <li>- <a href="#clone">clone</a></li>
       <li>- <a href="#tap">tap</a></li>
       <li>- <a href="#has">has</a></li>
+      <li>- <a href="#property">property</a></li>
       <li>- <a href="#isEqual">isEqual</a></li>
       <li>- <a href="#isEmpty">isEmpty</a></li>
       <li>- <a href="#isElement">isElement</a></li>
@@ -306,7 +308,6 @@
       <li>- <a href="#noConflict">noConflict</a></li>
       <li>- <a href="#identity">identity</a></li>
       <li>- <a href="#constant">constant</a></li>
-      <li>- <a href="#property">property</a></li>
       <li>- <a href="#times">times</a></li>
       <li>- <a href="#random">random</a></li>
       <li>- <a href="#mixin">mixin</a></li>
@@ -392,13 +393,13 @@
 
     <table>
       <tr>
-        <td><a href="underscore.js">Development Version (1.5.2)</a></td>
-        <td><i>43kb, Uncompressed with Plentiful Comments</i></td>
+        <td><a href="underscore.js">Development Version (1.6.0)</a></td>
+        <td><i>44kb, Uncompressed with Plentiful Comments</i></td>
       </tr>
       <tr>
-        <td><a href="underscore-min.js">Production Version (1.5.2)</a></td>
+        <td><a href="underscore-min.js">Production Version (1.6.0)</a></td>
         <td>
-          <i>4.9kb, Minified and Gzipped</i>
+          <i>5.0kb, Minified and Gzipped</i>
           &nbsp;<small>(<a href="underscore-min.map">Source Map</a>)</small>
         </td>
       </tr>
@@ -410,6 +411,23 @@
         <td><i>Unreleased, current <tt>master</tt>, use at your own risk</i></td>
       </tr>
     </table>
+
+    <h2>Installation</h2>
+
+    <ul>
+      <li> 
+        <b>Node.js</b> <tt>npm install underscore</tt>
+      </li>
+      <li> 
+        <b>Require.js</b> <tt>require(["underscore"], ...</tt>
+      </li>
+      <li>
+        <b>Bower</b> <tt>bowser install underscore</tt>
+      </li>
+      <li>
+        <b>Component</b> <tt>component install jashkenas/underscore</tt>
+      </li>
+    </ul>
 
     <div id="documentation">
 
@@ -853,7 +871,7 @@ _.without([1, 2, 1, 0, 3, 1, 4], 0, 1);
         <b class="header">partition</b><code>_.partition(array, predicate)</code>
         <br />
         Split <b>array</b> into two arrays: one whose elements all satisfy
-        <b>predicate</b>, and one whose elements all do not satisfy <b>predicate</b>.
+        <b>predicate</b> and one whose elements all do not satisfy <b>predicate</b>.
       </p>
       <pre>
 _.partition([0, 1, 2, 3, 4, 5], isOdd);
@@ -1051,9 +1069,11 @@ jQuery('#underscore_button').bind('click', buttonView.onClick);
       <p id="partial">
         <b class="header">partial</b><code>_.partial(function, *arguments)</code>
         <br />
-        Partially apply a function by filling in any number of its arguments,
+        Partially apply a function by filling in any number of its <b>arguments</b>,
         <i>without</i> changing its dynamic <tt>this</tt> value. A close cousin
-        of <a href="#bind">bind</a>.
+        of <a href="#bind">bind</a>. You may pass <tt>_</tt> in your list of 
+        <b>arguments</b> to specify an argument that should not be pre-filled, but
+        left open to supply at call-time.
       </p>
       <pre>
 var add = function(a, b) { return a + b; };
@@ -1181,6 +1201,18 @@ _.each(notes, function(note) {
   note.asyncSave({success: renderNotes});
 });
 // renderNotes is run once, after all notes have saved.
+</pre>
+
+      <p id="now">
+        <b class="header">now</b><code>_.now()</code>
+        <br />
+        Returns an integer timestamp for the current time, using the fastest
+        method available in the runtime. Useful for implementing timing/animation
+        functions.
+      </p>
+      <pre>
+_.now();
+=&gt; 1392066795351
 </pre>
 
       <p id="wrap">
@@ -1359,6 +1391,27 @@ _.chain([1,2,3,200])
 _.has({a: 1, b: 2, c: 3}, "b");
 =&gt; true
 </pre>
+
+      <p id="property">
+        <b class="header">property</b><code>_.property(key)</code>
+        <br />
+        Returns a function that will itself return the <tt>key</tt>
+        property of any passed-in object.
+      </p>
+      <pre>
+var moe = {name: 'moe'};
+'moe' === _.property('name')(moe);
+=&gt; true</pre>
+
+      <p id="matches">
+        <b class="header">matches</b><code>_.matches(attrs)</code>
+        <br />
+        Returns a predicate function that will tell you if a passed in object
+        contains all of the key/value properties present in <b>attrs</b>.
+      </p>
+      <pre>
+var ready = _.matches({selected: true, visible: true});
+var readyToGoList = _.filter(list, ready);</pre>
 
       <p id="isEqual">
         <b class="header">isEqual</b><code>_.isEqual(object, other)</code>
@@ -1573,21 +1626,12 @@ moe === _.identity(moe);
       <p id="constant">
         <b class="header">constant</b><code>_.constant(value)</code>
         <br />
-        Creates a function that returns the same value that is used as the argument of <tt>_.constant</tt>.
+        Creates a function that returns the same value that is used as the 
+        argument of <tt>_.constant</tt>.
       </p>
       <pre>
 var moe = {name: 'moe'};
 moe === _.constant(moe)();
-=&gt; true</pre>
-
-      <p id="property">
-        <b class="header">property</b><code>_.property(key)</code>
-        <br />
-        Creates a function that gets the value of <tt>key</tt> in the object passed as parameter.
-      </p>
-      <pre>
-var moe = {name: 'moe'};
-'moe' === _.property('name')(moe);
 =&gt; true</pre>
 
       <p id="times">
@@ -1919,6 +1963,51 @@ _([1, 2, 3]).value();
       </p>
 
       <h2 id="changelog">Change Log</h2>
+
+
+      <p id="1.6.0">
+        <b class="header">1.6.0</b> &mdash; <small><i>February 10, 2014</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.5.2...1.6.0">Diff</a> &mdash; <a href="http://htmlpreview.github.io/?https://raw.github.com/jashkenas/underscore/1.6.0/index.html">Docs</a><br />
+        <ul>
+          <li>
+            Underscore now registers itself for AMD (Require.js), Bower and Component,
+            as well as being a CommonJS module and a regular (Java)Script. 
+            An ugliness, but perhaps a necessary one.
+          </li>
+          <li>
+            Added <tt>_.partition</tt>, a way to split a collection into two lists
+            of results — those that pass and those that fail a particular predicate.
+          </li>
+          <li>
+            Added <tt>_.property</tt>, for easy creation of iterators that pull
+            specific properties from objects. Useful in conjunction with other
+            Underscore collection functions.
+          </li>
+          <li>
+            Added <tt>_.matches</tt>, a function that will give you a predicate
+            that can be used to tell if a given object matches a list of specified
+            key/value properties.
+          </li>
+          <li>
+            Added <tt>_.constant</tt>, as a higher-order <tt>_.identity</tt>.
+          </li>
+          <li>
+            Added <tt>_.now</tt>, an optimized way to get a timestamp &mdash; used
+            internally to speed up <tt>debounce</tt> and <tt>throttle</tt>.
+          </li>
+          <li>
+            The <tt>_.partial</tt> function may now be used to partially apply
+            any of its arguments, by passing <tt>_</tt> wherever you'd like a 
+            placeholder variable, to be filled-in later.
+          </li>
+          <li>
+            The <tt>_.each</tt> function now returns the original iterated list 
+            (just like it used to), for better chaining.
+          </li>
+          <li>
+            &hellip; and more miscellaneous refactoring.
+          </li>
+        </ul>
+      </p>
 
       <p id="1.5.2">
         <b class="header">1.5.2</b> &mdash; <small><i>September 7, 2013</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.5.1...1.5.2">Diff</a> &mdash; <a href="http://htmlpreview.github.io/?https://raw.github.com/jashkenas/underscore/1.5.2/index.html">Docs</a><br />

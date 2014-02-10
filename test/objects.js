@@ -590,11 +590,11 @@
     ok(_.has(child, "foo") == false, "has() does not check the prototype chain for a property.")
   });
 
-  test("match", function() {
+  test("matches", function() {
     var moe     = {name: 'Moe Howard',   hair: true},
         curly   = {name: 'Curly Howard', hair: false},
         stooges = [moe, curly];
-    ok(_.find(stooges, _.match({hair: false})) === curly, "returns a predicate that can be used by finding functions.")
-    ok(_.find(stooges, _.match(moe)) === moe, "can be used to locate an object exists in a collection.")
+    ok(_.find(stooges, _.matches({hair: false})) === curly, "returns a predicate that can be used by finding functions.")
+    ok(_.find(stooges, _.matches(moe)) === moe, "can be used to locate an object exists in a collection.")
   })
 })();
