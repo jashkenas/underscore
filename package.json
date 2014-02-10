@@ -6,12 +6,16 @@
   "author"        : "Jeremy Ashkenas <jeremy@documentcloud.org>",
   "repository"    : {"type": "git", "url": "git://github.com/jashkenas/underscore.git"},
   "main"          : "underscore.js",
-  "version"       : "1.5.2",
+  "version"       : "1.6.0",
   "devDependencies": {
-    "phantomjs": "1.9.0-1"
+    "docco": "0.6.x",
+    "phantomjs": "1.9.0-1",
+    "uglify-js": "2.4.x"
   },
   "scripts": {
-    "test": "phantomjs test/vendor/runner.js test/index.html?noglobals=true"
+    "test": "phantomjs test/vendor/runner.js test/index.html?noglobals=true",
+    "build": "uglifyjs underscore.js -c \"evaluate=false\" --comments \"/    .*/\" -m --source-map underscore-min.map -o underscore-min.js",
+    "doc": "docco underscore.js"
   },
   "licenses": [
     {

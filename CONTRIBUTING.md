@@ -2,6 +2,8 @@
 
 * Before you open a ticket or send a pull request, [search](https://github.com/jashkenas/underscore/issues) for previous discussions about the same feature or issue. Add to the earlier ticket if you find one.
 
+* If you're proposing a new feature, make sure it isn't already implemented in [Underscore-Contrib](https://github.com/documentcloud/underscore-contrib).
+
 * Before sending a pull request for a feature, be sure to have [tests](http://underscorejs.org/test/).
 
 * Use the same coding style as the rest of the [codebase](https://github.com/jashkenas/underscore/blob/master/underscore.js).
