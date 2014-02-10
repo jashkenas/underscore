@@ -1,130 +1,144 @@
+var tape = require('tape');
+var _ = require('../underscore');
+
 (function() {
 
   var templateSettings;
 
-  module('Utility', {
-
-    setup: function() {
-      templateSettings = _.clone(_.templateSettings);
-    },
-
-    teardown: function() {
-      _.templateSettings = templateSettings;
+  var test = function(name, options, callback) {
+    if (!callback) {
+      callback = options;
+      options = null;
     }
+    tape(name, options, function(t) {
+      templateSettings = _.clone(_.templateSettings);
+      callback(t);
+      _.templateSettings = templateSettings;
+    });
+  };
 
-  });
-
-  test('#750 - Return _ instance.', 2, function() {
+  test('#750 - Return _ instance.', 2, function(t) {
     var instance = _([]);
-    ok(_(instance) === instance);
-    ok(new _(instance) === instance);
+    t.ok(_(instance) === instance);
+    t.ok(new _(instance) === instance);
+    t.end();
   });
 
-  test('identity', function() {
+  test('identity', function(t) {
     var moe = {name : 'moe'};
-    equal(_.identity(moe), moe, 'moe is the same as his identity');
+    t.is(_.identity(moe), moe, 'moe is the same as his identity');
+    t.end();
   });
 
-  test('constant', function() {
+  test('constant', function(t) {
     var moe = {name : 'moe'};
-    equal(_.constant(moe)(), moe, 'should create a function that returns moe');
+    t.is(_.constant(moe)(), moe, 'should create a function that returns moe');
+    t.end();
   });
 
-  test('property', function() {
+  test('property', function(t) {
     var moe = {name : 'moe'};
-    equal(_.property('name')(moe), 'moe', 'should return the property with the given name');
+    t.is(_.property('name')(moe), 'moe', 'should return the property with the given name');
+    t.end();
   });
 
-  test('random', function() {
+  test('random', function(t) {
     var array = _.range(1000);
     var min = Math.pow(2, 31);
     var max = Math.pow(2, 62);
 
-    ok(_.every(array, function() {
+    t.ok(_.every(array, function() {
       return _.random(min, max) >= min;
     }), 'should produce a random number greater than or equal to the minimum number');
 
-    ok(_.some(array, function() {
+    t.ok(_.some(array, function() {
       return _.random(Number.MAX_VALUE) > 0;
     }), 'should produce a random number when passed `Number.MAX_VALUE`');
+    t.end();
   });
 
-  test('now', function() {
+  test('now', function(t) {
     var diff = _.now() - new Date().getTime();
-    ok(diff <= 0 && diff > -5, 'Produces the correct time in milliseconds');//within 5ms
+    t.ok(diff <= 0 && diff > -5, 'Produces the correct time in milliseconds');//within 5ms
+    t.end();
   });
 
-  test('uniqueId', function() {
+  test('uniqueId', function(t) {
     var ids = [], i = 0;
     while(i++ < 100) ids.push(_.uniqueId());
-    equal(_.uniq(ids).length, ids.length, 'can generate a globally-unique stream of ids');
+    t.is(_.uniq(ids).length, ids.length, 'can generate a globally-unique stream of ids');
+    t.end();
   });
 
-  test('times', function() {
+  test('times', function(t) {
     var vals = [];
     _.times(3, function (i) { vals.push(i); });
-    ok(_.isEqual(vals, [0,1,2]), 'is 0 indexed');
+    t.ok(_.isEqual(vals, [0,1,2]), 'is 0 indexed');
     //
     vals = [];
     _(3).times(function(i) { vals.push(i); });
-    ok(_.isEqual(vals, [0,1,2]), 'works as a wrapper');
+    t.ok(_.isEqual(vals, [0,1,2]), 'works as a wrapper');
     // collects return values
-    ok(_.isEqual([0, 1, 2], _.times(3, function(i) { return i; })), 'collects return values');
+    t.ok(_.isEqual([0, 1, 2], _.times(3, function(i) { return i; })), 'collects return values');
 
-    deepEqual(_.times(0, _.identity), []);
-    deepEqual(_.times(-1, _.identity), []);
-    deepEqual(_.times(parseFloat('-Infinity'), _.identity), []);
+    t.same(_.times(0, _.identity), []);
+    t.same(_.times(-1, _.identity), []);
+    t.same(_.times(parseFloat('-Infinity'), _.identity), []);
+    t.end();
   });
 
-  test('mixin', function() {
+  test('mixin', function(t) {
     _.mixin({
       myReverse: function(string) {
         return string.split('').reverse().join('');
       }
     });
-    equal(_.myReverse('panacea'), 'aecanap', 'mixed in a function to _');
-    equal(_('champ').myReverse(), 'pmahc', 'mixed in a function to the OOP wrapper');
+    t.is(_.myReverse('panacea'), 'aecanap', 'mixed in a function to _');
+    t.is(_('champ').myReverse(), 'pmahc', 'mixed in a function to the OOP wrapper');
+    t.end();
   });
 
-  test('_.escape', function() {
-    equal(_.escape('Curly & Moe'), 'Curly &amp; Moe');
-    equal(_.escape('<a href="http://moe.com">Curly & Moe\'s</a>'), '&lt;a href=&quot;http://moe.com&quot;&gt;Curly &amp; Moe&#x27;s&lt;/a&gt;');
-    equal(_.escape('Curly &amp; Moe'), 'Curly &amp;amp; Moe');
-    equal(_.escape(null), '');
+  test('_.escape', function(t) {
+    t.is(_.escape('Curly & Moe'), 'Curly &amp; Moe');
+    t.is(_.escape('<a href="http://moe.com">Curly & Moe\'s</a>'), '&lt;a href=&quot;http://moe.com&quot;&gt;Curly &amp; Moe&#x27;s&lt;/a&gt;');
+    t.is(_.escape('Curly &amp; Moe'), 'Curly &amp;amp; Moe');
+    t.is(_.escape(null), '');
+    t.end();
   });
 
-  test('_.unescape', function() {
+  test('_.unescape', function(t) {
     var string = 'Curly & Moe';
-    equal(_.unescape('Curly &amp; Moe'), string);
-    equal(_.unescape('&lt;a href=&quot;http://moe.com&quot;&gt;Curly &amp; Moe&#x27;s&lt;/a&gt;'), '<a href="http://moe.com">Curly & Moe\'s</a>');
-    equal(_.unescape('Curly &amp;amp; Moe'), 'Curly &amp; Moe');
-    equal(_.unescape(null), '');
-    equal(_.unescape(_.escape(string)), string);
+    t.is(_.unescape('Curly &amp; Moe'), string);
+    t.is(_.unescape('&lt;a href=&quot;http://moe.com&quot;&gt;Curly &amp; Moe&#x27;s&lt;/a&gt;'), '<a href="http://moe.com">Curly & Moe\'s</a>');
+    t.is(_.unescape('Curly &amp;amp; Moe'), 'Curly &amp; Moe');
+    t.is(_.unescape(null), '');
+    t.is(_.unescape(_.escape(string)), string);
+    t.end();
   });
 
-  test('template', function() {
+  test('template', function(t) {
     var basicTemplate = _.template("<%= thing %> is gettin' on my noives!");
     var result = basicTemplate({thing : 'This'});
-    equal(result, "This is gettin' on my noives!", 'can do basic attribute interpolation');
+    t.is(result, "This is gettin' on my noives!", 'can do basic attribute interpolation');
 
     var sansSemicolonTemplate = _.template('A <% this %> B');
-    equal(sansSemicolonTemplate(), 'A  B');
+    t.is(sansSemicolonTemplate(), 'A  B');
 
     var backslashTemplate = _.template('<%= thing %> is \\ridanculous');
-    equal(backslashTemplate({thing: 'This'}), 'This is \\ridanculous');
+    t.is(backslashTemplate({thing: 'This'}), 'This is \\ridanculous');
 
     var escapeTemplate = _.template('<%= a ? "checked=\\"checked\\"" : "" %>');
-    equal(escapeTemplate({a: true}), 'checked="checked"', 'can handle slash escapes in interpolations.');
+    t.is(escapeTemplate({a: true}), 'checked="checked"', 'can handle slash escapes in interpolations.');
 
     var fancyTemplate = _.template('<ul><% \
       for (var key in people) { \
     %><li><%= people[key] %></li><% } %></ul>');
     result = fancyTemplate({people : {moe : 'Moe', larry : 'Larry', curly : 'Curly'}});
-    equal(result, '<ul><li>Moe</li><li>Larry</li><li>Curly</li></ul>', 'can run arbitrary javascript in templates');
+    t.is(result, '<ul><li>Moe</li><li>Larry</li><li>Curly</li></ul>', 'can run arbitrary javascript in templates');
 
     var escapedCharsInJavascriptTemplate = _.template('<ul><% _.each(numbers.split("\\n"), function(item) { %><li><%= item %></li><% }) %></ul>');
     result = escapedCharsInJavascriptTemplate({numbers: 'one\ntwo\nthree\nfour'});
-    equal(result, '<ul><li>one</li><li>two</li><li>three</li><li>four</li></ul>', 'Can use escaped characters (e.g. \\n) in JavaScript');
+    t.is(result, '<ul><li>one</li><li>two</li><li>three</li><li>four</li></ul>', 'Can use escaped characters (e.g. \\n) in JavaScript');
 
     var namespaceCollisionTemplate = _.template('<%= pageCount %> <%= thumbnails[pageCount] %> <% _.each(thumbnails, function(p) { %><div class="thumbnail" rel="<%= p %>"></div><% }); %>');
     result = namespaceCollisionTemplate({
@@ -135,32 +149,32 @@
         3: 'p3-thumbnail.gif'
       }
     });
-    equal(result, '3 p3-thumbnail.gif <div class="thumbnail" rel="p1-thumbnail.gif"></div><div class="thumbnail" rel="p2-thumbnail.gif"></div><div class="thumbnail" rel="p3-thumbnail.gif"></div>');
+    t.is(result, '3 p3-thumbnail.gif <div class="thumbnail" rel="p1-thumbnail.gif"></div><div class="thumbnail" rel="p2-thumbnail.gif"></div><div class="thumbnail" rel="p3-thumbnail.gif"></div>');
 
     var noInterpolateTemplate = _.template('<div><p>Just some text. Hey, I know this is silly but it aids consistency.</p></div>');
     result = noInterpolateTemplate();
-    equal(result, '<div><p>Just some text. Hey, I know this is silly but it aids consistency.</p></div>');
+    t.is(result, '<div><p>Just some text. Hey, I know this is silly but it aids consistency.</p></div>');
 
     var quoteTemplate = _.template("It's its, not it's");
-    equal(quoteTemplate({}), "It's its, not it's");
+    t.is(quoteTemplate({}), "It's its, not it's");
 
     var quoteInStatementAndBody = _.template("<%\
       if(foo == 'bar'){ \
     %>Statement quotes and 'quotes'.<% } %>");
-    equal(quoteInStatementAndBody({foo: 'bar'}), "Statement quotes and 'quotes'.");
+    t.is(quoteInStatementAndBody({foo: 'bar'}), "Statement quotes and 'quotes'.");
 
     var withNewlinesAndTabs = _.template('This\n\t\tis: <%= x %>.\n\tok.\nend.');
-    equal(withNewlinesAndTabs({x: 'that'}), 'This\n\t\tis: that.\n\tok.\nend.');
+    t.is(withNewlinesAndTabs({x: 'that'}), 'This\n\t\tis: that.\n\tok.\nend.');
 
     var template = _.template('<i><%- value %></i>');
     var result = template({value: '<script>'});
-    equal(result, '<i>&lt;script&gt;</i>');
+    t.is(result, '<i>&lt;script&gt;</i>');
 
     var stooge = {
       name: 'Moe',
       template: _.template("I'm <%= this.name %>")
     };
-    equal(stooge.template(), "I'm Moe");
+    t.is(stooge.template(), "I'm Moe");
 
     template = _.template('\n \
       <%\n \
@@ -168,7 +182,7 @@
       if (data) { data += 12345; }; %>\n \
       <li><%= data %></li>\n \
     ');
-    equal(template({data : 12345}).replace(/\s/g, ''), '<li>24690</li>');
+    t.is(template({data : 12345}).replace(/\s/g, ''), '<li>24690</li>');
 
     _.templateSettings = {
       evaluate    : /\{\{([\s\S]+?)\}\}/g,
@@ -177,13 +191,13 @@
 
     var custom = _.template('<ul>{{ for (var key in people) { }}<li>{{= people[key] }}</li>{{ } }}</ul>');
     result = custom({people : {moe : 'Moe', larry : 'Larry', curly : 'Curly'}});
-    equal(result, '<ul><li>Moe</li><li>Larry</li><li>Curly</li></ul>', 'can run arbitrary javascript in templates');
+    t.is(result, '<ul><li>Moe</li><li>Larry</li><li>Curly</li></ul>', 'can run arbitrary javascript in templates');
 
     var customQuote = _.template("It's its, not it's");
-    equal(customQuote({}), "It's its, not it's");
+    t.is(customQuote({}), "It's its, not it's");
 
     var quoteInStatementAndBody = _.template("{{ if(foo == 'bar'){ }}Statement quotes and 'quotes'.{{ } }}");
-    equal(quoteInStatementAndBody({foo: 'bar'}), "Statement quotes and 'quotes'.");
+    t.is(quoteInStatementAndBody({foo: 'bar'}), "Statement quotes and 'quotes'.");
 
     _.templateSettings = {
       evaluate    : /<\?([\s\S]+?)\?>/g,
@@ -192,99 +206,109 @@
 
     var customWithSpecialChars = _.template('<ul><? for (var key in people) { ?><li><?= people[key] ?></li><? } ?></ul>');
     result = customWithSpecialChars({people : {moe : 'Moe', larry : 'Larry', curly : 'Curly'}});
-    equal(result, '<ul><li>Moe</li><li>Larry</li><li>Curly</li></ul>', 'can run arbitrary javascript in templates');
+    t.is(result, '<ul><li>Moe</li><li>Larry</li><li>Curly</li></ul>', 'can run arbitrary javascript in templates');
 
     var customWithSpecialCharsQuote = _.template("It's its, not it's");
-    equal(customWithSpecialCharsQuote({}), "It's its, not it's");
+    t.is(customWithSpecialCharsQuote({}), "It's its, not it's");
 
     var quoteInStatementAndBody = _.template("<? if(foo == 'bar'){ ?>Statement quotes and 'quotes'.<? } ?>");
-    equal(quoteInStatementAndBody({foo: 'bar'}), "Statement quotes and 'quotes'.");
+    t.is(quoteInStatementAndBody({foo: 'bar'}), "Statement quotes and 'quotes'.");
 
     _.templateSettings = {
       interpolate : /\{\{(.+?)\}\}/g
     };
 
     var mustache = _.template('Hello {{planet}}!');
-    equal(mustache({planet : 'World'}), 'Hello World!', 'can mimic mustache.js');
+    t.is(mustache({planet : 'World'}), 'Hello World!', 'can mimic mustache.js');
 
     var templateWithNull = _.template('a null undefined {{planet}}');
-    equal(templateWithNull({planet : 'world'}), 'a null undefined world', 'can handle missing escape and evaluate settings');
+    t.is(templateWithNull({planet : 'world'}), 'a null undefined world', 'can handle missing escape and evaluate settings');
+    t.end();
   });
 
-  test('_.template provides the generated function source, when a SyntaxError occurs', function() {
+  test('_.template provides the generated function source, when a SyntaxError occurs', function(t) {
     try {
       _.template('<b><%= if x %></b>');
     } catch (ex) {
       var source = ex.source;
     }
-    ok(/__p/.test(source));
+    t.ok(/__p/.test(source));
+    t.end();
   });
 
-  test('_.template handles \\u2028 & \\u2029', function() {
+  test('_.template handles \\u2028 & \\u2029', function(t) {
     var tmpl = _.template('<p>\u2028<%= "\\u2028\\u2029" %>\u2029</p>');
-    strictEqual(tmpl(), '<p>\u2028\u2028\u2029\u2029</p>');
+    t.is(tmpl(), '<p>\u2028\u2028\u2029\u2029</p>');
+    t.end();
   });
 
-  test('result calls functions and returns primitives', function() {
+  test('result calls functions and returns primitives', function(t) {
     var obj = {w: '', x: 'x', y: function(){ return this.x; }};
-    strictEqual(_.result(obj, 'w'), '');
-    strictEqual(_.result(obj, 'x'), 'x');
-    strictEqual(_.result(obj, 'y'), 'x');
-    strictEqual(_.result(obj, 'z'), undefined);
-    strictEqual(_.result(null, 'x'), undefined);
+    t.is(_.result(obj, 'w'), '');
+    t.is(_.result(obj, 'x'), 'x');
+    t.is(_.result(obj, 'y'), 'x');
+    t.is(_.result(obj, 'z'), undefined);
+    t.is(_.result(null, 'x'), undefined);
+    t.end();
   });
 
-  test('_.templateSettings.variable', function() {
+  test('_.templateSettings.variable', function(t) {
     var s = '<%=data.x%>';
     var data = {x: 'x'};
-    strictEqual(_.template(s, data, {variable: 'data'}), 'x');
+    t.is(_.template(s, data, {variable: 'data'}), 'x');
     _.templateSettings.variable = 'data';
-    strictEqual(_.template(s)(data), 'x');
+    t.is(_.template(s)(data), 'x');
+    t.end();
   });
 
-  test('#547 - _.templateSettings is unchanged by custom settings.', function() {
-    ok(!_.templateSettings.variable);
+  test('#547 - _.templateSettings is unchanged by custom settings.', function(t) {
+    t.ok(!_.templateSettings.variable);
     _.template('', {}, {variable: 'x'});
-    ok(!_.templateSettings.variable);
+    t.ok(!_.templateSettings.variable);
+    t.end();
   });
 
-  test('#556 - undefined template variables.', function() {
+  test('#556 - undefined template variables.', function(t) {
     var template = _.template('<%=x%>');
-    strictEqual(template({x: null}), '');
-    strictEqual(template({x: undefined}), '');
+    t.is(template({x: null}), '');
+    t.is(template({x: undefined}), '');
 
     var templateEscaped = _.template('<%-x%>');
-    strictEqual(templateEscaped({x: null}), '');
-    strictEqual(templateEscaped({x: undefined}), '');
+    t.is(templateEscaped({x: null}), '');
+    t.is(templateEscaped({x: undefined}), '');
 
     var templateWithProperty = _.template('<%=x.foo%>');
-    strictEqual(templateWithProperty({x: {} }), '');
-    strictEqual(templateWithProperty({x: {} }), '');
+    t.is(templateWithProperty({x: {} }), '');
+    t.is(templateWithProperty({x: {} }), '');
 
     var templateWithPropertyEscaped = _.template('<%-x.foo%>');
-    strictEqual(templateWithPropertyEscaped({x: {} }), '');
-    strictEqual(templateWithPropertyEscaped({x: {} }), '');
+    t.is(templateWithPropertyEscaped({x: {} }), '');
+    t.is(templateWithPropertyEscaped({x: {} }), '');
+    t.end();
   });
 
-  test('interpolate evaluates code only once.', 2, function() {
+  test('interpolate evaluates code only once.', 2, function(t) {
     var count = 0;
     var template = _.template('<%= f() %>');
-    template({f: function(){ ok(!(count++)); }});
+    template({f: function(){ t.ok(!(count++)); }});
 
     var countEscaped = 0;
     var templateEscaped = _.template('<%- f() %>');
-    templateEscaped({f: function(){ ok(!(countEscaped++)); }});
+    templateEscaped({f: function(){ t.ok(!(countEscaped++)); }});
+    t.end();
   });
 
-  test('#746 - _.template settings are not modified.', 1, function() {
+  test('#746 - _.template settings are not modified.', 1, function(t) {
     var settings = {};
     _.template('', null, settings);
-    deepEqual(settings, {});
+    t.same(settings, {});
+    t.end();
   });
 
-  test('#779 - delimeters are applied to unescaped text.', 1, function() {
+  test('#779 - delimeters are applied to unescaped text.', 1, function(t) {
     var template = _.template('<<\nx\n>>', null, {evaluate: /<<(.*?)>>/g});
-    strictEqual(template(), '<<\nx\n>>');
+    t.is(template(), '<<\nx\n>>');
+    t.end();
   });
 
 })();
