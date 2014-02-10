@@ -316,19 +316,30 @@
 
   // Sort the object's values by a criterion produced by an iterator.
   _.sortBy = function(obj, iterator, context) {
-    iterator = lookupIterator(iterator);
+    var multi = _.isArray(iterator),
+        iterator = multi ? iterator : lookupIterator(iterator),
+        length = multi ? iterator.length : 1;
     return _.pluck(_.map(obj, function(value, index, list) {
+      var criteria = Array(length);
+      if (multi) {
+        for (var i = 0; i < length; i++) criteria[i] = value[iterator[i]];
+      } else {
+        criteria[0] = iterator.call(context, value, index, list);
+      }
       return {
         value: value,
         index: index,
-        criteria: iterator.call(context, value, index, list)
+        criteria: criteria
       };
     }).sort(function(left, right) {
       var a = left.criteria;
       var b = right.criteria;
-      if (a !== b) {
-        if (a > b || a === void 0) return 1;
-        if (a < b || b === void 0) return -1;
+      for (var i = 0; i < length; i++) {
+        var m = a[i], n = b[i];
+        if (m !== n) {
+          if (m > n || m === void 0) return 1;
+          if (m < n || n === void 0) return -1;
+        }
       }
       return left.index - right.index;
     }), 'value');
