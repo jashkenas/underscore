@@ -82,16 +82,6 @@
     ok(_.without(list, list[0]).length == 1, 'ditto.');
   });
 
-  test('partition', function() {
-    var list = [0, 1, 2, 3, 4, 5];
-    function inspect(x) { return x instanceof Array ? '[' + _.map(x, inspect) + ']' : '' + x; }
-    equal(inspect(_.partition(list, function(x) { return x < 4; })), '[[0,1,2,3],[4,5]]', 'handles bool return values');
-    equal(inspect(_.partition(list, function(x) { return x & 1; })), '[[1,3,5],[0,2,4]]', 'handles 0 and 1 return values');
-    equal(inspect(_.partition(list, function(x) { return x - 3; })), '[[0,1,2,4,5],[3]]', 'handles other numeric return values');
-    equal(inspect(_.partition(list, function(x) { return x > 1 ? null : true; })), '[[0,1],[2,3,4,5]]', 'handles null return values');
-    equal(inspect(_.partition(list, function(x) { if(x < 2) return true; })), '[[0,1],[2,3,4,5]]', 'handles undefined return values');
-  });
-
   test('uniq', function() {
     var list = [1, 2, 1, 3, 1, 4];
     equal(_.uniq(list).join(', '), '1, 2, 3, 4', 'can find the unique values of an unsorted array');
