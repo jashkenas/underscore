@@ -8,7 +8,9 @@
   "main"          : "underscore.js",
   "version"       : "1.5.2",
   "devDependencies": {
-    "phantomjs": "1.9.0-1"
+    "docco": "0.6.x",
+    "phantomjs": "1.9.0-1",
+    "uglify-js": "2.4.x"
   },
   "scripts": {
     "test": "phantomjs test/vendor/runner.js test/index.html?noglobals=true",
