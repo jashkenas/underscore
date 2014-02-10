@@ -462,10 +462,11 @@
 
   // Split an array into two arrays: one whose elements all satisfy the given
   // predicate, and one whose elements all do not satisfy the predicate.
-  _.partition = function(array, predicate) {
+  _.partition = function(array, predicate, context) {
+    predicate = lookupIterator(predicate);
     var pass = [], fail = [];
     each(array, function(elem) {
-      (predicate(elem) ? pass : fail).push(elem);
+      (predicate.call(context, elem) ? pass : fail).push(elem);
     });
     return [pass, fail];
   };
