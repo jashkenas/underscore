@@ -664,7 +664,7 @@
   // it with the arguments supplied.
   _.delay = function(func, wait) {
     var args = slice.call(arguments, 2);
-    return setTimeout(function(){ return func.apply(null, args); }, wait);
+    return setTimeout.apply(null, [func, wait].concat(args));
   };
 
   // Defers a function, scheduling it to run after the current call stack has
