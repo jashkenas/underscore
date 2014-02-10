@@ -996,9 +996,14 @@
     return result;
   };
 
-  // Perform a deep comparison to check if two objects are equal.
-  _.isEqual = function(a, b) {
-    return eq(a, b, [], []);
+  // Are all the provided arguments equal in value?
+  _.isEqual = function(first) {
+    for (var i = 1, length = arguments.length; i < length; i++) {
+      if (!eq(first, arguments[i], [], [])) {
+        return false;
+      }
+    }
+    return true;
   };
 
   // Is a given array, string, or object empty?
