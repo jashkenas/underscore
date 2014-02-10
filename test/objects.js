@@ -578,15 +578,23 @@
     ok(returned == 6 && intercepted == 6, 'can use tapped objects in a chain');
   });
 
-  test('has', function () {
-     var obj = {foo: 'bar', func: function () {} };
-     ok (_.has(obj, 'foo'), 'has() checks that the object has a property.');
-     ok (_.has(obj, 'baz') == false, "has() returns false if the object doesn't have the property.");
-     ok (_.has(obj, 'func'), 'has() works for functions too.');
-     obj.hasOwnProperty = null;
-     ok (_.has(obj, 'foo'), 'has() works even when the hasOwnProperty method is deleted.');
-     var child = {};
-     child.prototype = obj;
-     ok (_.has(child, 'foo') == false, 'has() does not check the prototype chain for a property.')
+  test("has", function () {
+    var obj = {foo: "bar", func: function () {} };
+    ok(_.has(obj, "foo"), "has() checks that the object has a property.");
+    ok(_.has(obj, "baz") == false, "has() returns false if the object doesn't have the property.");
+    ok(_.has(obj, "func"), "has() works for functions too.");
+    obj.hasOwnProperty = null;
+    ok(_.has(obj, "foo"), "has() works even when the hasOwnProperty method is deleted.");
+    var child = {};
+    child.prototype = obj;
+    ok(_.has(child, "foo") == false, "has() does not check the prototype chain for a property.")
   });
+
+  test("match", function() {
+    var moe     = {name: 'Moe Howard',   hair: true},
+        curly   = {name: 'Curly Howard', hair: false},
+        stooges = [moe, curly];
+    ok(_.find(stooges, _.match({hair: false})) === curly, "returns a predicate that can be used by finding functions.")
+    ok(_.find(stooges, _.match(moe)) === moe, "can be used to locate an object exists in a collection.")
+  })
 })();
