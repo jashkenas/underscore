@@ -387,6 +387,13 @@
     return _.values(obj);
   };
 
+  // Given any value returns an array.
+  _.asArray = function(value) {
+    if (value == null) return [];
+    if (value.length === +value.length && !_.isString(value)) return _.toArray(value);
+    return [value];
+  };
+
   // Return the number of elements in an object.
   _.size = function(obj) {
     if (obj == null) return 0;
