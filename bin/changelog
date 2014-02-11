@@ -1,0 +1,28 @@
+#!/usr/bin/env node
+var fs = require('fs');
+var marked = require('marked');
+
+var indent = '      ';
+var divider = '<!--section:changelog-->\n';
+var indexPath = __dirname + '/../index.html';
+var changesPath = __dirname + '/../CHANGES.md';
+
+var sections = fs.readFileSync(indexPath, 'utf8').split(divider);
+fs.writeFileSync(__dirname + '/../index.html', [
+  sections[0],
+  marked(
+    fs.readFileSync(changesPath, 'utf8')
+    .split('\n')
+    .map(function(line) {
+      return line.replace(/^### +(\d\.\d\.\d) +[(](.+)[)] +compare:(.+)/, [
+        '<div><b class="header">$1</b>',
+        '<small><i>$2</i></small>',
+        '<a href="https://github.com/jashkenas/underscore/compare/$3">Diff</a>',
+        '<a href="http://htmlpreview.github.io/?https://raw.github.com/jashkenas/underscore/$1/index.html">Docs</a></div>'
+      ].join(' -- '));
+    })
+    .join('\n'), {
+    smartypants: true
+  }).replace(/^/gm, indent),
+  sections[2],
+].join(divider));
