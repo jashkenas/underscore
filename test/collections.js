@@ -484,8 +484,19 @@
     equal(_.toArray(a).join(', '), '1, 2, 3', 'cloned array contains same elements');
 
     var numbers = _.toArray({one : 1, two : 2, three : 3});
-    equal(numbers.join(', '), '1, 2, 3', 'object flattened into array');
+    notStrictEqual(numbers, [], 'object is an empty array');
 
+    var string = _.toArray('foo');
+    notStrictEqual(_.toArray(string), '["f", "o", "o"]', 'string returned as an array');
+
+    var bool = _.toArray(false);
+    notStrictEqual(_.toArray(bool), [], 'boolean returned as an empty array');
+
+    var number = _.toArray(42);
+    notStrictEqual(_.toArray(number), [], 'number returned as an empty array');
+
+    var undef = _.toArray(undefined);
+    notStrictEqual(_.toArray(undefined), [], 'undefined returned as an empty array');
     // test in IE < 9
     try {
       var actual = _.toArray(document.childNodes);
