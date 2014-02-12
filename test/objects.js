@@ -71,6 +71,15 @@
     result = _.pick({a:1, b:2, c:3}, ['a'], 'b');
     ok(_.isEqual(result, {a:1, b:2}), 'can restrict properties to those named in mixed args');
 
+    var isOdd = function(value, key, obj) { return value % 2 === 1; };
+    result = _.pick({a:1, b:2, c:3}, isOdd);
+    ok(_.isEqual(result, {a:1, c:3}), 'can accept a predicate');
+
+    var args;
+    var data = {a:1, b:2, c:3};
+    _.pick(data, function() {args = _.toArray(arguments); args.unshift(this);});
+    ok(_.isEqual([data, 3, 'c', data], args), 'predicate accepts arguments (context, value, key, object)');
+
     var Obj = function(){};
     Obj.prototype = {a: 1, b: 2, c: 3};
     ok(_.isEqual(_.pick(new Obj, 'a', 'c'), {a:1, c: 3}), 'include prototype props');
@@ -84,6 +93,15 @@
     ok(_.isEqual(result, {b:2}), 'can omit several named properties');
     result = _.omit({a:1, b:2, c:3}, ['b', 'c']);
     ok(_.isEqual(result, {a:1}), 'can omit properties named in an array');
+
+    var isOdd = function(value, key, obj) { return value % 2 === 1; };
+    result = _.omit({a:1, b:2, c:3}, isOdd);
+    ok(_.isEqual(result, {b:2}), 'can accept a predicate');
+
+    var args;
+    var data = {a:1, b:2, c:3};
+    _.omit(data, function() {args = _.toArray(arguments); args.unshift(this);});
+    ok(_.isEqual([data, 3, 'c', data], args), 'predicate accepts arguments (context, value, key, object)');
 
     var Obj = function(){};
     Obj.prototype = {a: 1, b: 2, c: 3};
