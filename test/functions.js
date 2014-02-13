@@ -278,6 +278,26 @@
     }, 96);
   });
 
+  asyncTest('throttle continues to function after system time is set backwards', 2, function() {
+    var counter = 0;
+    var incr = function(){ counter++; };
+    var throttledIncr = _.throttle(incr, 100);
+    var origNowFunc = _.now;
+
+    throttledIncr();
+    ok(counter == 1);
+    _.now = function () {
+      return new Date(2013, 0, 1, 1, 1, 1);
+    };
+
+    _.delay(function() {
+      throttledIncr();
+      ok(counter == 2);
+      start();
+      _.now = origNowFunc;
+    }, 200);
+  });
+
   asyncTest('debounce', 1, function() {
     var counter = 0;
     var incr = function(){ counter++; };

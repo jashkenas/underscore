@@ -695,7 +695,7 @@
       var remaining = wait - (now - previous);
       context = this;
       args = arguments;
-      if (remaining <= 0) {
+      if (remaining <= 0 || remaining > wait) {
         clearTimeout(timeout);
         timeout = null;
         previous = now;
