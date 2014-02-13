@@ -261,7 +261,6 @@
       <li>- <a href="#debounce">debounce</a></li>
       <li>- <a href="#once">once</a></li>
       <li>- <a href="#after">after</a></li>
-      <li>- <a href="#now">now</a></li>
       <li>- <a href="#wrap">wrap</a></li>
       <li>- <a href="#compose">compose</a></li>
     </ul>
@@ -316,6 +315,7 @@
       <li>- <a href="#escape">escape</a></li>
       <li>- <a href="#unescape">unescape</a></li>
       <li>- <a href="#result">result</a></li>
+      <li>- <a href="#now">now</a></li>
       <li>- <a href="#template">template</a></li>
     </ul>
 
@@ -1204,18 +1204,6 @@ _.each(notes, function(note) {
 // renderNotes is run once, after all notes have saved.
 </pre>
 
-      <p id="now">
-        <b class="header">now</b><code>_.now()</code>
-        <br />
-        Returns an integer timestamp for the current time, using the fastest
-        method available in the runtime. Useful for implementing timing/animation
-        functions.
-      </p>
-      <pre>
-_.now();
-=&gt; 1392066795351
-</pre>
-
       <p id="wrap">
         <b class="header">wrap</b><code>_.wrap(function, wrapper)</code>
         <br />
@@ -1719,6 +1707,18 @@ _.result(object, 'cheese');
 =&gt; "crumpets"
 _.result(object, 'stuff');
 =&gt; "nonsense"</pre>
+
+      <p id="now">
+        <b class="header">now</b><code>_.now()</code>
+        <br />
+        Returns an integer timestamp for the current time, using the fastest
+        method available in the runtime. Useful for implementing timing/animation
+        functions.
+      </p>
+      <pre>
+_.now();
+=&gt; 1392066795351
+</pre>
 
       <p id="template">
         <b class="header">template</b><code>_.template(templateString, [data], [settings])</code>
