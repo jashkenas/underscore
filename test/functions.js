@@ -334,6 +334,28 @@
     _.delay(function(){ equal(counter, 1, 'incr was debounced'); start(); }, 96);
   });
 
+  asyncTest('debounce after system time is set backwards', 2, function() {
+    var counter = 0;
+    var origNowFunc = _.now;
+    var debouncedIncr = _.debounce(function(){
+      counter++;
+    }, 100, true);
+
+    debouncedIncr();
+    equal(counter, 1, 'incr was called immediately');
+
+    _.now = function () {
+      return new Date(2013, 0, 1, 1, 1, 1);
+    };
+
+    _.delay(function() {
+      debouncedIncr();
+      equal(counter, 2, 'incr was debounced successfully');
+      start();
+      _.now = origNowFunc;
+    },200);
+  });
+
   test('once', function() {
     var num = 0;
     var increment = _.once(function(){ num++; });
