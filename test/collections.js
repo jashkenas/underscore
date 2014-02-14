@@ -511,4 +511,22 @@
     equal(_.size(null), 0, 'handles nulls');
   });
 
+  test('partition', function() {
+    var list = [0, 1, 2, 3, 4, 5];
+    deepEqual(_.partition(list, function(x) { return x < 4; }), [[0,1,2,3],[4,5]], 'handles bool return values');
+    deepEqual(_.partition(list, function(x) { return x & 1; }), [[1,3,5],[0,2,4]], 'handles 0 and 1 return values');
+    deepEqual(_.partition(list, function(x) { return x - 3; }), [[0,1,2,4,5],[3]], 'handles other numeric return values');
+    deepEqual(_.partition(list, function(x) { return x > 1 ? null : true; }), [[0,1],[2,3,4,5]], 'handles null return values');
+    deepEqual(_.partition(list, function(x) { if(x < 2) return true; }), [[0,1],[2,3,4,5]], 'handles undefined return values');
+    deepEqual(_.partition({a: 1, b: 2, c: 3}, function(x) { return x > 1; }), [[2, 3], [1]], 'handles objects');
+
+    // Default iterator
+    deepEqual(_.partition([1, false, true, '']), [[1, true], [false, '']], 'Default iterator');
+    deepEqual(_.partition([{x: 1}, {x: 0}, {x: 1}], 'x'), [[{x: 1}, {x: 1}], [{x: 0}]], 'Takes a string');
+
+    // Context
+    var predicate = function(x){ return x === this.x };
+    deepEqual(_.partition([1, 2, 3], predicate, {x: 2}), [[2], [1, 3]], 'partition takes a context argument');
+  });
+
 })();

@@ -221,6 +221,7 @@
       <li>- <a href="#sample">sample</a></li>
       <li>- <a href="#toArray">toArray</a></li>
       <li>- <a href="#size">size</a></li>
+      <li>- <a href="#partition">partition</a></li>
     </ul>
 
     <a class="toc_title" href="#arrays">
@@ -234,7 +235,6 @@
       <li>- <a href="#compact">compact</a></li>
       <li>- <a href="#flatten">flatten</a></li>
       <li>- <a href="#without">without</a></li>
-      <li>- <a href="#partition">partition</a></li>
       <li>- <a href="#union">union</a></li>
       <li>- <a href="#intersection">intersection</a></li>
       <li>- <a href="#difference">difference</a></li>
@@ -775,6 +775,17 @@ _.size({one: 1, two: 2, three: 3});
 =&gt; 3
 </pre>
 
+      <p id="partition">
+        <b class="header">partition</b><code>_.partition(array, predicate)</code>
+        <br />
+        Split <b>array</b> into two arrays: one whose elements all satisfy
+        <b>predicate</b> and one whose elements all do not satisfy <b>predicate</b>.
+      </p>
+      <pre>
+_.partition([0, 1, 2, 3, 4, 5], isOdd);
+=&gt; [[1, 3, 5], [0, 2, 4]]
+</pre>
+
       <h2 id="arrays">Array Functions</h2>
 
       <p>
@@ -866,17 +877,6 @@ _.flatten([1, [2], [3, [[4]]]], true);
       <pre>
 _.without([1, 2, 1, 0, 3, 1, 4], 0, 1);
 =&gt; [2, 3, 4]
-</pre>
-
-      <p id="partition">
-        <b class="header">partition</b><code>_.partition(array, predicate)</code>
-        <br />
-        Split <b>array</b> into two arrays: one whose elements all satisfy
-        <b>predicate</b> and one whose elements all do not satisfy <b>predicate</b>.
-      </p>
-      <pre>
-_.partition([0, 1, 2, 3, 4, 5], isOdd);
-=&gt; [[1, 3, 5], [0, 2, 4]]
 </pre>
 
       <p id="union">
