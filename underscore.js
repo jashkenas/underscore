@@ -468,9 +468,10 @@
   _.partition = function(array, predicate, context) {
     predicate = lookupIterator(predicate);
     var pass = [], fail = [];
-    each(array, function(elem) {
+    for (var i = 0, length = array.length; i < length; i++) {
+      var elem = array[i];
       (predicate.call(context, elem) ? pass : fail).push(elem);
-    });
+    }
     return [pass, fail];
   };
 
