@@ -234,6 +234,20 @@
     strictEqual(_.result(null, 'x'), undefined);
   });
 
+  test('_.results iterates an object with function and return invoked results', function() {
+    var obj = {w: '', x: 'x', y: function(){ return this.x; }};
+    var results = _.results(obj)
+    strictEqual(results.w, '');
+    strictEqual(results.x, 'x');
+    strictEqual(results.y, 'x');
+
+    var contextObj = {x: '_x'}
+    var results = _.results(obj, contextObj)
+    strictEqual(results.w, '');
+    strictEqual(results.x, 'x');
+    strictEqual(results.y, '_x');
+  });
+
   test('_.templateSettings.variable', function() {
     var s = '<%=data.x%>';
     var data = {x: 'x'};
