@@ -1172,6 +1172,19 @@
     return _.isFunction(value) ? value.call(object) : value;
   };
 
+  // Iterates an one level object with functions inside and return invoked values
+  _.results = function(object, context) {
+    if (typeof context == "undefined") {
+      context = object;
+    };
+    var copy = {};
+    _.each(object, function(value, key) {
+      var v = _.isFunction(value) ? value.call(context) : value;
+      copy[key] = v;
+    });
+    return copy;
+  };
+
   // Add your own custom functions to the Underscore object.
   _.mixin = function(obj) {
     each(_.functions(obj), function(name) {
