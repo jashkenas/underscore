@@ -1307,7 +1307,7 @@ _.extend({name: 'moe'}, {age: 50});
 </pre>
 
       <p id="pick">
-        <b class="header">pick</b><code>_.pick(object, [predicate|*keys], [context])</code>
+        <b class="header">pick</b><code>_.pick(object, *keys)</code>
         <br />
         Return a copy of the <b>object</b>, filtered to only have values for
         the whitelisted <b>keys</b> (or array of valid keys).  Alternatively
@@ -1323,7 +1323,7 @@ _.pick({name: 'moe', age: 50, userid: 'moe1'}, function(value, key, object){
 </pre>
 
       <p id="omit">
-        <b class="header">omit</b><code>_.omit(object, [predicate|*keys], [context])</code>
+        <b class="header">omit</b><code>_.omit(object, *keys)</code>
         <br />
         Return a copy of the <b>object</b>, filtered to omit the blacklisted
         <b>keys</b> (or array of keys).  Alternatively accepts a predicate
