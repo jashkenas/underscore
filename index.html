@@ -1307,25 +1307,35 @@ _.extend({name: 'moe'}, {age: 50});
 </pre>
 
       <p id="pick">
-        <b class="header">pick</b><code>_.pick(object, *keys)</code>
+        <b class="header">pick</b><code>_.pick(object, [predicate|*keys], [context])</code>
         <br />
         Return a copy of the <b>object</b>, filtered to only have values for
-        the whitelisted <b>keys</b> (or array of valid keys).
+        the whitelisted <b>keys</b> (or array of valid keys).  Alternatively
+        accepts a predicate indicating which keys to pick.
       </p>
       <pre>
 _.pick({name: 'moe', age: 50, userid: 'moe1'}, 'name', 'age');
 =&gt; {name: 'moe', age: 50}
+_.pick({name: 'moe', age: 50, userid: 'moe1'}, function(value, key, object){
+  return _.isNumber(value);
+});
+=&gt; {age: 50}
 </pre>
 
       <p id="omit">
-        <b class="header">omit</b><code>_.omit(object, *keys)</code>
+        <b class="header">omit</b><code>_.omit(object, [predicate|*keys], [context])</code>
         <br />
         Return a copy of the <b>object</b>, filtered to omit the blacklisted
-        <b>keys</b> (or array of keys).
+        <b>keys</b> (or array of keys).  Alternatively accepts a predicate
+        indicating which keys to omit.
       </p>
       <pre>
 _.omit({name: 'moe', age: 50, userid: 'moe1'}, 'userid');
 =&gt; {name: 'moe', age: 50}
+_.omit({name: 'moe', age: 50, userid: 'moe1'}, function(value, key, object) {
+  return _.isNumber(value);
+});
+=&gt; {name: 'moe', userid: 'moe1'}
 </pre>
 
       <p id="defaults">
