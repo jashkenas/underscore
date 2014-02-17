@@ -1316,7 +1316,7 @@ _.extend({name: 'moe'}, {age: 50});
       <pre>
 _.pick({name: 'moe', age: 50, userid: 'moe1'}, 'name', 'age');
 =&gt; {name: 'moe', age: 50}
-_.pick({name: 'moe', age: 50, userid: 'moe1'}, function(value, key, object){
+_.pick({name: 'moe', age: 50, userid: 'moe1'}, function(value, key, object) {
   return _.isNumber(value);
 });
 =&gt; {age: 50}
