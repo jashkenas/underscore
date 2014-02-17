@@ -858,36 +858,36 @@
   };
 
   // Return a copy of the object only containing the whitelisted properties.
-  _.pick = function(obj) {
-    var copy = {};
-    var keys = concat.apply(ArrayProto, slice.call(arguments, 1));
-    var predicate = function(v, k, o) { return k in o };
-
-    if (_.isFunction(_.first(keys))) {
-      predicate = _.first(keys);
-      keys = _.keys(obj);
+  _.pick = function(obj, iterator, context) {
+    var result = {};
+    if (_.isFunction(iterator)) {
+      each(obj, function(value, key) {
+        if (iterator.call(context, value, key, obj)) result[key] = value;
+      });
+    } else {
+      var keys = concat.apply(ArrayProto, slice.call(arguments, 1));
+      for (var i = 0, length = keys.length; i < length; i++) {
+        var key = keys[i];
+        if (key in obj) result[key] = obj[key];
+      }
     }
-
-    each(keys, function(key) {
-      if (predicate.call(obj, obj[key], key, obj)) copy[key] = obj[key];
-    });
-    return copy;
+    return result;
   };
 
    // Return a copy of the object without the blacklisted properties.
-  _.omit = function(obj) {
-    var copy = {};
-    var keys = concat.apply(ArrayProto, slice.call(arguments, 1));
-    var predicate = function(v, k, o) { return _.contains(keys, k); };
-
-    if (_.isFunction(_.first(keys))) {
-      predicate = _.first(keys);
+  _.omit = function(obj, iterator, context) {
+    var result = {};
+    if (_.isFunction(iterator)) {
+      each(obj, function(value, key) {
+        if (!iterator.call(context, value, key, obj)) result[key] = value;
+      });
+    } else {
+      var keys = concat.apply(ArrayProto, slice.call(arguments, 1));
+      for (var key in obj) {
+        if (!_.contains(keys, key)) result[key] = obj[key];
+      }
     }
-
-    for (var key in obj) {
-      if (!predicate.call(obj, obj[key], key, obj)) copy[key] = obj[key];
-    };
-    return copy;
+    return result;
   };
 
   // Fill in a given object with default properties.
