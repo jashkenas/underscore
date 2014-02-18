@@ -670,6 +670,12 @@
     return setTimeout(function(){ return func.apply(null, args); }, wait);
   };
 
+  // Further syntactic sugar for delaying a method on an object
+  _.delayMethod = function(obj, methodname, wait) {
+    var args = slice.call(arguments, 3);
+    return setTimeout(function(){ return obj[methodname].apply(obj, args); }, wait);
+  };
+
   // Defers a function, scheduling it to run after the current call stack has
   // cleared.
   _.defer = function(func) {
