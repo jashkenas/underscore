@@ -773,6 +773,9 @@ _.sample([1, 2, 3, 4, 5, 6], 3);
       <pre>
 _.size({one: 1, two: 2, three: 3});
 =&gt; 3
+
+_.size([1,2,3,4]);
+=&gt; 4
 </pre>
 
       <p id="partition">
@@ -1242,11 +1245,15 @@ welcome('moe');
       <p id="keys">
         <b class="header">keys</b><code>_.keys(object)</code>
         <br />
-        Retrieve all the names of the <b>object</b>'s properties.
+        Retrieve all the names of the <b>object</b>'s properties. For Arrays it returns
+        the index values of the elements as keys.
       </p>
       <pre>
 _.keys({one: 1, two: 2, three: 3});
 =&gt; ["one", "two", "three"]
+
+_.keys(["foo", "bar", "baz"]);
+=&gt; ["0", "1", "2"]
 </pre>
 
       <p id="values">
