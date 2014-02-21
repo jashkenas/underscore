@@ -101,6 +101,16 @@
 
     var result = (function(){ return _.uniq(arguments); })(1, 2, 1, 3, 1, 4);
     equal(result.join(', '), '1, 2, 3, 4', 'works on an arguments object');
+
+    deepEqual(_.uniq(null), []);
+
+    var context = {};
+    list = [3];
+    _.uniq(list, function(value, index, array) {
+      strictEqual(this, context);
+      strictEqual(value, 3);
+      strictEqual(index, 0);
+    }, context);
   });
 
   test('intersection', function() {
