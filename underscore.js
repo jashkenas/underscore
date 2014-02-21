@@ -478,7 +478,7 @@
   // been sorted, you have the option of using a faster algorithm.
   // Aliased as `unique`.
   _.uniq = _.unique = function(array, isSorted, iterator, context) {
-    if (!array) return [];
+    if (array == null) return [];
     if (_.isFunction(isSorted)) {
       context = iterator;
       iterator = isSorted;
