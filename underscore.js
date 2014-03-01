@@ -1102,6 +1102,8 @@
     };
   };
 
+  _.noop = function() {};
+
   _.property = function(key) {
     return function(obj) {
       return obj[key];
