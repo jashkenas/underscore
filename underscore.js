@@ -1098,12 +1098,12 @@
   };
 
   _.constant = function(value) {
-    return function () {
+    return function() {
       return value;
     };
   };
 
-  _.noop = function() {};
+  _.noop = function(){};
 
   _.property = function(key) {
     return function(obj) {
