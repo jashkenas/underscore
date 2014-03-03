@@ -494,6 +494,43 @@
     ok(_.isArray(actual), 'should not throw converting a node list');
   });
 
+  test('asArray', function() {
+    var arrayLike = {"1": "one", "2": "two", "3": "three", length: 3};
+    notStrictEqual(arrayLike, [1,2,3], 'returns an array from an array-like object');
+
+    var a = [1,2,3];
+    ok(_.asArray(a) !== a, 'array is cloned');
+    equal(_.asArray(a).join(', '), '1, 2, 3', 'cloned array contains same elements');
+
+    var bool = _.asArray(false);
+    notStrictEqual(bool, [false], "wraps a boolean in an array");
+
+    var num = _.asArray(42);
+    notStrictEqual(num, [42], "wraps a number in an array");
+
+    var obj = _.asArray({foo: 'bar'});
+    notStrictEqual(obj,[{foo: 'bar'}], "wraps an object in an array");
+
+    var str = _.asArray("foo");
+    equal(str, "foo", "wraps a string in an array");
+
+    var strObj = _.asArray(new String("foo"));
+    notStrictEqual(strObj, [new String("foo")], "wraps a string object in an array");
+
+    var undef = _.asArray(undefined);
+    notStrictEqual(undef, [], "returns an empty array if value is undefined" );
+
+    var nullVal= _.asArray(null);
+    notStrictEqual(nullVal, [], "returns an empty array if value is null" );
+
+    // test in IE < 9
+    try {
+      var actual = _.asArray(document.childNodes);
+    } catch(ex) { }
+
+    ok(_.isArray(actual), 'should not throw converting a node list');
+  });
+
   test('size', function() {
     equal(_.size({one : 1, two : 2, three : 3}), 3, 'can compute the size of an object');
     equal(_.size([1, 2, 3]), 3, 'can compute the size of an array');
