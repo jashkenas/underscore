@@ -278,6 +278,26 @@
     }, 96);
   });
 
+  asyncTest('throttle continues to function after system time is set backwards', 2, function() {
+    var counter = 0;
+    var incr = function(){ counter++; };
+    var throttledIncr = _.throttle(incr, 100);
+    var origNowFunc = _.now;
+
+    throttledIncr();
+    ok(counter == 1);
+    _.now = function () {
+      return new Date(2013, 0, 1, 1, 1, 1);
+    };
+
+    _.delay(function() {
+      throttledIncr();
+      ok(counter == 2);
+      start();
+      _.now = origNowFunc;
+    }, 200);
+  });
+
   asyncTest('debounce', 1, function() {
     var counter = 0;
     var incr = function(){ counter++; };
@@ -312,6 +332,28 @@
     debouncedIncr();
     equal(counter, 1, 'incr was called immediately');
     _.delay(function(){ equal(counter, 1, 'incr was debounced'); start(); }, 96);
+  });
+
+  asyncTest('debounce after system time is set backwards', 2, function() {
+    var counter = 0;
+    var origNowFunc = _.now;
+    var debouncedIncr = _.debounce(function(){
+      counter++;
+    }, 100, true);
+
+    debouncedIncr();
+    equal(counter, 1, 'incr was called immediately');
+
+    _.now = function () {
+      return new Date(2013, 0, 1, 1, 1, 1);
+    };
+
+    _.delay(function() {
+      debouncedIncr();
+      equal(counter, 2, 'incr was debounced successfully');
+      start();
+      _.now = origNowFunc;
+    },200);
   });
 
   test('once', function() {
