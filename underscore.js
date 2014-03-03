@@ -1115,7 +1115,7 @@
     };
   };
 
-  _.noop = function(){};
+  _.noop = _.nop = function(){};
 
   _.property = function(key) {
     return function(obj) {
