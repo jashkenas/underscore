@@ -295,6 +295,9 @@
     equal(_.max({'a': 'a'}), -Infinity, 'Maximum value of a non-numeric collection');
 
     equal(299999, _.max(_.range(1,300000)), 'Maximum value of a too-big array');
+
+    equal(3, _.max([1, 2, 3, 'test']), 'Finds correct max in array starting with num and containing a NaN');
+    equal(3, _.max(['test', 1, 2, 3]), 'Finds correct max in array starting with NaN');
   });
 
   test('min', function() {
@@ -312,6 +315,9 @@
     equal(_.min([now, then]), then);
 
     equal(1, _.min(_.range(1,300000)), 'Minimum value of a too-big array');
+
+    equal(1, _.min([1, 2, 3, 'test']), 'Finds correct min in array starting with num and containing a NaN');
+    equal(1, _.min(['test', 1, 2, 3]), 'Finds correct min in array starting with NaN');
   });
 
   test('sortBy', function() {
