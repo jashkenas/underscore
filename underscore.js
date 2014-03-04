@@ -861,9 +861,10 @@
   _.pick = function(obj, iterator, context) {
     var result = {};
     if (_.isFunction(iterator)) {
-      each(obj, function(value, key) {
+      for (var key in obj) {
+        var value = obj[key];
         if (iterator.call(context, value, key, obj)) result[key] = value;
-      });
+      }
     } else {
       var keys = concat.apply(ArrayProto, slice.call(arguments, 1));
       for (var i = 0, length = keys.length; i < length; i++) {
@@ -878,9 +879,10 @@
   _.omit = function(obj, iterator, context) {
     var result = {};
     if (_.isFunction(iterator)) {
-      each(obj, function(value, key) {
+      for (var key in obj) {
+        var value = obj[key];
         if (!iterator.call(context, value, key, obj)) result[key] = value;
-      });
+      }
     } else {
       var keys = concat.apply(ArrayProto, slice.call(arguments, 1));
       for (var key in obj) {
