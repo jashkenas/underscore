@@ -262,6 +262,7 @@
       <li>- <a href="#once">once</a></li>
       <li>- <a href="#after">after</a></li>
       <li>- <a href="#wrap">wrap</a></li>
+      <li>- <a href="#complement">complement</a></li>
       <li>- <a href="#compose">compose</a></li>
     </ul>
 
@@ -1220,6 +1221,18 @@ hello = _.wrap(hello, function(func) {
 });
 hello();
 =&gt; 'before, hello: moe, after'
+</pre>
+
+      <p id="complement">
+        <b class="header">complement</b><code>_.complement(predicate)</code>
+        <br />
+        Returns a function that takes the same arguments as <b>predicate</b>,
+        has the same effects, if any, and returns the opposite truth value.
+      </p>
+      <pre>
+var isFalsy = _.complement(Boolean);
+_.find([-2, -1, 0, 1, 2], isFalsy);
+=&gt; 0
 </pre>
 
       <p id="compose">

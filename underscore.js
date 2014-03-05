@@ -179,9 +179,7 @@
 
   // Return all the elements for which a truth test fails.
   _.reject = function(obj, predicate, context) {
-    return _.filter(obj, function(value, index, list) {
-      return !predicate.call(context, value, index, list);
-    }, context);
+    return _.filter(obj, _.complement(predicate), context);
   };
 
   // Determine whether all of the elements match a truth test.
@@ -782,6 +780,14 @@
   // conditionally execute the original function.
   _.wrap = function(func, wrapper) {
     return _.partial(wrapper, func);
+  };
+
+  // Returns a function that takes the same arguments as the given predicate,
+  // has the same effects, if any, and returns the opposite truth value.
+  _.complement = function(predicate) {
+    return function() {
+      return !predicate.apply(this, arguments);
+    };
   };
 
   // Returns a function that is the composition of a list of functions, each
