@@ -900,9 +900,7 @@
   _.omit = function(obj, iterator, context) {
     var keys;
     if (_.isFunction(iterator)) {
-      iterator = (function(iterator) {
-        return function() { return !iterator.apply(this, arguments); };
-      }(iterator));
+      iterator = _.negate(iterator);
     } else {
       keys = concat.apply(ArrayProto, slice.call(arguments, 1));
       iterator = function(value, key) { return !_.contains(keys, key); };
