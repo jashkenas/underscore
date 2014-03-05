@@ -772,6 +772,14 @@
     return _.partial(wrapper, func);
   };
 
+  // Returns a function that takes the same arguments as the given predicate,
+  // has the same effects, if any, and returns the opposite truth value.
+  _.complement = function(predicate) {
+    return function() {
+      return !predicate.apply(this, arguments);
+    };
+  };
+
   // Returns a function that is the composition of a list of functions, each
   // consuming the return value of the function that follows.
   _.compose = function() {
