@@ -179,9 +179,7 @@
 
   // Return all the elements for which a truth test fails.
   _.reject = function(obj, predicate, context) {
-    return _.filter(obj, function(value, index, list) {
-      return !predicate.call(context, value, index, list);
-    }, context);
+    return _.filter(obj, _.complement(predicate), context);
   };
 
   // Determine whether all of the elements match a truth test.
