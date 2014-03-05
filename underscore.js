@@ -605,6 +605,8 @@
     }
     step = arguments[2] || 1;
 
+    (start > stop) && (step > 0) && (step = -step);
+
     var length = Math.max(Math.ceil((stop - start) / step), 0);
     var idx = 0;
     var range = new Array(length);
