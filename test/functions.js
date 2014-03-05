@@ -388,10 +388,10 @@
     deepEqual(ret, [noop, ['whats', 'your'], 'vector', 'victor']);
   });
 
-  test('complement', function() {
+  test('negate', function() {
     var isOdd = function(n){ return (n & 1) == 1; };
-    equal(_.complement(isOdd)(2), true, 'should return the complement of the given function');
-    equal(_.complement(isOdd)(3), false, 'should return the complement of the given function');
+    equal(_.negate(isOdd)(2), true, 'should return the complement of the given function');
+    equal(_.negate(isOdd)(3), false, 'should return the complement of the given function');
   });
 
   test('compose', function() {
