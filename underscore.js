@@ -893,19 +893,12 @@
 
    // Return a copy of the object without the blacklisted properties.
   _.omit = function(obj, iterator, context) {
-    var result = {};
-    if (_.isFunction(iterator)) {
-      for (var key in obj) {
-        var value = obj[key];
-        if (!iterator.call(context, value, key, obj)) result[key] = value;
-      }
-    } else {
+    var itr;
+    if (!_.isFunction(iterator)) {
       var keys = concat.apply(ArrayProto, slice.call(arguments, 1));
-      for (var key in obj) {
-        if (!_.contains(keys, key)) result[key] = obj[key];
-      }
+      itr = function(value, key) { return !_.contains(keys, key); };
     }
-    return result;
+    return _.pick(obj, itr || function() { return !iterator.apply(this, arguments); }, context);
   };
 
   // Fill in a given object with default properties.
