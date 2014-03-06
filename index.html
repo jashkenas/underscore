@@ -1427,8 +1427,8 @@ _.has({a: 1, b: 2, c: 3}, "b");
         property of any passed-in object.
       </p>
       <pre>
-var moe = {name: 'moe'};
-'moe' === _.property('name')(moe);
+var stooge = {name: 'moe'};
+'moe'    === _.property('name')(stooge);
 =&gt; true</pre>
 
       <p id="matches">
@@ -1448,11 +1448,11 @@ var readyToGoList = _.filter(list, ready);</pre>
         if they should be considered equal.
       </p>
       <pre>
-var moe   = {name: 'moe', luckyNumbers: [13, 27, 34]};
-var clone = {name: 'moe', luckyNumbers: [13, 27, 34]};
-moe == clone;
+var stooge = {name: 'moe', luckyNumbers: [13, 27, 34]};
+var clone  = {name: 'moe', luckyNumbers: [13, 27, 34]};
+stooge == clone;
 =&gt; false
-_.isEqual(moe, clone);
+_.isEqual(stooge, clone);
 =&gt; true
 </pre>
 
@@ -1649,8 +1649,8 @@ var underscore = _.noConflict();
         a default iteratee.
       </p>
       <pre>
-var moe = {name: 'moe'};
-moe === _.identity(moe);
+var stooge = {name: 'moe'};
+stooge === _.identity(stooge);
 =&gt; true
 </pre>
 
@@ -1661,8 +1661,8 @@ moe === _.identity(moe);
         argument of <tt>_.constant</tt>.
       </p>
       <pre>
-var moe = {name: 'moe'};
-moe === _.constant(moe)();
+var stooge = {name: 'moe'};
+stooge === _.constant(stooge)();
 =&gt; true</pre>
 
       <p id="noop">

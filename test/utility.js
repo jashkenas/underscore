@@ -21,13 +21,13 @@
   });
 
   test('identity', function() {
-    var moe = {name : 'moe'};
-    equal(_.identity(moe), moe, 'moe is the same as his identity');
+    var stooge = {name : 'moe'};
+    equal(_.identity(stooge), stooge, 'stooge is the same as his identity');
   });
 
   test('constant', function() {
-    var moe = {name : 'moe'};
-    equal(_.constant(moe)(), moe, 'should create a function that returns moe');
+    var stooge = {name : 'moe'};
+    equal(_.constant(stooge)(), stooge, 'should create a function that returns stooge');
   });
 
   test('noop', function() {
@@ -35,8 +35,8 @@
   });
 
   test('property', function() {
-    var moe = {name : 'moe'};
-    equal(_.property('name')(moe), 'moe', 'should return the property with the given name');
+    var stooge = {name : 'moe'};
+    equal(_.property('name')(stooge), 'moe', 'should return the property with the given name');
     equal(_.property('name')(null), undefined, 'should return undefined for null values');
     equal(_.property('name')(undefined), undefined, 'should return undefined for undefined values');
   });
