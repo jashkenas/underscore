@@ -887,7 +887,7 @@
         if (iterator.call(context, value, key, obj)) result[key] = value;
       }
     } else {
-      var keys = concat.apply(ArrayProto, slice.call(arguments, 1));
+      var keys = concat.apply([], slice.call(arguments, 1));
       for (var i = 0, length = keys.length; i < length; i++) {
         var key = keys[i];
         if (key in obj) result[key] = obj[key];
@@ -902,7 +902,7 @@
     if (_.isFunction(iterator)) {
       iterator = _.negate(iterator);
     } else {
-      keys = concat.apply(ArrayProto, slice.call(arguments, 1));
+      keys = _.map(concat.apply([], slice.call(arguments, 1)), function(o){ return '' + o; });
       iterator = function(value, key) { return !_.contains(keys, key); };
     }
     return _.pick(obj, iterator, context);

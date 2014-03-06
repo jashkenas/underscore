@@ -70,6 +70,8 @@
     deepEqual(result, {b: 2, c: 3}, 'can restrict properties to those named in an array');
     result = _.pick({a: 1, b: 2, c: 3}, ['a'], 'b');
     deepEqual(result, {a: 1, b: 2}, 'can restrict properties to those named in mixed args');
+    result = _.pick(['a', 'b'], 1);
+    deepEqual(result, {1: 'b'}, 'can pick numeric properties');
 
     var data = {a: 1, b: 2, c: 3};
     var callback = function(value, key, object) {
@@ -93,6 +95,8 @@
     deepEqual(result, {b: 2}, 'can omit several named properties');
     result = _.omit({a: 1, b: 2, c: 3}, ['b', 'c']);
     deepEqual(result, {a: 1}, 'can omit properties named in an array');
+    result = _.omit(['a', 'b'], 0);
+    deepEqual(result, {1: 'b'}, 'can omit numeric properties');
 
     var data = {a: 1, b: 2, c: 3};
     var callback = function(value, key, object) {
