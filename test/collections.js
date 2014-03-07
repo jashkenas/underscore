@@ -266,16 +266,8 @@
     result = _.where(list, {b: 2});
     equal(result.length, 2);
     equal(result[0].a, 1);
-
-    result = _.where(list, {a: 1}, true);
-    equal(result.b, 2, 'Only get the first object matched.')
-    result = _.where(list, {a: 1}, false);
-    equal(result.length, 3);
-
     result = _.where(list, {});
     equal(result.length, list.length);
-    result = _.where(list, {}, true);
-    equal(result, list[0]);
   });
 
   test('findWhere', function() {
@@ -303,6 +295,9 @@
     equal(_.max({'a': 'a'}), -Infinity, 'Maximum value of a non-numeric collection');
 
     equal(299999, _.max(_.range(1,300000)), 'Maximum value of a too-big array');
+
+    equal(3, _.max([1, 2, 3, 'test']), 'Finds correct max in array starting with num and containing a NaN');
+    equal(3, _.max(['test', 1, 2, 3]), 'Finds correct max in array starting with NaN');
   });
 
   test('min', function() {
@@ -320,6 +315,9 @@
     equal(_.min([now, then]), then);
 
     equal(1, _.min(_.range(1,300000)), 'Minimum value of a too-big array');
+
+    equal(1, _.min([1, 2, 3, 'test']), 'Finds correct min in array starting with num and containing a NaN');
+    equal(1, _.min(['test', 1, 2, 3]), 'Finds correct min in array starting with NaN');
   });
 
   test('sortBy', function() {
@@ -517,6 +515,24 @@
     equal(_.size(new String('hello')), 5, 'can compute the size of string object');
 
     equal(_.size(null), 0, 'handles nulls');
+  });
+
+  test('partition', function() {
+    var list = [0, 1, 2, 3, 4, 5];
+    deepEqual(_.partition(list, function(x) { return x < 4; }), [[0,1,2,3],[4,5]], 'handles bool return values');
+    deepEqual(_.partition(list, function(x) { return x & 1; }), [[1,3,5],[0,2,4]], 'handles 0 and 1 return values');
+    deepEqual(_.partition(list, function(x) { return x - 3; }), [[0,1,2,4,5],[3]], 'handles other numeric return values');
+    deepEqual(_.partition(list, function(x) { return x > 1 ? null : true; }), [[0,1],[2,3,4,5]], 'handles null return values');
+    deepEqual(_.partition(list, function(x) { if(x < 2) return true; }), [[0,1],[2,3,4,5]], 'handles undefined return values');
+    deepEqual(_.partition({a: 1, b: 2, c: 3}, function(x) { return x > 1; }), [[2, 3], [1]], 'handles objects');
+
+    // Default iterator
+    deepEqual(_.partition([1, false, true, '']), [[1, true], [false, '']], 'Default iterator');
+    deepEqual(_.partition([{x: 1}, {x: 0}, {x: 1}], 'x'), [[{x: 1}, {x: 1}], [{x: 0}]], 'Takes a string');
+
+    // Context
+    var predicate = function(x){ return x === this.x };
+    deepEqual(_.partition([1, 2, 3], predicate, {x: 2}), [[2], [1, 3]], 'partition takes a context argument');
   });
 
 })();

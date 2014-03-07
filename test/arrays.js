@@ -82,16 +82,6 @@
     ok(_.without(list, list[0]).length == 1, 'ditto.');
   });
 
-  test('partition', function() {
-    var list = [0, 1, 2, 3, 4, 5];
-    function inspect(x) { return x instanceof Array ? '[' + _.map(x, inspect) + ']' : '' + x; }
-    equal(inspect(_.partition(list, function(x) { return x < 4; })), '[[0,1,2,3],[4,5]]', 'handles bool return values');
-    equal(inspect(_.partition(list, function(x) { return x & 1; })), '[[1,3,5],[0,2,4]]', 'handles 0 and 1 return values');
-    equal(inspect(_.partition(list, function(x) { return x - 3; })), '[[0,1,2,4,5],[3]]', 'handles other numeric return values');
-    equal(inspect(_.partition(list, function(x) { return x > 1 ? null : true; })), '[[0,1],[2,3,4,5]]', 'handles null return values');
-    equal(inspect(_.partition(list, function(x) { if(x < 2) return true; })), '[[0,1],[2,3,4,5]]', 'handles undefined return values');
-  });
-
   test('uniq', function() {
     var list = [1, 2, 1, 3, 1, 4];
     equal(_.uniq(list).join(', '), '1, 2, 3, 4', 'can find the unique values of an unsorted array');
@@ -111,6 +101,16 @@
 
     var result = (function(){ return _.uniq(arguments); })(1, 2, 1, 3, 1, 4);
     equal(result.join(', '), '1, 2, 3, 4', 'works on an arguments object');
+
+    deepEqual(_.uniq(null), []);
+
+    var context = {};
+    list = [3];
+    _.uniq(list, function(value, index, array) {
+      strictEqual(this, context);
+      strictEqual(value, 3);
+      strictEqual(index, 0);
+    }, context);
   });
 
   test('intersection', function() {
@@ -135,11 +135,8 @@
     result = _.union(args, [2, 30, 1], [1, 40]);
     equal(result.join(' '), '1 2 3 30 40', 'takes the union of a list of arrays');
 
-    result = _.union(null, [1, 2, 3]);
-    deepEqual(result, [null, 1, 2, 3]);
-
     result = _.union([1, 2, 3], 4);
-    equal(result.join(' '), '1 2 3', 'restrict the union to arrays only');
+    deepEqual(result, [1, 2, 3], 'restrict the union to arrays only');
   });
 
   test('difference', function() {
@@ -150,7 +147,7 @@
     equal(result.join(' '), '3 4', 'takes the difference of three arrays');
 
     result = _.difference([1, 2, 3], 1);
-    equal(result.join(' '), '1 2 3', 'restrict the difference to arrays only');
+    deepEqual(result, [1, 2, 3], 'restrict the difference to arrays only');
   });
 
   test('zip', function() {

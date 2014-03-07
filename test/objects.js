@@ -64,30 +64,52 @@
 
   test('pick', function() {
     var result;
-    result = _.pick({a:1, b:2, c:3}, 'a', 'c');
-    ok(_.isEqual(result, {a:1, c:3}), 'can restrict properties to those named');
-    result = _.pick({a:1, b:2, c:3}, ['b', 'c']);
-    ok(_.isEqual(result, {b:2, c:3}), 'can restrict properties to those named in an array');
-    result = _.pick({a:1, b:2, c:3}, ['a'], 'b');
-    ok(_.isEqual(result, {a:1, b:2}), 'can restrict properties to those named in mixed args');
+    result = _.pick({a: 1, b: 2, c: 3}, 'a', 'c');
+    deepEqual(result, {a: 1, c: 3}, 'can restrict properties to those named');
+    result = _.pick({a: 1, b: 2, c: 3}, ['b', 'c']);
+    deepEqual(result, {b: 2, c: 3}, 'can restrict properties to those named in an array');
+    result = _.pick({a: 1, b: 2, c: 3}, ['a'], 'b');
+    deepEqual(result, {a: 1, b: 2}, 'can restrict properties to those named in mixed args');
+    result = _.pick(['a', 'b'], 1);
+    deepEqual(result, {1: 'b'}, 'can pick numeric properties');
+
+    var data = {a: 1, b: 2, c: 3};
+    var callback = function(value, key, object) {
+      strictEqual(key, {1: 'a', 2: 'b', 3: 'c'}[value]);
+      strictEqual(object, data);
+      return value !== this.value;
+    };
+    result = _.pick(data, callback, {value: 2});
+    deepEqual(result, {a: 1, c: 3}, 'can accept a predicate and context');
 
     var Obj = function(){};
     Obj.prototype = {a: 1, b: 2, c: 3};
-    ok(_.isEqual(_.pick(new Obj, 'a', 'c'), {a:1, c: 3}), 'include prototype props');
+    deepEqual(_.pick(new Obj, 'a', 'c'), {a: 1, c: 3}, 'include prototype props');
   });
 
   test('omit', function() {
     var result;
-    result = _.omit({a:1, b:2, c:3}, 'b');
-    ok(_.isEqual(result, {a:1, c:3}), 'can omit a single named property');
-    result = _.omit({a:1, b:2, c:3}, 'a', 'c');
-    ok(_.isEqual(result, {b:2}), 'can omit several named properties');
-    result = _.omit({a:1, b:2, c:3}, ['b', 'c']);
-    ok(_.isEqual(result, {a:1}), 'can omit properties named in an array');
+    result = _.omit({a: 1, b: 2, c: 3}, 'b');
+    deepEqual(result, {a: 1, c: 3}, 'can omit a single named property');
+    result = _.omit({a: 1, b: 2, c: 3}, 'a', 'c');
+    deepEqual(result, {b: 2}, 'can omit several named properties');
+    result = _.omit({a: 1, b: 2, c: 3}, ['b', 'c']);
+    deepEqual(result, {a: 1}, 'can omit properties named in an array');
+    result = _.omit(['a', 'b'], 0);
+    deepEqual(result, {1: 'b'}, 'can omit numeric properties');
+
+    var data = {a: 1, b: 2, c: 3};
+    var callback = function(value, key, object) {
+      strictEqual(key, {1: 'a', 2: 'b', 3: 'c'}[value]);
+      strictEqual(object, data);
+      return value !== this.value;
+    };
+    result = _.omit(data, callback, {value: 2});
+    deepEqual(result, {b: 2}, 'can accept a predicate');
 
     var Obj = function(){};
     Obj.prototype = {a: 1, b: 2, c: 3};
-    ok(_.isEqual(_.omit(new Obj, 'b'), {a:1, c: 3}), 'include prototype props');
+    deepEqual(_.omit(new Obj, 'b'), {a: 1, c: 3}, 'include prototype props');
   });
 
   test('defaults', function() {
@@ -578,15 +600,24 @@
     ok(returned == 6 && intercepted == 6, 'can use tapped objects in a chain');
   });
 
-  test('has', function () {
-     var obj = {foo: 'bar', func: function () {} };
-     ok (_.has(obj, 'foo'), 'has() checks that the object has a property.');
-     ok (_.has(obj, 'baz') == false, "has() returns false if the object doesn't have the property.");
-     ok (_.has(obj, 'func'), 'has() works for functions too.');
-     obj.hasOwnProperty = null;
-     ok (_.has(obj, 'foo'), 'has() works even when the hasOwnProperty method is deleted.');
-     var child = {};
-     child.prototype = obj;
-     ok (_.has(child, 'foo') == false, 'has() does not check the prototype chain for a property.')
+  test("has", function () {
+    var obj = {foo: "bar", func: function () {} };
+    ok(_.has(obj, "foo"), "has() checks that the object has a property.");
+    ok(_.has(obj, "baz") == false, "has() returns false if the object doesn't have the property.");
+    ok(_.has(obj, "func"), "has() works for functions too.");
+    obj.hasOwnProperty = null;
+    ok(_.has(obj, "foo"), "has() works even when the hasOwnProperty method is deleted.");
+    var child = {};
+    child.prototype = obj;
+    ok(_.has(child, "foo") == false, "has() does not check the prototype chain for a property.");
   });
+
+  test("matches", function() {
+    var moe = {name: 'Moe Howard', hair: true};
+    var curly = {name: 'Curly Howard', hair: false};
+    var stooges = [moe, curly];
+    ok(_.find(stooges, _.matches({hair: false})) === curly, "returns a predicate that can be used by finding functions.");
+    ok(_.find(stooges, _.matches(moe)) === moe, "can be used to locate an object exists in a collection.");
+  });
+
 })();
