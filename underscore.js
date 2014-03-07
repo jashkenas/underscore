@@ -898,12 +898,11 @@
 
    // Return a copy of the object without the blacklisted properties.
   _.omit = function(obj, iterator, context) {
-    var keys;
     if (_.isFunction(iterator)) {
       iterator = _.negate(iterator);
     } else {
-      keys = _.map(concat.apply([], slice.call(arguments, 1)), function(o){ return '' + o; });
-      iterator = function(value, key) { return !_.contains(keys, key); };
+      var keys = concat.apply(ArrayProto, slice.call(arguments, 1));
+      iterator = function(value, key) { return !any(keys, function(k) { return '' + k === key; }); };
     }
     return _.pick(obj, iterator, context);
   };
