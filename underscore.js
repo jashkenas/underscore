@@ -517,10 +517,11 @@
   // Produce an array that contains every item shared between all the
   // passed-in arrays.
   _.intersection = function(array) {
-    var rest = slice.call(arguments, 1);
-    return _.filter(_.uniq(array), function(item) {
-      return _.every(rest, function(other) {
-        return _.contains(other, item);
+    var args = slice.call(arguments);
+    var smallest = _.min(args, _.property('length'));
+    return _.filter(_.uniq(smallest), function(item) {
+      return _.every(args, function(other) {
+        return other === smallest || _.contains(other, item);
       });
     });
   };
