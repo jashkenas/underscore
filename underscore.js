@@ -516,7 +516,7 @@
 
   // Produce an array that contains every item shared between all the
   // passed-in arrays.
-  _.intersection = function(array) {
+  _.intersection = function() {
     var args = slice.call(arguments);
     var smallest = _.min(args, _.property('length'));
     return _.filter(_.uniq(smallest), function(item) {
