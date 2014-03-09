@@ -518,7 +518,7 @@
   // passed-in arrays.
   _.intersection = function() {
     var args = slice.call(arguments);
-    var smallest = _.min(args, _.property('length'));
+    var smallest = _.min(args, function(a) { if (a) return a.length; });
     return _.filter(_.uniq(smallest), function(item) {
       return _.every(args, function(other) {
         return other === smallest || _.contains(other, item);
