@@ -517,8 +517,9 @@
   // Produce an array that contains every item shared between all the
   // passed-in arrays.
   _.intersection = function(array) {
+    if (array == null) return [];
     var argsLength = arguments.length;
-    var arrayLength = array ? array.length : 0;
+    var arrayLength = array.length;
     var result = [];
     var visited = [];
     for (var i = 0; i < arrayLength; i++) {
@@ -526,8 +527,7 @@
       if (_.indexOf(visited, item) < 0) {
         visited.push(item);
         for (var j = 1; j < argsLength; j++) {
-          var other = arguments[j];
-          if (_.indexOf(other, item) < 0) break;
+          if (_.indexOf(arguments[j], item) < 0) break;
         }
         if (j === argsLength) { result.push(item); }
       }
