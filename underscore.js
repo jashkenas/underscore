@@ -517,12 +517,22 @@
   // Produce an array that contains every item shared between all the
   // passed-in arrays.
   _.intersection = function(array) {
-    var rest = slice.call(arguments, 1);
-    return _.filter(_.uniq(array), function(item) {
-      return _.every(rest, function(other) {
-        return _.contains(other, item);
-      });
-    });
+    var argsLength = arguments.length;
+    var arrayLength = array ? array.length : 0;
+    var result = [];
+    var visited = [];
+    for (var i = 0; i < arrayLength; i++) {
+      var item = array[i];
+      if (_.indexOf(visited, item) < 0) {
+        visited.push(item);
+        for (var j = 1; j < argsLength; j++) {
+          var other = arguments[j];
+          if (_.indexOf(other, item) < 0) break;
+        }
+        if (j === argsLength) { result.push(item); }
+      }
+    }
+    return result;
   };
 
   // Take the difference between one array and a number of other arrays.
