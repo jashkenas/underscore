@@ -216,8 +216,8 @@
     if (obj == null) return false;
     if (nativeIndexOf && obj.indexOf === nativeIndexOf) return obj.indexOf(target) != -1;
     return any(obj, function(value) {
-      return value === target;
-    });
+      return value === this;
+    }, target);
   };
 
   // Invoke a method (with arguments) on every item in a collection.
