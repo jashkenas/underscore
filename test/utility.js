@@ -37,6 +37,8 @@
   test('property', function() {
     var moe = {name : 'moe'};
     equal(_.property('name')(moe), 'moe', 'should return the property with the given name');
+    equal(_.property('name')(null), undefined, 'should return undefined for null values');
+    equal(_.property('name')(undefined), undefined, 'should return undefined for undefined values');
   });
 
   test('random', function() {

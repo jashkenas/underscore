@@ -1134,7 +1134,7 @@
 
   _.property = function(key) {
     return function(obj) {
-      return obj[key];
+      return obj == null ? void 0 : obj[key];
     };
   };
 
