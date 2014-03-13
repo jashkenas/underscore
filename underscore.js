@@ -902,7 +902,7 @@
     if (_.isFunction(iterator)) {
       iterator = _.negate(iterator);
     } else {
-      keys = _.map(concat.apply([], slice.call(arguments, 1)), function(o){ return '' + o; });
+      keys = _.map(concat.apply([], slice.call(arguments, 1)), String);
       iterator = function(value, key) { return !_.contains(keys, key); };
     }
     return _.pick(obj, iterator, context);
