@@ -361,7 +361,7 @@
       as well as more specialized helpers: function binding, javascript
       templating, deep equality testing, and so on. It delegates to built-in
       functions, if present, so modern browsers will use the
-      native implementations of <b>forEach</b>, <b>map</b>, <b>reduce</b>,
+      native implementations of <b>map</b>, <b>reduce</b>,
       <b>filter</b>, <b>every</b>, <b>some</b> and <b>indexOf</b>.
     </p>
 
@@ -443,8 +443,7 @@
         function. The <b>iterator</b> is bound to the <b>context</b> object, if one is
         passed. Each invocation of <b>iterator</b> is called with three arguments:
         <tt>(element, index, list)</tt>. If <b>list</b> is a JavaScript object, <b>iterator</b>'s
-        arguments will be <tt>(value, key, list)</tt>. Delegates to the native
-        <b>forEach</b> function if it exists. Returns the <b>list</b> for chaining.
+        arguments will be <tt>(value, key, list)</tt>. Returns the <b>list</b> for chaining.
       </p>
       <pre>
 _.each([1, 2, 3], alert);

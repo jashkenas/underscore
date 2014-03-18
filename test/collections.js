@@ -35,6 +35,12 @@
     var a = [1, 2, 3];
     strictEqual(_.each(a, function(){}), a);
     strictEqual(_.each(null, function(){}), null);
+
+    var b = [1, 2, 3];
+    b.length = 100;
+    answers = 0;
+    _.each(b, function(){ ++answers; });
+    equal(answers, 100, 'enumerates [0, length)');
   });
 
   test('map', function() {
