@@ -527,7 +527,7 @@
       if (!_.contains(seen, item)) {
         seen.push(item);
         for (var j = 1; j < argsLength; j++) {
-          if (_.indexOf(arguments[j], item) < 0) break;
+          if (!_.contains(arguments[j], item)) break;
         }
         if (j === argsLength) result.push(item);
       }
