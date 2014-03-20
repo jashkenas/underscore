@@ -1188,7 +1188,7 @@
   };
 
   // Functions for escaping and unescaping strings to/from HTML interpolation.
-  _.each(['escape', 'unescape'], function(method) {
+  each(['escape', 'unescape'], function(method) {
     _[method] = function(string) {
       if (string == null) return '';
       return ('' + string).replace(entityRegexes[method], function(match) {
