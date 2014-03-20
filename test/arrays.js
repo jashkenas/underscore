@@ -121,6 +121,14 @@
     equal(result.join(''), 'moe', 'works on an arguments object');
     var theSixStooges = ['moe', 'moe', 'curly', 'curly', 'larry', 'larry'];
     equal(_.intersection(theSixStooges, leaders).join(''), 'moe', 'returns a duplicate-free array');
+    result = _.intersection([2, 4, 3, 1], [1, 2, 3]);
+    equal(result.join(' '), '2 3 1', 'preserves order of first array');
+    result = _.intersection(null, [1, 2, 3]);
+    equal(Object.prototype.toString.call(result), '[object Array]', 'returns an empty array when passed null as first argument');
+    equal(result.length, 0, 'returns an empty array when passed null as first argument');
+    result = _.intersection([1, 2, 3], null);
+    equal(Object.prototype.toString.call(result), '[object Array]', 'returns an empty array when passed null as argument beyond the first');
+    equal(result.length, 0, 'returns an empty array when passed null as argument beyond the first');
   });
 
   test('union', function() {
