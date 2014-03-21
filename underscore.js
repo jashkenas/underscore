@@ -518,10 +518,10 @@
   // passed-in arrays.
   _.intersection = function(array) {
     if (array == null) return [];
-    var argsLength = arguments.length;
-    var arrayLength = array.length;
-    var result = [];
-    var seen = [];
+    var argsLength = arguments.length,
+        arrayLength = array.length,
+        result = [],
+        seen = [];
     for (var i = 0; i < arrayLength; i++) {
       var item = array[i];
       if (!_.contains(seen, item)) {
