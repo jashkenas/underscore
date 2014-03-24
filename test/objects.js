@@ -3,10 +3,11 @@
   module('Objects');
 
   test('keys', function() {
-    deepEqual(_.keys({one : 1, two : 2}), ['one', 'two'], 'can extract the keys from an object');
+    deepEqual(_.keys({one: 1, two: 2}), ['one', 'two'], 'can extract the keys from an object');
     // the test above is not safe because it relies on for-in enumeration order
     var a = []; a[1] = 0;
-    deepEqual(_.keys(a), ['1'], 'is not fooled by sparse arrays; see issue #95');
+    deepEqual(_.keys(a), ['0', '1'], '*is* fooled by sparse arrays');
+    deepEqual(_.keys(/(.)/.exec('a')), ['0', '1', 'index', 'input'], 'can extract the keys from an array with additional keys');
     deepEqual(_.keys(null), []);
     deepEqual(_.keys(void 0), []);
     deepEqual(_.keys(1), []);
