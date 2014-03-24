@@ -30,19 +30,20 @@
 
   // All **ECMAScript 5** native function implementations that we hope to use
   // are declared here.
-  var
-    nativeForEach      = ArrayProto.forEach,
-    nativeMap          = ArrayProto.map,
-    nativeReduce       = ArrayProto.reduce,
-    nativeReduceRight  = ArrayProto.reduceRight,
-    nativeFilter       = ArrayProto.filter,
-    nativeEvery        = ArrayProto.every,
-    nativeSome         = ArrayProto.some,
-    nativeIndexOf      = ArrayProto.indexOf,
-    nativeLastIndexOf  = ArrayProto.lastIndexOf,
-    nativeIsArray      = Array.isArray,
-    nativeKeys         = Object.keys,
-    nativeBind         = FuncProto.bind;
+  var ES5Funcs = {
+    nativeForEach      : ArrayProto.forEach,
+    nativeMap          : ArrayProto.map,
+    nativeReduce       : ArrayProto.reduce,
+    nativeReduceRight  : ArrayProto.reduceRight,
+    nativeFilter       : ArrayProto.filter,
+    nativeEvery        : ArrayProto.every,
+    nativeSome         : ArrayProto.some,
+    nativeIndexOf      : ArrayProto.indexOf,
+    nativeLastIndexOf  : ArrayProto.lastIndexOf,
+    nativeIsArray      : Array.isArray,
+    nativeKeys         : Object.keys,
+    nativeBind         : FuncProto.bind
+  };
 
   // Create a safe reference to the Underscore object for use below.
   var _ = function(obj) {
@@ -75,7 +76,7 @@
   // Delegates to **ECMAScript 5**'s native `forEach` if available.
   var each = _.each = _.forEach = function(obj, iterator, context) {
     if (obj == null) return obj;
-    if (nativeForEach && obj.forEach === nativeForEach) {
+    if (ES5Funcs.nativeForEach && obj.forEach === ES5Funcs.nativeForEach) {
       obj.forEach(iterator, context);
     } else if (obj.length === +obj.length) {
       for (var i = 0, length = obj.length; i < length; i++) {
@@ -95,7 +96,7 @@
   _.map = _.collect = function(obj, iterator, context) {
     var results = [];
     if (obj == null) return results;
-    if (nativeMap && obj.map === nativeMap) return obj.map(iterator, context);
+    if (ES5Funcs.nativeMap && obj.map === ES5Funcs.nativeMap) return obj.map(iterator, context);
     each(obj, function(value, index, list) {
       results.push(iterator.call(context, value, index, list));
     });
@@ -109,7 +110,7 @@
   _.reduce = _.foldl = _.inject = function(obj, iterator, memo, context) {
     var initial = arguments.length > 2;
     if (obj == null) obj = [];
-    if (nativeReduce && obj.reduce === nativeReduce) {
+    if (ES5Funcs.nativeReduce && obj.reduce === ES5Funcs.nativeReduce) {
       if (context) iterator = _.bind(iterator, context);
       return initial ? obj.reduce(iterator, memo) : obj.reduce(iterator);
     }
@@ -130,7 +131,7 @@
   _.reduceRight = _.foldr = function(obj, iterator, memo, context) {
     var initial = arguments.length > 2;
     if (obj == null) obj = [];
-    if (nativeReduceRight && obj.reduceRight === nativeReduceRight) {
+    if (ES5Funcs.nativeReduceRight && obj.reduceRight === ES5Funcs.nativeReduceRight) {
       if (context) iterator = _.bind(iterator, context);
       return initial ? obj.reduceRight(iterator, memo) : obj.reduceRight(iterator);
     }
@@ -170,7 +171,7 @@
   _.filter = _.select = function(obj, predicate, context) {
     var results = [];
     if (obj == null) return results;
-    if (nativeFilter && obj.filter === nativeFilter) return obj.filter(predicate, context);
+    if (ES5Funcs.nativeFilter && obj.filter === ES5Funcs.nativeFilter) return obj.filter(predicate, context);
     each(obj, function(value, index, list) {
       if (predicate.call(context, value, index, list)) results.push(value);
     });
@@ -189,7 +190,7 @@
     predicate || (predicate = _.identity);
     var result = true;
     if (obj == null) return result;
-    if (nativeEvery && obj.every === nativeEvery) return obj.every(predicate, context);
+    if (ES5Funcs.nativeEvery && obj.every === ES5Funcs.nativeEvery) return obj.every(predicate, context);
     each(obj, function(value, index, list) {
       if (!(result = result && predicate.call(context, value, index, list))) return breaker;
     });
@@ -203,7 +204,7 @@
     predicate || (predicate = _.identity);
     var result = false;
     if (obj == null) return result;
-    if (nativeSome && obj.some === nativeSome) return obj.some(predicate, context);
+    if (ES5Funcs.nativeSome && obj.some === ES5Funcs.nativeSome) return obj.some(predicate, context);
     each(obj, function(value, index, list) {
       if (result || (result = predicate.call(context, value, index, list))) return breaker;
     });
@@ -214,7 +215,7 @@
   // Aliased as `include`.
   _.contains = _.include = function(obj, target) {
     if (obj == null) return false;
-    if (nativeIndexOf && obj.indexOf === nativeIndexOf) return obj.indexOf(target) != -1;
+    if (ES5Funcs.nativeIndexOf && obj.indexOf === ES5Funcs.nativeIndexOf) return obj.indexOf(target) != -1;
     return any(obj, function(value) {
       return value === target;
     });
@@ -576,7 +577,7 @@
         return array[i] === item ? i : -1;
       }
     }
-    if (nativeIndexOf && array.indexOf === nativeIndexOf) return array.indexOf(item, isSorted);
+    if (ES5Funcs.nativeIndexOf && array.indexOf === ES5Funcs.nativeIndexOf) return array.indexOf(item, isSorted);
     for (; i < length; i++) if (array[i] === item) return i;
     return -1;
   };
@@ -585,7 +586,7 @@
   _.lastIndexOf = function(array, item, from) {
     if (array == null) return -1;
     var hasIndex = from != null;
-    if (nativeLastIndexOf && array.lastIndexOf === nativeLastIndexOf) {
+    if (ES5Funcs.nativeLastIndexOf && array.lastIndexOf === ES5Funcs.nativeLastIndexOf) {
       return hasIndex ? array.lastIndexOf(item, from) : array.lastIndexOf(item);
     }
     var i = (hasIndex ? from : array.length);
@@ -626,7 +627,8 @@
   // available.
   _.bind = function(func, context) {
     var args, bound;
-    if (nativeBind && func.bind === nativeBind) return nativeBind.apply(func, slice.call(arguments, 1));
+    if (ES5Funcs.nativeBind && func.bind === ES5Funcs.nativeBind) 
+      return ES5Funcs.nativeBind.apply(func, slice.call(arguments, 1));
     if (!_.isFunction(func)) throw new TypeError;
     args = slice.call(arguments, 2);
     return bound = function() {
@@ -818,7 +820,7 @@
   // Delegates to **ECMAScript 5**'s native `Object.keys`
   _.keys = function(obj) {
     if (!_.isObject(obj)) return [];
-    if (nativeKeys) return nativeKeys(obj);
+    if (ES5Funcs.nativeKeys) return ES5Funcs.nativeKeys(obj);
     var keys = [];
     for (var key in obj) if (_.has(obj, key)) keys.push(key);
     return keys;
@@ -1047,7 +1049,7 @@
 
   // Is a given value an array?
   // Delegates to ECMA5's native Array.isArray
-  _.isArray = nativeIsArray || function(obj) {
+  _.isArray = ES5Funcs.nativeIsArray || function(obj) {
     return toString.call(obj) == '[object Array]';
   };
 
