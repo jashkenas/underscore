@@ -359,10 +359,7 @@
       Underscore provides 80-odd functions that support both the usual
       functional suspects: <b>map</b>, <b>filter</b>, <b>invoke</b> &mdash;
       as well as more specialized helpers: function binding, javascript
-      templating, deep equality testing, and so on. It delegates to built-in
-      functions, if present, so modern browsers will use the
-      native implementations of <b>map</b>, <b>reduce</b>,
-      <b>filter</b>, <b>every</b>, <b>some</b> and <b>indexOf</b>.
+      templating, deep equality testing, and so on.
     </p>
 
     <p>
@@ -467,9 +464,9 @@ _.each({one: 1, two: 2, three: 3}, alert);
         <span class="alias">Alias: <b>collect</b></span>
         <br />
         Produces a new array of values by mapping each value in <b>list</b>
-        through a transformation function (<b>iterator</b>). If the native <b>map</b> method
-        exists, it will be used instead. If <b>list</b> is a JavaScript object,
-        <b>iterator</b>'s arguments will be <tt>(value, key, list)</tt>.
+        through a transformation function (<b>iterator</b>). If <b>list</b>
+        is a JavaScript object, <b>iterator</b>'s arguments will be
+        <tt>(value, key, list)</tt>.
       </p>
       <pre>
 _.map([1, 2, 3], function(num){ return num * 3; });
@@ -528,8 +525,7 @@ var even = _.find([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
         <span class="alias">Alias: <b>select</b></span>
         <br />
         Looks through each value in the <b>list</b>, returning an array of all
-        the values that pass a truth test (<b>predicate</b>). Delegates to the
-        native <b>filter</b> method, if it exists.
+        the values that pass a truth test (<b>predicate</b>).
       </p>
       <pre>
 var evens = _.filter([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
@@ -581,8 +577,8 @@ var odds = _.reject([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
         <b class="header">every</b><code>_.every(list, [predicate], [context])</code>
         <span class="alias">Alias: <b>all</b></span>
         <br />
-        Returns <i>true</i> if all of the values in the <b>list</b> pass the <b>predicate</b>
-        truth test. Delegates to the native method <b>every</b>, if present.
+        Returns <i>true</i> if all of the values in the <b>list</b> pass the
+        <b>predicate</b> truth test.
       </p>
       <pre>
 _.every([true, 1, null, 'yes'], _.identity);
@@ -595,8 +591,7 @@ _.every([true, 1, null, 'yes'], _.identity);
         <br />
         Returns <i>true</i> if any of the values in the <b>list</b> pass the
         <b>predicate</b> truth test. Short-circuits and stops traversing the list
-        if a true element is found. Delegates to the native method <b>some</b>,
-        if present.
+        if a true element is found.
       </p>
       <pre>
 _.some([null, 0, 'yes', false]);
@@ -963,8 +958,7 @@ _.object([['moe', 30], ['larry', 40], ['curly', 50]]);
         <b class="header">indexOf</b><code>_.indexOf(array, value, [isSorted])</code>
         <br />
         Returns the index at which <b>value</b> can be found in the <b>array</b>,
-        or <i>-1</i> if value is not present in the <b>array</b>. Uses the native
-        <b>indexOf</b> function unless it's missing. If you're working with a
+        or <i>-1</i> if value is not present in the <b>array</b>. If you're working with a
         large array, and you know that the array is already sorted, pass <tt>true</tt>
         for <b>isSorted</b> to use a faster binary search ... or, pass a number as
         the third argument in order to look for the first matching value in the
@@ -979,8 +973,7 @@ _.indexOf([1, 2, 3], 2);
         <b class="header">lastIndexOf</b><code>_.lastIndexOf(array, value, [fromIndex])</code>
         <br />
         Returns the index of the last occurrence of <b>value</b> in the <b>array</b>,
-        or <i>-1</i> if value is not present. Uses the native <b>lastIndexOf</b>
-        function if possible. Pass <b>fromIndex</b> to start your search at a
+        or <i>-1</i> if value is not present. Pass <b>fromIndex</b> to start your search at a
         given index.
       </p>
       <pre>

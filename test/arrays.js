@@ -214,6 +214,9 @@
     numbers = [1, 2, 3, 1, 2, 3, 1, 2, 3];
     index = _.indexOf(numbers, 2, 5);
     equal(index, 7, 'supports the fromIndex argument');
+
+    index = _.indexOf([,,,], undefined);
+    equal(index, 0, 'treats sparse arrays as if they were dense');
   });
 
   test('lastIndexOf', function() {
