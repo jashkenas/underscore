@@ -129,6 +129,27 @@
     result = _.intersection([1, 2, 3], null);
     equal(Object.prototype.toString.call(result), '[object Array]', 'returns an empty array when passed null as argument beyond the first');
     equal(result.length, 0, 'returns an empty array when passed null as argument beyond the first');
+
+    result = _.intersection({}, {});
+    equal(result.length, 0, 'returns an empty array when passed two objects as parameters');
+
+    result = _.intersection([], []);
+    equal(result.length, 0, 'returns an empty array when passed two arrays as parameters');
+
+    result = _.intersection(undefined, undefined);
+    equal(result.length, 0, 'returns an empty array when passed `undefined` as parameters');
+
+    result = _.intersection("Underscore", "Underscore");
+    equal(result.length, 8, 'returns an empty array when passed strings as parameters - 1');
+
+    result = _.intersection(["Underscore"], "Underscore");
+    equal(result.length, 0, 'returns an empty array when passed strings as parameters - 2');
+
+    result = _.intersection("Underscore", ["Underscore"]);
+    equal(result.length, 0, 'returns an empty array when passed strings as parameters - 3');
+
+    result = _.intersection(["Underscore"], ["Underscore"]);
+    equal(result.length, 1, 'returns an empty array when passed strings as parameters - 4');
   });
 
   test('union', function() {
@@ -156,6 +177,27 @@
 
     result = _.difference([1, 2, 3], 1);
     deepEqual(result, [1, 2, 3], 'restrict the difference to arrays only');
+
+    result = _.difference(null, null);
+    equal(result.join(' '), '', 'takes the difference of nulls');
+
+    result = _.difference(undefined, undefined);
+    equal(result.join(' '), '', 'takes the difference of undefineds');
+
+    result = _.difference(5, 3);
+    equal(result.join(' '), '', 'takes the difference of numbers');
+
+    result = _.difference("A", "Underscore", "Welcomes", "You");
+    equal(result.join(' '), 'A', 'takes the difference of strings');
+
+    result = _.difference("Underscore", "Underscore");
+    equal(result.join(''), "Underscore", 'takes the difference of strings-2');
+
+    result = _.difference("Underscore", ["Underscore"]);
+    equal(result.join(''), "Underscore", 'takes the difference of strings-3');
+
+    result = _.difference(["Underscore"], ["Underscore"]);
+    deepEqual(result, [], 'takes the difference of strings-4');
   });
 
   test('zip', function() {

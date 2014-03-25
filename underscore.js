@@ -517,11 +517,9 @@
   // Produce an array that contains every item shared between all the
   // passed-in arrays.
   _.intersection = function(array) {
-    var rest = slice.call(arguments, 1);
+    var everyArgs = _.partial(_.every, slice.call(arguments, 1));
     return _.filter(_.uniq(array), function(item) {
-      return _.every(rest, function(other) {
-        return _.contains(other, item);
-      });
+      return everyArgs(_.partial(_.contains, _, item));
     });
   };
 
@@ -529,7 +527,7 @@
   // Only the elements present in just the first array will remain.
   _.difference = function(array) {
     var rest = flatten(slice.call(arguments, 1), true, true, []);
-    return _.filter(array, function(value){ return !_.contains(rest, value); });
+    return _.reject(array, _.partial(_.contains, rest));
   };
 
   // Zip together multiple lists into a single array -- elements that share
