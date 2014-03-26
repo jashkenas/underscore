@@ -745,7 +745,7 @@
       }
     };
 
-    return function() {
+    var func = function() {
       context = this;
       args = arguments;
       timestamp = _.now();
@@ -760,6 +760,12 @@
 
       return result;
     };
+    func.reset = function () {
+      clearTimeout(timeout);
+      timeout = null;
+    };
+    
+    return func;
   };
 
   // Returns a function that will be executed at most one time, no matter how
