@@ -519,13 +519,10 @@
   _.intersection = function(array) {
     if (array == null) return [];
     var argsLength = arguments.length,
-        arrayLength = array.length,
-        result = [],
-        seen = [];
-    for (var i = 0; i < arrayLength; i++) {
+        result = [];
+    for (var i = 0, length = array.length; i < length; i++) {
       var item = array[i];
-      if (!_.contains(seen, item)) {
-        seen.push(item);
+      if (!_.contains(result, item)) {
         for (var j = 1; j < argsLength; j++) {
           if (!_.contains(arguments[j], item)) break;
         }
