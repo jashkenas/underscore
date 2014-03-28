@@ -14,9 +14,6 @@
   // Save the previous value of the `_` variable.
   var previousUnderscore = root._;
 
-  // Establish the object that gets returned to break out of a loop iteration.
-  var breaker = {};
-
   // Save bytes in the minified (but not gzipped) version:
   var ArrayProto = Array.prototype, ObjProto = Object.prototype, FuncProto = Function.prototype;
 
@@ -68,12 +65,12 @@
     if (obj == null) return obj;
     if (obj.length === +obj.length) {
       for (var i = 0, length = obj.length; i < length; i++) {
-        if (iterator.call(context, obj[i], i, obj) === breaker) return;
+        if (iterator.call(context, obj[i], i, obj) === false) return;
       }
     } else {
       var keys = _.keys(obj);
       for (var i = 0, length = keys.length; i < length; i++) {
-        if (iterator.call(context, obj[keys[i]], keys[i], obj) === breaker) return;
+        if (iterator.call(context, obj[keys[i]], keys[i], obj) === false) return;
       }
     }
     return obj;
@@ -165,7 +162,7 @@
     var result = true;
     if (obj == null) return result;
     _.each(obj, function(value, index, list) {
-      if (!(result = result && predicate.call(context, value, index, list))) return breaker;
+      if (!(result = result && predicate.call(context, value, index, list))) return false;
     });
     return !!result;
   };
@@ -177,7 +174,7 @@
     var result = false;
     if (obj == null) return result;
     _.each(obj, function(value, index, list) {
-      if (result || (result = predicate.call(context, value, index, list))) return breaker;
+      if (result || (result = predicate.call(context, value, index, list))) return false;
     });
     return !!result;
   };

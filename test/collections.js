@@ -41,6 +41,17 @@
     answers = 0;
     _.each(b, function(){ ++answers; });
     equal(answers, 100, 'enumerates [0, length)');
+
+    var lastVal;
+    var c = [1,2,3,4,5];
+    _.each(c, function(num,i) {
+        lastVal = num;
+        if (i === 2) {
+            return false;
+        }
+    });
+
+    equal(lastVal, 3, 'breaks when false is returned');
   });
 
   test('map', function() {
