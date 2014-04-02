@@ -3,10 +3,10 @@
   module('Objects');
 
   test('keys', function() {
-    equal(_.keys({one : 1, two : 2}).join(', '), 'one, two', 'can extract the keys from an object');
+    deepEqual(_.keys({one : 1, two : 2}), ['one', 'two'], 'can extract the keys from an object');
     // the test above is not safe because it relies on for-in enumeration order
     var a = []; a[1] = 0;
-    equal(_.keys(a).join(', '), '1', 'is not fooled by sparse arrays; see issue #95');
+    deepEqual(_.keys(a), ['1'], 'is not fooled by sparse arrays; see issue #95');
     deepEqual(_.keys(null), []);
     deepEqual(_.keys(void 0), []);
     deepEqual(_.keys(1), []);
@@ -15,8 +15,8 @@
   });
 
   test('values', function() {
-    equal(_.values({one: 1, two: 2}).join(', '), '1, 2', 'can extract the values from an object');
-    equal(_.values({one: 1, two: 2, length: 3}).join(', '), '1, 2, 3', '... even when one of them is "length"');
+    deepEqual(_.values({one: 1, two: 2}), [1, 2], 'can extract the values from an object');
+    deepEqual(_.values({one: 1, two: 2, length: 3}), [1, 2, 3], '... even when one of them is "length"');
   });
 
   test('pairs', function() {
@@ -26,7 +26,7 @@
 
   test('invert', function() {
     var obj = {first: 'Moe', second: 'Larry', third: 'Curly'};
-    equal(_.keys(_.invert(obj)).join(' '), 'Moe Larry Curly', 'can invert an object');
+    deepEqual(_.keys(_.invert(obj)), ['Moe', 'Larry', 'Curly'], 'can invert an object');
     ok(_.isEqual(_.invert(_.invert(obj)), obj), 'two inverts gets you back where you started');
 
     var obj = {length: 3};
@@ -39,7 +39,7 @@
 
     var Animal = function(){};
     Animal.prototype.run = function(){};
-    equal(_.functions(new Animal).join(''), 'run', 'also looks up functions on the prototype');
+    deepEqual(_.functions(new Animal), ['run'], 'also looks up functions on the prototype');
   });
 
   test('extend', function() {
@@ -52,7 +52,7 @@
     result = _.extend({x:'x'}, {a:'a', x:2}, {a:'b'});
     ok(_.isEqual(result, {x:2, a:'b'}), 'extending from multiple source objects last property trumps');
     result = _.extend({}, {a: void 0, b: null});
-    equal(_.keys(result).join(''), 'ab', 'extend copies undefined values');
+    deepEqual(_.keys(result), ['a', 'b'], 'extend copies undefined values');
 
     try {
       result = {};
