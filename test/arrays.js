@@ -35,6 +35,7 @@
   test('initial', function() {
     equal(_.initial([1,2,3,4,5]).join(', '), '1, 2, 3, 4', 'working initial()');
     equal(_.initial([1,2,3,4],2).join(', '), '1, 2', 'initial can take an index');
+    equal(_.initial([1,2,3,4],6).join(''), '', 'initial can take a large index');
     var result = (function(){ return _(arguments).initial(); })(1, 2, 3, 4);
     equal(result.join(', '), '1, 2, 3', 'initial works on arguments object');
     result = _.map([[1,2,3],[1,2,3]], _.initial);
