@@ -290,20 +290,23 @@
   };
 
   // An internal function to generate lookup iterators.
-  var lookupIterator = function(value) {
+  var lookupIterator = function(value, context) {
     if (value == null) return _.identity;
-    if (_.isFunction(value)) return value;
-    return _.property(value);
+    if (!_.isFunction(value)) value = _.property(value);
+    if (!context) return value;
+    return function() {
+      return value.apply(context, arguments);
+    };
   };
 
   // Sort the object's values by a criterion produced by an iterator.
   _.sortBy = function(obj, iterator, context) {
-    iterator = lookupIterator(iterator);
+    iterator = lookupIterator(iterator, context);
     return _.pluck(_.map(obj, function(value, index, list) {
       return {
         value: value,
         index: index,
-        criteria: iterator.call(context, value, index, list)
+        criteria: iterator(value, index, list)
       };
     }).sort(function(left, right) {
       var a = left.criteria;
@@ -320,9 +323,9 @@
   var group = function(behavior) {
     return function(obj, iterator, context) {
       var result = {};
-      iterator = lookupIterator(iterator);
+      iterator = lookupIterator(iterator, context);
       _.each(obj, function(value, index) {
-        var key = iterator.call(context, value, index, obj);
+        var key = iterator(value, index, obj);
         behavior(result, key, value);
       });
       return result;
@@ -351,12 +354,12 @@
   // Use a comparator function to figure out the smallest index at which
   // an object should be inserted so as to maintain order. Uses binary search.
   _.sortedIndex = function(array, obj, iterator, context) {
-    iterator = lookupIterator(iterator);
-    var value = iterator.call(context, obj);
+    iterator = lookupIterator(iterator, context);
+    var value = iterator(obj);
     var low = 0, high = array.length;
     while (low < high) {
       var mid = (low + high) >>> 1;
-      iterator.call(context, array[mid]) < value ? low = mid + 1 : high = mid;
+      iterator(array[mid]) < value ? low = mid + 1 : high = mid;
     }
     return low;
   };
@@ -448,10 +451,10 @@
   // Split an array into two arrays: one whose elements all satisfy the given
   // predicate, and one whose elements all do not satisfy the predicate.
   _.partition = function(obj, predicate, context) {
-    predicate = lookupIterator(predicate);
+    predicate = lookupIterator(predicate, context);
     var pass = [], fail = [];
     _.each(obj, function(elem) {
-      (predicate.call(context, elem) ? pass : fail).push(elem);
+      (predicate(elem) ? pass : fail).push(elem);
     });
     return [pass, fail];
   };
