@@ -292,7 +292,7 @@
   // An internal function to generate lookup iterators.
   var lookupIterator = function(value, context) {
     if (value == null) return _.identity;
-    if (!_.isFunction(value)) value = _.property(value);
+    if (!_.isFunction(value)) return _.property(value);
     if (!context) return value;
     return function() {
       return value.apply(context, arguments);
