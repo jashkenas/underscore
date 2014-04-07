@@ -186,6 +186,7 @@
   // Aliased as `include`.
   _.contains = _.include = function(obj, target) {
     if (obj == null) return false;
+    if (obj.length === +obj.length) return _.indexOf(obj, target) >= 0;
     return _.some(obj, function(value) {
       return value === target;
     });
