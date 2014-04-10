@@ -381,7 +381,10 @@
     equal(_.isEqual(a.isEqual(b), _(true)), true, '`isEqual` can be chained');
 
     // Objects from another frame.
-    ok(_.isEqual({}, iObject));
+    ok(_.isEqual({}, iObject), 'Objects with equivalent members created in different documents are equal');
+
+    // Array from another frame.
+    ok(_.isEqual([1, 2, 3], iArray), 'Arrays with equivalent elements created in different documents are equal');
 
     // Objects without a `constructor` property
     if (Object.create) {
@@ -415,7 +418,7 @@
 
   // Setup remote variables for iFrame tests.
   var iframe = document.createElement('iframe');
-  iframe.frameBorder = iframe.height = iframe.width = 0
+  iframe.frameBorder = iframe.height = iframe.width = 0;
   document.body.appendChild(iframe);
   var iDoc = (iDoc = iframe.contentDocument || iframe.contentWindow).document || iDoc;
   iDoc.write(
