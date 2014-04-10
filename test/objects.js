@@ -618,6 +618,9 @@
     var stooges = [moe, curly];
     ok(_.find(stooges, _.matches({hair: false})) === curly, "returns a predicate that can be used by finding functions.");
     ok(_.find(stooges, _.matches(moe)) === moe, "can be used to locate an object exists in a collection.");
+    deepEqual(_.where([null], {a: 1}), [], 'Do not throw on null values.');
+    deepEqual(_.where([null], null), [null], 'null matches null');
+    deepEqual(_.where([null], {}), [null], 'null matches {}');
   });
 
 })();
