@@ -952,11 +952,12 @@
       // unique nested structures.
       if (aStack[length] == a) return bStack[length] == b;
     }
-    // Objects with different constructors are not equivalent, but `Object`s
+    var areArray = className == '[object Array]';
+    // Objects with different constructors are not equivalent, but `Object`s or `Array`s
     // from different frames are.
     var aCtor = a.constructor, bCtor = b.constructor;
     if (aCtor !== bCtor && !(_.isFunction(aCtor) && (aCtor instanceof aCtor) &&
-                             _.isFunction(bCtor) && (bCtor instanceof bCtor))
+                             _.isFunction(bCtor) && (bCtor instanceof bCtor) || areArray)
                         && ('constructor' in a && 'constructor' in b)) {
       return false;
     }
@@ -965,7 +966,7 @@
     bStack.push(b);
     var size = 0, result = true;
     // Recursively compare objects and arrays.
-    if (className == '[object Array]') {
+    if (areArray) {
       // Compare array lengths to determine if a deep comparison is necessary.
       size = a.length;
       result = size == b.length;
