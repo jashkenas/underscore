@@ -1114,11 +1114,9 @@
   // Returns a predicate for checking whether an object has a given set of `key:value` pairs.
   _.matches = function(attrs) {
     return function(obj) {
+      if (obj == null) return _.isEmpty(attrs);
       if (obj === attrs) return true;
-      for (var key in attrs) {
-        if (attrs[key] !== obj[key])
-          return false;
-      }
+      for (var key in attrs) if (attrs[key] !== obj[key]) return false;
       return true;
     }
   };
