@@ -412,15 +412,9 @@
     delete obj.one;
     ok(_.isEmpty(obj), 'deleting all the keys from an object empties it');
 
-    // `arguments` Object.
-    var emptyArgs = function () {
-      ok(_.isEmpty(arguments), 'empty arguments object is empty');
-    };
-    var nonEmptyArgs = function () {
-      ok(!_.isEmpty(arguments), 'non-empty arguments object is not empty');
-    };
-    emptyArgs();
-    nonEmptyArgs('a');
+    var args = function(){ return arguments; };
+    ok(_.isEmpty(args()), 'empty arguments object is empty');
+    ok(!_.isEmpty(args('')), 'non-empty arguments object is not empty');
   });
 
   // Setup remote variables for iFrame tests.
