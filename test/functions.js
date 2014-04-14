@@ -58,6 +58,10 @@
 
     func = _.partial(function() { return typeof arguments[2]; }, _, 'b', _, 'd');
     equal(func('a'), 'undefined', 'unfilled placeholders are undefined');
+
+    throws(function() {
+      _.partial('non func', 15, 2, 3);
+    }, TypeError, 'Calling with non function should throw a TypeError');
   });
 
   test('bindAll', function() {
@@ -100,22 +104,38 @@
     var fastO = _.memoize(o);
     equal(o('toString'), 'toString', 'checks hasOwnProperty');
     equal(fastO('toString'), 'toString', 'checks hasOwnProperty');
+
+    throws(function() {
+      _.memoize('non func');
+    }, TypeError, 'Calling with non function should throw a TypeError');
+    throws(function() {
+      _.memoize('non func', o);
+    }, TypeError, 'Calling with non function hasher should throw a TypeError');
+    throws(function() {
+      _.memoize(fib, 'non func');
+    }, TypeError, 'Calling with non function should throw a TypeError');
   });
 
-  asyncTest('delay', 2, function() {
+  asyncTest('delay', 3, function() {
     var delayed = false;
     _.delay(function(){ delayed = true; }, 100);
     setTimeout(function(){ ok(!delayed, "didn't delay the function quite yet"); }, 50);
     setTimeout(function(){ ok(delayed, 'delayed the function'); start(); }, 150);
+    throws(function() {
+      _.delay('non func', 6000);
+    }, TypeError, 'Calling with non function should throw a TypeError');
   });
 
-  asyncTest('defer', 1, function() {
+  asyncTest('defer', 2, function() {
     var deferred = false;
     _.defer(function(bool){ deferred = bool; }, true);
     _.delay(function(){ ok(deferred, 'deferred the function'); start(); }, 50);
+    throws(function() {
+      _.defer('non func');
+    }, TypeError, 'Calling with non function should throw a TypeError');
   });
 
-  asyncTest('throttle', 2, function() {
+  asyncTest('throttle', 3, function() {
     var counter = 0;
     var incr = function(){ counter++; };
     var throttledIncr = _.throttle(incr, 32);
@@ -123,6 +143,10 @@
 
     equal(counter, 1, 'incr was called immediately');
     _.delay(function(){ equal(counter, 2, 'incr was throttled'); start(); }, 64);
+
+    throws(function() {
+      _.throttle('non func', 6000);
+    }, TypeError, 'Calling with non function should throw a TypeError');
   });
 
   asyncTest('throttle arguments', 2, function() {
@@ -300,13 +324,16 @@
     }, 200);
   });
 
-  asyncTest('debounce', 1, function() {
+  asyncTest('debounce', 2, function() {
     var counter = 0;
     var incr = function(){ counter++; };
     var debouncedIncr = _.debounce(incr, 32);
     debouncedIncr(); debouncedIncr();
     _.delay(debouncedIncr, 16);
     _.delay(function(){ equal(counter, 1, 'incr was debounced'); start(); }, 96);
+    throws(function() {
+      _.debounce('non func', 6000);
+    }, TypeError, 'Calling with non function should throw a TypeError');
   });
 
   asyncTest('debounce asap', 4, function() {
@@ -355,7 +382,7 @@
       equal(counter, 2, 'incr was debounced successfully');
       start();
       _.now = origNowFunc;
-    },200);
+    }, 200);
   });
 
   test('once', function() {
@@ -364,6 +391,9 @@
     increment();
     increment();
     equal(num, 1);
+    throws(function() {
+      _.once({});
+    }, TypeError, 'Calling with non function should throw a TypeError');
   });
 
   test('Recursive onced function.', 1, function() {
@@ -388,12 +418,20 @@
     var wrapped = _.wrap(noop, function(fn){ return Array.prototype.slice.call(arguments, 0); });
     var ret     = wrapped(['whats', 'your'], 'vector', 'victor');
     deepEqual(ret, [noop, ['whats', 'your'], 'vector', 'victor']);
+
+    throws(function() {
+      _.negate('non func', ['whats', 'your']);
+    }, TypeError, 'Calling with non function should throw a TypeError');
   });
 
   test('negate', function() {
     var isOdd = function(n){ return (n & 1) == 1; };
     equal(_.negate(isOdd)(2), true, 'should return the complement of the given function');
     equal(_.negate(isOdd)(3), false, 'should return the complement of the given function');
+
+    throws(function() {
+      _.negate('non func');
+    }, TypeError, 'Calling with non function should throw a TypeError');
   });
 
   test('compose', function() {
@@ -404,6 +442,13 @@
 
     composed = _.compose(greet, exclaim);
     equal(composed('moe'), 'hi: moe!', 'in this case, the functions are also commutative');
+
+    throws(function() {
+      _.compose(greet, 'throw');
+    }, TypeError, 'Calling with non function should throw a TypeError');
+    throws(function() {
+      _.compose('throw', greet);
+    }, TypeError, 'Calling with non function should throw a TypeError');
   });
 
   test('after', function() {
@@ -420,6 +465,10 @@
     equal(testAfter(5, 4), 0, 'after(N) should not fire unless called N times');
     equal(testAfter(0, 0), 0, 'after(0) should not fire immediately');
     equal(testAfter(0, 1), 1, 'after(0) should fire when first invoked');
+
+    throws(function() {
+      _.after('non func', 15);
+    }, TypeError, 'Calling with non function should throw a TypeError');
   });
 
 })();
