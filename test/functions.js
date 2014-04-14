@@ -114,6 +114,14 @@
     throws(function() {
       _.memoize(fib, 'non func');
     }, TypeError, 'Calling with non function should throw a TypeError');
+
+    //doesn't throw with falsey hashes (as discussed https://github.com/megawac/underscore/commit/6678ff828f2c4df2944ea8686d7b7148eab09f0b#commitcomment-6009205)
+    _.memoize(fib, 0);
+    _.memoize(fib, '');
+    _.memoize(fib, false);
+    _.memoize(fib, null);
+    _.memoize(fib, NaN);
+    ok(true, 'Does not throw an exception given a falsey hasher');
   });
 
   asyncTest('delay', 3, function() {
