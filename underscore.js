@@ -65,7 +65,7 @@
   // Handles raw objects in addition to array-likes. Treats all
   // sparse array-likes as if they were dense.
   _.each = _.forEach = function(obj, iterator, context) {
-    if (obj == null) return obj;
+    if (obj === null) return obj;
     if (obj.length === +obj.length) {
       for (var i = 0, length = obj.length; i < length; i++) {
         if (iterator.call(context, obj[i], i, obj) === breaker) return;
@@ -82,7 +82,7 @@
   // Return the results of applying the iterator to each element.
   _.map = _.collect = function(obj, iterator, context) {
     var results = [];
-    if (obj == null) return results;
+    if (obj === null) return results;
     _.each(obj, function(value, index, list) {
       results.push(iterator.call(context, value, index, list));
     });
@@ -95,7 +95,7 @@
   // or `foldl`.
   _.reduce = _.foldl = _.inject = function(obj, iterator, memo, context) {
     var initial = arguments.length > 2;
-    if (obj == null) obj = [];
+    if (obj === null) obj = [];
     _.each(obj, function(value, index, list) {
       if (!initial) {
         memo = value;
@@ -111,7 +111,7 @@
   // The right-associative version of reduce, also known as `foldr`.
   _.reduceRight = _.foldr = function(obj, iterator, memo, context) {
     var initial = arguments.length > 2;
-    if (obj == null) obj = [];
+    if (obj === null) obj = [];
     var length = obj.length;
     if (length !== +length) {
       var keys = _.keys(obj);
@@ -146,7 +146,7 @@
   // Aliased as `select`.
   _.filter = _.select = function(obj, predicate, context) {
     var results = [];
-    if (obj == null) return results;
+    if (obj === null) return results;
     _.each(obj, function(value, index, list) {
       if (predicate.call(context, value, index, list)) results.push(value);
     });
@@ -163,7 +163,7 @@
   _.every = _.all = function(obj, predicate, context) {
     predicate || (predicate = _.identity);
     var result = true;
-    if (obj == null) return result;
+    if (obj === null) return result;
     _.each(obj, function(value, index, list) {
       if (!(result = result && predicate.call(context, value, index, list))) return breaker;
     });
@@ -175,7 +175,7 @@
   _.some = _.any = function(obj, predicate, context) {
     predicate || (predicate = _.identity);
     var result = false;
-    if (obj == null) return result;
+    if (obj === null) return result;
     _.each(obj, function(value, index, list) {
       if (result || (result = predicate.call(context, value, index, list))) return breaker;
     });
@@ -185,7 +185,7 @@
   // Determine if the array or object contains a given value (using `===`).
   // Aliased as `include`.
   _.contains = _.include = function(obj, target) {
-    if (obj == null) return false;
+    if (obj === null) return false;
     if (obj.length === +obj.length) return _.indexOf(obj, target) >= 0;
     return _.some(obj, function(value) {
       return value === target;
@@ -282,7 +282,7 @@
   // If **n** is not specified, returns a single random element.
   // The internal `guard` argument allows it to work with `map`.
   _.sample = function(obj, n, guard) {
-    if (n == null || guard) {
+    if (n === null || guard) {
       if (obj.length !== +obj.length) obj = _.values(obj);
       return obj[_.random(obj.length - 1)];
     }
@@ -291,7 +291,7 @@
 
   // An internal function to generate lookup iterators.
   var lookupIterator = function(value, context) {
-    if (value == null) return _.identity;
+    if (value === null) return _.identity;
     if (!_.isFunction(value)) return _.property(value);
     if (!context) return value;
     return function() {
@@ -374,7 +374,7 @@
 
   // Return the number of elements in an object.
   _.size = function(obj) {
-    if (obj == null) return 0;
+    if (obj === null) return 0;
     return (obj.length === +obj.length) ? obj.length : _.keys(obj).length;
   };
 
@@ -385,8 +385,8 @@
   // values in the array. Aliased as `head` and `take`. The **guard** check
   // allows it to work with `_.map`.
   _.first = _.head = _.take = function(array, n, guard) {
-    if (array == null) return void 0;
-    if ((n == null) || guard) return array[0];
+    if (array === null) return void 0;
+    if ((n === null) || guard) return array[0];
     if (n < 0) return [];
     return slice.call(array, 0, n);
   };
@@ -396,14 +396,14 @@
   // the array, excluding the last N. The **guard** check allows it to work with
   // `_.map`.
   _.initial = function(array, n, guard) {
-    return slice.call(array, 0, Math.max(0, array.length - (n == null || guard ? 1 : n)));
+    return slice.call(array, 0, Math.max(0, array.length - (n === null || guard ? 1 : n)));
   };
 
   // Get the last element of an array. Passing **n** will return the last N
   // values in the array. The **guard** check allows it to work with `_.map`.
   _.last = function(array, n, guard) {
-    if (array == null) return void 0;
-    if ((n == null) || guard) return array[array.length - 1];
+    if (array === null) return void 0;
+    if ((n === null) || guard) return array[array.length - 1];
     return slice.call(array, Math.max(array.length - n, 0));
   };
 
@@ -412,7 +412,7 @@
   // the rest N values in the array. The **guard**
   // check allows it to work with `_.map`.
   _.rest = _.tail = _.drop = function(array, n, guard) {
-    return slice.call(array, (n == null) || guard ? 1 : n);
+    return slice.call(array, (n === null) || guard ? 1 : n);
   };
 
   // Trim out all falsy values from an array.
@@ -463,7 +463,7 @@
   // been sorted, you have the option of using a faster algorithm.
   // Aliased as `unique`.
   _.uniq = _.unique = function(array, isSorted, iterator, context) {
-    if (array == null) return [];
+    if (array === null) return [];
     if (_.isFunction(isSorted)) {
       context = iterator;
       iterator = isSorted;
@@ -492,7 +492,7 @@
   // Produce an array that contains every item shared between all the
   // passed-in arrays.
   _.intersection = function(array) {
-    if (array == null) return [];
+    if (array === null) return [];
     var result = [];
     var argsLength = arguments.length;
     for (var i = 0, length = array.length; i < length; i++) {
@@ -528,7 +528,7 @@
   // pairs, or two parallel arrays of the same length -- one of keys, and one of
   // the corresponding values.
   _.object = function(list, values) {
-    if (list == null) return {};
+    if (list === null) return {};
     var result = {};
     for (var i = 0, length = list.length; i < length; i++) {
       if (values) {
@@ -545,7 +545,7 @@
   // If the array is large and already in sort order, pass `true`
   // for **isSorted** to use binary search.
   _.indexOf = function(array, item, isSorted) {
-    if (array == null) return -1;
+    if (array === null) return -1;
     var i = 0, length = array.length;
     if (isSorted) {
       if (typeof isSorted == 'number') {
@@ -560,8 +560,8 @@
   };
 
   _.lastIndexOf = function(array, item, from) {
-    if (array == null) return -1;
-    var i = from == null ? array.length : from;
+    if (array === null) return -1;
+    var i = from === null ? array.length : from;
     while (i--) if (array[i] === item) return i;
     return -1;
   };
@@ -913,7 +913,7 @@
     // See the [Harmony `egal` proposal](http://wiki.ecmascript.org/doku.php?id=harmony:egal).
     if (a === b) return a !== 0 || 1 / a == 1 / b;
     // A strict comparison is necessary because `null == undefined`.
-    if (a == null || b == null) return a === b;
+    if (a === null || b === null) return a === b;
     // Unwrap any wrapped objects.
     if (a instanceof _) a = a._wrapped;
     if (b instanceof _) b = b._wrapped;
@@ -929,7 +929,7 @@
       case '[object Number]':
         // `NaN`s are equivalent, but non-reflexive. An `egal` comparison is performed for
         // other numeric values.
-        return a != +a ? b != +b : (a == 0 ? 1 / a == 1 / b : a == +b);
+        return a != +a ? b != +b : (a === 0 ? 1 / a == 1 / b : a == +b);
       case '[object Date]':
       case '[object Boolean]':
         // Coerce dates and booleans to numeric primitive values. Dates are compared by their
@@ -1007,7 +1007,7 @@
   // Is a given array, string, or object empty?
   // An "empty" object has no enumerable own-properties.
   _.isEmpty = function(obj) {
-    if (obj == null) return true;
+    if (obj === null) return true;
     if (_.isArray(obj) || _.isString(obj) || _.isArguments(obj)) return obj.length === 0;
     for (var key in obj) if (_.has(obj, key)) return false;
     return true;
@@ -1114,7 +1114,7 @@
   // Returns a predicate for checking whether an object has a given set of `key:value` pairs.
   _.matches = function(attrs) {
     return function(obj) {
-      if (obj == null) return _.isEmpty(attrs);
+      if (obj === null) return _.isEmpty(attrs);
       if (obj === attrs) return true;
       for (var key in attrs) if (attrs[key] !== obj[key]) return false;
       return true;
@@ -1130,7 +1130,7 @@
 
   // Return a random integer between min and max (inclusive).
   _.random = function(min, max) {
-    if (max == null) {
+    if (max === null) {
       max = min;
       min = 0;
     }
@@ -1161,7 +1161,7 @@
   // Functions for escaping and unescaping strings to/from HTML interpolation.
   _.each(['escape', 'unescape'], function(method) {
     _[method] = function(string) {
-      if (string == null) return '';
+      if (string === null) return '';
       return ('' + string).replace(entityRegexes[method], function(match) {
         return entityMap[method][match];
       });
@@ -1171,7 +1171,7 @@
   // If the value of the named `property` is a function then invoke it with the
   // `object` as context; otherwise, return it.
   _.result = function(object, property) {
-    if (object == null) return void 0;
+    if (object === null) return void 0;
     var value = object[property];
     return _.isFunction(value) ? object[property]() : value;
   };
