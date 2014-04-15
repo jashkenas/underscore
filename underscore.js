@@ -58,6 +58,35 @@
   // Current version.
   _.VERSION = '1.6.0';
 
+  // Internal function: creates a callback bound to its context if supplied
+  var createCallback = function(func, context, argCount) {
+    if (!context) return func;
+    switch (argCount == null ? 3 : argCount) {
+      case 1: return function(value) {
+        return func.call(context, value);
+      };
+      case 2: return function(value, other) {
+        return func.call(context, value, other);
+      };
+      case 3: return function(value, index, collection) {
+        return func.call(context, value, index, collection);
+      };
+      case 4: return function(accumulator, value, index, collection) {
+        return func.call(context, accumulator, value, index, collection);
+      };
+    }
+    return function() {
+      return func.apply(this, arguments);
+    };
+  };
+
+  // An internal function to generate lookup iterators.
+  var lookupIterator = function(value, context, argCount) {
+    if (value == null) return _.identity;
+    if (!_.isFunction(value)) return _.property(value);
+    return createCallback(value, context, argCount);
+  };
+
   // Collection Functions
   // --------------------
 
@@ -66,14 +95,15 @@
   // sparse array-likes as if they were dense.
   _.each = _.forEach = function(obj, iterator, context) {
     if (obj == null) return obj;
+    iterator = createCallback(iterator, context);
     if (obj.length === +obj.length) {
       for (var i = 0, length = obj.length; i < length; i++) {
-        if (iterator.call(context, obj[i], i, obj) === breaker) return;
+        if (iterator(obj[i], i, obj) === breaker) return;
       }
     } else {
       var keys = _.keys(obj);
       for (var i = 0, length = keys.length; i < length; i++) {
-        if (iterator.call(context, obj[keys[i]], keys[i], obj) === breaker) return;
+        if (iterator(obj[keys[i]], keys[i], obj) === breaker) return;
       }
     }
     return obj;
@@ -83,8 +113,9 @@
   _.map = _.collect = function(obj, iterator, context) {
     var results = [];
     if (obj == null) return results;
+    iterator = createCallback(iterator, context);
     _.each(obj, function(value, index, list) {
-      results.push(iterator.call(context, value, index, list));
+      results.push(iterator(value, index, list));
     });
     return results;
   };
@@ -96,12 +127,13 @@
   _.reduce = _.foldl = _.inject = function(obj, iterator, memo, context) {
     var initial = arguments.length > 2;
     if (obj == null) obj = [];
+    iterator = createCallback(iterator, context, 4);
     _.each(obj, function(value, index, list) {
       if (!initial) {
         memo = value;
         initial = true;
       } else {
-        memo = iterator.call(context, memo, value, index, list);
+        memo = iterator(memo, value, index, list);
       }
     });
     if (!initial) throw new TypeError(reduceError);
@@ -113,6 +145,7 @@
     var initial = arguments.length > 2;
     if (obj == null) obj = [];
     var length = obj.length;
+    iterator = createCallback(iterator, context, 4);
     if (length !== +length) {
       var keys = _.keys(obj);
       length = keys.length;
@@ -123,7 +156,7 @@
         memo = obj[index];
         initial = true;
       } else {
-        memo = iterator.call(context, memo, obj[index], index, list);
+        memo = iterator(memo, obj[index], index, list);
       }
     });
     if (!initial) throw new TypeError(reduceError);
@@ -133,8 +166,9 @@
   // Return the first value which passes a truth test. Aliased as `detect`.
   _.find = _.detect = function(obj, predicate, context) {
     var result;
+    predicate = createCallback(predicate, context);
     _.some(obj, function(value, index, list) {
-      if (predicate.call(context, value, index, list)) {
+      if (predicate(value, index, list)) {
         result = value;
         return true;
       }
@@ -147,8 +181,9 @@
   _.filter = _.select = function(obj, predicate, context) {
     var results = [];
     if (obj == null) return results;
+    predicate = createCallback(predicate, context);
     _.each(obj, function(value, index, list) {
-      if (predicate.call(context, value, index, list)) results.push(value);
+      if (predicate(value, index, list)) results.push(value);
     });
     return results;
   };
@@ -164,8 +199,9 @@
     predicate || (predicate = _.identity);
     var result = true;
     if (obj == null) return result;
+    predicate = createCallback(predicate, context);
     _.each(obj, function(value, index, list) {
-      if (!(result = result && predicate.call(context, value, index, list))) return breaker;
+      if (!(result = result && predicate(value, index, list))) return breaker;
     });
     return !!result;
   };
@@ -176,8 +212,9 @@
     predicate || (predicate = _.identity);
     var result = false;
     if (obj == null) return result;
+    predicate = createCallback(predicate, context);
     _.each(obj, function(value, index, list) {
-      if (result || (result = predicate.call(context, value, index, list))) return breaker;
+      if (result || (result = predicate(value, index, list))) return breaker;
     });
     return !!result;
   };
@@ -230,8 +267,9 @@
         }
       }
     } else {
+      iterator = createCallback(iterator, context);
       _.each(obj, function(value, index, list) {
-        computed = iterator ? iterator.call(context, value, index, list) : value;
+        computed = iterator ? iterator(value, index, list) : value;
         if (computed > lastComputed || (computed === -Infinity && result === -Infinity)) {
           result = value;
           lastComputed = computed;
@@ -253,8 +291,9 @@
         }
       }
     } else {
+      iterator = createCallback(iterator);
       _.each(obj, function(value, index, list) {
-        computed = iterator ? iterator.call(context, value, index, list) : value;
+        computed = iterator ? iterator(value, index, list) : value;
         if (computed < lastComputed || (computed === Infinity && result === Infinity)) {
           result = value;
           lastComputed = computed;
@@ -287,16 +326,6 @@
       return obj[_.random(obj.length - 1)];
     }
     return _.shuffle(obj).slice(0, Math.max(0, n));
-  };
-
-  // An internal function to generate lookup iterators.
-  var lookupIterator = function(value, context) {
-    if (value == null) return _.identity;
-    if (!_.isFunction(value)) return _.property(value);
-    if (!context) return value;
-    return function() {
-      return value.apply(context, arguments);
-    };
   };
 
   // Sort the object's values by a criterion produced by an iterator.
@@ -354,7 +383,7 @@
   // Use a comparator function to figure out the smallest index at which
   // an object should be inserted so as to maintain order. Uses binary search.
   _.sortedIndex = function(array, obj, iterator, context) {
-    iterator = lookupIterator(iterator, context);
+    iterator = lookupIterator(iterator, context, 1);
     var value = iterator(obj);
     var low = 0, high = array.length;
     while (low < high) {
@@ -451,7 +480,7 @@
   // Split an array into two arrays: one whose elements all satisfy the given
   // predicate, and one whose elements all do not satisfy the predicate.
   _.partition = function(obj, predicate, context) {
-    predicate = lookupIterator(predicate, context);
+    predicate = lookupIterator(predicate, context, 1);
     var pass = [], fail = [];
     _.each(obj, function(value, key, obj) {
       (predicate(value, key, obj) ? pass : fail).push(value);
@@ -469,11 +498,12 @@
       iterator = isSorted;
       isSorted = false;
     }
+    if (iterator) iterator = createCallback(iterator, context);
     var result = [];
     var seen = [];
     for (var i = 0, length = array.length; i < length; i++) {
       var value = array[i];
-      if (iterator) value = iterator.call(context, value, i, array);
+      if (iterator) value = iterator(value, i, array);
       if (isSorted ? (!i || seen !== value) : !_.contains(seen, value)) {
         if (isSorted) seen = value;
         else seen.push(value);
@@ -1119,7 +1149,8 @@
   // Run a function **n** times.
   _.times = function(n, iterator, context) {
     var accum = Array(Math.max(0, n));
-    for (var i = 0; i < n; i++) accum[i] = iterator.call(context, i);
+    iterator = createCallback(iterator, context, 1);
+    for (var i = 0; i < n; i++) accum[i] = iterator(i);
     return accum;
   };
 
