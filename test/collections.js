@@ -68,6 +68,10 @@
 
     var ifnull = _.map(null, function(){});
     ok(_.isArray(ifnull) && ifnull.length === 0, 'handles a null properly');
+
+    //can be used like _.pluck
+    var people = [{name : 'moe', age : 30}, {name : 'curly', age : 50}];
+    deepEqual(_.map(people, 'name'), ['moe', 'curly'], 'predicate string map to object properties');
   });
 
   test('reduce', function() {
@@ -167,6 +171,17 @@
     var array = [1, 2, 3, 4];
     strictEqual(_.find(array, function(n) { return n > 2; }), 3, 'should return first found `value`');
     strictEqual(_.find(array, function() { return false; }), void 0, 'should return `undefined` if `value` is not found');
+
+    //can be used like findwhere
+    var list = [{a: 1, b: 2}, {a: 2, b: 2}, {a: 1, b: 3}, {a: 1, b: 4}, {a: 2, b: 4}];
+    var result = _.find(list, {a: 1}, 'can be used as findWhere');
+    deepEqual(result, {a: 1, b: 2});
+    result = _.find(list, {b: 4});
+    deepEqual(result, {a: 1, b: 4});
+    result = _.find(list, {c:1});
+    ok(_.isUndefined(result), 'undefined when not found');
+    result = _.find([], {c:1});
+    ok(_.isUndefined(result), 'undefined when searching empty list');
   });
 
   test('detect', function() {
@@ -177,9 +192,27 @@
   test('select', function() {
     var evens = _.select([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
     deepEqual(evens, [2, 4, 6], 'selected each even number');
+  });
 
-    evens = _.filter([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
-    deepEqual(evens, [2, 4, 6], 'aliased as "filter"');
+  test('filter', function() {
+    var evenArray = [1, 2, 3, 4, 5, 6];
+    var evenObject = {one: 1, two: 2, three: 3};
+    var isEven = function(num){ return num % 2 === 0; };
+
+    deepEqual(_.filter(evenArray, isEven), [2, 4, 6], 'aliased as "filter"');
+    deepEqual(_.filter(evenObject, isEven), [2]);
+    deepEqual(_.filter([{}, evenObject, []], 'two'), [evenObject], 'predicate string map to object properties');
+
+    //can be used like where
+    var list = [{a: 1, b: 2}, {a: 2, b: 2}, {a: 1, b: 3}, {a: 1, b: 4}];
+    var result = _.filter(list, {a: 1}, 'can be used like _.where');
+    equal(result.length, 3);
+    equal(result[result.length - 1].b, 4);
+    result = _.filter(list, {b: 2});
+    equal(result.length, 2);
+    equal(result[0].a, 1);
+    result = _.filter(list, {});
+    equal(result.length, list.length);
   });
 
   test('reject', function() {
@@ -193,6 +226,22 @@
       return num % 2 != 0;
     }, context);
     deepEqual(evens, [2, 4, 6], 'rejected each odd number');
+
+    var evenObject = {one: 1, two: 2, three: 3};
+    deepEqual(_.reject([odds, evenObject], 'two'), [odds], 'predicate string map to object properties');
+  });
+
+  test('reject given object (ala rejectWhere)', function() {
+    //can be used like where
+    var list = [{a: 1, b: 2}, {a: 2, b: 2}, {a: 1, b: 3}, {a: 1, b: 4}];
+    var result = _.reject(list, {a: 1});
+    equal(result.length, 1);
+    equal(result[result.length - 1].b, 2);
+    result = _.reject(list, {b: 2});
+    equal(result.length, 2);
+    equal(result[0].a, 1);
+    result = _.reject(list, {});
+    equal(result.length, list.length);
   });
 
   test('all', function() {
@@ -205,6 +254,13 @@
     ok(_.all([0], _.identity) === false, 'cast to boolean - false');
     ok(_.every([true, true, true], _.identity), 'aliased as "every"');
     ok(!_.all([undefined, undefined, undefined], _.identity), 'works with arrays of undefined');
+
+    var list = [{a: 1, b: 2}, {a: 2, b: 2}, {a: 1, b: 3}, {a: 1, b: 4}];
+    var list2 = [{a: 1, b: 2}, {a: 2, b: 2, c: true}];
+    ok(!_.all(list, {a: 1, b: 2}), 'Can be called with object');
+    ok(_.all(list, 'a'), 'String mapped to object property');
+    ok(_.all(list2, {b: 2}), 'Can be called with object');
+    ok(!_.all(list2, 'c'), 'String mapped to object property');
   });
 
   test('any', function() {
@@ -218,6 +274,20 @@
     ok(_.any([1], _.identity) === true, 'cast to boolean - true');
     ok(_.any([0], _.identity) === false, 'cast to boolean - false');
     ok(_.some([false, false, true]), 'aliased as "some"');
+
+    var list = [{a: 1, b: 2}, {a: 2, b: 2}, {a: 1, b: 3}, {a: 1, b: 4}];
+    var list2 = [{a: 1, b: 2}, {a: 2, b: 2, c: true}];
+    ok(!_.all(list, {a: 1, b: 2}), 'Can be called with object');
+    ok(_.all(list, 'a'), 'String mapped to object property');
+    ok(_.all(list2, {b: 2}), 'Can be called with object');
+    ok(!_.all(list2, 'c'), 'String mapped to object property');
+
+    var list = [{a: 1, b: 2}, {a: 2, b: 2}, {a: 1, b: 3}, {a: 1, b: 4}];
+    var list2 = [{a: 1, b: 2}, {a: 2, b: 2, c: true}];
+    ok(!_.any(list, {a: 5, b: 2}), 'Can be called with object');
+    ok(_.any(list, 'a'), 'String mapped to object property');
+    ok(_.any(list2, {b: 2}), 'Can be called with object');
+    ok(!_.any(list2, 'd'), 'String mapped to object property');
   });
 
   test('include', function() {
@@ -280,7 +350,7 @@
     result = _.findWhere(list, {b: 4});
     deepEqual(result, {a: 1, b: 4});
 
-    result = _.findWhere(list, {c: 1})
+    result = _.findWhere(list, {c: 1});
     ok(_.isUndefined(result), 'undefined when not found');
 
     result = _.findWhere([], {c: 1});
@@ -368,6 +438,9 @@
 
     deepEqual(actual, collection, 'sortBy should be stable');
 
+    var actual2 = _.sortBy(collection, 'x');
+    deepEqual(actual, collection, 'sortBy should be stable');
+
     var list = ['q', 'w', 'e', 'r', 't', 'y'];
     deepEqual(_.sortBy(list), ['e', 'q', 'r', 't', 'w', 'y'], 'uses _.identity if iterator is not specified');
   });
@@ -405,8 +478,8 @@
       [1, 3],
       [2, 3]
     ];
-    deepEqual(_.groupBy(matrix, 0), {1: [[1, 2], [1, 3]], 2: [[2, 3]]})
-    deepEqual(_.groupBy(matrix, 1), {2: [[1, 2]], 3: [[1, 3], [2, 3]]})
+    deepEqual(_.groupBy(matrix, 0), {1: [[1, 2], [1, 3]], 2: [[2, 3]]});
+    deepEqual(_.groupBy(matrix, 1), {2: [[1, 2]], 3: [[1, 3], [2, 3]]});
   });
 
   test('indexBy', function() {
@@ -549,6 +622,8 @@
     // Context
     var predicate = function(x){ return x === this.x };
     deepEqual(_.partition([1, 2, 3], predicate, {x: 2}), [[2], [1, 3]], 'partition takes a context argument');
+
+    deepEqual(_.partition([{a: 1}, {b: 2}, {a: 1, b: 2}], {a: 1}), [[{a: 1}, {a: 1, b: 2}], [{b: 2}]], 'predicate can be object');
   });
 
 })();

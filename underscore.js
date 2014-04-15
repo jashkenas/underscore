@@ -83,8 +83,9 @@
   // An internal function to generate lookup iterators.
   var lookupIterator = function(value, context, argCount) {
     if (value == null) return _.identity;
-    if (!_.isFunction(value)) return _.property(value);
-    return createCallback(value, context, argCount);
+    if (_.isFunction(value)) return createCallback(value, context, argCount);
+    if (_.isObject(value)) return _.matches(value);
+    return _.property(value);
   };
 
   // Collection Functions
@@ -113,7 +114,7 @@
   _.map = _.collect = function(obj, iterator, context) {
     var results = [];
     if (obj == null) return results;
-    iterator = createCallback(iterator, context);
+    iterator = lookupIterator(iterator, context);
     _.each(obj, function(value, index, list) {
       results.push(iterator(value, index, list));
     });
@@ -166,7 +167,7 @@
   // Return the first value which passes a truth test. Aliased as `detect`.
   _.find = _.detect = function(obj, predicate, context) {
     var result;
-    predicate = createCallback(predicate, context);
+    predicate = lookupIterator(predicate, context);
     _.some(obj, function(value, index, list) {
       if (predicate(value, index, list)) {
         result = value;
@@ -181,7 +182,7 @@
   _.filter = _.select = function(obj, predicate, context) {
     var results = [];
     if (obj == null) return results;
-    predicate = createCallback(predicate, context);
+    predicate = lookupIterator(predicate, context);
     _.each(obj, function(value, index, list) {
       if (predicate(value, index, list)) results.push(value);
     });
@@ -190,7 +191,8 @@
 
   // Return all the elements for which a truth test fails.
   _.reject = function(obj, predicate, context) {
-    return _.filter(obj, _.negate(predicate), context);
+    if (typeof predicate == 'object' && _.isEmpty(predicate)) return _.filter(obj, predicate);
+    return _.filter(obj, _.negate(lookupIterator(predicate)), context);
   };
 
   // Determine whether all of the elements match a truth test.
@@ -199,7 +201,7 @@
     predicate || (predicate = _.identity);
     var result = true;
     if (obj == null) return result;
-    predicate = createCallback(predicate, context);
+    predicate = lookupIterator(predicate, context);
     _.each(obj, function(value, index, list) {
       if (!(result = result && predicate(value, index, list))) return breaker;
     });
@@ -212,7 +214,7 @@
     predicate || (predicate = _.identity);
     var result = false;
     if (obj == null) return result;
-    predicate = createCallback(predicate, context);
+    predicate = lookupIterator(predicate, context);
     _.each(obj, function(value, index, list) {
       if (result || (result = predicate(value, index, list))) return breaker;
     });
@@ -239,9 +241,7 @@
   };
 
   // Convenience version of a common use case of `map`: fetching a property.
-  _.pluck = function(obj, key) {
-    return _.map(obj, _.property(key));
-  };
+  _.pluck = _.map;
 
   // Convenience version of a common use case of `filter`: selecting only objects
   // containing specific `key:value` pairs.
@@ -251,9 +251,7 @@
 
   // Convenience version of a common use case of `find`: getting the first object
   // containing specific `key:value` pairs.
-  _.findWhere = function(obj, attrs) {
-    return _.find(obj, _.matches(attrs));
-  };
+  _.findWhere = _.find;
 
   // Return the maximum element or (element-based computation).
   _.max = function(obj, iterator, context) {
@@ -267,7 +265,7 @@
         }
       }
     } else {
-      iterator = createCallback(iterator, context);
+      iterator = lookupIterator(iterator, context);
       _.each(obj, function(value, index, list) {
         computed = iterator ? iterator(value, index, list) : value;
         if (computed > lastComputed || (computed === -Infinity && result === -Infinity)) {
@@ -291,7 +289,7 @@
         }
       }
     } else {
-      iterator = createCallback(iterator);
+      iterator = lookupIterator(iterator);
       _.each(obj, function(value, index, list) {
         computed = iterator ? iterator(value, index, list) : value;
         if (computed < lastComputed || (computed === Infinity && result === Infinity)) {
@@ -498,7 +496,7 @@
       iterator = isSorted;
       isSorted = false;
     }
-    if (iterator) iterator = createCallback(iterator, context);
+    if (iterator) iterator = lookupIterator(iterator, context);
     var result = [];
     var seen = [];
     for (var i = 0, length = array.length; i < length; i++) {
