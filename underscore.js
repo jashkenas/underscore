@@ -850,6 +850,24 @@
     });
     return obj;
   };
+  
+  // Deep extend for big objects with multiple sub objects
+  _.deepExtend = function(obj) {
+    _.each(slice.call(arguments, 1), function(source) {
+      if(source) {
+        for(var prop in source) {
+          if(_.isObject(source[prop]) || _.isArray(source[prop])) {
+            if(_.isUndefined(obj[prop]))
+              obj[key] = _.isObject(source[prop]) ? {}:[];
+              _.deepExtend(obj[prop],source[prop]);
+            } else {
+              _.extend(obj,source);
+            }
+          }
+        }
+      });
+	return obj;
+  }
 
   // Return a copy of the object only containing the whitelisted properties.
   _.pick = function(obj, iterator, context) {

@@ -61,6 +61,31 @@
 
     equal(result.a, 1, 'should not error on `null` or `undefined` sources');
   });
+  
+  test('deepExtend', function() {
+    var result;
+    equal(_.deepExtend({}, {a:'b'}).a, 'b', 'can extend an object with the attributes of another');
+    equal(_.deepExtend({a:'x'}, {a:'b', subkey: { a:'c' }}).subkey.a, 'c', 'properties in source override destination');
+    equal(_.deepExtend({x:'x', subkey: { a:'c' }}, {a:'b', subkey: { a:'b' }}).subkey.a, 'b', "properties not in source don't get overriden");
+    equal(_.deepExtend({x:'x', subkey: { a:'c' }}, {a:'b', subkey: { a:'b', b: 'c' }}).subkey.b, 'c', "object in source can extended");
+    equal(_.deepExtend({x:'x', subkey: [{ a:'c' },{b:'c'}]}, {a:'b', subkey: [{a:'b', b: 'd'},{g: 'd'}]}).subkey[1].g, 'd', "extend key with array inside");
+    equal(_.deepExtend({c:{ d:[{a:'b'}]}},{a:'b',b:'c',c:{ d:[{f:'g'}]}}).c.d[0].f, 'g', "extending array");
+
+    result = _.deepExtend({x:'x'}, {a:'a'}, {b:'b'});
+    ok(_.isEqual(result, {x:'x', a:'a', b:'b'}), 'can extend from multiple source objects');
+    result = _.deepExtend({x:'x'}, {a:'a', x:2}, {a:'b'});
+    ok(_.isEqual(result, {x:2, a:'b'}), 'extending from multiple source objects last property trumps');
+    result = _.deepExtend({}, {a: void 0, b: null});
+    deepEqual(_.keys(result), ['a', 'b'], 'extend copies undefined values');
+
+    try {
+      result = {};
+      _.deepExtend(result, null, undefined, {a:1});
+    } catch(ex) {}
+
+    equal(result.a, 1, 'should not error on `null` or `undefined` sources');
+  });
+
 
   test('pick', function() {
     var result;
