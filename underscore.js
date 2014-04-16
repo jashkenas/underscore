@@ -850,6 +850,20 @@
     });
     return obj;
   };
+  
+  //deep extend for big objects with multiple sub objects
+  _.deepExtend = function extendObject(source, object) {
+        for(var key in object) {
+            if(typeof object[key] == 'object') {
+                if(typeof source[key] == 'undefined')
+                    source[key] = {};
+
+                _.deepExtend(source[key],object[key]);
+            } else {
+                _.extend(source,object);
+            }
+        }
+    }
 
   // Return a copy of the object only containing the whitelisted properties.
   _.pick = function(obj, iterator, context) {
