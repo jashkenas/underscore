@@ -66,7 +66,8 @@
     var result;
     equal(_.deepExtend({}, {a:'b'}).a, 'b', 'can extend an object with the attributes of another');
     equal(_.deepExtend({a:'x'}, {a:'b', subkey: { a:'c' }}).subkey.a, 'c', 'properties in source override destination');
-    equal(_.deepExtend({x:'x', subkey: { a:'c' }}}, {a:'b', subkey: { a:'b' }}}).subkey.a, 'b', "properties not in source don't get overriden");
+    equal(_.deepExtend({x:'x', subkey: { a:'c' }}, {a:'b', subkey: { a:'b' }}).subkey.a, 'b', "properties not in source don't get overriden");
+    equal(_.deepExtend({x:'x', subkey: { a:'c' }}, {a:'b', subkey: { a:'b', b: 'c' }}).subkey.b, 'c', "object in source can extended");
     result = _.deepExtend({x:'x'}, {a:'a'}, {b:'b'});
     ok(_.isEqual(result, {x:'x', a:'a', b:'b'}), 'can extend from multiple source objects');
     result = _.deepExtend({x:'x'}, {a:'a', x:2}, {a:'b'});
