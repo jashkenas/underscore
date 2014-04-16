@@ -856,10 +856,9 @@
     _.each(slice.call(arguments, 1), function(source) {
       if(source) {
         for(var prop in source) {
-          if(typeof source[prop] == 'object') {
-            if(typeof obj[prop] == 'undefined')
-              obj[key] = {};
-
+          if(_.isObject(source[prop]) || _.isArray(source[prop])) {
+            if(_.isUndefined(obj[prop]))
+              obj[key] = _.isObject(source[prop]) ? {}:[];
               _.deepExtend(obj[prop],source[prop]);
             } else {
               _.extend(obj,source);
