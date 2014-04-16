@@ -851,18 +851,22 @@
     return obj;
   };
   
-  //deep extend for big objects with multiple sub objects
-  _.deepExtend = function extendObject(source, object) {
-        for(var key in object) {
-            if(typeof object[key] == 'object') {
-                if(typeof source[key] == 'undefined')
-                    source[key] = {};
+  // Deep extend for big objects with multiple sub objects
+  _.deepExtend = function(obj) {
+    _.each(slice.call(arguments, 1), function(source) {
+      if(source) {
+        for(var prop in source) {
+          if(typeof sorce[prop] == 'object') {
+            if(typeof obj[prop] == 'undefined')
+              obj[key] = {};
 
-                _.deepExtend(source[key],object[key]);
+              _.deepExtend(obj[prop],source[prop]);
             } else {
-                _.extend(source,object);
+              _.extend(obj,source);
             }
+          }
         }
+      }
     }
 
   // Return a copy of the object only containing the whitelisted properties.
