@@ -174,13 +174,13 @@
 
     //can be used like findwhere
     var list = [{a: 1, b: 2}, {a: 2, b: 2}, {a: 1, b: 3}, {a: 1, b: 4}, {a: 2, b: 4}];
-    var result = _.find(list, {a: 1}, 'can be used as findWhere');
-    deepEqual(result, {a: 1, b: 2});
+    var result = _.find(list, {a: 1});
+    deepEqual(result, {a: 1, b: 2}, 'can be used as findWhere');
     result = _.find(list, {b: 4});
     deepEqual(result, {a: 1, b: 4});
-    result = _.find(list, {c:1});
+    result = _.find(list, {c: 1});
     ok(_.isUndefined(result), 'undefined when not found');
-    result = _.find([], {c:1});
+    result = _.find([], {c: 1});
     ok(_.isUndefined(result), 'undefined when searching empty list');
   });
 
@@ -205,14 +205,12 @@
 
     //can be used like where
     var list = [{a: 1, b: 2}, {a: 2, b: 2}, {a: 1, b: 3}, {a: 1, b: 4}];
-    var result = _.filter(list, {a: 1}, 'can be used like _.where');
-    equal(result.length, 3);
+    var result = _.filter(list, {a: 1});
+    equal(result.length, 3, 'can be used like _.where');
     equal(result[result.length - 1].b, 4);
-    result = _.filter(list, {b: 2});
-    equal(result.length, 2);
-    equal(result[0].a, 1);
+    deepEqual(_.filter(list, {b: 2}), [{a: 1, b: 2}, {a: 2, b: 2}]);
     result = _.filter(list, {});
-    equal(result.length, list.length);
+    deepEqual(result, list, 'Empty object accepts all items');
   });
 
   test('reject', function() {
@@ -240,8 +238,8 @@
     result = _.reject(list, {b: 2});
     equal(result.length, 2);
     equal(result[0].a, 1);
-    result = _.reject(list, {});
-    equal(result.length, list.length);
+    deepEqual(_.reject(list, {}), [], 'Returns empty list given empty object');
+    deepEqual(_.reject(list, []), [], 'Returns empty list given empty object');
   });
 
   test('all', function() {
@@ -327,8 +325,10 @@
   });
 
   test('pluck', function() {
-    var people = [{name : 'moe', age : 30}, {name : 'curly', age : 50}];
+    var people = [{name: 'moe', age: 30}, {name: 'curly', age: 50}];
     deepEqual(_.pluck(people, 'name'), ['moe', 'curly'], 'pulls names out of objects');
+    //compat: most flexible handling of edge cases
+    deepEqual(_.pluck([{'[object Window]': 1}], window), [1]);
   });
 
   test('where', function() {
@@ -341,6 +341,10 @@
     equal(result[0].a, 1);
     result = _.where(list, {});
     equal(result.length, list.length);
+
+    function test() {}
+    test.map = _.map;
+    deepEqual(_.where([_, {a: 1, b: 2}, _], test), [_, _], 'checks properties given function');
   });
 
   test('findWhere', function() {
@@ -355,6 +359,17 @@
 
     result = _.findWhere([], {c: 1});
     ok(_.isUndefined(result), 'undefined when searching empty list');
+
+    function test() {}
+    test.map = _.map;
+    equal(_.findWhere([_, {a: 1, b: 2}, _], test), _, 'checks properties given function');
+
+    function TestClass() {
+      this.y = 5;
+      this.x = 'foo';
+    }
+    var expect = {c: 1, x: 'foo', y: 5};
+    deepEqual(_.findWhere([{y: 5, b: 6}, expect], new TestClass()), expect, 'uses class instance properties');
   });
 
   test('max', function() {
@@ -438,8 +453,7 @@
 
     deepEqual(actual, collection, 'sortBy should be stable');
 
-    var actual2 = _.sortBy(collection, 'x');
-    deepEqual(actual, collection, 'sortBy should be stable');
+    deepEqual(_.sortBy(collection, 'x'), collection, 'sortBy accepts property string');
 
     var list = ['q', 'w', 'e', 'r', 't', 'y'];
     deepEqual(_.sortBy(list), ['e', 'q', 'r', 't', 'w', 'y'], 'uses _.identity if iterator is not specified');

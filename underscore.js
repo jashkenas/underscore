@@ -191,7 +191,6 @@
 
   // Return all the elements for which a truth test fails.
   _.reject = function(obj, predicate, context) {
-    if (typeof predicate == 'object' && _.isEmpty(predicate)) return _.filter(obj, predicate);
     return _.filter(obj, _.negate(lookupIterator(predicate)), context);
   };
 
@@ -241,7 +240,9 @@
   };
 
   // Convenience version of a common use case of `map`: fetching a property.
-  _.pluck = _.map;
+  _.pluck = function(obj, key) {
+    return _.map(obj, _.property(key));
+  };
 
   // Convenience version of a common use case of `filter`: selecting only objects
   // containing specific `key:value` pairs.
@@ -251,7 +252,9 @@
 
   // Convenience version of a common use case of `find`: getting the first object
   // containing specific `key:value` pairs.
-  _.findWhere = _.find;
+  _.findWhere = function(obj, attrs) {
+    return _.find(obj, _.matches(attrs));
+  };
 
   // Return the maximum element or (element-based computation).
   _.max = function(obj, iterator, context) {
