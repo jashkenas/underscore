@@ -457,6 +457,9 @@
     throws(function() {
       _.compose('throw', greet);
     }, TypeError, 'Calling with non function should throw a TypeError');
+    throws(function() {
+      _.compose(_.noop, _.noop, void 0, _.noop);
+    }, TypeError, 'Calling with non function should throw a TypeError');
   });
 
   test('after', function() {

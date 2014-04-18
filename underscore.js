@@ -594,13 +594,18 @@
   // Reusable constructor function for prototype setting.
   var ctor = function(){};
 
+  //throw error expected function see #1589
+  var nonFunctionException = function(func) {
+    func(); //throw native exception
+  };
+
   // Create a function bound to a given object (assigning `this`, and arguments,
   // optionally). Delegates to **ECMAScript 5**'s native `Function.bind` if
   // available.
   _.bind = function(func, context) {
     var args, bound;
     if (nativeBind && func.bind === nativeBind) return nativeBind.apply(func, slice.call(arguments, 1));
-    if (!_.isFunction(func)) throw new TypeError('Bind must be called on a function');
+    if (!_.isFunction(func)) nonFunctionException(func);
     args = slice.call(arguments, 2);
     return bound = function() {
       if (!(this instanceof bound)) return func.apply(context, args.concat(slice.call(arguments)));
@@ -617,7 +622,7 @@
   // arguments pre-filled, without changing its dynamic `this` context. _ acts
   // as a placeholder, allowing any combination of arguments to be pre-filled.
   _.partial = function(func) {
-    if (!_.isFunction(func)) throw new TypeError;
+    if (!_.isFunction(func)) nonFunctionException(func);
     var boundArgs = slice.call(arguments, 1);
     return function() {
       var position = 0;
@@ -642,7 +647,8 @@
 
   // Memoize an expensive function by storing its results.
   _.memoize = function(func, hasher) {
-    if (!_.isFunction(func) || hasher && !_.isFunction(hasher)) throw new TypeError;
+    if (!_.isFunction(func)) nonFunctionException(func);
+    if (hasher && !_.isFunction(hasher)) nonFunctionException(hasher);
     var memo = {};
     hasher || (hasher = _.identity);
     return function() {
@@ -654,7 +660,7 @@
   // Delays a function for the given number of milliseconds, and then calls
   // it with the arguments supplied.
   _.delay = function(func, wait) {
-    if (!_.isFunction(func)) throw new TypeError;
+    if (!_.isFunction(func)) nonFunctionException(func);
     var args = slice.call(arguments, 2);
     return setTimeout(function(){ return func.apply(null, args); }, wait);
   };
@@ -662,7 +668,7 @@
   // Defers a function, scheduling it to run after the current call stack has
   // cleared.
   _.defer = function(func) {
-    if (!_.isFunction(func)) throw new TypeError;
+    if (!_.isFunction(func)) nonFunctionException(func);
     return _.delay.apply(_, [func, 1].concat(slice.call(arguments, 1)));
   };
 
@@ -672,7 +678,7 @@
   // but if you'd like to disable the execution on the leading edge, pass
   // `{leading: false}`. To disable execution on the trailing edge, ditto.
   _.throttle = function(func, wait, options) {
-    if (!_.isFunction(func)) throw new TypeError;
+    if (!_.isFunction(func)) nonFunctionException(func);
     var context, args, result;
     var timeout = null;
     var previous = 0;
@@ -707,7 +713,7 @@
   // N milliseconds. If `immediate` is passed, trigger the function on the
   // leading edge, instead of the trailing.
   _.debounce = function(func, wait, immediate) {
-    if (!_.isFunction(func)) throw new TypeError;
+    if (!_.isFunction(func)) nonFunctionException(func);
     var timeout, args, context, timestamp, result;
 
     var later = function() {
@@ -744,7 +750,7 @@
   // Returns a function that will be executed at most one time, no matter how
   // often you call it. Useful for lazy initialization.
   _.once = function(func) {
-    if (!_.isFunction(func)) throw new TypeError;
+    if (!_.isFunction(func)) nonFunctionException(func);
     var ran = false, memo;
     return function() {
       if (ran) return memo;
@@ -759,13 +765,13 @@
   // allowing you to adjust arguments, run code before and after, and
   // conditionally execute the original function.
   _.wrap = function(func, wrapper) {
-    if (!_.isFunction(func)) throw new TypeError;
+    if (!_.isFunction(func)) nonFunctionException(func);
     return _.partial(wrapper, func);
   };
 
   // Returns a negated version of the passed-in predicate.
   _.negate = function(predicate) {
-    if (!_.isFunction(predicate)) throw new TypeError;
+    if (!_.isFunction(predicate)) nonFunctionException(predicate);
     return function() {
       return !predicate.apply(this, arguments);
     };
@@ -787,7 +793,7 @@
 
   // Returns a function that will only be executed after being called N times.
   _.after = function(times, func) {
-    if (!_.isFunction(func)) throw new TypeError;
+    if (!_.isFunction(func)) nonFunctionException(func);
     return function() {
       if (--times < 1) {
         return func.apply(this, arguments);
