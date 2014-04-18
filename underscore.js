@@ -292,7 +292,7 @@
   // An internal function to generate lookup iterators.
   var lookupIterator = function(value, context) {
     if (value == null) return _.identity;
-    if (!_.isFunction(value)) value = _.property(value);
+    if (!_.isFunction(value)) return _.property(value);
     if (context === void 0) return value;
     return function() {
       return value.apply(context, arguments);
@@ -600,7 +600,7 @@
   _.bind = function(func, context) {
     var args, bound;
     if (nativeBind && func.bind === nativeBind) return nativeBind.apply(func, slice.call(arguments, 1));
-    if (!_.isFunction(func)) throw new TypeError;
+    if (!_.isFunction(func)) throw new TypeError('Bind must be called on a function');
     args = slice.call(arguments, 2);
     return bound = function() {
       if (!(this instanceof bound)) return func.apply(context, args.concat(slice.call(arguments)));
@@ -1008,7 +1008,7 @@
   // An "empty" object has no enumerable own-properties.
   _.isEmpty = function(obj) {
     if (obj == null) return true;
-    if (_.isArray(obj) || _.isString(obj)) return obj.length === 0;
+    if (_.isArray(obj) || _.isString(obj) || _.isArguments(obj)) return obj.length === 0;
     for (var key in obj) if (_.has(obj, key)) return false;
     return true;
   };
@@ -1114,11 +1114,9 @@
   // Returns a predicate for checking whether an object has a given set of `key:value` pairs.
   _.matches = function(attrs) {
     return function(obj) {
+      if (obj == null) return _.isEmpty(attrs);
       if (obj === attrs) return true;
-      for (var key in attrs) {
-        if (attrs[key] !== obj[key])
-          return false;
-      }
+      for (var key in attrs) if (attrs[key] !== obj[key]) return false;
       return true;
     }
   };
@@ -1175,7 +1173,7 @@
   _.result = function(object, property) {
     if (object == null) return void 0;
     var value = object[property];
-    return _.isFunction(value) ? value.call(object) : value;
+    return _.isFunction(value) ? object[property]() : value;
   };
 
   // Add your own custom functions to the Underscore object.
