@@ -39,11 +39,7 @@
     equal(Boundf().hello, 'moe curly', "When called without the new operator, it's OK to be bound to the context");
     ok(newBoundf instanceof F, 'a bound instance is an instance of the original function');
 
-    raises(
-      function() { _.bind('notafunction'); },
-      function(actual) { return actual instanceof TypeError && actual.message !== ''; },
-      'throws an error when binding to a non-function'
-    );
+    raises(function() { _.bind('notafunction'); }, TypeError, 'throws an error when binding to a non-function');
   });
 
   test('partial', function() {
