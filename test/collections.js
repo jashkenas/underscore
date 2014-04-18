@@ -69,7 +69,7 @@
     var ifnull = _.map(null, function(){});
     ok(_.isArray(ifnull) && ifnull.length === 0, 'handles a null properly');
 
-    //can be used like _.pluck
+    // Passing a property name like _.pluck.
     var people = [{name : 'moe', age : 30}, {name : 'curly', age : 50}];
     deepEqual(_.map(people, 'name'), ['moe', 'curly'], 'predicate string map to object properties');
   });
@@ -172,16 +172,12 @@
     strictEqual(_.find(array, function(n) { return n > 2; }), 3, 'should return first found `value`');
     strictEqual(_.find(array, function() { return false; }), void 0, 'should return `undefined` if `value` is not found');
 
-    //can be used like findwhere
+    // Matching an object like _.findWhere.
     var list = [{a: 1, b: 2}, {a: 2, b: 2}, {a: 1, b: 3}, {a: 1, b: 4}, {a: 2, b: 4}];
-    var result = _.find(list, {a: 1});
-    deepEqual(result, {a: 1, b: 2}, 'can be used as findWhere');
-    result = _.find(list, {b: 4});
-    deepEqual(result, {a: 1, b: 4});
-    result = _.find(list, {c: 1});
-    ok(_.isUndefined(result), 'undefined when not found');
-    result = _.find([], {c: 1});
-    ok(_.isUndefined(result), 'undefined when searching empty list');
+    deepEqual(_.find(list, {a: 1}), {a: 1, b: 2}, 'can be used as findWhere');
+    deepEqual(_.find(list, {b: 4}), {a: 1, b: 4});
+    ok(!_.find(list, {c: 1}), 'undefined when not found');
+    ok(!_.find([], {c: 1}), 'undefined when searching empty list');
   });
 
   test('detect', function() {
@@ -189,28 +185,22 @@
     equal(result, 2, 'found the first "2" and broke the loop');
   });
 
-  test('select', function() {
-    var evens = _.select([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
-    deepEqual(evens, [2, 4, 6], 'selected each even number');
-  });
-
   test('filter', function() {
     var evenArray = [1, 2, 3, 4, 5, 6];
     var evenObject = {one: 1, two: 2, three: 3};
     var isEven = function(num){ return num % 2 === 0; };
 
-    deepEqual(_.filter(evenArray, isEven), [2, 4, 6], 'aliased as "filter"');
+    strictEqual(_.select, _.filter);
+
+    deepEqual(_.filter(evenArray, isEven), [2, 4, 6]);
     deepEqual(_.filter(evenObject, isEven), [2]);
     deepEqual(_.filter([{}, evenObject, []], 'two'), [evenObject], 'predicate string map to object properties');
 
-    //can be used like where
+    // Can be used like _.where.
     var list = [{a: 1, b: 2}, {a: 2, b: 2}, {a: 1, b: 3}, {a: 1, b: 4}];
-    var result = _.filter(list, {a: 1});
-    equal(result.length, 3, 'can be used like _.where');
-    equal(result[result.length - 1].b, 4);
+    deepEqual(_.filter(list, {a: 1}), [{a: 1, b: 2}, {a: 1, b: 3}, {a: 1, b: 4}]);
     deepEqual(_.filter(list, {b: 2}), [{a: 1, b: 2}, {a: 2, b: 2}]);
-    result = _.filter(list, {});
-    deepEqual(result, list, 'Empty object accepts all items');
+    deepEqual(_.filter(list, {}), list, 'Empty object accepts all items');
   });
 
   test('reject', function() {
@@ -225,21 +215,14 @@
     }, context);
     deepEqual(evens, [2, 4, 6], 'rejected each odd number');
 
-    var evenObject = {one: 1, two: 2, three: 3};
-    deepEqual(_.reject([odds, evenObject], 'two'), [odds], 'predicate string map to object properties');
-  });
+    deepEqual(_.reject([odds, {one: 1, two: 2, three: 3}], 'two'), [odds], 'predicate string map to object properties');
 
-  test('reject given object (ala rejectWhere)', function() {
-    //can be used like where
+    // Can be used like _.where.
     var list = [{a: 1, b: 2}, {a: 2, b: 2}, {a: 1, b: 3}, {a: 1, b: 4}];
-    var result = _.reject(list, {a: 1});
-    equal(result.length, 1);
-    equal(result[result.length - 1].b, 2);
-    result = _.reject(list, {b: 2});
-    equal(result.length, 2);
-    equal(result[0].a, 1);
+    deepEqual(_.reject(list, {a: 1}), [{a: 2, b: 2}]);
+    deepEqual(_.reject(list, {b: 2}), [{a: 1, b: 3}, {a: 1, b: 4}]);
     deepEqual(_.reject(list, {}), [], 'Returns empty list given empty object');
-    deepEqual(_.reject(list, []), [], 'Returns empty list given empty object');
+    deepEqual(_.reject(list, []), [], 'Returns empty list given empty array');
   });
 
   test('all', function() {
@@ -254,11 +237,12 @@
     ok(!_.all([undefined, undefined, undefined], _.identity), 'works with arrays of undefined');
 
     var list = [{a: 1, b: 2}, {a: 2, b: 2}, {a: 1, b: 3}, {a: 1, b: 4}];
-    var list2 = [{a: 1, b: 2}, {a: 2, b: 2, c: true}];
     ok(!_.all(list, {a: 1, b: 2}), 'Can be called with object');
     ok(_.all(list, 'a'), 'String mapped to object property');
-    ok(_.all(list2, {b: 2}), 'Can be called with object');
-    ok(!_.all(list2, 'c'), 'String mapped to object property');
+
+    list = [{a: 1, b: 2}, {a: 2, b: 2, c: true}];
+    ok(_.all(list, {b: 2}), 'Can be called with object');
+    ok(!_.all(list, 'c'), 'String mapped to object property');
   });
 
   test('any', function() {
@@ -274,18 +258,12 @@
     ok(_.some([false, false, true]), 'aliased as "some"');
 
     var list = [{a: 1, b: 2}, {a: 2, b: 2}, {a: 1, b: 3}, {a: 1, b: 4}];
-    var list2 = [{a: 1, b: 2}, {a: 2, b: 2, c: true}];
-    ok(!_.all(list, {a: 1, b: 2}), 'Can be called with object');
-    ok(_.all(list, 'a'), 'String mapped to object property');
-    ok(_.all(list2, {b: 2}), 'Can be called with object');
-    ok(!_.all(list2, 'c'), 'String mapped to object property');
-
-    var list = [{a: 1, b: 2}, {a: 2, b: 2}, {a: 1, b: 3}, {a: 1, b: 4}];
-    var list2 = [{a: 1, b: 2}, {a: 2, b: 2, c: true}];
     ok(!_.any(list, {a: 5, b: 2}), 'Can be called with object');
     ok(_.any(list, 'a'), 'String mapped to object property');
-    ok(_.any(list2, {b: 2}), 'Can be called with object');
-    ok(!_.any(list2, 'd'), 'String mapped to object property');
+
+    list = [{a: 1, b: 2}, {a: 2, b: 2, c: true}];
+    ok(_.any(list, {b: 2}), 'Can be called with object');
+    ok(!_.any(list, 'd'), 'String mapped to object property');
   });
 
   test('include', function() {
@@ -327,8 +305,6 @@
   test('pluck', function() {
     var people = [{name: 'moe', age: 30}, {name: 'curly', age: 50}];
     deepEqual(_.pluck(people, 'name'), ['moe', 'curly'], 'pulls names out of objects');
-    //compat: most flexible handling of edge cases
-    deepEqual(_.pluck([{'[object Window]': 1}], window), [1]);
   });
 
   test('where', function() {
@@ -341,10 +317,6 @@
     equal(result[0].a, 1);
     result = _.where(list, {});
     equal(result.length, list.length);
-
-    function test() {}
-    test.map = _.map;
-    deepEqual(_.where([_, {a: 1, b: 2}, _], test), [_, _], 'checks properties given function');
   });
 
   test('findWhere', function() {
@@ -359,17 +331,6 @@
 
     result = _.findWhere([], {c: 1});
     ok(_.isUndefined(result), 'undefined when searching empty list');
-
-    function test() {}
-    test.map = _.map;
-    equal(_.findWhere([_, {a: 1, b: 2}, _], test), _, 'checks properties given function');
-
-    function TestClass() {
-      this.y = 5;
-      this.x = 'foo';
-    }
-    var expect = {c: 1, x: 'foo', y: 5};
-    deepEqual(_.findWhere([{y: 5, b: 6}, expect], new TestClass()), expect, 'uses class instance properties');
   });
 
   test('max', function() {
