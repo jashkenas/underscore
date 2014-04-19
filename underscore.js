@@ -454,7 +454,7 @@
     predicate = lookupIterator(predicate, context);
     var pass = [], fail = [];
     _.each(obj, function(elem) {
-      (predicate(elem) ? pass : fail).push(elem);
+      (predicate.apply(null, arguments) ? pass : fail).push(elem);
     });
     return [pass, fail];
   };
