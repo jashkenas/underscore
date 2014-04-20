@@ -529,8 +529,8 @@
     deepEqual(_.partition(list, function(x) { if(x < 2) return true; }), [[0,1],[2,3,4,5]], 'handles undefined return values');
     deepEqual(_.partition({a: 1, b: 2, c: 3}, function(x) { return x > 1; }), [[2, 3], [1]], 'handles objects');
 
-    deepEqual(_.partition(list, function(x, iterator) { return iterator % 2; }), [[1,3,5],[0,2,4]], 'can compare to the iterator');
-    deepEqual(_.partition(list, function(x, iterator, context) { return x === context.length - 1; }), [[5],[0,1,2,3,4]], 'can compare to the context');
+    deepEqual(_.partition(list, function(x, index) { return index % 2; }), [[1,3,5],[0,2,4]], 'can compare to the iterator');
+    deepEqual(_.partition(list, function(x, index, arr) { return x === arr.length - 1; }), [[5],[0,1,2,3,4]], 'can compare to the context');
 
     // Default iterator
     deepEqual(_.partition([1, false, true, '']), [[1, true], [false, '']], 'Default iterator');
