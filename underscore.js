@@ -66,7 +66,8 @@
   // sparse array-likes as if they were dense.
   _.each = _.forEach = function(obj, iterator, context) {
     if (obj == null) return obj;
-    if (obj.length === +obj.length) {
+    // 检车用户传入的参数是数组
+    if (_.isArray(obj) && (obj.length === +obj.length)) {
       for (var i = 0, length = obj.length; i < length; i++) {
         if (iterator.call(context, obj[i], i, obj) === breaker) return;
       }

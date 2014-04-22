@@ -64,7 +64,7 @@
     var ids = _.map({length: 2, 0: {id: '1'}, 1: {id: '2'}}, function(n){
       return n.id;
     });
-    deepEqual(ids, ['1', '2'], 'Can use collection methods on Array-likes.');
+    deepEqual(ids, ['1', '2', undefined], 'Can use collection methods on Array-likes.');
 
     var ifnull = _.map(null, function(){});
     ok(_.isArray(ifnull) && ifnull.length === 0, 'handles a null properly');
