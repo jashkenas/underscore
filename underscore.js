@@ -453,8 +453,8 @@
   _.partition = function(obj, predicate, context) {
     predicate = lookupIterator(predicate, context);
     var pass = [], fail = [];
-    _.each(obj, function(elem) {
-      (predicate.apply(null, arguments) ? pass : fail).push(elem);
+    _.each(obj, function(value, key, obj) {
+      (predicate(value, key, obj) ? pass : fail).push(value);
     });
     return [pass, fail];
   };
