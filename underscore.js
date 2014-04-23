@@ -326,7 +326,7 @@
       iterator = lookupIterator(iterator, context);
       _.each(obj, function(value, index) {
         var key = iterator(value, index, obj);
-        behavior(result, key, value);
+        behavior(result, value, key);
       });
       return result;
     };
@@ -334,20 +334,20 @@
 
   // Groups the object's values by a criterion. Pass either a string attribute
   // to group by, or a function that returns the criterion.
-  _.groupBy = group(function(result, key, value) {
+  _.groupBy = group(function(result, value, key) {
     _.has(result, key) ? result[key].push(value) : result[key] = [value];
   });
 
   // Indexes the object's values by a criterion, similar to `groupBy`, but for
   // when you know that your index values will be unique.
-  _.indexBy = group(function(result, key, value) {
+  _.indexBy = group(function(result, value, key) {
     result[key] = value;
   });
 
   // Counts instances of an object that group by a certain criterion. Pass
   // either a string attribute to count by, or a function that returns the
   // criterion.
-  _.countBy = group(function(result, key) {
+  _.countBy = group(function(result, value, key) {
     _.has(result, key) ? result[key]++ : result[key] = 1;
   });
 
