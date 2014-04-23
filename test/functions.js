@@ -355,7 +355,7 @@
       equal(counter, 2, 'incr was debounced successfully');
       start();
       _.now = origNowFunc;
-    },200);
+    }, 200);
   });
 
   test('once', function() {

@@ -44,19 +44,19 @@
 
   test('extend', function() {
     var result;
-    equal(_.extend({}, {a:'b'}).a, 'b', 'can extend an object with the attributes of another');
-    equal(_.extend({a:'x'}, {a:'b'}).a, 'b', 'properties in source override destination');
-    equal(_.extend({x:'x'}, {a:'b'}).x, 'x', "properties not in source don't get overriden");
-    result = _.extend({x:'x'}, {a:'a'}, {b:'b'});
-    ok(_.isEqual(result, {x:'x', a:'a', b:'b'}), 'can extend from multiple source objects');
-    result = _.extend({x:'x'}, {a:'a', x:2}, {a:'b'});
-    ok(_.isEqual(result, {x:2, a:'b'}), 'extending from multiple source objects last property trumps');
+    equal(_.extend({}, {a: 'b'}).a, 'b', 'can extend an object with the attributes of another');
+    equal(_.extend({a: 'x'}, {a: 'b'}).a, 'b', 'properties in source override destination');
+    equal(_.extend({x: 'x'}, {a: 'b'}).x, 'x', "properties not in source don't get overriden");
+    result = _.extend({x: 'x'}, {a: 'a'}, {b: 'b'});
+    ok(_.isEqual(result, {x: 'x', a: 'a', b: 'b'}), 'can extend from multiple source objects');
+    result = _.extend({x: 'x'}, {a: 'a', x: 2}, {a: 'b'});
+    ok(_.isEqual(result, {x: 2, a: 'b'}), 'extending from multiple source objects last property trumps');
     result = _.extend({}, {a: void 0, b: null});
     deepEqual(_.keys(result), ['a', 'b'], 'extend copies undefined values');
 
     try {
       result = {};
-      _.extend(result, null, undefined, {a:1});
+      _.extend(result, null, undefined, {a: 1});
     } catch(ex) {}
 
     equal(result.a, 1, 'should not error on `null` or `undefined` sources');
@@ -129,7 +129,7 @@
 
     try {
       options = {};
-      _.defaults(options, null, undefined, {a:1});
+      _.defaults(options, null, undefined, {a: 1});
     } catch(ex) {}
 
     equal(options.a, 1, 'should not error on `null` or `undefined` sources');
@@ -350,7 +350,7 @@
     // More circular objects #767.
     a = {everything: 'is checked', but: 'this', is: 'not'};
     a.but = a;
-    b = {everything: 'is checked', but: {that:'object'}, is: 'not'};
+    b = {everything: 'is checked', but: {that: 'object'}, is: 'not'};
     ok(!_.isEqual(a, b), 'Comparison of circular references with non-circular object references are not equal');
 
     // Cyclic Structures.
@@ -453,7 +453,7 @@
     ok(!_.isArguments(_.isArguments), 'a function is not an arguments object');
     ok(_.isArguments(args), 'but the arguments object is an arguments object');
     ok(!_.isArguments(_.toArray(args)), 'but not when it\'s converted into an array');
-    ok(!_.isArguments([1,2,3]), 'and not vanilla arrays.');
+    ok(!_.isArguments([1, 2, 3]), 'and not vanilla arrays.');
     ok(_.isArguments(iArguments), 'even from another frame');
   });
 
@@ -596,7 +596,7 @@
     equal(intercepted, 1, 'passes tapped object to interceptor');
     equal(returned, 1, 'returns tapped object');
 
-    returned = _([1,2,3]).chain().
+    returned = _([1, 2, 3]).chain().
       map(function(n){ return n * 2; }).
       max().
       tap(interceptor).
