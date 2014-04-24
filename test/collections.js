@@ -301,6 +301,11 @@
 
     equal(3, _.max([1, 2, 3, 'test']), 'Finds correct max in array starting with num and containing a NaN');
     equal(3, _.max(['test', 1, 2, 3]), 'Finds correct max in array starting with NaN');
+
+    var a = {x: -Infinity};
+    var b = {x: -Infinity};
+    var iterator = function(o){ return o.x; };
+    equal(_.max([a, b], iterator), a, 'Respects iterator return value of -Infinity');
   });
 
   test('min', function() {
@@ -321,6 +326,11 @@
 
     equal(1, _.min([1, 2, 3, 'test']), 'Finds correct min in array starting with num and containing a NaN');
     equal(1, _.min(['test', 1, 2, 3]), 'Finds correct min in array starting with NaN');
+
+    var a = {x: Infinity};
+    var b = {x: Infinity};
+    var iterator = function(o){ return o.x; };
+    equal(_.min([a, b], iterator), a, 'Respects iterator return value of Infinity');
   });
 
   test('sortBy', function() {
