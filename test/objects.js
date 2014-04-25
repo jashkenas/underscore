@@ -60,6 +60,9 @@
     } catch(ex) {}
 
     equal(result.a, 1, 'should not error on `null` or `undefined` sources');
+
+    strictEqual(_.extend(null, {a: 1}), null, 'extending null results in null');
+    strictEqual(_.extend(undefined, {a: 1}), undefined, 'extending undefined results in undefined');
   });
 
   test('pick', function() {
@@ -133,6 +136,9 @@
     } catch(ex) {}
 
     equal(options.a, 1, 'should not error on `null` or `undefined` sources');
+
+    strictEqual(_.defaults(null, {a: 1}), null, 'result is null if destination is null');
+    strictEqual(_.defaults(undefined, {a: 1}), undefined, 'result is undefined if destination is undefined');
   });
 
   test('clone', function() {
