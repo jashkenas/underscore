@@ -232,7 +232,7 @@
     } else {
       _.each(obj, function(value, index, list) {
         computed = iterator ? iterator.call(context, value, index, list) : value;
-        if (computed > lastComputed) {
+        if (computed > lastComputed || (computed === -Infinity && result === -Infinity)) {
           result = value;
           lastComputed = computed;
         }
@@ -255,7 +255,7 @@
     } else {
       _.each(obj, function(value, index, list) {
         computed = iterator ? iterator.call(context, value, index, list) : value;
-        if (computed < lastComputed) {
+        if (computed < lastComputed || (computed === Infinity && result === Infinity)) {
           result = value;
           lastComputed = computed;
         }
