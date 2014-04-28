@@ -185,12 +185,15 @@
     equal(result, 2, 'found the first "2" and broke the loop');
   });
 
+  test('select', function() {
+    var evens = _.select([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
+    deepEqual(evens, [2, 4, 6], 'selected each even number');
+  });
+
   test('filter', function() {
     var evenArray = [1, 2, 3, 4, 5, 6];
     var evenObject = {one: 1, two: 2, three: 3};
     var isEven = function(num){ return num % 2 === 0; };
-
-    strictEqual(_.select, _.filter);
 
     deepEqual(_.filter(evenArray, isEven), [2, 4, 6]);
     deepEqual(_.filter(evenObject, isEven), [2]);
@@ -305,6 +308,8 @@
   test('pluck', function() {
     var people = [{name: 'moe', age: 30}, {name: 'curly', age: 50}];
     deepEqual(_.pluck(people, 'name'), ['moe', 'curly'], 'pulls names out of objects');
+    //compat: most flexible handling of edge cases
+    deepEqual(_.pluck([{'[object Object]': 1}], {}), [1]);
   });
 
   test('where', function() {
@@ -317,6 +322,10 @@
     equal(result[0].a, 1);
     result = _.where(list, {});
     equal(result.length, list.length);
+
+    function test() {}
+    test.map = _.map;
+    deepEqual(_.where([_, {a: 1, b: 2}, _], test), [_, _], 'checks properties given function');
   });
 
   test('findWhere', function() {
@@ -331,6 +340,17 @@
 
     result = _.findWhere([], {c: 1});
     ok(_.isUndefined(result), 'undefined when searching empty list');
+
+    function test() {}
+    test.map = _.map;
+    equal(_.findWhere([_, {a: 1, b: 2}, _], test), _, 'checks properties given function');
+
+    function TestClass() {
+      this.y = 5;
+      this.x = 'foo';
+    }
+    var expect = {c: 1, x: 'foo', y: 5};
+    deepEqual(_.findWhere([{y: 5, b: 6}, expect], new TestClass()), expect, 'uses class instance properties');
   });
 
   test('max', function() {
@@ -352,6 +372,8 @@
     var b = {x: -Infinity};
     var iterator = function(o){ return o.x; };
     equal(_.max([a, b], iterator), a, 'Respects iterator return value of -Infinity');
+
+    deepEqual(_.max([{'a': 1}, {'a': 0, 'b': 3}, {'a': 4}, {'a': 2}], 'a'), {'a': 4}, 'String keys use property iterator');
   });
 
   test('min', function() {
@@ -377,6 +399,8 @@
     var b = {x: Infinity};
     var iterator = function(o){ return o.x; };
     equal(_.min([a, b], iterator), a, 'Respects iterator return value of Infinity');
+
+    deepEqual(_.min([{'a': 1}, {'a': 0, 'b': 3}, {'a': 4}, {'a': 2}], 'a'), {'a': 0, 'b': 3}, 'String keys use property iterator');
   });
 
   test('sortBy', function() {
