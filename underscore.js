@@ -367,7 +367,6 @@
   // Safely create a real, live array from anything iterable.
   _.toArray = function(obj) {
     if (!obj) return [];
-    if (_.isArray(obj)) return slice.call(obj);
     if (obj.length === +obj.length) return _.map(obj, _.identity);
     return _.values(obj);
   };
@@ -903,7 +902,7 @@
   // Create a (shallow-cloned) duplicate of an object.
   _.clone = function(obj) {
     if (!_.isObject(obj)) return obj;
-    return _.isArray(obj) ? obj.slice() : _.extend({}, obj);
+    return _.isArray(obj) ? _.toArray(obj) : _.extend({}, obj);
   };
 
   // Invokes interceptor with the obj, and then returns obj.

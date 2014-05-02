@@ -511,6 +511,8 @@
     } catch(ex) { }
 
     ok(_.isArray(actual), 'should not throw converting a node list');
+
+    ok('0' in _.toArray(Array(1)), 'should produce a dense copy');
   });
 
   test('size', function() {

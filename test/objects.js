@@ -156,6 +156,8 @@
     equal(_.clone(undefined), void 0, 'non objects should not be changed by clone');
     equal(_.clone(1), 1, 'non objects should not be changed by clone');
     equal(_.clone(null), null, 'non objects should not be changed by clone');
+
+    ok('0' in _.clone(Array(1)), 'should produce a dense copy');
   });
 
   test('isEqual', function() {
