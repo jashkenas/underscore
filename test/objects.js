@@ -620,6 +620,8 @@
     var child = {};
     child.prototype = obj;
     ok(_.has(child, "foo") == false, "has() does not check the prototype chain for a property.");
+    strictEqual(_.has(null, 'foo'), false, 'has() returns false for null');
+    strictEqual(_.has(undefined, 'foo'), false, 'has() returns false for undefined');
   });
 
   test("matches", function() {
