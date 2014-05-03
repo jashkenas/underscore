@@ -1038,7 +1038,7 @@
   // there isn't any inspectable "Arguments" type.
   if (!_.isArguments(arguments)) {
     _.isArguments = function(obj) {
-      return !!(obj && _.has(obj, 'callee'));
+      return obj != null && _.has(obj, 'callee');
     };
   }
 
