@@ -102,6 +102,20 @@
     equal(fastO('toString'), 'toString', 'checks hasOwnProperty');
   });
 
+  asyncTest('cache', 2, function() {
+    var counter = 0,
+        cached = _.memoize(function() {
+          counter += 1;
+        }, 50);
+    cached(); cached();
+    equal(counter, 1, 'cache is working, only called once so far');
+    _.delay(function() {
+      cached();
+      equal(counter, 2, 'cache expired correctly');
+      start();
+    }, 100);
+  });
+
   asyncTest('delay', 2, function() {
     var delayed = false;
     _.delay(function(){ delayed = true; }, 100);
