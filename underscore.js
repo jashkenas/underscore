@@ -640,11 +640,20 @@
   };
 
   // Memoize an expensive function by storing its results.
-  _.memoize = function(func, hasher) {
-    var memo = {};
-    hasher || (hasher = _.identity);
+  _.memoize = _.cache = function(func, hasher, expiry) {
+    var memo = {}, timestamp = 0, now;
+    if (_.isNumber(hasher)) {
+      expiry = hasher;
+      hasher = undefined;
+    }
+    hasher || (hasher = (_.identity));
     return function() {
-      var key = hasher.apply(this, arguments);
+      var key = hasher.apply(this, arguments),
+          invalid = timestamp + expiry < (now = _.now());
+      if (invalid) {
+        memo = {};
+        timestamp = now;
+      }
       return _.has(memo, key) ? memo[key] : (memo[key] = func.apply(this, arguments));
     };
   };
