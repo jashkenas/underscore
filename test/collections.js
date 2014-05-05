@@ -168,6 +168,12 @@
     strictEqual(_.find(array, function(n) { return n > 2; }), 3, 'should return first found `value`');
     strictEqual(_.find(array, function() { return false; }), void 0, 'should return `undefined` if `value` is not found');
   });
+  
+  test('findIndex', function() {
+    var array = [1, 2, 3, 4];
+    strictEqual(_.findIndex(array, function(n) { return n > 2; }), 2, 'should return index of first found `value`');
+    strictEqual(_.findIndex(array, function() { return false; }), void 0, 'should return `undefined` if `value` is not found');
+  });
 
   test('detect', function() {
     var result = _.detect([1, 2, 3], function(num){ return num * 2 == 4; });
