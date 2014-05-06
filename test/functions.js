@@ -100,6 +100,16 @@
     var fastO = _.memoize(o);
     equal(o('toString'), 'toString', 'checks hasOwnProperty');
     equal(fastO('toString'), 'toString', 'checks hasOwnProperty');
+
+    // Expose the cache.
+    var i = 0;
+    var f = _.memoize(function() {
+      return ++i;
+    });
+    equal(f('x'), 1);
+    equal(f('x'), 1);
+    f.cache = {};
+    equal(f('x'), 2);
   });
 
   asyncTest('delay', 2, function() {

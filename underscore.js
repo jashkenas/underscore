@@ -641,12 +641,15 @@
 
   // Memoize an expensive function by storing its results.
   _.memoize = function(func, hasher) {
-    var memo = {};
-    hasher || (hasher = _.identity);
-    return function() {
+    if (!hasher) hasher = _.identity;
+    var memoize = function() {
+      var cache = memoize.cache;
       var key = hasher.apply(this, arguments);
-      return _.has(memo, key) ? memo[key] : (memo[key] = func.apply(this, arguments));
+      if (_.has(cache, key)) return cache[key];
+      return cache[key] = func.apply(this, arguments);
     };
+    memoize.cache = {};
+    return memoize;
   };
 
   // Delays a function for the given number of milliseconds, and then calls
