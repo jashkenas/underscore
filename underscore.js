@@ -645,8 +645,8 @@
     var memoize = function() {
       var cache = memoize.cache;
       var key = hasher.apply(this, arguments);
-      if (_.has(cache, key)) return cache[key];
-      return cache[key] = func.apply(this, arguments);
+      if (!_.has(cache, key)) cache[key] = func.apply(this, arguments);
+      return cache[key];
     };
     memoize.cache = {};
     return memoize;

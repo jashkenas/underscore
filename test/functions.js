@@ -102,14 +102,15 @@
     equal(fastO('toString'), 'toString', 'checks hasOwnProperty');
 
     // Expose the cache.
-    var i = 0;
-    var f = _.memoize(function() {
-      return ++i;
+    var upper = _.memoize(function(s) {
+      return s.toUpperCase();
     });
-    equal(f('x'), 1);
-    equal(f('x'), 1);
-    f.cache = {};
-    equal(f('x'), 2);
+    equal(upper('foo'), 'FOO');
+    equal(upper('bar'), 'BAR');
+    deepEqual(upper.cache, {foo: 'FOO', bar: 'BAR'});
+    upper.cache = {foo: 'BAR', bar: 'FOO'};
+    equal(upper('foo'), 'BAR');
+    equal(upper('bar'), 'FOO');
   });
 
   asyncTest('delay', 2, function() {
