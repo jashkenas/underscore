@@ -312,21 +312,24 @@
   });
 
   asyncTest('throttle re-entrant', 2, function() {
-    var counter = 0.0;
-    var throttledIncr;
-    var count = 2;
-    var incr = function(arg){
-      counter += this + arg;
-      if (count > 0) {
-        count--;
-        throttledIncr.apply(this, [arg]);
+    var sequence = [
+      ['b1', 'b2'],
+      ['c1', 'c2']
+    ];
+    var value = '';
+    var throttledAppend;
+    var append = function(arg){
+      value += this + arg;
+      var args = sequence.pop()
+      if (args) {
+        throttledAppend.call(args[0], args[1]);
       }
     };
-    throttledIncr = _.throttle(incr, 32);
-    throttledIncr.apply(0.25, [0.75]);
-    equal(counter, 1.0);
+    throttledAppend = _.throttle(append, 32);
+    throttledAppend.call('a1', 'a2');
+    equal(value, 'a1a2');
     _.delay(function(){
-      equal(counter, 3.0, 'incr was throttled successfully');
+      equal(value, 'a1a2c1c2b1b2', 'append was throttled successfully');
       start();
     }, 100);
   });
@@ -390,21 +393,23 @@
   });
 
   asyncTest('debounce re-entrant', 2, function() {
-    var counter = 0.0;
-    var firstTime = true;
-    var debouncedIncr;
-    var incr = function(arg){
-      counter += this + arg;
-      if (firstTime) {
-        debouncedIncr.apply(this, [arg]);
-        firstTime = false;
+    var sequence = [
+      ['b1', 'b2']
+    ];
+    var value = '';
+    var debouncedAppend;
+    var append = function(arg){
+      value += this + arg;
+      var args = sequence.pop()
+      if (args) {
+        debouncedAppend.call(args[0], args[1]);
       }
     };
-    debouncedIncr = _.debounce(incr, 32);
-    debouncedIncr.apply(0.25, [0.75]);
-    equal(counter, 0.0);
+    debouncedAppend = _.debounce(append, 32);
+    debouncedAppend.call('a1', 'a2');
+    equal(value, '');
     _.delay(function(){
-      equal(counter, 2.0, 'incr was debounced successfully');
+      equal(value, 'a1a2b1b2', 'append was debounced successfully');
       start();
     }, 100);
   });
