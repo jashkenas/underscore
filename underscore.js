@@ -679,9 +679,7 @@
       previous = options.leading === false ? 0 : _.now();
       timeout = null;
       result = func.apply(context, args);
-      if (!timeout) {
-        context = args = null;
-      }
+      if (!timeout) context = args = null;
     };
     return function() {
       var now = _.now();
@@ -694,9 +692,7 @@
         timeout = null;
         previous = now;
         result = func.apply(context, args);
-        if (!timeout) {
-          context = args = null;
-        }
+        if (!timeout) context = args = null;
       } else if (!timeout && options.trailing !== false) {
         timeout = setTimeout(later, remaining);
       }
@@ -720,9 +716,7 @@
         timeout = null;
         if (!immediate) {
           result = func.apply(context, args);
-          if (!timeout) {
-            context = args = null;
-          }
+          if (!timeout) context = args = null;
         }
       }
     };
@@ -732,9 +726,7 @@
       args = arguments;
       timestamp = _.now();
       var callNow = immediate && !timeout;
-      if (!timeout) {
-        timeout = setTimeout(later, wait);
-      }
+      if (!timeout) timeout = setTimeout(later, wait);
       if (callNow) {
         result = func.apply(context, args);
         context = args = null;
