@@ -314,8 +314,6 @@
   asyncTest('throttle re-entrant', 2, function() {
     var counter = 0.0;
     var throttledIncr;
-    var context = 0.25;
-    var arg = 0.75;
     var count = 2;
     var incr = function(arg){
       counter += this + arg;
@@ -325,7 +323,7 @@
       }
     };
     throttledIncr = _.throttle(incr, 32);
-    throttledIncr.apply(context, [arg]);
+    throttledIncr.apply(0.25, [0.75]);
     equal(counter, 1.0);
     _.delay(function(){
       equal(counter, 3.0, 'incr was throttled successfully');
@@ -393,8 +391,6 @@
 
   asyncTest('debounce re-entrant', 2, function() {
     var counter = 0.0;
-    var context = 0.25;
-    var arg = 0.75;
     var firstTime = true;
     var debouncedIncr;
     var incr = function(arg){
@@ -405,7 +401,7 @@
       }
     };
     debouncedIncr = _.debounce(incr, 32);
-    debouncedIncr.apply(context, [arg]);
+    debouncedIncr.apply(0.25, [0.75]);
     equal(counter, 0.0);
     _.delay(function(){
       equal(counter, 2.0, 'incr was debounced successfully');
