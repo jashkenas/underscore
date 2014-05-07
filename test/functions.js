@@ -311,6 +311,29 @@
     }, 200);
   });
 
+  asyncTest('throttle re-entrant', 2, function() {
+    var sequence = [
+      ['b1', 'b2'],
+      ['c1', 'c2']
+    ];
+    var value = '';
+    var throttledAppend;
+    var append = function(arg){
+      value += this + arg;
+      var args = sequence.pop()
+      if (args) {
+        throttledAppend.call(args[0], args[1]);
+      }
+    };
+    throttledAppend = _.throttle(append, 32);
+    throttledAppend.call('a1', 'a2');
+    equal(value, 'a1a2');
+    _.delay(function(){
+      equal(value, 'a1a2c1c2b1b2', 'append was throttled successfully');
+      start();
+    }, 100);
+  });
+
   asyncTest('debounce', 1, function() {
     var counter = 0;
     var incr = function(){ counter++; };
@@ -367,6 +390,28 @@
       start();
       _.now = origNowFunc;
     }, 200);
+  });
+
+  asyncTest('debounce re-entrant', 2, function() {
+    var sequence = [
+      ['b1', 'b2']
+    ];
+    var value = '';
+    var debouncedAppend;
+    var append = function(arg){
+      value += this + arg;
+      var args = sequence.pop()
+      if (args) {
+        debouncedAppend.call(args[0], args[1]);
+      }
+    };
+    debouncedAppend = _.debounce(append, 32);
+    debouncedAppend.call('a1', 'a2');
+    equal(value, '');
+    _.delay(function(){
+      equal(value, 'a1a2b1b2', 'append was debounced successfully');
+      start();
+    }, 100);
   });
 
   test('once', function() {
