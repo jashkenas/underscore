@@ -311,6 +311,28 @@
     }, 200);
   });
 
+  asyncTest('throttle re-entrant', 2, function() {
+    var counter = 0.0;
+    var throttledIncr;
+    var context = 0.25;
+    var arg = 0.75;
+    var count = 2;
+    var incr = function(arg){
+      counter += this + arg;
+      if (count > 0) {
+        count--;
+        throttledIncr.apply(this, [arg]);
+      }
+    };
+    throttledIncr = _.throttle(incr, 32);
+    throttledIncr.apply(context, [arg]);
+    equal(counter, 1.0);
+    _.delay(function(){
+      equal(counter, 3.0, 'incr was throttled successfully');
+      start();
+    }, 100);
+  });
+
   asyncTest('debounce', 1, function() {
     var counter = 0;
     var incr = function(){ counter++; };
@@ -367,6 +389,28 @@
       start();
       _.now = origNowFunc;
     }, 200);
+  });
+
+  asyncTest('debounce re-entrant', 2, function() {
+    var counter = 0.0;
+    var context = 0.25;
+    var arg = 0.75;
+    var firstTime = true;
+    var debouncedIncr;
+    var incr = function(arg){
+      counter += this + arg;
+      if (firstTime) {
+        debouncedIncr.apply(this, [arg]);
+        firstTime = false;
+      }
+    };
+    debouncedIncr = _.debounce(incr, 32);
+    debouncedIncr.apply(context, [arg]);
+    equal(counter, 0.0);
+    _.delay(function(){
+      equal(counter, 2.0, 'incr was debounced successfully');
+      start();
+    }, 100);
   });
 
   test('once', function() {
