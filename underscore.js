@@ -174,7 +174,12 @@
   // Aliased as `any`.
   _.some = _.any = function(obj, predicate, context) {
     predicate || (predicate = _.identity);
-    return !_.every(obj, _.negate(predicate), context);
+    var result = false;
+    if (obj == null) return result;
+    _.each(obj, function(value, index, list) {
+      if (result || (result = predicate.call(context, value, index, list))) return breaker;
+    });
+    return !!result;
   };
 
   // Determine if the array or object contains a given value (using `===`).
