@@ -173,13 +173,7 @@
   // Determine if at least one element in the object matches a truth test.
   // Aliased as `any`.
   _.some = _.any = function(obj, predicate, context) {
-    predicate || (predicate = _.identity);
-    var result = false;
-    if (obj == null) return result;
-    _.each(obj, function(value, index, list) {
-      if (result || (result = predicate.call(context, value, index, list))) return breaker;
-    });
-    return !!result;
+    return !_.every(obj, _.negate(predicate || _.identity), context);
   };
 
   // Determine if the array or object contains a given value (using `===`).
