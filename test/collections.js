@@ -370,6 +370,8 @@
 
     var list = ['q', 'w', 'e', 'r', 't', 'y'];
     deepEqual(_.sortBy(list), ['e', 'q', 'r', 't', 'w', 'y'], 'uses _.identity if iterator is not specified');
+
+    _.sortBy([1], function(){ equal(this, 0); }, 0);
   });
 
   test('groupBy', function() {
@@ -385,6 +387,7 @@
 
     var context = {};
     _.groupBy([{}], function(){ ok(this === context); }, context);
+    _.groupBy([1], function(){ equal(this, 0); }, 0);
 
     grouped = _.groupBy([4.2, 6.1, 6.4], function(num) {
       return Math.floor(num) > 4 ? 'hasOwnProperty' : 'constructor';
@@ -425,6 +428,10 @@
     equal(grouped['1'], 1);
     equal(grouped['2'], 2);
     equal(grouped['3'], 3);
+
+    var context = {};
+    _.indexBy([1], function(){ strictEqual(this, context); }, context);
+    _.indexBy([1], function(){ equal(this, 0); }, 0);
   });
 
   test('countBy', function() {
@@ -440,6 +447,7 @@
 
     var context = {};
     _.countBy([{}], function(){ ok(this === context); }, context);
+    _.countBy([{}], function(){ equal(this, 0); }, 0);
 
     grouped = _.countBy([4.2, 6.1, 6.4], function(num) {
       return Math.floor(num) > 4 ? 'hasOwnProperty' : 'constructor';
@@ -472,6 +480,7 @@
     var context = {1: 2, 2: 3, 3: 4};
     iterator = function(obj){ return this[obj]; };
     strictEqual(_.sortedIndex([1, 3], 2, iterator, context), 1);
+    _.sortedIndex([1], 2, function(){ equal(this, 0); }, 0);
   });
 
   test('shuffle', function() {
@@ -549,6 +558,7 @@
     // Context
     var predicate = function(x){ return x === this.x };
     deepEqual(_.partition([1, 2, 3], predicate, {x: 2}), [[2], [1, 3]], 'partition takes a context argument');
+    _.partition([1], function(){ equal(this, 0); }, 0);
   });
 
 })();

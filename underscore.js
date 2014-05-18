@@ -293,7 +293,7 @@
   var lookupIterator = function(value, context) {
     if (value == null) return _.identity;
     if (!_.isFunction(value)) return _.property(value);
-    if (!context) return value;
+    if (context === void 0) return value;
     return function() {
       return value.apply(context, arguments);
     };
