@@ -292,7 +292,7 @@
         }
       }
     } else {
-      iterator = lookupIterator(iterator);
+      iterator = lookupIterator(iterator, context);
       _.each(obj, function(value, index, list) {
         computed = iterator ? iterator(value, index, list) : value;
         if (computed < lastComputed || (computed === Infinity && result === Infinity)) {

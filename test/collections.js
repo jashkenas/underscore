@@ -374,6 +374,8 @@
     equal(_.max([a, b], iterator), a, 'Respects iterator return value of -Infinity');
 
     deepEqual(_.max([{'a': 1}, {'a': 0, 'b': 3}, {'a': 4}, {'a': 2}], 'a'), {'a': 4}, 'String keys use property iterator');
+
+    deepEqual(_.max([0, 2], function(a, b){ return a * this.x; }, {x: 1}), 2, 'Iterator context');
   });
 
   test('min', function() {
@@ -401,6 +403,8 @@
     equal(_.min([a, b], iterator), a, 'Respects iterator return value of Infinity');
 
     deepEqual(_.min([{'a': 1}, {'a': 0, 'b': 3}, {'a': 4}, {'a': 2}], 'a'), {'a': 0, 'b': 3}, 'String keys use property iterator');
+
+    deepEqual(_.min([0, 2], function(a, b){ return a * this.x; }, {x: -1}), 2, 'Iterator context');
   });
 
   test('sortBy', function() {
