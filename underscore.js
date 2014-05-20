@@ -198,7 +198,6 @@
   // Determine whether all of the elements match a truth test.
   // Aliased as `all`.
   _.every = _.all = function(obj, predicate, context) {
-    if (!predicate) predicate = _.identity;
     var result = true;
     if (obj == null) return result;
     predicate = lookupIterator(predicate, context);
@@ -211,7 +210,6 @@
   // Determine if at least one element in the object matches a truth test.
   // Aliased as `any`.
   _.some = _.any = function(obj, predicate, context) {
-    if (!predicate) predicate = _.identity;
     var result = false;
     if (obj == null) return result;
     predicate = lookupIterator(predicate, context);
