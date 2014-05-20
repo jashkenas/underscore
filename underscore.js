@@ -980,10 +980,21 @@
     }
     // Objects with different constructors are not equivalent, but `Object`s
     // from different frames are.
-    var aCtor = a.constructor, bCtor = b.constructor;
-    if (aCtor !== bCtor && !(_.isFunction(aCtor) && (aCtor instanceof aCtor) &&
-                             _.isFunction(bCtor) && (bCtor instanceof bCtor))
-                        && ('constructor' in a && 'constructor' in b)) {
+    var aCtor, aHasCtor, bCtor, bHasCtor;
+
+    try {
+      aCtor = a.constructor;
+      aHasCtor = 'constructor' in a;
+    } catch (e) {}
+
+    try {
+      bCtor = b.constructor;
+      bHasCtor = 'constructor' in b;
+    } catch (e) {}
+
+    if (aCtor !== bCtor && aHasCtor && bHasCtor &&
+      !(_.isFunction(aCtor) && (aCtor instanceof aCtor) &&
+        _.isFunction(bCtor) && (bCtor instanceof bCtor))) {
       return false;
     }
     // Add the first object to the stack of traversed objects.
