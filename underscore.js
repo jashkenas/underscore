@@ -95,16 +95,17 @@
   // Handles raw objects in addition to array-likes. Treats all
   // sparse array-likes as if they were dense.
   _.each = _.forEach = function(obj, iterator, context) {
+    var i, length;
     if (obj == null) return obj;
     iterator = createCallback(iterator, context);
     if (obj.length === +obj.length) {
-      for (var i = 0, length = obj.length; i < length; i++) {
-        if (iterator(obj[i], i, obj) === breaker) return;
+      for (i = 0, length = obj.length; i < length; i++) {
+        if (iterator(obj[i], i, obj) === breaker) break;
       }
     } else {
       var keys = _.keys(obj);
-      for (var i = 0, length = keys.length; i < length; i++) {
-        if (iterator(obj[keys[i]], keys[i], obj) === breaker) return;
+      for (i = 0, length = keys.length; i < length; i++) {
+        if (iterator(obj[keys[i]], keys[i], obj) === breaker) break;
       }
     }
     return obj;
@@ -197,7 +198,7 @@
   // Determine whether all of the elements match a truth test.
   // Aliased as `all`.
   _.every = _.all = function(obj, predicate, context) {
-    predicate || (predicate = _.identity);
+    if (!predicate) predicate = _.identity;
     var result = true;
     if (obj == null) return result;
     predicate = lookupIterator(predicate, context);
@@ -210,7 +211,7 @@
   // Determine if at least one element in the object matches a truth test.
   // Aliased as `any`.
   _.some = _.any = function(obj, predicate, context) {
-    predicate || (predicate = _.identity);
+    if (!predicate) predicate = _.identity;
     var result = false;
     if (obj == null) return result;
     predicate = lookupIterator(predicate, context);
@@ -271,7 +272,7 @@
       iterator = lookupIterator(iterator, context);
       _.each(obj, function(value, index, list) {
         computed = iterator ? iterator(value, index, list) : value;
-        if (computed > lastComputed || (computed === -Infinity && result === -Infinity)) {
+        if (computed > lastComputed || computed === -Infinity && result === -Infinity) {
           result = value;
           lastComputed = computed;
         }
@@ -295,7 +296,7 @@
       iterator = lookupIterator(iterator, context);
       _.each(obj, function(value, index, list) {
         computed = iterator ? iterator(value, index, list) : value;
-        if (computed < lastComputed || (computed === Infinity && result === Infinity)) {
+        if (computed < lastComputed || computed === Infinity && result === Infinity) {
           result = value;
           lastComputed = computed;
         }
@@ -365,7 +366,7 @@
   // Groups the object's values by a criterion. Pass either a string attribute
   // to group by, or a function that returns the criterion.
   _.groupBy = group(function(result, value, key) {
-    _.has(result, key) ? result[key].push(value) : result[key] = [value];
+    if (_.has(result, key)) result[key].push(value); else result[key] = [value];
   });
 
   // Indexes the object's values by a criterion, similar to `groupBy`, but for
@@ -378,7 +379,7 @@
   // either a string attribute to count by, or a function that returns the
   // criterion.
   _.countBy = group(function(result, value, key) {
-    _.has(result, key) ? result[key]++ : result[key] = 1;
+    if (_.has(result, key)) result[key]++; else result[key] = 1;
   });
 
   // Use a comparator function to figure out the smallest index at which
@@ -389,7 +390,7 @@
     var low = 0, high = array.length;
     while (low < high) {
       var mid = (low + high) >>> 1;
-      iterator(array[mid]) < value ? low = mid + 1 : high = mid;
+      if (iterator(array[mid]) < value) low = mid + 1; else high = mid;
     }
     return low;
   };
@@ -405,7 +406,7 @@
   // Return the number of elements in an object.
   _.size = function(obj) {
     if (obj == null) return 0;
-    return (obj.length === +obj.length) ? obj.length : _.keys(obj).length;
+    return obj.length === +obj.length ? obj.length : _.keys(obj).length;
   };
 
   // Array Functions
@@ -416,7 +417,7 @@
   // allows it to work with `_.map`.
   _.first = _.head = _.take = function(array, n, guard) {
     if (array == null) return void 0;
-    if ((n == null) || guard) return array[0];
+    if (n == null || guard) return array[0];
     if (n < 0) return [];
     return slice.call(array, 0, n);
   };
@@ -433,7 +434,7 @@
   // values in the array. The **guard** check allows it to work with `_.map`.
   _.last = function(array, n, guard) {
     if (array == null) return void 0;
-    if ((n == null) || guard) return array[array.length - 1];
+    if (n == null || guard) return array[array.length - 1];
     return slice.call(array, Math.max(array.length - n, 0));
   };
 
@@ -442,7 +443,7 @@
   // the rest N values in the array. The **guard**
   // check allows it to work with `_.map`.
   _.rest = _.tail = _.drop = function(array, n, guard) {
-    return slice.call(array, (n == null) || guard ? 1 : n);
+    return slice.call(array, n == null || guard ? 1 : n);
   };
 
   // Trim out all falsy values from an array.
@@ -505,7 +506,7 @@
     for (var i = 0, length = array.length; i < length; i++) {
       var value = array[i];
       if (iterator) value = iterator(value, i, array);
-      if (isSorted ? (!i || seen !== value) : !_.contains(seen, value)) {
+      if (isSorted ? !i || seen !== value : !_.contains(seen, value)) {
         if (isSorted) seen = value;
         else seen.push(value);
         result.push(array[i]);
@@ -541,7 +542,9 @@
   // Only the elements present in just the first array will remain.
   _.difference = function(array) {
     var rest = flatten(slice.call(arguments, 1), true, true, []);
-    return _.filter(array, function(value){ return !_.contains(rest, value); });
+    return _.filter(array, function(value){
+      return !_.contains(rest, value);
+    });
   };
 
   // Zip together multiple lists into a single array -- elements that share
@@ -580,7 +583,7 @@
     var i = 0, length = array.length;
     if (isSorted) {
       if (typeof isSorted == 'number') {
-        i = (isSorted < 0 ? Math.max(0, length + isSorted) : isSorted);
+        i = isSorted < 0 ? Math.max(0, length + isSorted) : isSorted;
       } else {
         i = _.sortedIndex(array, item);
         return array[i] === item ? i : -1;
@@ -611,7 +614,7 @@
     var idx = 0;
     var range = Array(length);
 
-    while(idx < length) {
+    while (idx < length) {
       range[idx++] = start;
       start += step;
     }
@@ -623,7 +626,7 @@
   // ------------------
 
   // Reusable constructor function for prototype setting.
-  var ctor = function(){};
+  var Ctor = function(){};
 
   // Create a function bound to a given object (assigning `this`, and arguments,
   // optionally). Delegates to **ECMAScript 5**'s native `Function.bind` if
@@ -633,15 +636,16 @@
     if (nativeBind && func.bind === nativeBind) return nativeBind.apply(func, slice.call(arguments, 1));
     if (!_.isFunction(func)) throw TypeError('Bind must be called on a function');
     args = slice.call(arguments, 2);
-    return bound = function() {
+    bound = function() {
       if (!(this instanceof bound)) return func.apply(context, args.concat(slice.call(arguments)));
-      ctor.prototype = func.prototype;
-      var self = new ctor;
-      ctor.prototype = null;
+      Ctor.prototype = func.prototype;
+      var self = new Ctor;
+      Ctor.prototype = null;
       var result = func.apply(self, args.concat(slice.call(arguments)));
       if (Object(result) === result) return result;
       return self;
     };
+    return bound;
   };
 
   // Partially apply a function by creating a version that has had some of its
@@ -666,7 +670,9 @@
   _.bindAll = function(obj) {
     var funcs = slice.call(arguments, 1);
     if (funcs.length === 0) throw Error('bindAll must be passed function names');
-    _.each(funcs, function(f) { obj[f] = _.bind(obj[f], obj); });
+    _.each(funcs, function(f) {
+      obj[f] = _.bind(obj[f], obj);
+    });
     return obj;
   };
 
@@ -687,7 +693,9 @@
   // it with the arguments supplied.
   _.delay = function(func, wait) {
     var args = slice.call(arguments, 2);
-    return setTimeout(function(){ return func.apply(null, args); }, wait);
+    return setTimeout(function(){
+      return func.apply(null, args);
+    }, wait);
   };
 
   // Defers a function, scheduling it to run after the current call stack has
@@ -705,7 +713,7 @@
     var context, args, result;
     var timeout = null;
     var previous = 0;
-    options || (options = {});
+    if (!options) options = {};
     var later = function() {
       previous = options.leading === false ? 0 : _.now();
       timeout = null;
@@ -884,16 +892,16 @@
 
   // Return a copy of the object only containing the whitelisted properties.
   _.pick = function(obj, iterator, context) {
-    var result = {};
+    var result = {}, key;
     if (_.isFunction(iterator)) {
-      for (var key in obj) {
+      for (key in obj) {
         var value = obj[key];
         if (iterator.call(context, value, key, obj)) result[key] = value;
       }
     } else {
       var keys = concat.apply([], slice.call(arguments, 1));
       for (var i = 0, length = keys.length; i < length; i++) {
-        var key = keys[i];
+        key = keys[i];
         if (key in obj) result[key] = obj[key];
       }
     }
@@ -907,7 +915,9 @@
       iterator = _.negate(iterator);
     } else {
       keys = _.map(concat.apply([], slice.call(arguments, 1)), String);
-      iterator = function(value, key) { return !_.contains(keys, key); };
+      iterator = function(value, key) {
+        return !_.contains(keys, key);
+      };
     }
     return _.pick(obj, iterator, context);
   };
@@ -941,7 +951,7 @@
   var eq = function(a, b, aStack, bStack) {
     // Identical objects are equal. `0 === -0`, but they aren't identical.
     // See the [Harmony `egal` proposal](http://wiki.ecmascript.org/doku.php?id=harmony:egal).
-    if (a === b) return a !== 0 || 1 / a == 1 / b;
+    if (a === b) return a !== 0 || 1 / a === 1 / b;
     // A strict comparison is necessary because `null == undefined`.
     if (a == null || b == null) return a === b;
     // Unwrap any wrapped objects.
@@ -949,7 +959,7 @@
     if (b instanceof _) b = b._wrapped;
     // Compare `[[Class]]` names.
     var className = toString.call(a);
-    if (className != toString.call(b)) return false;
+    if (className !== toString.call(b)) return false;
     switch (className) {
       // RegExps are coerced to strings for comparison.
       case '[object RegExp]':
@@ -957,17 +967,18 @@
       case '[object String]':
         // Primitives and their corresponding object wrappers are equivalent; thus, `"5"` is
         // equivalent to `String("5")`.
-        return a == String(b);
+        return '' + a === '' + b;
       case '[object Number]':
-        // `NaN`s are equivalent, but non-reflexive. An `egal` comparison is performed for
-        // other numeric values.
-        return a != +a ? b != +b : (a == 0 ? 1 / a == 1 / b : a == +b);
+        // `NaN`s are equivalent, but non-reflexive.
+        if (a != +a) return b != +b;
+        // An `egal` comparison is performed for other numeric values.
+        return a == 0 ? 1 / a == 1 / b : a == +b;
       case '[object Date]':
       case '[object Boolean]':
         // Coerce dates and booleans to numeric primitive values. Dates are compared by their
         // millisecond representations. Note that invalid dates with millisecond representations
         // of `NaN` are not equivalent.
-        return +a == +b;
+        return +a === +b;
     }
     if (typeof a != 'object' || typeof b != 'object') return false;
     // Assume equality for cyclic structures. The algorithm for detecting cyclic
@@ -976,14 +987,16 @@
     while (length--) {
       // Linear search. Performance is inversely proportional to the number of
       // unique nested structures.
-      if (aStack[length] == a) return bStack[length] == b;
+      if (aStack[length] === a) return bStack[length] === b;
     }
     // Objects with different constructors are not equivalent, but `Object`s
     // from different frames are.
     var aCtor = a.constructor, bCtor = b.constructor;
-    if (aCtor !== bCtor && !(_.isFunction(aCtor) && (aCtor instanceof aCtor) &&
-                             _.isFunction(bCtor) && (bCtor instanceof bCtor))
-                        && ('constructor' in a && 'constructor' in b)) {
+    if (
+      aCtor !== bCtor && 'constructor' in a && 'constructor' in b &&
+      !(_.isFunction(aCtor) && aCtor instanceof aCtor &&
+        _.isFunction(bCtor) && bCtor instanceof bCtor)
+    ) {
       return false;
     }
     // Add the first object to the stack of traversed objects.
@@ -991,10 +1004,10 @@
     bStack.push(b);
     var size = 0, result = true;
     // Recursively compare objects and arrays.
-    if (className == '[object Array]') {
+    if (className === '[object Array]') {
       // Compare array lengths to determine if a deep comparison is necessary.
       size = a.length;
-      result = size == b.length;
+      result = size === b.length;
       if (result) {
         // Deep compare the contents, ignoring non-numeric properties.
         while (size--) {
@@ -1014,7 +1027,7 @@
       // Ensure that both objects contain the same number of properties.
       if (result) {
         for (key in b) {
-          if (_.has(b, key) && !(size--)) break;
+          if (_.has(b, key) && !size--) break;
         }
         result = !size;
       }
@@ -1047,7 +1060,7 @@
   // Is a given value an array?
   // Delegates to ECMA5's native Array.isArray
   _.isArray = nativeIsArray || function(obj) {
-    return toString.call(obj) == '[object Array]';
+    return toString.call(obj) === '[object Array]';
   };
 
   // Is a given variable an object?
@@ -1058,7 +1071,7 @@
   // Add some isType methods: isArguments, isFunction, isString, isNumber, isDate, isRegExp.
   _.each(['Arguments', 'Function', 'String', 'Number', 'Date', 'RegExp'], function(name) {
     _['is' + name] = function(obj) {
-      return toString.call(obj) == '[object ' + name + ']';
+      return toString.call(obj) === '[object ' + name + ']';
     };
   });
 
@@ -1071,7 +1084,7 @@
   }
 
   // Optimize `isFunction` if appropriate.
-  if (typeof (/./) !== 'function') {
+  if (typeof /./ !== 'function') {
     _.isFunction = function(obj) {
       return typeof obj === 'function';
     };
@@ -1084,12 +1097,12 @@
 
   // Is the given value `NaN`? (NaN is the only number which does not equal itself).
   _.isNaN = function(obj) {
-    return _.isNumber(obj) && obj != +obj;
+    return _.isNumber(obj) && obj !== +obj;
   };
 
   // Is a given value a boolean?
   _.isBoolean = function(obj) {
-    return obj === true || obj === false || toString.call(obj) == '[object Boolean]';
+    return obj === true || obj === false || toString.call(obj) === '[object Boolean]';
   };
 
   // Is a given value equal to null?
@@ -1144,7 +1157,7 @@
       if (obj === attrs) return true;
       for (var key in attrs) if (attrs[key] !== obj[key]) return false;
       return true;
-    }
+    };
   };
 
   // Run a function **n** times.
@@ -1165,7 +1178,9 @@
   };
 
   // A (possibly faster) way to get the current timestamp as an integer.
-  _.now = Date.now || function() { return new Date().getTime(); };
+  _.now = Date.now || function() {
+    return new Date().getTime();
+  };
 
   // List of HTML entities for escaping.
   var entityMap = {
@@ -1201,18 +1216,6 @@
     if (object == null) return void 0;
     var value = object[property];
     return _.isFunction(value) ? object[property]() : value;
-  };
-
-  // Add your own custom functions to the Underscore object.
-  _.mixin = function(obj) {
-    _.each(_.functions(obj), function(name) {
-      var func = _[name] = obj[name];
-      _.prototype[name] = function() {
-        var args = [this._wrapped];
-        push.apply(args, arguments);
-        return result.call(this, func.apply(_, args));
-      };
-    });
   };
 
   // Generate a unique integer id (unique within the entire client session).
@@ -1291,7 +1294,7 @@
 
     source = "var __t,__p='',__j=Array.prototype.join," +
       "print=function(){__p+=__j.call(arguments,'');};\n" +
-      source + "return __p;\n";
+      source + 'return __p;\n';
 
     try {
       var render = Function(settings.variable || 'obj', '_', source);
@@ -1328,6 +1331,18 @@
     return this._chain ? _(obj).chain() : obj;
   };
 
+  // Add your own custom functions to the Underscore object.
+  _.mixin = function(obj) {
+    _.each(_.functions(obj), function(name) {
+      var func = _[name] = obj[name];
+      _.prototype[name] = function() {
+        var args = [this._wrapped];
+        push.apply(args, arguments);
+        return result.call(this, func.apply(_, args));
+      };
+    });
+  };
+
   // Add all of the Underscore functions to the wrapper object.
   _.mixin(_);
 
@@ -1337,7 +1352,7 @@
     _.prototype[name] = function() {
       var obj = this._wrapped;
       method.apply(obj, arguments);
-      if ((name == 'shift' || name == 'splice') && obj.length === 0) delete obj[0];
+      if ((name === 'shift' || name === 'splice') && obj.length === 0) delete obj[0];
       return result.call(this, obj);
     };
   });
@@ -1377,4 +1392,4 @@
       return _;
     });
   }
-}).call(this);
+}.call(this));
