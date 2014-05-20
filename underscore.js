@@ -137,7 +137,7 @@
         memo = iterator(memo, value, index, list);
       }
     });
-    if (!initial) throw new TypeError(reduceError);
+    if (!initial) throw TypeError(reduceError);
     return memo;
   };
 
@@ -160,7 +160,7 @@
         memo = iterator(memo, obj[index], index, list);
       }
     });
-    if (!initial) throw new TypeError(reduceError);
+    if (!initial) throw TypeError(reduceError);
     return memo;
   };
 
@@ -548,7 +548,7 @@
   // an index go together.
   _.zip = function() {
     var length = _.max(_.pluck(arguments, 'length').concat(0));
-    var results = new Array(length);
+    var results = Array(length);
     for (var i = 0; i < length; i++) {
       results[i] = _.pluck(arguments, '' + i);
     }
@@ -609,7 +609,7 @@
 
     var length = Math.max(Math.ceil((stop - start) / step), 0);
     var idx = 0;
-    var range = new Array(length);
+    var range = Array(length);
 
     while(idx < length) {
       range[idx++] = start;
@@ -631,7 +631,7 @@
   _.bind = function(func, context) {
     var args, bound;
     if (nativeBind && func.bind === nativeBind) return nativeBind.apply(func, slice.call(arguments, 1));
-    if (!_.isFunction(func)) throw new TypeError('Bind must be called on a function');
+    if (!_.isFunction(func)) throw TypeError('Bind must be called on a function');
     args = slice.call(arguments, 2);
     return bound = function() {
       if (!(this instanceof bound)) return func.apply(context, args.concat(slice.call(arguments)));
@@ -665,7 +665,7 @@
   // defined on an object belong to it.
   _.bindAll = function(obj) {
     var funcs = slice.call(arguments, 1);
-    if (funcs.length === 0) throw new Error('bindAll must be passed function names');
+    if (funcs.length === 0) throw Error('bindAll must be passed function names');
     _.each(funcs, function(f) { obj[f] = _.bind(obj[f], obj); });
     return obj;
   };
@@ -833,7 +833,7 @@
   _.values = function(obj) {
     var keys = _.keys(obj);
     var length = keys.length;
-    var values = new Array(length);
+    var values = Array(length);
     for (var i = 0; i < length; i++) {
       values[i] = obj[keys[i]];
     }
@@ -844,7 +844,7 @@
   _.pairs = function(obj) {
     var keys = _.keys(obj);
     var length = keys.length;
-    var pairs = new Array(length);
+    var pairs = Array(length);
     for (var i = 0; i < length; i++) {
       pairs[i] = [keys[i], obj[keys[i]]];
     }
@@ -956,7 +956,7 @@
       // Strings, numbers, dates, and booleans are compared by value.
       case '[object String]':
         // Primitives and their corresponding object wrappers are equivalent; thus, `"5"` is
-        // equivalent to `new String("5")`.
+        // equivalent to `String("5")`.
         return a == String(b);
       case '[object Number]':
         // `NaN`s are equivalent, but non-reflexive. An `egal` comparison is performed for
@@ -1181,8 +1181,8 @@
 
   // Regexes containing the keys and values listed immediately above.
   var entityRegexes = {
-    escape:   new RegExp('[' + _.keys(entityMap.escape).join('') + ']', 'g'),
-    unescape: new RegExp('(' + _.keys(entityMap.unescape).join('|') + ')', 'g')
+    escape:   RegExp('[' + _.keys(entityMap.escape).join('') + ']', 'g'),
+    unescape: RegExp('(' + _.keys(entityMap.unescape).join('|') + ')', 'g')
   };
 
   // Functions for escaping and unescaping strings to/from HTML interpolation.
@@ -1260,7 +1260,7 @@
     settings = _.defaults({}, settings, _.templateSettings);
 
     // Combine delimiters into one regular expression via alternation.
-    var matcher = new RegExp([
+    var matcher = RegExp([
       (settings.escape || noMatch).source,
       (settings.interpolate || noMatch).source,
       (settings.evaluate || noMatch).source
@@ -1294,7 +1294,7 @@
       source + "return __p;\n";
 
     try {
-      var render = new Function(settings.variable || 'obj', '_', source);
+      var render = Function(settings.variable || 'obj', '_', source);
     } catch (e) {
       e.source = source;
       throw e;
