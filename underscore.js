@@ -202,7 +202,8 @@
     if (obj == null) return result;
     predicate = lookupIterator(predicate, context);
     _.each(obj, function(value, index, list) {
-      if (!(result = result && predicate(value, index, list))) return breaker;
+      result = predicate(value, index, list);
+      if (!result) return breaker;
     });
     return !!result;
   };
@@ -214,7 +215,8 @@
     if (obj == null) return result;
     predicate = lookupIterator(predicate, context);
     _.each(obj, function(value, index, list) {
-      if (result || (result = predicate(value, index, list))) return breaker;
+      result = predicate(value, index, list);
+      if (result) return breaker;
     });
     return !!result;
   };
