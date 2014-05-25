@@ -6,6 +6,7 @@
   },
 
   "rules": {
+    "block-scoped-var": 2,
     "brace-style": [1, "1tbs"],
     "curly": [0, "multi"],
     "eqeqeq": [1, "smart"],
