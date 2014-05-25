@@ -146,10 +146,10 @@
   _.reduceRight = _.foldr = function(obj, iterator, memo, context) {
     var initial = arguments.length > 2;
     if (obj == null) obj = [];
-    var length = obj.length;
     iterator = createCallback(iterator, context, 4);
+    var keys, length = obj.length;
     if (length !== +length) {
-      var keys = _.keys(obj);
+      keys = _.keys(obj);
       length = keys.length;
     }
     _.each(obj, function(value, index, list) {
@@ -530,7 +530,8 @@
     for (var i = 0, length = array.length; i < length; i++) {
       var item = array[i];
       if (_.contains(result, item)) continue;
-      for (var j = 1; j < argsLength; j++) {
+      var j;
+      for (j = 1; j < argsLength; j++) {
         if (!_.contains(arguments[j], item)) break;
       }
       if (j === argsLength) result.push(item);
@@ -1016,18 +1017,18 @@
       }
     } else {
       // Deep compare objects.
-      for (var key in a) {
-        if (_.has(a, key)) {
+      for (var akey in a) {
+        if (_.has(a, akey)) {
           // Count the expected number of properties.
           size++;
           // Deep compare each member.
-          if (!(result = _.has(b, key) && eq(a[key], b[key], aStack, bStack))) break;
+          if (!(result = _.has(b, akey) && eq(a[akey], b[akey], aStack, bStack))) break;
         }
       }
       // Ensure that both objects contain the same number of properties.
       if (result) {
-        for (key in b) {
-          if (_.has(b, key) && !size--) break;
+        for (var bkey in b) {
+          if (_.has(b, bkey) && !size--) break;
         }
         result = !size;
       }
@@ -1296,8 +1297,9 @@
       "print=function(){__p+=__j.call(arguments,'');};\n" +
       source + 'return __p;\n';
 
+    var render;
     try {
-      var render = Function(settings.variable || 'obj', '_', source);
+      render = Function(settings.variable || 'obj', '_', source);
     } catch (e) {
       e.source = source;
       throw e;
