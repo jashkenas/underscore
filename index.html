@@ -923,6 +923,12 @@ _.difference([1, 2, 3, 4, 5], [5, 2, 10]);
       <pre>
 _.uniq([1, 2, 1, 3, 1, 4]);
 =&gt; [1, 2, 3, 4]
+
+var plays = [{title: "Cymbeline", year: 1611},
+  {title: "The Tempest", year: 1611},
+  {title: "King Lear", year: 1608}];
+_.uniq(plays, function(play) { return play.year; });
+=&gt; [{title: "Cymbeline", year: 1611}, {title: "King Lear", year: 1608}];
 </pre>
 
       <p id="zip">
