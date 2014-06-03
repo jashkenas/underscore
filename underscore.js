@@ -257,7 +257,7 @@
     return _.find(obj, _.matches(attrs));
   };
 
-  // Return the maximum element or (element-based computation).
+  // Return the maximum element (or element-based computation).
   _.max = function(obj, iterator, context) {
     var result = -Infinity, lastComputed = -Infinity,
         value, computed;
