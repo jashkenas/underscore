@@ -271,7 +271,7 @@
     } else {
       iterator = lookupIterator(iterator, context);
       _.each(obj, function(value, index, list) {
-        computed = iterator ? iterator(value, index, list) : value;
+        computed = iterator(value, index, list);
         if (computed > lastComputed || computed === -Infinity && result === -Infinity) {
           result = value;
           lastComputed = computed;
@@ -295,7 +295,7 @@
     } else {
       iterator = lookupIterator(iterator, context);
       _.each(obj, function(value, index, list) {
-        computed = iterator ? iterator(value, index, list) : value;
+        computed = iterator(value, index, list);
         if (computed < lastComputed || computed === Infinity && result === Infinity) {
           result = value;
           lastComputed = computed;
