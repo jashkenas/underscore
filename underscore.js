@@ -838,26 +838,32 @@
   };
 
   // Set or retrieve specific value (dot separated) of an object
-  _.key = function(obj,fullKey,value){
-    if (!_.isObject(obj)) return false;
-  	var keys = fullKey.split('.');
-		if(value !== undefined) {
-			if(keys.length) {
-				var key = keys.shift(), nextKey;
-				while( nextKey = keys.shift() ) {
-					if( !obj[key] ) obj[key] = {};
+	_.key = function(obj, fullKey, value){
+		if (!_.isObject(obj)) return false;
+		var keys = fullKey.split('.');
+		if (value !== undefined) {
+			if (keys.length) {
+				var key = keys.shift(), nextKey = keys.shift();
+				while ( nextKey ) {
+					if ( !obj[key] ) {
+						obj[key] = {};
+					}
 					obj = obj[key];
 					key = nextKey;
+					nextKey = keys.shift();
 				}
 				obj[key] = value;
 			}
 			return value;
 		} else {
-		  var key, inKeys = obj || {};
-			for(var k=0, len = keys.length;k<len;k++) {
-			    key = keys[k];
-			    if( key in inKeys ) inKeys = inKeys[keys[k]] || {};
-				else return false;
+			var cKey, inKeys = obj || {};
+			for ( var k=0, len = keys.length; k<len; k++ ) {
+				cKey = keys[k];
+				if ( cKey in inKeys ) {
+					inKeys = inKeys[cKey] || {};
+				} else {
+					return false;
+				}
 			}
 			return inKeys;
 		}
