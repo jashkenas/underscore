@@ -837,6 +837,32 @@
     return keys;
   };
 
+  // Set or retrieve specific value (dot separated) of an object
+  _.key = function(obj,fullKey,value){
+    if (!_.isObject(obj)) return false;
+  	var keys = fullKey.split('.');
+		if(value !== undefined) {
+			if(keys.length) {
+				var key = keys.shift(), nextKey;
+				while( nextKey = keys.shift() ) {
+					if( !obj[key] ) obj[key] = {};
+					obj = obj[key];
+					key = nextKey;
+				}
+				obj[key] = value;
+			}
+			return value;
+		} else {
+		  var key, inKeys = obj || {};
+			for(var k=0, len = keys.length;k<len;k++) {
+			    key = keys[k];
+			    if( key in inKeys ) inKeys = inKeys[keys[k]] || {};
+				else return false;
+			}
+			return inKeys;
+		}
+	};
+
   // Retrieve the values of an object's properties.
   _.values = function(obj) {
     var keys = _.keys(obj);
