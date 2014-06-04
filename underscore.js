@@ -854,10 +854,9 @@
 				}
 				obj[key] = value;
 			}
-			return value;
 		} else {
 			var cKey, inKeys = obj || {};
-			for ( var k=0, len = keys.length; k<len; k++ ) {
+			for ( var k = 0, len = keys.length; k < len; k++ ) {
 				cKey = keys[k];
 				if ( cKey in inKeys ) {
 					inKeys = inKeys[cKey] || {};
@@ -867,6 +866,7 @@
 			}
 			return inKeys;
 		}
+		return value;
 	};
 
   // Retrieve the values of an object's properties.
