@@ -1843,7 +1843,7 @@ _([1, 2, 3]).map(function(n){ return n * 2; });</pre>
 
       <p>
         Calling <tt>chain</tt> will cause all future method calls to return
-        wrapped objects. When you've finished the computation, use
+        wrapped objects. When you've finished the computation, call
         <tt>value</tt> to retrieve the final value. Here's an example of chaining
         together a <b>map/flatten/reduce</b>, in order to get the word count of
         every word in a song.
@@ -1880,7 +1880,7 @@ _.chain(lyrics)
         <b class="header">chain</b><code>_.chain(obj)</code>
         <br />
         Returns a wrapped object. Calling methods on this object will continue
-        to return wrapped objects until <tt>value</tt> is used.
+        to return wrapped objects until <tt>value</tt> is called.
       </p>
       <pre>
 var stooges = [{name: 'curly', age: 25}, {name: 'moe', age: 21}, {name: 'larry', age: 23}];
