@@ -12,7 +12,7 @@
     deepEqual(answers, [5, 10, 15], 'context object property accessed');
 
     answers = [];
-    _.forEach([1, 2, 3], function(num){ answers.push(num); });
+    _.each([1, 2, 3], function(num){ answers.push(num); });
     deepEqual(answers, [1, 2, 3], 'aliased as "forEach"');
 
     answers = [];
@@ -43,12 +43,13 @@
     equal(answers, 100, 'enumerates [0, length)');
   });
 
+  test('forEach', function() {
+    strictEqual(_.each, _.forEach, 'alias for each');
+  });
+
   test('map', function() {
     var doubled = _.map([1, 2, 3], function(num){ return num * 2; });
     deepEqual(doubled, [2, 4, 6], 'doubled numbers');
-
-    doubled = _.collect([1, 2, 3], function(num){ return num * 2; });
-    deepEqual(doubled, [2, 4, 6], 'aliased as "collect"');
 
     var tripled = _.map([1, 2, 3], function(num){ return num * this.multiplier; }, {multiplier : 3});
     deepEqual(tripled, [3, 6, 9], 'tripled numbers with context');
@@ -72,6 +73,10 @@
     // Passing a property name like _.pluck.
     var people = [{name : 'moe', age : 30}, {name : 'curly', age : 50}];
     deepEqual(_.map(people, 'name'), ['moe', 'curly'], 'predicate string map to object properties');
+  });
+
+  test('collect', function() {
+    strictEqual(_.map, _.collect, 'alias for map');
   });
 
   test('reduce', function() {
@@ -107,14 +112,15 @@
     raises(function() { _.reduce([], function(){}); }, TypeError, 'throws an error for empty arrays with no initial value');
   });
 
+  test('foldl', function() {
+    strictEqual(_.reduce, _.foldl, 'alias for reduce');
+  });
+
   test('reduceRight', function() {
     var list = _.reduceRight(['foo', 'bar', 'baz'], function(memo, str){ return memo + str; }, '');
     equal(list, 'bazbarfoo', 'can perform right folds');
 
-    var list = _.foldr(['foo', 'bar', 'baz'], function(memo, str){ return memo + str; }, '');
-    equal(list, 'bazbarfoo', 'aliased as "foldr"');
-
-    var list = _.foldr(['foo', 'bar', 'baz'], function(memo, str){ return memo + str; });
+    var list = _.reduceRight(['foo', 'bar', 'baz'], function(memo, str){ return memo + str; });
     equal(list, 'bazbarfoo', 'default initial value');
 
     var ifnull;
@@ -167,6 +173,10 @@
     deepEqual(args, expected);
   });
 
+  test('foldr', function() {
+    strictEqual(_.reduceRight, _.foldr, 'alias for reduceRight');
+  });
+
   test('find', function() {
     var array = [1, 2, 3, 4];
     strictEqual(_.find(array, function(n) { return n > 2; }), 3, 'should return first found `value`');
@@ -178,16 +188,13 @@
     deepEqual(_.find(list, {b: 4}), {a: 1, b: 4});
     ok(!_.find(list, {c: 1}), 'undefined when not found');
     ok(!_.find([], {c: 1}), 'undefined when searching empty list');
-  });
 
-  test('detect', function() {
-    var result = _.detect([1, 2, 3], function(num){ return num * 2 == 4; });
+    var result = _.find([1, 2, 3], function(num){ return num * 2 == 4; });
     equal(result, 2, 'found the first "2" and broke the loop');
   });
 
-  test('select', function() {
-    var evens = _.select([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
-    deepEqual(evens, [2, 4, 6], 'selected each even number');
+  test('find', function() {
+    strictEqual(_.detect, _.find, 'alias for detect');
   });
 
   test('filter', function() {
@@ -204,6 +211,10 @@
     deepEqual(_.filter(list, {a: 1}), [{a: 1, b: 2}, {a: 1, b: 3}, {a: 1, b: 4}]);
     deepEqual(_.filter(list, {b: 2}), [{a: 1, b: 2}, {a: 2, b: 2}]);
     deepEqual(_.filter(list, {}), list, 'Empty object accepts all items');
+  });
+
+  test('select', function() {
+    strictEqual(_.filter, _.select, 'alias for filter');
   });
 
   test('reject', function() {
@@ -236,7 +247,6 @@
     ok(!_.all([0, 11, 28], function(num){ return num % 2 == 0; }), 'an odd number');
     ok(_.all([1], _.identity) === true, 'cast to boolean - true');
     ok(_.all([0], _.identity) === false, 'cast to boolean - false');
-    ok(_.every([true, true, true], _.identity), 'aliased as "every"');
     ok(!_.all([undefined, undefined, undefined], _.identity), 'works with arrays of undefined');
 
     var list = [{a: 1, b: 2}, {a: 2, b: 2}, {a: 1, b: 3}, {a: 1, b: 4}];
@@ -246,6 +256,10 @@
     list = [{a: 1, b: 2}, {a: 2, b: 2, c: true}];
     ok(_.all(list, {b: 2}), 'Can be called with object');
     ok(!_.all(list, 'c'), 'String mapped to object property');
+  });
+
+  test('every', function() {
+    strictEqual(_.all, _.every, 'alias for all');
   });
 
   test('any', function() {
@@ -258,7 +272,7 @@
     ok(_.any([1, 10, 29], function(num){ return num % 2 == 0; }), 'an even number');
     ok(_.any([1], _.identity) === true, 'cast to boolean - true');
     ok(_.any([0], _.identity) === false, 'cast to boolean - false');
-    ok(_.some([false, false, true]), 'aliased as "some"');
+    ok(_.any([false, false, true]));
 
     var list = [{a: 1, b: 2}, {a: 2, b: 2}, {a: 1, b: 3}, {a: 1, b: 4}];
     ok(!_.any(list, {a: 5, b: 2}), 'Can be called with object');
@@ -269,11 +283,19 @@
     ok(!_.any(list, 'd'), 'String mapped to object property');
   });
 
+  test('some', function() {
+    strictEqual(_.any, _.some, 'alias for any');
+  });
+
+  test('contains', function() {
+    ok(_.contains([1, 2, 3], 2), 'two is in the array');
+    ok(!_.contains([1, 3, 9], 2), 'two is not in the array');
+    ok(_.contains({moe: 1, larry: 3, curly: 9}, 3) === true, '_.contains on objects checks their values');
+    ok(_([1, 2, 3]).contains(2), 'OO-style contains');
+  });
+
   test('include', function() {
-    ok(_.include([1, 2, 3], 2), 'two is in the array');
-    ok(!_.include([1, 3, 9], 2), 'two is not in the array');
-    ok(_.contains({moe: 1, larry: 3, curly: 9}, 3) === true, '_.include on objects checks their values');
-    ok(_([1, 2, 3]).include(2), 'OO-style include');
+    strictEqual(_.contains, _.include, 'alias for contains');
   });
 
   test('invoke', function() {
