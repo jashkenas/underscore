@@ -12,11 +12,19 @@
     equal(result, 4, 'works on an arguments object.');
     result = _.map([[1, 2, 3], [1, 2, 3]], _.first);
     deepEqual(result, [1, 1], 'works well with _.map');
-    result = (function() { return _.take([1, 2, 3], 2); })();
-    deepEqual(result, [1, 2], 'aliased as take');
+    result = (function() { return _.first([1, 2, 3], 2); })();
+    deepEqual(result, [1, 2]);
 
     equal(_.first(null), undefined, 'handles nulls');
     strictEqual(_.first([1, 2, 3], -1).length, 0);
+  });
+
+  test('head', function() {
+    strictEqual(_.first, _.head, 'alias for first');
+  });
+
+  test('take', function() {
+    strictEqual(_.first, _.take, 'alias for first');
   });
 
   test('rest', function() {
@@ -24,12 +32,20 @@
     deepEqual(_.rest(numbers), [2, 3, 4], 'working rest()');
     deepEqual(_.rest(numbers, 0), [1, 2, 3, 4], 'working rest(0)');
     deepEqual(_.rest(numbers, 2), [3, 4], 'rest can take an index');
-    var result = (function(){ return _(arguments).tail(); })(1, 2, 3, 4);
-    deepEqual(result, [2, 3, 4], 'aliased as tail and works on arguments object');
+    var result = (function(){ return _(arguments).rest(); })(1, 2, 3, 4);
+    deepEqual(result, [2, 3, 4], 'works on arguments object');
     result = _.map([[1, 2, 3], [1, 2, 3]], _.rest);
     deepEqual(_.flatten(result), [2, 3, 2, 3], 'works well with _.map');
-    result = (function(){ return _(arguments).drop(); })(1, 2, 3, 4);
-    deepEqual(result, [2, 3, 4], 'aliased as drop and works on arguments object');
+    result = (function(){ return _(arguments).rest(); })(1, 2, 3, 4);
+    deepEqual(result, [2, 3, 4], 'works on arguments object');
+  });
+
+  test('tail', function() {
+    strictEqual(_.rest, _.tail, 'alias for rest');
+  });
+
+  test('drop', function() {
+    strictEqual(_.rest, _.drop, 'alias for rest');
   });
 
   test('initial', function() {
@@ -112,6 +128,10 @@
       strictEqual(value, 3);
       strictEqual(index, 0);
     }, context);
+  });
+
+  test('unique', function() {
+    strictEqual(_.uniq, _.unique, 'alias for uniq');
   });
 
   test('intersection', function() {

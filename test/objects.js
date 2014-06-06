@@ -42,6 +42,10 @@
     deepEqual(_.functions(new Animal), ['run'], 'also looks up functions on the prototype');
   });
 
+  test('methods', function() {
+    strictEqual(_.functions, _.methods, 'alias for functions');
+  });
+
   test('extend', function() {
     var result;
     equal(_.extend({}, {a: 'b'}).a, 'b', 'can extend an object with the attributes of another');
