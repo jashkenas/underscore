@@ -76,7 +76,7 @@
       };
     }
     return function() {
-      return func.apply(this, arguments);
+      return func.apply(context, arguments);
     };
   };
 
@@ -668,11 +668,12 @@
   // are the method names to be bound. Useful for ensuring that all callbacks
   // defined on an object belong to it.
   _.bindAll = function(obj) {
-    var funcs = slice.call(arguments, 1);
-    if (funcs.length === 0) throw Error('bindAll must be passed function names');
-    _.each(funcs, function(f) {
-      obj[f] = _.bind(obj[f], obj);
-    });
+    var i = 1, length = arguments.length, key;
+    if (length <= 1) throw Error('bindAll must be passed function names');
+    for (; i < length; i++) {
+      key = arguments[i];
+      obj[key] = createCallback(obj[key], obj, Infinity);
+    }
     return obj;
   };
 

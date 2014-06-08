@@ -76,14 +76,18 @@
     moe = {
       name    : 'moe',
       getName : function() { return 'name: ' + this.name; },
-      sayHi   : function() { return 'hi: ' + this.name; }
+      sayHi   : function() { return 'hi: ' + this.name; },
+      sayLast    : function() { return this.sayHi(_.last(arguments)); }
     };
 
     raises(function() { _.bindAll(moe); }, Error, 'throws an error for bindAll with no functions named');
 
-    _.bindAll(moe, 'sayHi');
+    _.bindAll(moe, 'sayHi', 'sayLast');
     curly.sayHi = moe.sayHi;
     equal(curly.sayHi(), 'hi: moe');
+
+    var sayLast = moe.sayLast;
+    equal(sayLast(1, 2, 3, 4, 5, 6, 7, 'Tom'), 'hi: moe', 'createCallback works with any number of arguments');
   });
 
   test('memoize', function() {
