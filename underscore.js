@@ -76,7 +76,7 @@
       };
     }
     return function() {
-      return func.apply(this, arguments);
+      return func.apply(context, arguments);
     };
   };
 
