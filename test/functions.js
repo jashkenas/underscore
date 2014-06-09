@@ -77,7 +77,7 @@
       name    : 'moe',
       getName : function() { return 'name: ' + this.name; },
       sayHi   : function() { return 'hi: ' + this.name; },
-      sayLast    : function() { return this.sayHi(_.last(arguments)); }
+      sayLast : function() { return this.sayHi(_.last(arguments)); }
     };
 
     raises(function() { _.bindAll(moe); }, Error, 'throws an error for bindAll with no functions named');
