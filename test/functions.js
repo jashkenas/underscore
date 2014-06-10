@@ -420,10 +420,12 @@
 
   test('once', function() {
     var num = 0;
-    var increment = _.once(function(){ num++; });
+    var increment = _.once(function(){ return ++num; });
     increment();
     increment();
     equal(num, 1);
+
+    equal(increment(), 1, 'stores a memo to the last value')
   });
 
   test('Recursive onced function.', 1, function() {
