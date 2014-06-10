@@ -964,15 +964,16 @@
     var className = toString.call(a);
     if (className !== toString.call(b)) return false;
     switch (className) {
-      // RegExps are coerced to strings for comparison.
+      // Strings, numbers, regular expressions, dates, and booleans are compared by value.
       case '[object RegExp]':
-      // Strings, numbers, dates, and booleans are compared by value.
+      // RegExps are coerced to strings for comparison (Note: '' + /a/i === '/a/i')
       case '[object String]':
         // Primitives and their corresponding object wrappers are equivalent; thus, `"5"` is
-        // equivalent to `String("5")`.
+        // equivalent to `new String("5")`.
         return '' + a === '' + b;
       case '[object Number]':
         // `NaN`s are equivalent, but non-reflexive.
+        // Object(NaN) is equivalent to NaN
         if (a != +a) return b != +b;
         // An `egal` comparison is performed for other numeric values.
         return a == 0 ? 1 / a == 1 / b : a == +b;
@@ -996,7 +997,9 @@
     // from different frames are.
     var aCtor = a.constructor, bCtor = b.constructor;
     if (
-      aCtor !== bCtor && 'constructor' in a && 'constructor' in b &&
+      aCtor !== bCtor &&
+      // Handle Object.create(x) cases
+      'constructor' in a && 'constructor' in b &&
       !(_.isFunction(aCtor) && aCtor instanceof aCtor &&
         _.isFunction(bCtor) && bCtor instanceof bCtor)
     ) {
@@ -1005,7 +1008,7 @@
     // Add the first object to the stack of traversed objects.
     aStack.push(a);
     bStack.push(b);
-    var size, result = true;
+    var size, result;
     // Recursively compare objects and arrays.
     if (className === '[object Array]') {
       // Compare array lengths to determine if a deep comparison is necessary.
