@@ -281,6 +281,10 @@
     ok(_.isEqual(Array(3), Array(3)), 'Sparse arrays of identical lengths are equal');
     ok(!_.isEqual(Array(3), Array(6)), 'Sparse arrays of different lengths are not equal when both are empty');
 
+    var sparse = [];
+    sparse[1] = 5;
+    ok(_.isEqual(sparse, [undefined, 5]), 'Handles sparse arrays as dense')
+
     // Simple objects.
     ok(_.isEqual({a: 'Curly', b: 1, c: true}, {a: 'Curly', b: 1, c: true}), 'Objects containing identical primitives are equal');
     ok(_.isEqual({a: /Curly/g, b: new Date(2009, 11, 13)}, {a: /Curly/g, b: new Date(2009, 11, 13)}), 'Objects containing equivalent members are equal');
@@ -397,14 +401,14 @@
     if (Object.create) {
         a = Object.create(null, {x: {value: 1, enumerable: true}});
         b = {x: 1};
-        ok(_.isEqual(a, b));
+        ok(_.isEqual(a, b), 'Handles objects without a constructor (e.g. from Object.create');
     }
 
     function Foo() { this.a = 1; }
     Foo.prototype.constructor = null;
 
     var other = { 'a': 1 };
-    strictEqual(_.isEqual(new Foo, other), false);
+    strictEqual(_.isEqual(new Foo, other), false, 'Objects from different constructors are not equal');
   });
 
   test('isEmpty', function() {
