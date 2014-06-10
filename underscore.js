@@ -970,7 +970,8 @@
         return '' + a === '' + b;
       case '[object Number]':
         // `NaN`s are equivalent, but non-reflexive.
-        if (a != a) return b != b;
+        // Object(NaN) is equivalent to NaN
+        if (a != +a) return b != +b;
         // An `egal` comparison is performed for other numeric values.
         return a == 0 ? 1 / a == 1 / b : a == +b;
       case '[object Date]':
