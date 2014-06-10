@@ -50,7 +50,7 @@
   test('lookupIterator with contexts', function() {
     _.each([true, false, 'yes', '', 0, 1, {}], function(context) {
       _.each([1], function() {
-        deepEqual(this, context);
+        equal(this, context);
       }, context);
     });
   });
