@@ -60,7 +60,7 @@
 
   // Internal function: creates a callback bound to its context if supplied
   var createCallback = function(func, context, argCount) {
-    if (!context) return func;
+    if (context === void 0) return func;
     switch (argCount == null ? 3 : argCount) {
       case 1: return function(value) {
         return func.call(context, value);

@@ -47,6 +47,14 @@
     strictEqual(_.each, _.forEach, 'alias for each');
   });
 
+  test('lookupIterator with contexts', function() {
+    _.each([true, false, 'yes', '', 0, 1, {}], function(context) {
+      _.each([1], function() {
+        deepEqual(this, context);
+      }, context);
+    });
+  });
+
   test('map', function() {
     var doubled = _.map([1, 2, 3], function(num){ return num * 2; });
     deepEqual(doubled, [2, 4, 6], 'doubled numbers');
