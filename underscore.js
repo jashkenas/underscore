@@ -928,11 +928,13 @@
   // Fill in a given object with default properties.
   _.defaults = function(obj) {
     if (!_.isObject(obj)) return obj;
-    _.each(slice.call(arguments, 1), function(source) {
-      for (var prop in source) {
+    var source, prop;
+    for (var i = 1, length = arguments.length; i < length; i++) {
+      source = arguments[i];
+      for (prop in source) {
         if (obj[prop] === void 0) obj[prop] = source[prop];
       }
-    });
+    }
     return obj;
   };
 
