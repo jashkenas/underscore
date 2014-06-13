@@ -197,6 +197,9 @@
 
     var empty = _.zip([]);
     deepEqual(empty, [], 'unzipped empty');
+
+    deepEqual(_.zip(null), [], 'handles null');
+    deepEqual(_.zip(), [], '_.zip() returns []');
   });
 
   test('object', function() {
