@@ -115,6 +115,16 @@
     upper.cache = {foo: 'BAR', bar: 'FOO'};
     equal(upper('foo'), 'BAR');
     equal(upper('bar'), 'FOO');
+
+    var hashed = _.memoize(function(key) {
+      //https://github.com/jashkenas/underscore/pull/1679#discussion_r13736209
+      ok(/[a-z]+/.test(key), 'hasher doesn\'t change keys');
+      return key;
+    }, function(key) {
+      return key.toUpperCase();
+    });
+    hashed('yep');
+    deepEqual(hashed.cache, {'YEP': 'yep'}, 'takes a hasher');
   });
 
   asyncTest('delay', 2, function() {
