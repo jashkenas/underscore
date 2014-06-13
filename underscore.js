@@ -549,8 +549,9 @@
 
   // Zip together multiple lists into a single array -- elements that share
   // an index go together.
-  _.zip = function() {
-    var length = Math.max(0, _.max(arguments, 'length').length);
+  _.zip = function(array) {
+    if (array == null) return [];
+    var length = _.max(arguments, 'length').length;
     var results = Array(length);
     for (var i = 0; i < length; i++) {
       results[i] = _.pluck(arguments, i);
