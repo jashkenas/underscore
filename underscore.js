@@ -466,18 +466,16 @@
   };
 
   // Internal implementation of a recursive `flatten` function.
-  var flatten = function(input, shallow, strict, output) {
-    if (shallow && _.every(input, _.isArray)) {
-      return concat.apply(output, input);
-    }
-    for (var i = 0, length = input.length; i < length; i++) {
-      var value = input[i];
+  var flatten = function(input, shallow, strict, startIndex) {
+    var output = [], value;
+    for (var i = startIndex || 0, length = input.length; i < length; i++) {
+      value = input[i];
       if (!_.isArray(value) && !_.isArguments(value)) {
         if (!strict) output.push(value);
-      } else if (shallow) {
-        push.apply(output, value);
       } else {
-        flatten(value, shallow, strict, output);
+        //flatten current level of array or arguments object
+        if (!shallow) value = flatten(value, shallow, strict);
+        push.apply(output, value);
       }
     }
     return output;
@@ -485,7 +483,7 @@
 
   // Flatten out an array, either recursively (by default), or just one level.
   _.flatten = function(array, shallow) {
-    return flatten(array, shallow, false, []);
+    return flatten(array, shallow, false);
   };
 
   // Return a version of the array that does not contain the specified value(s).
@@ -527,7 +525,7 @@
   // Produce an array that contains the union: each distinct element from all of
   // the passed-in arrays.
   _.union = function() {
-    return _.uniq(flatten(arguments, true, true, []));
+    return _.uniq(flatten(arguments, true, true));
   };
 
   // Produce an array that contains every item shared between all the
@@ -550,7 +548,7 @@
   // Take the difference between one array and a number of other arrays.
   // Only the elements present in just the first array will remain.
   _.difference = function(array) {
-    var rest = flatten(slice.call(arguments, 1), true, true, []);
+    var rest = flatten(arguments, true, true, 1);
     return _.filter(array, function(value){
       return !_.contains(rest, value);
     });
