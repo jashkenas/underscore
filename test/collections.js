@@ -657,6 +657,14 @@
     deepEqual(_.partition([1, 2, 3], predicate, {x: 2}), [[2], [1, 3]], 'partition takes a context argument');
 
     deepEqual(_.partition([{a: 1}, {b: 2}, {a: 1, b: 2}], {a: 1}), [[{a: 1}, {a: 1, b: 2}], [{b: 2}]], 'predicate can be object');
+
+    var object = {a: 1};
+    _.partition(object, function(val, key, obj) {
+      equal(val, 1);
+      equal(key, 'a');
+      equal(object, object);
+      equal(this, predicate);
+    }, predicate);
   });
 
 })();
