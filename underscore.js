@@ -913,11 +913,10 @@
 
    // Return a copy of the object without the blacklisted properties.
   _.omit = function(obj, iterator, context) {
-    var keys;
     if (_.isFunction(iterator)) {
       iterator = _.negate(iterator);
     } else {
-      keys = _.map(concat.apply([], slice.call(arguments, 1)), String);
+      var keys = _.map(concat.apply([], slice.call(arguments, 1)), String);
       iterator = function(value, key) {
         return !_.contains(keys, key);
       };
@@ -928,10 +927,9 @@
   // Fill in a given object with default properties.
   _.defaults = function(obj) {
     if (!_.isObject(obj)) return obj;
-    var source, prop;
     for (var i = 1, length = arguments.length; i < length; i++) {
-      source = arguments[i];
-      for (prop in source) {
+      var source = arguments[i];
+      for (var prop in source) {
         if (obj[prop] === void 0) obj[prop] = source[prop];
       }
     }
