@@ -1317,9 +1317,11 @@
     return template;
   };
 
-  // Add a "chain" function, which will delegate to the wrapper.
+  // Add a "chain" function. Start chaining a wrapped Underscore object.
   _.chain = function(obj) {
-    return _(obj).chain();
+    var instance = _(obj);
+    instance._chain = true;
+    return instance;
   };
 
   // OOP
@@ -1367,20 +1369,10 @@
     };
   });
 
-  _.extend(_.prototype, {
-
-    // Start chaining a wrapped Underscore object.
-    chain: function() {
-      this._chain = true;
-      return this;
-    },
-
-    // Extracts the result from a wrapped and chained object.
-    value: function() {
-      return this._wrapped;
-    }
-
-  });
+  // Extracts the result from a wrapped and chained object.
+  _.prototype.value = function() {
+    return this._wrapped;
+  };
 
   // AMD registration happens at the end for compatibility with AMD loaders
   // that may not enforce next-turn semantics on modules. Even though general
