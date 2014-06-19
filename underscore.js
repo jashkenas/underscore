@@ -1071,13 +1071,18 @@
     return obj === Object(obj);
   };
 
-  // Add some isType methods: isArguments, isFunction, isString, isNumber, isDate, isRegExp.
-  _.each(['Arguments', 'Function', 'String', 'Number', 'Date', 'RegExp'], function(name) {
+  // Add some isType methods: isArguments, isFunction, isString, isNumber, isRegExp.
+  _.each(['Arguments', 'Function', 'String', 'Number', 'RegExp'], function(name) {
     _['is' + name] = function(obj) {
       return toString.call(obj) === '[object ' + name + ']';
     };
   });
 
+  // Is a given variable a date?
+  _.isDate = function(obj) {
+    return toString.call(obj) === '[object Date]' && !isNaN(obj.getTime());
+  };
+  
   // Define a fallback version of the method in browsers (ahem, IE), where
   // there isn't any inspectable "Arguments" type.
   if (!_.isArguments(arguments)) {
