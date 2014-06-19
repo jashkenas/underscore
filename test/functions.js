@@ -82,6 +82,8 @@
 
     raises(function() { _.bindAll(moe); }, Error, 'throws an error for bindAll with no functions named');
 
+    raises(function() { _.bindAll(moe, "sayBye"); }, ReferenceError, 'throws an error for bindAll if the given function is undefined');
+
     _.bindAll(moe, 'sayHi', 'sayLast');
     curly.sayHi = moe.sayHi;
     equal(curly.sayHi(), 'hi: moe');
