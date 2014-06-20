@@ -75,8 +75,11 @@
     });
     deepEqual(ids, ['1', '2'], 'Can use collection methods on Array-likes.');
 
-    var ifnull = _.map(null, function(){});
-    ok(_.isArray(ifnull) && ifnull.length === 0, 'handles a null properly');
+    deepEqual(_.map(null, _.noop), [], 'handles a null properly');
+
+    deepEqual(_.map([1], function() {
+      return this.length;
+    }, [5]), [1], 'called with context');
 
     // Passing a property name like _.pluck.
     var people = [{name : 'moe', age : 30}, {name : 'curly', age : 50}];
