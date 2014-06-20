@@ -107,17 +107,11 @@
     var prod = _.reduce([1, 2, 3, 4], function(prod, num){ return prod * num; });
     equal(prod, 24, 'can reduce via multiplication');
 
-    var ifnull;
-    try {
-      _.reduce(null, function(){});
-    } catch (ex) {
-      ifnull = ex;
-    }
-    ok(ifnull instanceof TypeError, 'handles a null (without initial value) properly');
+    ok(_.reduce(null, _.noop, 138) === 138, 'handles a null (with initial value) properly');
+    equal(_.reduce([], _.noop, undefined), undefined, 'undefined can be passed as a special case');
 
-    ok(_.reduce(null, function(){}, 138) === 138, 'handles a null (with initial value) properly');
-    equal(_.reduce([], function(){}, undefined), undefined, 'undefined can be passed as a special case');
-    raises(function() { _.reduce([], function(){}); }, TypeError, 'throws an error for empty arrays with no initial value');
+    raises(function() { _.reduce([], _.noop); }, TypeError, 'throws an error for empty arrays with no initial value');
+    raises(function() {_.reduce(null, _.noop);}, TypeError, 'handles a null (without initial value) properly');
   });
 
   test('foldl', function() {
@@ -131,21 +125,15 @@
     var list = _.reduceRight(['foo', 'bar', 'baz'], function(memo, str){ return memo + str; });
     equal(list, 'bazbarfoo', 'default initial value');
 
-    var ifnull;
-    try {
-      _.reduceRight(null, function(){});
-    } catch (ex) {
-      ifnull = ex;
-    }
-    ok(ifnull instanceof TypeError, 'handles a null (without initial value) properly');
-
     var sum = _.reduceRight({a: 1, b: 2, c: 3}, function(sum, num){ return sum + num; });
     equal(sum, 6, 'default initial value on object');
 
-    ok(_.reduceRight(null, function(){}, 138) === 138, 'handles a null (with initial value) properly');
+    ok(_.reduceRight(null, _.noop, 138) === 138, 'handles a null (with initial value) properly');
 
-    equal(_.reduceRight([], function(){}, undefined), undefined, 'undefined can be passed as a special case');
-    raises(function() { _.reduceRight([], function(){}); }, TypeError, 'throws an error for empty arrays with no initial value');
+    equal(_.reduceRight([], _.noop, undefined), undefined, 'undefined can be passed as a special case');
+
+    raises(function() { _.reduceRight([], _.noop); }, TypeError, 'throws an error for empty arrays with no initial value');
+    raises(function() {_.reduceRight(null, _.noop);}, TypeError, 'handles a null (without initial value) properly');
 
     // Assert that the correct arguments are being passed.
 
