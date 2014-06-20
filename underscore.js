@@ -673,8 +673,7 @@
     if (length <= 1) throw Error('bindAll must be passed function names');
     for (; i < length; i++) {
       key = arguments[i];
-      if (_.isUndefined(obj[key])) throw ReferenceError(key + ' is not defined');
-      obj[key] = createCallback(obj[key], obj, Infinity);
+      obj[key] = _.bind(obj[key], obj);
     }
     return obj;
   };
