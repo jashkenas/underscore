@@ -81,7 +81,8 @@
     deepEqual(result, {1: 'b'}, 'can pick numeric properties');
 
     deepEqual(_.pick(null, 'a', 'b'), {}, 'non objects return empty object');
-    deepEqual(_.pick(5, 'a', 'b'), {}, 'non objects return empty object');
+    deepEqual(_.pick(undefined, 'toString'), {}, 'null/undefined return empty object');
+    deepEqual(_.pick(5, 'toString', 'b'), {toString: Number.prototype.toString}, 'can iterate primitives');
 
     var data = {a: 1, b: 2, c: 3};
     var callback = function(value, key, object) {
@@ -114,7 +115,8 @@
     deepEqual(result, {1: 'b'}, 'can omit numeric properties');
 
     deepEqual(_.omit(null, 'a', 'b'), {}, 'non objects return empty object');
-    deepEqual(_.omit(5, 'a', 'b'), {}, 'non objects return empty object');
+    deepEqual(_.omit(undefined, 'toString'), {}, 'null/undefined return empty object');
+    deepEqual(_.omit(5, 'toString', 'b'), {}, 'returns empty object for primitives');
 
     var data = {a: 1, b: 2, c: 3};
     var callback = function(value, key, object) {
