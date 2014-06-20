@@ -264,6 +264,11 @@
     list = [{a: 1, b: 2}, {a: 2, b: 2, c: true}];
     ok(_.all(list, {b: 2}), 'Can be called with object');
     ok(!_.all(list, 'c'), 'String mapped to object property');
+
+    ok(_.all({a: 1, b: 2, c: 3, d: 4}, _.isNumber), 'takes objects');
+    ok(!_.all({a: 1, b: 2, c: 3, d: 4}, _.isObject), 'takes objects');
+    ok(_.all(['a', 'b', 'c', 'd'], _.hasOwnProperty, {a: 1, b: 2, c: 3, d: 4}), 'context works');
+    ok(!_.all(['a', 'b', 'c', 'd', 'f'], _.hasOwnProperty, {a: 1, b: 2, c: 3, d: 4}), 'context works');
   });
 
   test('every', function() {
@@ -289,6 +294,12 @@
     list = [{a: 1, b: 2}, {a: 2, b: 2, c: true}];
     ok(_.any(list, {b: 2}), 'Can be called with object');
     ok(!_.any(list, 'd'), 'String mapped to object property');
+
+
+    ok(_.any({a: '1', b: '2', c: '3', d: '4', e: 6}, _.isNumber), 'takes objects');
+    ok(!_.any({a: 1, b: 2, c: 3, d: 4}, _.isObject), 'takes objects');
+    ok(_.any(['a', 'b', 'c', 'd'], _.hasOwnProperty, {a: 1, b: 2, c: 3, d: 4}), 'context works');
+    ok(!_.any(['x', 'y', 'z'], _.hasOwnProperty, {a: 1, b: 2, c: 3, d: 4}), 'context works');
   });
 
   test('some', function() {
