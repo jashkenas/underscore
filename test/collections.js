@@ -199,14 +199,19 @@
     var isEven = function(num){ return num % 2 === 0; };
 
     deepEqual(_.filter(evenArray, isEven), [2, 4, 6]);
-    deepEqual(_.filter(evenObject, isEven), [2]);
+    deepEqual(_.filter(evenObject, isEven), [2], 'can filter objects');
     deepEqual(_.filter([{}, evenObject, []], 'two'), [evenObject], 'predicate string map to object properties');
+
+    _.filter([1], function() {
+      equal(this, evenObject, 'given context');
+    }, evenObject);
 
     // Can be used like _.where.
     var list = [{a: 1, b: 2}, {a: 2, b: 2}, {a: 1, b: 3}, {a: 1, b: 4}];
     deepEqual(_.filter(list, {a: 1}), [{a: 1, b: 2}, {a: 1, b: 3}, {a: 1, b: 4}]);
     deepEqual(_.filter(list, {b: 2}), [{a: 1, b: 2}, {a: 2, b: 2}]);
     deepEqual(_.filter(list, {}), list, 'Empty object accepts all items');
+    deepEqual(_(list).filter({}), list, 'OO-filter');
   });
 
   test('select', function() {
@@ -282,7 +287,6 @@
     list = [{a: 1, b: 2}, {a: 2, b: 2, c: true}];
     ok(_.any(list, {b: 2}), 'Can be called with object');
     ok(!_.any(list, 'd'), 'String mapped to object property');
-
 
     ok(_.any({a: '1', b: '2', c: '3', d: '4', e: 6}, _.isNumber), 'takes objects');
     ok(!_.any({a: 1, b: 2, c: 3, d: 4}, _.isObject), 'takes objects');
