@@ -895,7 +895,6 @@
   _.pick = function(obj, iterator, context) {
     var result = {}, key;
     if (obj == null) return result;
-    obj = Object(obj);
     if (_.isFunction(iterator)) {
       iterator = createCallback(iterator, context);
       for (key in obj) {
@@ -904,6 +903,7 @@
       }
     } else {
       var keys = concat.apply([], slice.call(arguments, 1));
+      obj = Object(obj);
       for (var i = 0, length = keys.length; i < length; i++) {
         key = keys[i];
         if (key in obj) result[key] = obj[key];
