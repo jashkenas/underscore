@@ -80,6 +80,10 @@
     result = _.pick(['a', 'b'], 1);
     deepEqual(result, {1: 'b'}, 'can pick numeric properties');
 
+    deepEqual(_.pick(null, 'a', 'b'), {}, 'non objects return empty object');
+    deepEqual(_.pick(undefined, 'toString'), {}, 'null/undefined return empty object');
+    deepEqual(_.pick(5, 'toString', 'b'), {toString: Number.prototype.toString}, 'can iterate primitives');
+
     var data = {a: 1, b: 2, c: 3};
     var callback = function(value, key, object) {
       strictEqual(key, {1: 'a', 2: 'b', 3: 'c'}[value]);
@@ -91,7 +95,12 @@
 
     var Obj = function(){};
     Obj.prototype = {a: 1, b: 2, c: 3};
-    deepEqual(_.pick(new Obj, 'a', 'c'), {a: 1, c: 3}, 'include prototype props');
+    var instance = new Obj();
+    deepEqual(_.pick(instance, 'a', 'c'), {a: 1, c: 3}, 'include prototype props');
+
+    deepEqual(_.pick(data, function(val, key) {
+      return this[key] === 3 && this === instance;
+    }, instance), {c: 3}, 'function is given context');
   });
 
   test('omit', function() {
@@ -105,6 +114,10 @@
     result = _.omit(['a', 'b'], 0);
     deepEqual(result, {1: 'b'}, 'can omit numeric properties');
 
+    deepEqual(_.omit(null, 'a', 'b'), {}, 'non objects return empty object');
+    deepEqual(_.omit(undefined, 'toString'), {}, 'null/undefined return empty object');
+    deepEqual(_.omit(5, 'toString', 'b'), {}, 'returns empty object for primitives');
+
     var data = {a: 1, b: 2, c: 3};
     var callback = function(value, key, object) {
       strictEqual(key, {1: 'a', 2: 'b', 3: 'c'}[value]);
@@ -116,7 +129,12 @@
 
     var Obj = function(){};
     Obj.prototype = {a: 1, b: 2, c: 3};
-    deepEqual(_.omit(new Obj, 'b'), {a: 1, c: 3}, 'include prototype props');
+    var instance = new Obj();
+    deepEqual(_.omit(instance, 'b'), {a: 1, c: 3}, 'include prototype props');
+
+    deepEqual(_.omit(data, function(val, key) {
+      return this[key] === 3 && this === instance;
+    }, instance), {a: 1, b: 2}, 'function is given context');
   });
 
   test('defaults', function() {

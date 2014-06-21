@@ -894,6 +894,8 @@
   // Return a copy of the object only containing the whitelisted properties.
   _.pick = function(obj, iterator, context) {
     var result = {}, key;
+    if (obj == null) return result;
+    obj = Object(obj);
     if (_.isFunction(iterator)) {
       iterator = createCallback(iterator, context);
       for (key in obj) {
