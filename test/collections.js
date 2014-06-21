@@ -75,8 +75,11 @@
     });
     deepEqual(ids, ['1', '2'], 'Can use collection methods on Array-likes.');
 
-    var ifnull = _.map(null, function(){});
-    ok(_.isArray(ifnull) && ifnull.length === 0, 'handles a null properly');
+    deepEqual(_.map(null, _.noop), [], 'handles a null properly');
+
+    deepEqual(_.map([1], function() {
+      return this.length;
+    }, [5]), [1], 'called with context');
 
     // Passing a property name like _.pluck.
     var people = [{name : 'moe', age : 30}, {name : 'curly', age : 50}];
@@ -107,17 +110,11 @@
     var prod = _.reduce([1, 2, 3, 4], function(prod, num){ return prod * num; });
     equal(prod, 24, 'can reduce via multiplication');
 
-    var ifnull;
-    try {
-      _.reduce(null, function(){});
-    } catch (ex) {
-      ifnull = ex;
-    }
-    ok(ifnull instanceof TypeError, 'handles a null (without initial value) properly');
+    ok(_.reduce(null, _.noop, 138) === 138, 'handles a null (with initial value) properly');
+    equal(_.reduce([], _.noop, undefined), undefined, 'undefined can be passed as a special case');
 
-    ok(_.reduce(null, function(){}, 138) === 138, 'handles a null (with initial value) properly');
-    equal(_.reduce([], function(){}, undefined), undefined, 'undefined can be passed as a special case');
-    raises(function() { _.reduce([], function(){}); }, TypeError, 'throws an error for empty arrays with no initial value');
+    raises(function() { _.reduce([], _.noop); }, TypeError, 'throws an error for empty arrays with no initial value');
+    raises(function() {_.reduce(null, _.noop);}, TypeError, 'handles a null (without initial value) properly');
   });
 
   test('foldl', function() {
@@ -131,21 +128,15 @@
     var list = _.reduceRight(['foo', 'bar', 'baz'], function(memo, str){ return memo + str; });
     equal(list, 'bazbarfoo', 'default initial value');
 
-    var ifnull;
-    try {
-      _.reduceRight(null, function(){});
-    } catch (ex) {
-      ifnull = ex;
-    }
-    ok(ifnull instanceof TypeError, 'handles a null (without initial value) properly');
-
     var sum = _.reduceRight({a: 1, b: 2, c: 3}, function(sum, num){ return sum + num; });
     equal(sum, 6, 'default initial value on object');
 
-    ok(_.reduceRight(null, function(){}, 138) === 138, 'handles a null (with initial value) properly');
+    ok(_.reduceRight(null, _.noop, 138) === 138, 'handles a null (with initial value) properly');
 
-    equal(_.reduceRight([], function(){}, undefined), undefined, 'undefined can be passed as a special case');
-    raises(function() { _.reduceRight([], function(){}); }, TypeError, 'throws an error for empty arrays with no initial value');
+    equal(_.reduceRight([], _.noop, undefined), undefined, 'undefined can be passed as a special case');
+
+    raises(function() { _.reduceRight([], _.noop); }, TypeError, 'throws an error for empty arrays with no initial value');
+    raises(function() {_.reduceRight(null, _.noop);}, TypeError, 'handles a null (without initial value) properly');
 
     // Assert that the correct arguments are being passed.
 
@@ -201,7 +192,7 @@
     equal(result, 2, 'found the first "2" and broke the loop');
   });
 
-  test('find', function() {
+  test('detect', function() {
     strictEqual(_.detect, _.find, 'alias for detect');
   });
 
@@ -211,14 +202,19 @@
     var isEven = function(num){ return num % 2 === 0; };
 
     deepEqual(_.filter(evenArray, isEven), [2, 4, 6]);
-    deepEqual(_.filter(evenObject, isEven), [2]);
+    deepEqual(_.filter(evenObject, isEven), [2], 'can filter objects');
     deepEqual(_.filter([{}, evenObject, []], 'two'), [evenObject], 'predicate string map to object properties');
+
+    _.filter([1], function() {
+      equal(this, evenObject, 'given context');
+    }, evenObject);
 
     // Can be used like _.where.
     var list = [{a: 1, b: 2}, {a: 2, b: 2}, {a: 1, b: 3}, {a: 1, b: 4}];
     deepEqual(_.filter(list, {a: 1}), [{a: 1, b: 2}, {a: 1, b: 3}, {a: 1, b: 4}]);
     deepEqual(_.filter(list, {b: 2}), [{a: 1, b: 2}, {a: 2, b: 2}]);
     deepEqual(_.filter(list, {}), list, 'Empty object accepts all items');
+    deepEqual(_(list).filter({}), list, 'OO-filter');
   });
 
   test('select', function() {
@@ -247,51 +243,61 @@
     deepEqual(_.reject(list, []), [], 'Returns empty list given empty array');
   });
 
-  test('all', function() {
-    ok(_.all([], _.identity), 'the empty set');
-    ok(_.all([true, true, true], _.identity), 'all true values');
-    ok(!_.all([true, false, true], _.identity), 'one false value');
-    ok(_.all([0, 10, 28], function(num){ return num % 2 == 0; }), 'even numbers');
-    ok(!_.all([0, 11, 28], function(num){ return num % 2 == 0; }), 'an odd number');
-    ok(_.all([1], _.identity) === true, 'cast to boolean - true');
-    ok(_.all([0], _.identity) === false, 'cast to boolean - false');
-    ok(!_.all([undefined, undefined, undefined], _.identity), 'works with arrays of undefined');
+  test('every', function() {
+    ok(_.every([], _.identity), 'the empty set');
+    ok(_.every([true, true, true], _.identity), 'every true values');
+    ok(!_.every([true, false, true], _.identity), 'one false value');
+    ok(_.every([0, 10, 28], function(num){ return num % 2 == 0; }), 'even numbers');
+    ok(!_.every([0, 11, 28], function(num){ return num % 2 == 0; }), 'an odd number');
+    ok(_.every([1], _.identity) === true, 'cast to boolean - true');
+    ok(_.every([0], _.identity) === false, 'cast to boolean - false');
+    ok(!_.every([undefined, undefined, undefined], _.identity), 'works with arrays of undefined');
 
     var list = [{a: 1, b: 2}, {a: 2, b: 2}, {a: 1, b: 3}, {a: 1, b: 4}];
-    ok(!_.all(list, {a: 1, b: 2}), 'Can be called with object');
-    ok(_.all(list, 'a'), 'String mapped to object property');
+    ok(!_.every(list, {a: 1, b: 2}), 'Can be called with object');
+    ok(_.every(list, 'a'), 'String mapped to object property');
 
     list = [{a: 1, b: 2}, {a: 2, b: 2, c: true}];
-    ok(_.all(list, {b: 2}), 'Can be called with object');
-    ok(!_.all(list, 'c'), 'String mapped to object property');
+    ok(_.every(list, {b: 2}), 'Can be called with object');
+    ok(!_.every(list, 'c'), 'String mapped to object property');
+
+    ok(_.every({a: 1, b: 2, c: 3, d: 4}, _.isNumber), 'takes objects');
+    ok(!_.every({a: 1, b: 2, c: 3, d: 4}, _.isObject), 'takes objects');
+    ok(_.every(['a', 'b', 'c', 'd'], _.hasOwnProperty, {a: 1, b: 2, c: 3, d: 4}), 'context works');
+    ok(!_.every(['a', 'b', 'c', 'd', 'f'], _.hasOwnProperty, {a: 1, b: 2, c: 3, d: 4}), 'context works');
   });
 
-  test('every', function() {
+  test('all', function() {
     strictEqual(_.all, _.every, 'alias for all');
   });
 
-  test('any', function() {
-    ok(!_.any([]), 'the empty set');
-    ok(!_.any([false, false, false]), 'all false values');
-    ok(_.any([false, false, true]), 'one true value');
-    ok(_.any([null, 0, 'yes', false]), 'a string');
-    ok(!_.any([null, 0, '', false]), 'falsy values');
-    ok(!_.any([1, 11, 29], function(num){ return num % 2 == 0; }), 'all odd numbers');
-    ok(_.any([1, 10, 29], function(num){ return num % 2 == 0; }), 'an even number');
-    ok(_.any([1], _.identity) === true, 'cast to boolean - true');
-    ok(_.any([0], _.identity) === false, 'cast to boolean - false');
-    ok(_.any([false, false, true]));
+  test('some', function() {
+    ok(!_.some([]), 'the empty set');
+    ok(!_.some([false, false, false]), 'all false values');
+    ok(_.some([false, false, true]), 'one true value');
+    ok(_.some([null, 0, 'yes', false]), 'a string');
+    ok(!_.some([null, 0, '', false]), 'falsy values');
+    ok(!_.some([1, 11, 29], function(num){ return num % 2 == 0; }), 'all odd numbers');
+    ok(_.some([1, 10, 29], function(num){ return num % 2 == 0; }), 'an even number');
+    ok(_.some([1], _.identity) === true, 'cast to boolean - true');
+    ok(_.some([0], _.identity) === false, 'cast to boolean - false');
+    ok(_.some([false, false, true]));
 
     var list = [{a: 1, b: 2}, {a: 2, b: 2}, {a: 1, b: 3}, {a: 1, b: 4}];
-    ok(!_.any(list, {a: 5, b: 2}), 'Can be called with object');
-    ok(_.any(list, 'a'), 'String mapped to object property');
+    ok(!_.some(list, {a: 5, b: 2}), 'Can be called with object');
+    ok(_.some(list, 'a'), 'String mapped to object property');
 
     list = [{a: 1, b: 2}, {a: 2, b: 2, c: true}];
-    ok(_.any(list, {b: 2}), 'Can be called with object');
-    ok(!_.any(list, 'd'), 'String mapped to object property');
+    ok(_.some(list, {b: 2}), 'Can be called with object');
+    ok(!_.some(list, 'd'), 'String mapped to object property');
+
+    ok(_.some({a: '1', b: '2', c: '3', d: '4', e: 6}, _.isNumber), 'takes objects');
+    ok(!_.some({a: 1, b: 2, c: 3, d: 4}, _.isObject), 'takes objects');
+    ok(_.some(['a', 'b', 'c', 'd'], _.hasOwnProperty, {a: 1, b: 2, c: 3, d: 4}), 'context works');
+    ok(!_.some(['x', 'y', 'z'], _.hasOwnProperty, {a: 1, b: 2, c: 3, d: 4}), 'context works');
   });
 
-  test('some', function() {
+  test('any', function() {
     strictEqual(_.any, _.some, 'alias for any');
   });
 
