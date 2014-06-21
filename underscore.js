@@ -673,7 +673,7 @@
     if (length <= 1) throw Error('bindAll must be passed function names');
     for (; i < length; i++) {
       key = arguments[i];
-      obj[key] = createCallback(obj[key], obj, Infinity);
+      obj[key] = _.bind(obj[key], obj);
     }
     return obj;
   };
