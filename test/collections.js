@@ -192,6 +192,9 @@
     strictEqual(_.find(array, function(n) { return n > 2; }), 3, 'should return first found `value`');
     strictEqual(_.find(array, function() { return false; }), void 0, 'should return `undefined` if `value` is not found');
 
+    array.dontmatch = 55;
+    strictEqual(_.find(array, function(x) { return x === 55; }), void 0, 'iterates array-likes correctly');
+
     // Matching an object like _.findWhere.
     var list = [{a: 1, b: 2}, {a: 2, b: 2}, {a: 1, b: 3}, {a: 1, b: 4}, {a: 2, b: 4}];
     deepEqual(_.find(list, {a: 1}), {a: 1, b: 2}, 'can be used as findWhere');

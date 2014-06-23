@@ -692,5 +692,34 @@
     var oCon = _.matches({'constructor': Object});
     deepEqual(_.map([null, undefined, 5, {}], oCon), [false, false, false, true], 'doesnt fasley match constructor on undefined/null');
   });
+  test('findKey', function() {
+    var objects = {
+      a: {'a': 0, 'b': 0},
+      b: {'a': 1, 'b': 1},
+      c: {'a': 2, 'b': 2}
+    };
+
+    equal(_.findKey(objects, function(obj) {
+      return obj.a === 0;
+    }), 'a');
+
+    equal(_.findKey(objects, function(obj) {
+      return obj.b * obj.a === 4;
+    }), 'c');
+
+    equal(_.findKey(objects, 'a'), 'b', 'Uses lookupIterator');
+
+    equal(_.findKey(objects, function(obj) {
+      return obj.b * obj.a === 5;
+    }), undefined);
+
+    strictEqual(_.findKey([1, 2, 3, 4, 5, 6], function(obj) {
+      return obj === 3;
+    }), '2', 'Keys are strings');
+
+    var array = [1, 2, 3, 4];
+    array.match = 55;
+    strictEqual(_.findKey(array, function(x) { return x === 55; }), 'match', 'matches array-likes keys');
+  });
 
 }());
