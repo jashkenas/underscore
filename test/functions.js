@@ -476,6 +476,22 @@
 
     composed = _.compose(greet, exclaim);
     equal(composed('moe'), 'hi: moe!', 'in this case, the functions are also commutative');
+
+    // f(g(h(x, y, z)))
+    function h(x, y, z) {
+      equal(arguments.length, 3, 'First function called with multiple args');
+      return z * y;
+    };
+    function g(x) {
+      equal(arguments.length, 1, 'Composed function is called with 1 argument');
+      return x;
+    };
+    function f(x) {
+      equal(arguments.length, 1, 'Composed function is called with 1 argument');
+      return x * 2;
+    };
+    composed = _.compose(f, g, h);
+    equal(composed(1, 2, 3), 12);
   });
 
   test('after', function() {
