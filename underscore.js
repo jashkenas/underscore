@@ -804,12 +804,12 @@
   // Returns a function that is the composition of a list of functions, each
   // consuming the return value of the function that follows.
   _.compose = function() {
-    var funcs = arguments, length = funcs.length;
+    var args = arguments;
+    var first = args[args.length - 1];
     return function() {
-      var idx = length - 1,
-          result = funcs[idx].apply(this, arguments);
-      while (idx--) {
-        result = funcs[idx].call(this, result);
+      var result = first.apply(this, arguments);
+      for (var i = args.length - 2; i >= 0; i--) {
+        result = args[i].call(this, result);
       }
       return result;
     };
