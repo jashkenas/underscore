@@ -807,10 +807,9 @@
     var args = arguments;
     var first = args[args.length - 1];
     return function() {
+      var i = args.length - 1;
       var result = first.apply(this, arguments);
-      for (var i = args.length - 2; i >= 0; i--) {
-        result = args[i].call(this, result);
-      }
+      while (i--) result = args[i].call(this, result);
       return result;
     };
   };
