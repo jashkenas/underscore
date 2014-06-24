@@ -244,6 +244,7 @@
   });
 
   test('every', function() {
+    ok(_.every(null, _.noop), 'true for null');
     ok(_.every([], _.identity), 'the empty set');
     ok(_.every([true, true, true], _.identity), 'every true values');
     ok(!_.every([true, false, true], _.identity), 'one false value');
@@ -272,6 +273,7 @@
   });
 
   test('some', function() {
+    ok(!_.some(null, _.noop), false, 'false for null');
     ok(!_.some([]), 'the empty set');
     ok(!_.some([false, false, false]), 'all false values');
     ok(_.some([false, false, true]), 'one true value');
