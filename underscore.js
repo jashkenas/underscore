@@ -805,10 +805,10 @@
   // consuming the return value of the function that follows.
   _.compose = function() {
     var args = arguments;
-    var first = args[args.length - 1];
+    var start = args.length - 1;
     return function() {
-      var i = args.length - 1;
-      var result = first.apply(this, arguments);
+      var i = start;
+      var result = args[start].apply(this, arguments);
       while (i--) result = args[i].call(this, result);
       return result;
     };
