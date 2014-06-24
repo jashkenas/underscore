@@ -94,10 +94,10 @@
   // The cornerstone, an `each` implementation, aka `forEach`.
   // Handles raw objects in addition to array-likes. Treats all
   // sparse array-likes as if they were dense.
-  _.each = _.forEach = function(obj, iterator, context) {
-    var i, length;
+  _.each = _.forEach = function(obj, _iterator, context) {
     if (obj == null) return obj;
-    iterator = createCallback(iterator, context);
+    var i, length;
+    var iterator = createCallback(_iterator, context);
     if (obj.length === +obj.length) {
       for (i = 0, length = obj.length; i < length; i++) {
         if (iterator(obj[i], i, obj) === breaker) break;
@@ -112,10 +112,10 @@
   };
 
   // Return the results of applying the iterator to each element.
-  _.map = _.collect = function(obj, iterator, context) {
+  _.map = _.collect = function(obj, _iterator, context) {
+    if (obj == null) return [];
     var results = [];
-    if (obj == null) return results;
-    iterator = lookupIterator(iterator, context);
+    var iterator = lookupIterator(_iterator, context);
     _.each(obj, function(value, index, list) {
       results.push(iterator(value, index, list));
     });
@@ -126,10 +126,11 @@
 
   // **Reduce** builds up a single result from a list of values, aka `inject`,
   // or `foldl`.
-  _.reduce = _.foldl = _.inject = function(obj, iterator, memo, context) {
+  _.reduce = _.foldl = _.inject = function(_obj, _iterator, _memo, context) {
+    var obj = _obj == null ? [] : _obj;
+    var memo = _memo;
     var initial = arguments.length > 2;
-    if (obj == null) obj = [];
-    iterator = createCallback(iterator, context, 4);
+    var iterator = createCallback(_iterator, context, 4);
     _.each(obj, function(value, index, list) {
       if (!initial) {
         memo = value;
@@ -143,11 +144,11 @@
   };
 
   // The right-associative version of reduce, also known as `foldr`.
-  _.reduceRight = _.foldr = function(obj, iterator, memo, context) {
-    var initial = arguments.length > 2;
+  _.reduceRight = _.foldr = function(obj, _iterator, memo, context) {
     if (obj == null) obj = [];
+    var initial = arguments.length > 2;
     var length = obj.length;
-    iterator = createCallback(iterator, context, 4);
+    var iterator = createCallback(_iterator, context, 4);
     if (length !== +length) {
       var keys = _.keys(obj);
       length = keys.length;
@@ -166,9 +167,9 @@
   };
 
   // Return the first value which passes a truth test. Aliased as `detect`.
-  _.find = _.detect = function(obj, predicate, context) {
+  _.find = _.detect = function(obj, _predicate, context) {
     var result;
-    predicate = lookupIterator(predicate, context);
+    var predicate = lookupIterator(_predicate, context);
     _.some(obj, function(value, index, list) {
       if (predicate(value, index, list)) {
         result = value;
@@ -180,10 +181,10 @@
 
   // Return all the elements that pass a truth test.
   // Aliased as `select`.
-  _.filter = _.select = function(obj, predicate, context) {
+  _.filter = _.select = function(obj, _predicate, context) {
+    if (obj == null) return [];
     var results = [];
-    if (obj == null) return results;
-    predicate = lookupIterator(predicate, context);
+    var predicate = lookupIterator(_predicate, context);
     _.each(obj, function(value, index, list) {
       if (predicate(value, index, list)) results.push(value);
     });
@@ -197,10 +198,10 @@
 
   // Determine whether all of the elements match a truth test.
   // Aliased as `all`.
-  _.every = _.all = function(obj, predicate, context) {
+  _.every = _.all = function(obj, _predicate, context) {
+    if (obj == null) return true;
     var result = true;
-    if (obj == null) return result;
-    predicate = lookupIterator(predicate, context);
+    var predicate = lookupIterator(_predicate, context);
     _.each(obj, function(value, index, list) {
       result = predicate(value, index, list);
       if (!result) return breaker;
@@ -210,10 +211,10 @@
 
   // Determine if at least one element in the object matches a truth test.
   // Aliased as `any`.
-  _.some = _.any = function(obj, predicate, context) {
+  _.some = _.any = function(obj, _predicate, context) {
+    if (obj == null) return false;
     var result = false;
-    if (obj == null) return result;
-    predicate = lookupIterator(predicate, context);
+    var predicate = lookupIterator(_predicate, context);
     _.each(obj, function(value, index, list) {
       result = predicate(value, index, list);
       if (result) return breaker;
@@ -329,8 +330,8 @@
   };
 
   // Sort the object's values by a criterion produced by an iterator.
-  _.sortBy = function(obj, iterator, context) {
-    iterator = lookupIterator(iterator, context);
+  _.sortBy = function(obj, _iterator, context) {
+    var iterator = lookupIterator(_iterator, context);
     return _.pluck(_.map(obj, function(value, index, list) {
       return {
         value: value,
@@ -382,8 +383,8 @@
 
   // Use a comparator function to figure out the smallest index at which
   // an object should be inserted so as to maintain order. Uses binary search.
-  _.sortedIndex = function(array, obj, iterator, context) {
-    iterator = lookupIterator(iterator, context, 1);
+  _.sortedIndex = function(array, obj, _iterator, context) {
+    var iterator = lookupIterator(_iterator, context, 1);
     var value = iterator(obj);
     var low = 0, high = array.length;
     while (low < high) {
@@ -409,8 +410,8 @@
 
   // Split a collection into two arrays: one whose elements all satisfy the given
   // predicate, and one whose elements all do not satisfy the predicate.
-  _.partition = function(obj, predicate, context) {
-    predicate = lookupIterator(predicate, context);
+  _.partition = function(obj, _predicate, context) {
+    var predicate = lookupIterator(_predicate, context);
     var pass = [], fail = [];
     _.each(obj, function(value, key, obj) {
       (predicate(value, key, obj) ? pass : fail).push(value);
