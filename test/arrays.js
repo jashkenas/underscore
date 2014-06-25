@@ -219,8 +219,7 @@
 
   test('indexOf', function() {
     var numbers = [1, 2, 3];
-    numbers.indexOf = null;
-    equal(_.indexOf(numbers, 2), 1, 'can compute indexOf, even without the native function');
+    equal(_.indexOf(numbers, 2), 1, 'can compute indexOf');
     var result = (function(){ return _.indexOf(arguments, 2); })(1, 2, 3);
     equal(result, 1, 'works on an arguments object');
     equal(_.indexOf(null, 2), -1, 'handles nulls properly');
@@ -235,8 +234,12 @@
     equal(index, 3, '40 is in the list');
 
     numbers = [1, 40, 40, 40, 40, 40, 40, 40, 50, 60, 70]; num = 40;
-    index = _.indexOf(numbers, num, true);
-    equal(index, 1, '40 is in the list');
+    equal(_.indexOf(numbers, num, true), 1, '40 is in the list');
+    equal(_.indexOf(numbers, 6, true), -1, '6 isnt in the list');
+    equal(_.indexOf([1, 2, 5, 4, 6, 7], 5, true), -1, 'sorted indexOf doesn\'t uses binary search');
+    ok(_.every(["1", [], {}, null], function() {
+      return _.indexOf(numbers, num, {}) === 1;
+    }), 'non-nums as fromIndex make indexOf assume sorted');
 
     numbers = [1, 2, 3, 1, 2, 3, 1, 2, 3];
     index = _.indexOf(numbers, 2, 5);
