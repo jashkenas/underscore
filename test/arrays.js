@@ -219,8 +219,7 @@
 
   test('indexOf', function() {
     var numbers = [1, 2, 3];
-    numbers.indexOf = null;
-    equal(_.indexOf(numbers, 2), 1, 'can compute indexOf, even without the native function');
+    equal(_.indexOf(numbers, 2), 1, 'can compute indexOf');
     var result = (function(){ return _.indexOf(arguments, 2); })(1, 2, 3);
     equal(result, 1, 'works on an arguments object');
     equal(_.indexOf(null, 2), -1, 'handles nulls properly');
@@ -235,8 +234,12 @@
     equal(index, 3, '40 is in the list');
 
     numbers = [1, 40, 40, 40, 40, 40, 40, 40, 50, 60, 70]; num = 40;
-    index = _.indexOf(numbers, num, true);
-    equal(index, 1, '40 is in the list');
+    equal(_.indexOf(numbers, num, true), 1, '40 is in the list');
+    equal(_.indexOf(numbers, 6, true), -1, '6 isnt in the list');
+    equal(_.indexOf([1, 2, 5, 4, 6, 7], 5, true), -1, 'sorted indexOf doesn\'t uses binary search');
+    ok(_.every(["1", [], {}, null], function() {
+      return _.indexOf(numbers, num, {}) === 1;
+    }), 'non-nums as fromIndex make indexOf assume sorted');
 
     numbers = [1, 2, 3, 1, 2, 3, 1, 2, 3];
     index = _.indexOf(numbers, 2, 5);
@@ -244,10 +247,20 @@
 
     index = _.indexOf([,,,], undefined);
     equal(index, 0, 'treats sparse arrays as if they were dense');
+
+    var array = [1, 2, 3, 1, 2, 3];
+    strictEqual(_.indexOf(array, 1, -3), 3, 'neg `fromIndex` starts at the right index');
+    strictEqual(_.indexOf(array, 1, -2), -1, 'neg `fromIndex` starts at the right index');
+    strictEqual(_.indexOf(array, 2, -3), 4);
+    _.each([-6, -8, -Infinity], function(fromIndex) {
+      strictEqual(_.indexOf(array, 1, fromIndex), 0);
+    });
+    strictEqual(_.indexOf([1, 2, 3], 1, true), 0);
   });
 
   test('lastIndexOf', function() {
     var numbers = [1, 0, 1];
+    var falsey = [, '', 0, false, NaN, null, undefined];
     equal(_.lastIndexOf(numbers, 1), 2);
 
     numbers = [1, 0, 1, 0, 0, 1, 0, 0, 0];
@@ -261,6 +274,38 @@
     numbers = [1, 2, 3, 1, 2, 3, 1, 2, 3];
     var index = _.lastIndexOf(numbers, 2, 2);
     equal(index, 1, 'supports the fromIndex argument');
+
+    var array = [1, 2, 3, 1, 2, 3];
+
+    strictEqual(_.lastIndexOf(array, 3), 5, 'should return the index of the last matched value');
+    strictEqual(_.lastIndexOf(array, 4), -1, 'should return `-1` for an unmatched value');
+
+    strictEqual(_.lastIndexOf(array, 1, 2), 0, 'should work with a positive `fromIndex`');
+
+    _.each([6, 8, Math.pow(2, 32), Infinity], function(fromIndex) {
+      strictEqual(_.lastIndexOf(array, undefined, fromIndex), -1);
+      strictEqual(_.lastIndexOf(array, 1, fromIndex), 3);
+      strictEqual(_.lastIndexOf(array, '', fromIndex), -1);
+    });
+
+    var expected = _.map(falsey, function(value) {
+      return typeof value == 'number' ? -1 : 5;
+    });
+
+    var actual = _.map(falsey, function(fromIndex) {
+      return _.lastIndexOf(array, 3, fromIndex);
+    });
+
+    deepEqual(actual, expected, 'should treat falsey `fromIndex` values, except `0` and `NaN`, as `array.length`');
+    strictEqual(_.lastIndexOf(array, 3, '1'), 5, 'should treat non-number `fromIndex` values as `array.length`');
+    strictEqual(_.lastIndexOf(array, 3, true), 5, 'should treat non-number `fromIndex` values as `array.length`');
+
+    strictEqual(_.lastIndexOf(array, 2, -3), 1, 'should work with a negative `fromIndex`');
+    strictEqual(_.lastIndexOf(array, 1, -3), 3, 'neg `fromIndex` starts at the right index');
+
+    deepEqual(_.map([-6, -8, -Infinity], function(fromIndex) {
+      return _.lastIndexOf(array, 1, fromIndex);
+    }), [0, -1, -1]);
   });
 
   test('range', function() {
