@@ -594,8 +594,11 @@
 
   _.lastIndexOf = function(array, item, from) {
     if (array == null) return -1;
-    var i = from == null ? array.length : from;
-    while (i--) if (array[i] === item) return i;
+    var idx = array.length;
+    if (typeof from == 'number') {
+      idx = from < 0 ? idx + from + 1 : Math.min(from, idx);
+    }
+    while (--idx >= 0) if (array[idx] === item) return idx;
     return -1;
   };
 
