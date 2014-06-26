@@ -277,6 +277,7 @@
 
     var array = [1, 2, 3, 1, 2, 3];
 
+    strictEqual(_.lastIndexOf(array, 1, 0), 0, 'starts at the correct from idx');
     strictEqual(_.lastIndexOf(array, 3), 5, 'should return the index of the last matched value');
     strictEqual(_.lastIndexOf(array, 4), -1, 'should return `-1` for an unmatched value');
 
