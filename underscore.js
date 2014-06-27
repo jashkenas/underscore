@@ -112,7 +112,7 @@
   };
 
   // Return the results of applying the iterator to each element.
-   _.map = _.collect = function(obj, iterator, context) {
+  _.map = _.collect = function(obj, iterator, context) {
     if (obj == null) return [];
     iterator = lookupIterator(iterator, context);
     var length = obj.length,
