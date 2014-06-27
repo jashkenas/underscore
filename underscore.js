@@ -112,13 +112,20 @@
   };
 
   // Return the results of applying the iterator to each element.
-  _.map = _.collect = function(obj, iterator, context) {
-    var results = [];
-    if (obj == null) return results;
+   _.map = _.collect = function(obj, iterator, context) {
+    if (obj == null) return [];
     iterator = lookupIterator(iterator, context);
-    _.each(obj, function(value, index, list) {
-      results.push(iterator(value, index, list));
-    });
+    var length = obj.length,
+        currentKey, keys;
+    if (length !== +length) {
+      keys = _.keys(obj);
+      length = keys.length;
+    }
+    var results = Array(length);
+    for (var index = 0; index < length; index++) {
+      currentKey = keys ? keys[index] : index;
+      results[index] = iterator(obj[currentKey], currentKey, obj);
+    }
     return results;
   };
 
