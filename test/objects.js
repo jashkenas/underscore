@@ -79,6 +79,8 @@
     deepEqual(result, {a: 1, b: 2}, 'can restrict properties to those named in mixed args');
     result = _.pick(['a', 'b'], 1);
     deepEqual(result, {1: 'b'}, 'can pick numeric properties');
+    result = _.pick({a: 1, b: 2, c: 3, d: 4}, 'a', {b: 'beta', c: 'gamma'}, 'd');
+    deepEqual(result, {a: 1, beta: 2, gamma: 3, d: 4}, 'can rename properties by passing an object');
 
     deepEqual(_.pick(null, 'a', 'b'), {}, 'non objects return empty object');
     deepEqual(_.pick(undefined, 'toString'), {}, 'null/undefined return empty object');
@@ -113,6 +115,8 @@
     deepEqual(result, {a: 1}, 'can omit properties named in an array');
     result = _.omit(['a', 'b'], 0);
     deepEqual(result, {1: 'b'}, 'can omit numeric properties');
+    result = _.omit({a: 1, b: 2, c: 3}, 'a', {b: 'beta'});
+    deepEqual(result, {c: 3}, 'can omit properties even when passed in an object');
 
     deepEqual(_.omit(null, 'a', 'b'), {}, 'non objects return empty object');
     deepEqual(_.omit(undefined, 'toString'), {}, 'null/undefined return empty object');

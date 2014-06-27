@@ -916,7 +916,13 @@
       obj = Object(obj);
       for (var i = 0, length = keys.length; i < length; i++) {
         key = keys[i];
-        if (key in obj) result[key] = obj[key];
+        if (_.isObject(key)) {
+          _.each(key, function(newName, oldName) {
+            if (oldName in obj) result[newName] = obj[oldName];
+          });
+        } else if (key in obj) {
+          result[key] = obj[key];
+        }
       }
     }
     return result;
@@ -927,7 +933,16 @@
     if (_.isFunction(iterator)) {
       iterator = _.negate(iterator);
     } else {
-      var keys = _.map(concat.apply([], slice.call(arguments, 1)), String);
+      var keys = _.map(slice.call(arguments, 1), function(key) {
+        if (_.isArray(key)) {
+          return _.map(key, String);
+        } else if (_.isObject(key)) {
+          return _.keys(key);
+        } else {
+          return String(key);
+        }
+      });
+      keys = concat.apply([], keys);
       iterator = function(value, key) {
         return !_.contains(keys, key);
       };
