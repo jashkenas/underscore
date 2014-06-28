@@ -92,16 +92,16 @@
   // Handles raw objects in addition to array-likes. Treats all
   // sparse array-likes as if they were dense.
   _.each = _.forEach = function(obj, iterator, context) {
-    var i, length;
     if (obj == null) return obj;
     iterator = createCallback(iterator, context);
-    if (obj.length === +obj.length) {
-      for (i = 0, length = obj.length; i < length; i++) {
+    var i = 0, length = obj.length;
+    if (length === +length) {
+      for (; i < length; i++) {
         iterator(obj[i], i, obj);
       }
     } else {
       var keys = _.keys(obj);
-      for (i = 0, length = keys.length; i < length; i++) {
+      for (length = keys.length; i < length; i++) {
         iterator(obj[keys[i]], keys[i], obj);
       }
     }
