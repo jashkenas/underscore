@@ -131,18 +131,22 @@
   // **Reduce** builds up a single result from a list of values, aka `inject`,
   // or `foldl`.
   _.reduce = _.foldl = _.inject = function(obj, iterator, memo, context) {
-    var initial = arguments.length > 2;
     if (obj == null) obj = [];
     iterator = createCallback(iterator, context, 4);
-    _.each(obj, function(value, index, list) {
-      if (!initial) {
-        memo = value;
-        initial = true;
-      } else {
-        memo = iterator(memo, value, index, list);
-      }
-    });
-    if (!initial) throw TypeError(reduceError);
+    var index = 0, length = obj.length,
+        currentKey, keys;
+    if (length !== +length) {
+      keys = _.keys(obj);
+      length = keys.length;
+    }
+    if (arguments.length < 3) {
+      if (!length) throw TypeError(reduceError);
+      memo = obj[keys ? keys[index++] : index++];
+    }
+    for (; index < length; index++) {
+      currentKey = keys ? keys[index] : index;
+      memo = iterator(memo, obj[currentKey], currentKey, obj);
+    }
     return memo;
   };
 
