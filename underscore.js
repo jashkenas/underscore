@@ -14,9 +14,6 @@
   // Save the previous value of the `_` variable.
   var previousUnderscore = root._;
 
-  // Establish the object that gets returned to break out of a loop iteration.
-  var breaker = {};
-
   // Save bytes in the minified (but not gzipped) version:
   var ArrayProto = Array.prototype, ObjProto = Object.prototype, FuncProto = Function.prototype;
 
@@ -100,12 +97,12 @@
     iterator = createCallback(iterator, context);
     if (obj.length === +obj.length) {
       for (i = 0, length = obj.length; i < length; i++) {
-        if (iterator(obj[i], i, obj) === breaker) break;
+        iterator(obj[i], i, obj);
       }
     } else {
       var keys = _.keys(obj);
       for (i = 0, length = keys.length; i < length; i++) {
-        if (iterator(obj[keys[i]], keys[i], obj) === breaker) break;
+        iterator(obj[keys[i]], keys[i], obj);
       }
     }
     return obj;
@@ -205,27 +202,39 @@
   // Determine whether all of the elements match a truth test.
   // Aliased as `all`.
   _.every = _.all = function(obj, predicate, context) {
-    var result = true;
-    if (obj == null) return result;
+    if (obj == null) return true;
     predicate = lookupIterator(predicate, context);
-    _.each(obj, function(value, index, list) {
-      result = predicate(value, index, list);
-      if (!result) return breaker;
-    });
-    return !!result;
+    var length = obj.length;
+    var index = 0, currentKey, keys;
+    if (length !== +length) {
+      keys = _.keys(obj);
+      length = keys.length;
+    }
+    for (; index < length; index++) {
+      currentKey = keys ? keys[index] : index;
+      if (!predicate(obj[currentKey], currentKey, obj)) return false;
+    }
+    return true;
   };
 
   // Determine if at least one element in the object matches a truth test.
   // Aliased as `any`.
+  // Determine if at least one element in the object matches a truth test.
+  // Aliased as `any`.
   _.some = _.any = function(obj, predicate, context) {
-    var result = false;
-    if (obj == null) return result;
+    if (obj == null) return false;
     predicate = lookupIterator(predicate, context);
-    _.each(obj, function(value, index, list) {
-      result = predicate(value, index, list);
-      if (result) return breaker;
-    });
-    return !!result;
+    var length = obj.length;
+    var index = 0, currentKey, keys;
+    if (length !== +length) {
+      keys = _.keys(obj);
+      length = keys.length;
+    }
+    for (; index < length; index++) {
+      currentKey = keys ? keys[index] : index;
+      if (predicate(obj[currentKey], currentKey, obj)) return true;
+    }
+    return false;
   };
 
   // Determine if the array or object contains a given value (using `===`).
