@@ -94,14 +94,14 @@
   _.each = _.forEach = function(obj, iterator, context) {
     if (obj == null) return obj;
     iterator = createCallback(iterator, context);
-    var i = 0, length = obj.length;
+    var i, length = obj.length;
     if (length === +length) {
-      for (; i < length; i++) {
+      for (i = 0; i < length; i++) {
         iterator(obj[i], i, obj);
       }
     } else {
       var keys = _.keys(obj);
-      for (length = keys.length; i < length; i++) {
+      for (i = 0, length = keys.length; i < length; i++) {
         iterator(obj[keys[i]], keys[i], obj);
       }
     }
@@ -205,12 +205,12 @@
     if (obj == null) return true;
     predicate = lookupIterator(predicate, context);
     var length = obj.length;
-    var index = 0, currentKey, keys;
+    var index, currentKey, keys;
     if (length !== +length) {
       keys = _.keys(obj);
       length = keys.length;
     }
-    for (; index < length; index++) {
+    for (index = 0; index < length; index++) {
       currentKey = keys ? keys[index] : index;
       if (!predicate(obj[currentKey], currentKey, obj)) return false;
     }
@@ -225,12 +225,12 @@
     if (obj == null) return false;
     predicate = lookupIterator(predicate, context);
     var length = obj.length;
-    var index = 0, currentKey, keys;
+    var index, currentKey, keys;
     if (length !== +length) {
       keys = _.keys(obj);
       length = keys.length;
     }
-    for (; index < length; index++) {
+    for (index = 0; index < length; index++) {
       currentKey = keys ? keys[index] : index;
       if (predicate(obj[currentKey], currentKey, obj)) return true;
     }
@@ -686,9 +686,9 @@
   // are the method names to be bound. Useful for ensuring that all callbacks
   // defined on an object belong to it.
   _.bindAll = function(obj) {
-    var i = 1, length = arguments.length, key;
+    var i, length = arguments.length, key;
     if (length <= 1) throw Error('bindAll must be passed function names');
-    for (; i < length; i++) {
+    for (i = 1; i < length; i++) {
       key = arguments[i];
       obj[key] = _.bind(obj[key], obj);
     }
