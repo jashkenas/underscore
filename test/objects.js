@@ -571,6 +571,7 @@
   test('isFinite', function() {
     ok(!_.isFinite(undefined), 'undefined is not finite');
     ok(!_.isFinite(null), 'null is not finite');
+    ok(!_.isFinite([1]), 'Array is not finite');
     ok(!_.isFinite(NaN), 'NaN is not finite');
     ok(!_.isFinite(Infinity), 'Infinity is not finite');
     ok(!_.isFinite(-Infinity), '-Infinity is not finite');
