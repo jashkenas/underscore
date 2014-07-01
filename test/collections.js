@@ -112,6 +112,7 @@
 
     ok(_.reduce(null, _.noop, 138) === 138, 'handles a null (with initial value) properly');
     equal(_.reduce([], _.noop, undefined), undefined, 'undefined can be passed as a special case');
+    equal(_.reduce([_], _.noop), _, 'collection of length one with no initial value returns the first item');
 
     raises(function() { _.reduce([], _.noop); }, TypeError, 'throws an error for empty arrays with no initial value');
     raises(function() {_.reduce(null, _.noop);}, TypeError, 'handles a null (without initial value) properly');
@@ -132,6 +133,7 @@
     equal(sum, 6, 'default initial value on object');
 
     ok(_.reduceRight(null, _.noop, 138) === 138, 'handles a null (with initial value) properly');
+    equal(_.reduceRight([_], _.noop), _, 'collection of length one with no initial value returns the first item');
 
     equal(_.reduceRight([], _.noop, undefined), undefined, 'undefined can be passed as a special case');
 

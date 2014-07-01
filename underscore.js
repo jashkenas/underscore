@@ -131,41 +131,43 @@
   // **Reduce** builds up a single result from a list of values, aka `inject`,
   // or `foldl`.
   _.reduce = _.foldl = _.inject = function(obj, iterator, memo, context) {
-    var initial = arguments.length > 2;
     if (obj == null) obj = [];
     iterator = createCallback(iterator, context, 4);
-    _.each(obj, function(value, index, list) {
-      if (!initial) {
-        memo = value;
-        initial = true;
-      } else {
-        memo = iterator(memo, value, index, list);
-      }
-    });
-    if (!initial) throw TypeError(reduceError);
+    var index = 0, length = obj.length,
+        currentKey, keys;
+    if (length !== +length) {
+      keys = _.keys(obj);
+      length = keys.length;
+    }
+    if (arguments.length < 3) {
+      if (!length) throw TypeError(reduceError);
+      memo = obj[keys ? keys[index++] : index++];
+    }
+    for (; index < length; index++) {
+      currentKey = keys ? keys[index] : index;
+      memo = iterator(memo, obj[currentKey], currentKey, obj);
+    }
     return memo;
   };
 
   // The right-associative version of reduce, also known as `foldr`.
   _.reduceRight = _.foldr = function(obj, iterator, memo, context) {
-    var initial = arguments.length > 2;
     if (obj == null) obj = [];
-    var length = obj.length;
     iterator = createCallback(iterator, context, 4);
-    if (length !== +length) {
-      var keys = _.keys(obj);
-      length = keys.length;
+    var index = obj.length,
+        currentKey, keys;
+    if (index !== +index) {
+      keys = _.keys(obj);
+      index = keys.length;
     }
-    _.each(obj, function(value, index, list) {
-      index = keys ? keys[--length] : --length;
-      if (!initial) {
-        memo = obj[index];
-        initial = true;
-      } else {
-        memo = iterator(memo, obj[index], index, list);
-      }
-    });
-    if (!initial) throw TypeError(reduceError);
+    if (arguments.length < 3) {
+      if (!index) throw TypeError(reduceError);
+      memo = obj[keys ? keys[--index] : --index];
+    }
+    while (index--) {
+      currentKey = keys ? keys[index] : index;
+      memo = iterator(memo, obj[currentKey], currentKey, obj);
+    }
     return memo;
   };
 
