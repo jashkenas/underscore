@@ -149,24 +149,21 @@
   // The right-associative version of reduce, also known as `foldr`.
   _.reduceRight = _.foldr = function(obj, iterator, memo, context) {
     if (obj == null) obj = [];
-    var initial = arguments.length > 2;
-    var length = obj.length,
-      index, keys;
     iterator = createCallback(iterator, context, 4);
-    if (length !== +length) {
+    var index = obj.length,
+        currentKey, keys;
+    if (index !== +index) {
       keys = _.keys(obj);
-      length = keys.length;
+      index = keys.length;
     }
-    while (length--) {
-      index = keys ? keys[length] : length;
-      if (!initial) {
-        memo = obj[index];
-        initial = true;
-      } else {
-        memo = iterator(memo, obj[index], index, obj);
-      }
+    if (arguments.length < 3) {
+      if (!index) throw TypeError(reduceError);
+      memo = obj[keys ? keys[--index] : --index];
     }
-    if (!initial) throw TypeError(reduceError);
+    while (index--) {
+      currentKey = keys ? keys[index] : index;
+      memo = iterator(memo, obj[currentKey], currentKey, obj);
+    }
     return memo;
   };
 
