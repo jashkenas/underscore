@@ -60,7 +60,7 @@
 
   test('uniqueId', function() {
     var ids = [], i = 0;
-    while(i++ < 100) ids.push(_.uniqueId());
+    while (i++ < 100) ids.push(_.uniqueId());
     equal(_.uniq(ids).length, ids.length, 'can generate a globally-unique stream of ids');
   });
 
@@ -120,9 +120,9 @@
     var escapeTemplate = _.template('<%= a ? "checked=\\"checked\\"" : "" %>');
     equal(escapeTemplate({a: true}), 'checked="checked"', 'can handle slash escapes in interpolations.');
 
-    var fancyTemplate = _.template('<ul><% \
-      for (var key in people) { \
-    %><li><%= people[key] %></li><% } %></ul>');
+    var fancyTemplate = _.template('<ul><% ' +
+    '  for (var key in people) { ' +
+    '%><li><%= people[key] %></li><% } %></ul>');
     result = fancyTemplate({people : {moe : 'Moe', larry : 'Larry', curly : 'Curly'}});
     equal(result, '<ul><li>Moe</li><li>Larry</li><li>Curly</li></ul>', 'can run arbitrary javascript in templates');
 
@@ -148,16 +148,16 @@
     var quoteTemplate = _.template("It's its, not it's");
     equal(quoteTemplate({}), "It's its, not it's");
 
-    var quoteInStatementAndBody = _.template("<%\
-      if(foo == 'bar'){ \
-    %>Statement quotes and 'quotes'.<% } %>");
+    var quoteInStatementAndBody = _.template('<% ' +
+    "  if(foo == 'bar'){ " +
+    "%>Statement quotes and 'quotes'.<% } %>");
     equal(quoteInStatementAndBody({foo: 'bar'}), "Statement quotes and 'quotes'.");
 
     var withNewlinesAndTabs = _.template('This\n\t\tis: <%= x %>.\n\tok.\nend.');
     equal(withNewlinesAndTabs({x: 'that'}), 'This\n\t\tis: that.\n\tok.\nend.');
 
     var template = _.template('<i><%- value %></i>');
-    var result = template({value: '<script>'});
+    result = template({value: '<script>'});
     equal(result, '<i>&lt;script&gt;</i>');
 
     var stooge = {
@@ -166,12 +166,12 @@
     };
     equal(stooge.template(), "I'm Moe");
 
-    template = _.template('\n \
-      <%\n \
-      // a comment\n \
-      if (data) { data += 12345; }; %>\n \
-      <li><%= data %></li>\n \
-    ');
+    template = _.template('\n ' +
+    '  <%\n ' +
+    '  // a comment\n ' +
+    '  if (data) { data += 12345; }; %>\n ' +
+    '  <li><%= data %></li>\n '
+    );
     equal(template({data : 12345}).replace(/\s/g, ''), '<li>24690</li>');
 
     _.templateSettings = {
@@ -186,7 +186,7 @@
     var customQuote = _.template("It's its, not it's");
     equal(customQuote({}), "It's its, not it's");
 
-    var quoteInStatementAndBody = _.template("{{ if(foo == 'bar'){ }}Statement quotes and 'quotes'.{{ } }}");
+    quoteInStatementAndBody = _.template("{{ if(foo == 'bar'){ }}Statement quotes and 'quotes'.{{ } }}");
     equal(quoteInStatementAndBody({foo: 'bar'}), "Statement quotes and 'quotes'.");
 
     _.templateSettings = {
@@ -201,7 +201,7 @@
     var customWithSpecialCharsQuote = _.template("It's its, not it's");
     equal(customWithSpecialCharsQuote({}), "It's its, not it's");
 
-    var quoteInStatementAndBody = _.template("<? if(foo == 'bar'){ ?>Statement quotes and 'quotes'.<? } ?>");
+    quoteInStatementAndBody = _.template("<? if(foo == 'bar'){ ?>Statement quotes and 'quotes'.<? } ?>");
     equal(quoteInStatementAndBody({foo: 'bar'}), "Statement quotes and 'quotes'.");
 
     _.templateSettings = {
@@ -262,22 +262,22 @@
     strictEqual(templateEscaped({x: undefined}), '');
 
     var templateWithProperty = _.template('<%=x.foo%>');
-    strictEqual(templateWithProperty({x: {} }), '');
-    strictEqual(templateWithProperty({x: {} }), '');
+    strictEqual(templateWithProperty({x: {}}), '');
+    strictEqual(templateWithProperty({x: {}}), '');
 
     var templateWithPropertyEscaped = _.template('<%-x.foo%>');
-    strictEqual(templateWithPropertyEscaped({x: {} }), '');
-    strictEqual(templateWithPropertyEscaped({x: {} }), '');
+    strictEqual(templateWithPropertyEscaped({x: {}}), '');
+    strictEqual(templateWithPropertyEscaped({x: {}}), '');
   });
 
   test('interpolate evaluates code only once.', 2, function() {
     var count = 0;
     var template = _.template('<%= f() %>');
-    template({f: function(){ ok(!(count++)); }});
+    template({f: function(){ ok(!count++); }});
 
     var countEscaped = 0;
     var templateEscaped = _.template('<%- f() %>');
-    templateEscaped({f: function(){ ok(!(countEscaped++)); }});
+    templateEscaped({f: function(){ ok(!countEscaped++); }});
   });
 
   test('#746 - _.template settings are not modified.', 1, function() {
@@ -291,4 +291,4 @@
     strictEqual(template(), '<<\nx\n>>');
   });
 
-})();
+}());

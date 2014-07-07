@@ -1,6 +1,7 @@
 (function() {
 
   module('Objects');
+  /* global iObject, iElement, iArguments, iFunction, iArray, iString, iNumber, iBoolean, iDate, iRegExp, iNaN, iNull, iUndefined, ActiveXObject */
 
   test('keys', function() {
     deepEqual(_.keys({one : 1, two : 2}), ['one', 'two'], 'can extract the keys from an object');
@@ -29,12 +30,12 @@
     deepEqual(_.keys(_.invert(obj)), ['Moe', 'Larry', 'Curly'], 'can invert an object');
     deepEqual(_.invert(_.invert(obj)), obj, 'two inverts gets you back where you started');
 
-    var obj = {length: 3};
-    ok(_.invert(obj)['3'] == 'length', 'can invert an object with "length"')
+    obj = {length: 3};
+    equal(_.invert(obj)['3'], 'length', 'can invert an object with "length"');
   });
 
   test('functions', function() {
-    var obj = {a : 'dash', b : _.map, c : (/yo/), d : _.reduce};
+    var obj = {a : 'dash', b : _.map, c : /yo/, d : _.reduce};
     deepEqual(['b', 'd'], _.functions(obj), 'can grab the function names of any passed-in object');
 
     var Animal = function(){};
@@ -138,7 +139,6 @@
   });
 
   test('defaults', function() {
-    var result;
     var options = {zero: 0, one: 1, empty: '', nan: NaN, nothing: null};
 
     _.defaults(options, {zero: 1, one: 10, twenty: 20, nothing: 'str'});
@@ -169,7 +169,7 @@
     equal(clone.name, 'moe', 'the clone as the attributes of the original');
 
     clone.name = 'curly';
-    ok(clone.name == 'curly' && moe.name == 'moe', 'clones can change shallow attributes without affecting the original');
+    ok(clone.name === 'curly' && moe.name === 'moe', 'clones can change shallow attributes without affecting the original');
 
     clone.lucky.push(101);
     equal(_.last(moe.lucky), 101, 'changes to deep attributes are shared with the original');
@@ -277,7 +277,7 @@
 
     // Arrays with primitive and object values.
     ok(_.isEqual([1, 'Larry', true], [1, 'Larry', true]), 'Arrays containing identical primitives are equal');
-    ok(_.isEqual([(/Moe/g), new Date(2009, 9, 25)], [(/Moe/g), new Date(2009, 9, 25)]), 'Arrays containing equivalent elements are equal');
+    ok(_.isEqual([/Moe/g, new Date(2009, 9, 25)], [/Moe/g, new Date(2009, 9, 25)]), 'Arrays containing equivalent elements are equal');
 
     // Multi-dimensional arrays.
     var a = [new Number(47), false, 'Larry', /Moe/, new Date(2009, 11, 13), ['running', 'biking', new String('programming')], {a: 47}];
@@ -302,7 +302,7 @@
 
     var sparse = [];
     sparse[1] = 5;
-    ok(_.isEqual(sparse, [undefined, 5]), 'Handles sparse arrays as dense')
+    ok(_.isEqual(sparse, [undefined, 5]), 'Handles sparse arrays as dense');
 
     // Simple objects.
     ok(_.isEqual({a: 'Curly', b: 1, c: true}, {a: 'Curly', b: 1, c: true}), 'Objects containing identical primitives are equal');
@@ -426,7 +426,7 @@
     function Foo() { this.a = 1; }
     Foo.prototype.constructor = null;
 
-    var other = { 'a': 1 };
+    var other = {a: 1};
     strictEqual(_.isEqual(new Foo, other), false, 'Objects from different constructors are not equal');
   });
 
@@ -452,25 +452,25 @@
 
   // Setup remote variables for iFrame tests.
   var iframe = document.createElement('iframe');
-  iframe.frameBorder = iframe.height = iframe.width = 0
+  iframe.frameBorder = iframe.height = iframe.width = 0;
   document.body.appendChild(iframe);
   var iDoc = (iDoc = iframe.contentDocument || iframe.contentWindow).document || iDoc;
   iDoc.write(
-    '<script>\
-      parent.iElement   = document.createElement("div");\
-      parent.iArguments = (function(){ return arguments; })(1, 2, 3);\
-      parent.iArray     = [1, 2, 3];\
-      parent.iString    = new String("hello");\
-      parent.iNumber    = new Number(100);\
-      parent.iFunction  = (function(){});\
-      parent.iDate      = new Date();\
-      parent.iRegExp    = /hi/;\
-      parent.iNaN       = NaN;\
-      parent.iNull      = null;\
-      parent.iBoolean   = new Boolean(false);\
-      parent.iUndefined = undefined;\
-      parent.iObject     = {};\
-    </script>'
+    '<script>' +
+    '  parent.iElement   = document.createElement("div");' +
+    '  parent.iArguments = (function(){ return arguments; })(1, 2, 3);' +
+    '  parent.iArray     = [1, 2, 3];' +
+    '  parent.iString    = new String("hello");' +
+    '  parent.iNumber    = new Number(100);' +
+    '  parent.iFunction  = (function(){});' +
+    '  parent.iDate      = new Date();' +
+    '  parent.iRegExp    = /hi/;' +
+    '  parent.iNaN       = NaN;' +
+    '  parent.iNull      = null;' +
+    '  parent.iBoolean   = new Boolean(false);' +
+    '  parent.iUndefined = undefined;' +
+    '  parent.iObject     = {};' +
+    '</script>'
   );
   iDoc.close();
 
@@ -481,7 +481,7 @@
   });
 
   test('isArguments', function() {
-    var args = (function(){ return arguments; })(1, 2, 3);
+    var args = (function(){ return arguments; }(1, 2, 3));
     ok(!_.isArguments('string'), 'a string is not an arguments object');
     ok(!_.isArguments(_.isArguments), 'a function is not an arguments object');
     ok(_.isArguments(args), 'but the arguments object is an arguments object');
@@ -634,61 +634,62 @@
       max().
       tap(interceptor).
       value();
-    ok(returned == 6 && intercepted == 6, 'can use tapped objects in a chain');
+    equal(returned, 6, 'can use tapped objects in a chain');
+    equal(intercepted, returned, 'can use tapped objects in a chain');
   });
 
-  test("has", function () {
-    var obj = {foo: "bar", func: function () {} };
-    ok(_.has(obj, "foo"), "has() checks that the object has a property.");
-    ok(_.has(obj, "baz") == false, "has() returns false if the object doesn't have the property.");
-    ok(_.has(obj, "func"), "has() works for functions too.");
+  test('has', function () {
+    var obj = {foo: 'bar', func: function(){}};
+    ok(_.has(obj, 'foo'), 'has() checks that the object has a property.');
+    ok(!_.has(obj, 'baz'), "has() returns false if the object doesn't have the property.");
+    ok(_.has(obj, 'func'), 'has() works for functions too.');
     obj.hasOwnProperty = null;
-    ok(_.has(obj, "foo"), "has() works even when the hasOwnProperty method is deleted.");
+    ok(_.has(obj, 'foo'), 'has() works even when the hasOwnProperty method is deleted.');
     var child = {};
     child.prototype = obj;
-    ok(_.has(child, "foo") == false, "has() does not check the prototype chain for a property.");
+    ok(!_.has(child, 'foo'), 'has() does not check the prototype chain for a property.');
     strictEqual(_.has(null, 'foo'), false, 'has() returns false for null');
     strictEqual(_.has(undefined, 'foo'), false, 'has() returns false for undefined');
   });
 
-  test("matches", function() {
+  test('matches', function() {
     var moe = {name: 'Moe Howard', hair: true};
     var curly = {name: 'Curly Howard', hair: false};
     var stooges = [moe, curly];
 
-    equal(_.matches({hair: true})(moe), true, "Returns a boolean");
-    equal(_.matches({hair: true})(curly), false, "Returns a boolean");
+    equal(_.matches({hair: true})(moe), true, 'Returns a boolean');
+    equal(_.matches({hair: true})(curly), false, 'Returns a boolean');
 
-    equal(_.matches({})(null), true, "Empty spec called with null object returns true");
-    equal(_.matches({a: 1})(null), false, "Non-empty spec called with null object returns false");
+    equal(_.matches({})(null), true, 'Empty spec called with null object returns true');
+    equal(_.matches({a: 1})(null), false, 'Non-empty spec called with null object returns false');
 
-    ok(_.find(stooges, _.matches({hair: false})) === curly, "returns a predicate that can be used by finding functions.");
-    ok(_.find(stooges, _.matches(moe)) === moe, "can be used to locate an object exists in a collection.");
+    ok(_.find(stooges, _.matches({hair: false})) === curly, 'returns a predicate that can be used by finding functions.');
+    ok(_.find(stooges, _.matches(moe)) === moe, 'can be used to locate an object exists in a collection.');
     deepEqual(_.where([null, undefined], {a: 1}), [], 'Do not throw on null values.');
 
     deepEqual(_.where([null, undefined], null), [null, undefined], 'null matches null');
     deepEqual(_.where([null, undefined], {}), [null, undefined], 'null matches {}');
-    deepEqual(_.where([{b: 1}], {'a': undefined}), [], "handles undefined values (1683)");
+    deepEqual(_.where([{b: 1}], {a: undefined}), [], 'handles undefined values (1683)');
 
     _.each([true, 5, NaN, null, undefined], function(item) {
-      deepEqual(_.where([{a: 1}], item), [{a: 1}], "treats primitives as empty");
+      deepEqual(_.where([{a: 1}], item), [{a: 1}], 'treats primitives as empty');
     });
 
     function Prototest() {}
     Prototest.prototype.x = 1;
-    var specObj = new Prototest()
+    var specObj = new Prototest;
     var protospec = _.matches(specObj);
-    equal(protospec({x: 2}), true, "spec is restricted to own properties");
+    equal(protospec({x: 2}), true, 'spec is restricted to own properties');
 
     specObj.y = 5;
     protospec = _.matches(specObj);
     equal(protospec({x: 1, y: 5}), true);
     equal(protospec({x: 1, y: 4}), false);
 
-    ok(_.matches({x: 1, y: 5})(specObj), "inherited and own properties are checked on the test object");
+    ok(_.matches({x: 1, y: 5})(specObj), 'inherited and own properties are checked on the test object');
 
     Prototest.x = 5;
-    ok(_.matches(Prototest)({x: 5, y: 1}), "spec can be a function");
+    ok(_.matches(Prototest)({x: 5, y: 1}), 'spec can be a function');
   });
 
-})();
+}());

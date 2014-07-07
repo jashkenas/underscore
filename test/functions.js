@@ -81,8 +81,8 @@
     };
 
     raises(function() { _.bindAll(moe); }, Error, 'throws an error for bindAll with no functions named');
-    raises(function() { _.bindAll(moe, "sayBye"); }, TypeError, 'throws an error for bindAll if the given key is undefined');
-    raises(function() { _.bindAll(moe, "name"); }, TypeError, 'throws an error for bindAll if the given key is not a function');
+    raises(function() { _.bindAll(moe, 'sayBye'); }, TypeError, 'throws an error for bindAll if the given key is undefined');
+    raises(function() { _.bindAll(moe, 'name'); }, TypeError, 'throws an error for bindAll if the given key is not a function');
 
     _.bindAll(moe, 'sayHi', 'sayLast');
     curly.sayHi = moe.sayHi;
@@ -186,11 +186,11 @@
     var incr = function(){ counter++; };
     var throttledIncr = _.throttle(incr, 30);
     throttledIncr(); throttledIncr();
-    ok(counter == 1);
+    equal(counter, 1);
     _.delay(function(){
-      ok(counter == 2);
+      equal(counter, 2);
       throttledIncr();
-      ok(counter == 3);
+      equal(counter, 3);
       start();
     }, 85);
   });
@@ -224,7 +224,7 @@
     var throttledIncr = _.throttle(incr, 32);
 
     var stamp = new Date;
-    while ((new Date - stamp) < limit) {
+    while (new Date - stamp < limit) {
       throttledIncr();
     }
     var lastCount = counter;
@@ -242,10 +242,10 @@
     var throttledIncr = _.throttle(incr, 60, {leading: false});
 
     throttledIncr(); throttledIncr();
-    ok(counter === 0);
+    equal(counter, 0);
 
     _.delay(function() {
-      ok(counter == 1);
+      equal(counter, 1);
       start();
     }, 96);
   });
@@ -259,14 +259,14 @@
     _.delay(throttledIncr, 50);
     _.delay(throttledIncr, 60);
     _.delay(throttledIncr, 200);
-    ok(counter === 0);
+    equal(counter, 0);
 
     _.delay(function() {
-      ok(counter == 1);
+      equal(counter, 1);
     }, 250);
 
     _.delay(function() {
-      ok(counter == 2);
+      equal(counter, 2);
       start();
     }, 350);
   });
@@ -292,16 +292,16 @@
     var throttledIncr = _.throttle(incr, 60, {trailing: false});
 
     throttledIncr(); throttledIncr(); throttledIncr();
-    ok(counter === 1);
+    equal(counter, 1);
 
     _.delay(function() {
-      ok(counter == 1);
+      equal(counter, 1);
 
       throttledIncr(); throttledIncr();
-      ok(counter == 2);
+      equal(counter, 2);
 
       _.delay(function() {
-        ok(counter == 2);
+        equal(counter, 2);
         start();
       }, 96);
     }, 96);
@@ -314,14 +314,14 @@
     var origNowFunc = _.now;
 
     throttledIncr();
-    ok(counter == 1);
+    equal(counter, 1);
     _.now = function () {
       return new Date(2013, 0, 1, 1, 1, 1);
     };
 
     _.delay(function() {
       throttledIncr();
-      ok(counter == 2);
+      equal(counter, 2);
       start();
       _.now = origNowFunc;
     }, 200);
@@ -336,7 +336,7 @@
     var throttledAppend;
     var append = function(arg){
       value += this + arg;
-      var args = sequence.pop()
+      var args = sequence.pop();
       if (args) {
         throttledAppend.call(args[0], args[1]);
       }
@@ -416,7 +416,7 @@
     var debouncedAppend;
     var append = function(arg){
       value += this + arg;
-      var args = sequence.pop()
+      var args = sequence.pop();
       if (args) {
         debouncedAppend.call(args[0], args[1]);
       }
@@ -459,13 +459,13 @@
     equal(obj.hi(), 'Hello Moe');
 
     var noop    = function(){};
-    var wrapped = _.wrap(noop, function(fn){ return Array.prototype.slice.call(arguments, 0); });
+    var wrapped = _.wrap(noop, function(){ return Array.prototype.slice.call(arguments, 0); });
     var ret     = wrapped(['whats', 'your'], 'vector', 'victor');
     deepEqual(ret, [noop, ['whats', 'your'], 'vector', 'victor']);
   });
 
   test('negate', function() {
-    var isOdd = function(n){ return (n & 1) == 1; };
+    var isOdd = function(n){ return n & 1; };
     equal(_.negate(isOdd)(2), true, 'should return the complement of the given function');
     equal(_.negate(isOdd)(3), false, 'should return the complement of the given function');
   });
@@ -483,15 +483,15 @@
     function h(x, y, z) {
       equal(arguments.length, 3, 'First function called with multiple args');
       return z * y;
-    };
+    }
     function g(x) {
       equal(arguments.length, 1, 'Composed function is called with 1 argument');
       return x;
-    };
+    }
     function f(x) {
       equal(arguments.length, 1, 'Composed function is called with 1 argument');
       return x * 2;
-    };
+    }
     composed = _.compose(f, g, h);
     equal(composed(1, 2, 3), 12);
   });
@@ -532,4 +532,4 @@
     equal(context.num, 2, 'provides context');
   });
 
-})();
+}());
