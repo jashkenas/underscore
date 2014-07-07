@@ -655,11 +655,37 @@
     var moe = {name: 'Moe Howard', hair: true};
     var curly = {name: 'Curly Howard', hair: false};
     var stooges = [moe, curly];
+
+    equal(_.matches({hair: true})(moe), true, "Returns a boolean");
+    equal(_.matches({hair: true})(curly), false, "Returns a boolean");
+
+    equal(_.matches({})(null), true, "Empty spec called with null object returns true");
+    equal(_.matches({a: 1})(null), false, "Non-empty spec called with null object returns false");
+
     ok(_.find(stooges, _.matches({hair: false})) === curly, "returns a predicate that can be used by finding functions.");
     ok(_.find(stooges, _.matches(moe)) === moe, "can be used to locate an object exists in a collection.");
     deepEqual(_.where([null, undefined], {a: 1}), [], 'Do not throw on null values.');
+
     deepEqual(_.where([null, undefined], null), [null, undefined], 'null matches null');
     deepEqual(_.where([null, undefined], {}), [null, undefined], 'null matches {}');
+    deepEqual(_.where([{b: 1}], {'a': undefined}), [], "handles undefined values (1683)");
+
+    _.each([true, 5, NaN, null, undefined], function(item) {
+      deepEqual(_.where([{a: 1}], item), [{a: 1}], "treats primitives as empty");
+    });
+
+    function Prototest() {}
+    Prototest.prototype.x = 1;
+    var specObj = new Prototest()
+    var protospec = _.matches(specObj);
+    equal(protospec({x: 1}), true, "Restricted to own properties");
+    specObj.y = 5;
+    protospec = _.matches(specObj);
+    equal(protospec({x: 1, y: 5}), true);
+    equal(protospec({x: 1, y: 4}), false);
+
+    Prototest.x = 5;
+    ok(_.matches(Prototest)({x: 5, y: 1}), 'spec can be a function');
   });
 
 })();
