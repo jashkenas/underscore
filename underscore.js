@@ -511,22 +511,36 @@
   // Aliased as `unique`.
   _.uniq = _.unique = function(array, isSorted, iterator, context) {
     if (array == null) return [];
+    var result = [];
+    var seen = [];
+    var tuples = [];
     if (_.isFunction(isSorted)) {
       context = iterator;
       iterator = isSorted;
       isSorted = false;
     }
     if (iterator) iterator = lookupIterator(iterator, context);
-    var result = [];
-    var seen = [];
-    for (var i = 0, length = array.length; i < length; i++) {
-      var value = array[i];
-      if (iterator) value = iterator(value, i, array);
-      if (isSorted ? !i || seen !== value : !_.contains(seen, value)) {
-        if (isSorted) seen = value;
-        else seen.push(value);
-        result.push(array[i]);
+    if (!isSorted) {
+      for (var i = 0, length = array.length; i < length; i++){
+        if (iterator) tuples.push([iterator(array[i], i, array), i]);
+        else tuples.push([array[i], i]);
       }
+      tuples.sort(function(a,b){ return a[0] > b[0] ? 1 : -1; });
+    }
+    for (var i = 0, length = array.length; i < length; i++) {
+      var value = isSorted ? array[i] : tuples[i][0];
+      if (!i || seen !== value) {
+        seen = value;
+        result.push(isSorted ? array[i] : tuples[i]);
+      }
+    }
+    if (!isSorted) {
+      result.sort(function(a,b){ return a[1] > b[1] ? 1 : -1; });
+      var length = result.length;
+      for (var i = 0; i < length; i++){
+        result.push(array[result[i][1]]);
+      }
+      result = result.slice(length);
     }
     return result;
   };
