@@ -8,11 +8,11 @@
     deepEqual(_.first([1, 2, 3], 0), [], 'can pass an index to first');
     deepEqual(_.first([1, 2, 3], 2), [1, 2], 'can pass an index to first');
     deepEqual(_.first([1, 2, 3], 5), [1, 2, 3], 'can pass an index to first');
-    var result = (function(){ return _.first(arguments); })(4, 3, 2, 1);
+    var result = (function(){ return _.first(arguments); }(4, 3, 2, 1));
     equal(result, 4, 'works on an arguments object.');
     result = _.map([[1, 2, 3], [1, 2, 3]], _.first);
     deepEqual(result, [1, 1], 'works well with _.map');
-    result = (function() { return _.first([1, 2, 3], 2); })();
+    result = (function() { return _.first([1, 2, 3], 2); }());
     deepEqual(result, [1, 2]);
 
     equal(_.first(null), undefined, 'handles nulls');
@@ -32,11 +32,11 @@
     deepEqual(_.rest(numbers), [2, 3, 4], 'working rest()');
     deepEqual(_.rest(numbers, 0), [1, 2, 3, 4], 'working rest(0)');
     deepEqual(_.rest(numbers, 2), [3, 4], 'rest can take an index');
-    var result = (function(){ return _(arguments).rest(); })(1, 2, 3, 4);
+    var result = (function(){ return _(arguments).rest(); }(1, 2, 3, 4));
     deepEqual(result, [2, 3, 4], 'works on arguments object');
     result = _.map([[1, 2, 3], [1, 2, 3]], _.rest);
     deepEqual(_.flatten(result), [2, 3, 2, 3], 'works well with _.map');
-    result = (function(){ return _(arguments).rest(); })(1, 2, 3, 4);
+    result = (function(){ return _(arguments).rest(); }(1, 2, 3, 4));
     deepEqual(result, [2, 3, 4], 'works on arguments object');
   });
 
@@ -52,7 +52,7 @@
     deepEqual(_.initial([1, 2, 3, 4, 5]), [1, 2, 3, 4], 'working initial()');
     deepEqual(_.initial([1, 2, 3, 4], 2), [1, 2], 'initial can take an index');
     deepEqual(_.initial([1, 2, 3, 4], 6), [], 'initial can take a large index');
-    var result = (function(){ return _(arguments).initial(); })(1, 2, 3, 4);
+    var result = (function(){ return _(arguments).initial(); }(1, 2, 3, 4));
     deepEqual(result, [1, 2, 3], 'initial works on arguments object');
     result = _.map([[1, 2, 3], [1, 2, 3]], _.initial);
     deepEqual(_.flatten(result), [1, 2, 1, 2], 'initial works with _.map');
@@ -63,7 +63,7 @@
     deepEqual(_.last([1, 2, 3], 0), [], 'can pass an index to last');
     deepEqual(_.last([1, 2, 3], 2), [2, 3], 'can pass an index to last');
     deepEqual(_.last([1, 2, 3], 5), [1, 2, 3], 'can pass an index to last');
-    var result = (function(){ return _(arguments).last(); })(1, 2, 3, 4);
+    var result = (function(){ return _(arguments).last(); }(1, 2, 3, 4));
     equal(result, 4, 'works on an arguments object');
     result = _.map([[1, 2, 3], [1, 2, 3]], _.last);
     deepEqual(result, [3, 3], 'works well with _.map');
@@ -74,7 +74,7 @@
 
   test('compact', function() {
     equal(_.compact([0, 1, false, 2, false, 3]).length, 3, 'can trim out all falsy values');
-    var result = (function(){ return _.compact(arguments).length; })(0, 1, false, 2, false, 3);
+    var result = (function(){ return _.compact(arguments).length; }(0, 1, false, 2, false, 3));
     equal(result, 3, 'works on an arguments object');
   });
 
@@ -82,7 +82,7 @@
     var list = [1, [2], [3, [[[4]]]]];
     deepEqual(_.flatten(list), [1, 2, 3, 4], 'can flatten nested arrays');
     deepEqual(_.flatten(list, true), [1, 2, 3, [[[4]]]], 'can shallowly flatten nested arrays');
-    var result = (function(){ return _.flatten(arguments); })(1, [2], [3, [[[4]]]]);
+    var result = (function(){ return _.flatten(arguments); }(1, [2], [3, [[[4]]]]));
     deepEqual(result, [1, 2, 3, 4], 'works on an arguments object');
     list = [[1], [2], [3], [[4]]];
     deepEqual(_.flatten(list, true), [1, 2, 3, [4]], 'can shallowly flatten arrays containing only other arrays');
@@ -91,12 +91,12 @@
   test('without', function() {
     var list = [1, 2, 1, 0, 3, 1, 4];
     deepEqual(_.without(list, 0, 1), [2, 3, 4], 'can remove all instances of an object');
-    var result = (function(){ return _.without(arguments, 0, 1); })(1, 2, 1, 0, 3, 1, 4);
+    var result = (function(){ return _.without(arguments, 0, 1); }(1, 2, 1, 0, 3, 1, 4));
     deepEqual(result, [2, 3, 4], 'works on an arguments object');
 
     list = [{one : 1}, {two : 2}];
-    ok(_.without(list, {one : 1}).length == 2, 'uses real object identity for comparisons.');
-    ok(_.without(list, list[0]).length == 1, 'ditto.');
+    equal(_.without(list, {one : 1}).length, 2, 'uses real object identity for comparisons.');
+    equal(_.without(list, list[0]).length, 1, 'ditto.');
   });
 
   test('uniq', function() {
@@ -112,11 +112,11 @@
 
     deepEqual(_.map(_.uniq(list, iterator), iterator), ['moe', 'curly', 'larry'], 'can find the unique values of an array using a custom iterator without specifying whether array is sorted');
 
-    iterator = function(value) { return value +1; };
+    iterator = function(value) { return value + 1; };
     list = [1, 2, 2, 3, 4, 4];
     deepEqual(_.uniq(list, true, iterator), [1, 2, 3, 4], 'iterator works with sorted array');
 
-    var result = (function(){ return _.uniq(arguments); })(1, 2, 1, 3, 1, 4);
+    var result = (function(){ return _.uniq(arguments); }(1, 2, 1, 3, 1, 4));
     deepEqual(result, [1, 2, 3, 4], 'works on an arguments object');
 
     deepEqual(_.uniq(null), []);
@@ -127,6 +127,7 @@
       strictEqual(this, context);
       strictEqual(value, 3);
       strictEqual(index, 0);
+      strictEqual(array, list);
     }, context);
   });
 
@@ -138,7 +139,7 @@
     var stooges = ['moe', 'curly', 'larry'], leaders = ['moe', 'groucho'];
     deepEqual(_.intersection(stooges, leaders), ['moe'], 'can take the set intersection of two arrays');
     deepEqual(_(stooges).intersection(leaders), ['moe'], 'can perform an OO-style intersection');
-    var result = (function(){ return _.intersection(arguments, leaders); })('moe', 'curly', 'larry');
+    var result = (function(){ return _.intersection(arguments, leaders); }('moe', 'curly', 'larry'));
     deepEqual(result, ['moe'], 'works on an arguments object');
     var theSixStooges = ['moe', 'moe', 'curly', 'curly', 'larry', 'larry'];
     deepEqual(_.intersection(theSixStooges, leaders), ['moe'], 'returns a duplicate-free array');
@@ -160,7 +161,7 @@
     deepEqual(result, [1, 2, 3, 30, 40, [1]], 'takes the union of a list of nested arrays');
 
     var args = null;
-    (function(){ args = arguments; })(1, 2, 3);
+    (function(){ args = arguments; }(1, 2, 3));
     result = _.union(args, [2, 30, 1], [1, 40]);
     deepEqual(result, [1, 2, 3, 30, 40], 'takes the union of a list of arrays');
 
@@ -220,7 +221,7 @@
   test('indexOf', function() {
     var numbers = [1, 2, 3];
     equal(_.indexOf(numbers, 2), 1, 'can compute indexOf');
-    var result = (function(){ return _.indexOf(arguments, 2); })(1, 2, 3);
+    var result = (function(){ return _.indexOf(arguments, 2); }(1, 2, 3));
     equal(result, 1, 'works on an arguments object');
     equal(_.indexOf(null, 2), -1, 'handles nulls properly');
 
@@ -237,7 +238,7 @@
     equal(_.indexOf(numbers, num, true), 1, '40 is in the list');
     equal(_.indexOf(numbers, 6, true), -1, '6 isnt in the list');
     equal(_.indexOf([1, 2, 5, 4, 6, 7], 5, true), -1, 'sorted indexOf doesn\'t uses binary search');
-    ok(_.every(["1", [], {}, null], function() {
+    ok(_.every(['1', [], {}, null], function() {
       return _.indexOf(numbers, num, {}) === 1;
     }), 'non-nums as fromIndex make indexOf assume sorted');
 
@@ -245,8 +246,10 @@
     index = _.indexOf(numbers, 2, 5);
     equal(index, 7, 'supports the fromIndex argument');
 
+    /* eslint-disable no-sparse-arrays */
     index = _.indexOf([,,,], undefined);
     equal(index, 0, 'treats sparse arrays as if they were dense');
+    /* eslint-enable no-sparse-arrays */
 
     var array = [1, 2, 3, 1, 2, 3];
     strictEqual(_.indexOf(array, 1, -3), 3, 'neg `fromIndex` starts at the right index');
@@ -260,14 +263,14 @@
 
   test('lastIndexOf', function() {
     var numbers = [1, 0, 1];
-    var falsey = [, '', 0, false, NaN, null, undefined];
+    var falsey = [void 0, '', 0, false, NaN, null, undefined];
     equal(_.lastIndexOf(numbers, 1), 2);
 
     numbers = [1, 0, 1, 0, 0, 1, 0, 0, 0];
     numbers.lastIndexOf = null;
     equal(_.lastIndexOf(numbers, 1), 5, 'can compute lastIndexOf, even without the native function');
     equal(_.lastIndexOf(numbers, 0), 8, 'lastIndexOf the other element');
-    var result = (function(){ return _.lastIndexOf(arguments, 1); })(1, 0, 1, 0, 0, 1, 0, 0, 0);
+    var result = (function(){ return _.lastIndexOf(arguments, 1); }(1, 0, 1, 0, 0, 1, 0, 0, 0));
     equal(result, 5, 'works on an arguments object');
     equal(_.lastIndexOf(null, 2), -1, 'handles nulls properly');
 
@@ -320,4 +323,4 @@
     deepEqual(_.range(0, -10, -1), [0, -1, -2, -3, -4, -5, -6, -7, -8, -9], 'final example in the Python docs');
   });
 
-})();
+}());

@@ -10,7 +10,7 @@
     "curly": [0, "multi"],
     "eqeqeq": [1, "smart"],
     "max-depth": [1, 4],
-    "max-params": [1, 4],
+    "max-params": [1, 5],
     "new-cap": 2,
     "new-parens": 0,
     "no-constant-condition": 1,

@@ -1,0 +1,21 @@
+{
+  "env": {
+    "browser": true
+  },
+  "globals": {
+    "_": false,
+    "test": false,
+    "ok": false,
+    "equal": false,
+    "deepEqual": false,
+    "strictEqual": false,
+    "notStrictEqual": false,
+    "raises": false,
+    "asyncTest": false,
+    "start": false
+  },
+  "rules": {
+    "brace-style": 0,
+    "no-new-wrappers": 0
+  }
+}

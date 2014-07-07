@@ -997,9 +997,9 @@
       case '[object Number]':
         // `NaN`s are equivalent, but non-reflexive.
         // Object(NaN) is equivalent to NaN
-        if (a != +a) return b != +b;
+        if (+a !== +a) return +b !== +b;
         // An `egal` comparison is performed for other numeric values.
-        return a == 0 ? 1 / a == 1 / b : a == +b;
+        return +a === 0 ? 1 / +a === 1 / b : +a === +b;
       case '[object Date]':
       case '[object Boolean]':
         // Coerce dates and booleans to numeric primitive values. Dates are compared by their
@@ -1048,7 +1048,7 @@
       var keys = _.keys(a), key;
       size = keys.length;
       // Ensure that both objects contain the same number of properties before comparing deep equality.
-      result = _.keys(b).length == size;
+      result = _.keys(b).length === size;
       if (result) {
         while (size--) {
           // Deep compare each member
@@ -1091,7 +1091,7 @@
   // Is a given variable an object?
   _.isObject = function(obj) {
     var type = typeof obj;
-    return type === 'function' || (type === 'object' && !!obj);
+    return type === 'function' || type === 'object' && !!obj;
   };
 
   // Add some isType methods: isArguments, isFunction, isString, isNumber, isDate, isRegExp.
