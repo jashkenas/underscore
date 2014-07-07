@@ -678,14 +678,17 @@
     Prototest.prototype.x = 1;
     var specObj = new Prototest()
     var protospec = _.matches(specObj);
-    equal(protospec({x: 1}), true, "Restricted to own properties");
+    equal(protospec({x: 2}), true, "spec is restricted to own properties");
+
     specObj.y = 5;
     protospec = _.matches(specObj);
     equal(protospec({x: 1, y: 5}), true);
     equal(protospec({x: 1, y: 4}), false);
 
+    ok(_.matches({x: 1, y: 5})(specObj), "inherited and own properties are checked on the test object");
+
     Prototest.x = 5;
-    ok(_.matches(Prototest)({x: 5, y: 1}), 'spec can be a function');
+    ok(_.matches(Prototest)({x: 5, y: 1}), "spec can be a function");
   });
 
 })();
