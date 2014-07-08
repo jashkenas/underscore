@@ -330,11 +330,9 @@
 
   // Relevant when using ClojureScript
   test('invoke when strings have a call method', function() {
-    /* eslint-disable no-extend-native */
     String.prototype.call = function() {
       return 42;
     };
-    /* eslint-enable no-extend-native */
     var list = [[5, 1, 7], [3, 2, 1]];
     var s = 'foo';
     equal(s.call(), 42, 'call function exists');

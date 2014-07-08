@@ -246,10 +246,8 @@
     index = _.indexOf(numbers, 2, 5);
     equal(index, 7, 'supports the fromIndex argument');
 
-    /* eslint-disable no-sparse-arrays */
     index = _.indexOf([,,,], undefined);
     equal(index, 0, 'treats sparse arrays as if they were dense');
-    /* eslint-enable no-sparse-arrays */
 
     var array = [1, 2, 3, 1, 2, 3];
     strictEqual(_.indexOf(array, 1, -3), 3, 'neg `fromIndex` starts at the right index');
