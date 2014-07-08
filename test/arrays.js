@@ -119,6 +119,9 @@
     var result = (function(){ return _.uniq(arguments); }(1, 2, 1, 3, 1, 4));
     deepEqual(result, [1, 2, 3, 4], 'works on an arguments object');
 
+    var a = {}, b = {}, c = {};
+    deepEqual(_.uniq([a, b, a, b, c]), [a, b, c], 'works on values that can be tested for equivalency but not ordered');
+
     deepEqual(_.uniq(null), []);
 
     var context = {};
