@@ -690,6 +690,15 @@
 
     Prototest.x = 5;
     ok(_.matches(Prototest)({x: 5, y: 1}), 'spec can be a function');
+
+    // #1729
+    var o = { 'b': 1 };
+    var m = _.matches(o);
+
+    equal(m({ 'b': 1 }), true);
+    o.b = 2;
+    o.a = 1;
+    equal(m({ 'b': 1 }), true, 'changing spec object doesnt change matches result');
   });
 
 }());
