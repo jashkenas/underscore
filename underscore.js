@@ -1180,7 +1180,6 @@
   _.matches = function(attrs) {
     var pairs = _.pairs(attrs), length = pairs.length;
     return function(obj) {
-      if (obj === attrs) return true;
       if (obj == null) return !length;
       obj = Object(obj);
       for (var i = 0; i < length; i++) {
