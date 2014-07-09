@@ -660,6 +660,9 @@
     equal(_.matches({hair: true})(moe), true, 'Returns a boolean');
     equal(_.matches({hair: true})(curly), false, 'Returns a boolean');
 
+    equal(_.matches({__x__: undefined})(5), false, 'can match undefined props on primitives');
+    equal(_.matches({__x__: undefined})({__x__: undefined}), true, 'can match undefined props');
+
     equal(_.matches({})(null), true, 'Empty spec called with null object returns true');
     equal(_.matches({a: 1})(null), false, 'Non-empty spec called with null object returns false');
 
@@ -690,6 +693,20 @@
 
     Prototest.x = 5;
     ok(_.matches(Prototest)({x: 5, y: 1}), 'spec can be a function');
+
+    // #1729
+    var o = {'b': 1};
+    var m = _.matches(o);
+
+    equal(m({'b': 1}), true);
+    o.b = 2;
+    o.a = 1;
+    equal(m({'b': 1}), true, 'changing spec object doesnt change matches result');
+
+
+    //null edge cases
+    var oCon = _.matches({'constructor': Object});
+    deepEqual(_.map([null, undefined, 5, {}], oCon), [false, false, false, true], 'doesnt fasley match constructor on undefined/null');
   });
 
 }());
