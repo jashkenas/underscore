@@ -2,7 +2,7 @@
 
   module('Functions');
 
-  test('bind', function() {
+  var bindSpec = function() {
     var context = {name : 'moe'};
     var func = function(arg) { return 'name: ' + (this.name || arg); };
     var bound = _.bind(func, context);
@@ -40,7 +40,15 @@
     ok(newBoundf instanceof F, 'a bound instance is an instance of the original function');
 
     raises(function() { _.bind('notafunction'); }, TypeError, 'throws an error when binding to a non-function');
-  });
+  };
+
+  var bind = Function.prototype.bind;
+  if (bind) {
+    test('bind with Function.prototype.bind', bindSpec);
+    Function.prototype.bind = null;
+  }
+  test('bind without Function.prototype.bind', bindSpec);
+  // Function.prototype.bind = bind; // phantom js breaks if you do this ???
 
   test('partial', function() {
     var obj = {name: 'moe'};
