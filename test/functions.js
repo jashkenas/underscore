@@ -59,6 +59,20 @@
 
     func = _.partial(function() { return typeof arguments[2]; }, _, 'b', _, 'd');
     equal(func('a'), 'undefined', 'unfilled placeholders are undefined');
+
+    // passes context
+    function MyWidget(name, options) {
+      this.name = name;
+      this.options = options;
+    }
+    MyWidget.prototype.get = function() {
+      return this.name;
+    };
+    var MyWidgetWithCoolOpts = _.partial(MyWidget, _, {a: 1});
+    var widget = new MyWidgetWithCoolOpts('foo');
+    ok(widget instanceof MyWidget, 'Can partially bind a constructor');
+    equal(widget.get(), 'foo', 'keeps prototype');
+    deepEqual(widget.options, {a: 1});
   });
 
   test('bindAll', function() {
