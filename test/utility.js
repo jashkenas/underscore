@@ -95,6 +95,8 @@
     equal(_.escape('<a href="http://moe.com">Curly & Moe\'s</a>'), '&lt;a href=&quot;http://moe.com&quot;&gt;Curly &amp; Moe&#x27;s&lt;/a&gt;');
     equal(_.escape('Curly &amp; Moe'), 'Curly &amp;amp; Moe');
     equal(_.escape(null), '');
+    // #1653
+    equal(_.escape('a`a'), 'a&#x60;a');
   });
 
   test('_.unescape', function() {
@@ -104,6 +106,8 @@
     equal(_.unescape('Curly &amp;amp; Moe'), 'Curly &amp; Moe');
     equal(_.unescape(null), '');
     equal(_.unescape(_.escape(string)), string);
+    // #1653
+    equal(_.unescape('a&#x60;a'), 'a`a');
   });
 
   test('template', function() {
