@@ -590,9 +590,15 @@
 
   test('shuffle', function() {
     var numbers = _.range(10);
-    var shuffled = _.shuffle(numbers).sort();
+    var shuffled = _.shuffle(numbers);
     notStrictEqual(numbers, shuffled, 'original object is unmodified');
-    deepEqual(shuffled, numbers, 'contains the same members before and after shuffle');
+    ok(_.every(_.range(10), function() { //appears consistent?
+      return _.every(numbers, _.partial(_.contains, numbers));
+    }), 'contains the same members before and after shuffle');
+
+    shuffled = _.shuffle({a: 1, b: 2, c: 3, d: 4});
+    equal(shuffled.length, 4);
+    deepEqual(shuffled.sort(), [1, 2, 3, 4], 'works on objects');
   });
 
   test('sample', function() {
