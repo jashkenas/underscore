@@ -1212,34 +1212,32 @@
     return new Date().getTime();
   };
 
-  // List of HTML entities for escaping.
-  var entityMap = {
-    escape: {
-      '&': '&amp;',
-      '<': '&lt;',
-      '>': '&gt;',
-      '"': '&quot;',
-      "'": '&#x27;',
-      '`': '&#x60;'
-    }
+   // List of HTML entities for escaping.
+  var escapeMap = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#x27;',
+    '`': '&#x60;'
   };
-  entityMap.unescape = _.invert(entityMap.escape);
+  var unescapeMap = _.invert(escapeMap);
 
   // Regexes containing the keys and values listed immediately above.
-  var entityRegexes = {
-    escape:   RegExp('[' + _.keys(entityMap.escape).join('') + ']', 'g'),
-    unescape: RegExp('(' + _.keys(entityMap.unescape).join('|') + ')', 'g')
-  };
+  var escapeRegex =   RegExp('[' + _.keys(escapeMap).join('') + ']', 'g');
+  var unescapeRegex = RegExp('(' + _.keys(unescapeMap).join('|') + ')', 'g');
 
   // Functions for escaping and unescaping strings to/from HTML interpolation.
-  _.each(['escape', 'unescape'], function(method) {
-    _[method] = function(string) {
+  var createEscaper = function(map, regex) {
+    return function(string) {
       if (string == null) return '';
-      return ('' + string).replace(entityRegexes[method], function(match) {
-        return entityMap[method][match];
+      return ('' + string).replace(regex, function(match) {
+        return map[match];
       });
     };
-  });
+  };
+  _.escape = createEscaper(escapeMap, escapeRegex);
+  _.unescape = createEscaper(unescapeMap, unescapeRegex);
 
   // If the value of the named `property` is a function then invoke it with the
   // `object` as context; otherwise, return it.
