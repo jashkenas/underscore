@@ -91,23 +91,49 @@
   });
 
   test('_.escape', function() {
-    equal(_.escape('Curly & Moe'), 'Curly &amp; Moe');
-    equal(_.escape('<a href="http://moe.com">Curly & Moe\'s</a>'), '&lt;a href=&quot;http://moe.com&quot;&gt;Curly &amp; Moe&#x27;s&lt;/a&gt;');
-    equal(_.escape('Curly &amp; Moe'), 'Curly &amp;amp; Moe');
     equal(_.escape(null), '');
-    // #1653
-    equal(_.escape('a`a'), 'a&#x60;a');
   });
 
   test('_.unescape', function() {
     var string = 'Curly & Moe';
-    equal(_.unescape('Curly &amp; Moe'), string);
-    equal(_.unescape('&lt;a href=&quot;http://moe.com&quot;&gt;Curly &amp; Moe&#x27;s&lt;/a&gt;'), '<a href="http://moe.com">Curly & Moe\'s</a>');
-    equal(_.unescape('Curly &amp;amp; Moe'), 'Curly &amp; Moe');
     equal(_.unescape(null), '');
     equal(_.unescape(_.escape(string)), string);
-    // #1653
-    equal(_.unescape('a&#x60;a'), 'a`a');
+    equal(_.unescape(string), string, 'don\'t unescape unnecessarily');
+  });
+
+  // Don't care what they escape them to just that they're escaped and can be unescaped
+  test('_.escape & unescape', function() {
+    // test & (&amp;) seperately obviously
+    var escapeCharacters = ['<', '>', '"', '\'', '`'];
+
+    _.each(escapeCharacters, function(escapeChar) {
+      var str = 'a ' + escapeChar + ' string escaped';
+      var escaped = _.escape(str);
+      notEqual(str, escaped, escapeChar + ' is escaped');
+      equal(str, _.unescape(escaped), escapeChar + ' can be unescaped');
+
+      str = 'a ' + escapeChar + escapeChar + escapeChar + 'some more string' + escapeChar;
+      escaped = _.escape(str);
+
+      equal(escaped.indexOf(escapeChar), -1, 'can escape multiple occurances of ' + escapeChar);
+      equal(_.unescape(escaped), str, 'multiple occurrences of ' + escapeChar + ' can be unescaped');
+    });
+
+    // handles multiple escape characters at once
+    var joiner = ' other stuff ';
+    var allEscaped = escapeCharacters.join(joiner);
+    allEscaped += allEscaped;
+    ok(_.every(escapeCharacters, function(escapeChar) {
+      return allEscaped.indexOf(escapeChar) !== -1;
+    }), 'handles multiple characters');
+    ok(allEscaped.indexOf(joiner) >= 0, 'can escape multiple escape characters at the same time');
+
+    // test & -> &amp;
+    var str = 'some string & another string & yet another';
+    var escaped = _.escape(str);
+
+    ok(escaped.indexOf('&') !== -1, 'handles & aka &amp;');
+    equal(_.unescape(str), str, 'can unescape &amp;');
   });
 
   test('template', function() {
