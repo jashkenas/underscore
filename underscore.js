@@ -527,11 +527,11 @@
       }
       else if (iterator) {
         var computed = iterator(value, i, array);
-        if (!_.contains(seen, computed)) {
+        if (_.indexOf(seen, computed) < 0) {
           seen.push(computed);
           result.push(value);
         }
-      } else if (!_.contains(result, value)) {
+      } else if (_.indexOf(result, value) < 0) {
         result.push(value);
       }
     }
