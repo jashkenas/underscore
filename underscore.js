@@ -521,11 +521,18 @@
     var seen = [];
     for (var i = 0, length = array.length; i < length; i++) {
       var value = array[i];
-      if (iterator) value = iterator(value, i, array);
-      if (isSorted ? !i || seen !== value : !_.contains(seen, value)) {
-        if (isSorted) seen = value;
-        else seen.push(value);
-        result.push(array[i]);
+      if (isSorted) {
+        if (!i || seen !== value) result.push(value);
+        seen = value;
+      }
+      else if (iterator) {
+        var computed = iterator(value, i, array);
+        if (!_.contains(seen, computed)) {
+          seen.push(computed);
+          result.push(value);
+        }
+      } else if (!_.contains(result, value)) {
+        result.push(value);
       }
     }
     return result;
