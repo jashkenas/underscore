@@ -54,8 +54,8 @@
   // Current version.
   _.VERSION = '1.6.0';
 
-  // Internal function that returns an efficient (for current engines) version 
-  // of the passed-in callback, to be repeatedly applied in other Underscore 
+  // Internal function that returns an efficient (for current engines) version
+  // of the passed-in callback, to be repeatedly applied in other Underscore
   // functions.
   var createCallback = function(func, context, argCount) {
     if (context === void 0) return func;
@@ -78,8 +78,8 @@
     };
   };
 
-  // A mostly-internal function to generate callbacks that can be applied 
-  // to each element in a collection, returning the desired result — either 
+  // A mostly-internal function to generate callbacks that can be applied
+  // to each element in a collection, returning the desired result — either
   // identity, an arbitrary callback, a property matcher, or a property accessor.
   _.iteratee = function(value, context, argCount) {
     if (value == null) return _.identity;
@@ -514,12 +514,12 @@
   // Aliased as `unique`.
   _.uniq = _.unique = function(array, isSorted, iterator, context) {
     if (array == null) return [];
-    if (_.isFunction(isSorted)) {
+    if (!_.isBoolean(isSorted)) {
       context = iterator;
       iterator = isSorted;
       isSorted = false;
     }
-    if (iterator) iterator = _.iteratee(iterator, context);
+    if (iterator != null) iterator = _.iteratee(iterator, context);
     var result = [];
     var seen = [];
     for (var i = 0, length = array.length; i < length; i++) {
