@@ -127,6 +127,18 @@
     });
     hashed('yep');
     deepEqual(hashed.cache, {'YEP': 'yep'}, 'takes a hasher');
+
+    // Test that the hash function can be used to swizzle the key.
+    var objCacher = _.memoize(function(value, key) {
+      return {key: key, value: value};
+    }, function(value, key) {
+      return key;
+    });
+    var myObj = objCacher('a', 'alpha');
+    var myObjAlias = objCacher('b', 'alpha');
+    notStrictEqual(myObj, undefined, 'object is created if second argument used as key');
+    strictEqual(myObj, myObjAlias, 'object is cached if second argument used as key');
+    strictEqual(myObj.value, 'a', 'object is not modified if second argument used as key');
   });
 
   asyncTest('delay', 2, function() {
