@@ -277,7 +277,8 @@
   _.max = function(obj, iterator, context) {
     var result = -Infinity, lastComputed = -Infinity,
         value, computed;
-    if (!iterator && _.isArray(obj)) {
+    if (iterator == null) {
+      obj = obj.length === +obj.length ? obj : _.values(obj);
       for (var i = 0, length = obj.length; i < length; i++) {
         value = obj[i];
         if (value > result) {
@@ -301,7 +302,8 @@
   _.min = function(obj, iterator, context) {
     var result = Infinity, lastComputed = Infinity,
         value, computed;
-    if (!iterator && _.isArray(obj)) {
+    if (iterator == null) {
+      obj = obj.length === +obj.length ? obj : _.values(obj);
       for (var i = 0, length = obj.length; i < length; i++) {
         value = obj[i];
         if (value < result) {
