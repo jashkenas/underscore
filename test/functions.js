@@ -136,8 +136,9 @@
     });
     var myObj = objCacher('a', 'alpha');
     var myObjAlias = objCacher('b', 'alpha');
-    strictEqual(myObj, myObjAlias, 'hash function can swizzle key argument');
-    strictEqual(myObj.value, 'a', 'memoized object remains unmodified');
+    notStrictEqual(myObj, undefined, 'object ss created if second argument used as key');
+    strictEqual(myObj, myObjAlias, 'object is cached if second argument used as key');
+    strictEqual(myObj.value, 'a', 'object is not modified if second argument used as key');
   });
 
   asyncTest('delay', 2, function() {
