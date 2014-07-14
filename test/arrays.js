@@ -388,6 +388,14 @@
     }), -1);
 
     equal(_.findIndex(null, _.noop), -1);
+    strictEqual(_.findIndex(objects, function(a) {
+      return a.foo === null;
+    }), -1);
+    _.findIndex([{a: 1}], function(a, key, obj) {
+      equal(key, 0);
+      deepEqual(obj, [{a: 1}]);
+      strictEqual(this, objects, 'called with context');
+    }, objects);
 
     var sparse = [];
     sparse[20] = {'a': 2, 'b': 2};

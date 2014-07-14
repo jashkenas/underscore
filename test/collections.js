@@ -204,6 +204,25 @@
 
     var result = _.find([1, 2, 3], function(num){ return num * 2 === 4; });
     equal(result, 2, 'found the first "2" and broke the loop');
+
+    var obj = {
+      a: {x: 1, z: 3},
+      b: {x: 2, z: 2},
+      c: {x: 3, z: 4},
+      d: {x: 4, z: 1}
+    };
+
+    deepEqual(_.find(obj, {x: 2}), {x: 2, z: 2}, 'works on objects');
+    deepEqual(_.find(obj, {x: 2, z: 1}), void 0);
+    deepEqual(_.find(obj, function(x) {
+      return x.x === 4;
+    }), {x: 4, z: 1});
+
+    _.findIndex([{a: 1}], function(a, key, obj) {
+      equal(key, 0);
+      deepEqual(obj, [{a: 1}]);
+      strictEqual(this, _, 'called with context');
+    }, _);
   });
 
   test('detect', function() {

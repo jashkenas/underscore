@@ -175,7 +175,7 @@
     } else {
       key = _.findKey(obj, predicate, context);
     }
-    return key === void 0 || key === -1 ? void 0 : obj[key];
+    if (key !== void 0 && key !== -1) return obj[key];
   };
 
   // Return all the elements that pass a truth test.

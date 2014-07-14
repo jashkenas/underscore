@@ -692,6 +692,7 @@
     var oCon = _.matches({'constructor': Object});
     deepEqual(_.map([null, undefined, 5, {}], oCon), [false, false, false, true], 'doesnt fasley match constructor on undefined/null');
   });
+
   test('findKey', function() {
     var objects = {
       a: {'a': 0, 'b': 0},
@@ -716,6 +717,16 @@
     strictEqual(_.findKey([1, 2, 3, 4, 5, 6], function(obj) {
       return obj === 3;
     }), '2', 'Keys are strings');
+
+    strictEqual(_.findKey(objects, function(a) {
+      return a.foo === null;
+    }), undefined);
+
+    _.findKey({a: {a: 1}}, function(a, key, obj) {
+      equal(key, 'a');
+      deepEqual(obj, {a: {a: 1}});
+      strictEqual(this, objects, 'called with context');
+    }, objects);
 
     var array = [1, 2, 3, 4];
     array.match = 55;
