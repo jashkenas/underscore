@@ -392,6 +392,10 @@
   });
 
   test('max', function() {
+    equal(-Infinity, _.max(null), 'can handle null/undefined');
+    equal(-Infinity, _.max(undefined), 'can handle null/undefined');
+    equal(-Infinity, _.max(null, _.identity), 'can handle null/undefined');
+
     equal(3, _.max([1, 2, 3]), 'can perform a regular Math.max');
 
     var neg = _.max([1, 2, 3], function(num){ return -num; });
@@ -419,6 +423,10 @@
   });
 
   test('min', function() {
+    equal(Infinity, _.min(null), 'can handle null/undefined');
+    equal(Infinity, _.min(undefined), 'can handle null/undefined');
+    equal(Infinity, _.min(null, _.identity), 'can handle null/undefined');
+
     equal(1, _.min([1, 2, 3]), 'can perform a regular Math.min');
 
     var neg = _.min([1, 2, 3], function(num){ return -num; });
