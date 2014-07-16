@@ -496,6 +496,33 @@
 
     list = ['q', 'w', 'e', 'r', 't', 'y'];
     deepEqual(_.sortBy(list), ['e', 'q', 'r', 't', 'w', 'y'], 'uses _.identity if iterator is not specified');
+
+    var smallCollection = _.shuffle(_.map(collection.slice(2, 7), function(pair) {
+      return {x: pair.x, y: pair.y};
+    }));
+    sorted = [{x: 1, y: 3}, {x: 1, y: 4}, {x: 1, y: 5}, {x: 1, y: 6}, {x: 2, y: 1}];
+
+    deepEqual(_.sortBy(smallCollection, function(pair) {
+      return [pair.x, pair.y];
+    }), sorted, 'Returning an array will sort by precedence');
+
+    deepEqual(_.sortBy(smallCollection, function(pair) {
+      return [pair.y, pair.x];
+    }), _.sortBy(smallCollection, 'y'));
+
+    smallCollection = _.shuffle([{a: 1, b: 2}, {a: 1}, {a: 1, b: 3}, {a: 2, b: -1}, {b: 5}]);
+
+    deepEqual(_.sortBy([{a: 2}, {a: 2, b: 2}, {a: 2, b: undefined}], function(x) {
+      return 'b' in x ? [x.a, x.b] : [x.a];
+    }), [{a: 2}, {a: 2, b: 2}, {a: 2, b: undefined}], 'array of longer length more important');
+
+    deepEqual(_.sortBy([{a: 2}, {a: 1, b: 2}], function(x) {
+      return 'b' in x ? [x.a, x.b] : [x.a];
+    }), [{a: 1, b: 2}, {a: 2}], 'precedence more important than length');
+
+    deepEqual(_.sortBy(smallCollection, function(x) {
+      return [x.a, x.b];
+    }), [{a: 1, b: 2}, {a: 1, b: 3}, {a: 1}, {a: 2, b: -1}, {b: 5}]);
   });
 
   test('groupBy', function() {
