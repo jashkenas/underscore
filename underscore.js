@@ -645,6 +645,19 @@
     return range;
   };
 
+  // returns the element after item
+  _.succeeding = function(array, item) {
+    var position = _.indexOf(array,item);
+    return array[position+1];
+  };
+  
+  // returns the element before item
+  _.preceding = function(array, item) {
+    var position = _.indexOf(array,item);
+    return array[position-1];
+  };
+  
+  
   // Function (ahem) Functions
   // ------------------
 
