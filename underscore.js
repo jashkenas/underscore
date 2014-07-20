@@ -20,7 +20,6 @@
   // Create quick reference variables for speed access to core prototypes.
   var
     push             = ArrayProto.push,
-    slice            = ArrayProto.slice,
     concat           = ArrayProto.concat,
     toString         = ObjProto.toString,
     hasOwnProperty   = ObjProto.hasOwnProperty;
@@ -235,7 +234,7 @@
 
   // Invoke a method (with arguments) on every item in a collection.
   _.invoke = function(obj, method) {
-    var args = slice.call(arguments, 2);
+    var args = _.slice(arguments, 2);
     var isFunc = _.isFunction(method);
     return _.map(obj, function(value) {
       return (isFunc ? method : value[method]).apply(value, args);
@@ -331,7 +330,7 @@
       if (obj.length !== +obj.length) obj = _.values(obj);
       return obj[_.random(obj.length - 1)];
     }
-    return _.shuffle(obj).slice(0, Math.max(0, n));
+    return _.slice(_.shuffle(obj), 0, Math.max(0, n));
   };
 
   // Sort the object's values by a criterion produced by an iteratee.
@@ -402,8 +401,7 @@
   // Safely create a real, live array from anything iterable.
   _.toArray = function(obj) {
     if (!obj) return [];
-    if (_.isArray(obj)) return slice.call(obj);
-    if (obj.length === +obj.length) return _.map(obj, _.identity);
+    if (obj.length === +obj.length) return _.slice(obj);
     return _.values(obj);
   };
 
@@ -427,6 +425,33 @@
   // Array Functions
   // ---------------
 
+  // Port of Python's slice functionality (https://docs.python.org/2/library/functions.html#slice).
+  // Similar to Array.prototype.slice with an additional step parameter. Creates a
+  // cloned subsequence of an array(-like).
+  _.slice = function(collection, start, end, step) {
+    var length = collection.length;
+    if (start == null) {
+      start = 0;
+    } else if (start < 0) {
+      start = -start > length ? 0 : length + start;
+    }
+    if (end == null || end > length) {
+      end = length;
+    } else if (end < 0) {
+      end = length + end;
+    }
+    step = !step ? 1 : step;
+    length = start < end ? Math.ceil((end - start) / Math.abs(step)) : 0;
+    if (step < 0) {
+      start = end - 1;
+    }
+    var result = Array(length);
+    for (var index = 0; index < length; index++, start += step) {
+      result[index] = collection[start];
+    }
+    return result;
+  };
+
   // Get the first element of an array. Passing **n** will return the first N
   // values in the array. Aliased as `head` and `take`. The **guard** check
   // allows it to work with `_.map`.
@@ -434,7 +459,7 @@
     if (array == null) return void 0;
     if (n == null || guard) return array[0];
     if (n < 0) return [];
-    return slice.call(array, 0, n);
+    return _.slice(array, 0, n);
   };
 
   // Returns everything but the last entry of the array. Especially useful on
@@ -442,7 +467,7 @@
   // the array, excluding the last N. The **guard** check allows it to work with
   // `_.map`.
   _.initial = function(array, n, guard) {
-    return slice.call(array, 0, Math.max(0, array.length - (n == null || guard ? 1 : n)));
+    return _.slice(array, 0, Math.max(0, array.length - (n == null || guard ? 1 : n)));
   };
 
   // Get the last element of an array. Passing **n** will return the last N
@@ -450,7 +475,7 @@
   _.last = function(array, n, guard) {
     if (array == null) return void 0;
     if (n == null || guard) return array[array.length - 1];
-    return slice.call(array, Math.max(array.length - n, 0));
+    return _.slice(array, Math.max(array.length - n, 0));
   };
 
   // Returns everything but the first entry of the array. Aliased as `tail` and `drop`.
@@ -458,7 +483,7 @@
   // the rest N values in the array. The **guard**
   // check allows it to work with `_.map`.
   _.rest = _.tail = _.drop = function(array, n, guard) {
-    return slice.call(array, n == null || guard ? 1 : n);
+    return _.slice(array, n == null || guard ? 1 : n);
   };
 
   // Trim out all falsy values from an array.
@@ -491,7 +516,7 @@
 
   // Return a version of the array that does not contain the specified value(s).
   _.without = function(array) {
-    return _.difference(array, slice.call(arguments, 1));
+    return _.difference(array, _.slice(arguments, 1));
   };
 
   // Produce a duplicate-free version of the array. If the array has already
@@ -551,7 +576,7 @@
   // Take the difference between one array and a number of other arrays.
   // Only the elements present in just the first array will remain.
   _.difference = function(array) {
-    var rest = flatten(slice.call(arguments, 1), true, true, []);
+    var rest = flatten(_.slice(arguments, 1), true, true, []);
     return _.filter(array, function(value){
       return !_.contains(rest, value);
     });
@@ -645,15 +670,15 @@
   // available.
   _.bind = function(func, context) {
     var args, bound;
-    if (nativeBind && func.bind === nativeBind) return nativeBind.apply(func, slice.call(arguments, 1));
+    if (nativeBind && func.bind === nativeBind) return nativeBind.apply(func, _.slice(arguments, 1));
     if (!_.isFunction(func)) throw new TypeError('Bind must be called on a function');
-    args = slice.call(arguments, 2);
+    args = _.slice(arguments, 2);
     bound = function() {
-      if (!(this instanceof bound)) return func.apply(context, args.concat(slice.call(arguments)));
+      if (!(this instanceof bound)) return func.apply(context, args.concat(_.slice(arguments)));
       Ctor.prototype = func.prototype;
       var self = new Ctor;
       Ctor.prototype = null;
-      var result = func.apply(self, args.concat(slice.call(arguments)));
+      var result = func.apply(self, args.concat(_.slice(arguments)));
       if (_.isObject(result)) return result;
       return self;
     };
@@ -664,10 +689,10 @@
   // arguments pre-filled, without changing its dynamic `this` context. _ acts
   // as a placeholder, allowing any combination of arguments to be pre-filled.
   _.partial = function(func) {
-    var boundArgs = slice.call(arguments, 1);
+    var boundArgs = _.slice(arguments, 1);
     return function() {
       var position = 0;
-      var args = boundArgs.slice();
+      var args = _.slice(boundArgs);
       for (var i = 0, length = args.length; i < length; i++) {
         if (args[i] === _) args[i] = arguments[position++];
       }
@@ -704,7 +729,7 @@
   // Delays a function for the given number of milliseconds, and then calls
   // it with the arguments supplied.
   _.delay = function(func, wait) {
-    var args = slice.call(arguments, 2);
+    var args = _.slice(arguments, 2);
     return setTimeout(function(){
       return func.apply(null, args);
     }, wait);
@@ -713,7 +738,7 @@
   // Defers a function, scheduling it to run after the current call stack has
   // cleared.
   _.defer = function(func) {
-    return _.delay.apply(_, [func, 1].concat(slice.call(arguments, 1)));
+    return _.delay.apply(_, [func, 1].concat(_.slice(arguments, 1)));
   };
 
   // Returns a function, that, when invoked, will only be triggered at most once
@@ -920,7 +945,7 @@
         if (iteratee(value, key, obj)) result[key] = value;
       }
     } else {
-      var keys = concat.apply([], slice.call(arguments, 1));
+      var keys = concat.apply([], _.slice(arguments, 1));
       obj = new Object(obj);
       for (var i = 0, length = keys.length; i < length; i++) {
         key = keys[i];
@@ -935,7 +960,7 @@
     if (_.isFunction(iteratee)) {
       iteratee = _.negate(iteratee);
     } else {
-      var keys = _.map(concat.apply([], slice.call(arguments, 1)), String);
+      var keys = _.map(concat.apply([], _.slice(arguments, 1)), String);
       iteratee = function(value, key) {
         return !_.contains(keys, key);
       };
@@ -958,7 +983,7 @@
   // Create a (shallow-cloned) duplicate of an object.
   _.clone = function(obj) {
     if (!_.isObject(obj)) return obj;
-    return _.isArray(obj) ? obj.slice() : _.extend({}, obj);
+    return _.isArray(obj) ? _.slice(obj) : _.extend({}, obj);
   };
 
   // Invokes interceptor with the obj, and then returns obj.
@@ -1387,7 +1412,7 @@
   });
 
   // Add all accessor Array functions to the wrapper.
-  _.each(['concat', 'join', 'slice'], function(name) {
+  _.each(['concat', 'join'], function(name) {
     var method = ArrayProto[name];
     _.prototype[name] = function() {
       return result.call(this, method.apply(this._wrapped, arguments));

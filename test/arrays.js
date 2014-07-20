@@ -2,6 +2,50 @@
 
   module('Arrays');
 
+  test('slice', function() {
+    var array = [1, 2, 3],
+        zeros = [, null, undefined];
+
+    deepEqual(_.slice(array, 1), [2, 3], 'should work with a positive `start`');
+
+    var expected = _.map(zeros, _.constant(array));
+    var actual = _.map(zeros, function(start) {
+      return _.slice(array, start);
+    });
+    deepEqual(actual, expected);
+
+    var expected = _.map(zeros, _.constant(array));
+    var actual = _.map(zeros, function(start) {
+      return _.slice(array, 0, start);
+    });
+    deepEqual(actual, expected);
+
+    deepEqual(_.slice(array, 0, 0), [], 'Works with zeros');
+    deepEqual(_.slice(array, 1, 0), [], 'Works start > end');
+
+    actual = _.map([-1, -2, -3, -4, -10], _.partial(_.slice, array, _, null, null));
+    expected = [[3], [2, 3], array, array, array];
+    deepEqual(actual, expected, 'works with negative start');
+
+    actual = _.map([-1, -2, -3, -4, -10], _.partial(_.slice, array, 0, _, null));
+    expected = [[1, 2], [1], [], [], []];
+    deepEqual(actual, expected, 'works with negative start');
+
+
+    deepEqual(_.slice(array, null, null, 2), [1, 3], 'works with step values');
+    deepEqual(_.slice(array, null, null, 3), [1], 'works with step values');
+    deepEqual(_.slice(array, null, null, 10), [1], 'works with step values greater than length');
+    deepEqual(_.slice(array, null, null, -1), [3, 2, 1], 'works with negative step values');
+    deepEqual(_.slice(array, null, null, -2), [3, 1], 'works with negative step values');
+    deepEqual(_.slice(array, null, null, -10), [3], 'works with negative step values greater than length');
+
+    // test in IE < 9
+    try {
+      var actual = _.slice(document.childNodes);
+    } catch(ex) {}
+    deepEqual(actual, _.map(document.childNodes, _.identity), 'works on NodeList');
+  });
+
   test('first', function() {
     equal(_.first([1, 2, 3]), 1, 'can pull out the first element of an array');
     equal(_([1, 2, 3]).first(), 1, 'can perform OO-style "first()"');

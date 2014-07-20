@@ -631,18 +631,21 @@
     ok(!_.isArray(arguments), 'arguments object is not an array');
     ok(_.isArray(_.toArray(arguments)), 'arguments object converted into array');
     var a = [1, 2, 3];
-    ok(_.toArray(a) !== a, 'array is cloned');
-    deepEqual(_.toArray(a), [1, 2, 3], 'cloned array contains same elements');
+    notEqual(_.toArray(a), a, 'array is cloned');
+    deepEqual(_.toArray(a), a, 'cloned array contains same elements');
 
     var numbers = _.toArray({one : 1, two : 2, three : 3});
     deepEqual(numbers, [1, 2, 3], 'object flattened into array');
 
-    // test in IE < 9
-    try {
-      var actual = _.toArray(document.childNodes);
-    } catch(ex) { }
+    deepEqual(_.toArray({0: 1, 1: 2, length: 2}), [1, 2], 'works on array likes');
+    deepEqual(_.toArray('string'), ['s', 't', 'r', 'i', 'n', 'g'], 'converts string to array');
 
-    ok(_.isArray(actual), 'should not throw converting a node list');
+    // test in IE < 9
+    var actual;
+    try {
+      actual = _.toArray(document.childNodes);
+    } catch(ex) { }
+    deepEqual(actual, _.map(document.childNodes, _.identity), 'works on NodeList');
   });
 
   test('size', function() {
