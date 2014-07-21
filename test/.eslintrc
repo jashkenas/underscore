@@ -19,6 +19,7 @@
   },
   "rules": {
     "brace-style": 0,
+    "dot-notation": 1,
     "no-new-wrappers": 0,
     "no-sparse-arrays": 0,
     "no-extend-native": 0
