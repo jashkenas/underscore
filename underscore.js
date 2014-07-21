@@ -856,13 +856,21 @@
   // Object Functions
   // ----------------
 
+  // keys that won't be iterated by `for key in ...` and thus missed
+  var nonEnumerableProps = ['constructor', 'valueOf', 'isPrototypeOf', 'toString',
+                      'propertyIsEnumerable', 'hasOwnProperty', 'toLocaleString'];
+
   // Retrieve the names of an object's properties.
   // Delegates to **ECMAScript 5**'s native `Object.keys`
   _.keys = function(obj) {
     if (!_.isObject(obj)) return [];
     if (nativeKeys) return nativeKeys(obj);
-    var keys = [];
+    var keys = [], nonEnumIdx = 7;
     for (var key in obj) if (_.has(obj, key)) keys.push(key);
+    while (nonEnumIdx--) {
+      var prop = nonEnumerableProps[nonEnumIdx];
+      if (_.has(obj, prop) && !_.contains(keys, prop)) keys.push(prop);
+    }
     return keys;
   };
 
