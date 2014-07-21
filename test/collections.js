@@ -616,8 +616,11 @@
   test('sample', function() {
     var numbers = _.range(10);
     var allSampled = _.sample(numbers, 10).sort();
+    var oldSlice = [].slice;
     deepEqual(allSampled, numbers, 'contains the same members before and after sample');
+    Array.prototype.slice = void 0;
     allSampled = _.sample(numbers, 20).sort();
+    Array.prototype.slice = oldSlice;
     deepEqual(allSampled, numbers, 'also works when sampling more objects than are present');
     ok(_.contains(numbers, _.sample(numbers)), 'sampling a single element returns something from the array');
     strictEqual(_.sample([]), undefined, 'sampling empty array with no number returns undefined');
