@@ -857,6 +857,7 @@
   // ----------------
 
   // keys that won't be iterated by `for key in ...` and thus missed
+  var hasEnumBug = !({toString: null}).propertyIsEnumerable('toString');
   var nonEnumerableProps = ['constructor', 'valueOf', 'isPrototypeOf', 'toString',
                       'propertyIsEnumerable', 'hasOwnProperty', 'toLocaleString'];
 
@@ -867,9 +868,11 @@
     if (nativeKeys) return nativeKeys(obj);
     var keys = [], nonEnumIdx = 7;
     for (var key in obj) if (_.has(obj, key)) keys.push(key);
-    while (nonEnumIdx--) {
-      var prop = nonEnumerableProps[nonEnumIdx];
-      if (_.has(obj, prop) && !_.contains(keys, prop)) keys.push(prop);
+    if (hasEnumBug) {
+      while (nonEnumIdx--) {
+        var prop = nonEnumerableProps[nonEnumIdx];
+        if (_.has(obj, prop) && !_.contains(keys, prop)) keys.push(prop);
+      }
     }
     return keys;
   };
