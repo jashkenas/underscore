@@ -439,6 +439,7 @@
     ok(_.isEmpty(null), 'null is empty');
     ok(_.isEmpty(), 'undefined is empty');
     ok(_.isEmpty(''), 'the empty string is empty');
+    ok(_.isEmpty(' '), 'a string of just space characters is empty');
     ok(!_.isEmpty('moe'), 'but other strings are not');
 
     var obj = {one : 1};
