@@ -826,7 +826,7 @@
   };
 
   // Returns a function that will only be executed after being called N times.
-  _.after = function(times, func) {
+  _.after = function(func, times) {
     return function() {
       if (--times < 1) {
         return func.apply(this, arguments);
@@ -835,7 +835,7 @@
   };
 
   // Returns a function that will only be executed before being called N times.
-  _.before = function(times, func) {
+  _.before = function(func, times) {
     var memo;
     return function() {
       if (--times > 0) {
@@ -848,7 +848,7 @@
 
   // Returns a function that will be executed at most one time, no matter how
   // often you call it. Useful for lazy initialization.
-  _.once = _.partial(_.before, 2);
+  _.once = _.partial(_.before, _, 2);
 
   // Object Functions
   // ----------------
