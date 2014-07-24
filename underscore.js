@@ -240,7 +240,7 @@
   // Aliased as `include`.
   _.contains = _.include = function(obj, target) {
     if (obj == null) return false;
-    if (obj.length !== +obj.length) obj = _.values(obj);
+    if (_.isObject(obj)) obj = _.values(obj);
     return _.indexOf(obj, target) >= 0;
   };
 
