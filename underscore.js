@@ -54,7 +54,9 @@
   // Current version.
   _.VERSION = '1.6.0';
 
-  // Internal function: creates a callback bound to its context if supplied
+  // Internal function that returns an efficient (for current engines) version 
+  // of the passed-in callback, to be repeatedly applied in other Underscore 
+  // functions.
   var createCallback = function(func, context, argCount) {
     if (context === void 0) return func;
     switch (argCount == null ? 3 : argCount) {
@@ -76,8 +78,10 @@
     };
   };
 
-  // An internal function to generate lookup iterators.
-  var lookupIterator = function(value, context, argCount) {
+  // A mostly-internal function to generate callbacks that can be applied 
+  // to each element in a collection, returning the desired result — either 
+  // identity, an arbitrary callback, a property matcher, or a property accessor.
+  _.iteratee = function(value, context, argCount) {
     if (value == null) return _.identity;
     if (_.isFunction(value)) return createCallback(value, context, argCount);
     if (_.isObject(value)) return _.matches(value);
@@ -110,7 +114,7 @@
   // Return the results of applying the iterator to each element.
   _.map = _.collect = function(obj, iterator, context) {
     if (obj == null) return [];
-    iterator = lookupIterator(iterator, context);
+    iterator = _.iteratee(iterator, context);
     var length = obj.length,
         currentKey, keys;
     if (length !== +length) {
@@ -173,7 +177,7 @@
   // Return the first value which passes a truth test. Aliased as `detect`.
   _.find = _.detect = function(obj, predicate, context) {
     var result;
-    predicate = lookupIterator(predicate, context);
+    predicate = _.iteratee(predicate, context);
     _.some(obj, function(value, index, list) {
       if (predicate(value, index, list)) {
         result = value;
@@ -188,7 +192,7 @@
   _.filter = _.select = function(obj, predicate, context) {
     var results = [];
     if (obj == null) return results;
-    predicate = lookupIterator(predicate, context);
+    predicate = _.iteratee(predicate, context);
     _.each(obj, function(value, index, list) {
       if (predicate(value, index, list)) results.push(value);
     });
@@ -197,14 +201,14 @@
 
   // Return all the elements for which a truth test fails.
   _.reject = function(obj, predicate, context) {
-    return _.filter(obj, _.negate(lookupIterator(predicate)), context);
+    return _.filter(obj, _.negate(_.iteratee(predicate)), context);
   };
 
   // Determine whether all of the elements match a truth test.
   // Aliased as `all`.
   _.every = _.all = function(obj, predicate, context) {
     if (obj == null) return true;
-    predicate = lookupIterator(predicate, context);
+    predicate = _.iteratee(predicate, context);
     var length = obj.length;
     var index, currentKey, keys;
     if (length !== +length) {
@@ -222,7 +226,7 @@
   // Aliased as `any`.
   _.some = _.any = function(obj, predicate, context) {
     if (obj == null) return false;
-    predicate = lookupIterator(predicate, context);
+    predicate = _.iteratee(predicate, context);
     var length = obj.length;
     var index, currentKey, keys;
     if (length !== +length) {
@@ -283,7 +287,7 @@
         }
       }
     } else {
-      iterator = lookupIterator(iterator, context);
+      iterator = _.iteratee(iterator, context);
       _.each(obj, function(value, index, list) {
         computed = iterator(value, index, list);
         if (computed > lastComputed || computed === -Infinity && result === -Infinity) {
@@ -308,7 +312,7 @@
         }
       }
     } else {
-      iterator = lookupIterator(iterator, context);
+      iterator = _.iteratee(iterator, context);
       _.each(obj, function(value, index, list) {
         computed = iterator(value, index, list);
         if (computed < lastComputed || computed === Infinity && result === Infinity) {
@@ -347,7 +351,7 @@
 
   // Sort the object's values by a criterion produced by an iterator.
   _.sortBy = function(obj, iterator, context) {
-    iterator = lookupIterator(iterator, context);
+    iterator = _.iteratee(iterator, context);
     return _.pluck(_.map(obj, function(value, index, list) {
       return {
         value: value,
@@ -369,7 +373,7 @@
   var group = function(behavior) {
     return function(obj, iterator, context) {
       var result = {};
-      iterator = lookupIterator(iterator, context);
+      iterator = _.iteratee(iterator, context);
       _.each(obj, function(value, index) {
         var key = iterator(value, index, obj);
         behavior(result, value, key);
@@ -400,7 +404,7 @@
   // Use a comparator function to figure out the smallest index at which
   // an object should be inserted so as to maintain order. Uses binary search.
   _.sortedIndex = function(array, obj, iterator, context) {
-    iterator = lookupIterator(iterator, context, 1);
+    iterator = _.iteratee(iterator, context, 1);
     var value = iterator(obj);
     var low = 0, high = array.length;
     while (low < high) {
@@ -427,7 +431,7 @@
   // Split a collection into two arrays: one whose elements all satisfy the given
   // predicate, and one whose elements all do not satisfy the predicate.
   _.partition = function(obj, predicate, context) {
-    predicate = lookupIterator(predicate, context);
+    predicate = _.iteratee(predicate, context);
     var pass = [], fail = [];
     _.each(obj, function(value, key, obj) {
       (predicate(value, key, obj) ? pass : fail).push(value);
@@ -515,7 +519,7 @@
       iterator = isSorted;
       isSorted = false;
     }
-    if (iterator) iterator = lookupIterator(iterator, context);
+    if (iterator) iterator = _.iteratee(iterator, context);
     var result = [];
     var seen = [];
     for (var i = 0, length = array.length; i < length; i++) {

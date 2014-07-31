@@ -545,4 +545,9 @@
     equal(context.num, 2, 'provides context');
   });
 
+  test('iteratee', function() {
+    var identity = _.iteratee();
+    equal(identity, _.identity, '_.iteratee is exposed as an external function.');
+  });
+
 }());
