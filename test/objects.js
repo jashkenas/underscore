@@ -221,7 +221,7 @@
 
     // Comparisons involving `NaN`.
     ok(_.isEqual(NaN, NaN), '`NaN` is equal to `NaN`');
-    ok(_.isEqual(Object(NaN), NaN), 'Object(`NaN`) is equal to `NaN`');
+    ok(_.isEqual(new Object(NaN), NaN), 'Object(`NaN`) is equal to `NaN`');
     ok(!_.isEqual(61, NaN), 'A number primitive is not equal to `NaN`');
     ok(!_.isEqual(new Number(79), NaN), 'A number object is not equal to `NaN`');
     ok(!_.isEqual(Infinity, NaN), '`Infinity` is not equal to `NaN`');

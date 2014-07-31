@@ -139,7 +139,7 @@
       length = keys.length;
     }
     if (arguments.length < 3) {
-      if (!length) throw TypeError(reduceError);
+      if (!length) throw new TypeError(reduceError);
       memo = obj[keys ? keys[index++] : index++];
     }
     for (; index < length; index++) {
@@ -160,7 +160,7 @@
       index = keys.length;
     }
     if (arguments.length < 3) {
-      if (!index) throw TypeError(reduceError);
+      if (!index) throw new TypeError(reduceError);
       memo = obj[keys ? keys[--index] : --index];
     }
     while (index--) {
@@ -404,7 +404,7 @@
     var value = iterator(obj);
     var low = 0, high = array.length;
     while (low < high) {
-      var mid = (low + high) >>> 1;
+      var mid = low + high >>> 1;
       if (iterator(array[mid]) < value) low = mid + 1; else high = mid;
     }
     return low;
@@ -657,7 +657,7 @@
   _.bind = function(func, context) {
     var args, bound;
     if (nativeBind && func.bind === nativeBind) return nativeBind.apply(func, slice.call(arguments, 1));
-    if (!_.isFunction(func)) throw TypeError('Bind must be called on a function');
+    if (!_.isFunction(func)) throw new TypeError('Bind must be called on a function');
     args = slice.call(arguments, 2);
     bound = function() {
       if (!(this instanceof bound)) return func.apply(context, args.concat(slice.call(arguments)));
@@ -692,7 +692,7 @@
   // defined on an object belong to it.
   _.bindAll = function(obj) {
     var i, length = arguments.length, key;
-    if (length <= 1) throw Error('bindAll must be passed function names');
+    if (length <= 1) throw new Error('bindAll must be passed function names');
     for (i = 1; i < length; i++) {
       key = arguments[i];
       obj[key] = _.bind(obj[key], obj);
@@ -930,7 +930,7 @@
       }
     } else {
       var keys = concat.apply([], slice.call(arguments, 1));
-      obj = Object(obj);
+      obj = new Object(obj);
       for (var i = 0, length = keys.length; i < length; i++) {
         key = keys[i];
         if (key in obj) result[key] = obj[key];
@@ -1186,7 +1186,7 @@
     var pairs = _.pairs(attrs), length = pairs.length;
     return function(obj) {
       if (obj == null) return !length;
-      obj = Object(obj);
+      obj = new Object(obj);
       for (var i = 0; i < length; i++) {
         var pair = pairs[i], key = pair[0];
         if (pair[1] !== obj[key] || !(key in obj)) return false;
@@ -1332,7 +1332,7 @@
       source + 'return __p;\n';
 
     try {
-      var render = Function(settings.variable || 'obj', '_', source);
+      var render = new Function(settings.variable || 'obj', '_', source);
     } catch (e) {
       e.source = source;
       throw e;
