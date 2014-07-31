@@ -432,13 +432,13 @@
       <h2 id="collections">Collection Functions (Arrays or Objects)</h2>
 
       <p id="each">
-        <b class="header">each</b><code>_.each(list, iterator, [context])</code>
+        <b class="header">each</b><code>_.each(list, iteratee, [context])</code>
         <span class="alias">Alias: <b>forEach</b></span>
         <br />
-        Iterates over a <b>list</b> of elements, yielding each in turn to an <b>iterator</b>
-        function. The <b>iterator</b> is bound to the <b>context</b> object, if one is
-        passed. Each invocation of <b>iterator</b> is called with three arguments:
-        <tt>(element, index, list)</tt>. If <b>list</b> is a JavaScript object, <b>iterator</b>'s
+        Iterates over a <b>list</b> of elements, yielding each in turn to an <b>iteratee</b>
+        function. The <b>iteratee</b> is bound to the <b>context</b> object, if one is
+        passed. Each invocation of <b>iteratee</b> is called with three arguments:
+        <tt>(element, index, list)</tt>. If <b>list</b> is a JavaScript object, <b>iteratee</b>'s
         arguments will be <tt>(value, key, list)</tt>. Returns the <b>list</b> for chaining.
       </p>
       <pre>
@@ -459,12 +459,12 @@ _.each({one: 1, two: 2, three: 3}, alert);
       </p>
 
       <p id="map">
-        <b class="header">map</b><code>_.map(list, iterator, [context])</code>
+        <b class="header">map</b><code>_.map(list, iteratee, [context])</code>
         <span class="alias">Alias: <b>collect</b></span>
         <br />
         Produces a new array of values by mapping each value in <b>list</b>
-        through a transformation function (<b>iterator</b>). If <b>list</b>
-        is a JavaScript object, <b>iterator</b>'s arguments will be
+        through a transformation function (<b>iteratee</b>). If <b>list</b>
+        is a JavaScript object, <b>iteratee</b>'s arguments will be
         <tt>(value, key, list)</tt>.
       </p>
       <pre>
@@ -474,17 +474,17 @@ _.map({one: 1, two: 2, three: 3}, function(num, key){ return num * 3; });
 =&gt; [3, 6, 9]</pre>
 
       <p id="reduce">
-        <b class="header">reduce</b><code>_.reduce(list, iterator, [memo], [context])</code>
+        <b class="header">reduce</b><code>_.reduce(list, iteratee, [memo], [context])</code>
         <span class="alias">Aliases: <b>inject, foldl</b></span>
         <br />
         Also known as <b>inject</b> and <b>foldl</b>, reduce boils down a <b>list</b> of values into a single value. 
         <b>Memo</b> is the initial state of the reduction, and each successive step of it should be returned by 
-        <b>iterator</b>. The iterator is passed four arguments: the <tt>memo</tt>, then the <tt>value</tt> and 
+        <b>iteratee</b>. The iteratee is passed four arguments: the <tt>memo</tt>, then the <tt>value</tt> and 
         <tt>index</tt> (or key) of the iteration, and finally a reference to the entire <tt>list</tt>. 
       </p>
       <p>
-        If no memo is passed to the initial invocation of reduce, the iterator is not invoked on the first element 
-        of the list. The first element is instead passed as the memo in the invocation of the iterator on the next 
+        If no memo is passed to the initial invocation of reduce, the iteratee is not invoked on the first element 
+        of the list. The first element is instead passed as the memo in the invocation of the iteratee on the next 
         element in the list. 
       </p>
       <pre>
@@ -493,7 +493,7 @@ var sum = _.reduce([1, 2, 3], function(memo, num){ return memo + num; }, 0);
 </pre>
 
       <p id="reduceRight">
-        <b class="header">reduceRight</b><code>_.reduceRight(list, iterator, memo, [context])</code>
+        <b class="header">reduceRight</b><code>_.reduceRight(list, iteratee, memo, [context])</code>
         <span class="alias">Alias: <b>foldr</b></span>
         <br />
         The right-associative version of <b>reduce</b>. Delegates to the
@@ -637,9 +637,9 @@ _.pluck(stooges, 'name');
 </pre>
 
       <p id="max">
-        <b class="header">max</b><code>_.max(list, [iterator], [context])</code>
+        <b class="header">max</b><code>_.max(list, [iteratee], [context])</code>
         <br />
-        Returns the maximum value in <b>list</b>. If an <b>iterator</b>
+        Returns the maximum value in <b>list</b>. If an <b>iteratee</b>
         function is provided, it will be used on each value to generate the
         criterion by which the value is ranked. <i>-Infinity</i> is returned
         if <b>list</b> is empty, so an <a href="#isEmpty">isEmpty</a> guard
@@ -652,9 +652,9 @@ _.max(stooges, function(stooge){ return stooge.age; });
 </pre>
 
       <p id="min">
-        <b class="header">min</b><code>_.min(list, [iterator], [context])</code>
+        <b class="header">min</b><code>_.min(list, [iteratee], [context])</code>
         <br />
-        Returns the minimum value in <b>list</b>. If an <b>iterator</b>
+        Returns the minimum value in <b>list</b>. If an <b>iteratee</b>
         function is provided, it will be used on each value to generate the
         criterion by which the value is ranked. <i>Infinity</i> is returned
         if <b>list</b> is empty, so an <a href="#isEmpty">isEmpty</a> guard
@@ -667,11 +667,11 @@ _.min(numbers);
 </pre>
 
       <p id="sortBy">
-        <b class="header">sortBy</b><code>_.sortBy(list, iterator, [context])</code>
+        <b class="header">sortBy</b><code>_.sortBy(list, iteratee, [context])</code>
         <br />
         Returns a (stably) sorted copy of <b>list</b>, ranked in ascending
-        order by the results of running each value through <b>iterator</b>.
-        Iterator may also be the string name of the property to sort by (eg.
+        order by the results of running each value through <b>iteratee</b>.
+        iteratee may also be the string name of the property to sort by (eg.
         <tt>length</tt>).
       </p>
       <pre>
@@ -680,11 +680,11 @@ _.sortBy([1, 2, 3, 4, 5, 6], function(num){ return Math.sin(num); });
 </pre>
 
       <p id="groupBy">
-        <b class="header">groupBy</b><code>_.groupBy(list, iterator, [context])</code>
+        <b class="header">groupBy</b><code>_.groupBy(list, iteratee, [context])</code>
         <br />
         Splits a collection into sets, grouped by the result of running each
-        value through <b>iterator</b>. If <b>iterator</b> is a string instead of
-        a function, groups by the property named by <b>iterator</b> on each of
+        value through <b>iteratee</b>. If <b>iteratee</b> is a string instead of
+        a function, groups by the property named by <b>iteratee</b> on each of
         the values.
       </p>
       <pre>
@@ -696,9 +696,9 @@ _.groupBy(['one', 'two', 'three'], 'length');
 </pre>
 
       <p id="indexBy">
-        <b class="header">indexBy</b><code>_.indexBy(list, iterator, [context])</code>
+        <b class="header">indexBy</b><code>_.indexBy(list, iteratee, [context])</code>
         <br />
-        Given a <b>list</b>, and an <b>iterator</b> function that returns a
+        Given a <b>list</b>, and an <b>iteratee</b> function that returns a
         key for each element in the list (or a property name),
         returns an object with an index of each item.
         Just like <a href="#groupBy">groupBy</a>, but for when you know your
@@ -715,7 +715,7 @@ _.indexBy(stooges, 'age');
 </pre>
 
       <p id="countBy">
-        <b class="header">countBy</b><code>_.countBy(list, iterator, [context])</code>
+        <b class="header">countBy</b><code>_.countBy(list, iteratee, [context])</code>
         <br />
         Sorts a list into groups and returns a count for the number of objects
         in each group.
@@ -914,14 +914,14 @@ _.difference([1, 2, 3, 4, 5], [5, 2, 10]);
 </pre>
 
       <p id="uniq">
-        <b class="header">uniq</b><code>_.uniq(array, [isSorted], [iterator])</code>
+        <b class="header">uniq</b><code>_.uniq(array, [isSorted], [iteratee])</code>
         <span class="alias">Alias: <b>unique</b></span>
         <br />
         Produces a duplicate-free version of the <b>array</b>, using <i>===</i> to test
         object equality. If you know in advance that the <b>array</b> is sorted,
         passing <i>true</i> for <b>isSorted</b> will run a much faster algorithm.
         If you want to compute unique items based on a transformation, pass an
-        <b>iterator</b> function.
+        <b>iteratee</b> function.
       </p>
       <pre>
 _.uniq([1, 2, 1, 3, 1, 4]);
@@ -988,13 +988,13 @@ _.lastIndexOf([1, 2, 3, 1, 2, 3], 2);
 </pre>
 
       <p id="sortedIndex">
-        <b class="header">sortedIndex</b><code>_.sortedIndex(list, value, [iterator], [context])</code>
+        <b class="header">sortedIndex</b><code>_.sortedIndex(list, value, [iteratee], [context])</code>
         <br />
         Uses a binary search to determine the index at which the <b>value</b>
         <i>should</i> be inserted into the <b>list</b> in order to maintain the <b>list</b>'s
-        sorted order. If an <b>iterator</b> function is provided, it will be used to compute
+        sorted order. If an <b>iteratee</b> function is provided, it will be used to compute
         the sort ranking of each value, including the <b>value</b> you pass.
-        Iterator may also be the string name of the property to sort by (eg. <tt>length</tt>).
+        The iteratee may also be the string name of the property to sort by (eg. <tt>length</tt>).
       </p>
       <pre>
 _.sortedIndex([10, 20, 30, 40, 50], 35);
@@ -1626,7 +1626,7 @@ var underscore = _.noConflict();</pre>
         Returns the same value that is used as the argument. In math:
         <tt>f(x) = x</tt><br />
         This function looks useless, but is used throughout Underscore as
-        a default iterator.
+        a default iteratee.
       </p>
       <pre>
 var moe = {name: 'moe'};
@@ -1652,10 +1652,10 @@ moe === _.constant(moe)();
       </p>
 
       <p id="times">
-        <b class="header">times</b><code>_.times(n, iterator, [context])</code>
+        <b class="header">times</b><code>_.times(n, iteratee, [context])</code>
         <br />
-        Invokes the given iterator function <b>n</b> times. Each invocation of
-        <b>iterator</b> is called with an <tt>index</tt> argument. Produces an
+        Invokes the given iteratee function <b>n</b> times. Each invocation of
+        <b>iteratee</b> is called with an <tt>index</tt> argument. Produces an
         array of the returned values.
         <br />
         <i>Note: this example uses the <a href="#chaining">chaining syntax</a></i>.
