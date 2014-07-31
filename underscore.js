@@ -94,27 +94,27 @@
   // The cornerstone, an `each` implementation, aka `forEach`.
   // Handles raw objects in addition to array-likes. Treats all
   // sparse array-likes as if they were dense.
-  _.each = _.forEach = function(obj, iterator, context) {
+  _.each = _.forEach = function(obj, iteratee, context) {
     if (obj == null) return obj;
-    iterator = createCallback(iterator, context);
+    iteratee = createCallback(iteratee, context);
     var i, length = obj.length;
     if (length === +length) {
       for (i = 0; i < length; i++) {
-        iterator(obj[i], i, obj);
+        iteratee(obj[i], i, obj);
       }
     } else {
       var keys = _.keys(obj);
       for (i = 0, length = keys.length; i < length; i++) {
-        iterator(obj[keys[i]], keys[i], obj);
+        iteratee(obj[keys[i]], keys[i], obj);
       }
     }
     return obj;
   };
 
-  // Return the results of applying the iterator to each element.
-  _.map = _.collect = function(obj, iterator, context) {
+  // Return the results of applying the iteratee to each element.
+  _.map = _.collect = function(obj, iteratee, context) {
     if (obj == null) return [];
-    iterator = _.iteratee(iterator, context);
+    iteratee = _.iteratee(iteratee, context);
     var length = obj.length,
         currentKey, keys;
     if (length !== +length) {
@@ -124,7 +124,7 @@
     var results = Array(length);
     for (var index = 0; index < length; index++) {
       currentKey = keys ? keys[index] : index;
-      results[index] = iterator(obj[currentKey], currentKey, obj);
+      results[index] = iteratee(obj[currentKey], currentKey, obj);
     }
     return results;
   };
@@ -133,9 +133,9 @@
 
   // **Reduce** builds up a single result from a list of values, aka `inject`,
   // or `foldl`.
-  _.reduce = _.foldl = _.inject = function(obj, iterator, memo, context) {
+  _.reduce = _.foldl = _.inject = function(obj, iteratee, memo, context) {
     if (obj == null) obj = [];
-    iterator = createCallback(iterator, context, 4);
+    iteratee = createCallback(iteratee, context, 4);
     var index = 0, length = obj.length,
         currentKey, keys;
     if (length !== +length) {
@@ -148,15 +148,15 @@
     }
     for (; index < length; index++) {
       currentKey = keys ? keys[index] : index;
-      memo = iterator(memo, obj[currentKey], currentKey, obj);
+      memo = iteratee(memo, obj[currentKey], currentKey, obj);
     }
     return memo;
   };
 
   // The right-associative version of reduce, also known as `foldr`.
-  _.reduceRight = _.foldr = function(obj, iterator, memo, context) {
+  _.reduceRight = _.foldr = function(obj, iteratee, memo, context) {
     if (obj == null) obj = [];
-    iterator = createCallback(iterator, context, 4);
+    iteratee = createCallback(iteratee, context, 4);
     var index = obj.length,
         currentKey, keys;
     if (index !== +index) {
@@ -169,7 +169,7 @@
     }
     while (index--) {
       currentKey = keys ? keys[index] : index;
-      memo = iterator(memo, obj[currentKey], currentKey, obj);
+      memo = iteratee(memo, obj[currentKey], currentKey, obj);
     }
     return memo;
   };
@@ -275,10 +275,10 @@
   };
 
   // Return the maximum element (or element-based computation).
-  _.max = function(obj, iterator, context) {
+  _.max = function(obj, iteratee, context) {
     var result = -Infinity, lastComputed = -Infinity,
         value, computed;
-    if (iterator == null && obj != null) {
+    if (iteratee == null && obj != null) {
       obj = obj.length === +obj.length ? obj : _.values(obj);
       for (var i = 0, length = obj.length; i < length; i++) {
         value = obj[i];
@@ -287,9 +287,9 @@
         }
       }
     } else {
-      iterator = _.iteratee(iterator, context);
+      iteratee = _.iteratee(iteratee, context);
       _.each(obj, function(value, index, list) {
-        computed = iterator(value, index, list);
+        computed = iteratee(value, index, list);
         if (computed > lastComputed || computed === -Infinity && result === -Infinity) {
           result = value;
           lastComputed = computed;
@@ -300,10 +300,10 @@
   };
 
   // Return the minimum element (or element-based computation).
-  _.min = function(obj, iterator, context) {
+  _.min = function(obj, iteratee, context) {
     var result = Infinity, lastComputed = Infinity,
         value, computed;
-    if (iterator == null && obj != null) {
+    if (iteratee == null && obj != null) {
       obj = obj.length === +obj.length ? obj : _.values(obj);
       for (var i = 0, length = obj.length; i < length; i++) {
         value = obj[i];
@@ -312,9 +312,9 @@
         }
       }
     } else {
-      iterator = _.iteratee(iterator, context);
+      iteratee = _.iteratee(iteratee, context);
       _.each(obj, function(value, index, list) {
-        computed = iterator(value, index, list);
+        computed = iteratee(value, index, list);
         if (computed < lastComputed || computed === Infinity && result === Infinity) {
           result = value;
           lastComputed = computed;
@@ -349,14 +349,14 @@
     return _.shuffle(obj).slice(0, Math.max(0, n));
   };
 
-  // Sort the object's values by a criterion produced by an iterator.
-  _.sortBy = function(obj, iterator, context) {
-    iterator = _.iteratee(iterator, context);
+  // Sort the object's values by a criterion produced by an iteratee.
+  _.sortBy = function(obj, iteratee, context) {
+    iteratee = _.iteratee(iteratee, context);
     return _.pluck(_.map(obj, function(value, index, list) {
       return {
         value: value,
         index: index,
-        criteria: iterator(value, index, list)
+        criteria: iteratee(value, index, list)
       };
     }).sort(function(left, right) {
       var a = left.criteria;
@@ -371,11 +371,11 @@
 
   // An internal function used for aggregate "group by" operations.
   var group = function(behavior) {
-    return function(obj, iterator, context) {
+    return function(obj, iteratee, context) {
       var result = {};
-      iterator = _.iteratee(iterator, context);
+      iteratee = _.iteratee(iteratee, context);
       _.each(obj, function(value, index) {
-        var key = iterator(value, index, obj);
+        var key = iteratee(value, index, obj);
         behavior(result, value, key);
       });
       return result;
@@ -403,13 +403,13 @@
 
   // Use a comparator function to figure out the smallest index at which
   // an object should be inserted so as to maintain order. Uses binary search.
-  _.sortedIndex = function(array, obj, iterator, context) {
-    iterator = _.iteratee(iterator, context, 1);
-    var value = iterator(obj);
+  _.sortedIndex = function(array, obj, iteratee, context) {
+    iteratee = _.iteratee(iteratee, context, 1);
+    var value = iteratee(obj);
     var low = 0, high = array.length;
     while (low < high) {
       var mid = low + high >>> 1;
-      if (iterator(array[mid]) < value) low = mid + 1; else high = mid;
+      if (iteratee(array[mid]) < value) low = mid + 1; else high = mid;
     }
     return low;
   };
@@ -512,14 +512,14 @@
   // Produce a duplicate-free version of the array. If the array has already
   // been sorted, you have the option of using a faster algorithm.
   // Aliased as `unique`.
-  _.uniq = _.unique = function(array, isSorted, iterator, context) {
+  _.uniq = _.unique = function(array, isSorted, iteratee, context) {
     if (array == null) return [];
     if (!_.isBoolean(isSorted)) {
-      context = iterator;
-      iterator = isSorted;
+      context = iteratee;
+      iteratee = isSorted;
       isSorted = false;
     }
-    if (iterator != null) iterator = _.iteratee(iterator, context);
+    if (iteratee != null) iteratee = _.iteratee(iteratee, context);
     var result = [];
     var seen = [];
     for (var i = 0, length = array.length; i < length; i++) {
@@ -527,8 +527,8 @@
       if (isSorted) {
         if (!i || seen !== value) result.push(value);
         seen = value;
-      } else if (iterator) {
-        var computed = iterator(value, i, array);
+      } else if (iteratee) {
+        var computed = iteratee(value, i, array);
         if (_.indexOf(seen, computed) < 0) {
           seen.push(computed);
           result.push(value);
@@ -923,14 +923,14 @@
   };
 
   // Return a copy of the object only containing the whitelisted properties.
-  _.pick = function(obj, iterator, context) {
+  _.pick = function(obj, iteratee, context) {
     var result = {}, key;
     if (obj == null) return result;
-    if (_.isFunction(iterator)) {
-      iterator = createCallback(iterator, context);
+    if (_.isFunction(iteratee)) {
+      iteratee = createCallback(iteratee, context);
       for (key in obj) {
         var value = obj[key];
-        if (iterator(value, key, obj)) result[key] = value;
+        if (iteratee(value, key, obj)) result[key] = value;
       }
     } else {
       var keys = concat.apply([], slice.call(arguments, 1));
@@ -944,16 +944,16 @@
   };
 
    // Return a copy of the object without the blacklisted properties.
-  _.omit = function(obj, iterator, context) {
-    if (_.isFunction(iterator)) {
-      iterator = _.negate(iterator);
+  _.omit = function(obj, iteratee, context) {
+    if (_.isFunction(iteratee)) {
+      iteratee = _.negate(iteratee);
     } else {
       var keys = _.map(concat.apply([], slice.call(arguments, 1)), String);
-      iterator = function(value, key) {
+      iteratee = function(value, key) {
         return !_.contains(keys, key);
       };
     }
-    return _.pick(obj, iterator, context);
+    return _.pick(obj, iteratee, context);
   };
 
   // Fill in a given object with default properties.
@@ -1166,7 +1166,7 @@
     return this;
   };
 
-  // Keep the identity function around for default iterators.
+  // Keep the identity function around for default iteratees.
   _.identity = function(value) {
     return value;
   };
@@ -1200,10 +1200,10 @@
   };
 
   // Run a function **n** times.
-  _.times = function(n, iterator, context) {
+  _.times = function(n, iteratee, context) {
     var accum = Array(Math.max(0, n));
-    iterator = createCallback(iterator, context, 1);
-    for (var i = 0; i < n; i++) accum[i] = iterator(i);
+    iteratee = createCallback(iteratee, context, 1);
+    for (var i = 0; i < n; i++) accum[i] = iteratee(i);
     return accum;
   };
 
