@@ -1361,6 +1361,12 @@
     return instance;
   };
 
+  // Add a "default" function. If the first argument isn't undefined use it, otherwise
+  // use the default value
+  _.default = function(value, defaultValue) {
+    return value === void 0 ? defaultValue : value;
+  };
+
   // OOP
   // ---------------
   // If Underscore is called as a function, it returns a wrapped object that
