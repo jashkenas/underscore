@@ -151,12 +151,9 @@
   _.reduceRight = _.foldr = function(obj, iteratee, memo, context) {
     if (obj == null) obj = [];
     iteratee = createCallback(iteratee, context, 4);
-    var index = obj.length,
-        currentKey, keys;
-    if (index !== +index) {
-      keys = _.keys(obj);
-      index = keys.length;
-    }
+    var keys = obj.length !== + obj.length && _.keys(obj),
+        index = (keys || obj).length,
+        currentKey;
     if (arguments.length < 3) {
       if (!index) throw new TypeError(reduceError);
       memo = obj[keys ? keys[--index] : --index];
