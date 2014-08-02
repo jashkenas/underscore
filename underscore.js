@@ -133,12 +133,9 @@
   _.reduce = _.foldl = _.inject = function(obj, iteratee, memo, context) {
     if (obj == null) obj = [];
     iteratee = createCallback(iteratee, context, 4);
-    var index = 0, length = obj.length,
-        currentKey, keys;
-    if (length !== +length) {
-      keys = _.keys(obj);
-      length = keys.length;
-    }
+    var keys = obj.length !== +obj.length && _.keys(obj),
+        length = (keys || obj).length,
+        index = 0, currentKey;
     if (arguments.length < 3) {
       if (!length) throw new TypeError(reduceError);
       memo = obj[keys ? keys[index++] : index++];
