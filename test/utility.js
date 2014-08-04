@@ -271,7 +271,8 @@
   test('_.templateSettings.variable', function() {
     var s = '<%=data.x%>';
     var data = {x: 'x'};
-    strictEqual(_.template(s, data, {variable: 'data'}), 'x');
+    var tmp = _.template(s, {variable: 'data'});
+    strictEqual(tmp(data), 'x');
     _.templateSettings.variable = 'data';
     strictEqual(_.template(s)(data), 'x');
   });
