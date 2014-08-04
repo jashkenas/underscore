@@ -59,8 +59,9 @@
     result = _.extend({}, {a: void 0, b: null});
     deepEqual(_.keys(result), ['a', 'b'], 'extend copies undefined values');
 
-    var superObj = {a: 'b'};
-    var subObj = Object.create(superObj);
+    var F = function() {};
+    F.prototype = {a: 'b'};
+    var subObj = new F();
     subObj.c = 'd';
     deepEqual(_.keys(_.extend({}, subObj)), ['c'], 'extend ignores any properties but own from source');
 
