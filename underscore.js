@@ -1140,7 +1140,7 @@
   // Shortcut function for checking if an object has a given property directly
   // on itself (in other words, not on a prototype).
   _.has = function(obj, key) {
-    return obj != null && hasOwnProperty.call(obj, key);
+    return !!obj && hasOwnProperty.call(obj, key);
   };
 
   // Utility Functions
