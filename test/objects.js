@@ -183,6 +183,10 @@
     equal(_.clone(undefined), void 0, 'non objects should not be changed by clone');
     equal(_.clone(1), 1, 'non objects should not be changed by clone');
     equal(_.clone(null), null, 'non objects should not be changed by clone');
+
+    var toughArray = [1, 2, 3];
+    toughArray.slice = null;
+    deepEqual(_.clone(toughArray), [1, 2, 3], 'works on arrays without slice method');
   });
 
   test('isEqual', function() {

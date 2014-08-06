@@ -430,17 +430,18 @@
   // cloned subsequence of an array(-like).
   _.slice = function(collection, start, end, step) {
     var length = collection.length;
-    if (start == null) {
-      start = 0;
-    } else if (start < 0) {
+    start = +start || 0;
+    if (start < 0) {
       start = -start > length ? 0 : length + start;
     }
     if (end == null || end > length) {
       end = length;
     } else if (end < 0) {
-      end = length + end;
+      end += length;
+    } else {
+      end = +end || 0;
     }
-    step = !step ? 1 : step;
+    step = +step || 1;
     length = start < end ? Math.ceil((end - start) / Math.abs(step)) : 0;
     if (step < 0) {
       start = end - 1;

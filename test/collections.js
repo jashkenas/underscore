@@ -638,7 +638,6 @@
     deepEqual(numbers, [1, 2, 3], 'object flattened into array');
 
     deepEqual(_.toArray({0: 1, 1: 2, length: 2}), [1, 2], 'works on array likes');
-    deepEqual(_.toArray('string'), ['s', 't', 'r', 'i', 'n', 'g'], 'converts string to array');
 
     // test in IE < 9
     var actual;

@@ -4,7 +4,8 @@
 
   test('slice', function() {
     var array = [1, 2, 3],
-        zeros = [, null, undefined];
+        zeros = [, null, undefined],
+        notNums = [{}, ['smt'], 'xxx', NaN, this, Boolean];
 
     deepEqual(_.slice(array, 1), [2, 3], 'should work with a positive `start`');
 
@@ -14,14 +15,15 @@
     });
     deepEqual(actual, expected);
 
-    var expected = _.map(zeros, _.constant(array));
-    var actual = _.map(zeros, function(start) {
+    expected = _.map(zeros, _.constant(array));
+    actual = _.map(zeros, function(start) {
       return _.slice(array, 0, start);
     });
-    deepEqual(actual, expected);
+    deepEqual(actual, expected, 'null & undefined treated as length');
 
-    deepEqual(_.slice(array, 0, 0), [], 'Works with zeros');
-    deepEqual(_.slice(array, 1, 0), [], 'Works start > end');
+    deepEqual(_.slice(array, 0, 0), [], 'Works with zeros as start and end');
+    deepEqual(_.slice(array, 2, 1), [], 'Works start > end');
+    deepEqual(_.slice(array, 2, 1, 2), [], 'Works start > end');
 
     actual = _.map([-1, -2, -3, -4, -10], _.partial(_.slice, array, _, null, null));
     expected = [[3], [2, 3], array, array, array];
@@ -31,6 +33,13 @@
     expected = [[1, 2], [1], [], [], []];
     deepEqual(actual, expected, 'works with negative start');
 
+    actual = _.map(notNums, _.partial(_.slice, array, _, null, null));
+    expected = _.map(notNums, _.constant(array));
+    deepEqual(actual, expected, 'NaN as start index treated as 0');
+
+    actual = _.map(notNums, _.partial(_.slice, array, null, _, null));
+    expected = _.map(notNums, _.constant([]));
+    deepEqual(actual, expected, 'NaN as end index treated as 0');
 
     deepEqual(_.slice(array, null, null, 2), [1, 3], 'works with step values');
     deepEqual(_.slice(array, null, null, 3), [1], 'works with step values');
@@ -39,10 +48,13 @@
     deepEqual(_.slice(array, null, null, -2), [3, 1], 'works with negative step values');
     deepEqual(_.slice(array, null, null, -10), [3], 'works with negative step values greater than length');
 
-    // test in IE < 9
-    try {
-      var actual = _.slice(document.childNodes);
-    } catch(ex) {}
+    actual = _.map(notNums.concat(zeros), _.partial(_.slice, array, null, null, _));
+    expected = _.map(notNums.concat(zeros), _.constant(array));
+    deepEqual(actual, expected, 'NaN as step treated as 1');
+
+    // test in IE < 9 (host object error avoidance)
+    actual = _.slice(document.childNodes);
+    deepEqual(_(document.childNodes).slice(), actual, 'OO-style slice');
     deepEqual(actual, _.map(document.childNodes, _.identity), 'works on NodeList');
   });
 
