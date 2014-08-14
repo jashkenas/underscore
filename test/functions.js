@@ -149,16 +149,6 @@
     setTimeout(function(){ ok(delayed, 'delayed the function'); start(); }, 150);
   });
 
-  asyncTest('delayMethod', 2, function() {
-    var obj = { test: function(a,b){ this.called = a+b; } };
-    _.delayMethod(obj,"test",100,"a","b");
-    _.delay(function(){ ok(!obj.called, "didn't call the method quite yet"); }, 50);
-    _.delay(function(){
-      ok(obj.called==="ab", "called with correct context and arguments");
-      start();
-    }, 150);
-  });
-
   asyncTest('defer', 1, function() {
     var deferred = false;
     _.defer(function(bool){ deferred = bool; }, true);
