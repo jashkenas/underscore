@@ -569,6 +569,18 @@
     return results;
   };
 
+  // Creates an array with all possible combinations of elements from the given arrays
+  _.combine = function(){
+    return _.reduce(slice.call(arguments, 1),function(ret,newarr){
+      return _.reduce(ret,function(memo,oldi){
+        return memo.concat(_.reduce(newarr,function(m,newi){
+          m.push(oldi.concat(newi));
+          return m;
+        },[]));
+      },[]);
+    },_.map(arguments[0],function(i){return [i];}));
+  };
+
   // Converts lists into objects. Pass either a single array of `[key, value]`
   // pairs, or two parallel arrays of the same length -- one of keys, and one of
   // the corresponding values.

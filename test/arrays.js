@@ -209,6 +209,14 @@
     deepEqual(_.zip(), [], '_.zip() returns []');
   });
 
+  test('combine', function(){
+    deepEqual(_.combine([1]),[[1]],'single array will merely be wrapped');
+    deepEqual(_.combine([1],[2],[3]),[[1,2,3]],'arrays with single elements will merely be merged');
+    var arr1 = [1,2], arr2 = [3,4,5], arr3 = [6,7],
+        expected = [[1,3,6],[1,3,7],[1,4,6],[1,4,7],[1,5,6],[1,5,7],[2,3,6],[2,3,7],[2,4,6],[2,4,7],[2,5,6],[2,5,7]];
+    deepEqual(_.combine(arr1,arr2,arr3),expected,'array with all possible combinations is returned');
+  });
+
   test('object', function() {
     var result = _.object(['moe', 'larry', 'curly'], [30, 40, 50]);
     var shouldBe = {moe: 30, larry: 40, curly: 50};
