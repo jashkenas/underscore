@@ -1105,10 +1105,10 @@
     };
   }
 
-  // Optimize `isFunction` if appropriate.
+  // Optimize `isFunction` if appropriate. Work around an IE 11 bug.
   if (typeof /./ !== 'function') {
     _.isFunction = function(obj) {
-      return typeof obj === 'function';
+      return typeof obj == 'function' || false;
     };
   }
 
