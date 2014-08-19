@@ -462,6 +462,10 @@
     people = _.sortBy(people, function(person){ return person.age; });
     deepEqual(_.pluck(people, 'name'), ['moe', 'curly'], 'stooges sorted by age');
 
+    people = [{name : 'curly', age : 50}, undefined, {name : 'moe', age : 30}];
+    people = _.sortBy(people, function(person){ return person.age; });
+    deepEqual(people, [{name : 'moe', age : 30}, {name : 'curly', age : 50}, undefined], 'sort people by age with undefined element');
+
     var list = [undefined, 4, 1, undefined, 3, 2];
     deepEqual(_.sortBy(list, _.identity), [1, 2, 3, 4, undefined, undefined], 'sortBy with undefined values');
 
