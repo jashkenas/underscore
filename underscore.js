@@ -338,7 +338,7 @@
   _.sortBy = function(obj, iteratee, context) {
     iteratee = _.iteratee(iteratee, context);
     return _.pluck(_.map(obj, function(value, index, list) {
-      var criteria = !_.isNull(value) && !_.isUndefined(value) ? iteratee(value, index, list) : void 0;
+      var criteria = value != null ? iteratee(value, index, list) : void 0;
       return {
         value: value,
         index: index,
