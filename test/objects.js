@@ -556,6 +556,7 @@
     ok(!_.isFunction(undefined), 'undefined vars are not functions');
     ok(!_.isFunction([1, 2, 3]), 'arrays are not functions');
     ok(!_.isFunction('moe'), 'strings are not functions');
+    ok(!_.isFunction(document.createElement('div')), 'elements are not functions');
     ok(_.isFunction(_.isFunction), 'but functions are');
     ok(_.isFunction(iFunction), 'even from another frame');
     ok(_.isFunction(function(){}), 'even anonymous ones');
@@ -625,6 +626,22 @@
       ok(!_.isFunction(xml));
       ok(!_.isNull(xml));
       ok(!_.isUndefined(xml));
+    });
+
+    test('#1621 IE 11 compat mode DOM elements are not functions', function() {
+        var fn = function() {};
+        var xml = new ActiveXObject('Msxml2.DOMDocument.3.0');
+        var div = document.createElement('div');
+
+        // JIT the function
+        var count = 200;
+        while (count--) {
+          _.isFunction(fn);
+        }
+
+        equal(_.isFunction(xml), false);
+        equal(_.isFunction(div), false);
+        equal(_.isFunction(fn), true);
     });
   }
 
