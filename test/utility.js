@@ -53,6 +53,12 @@
     }), 'should produce a random number when passed `Number.MAX_VALUE`');
   });
 
+  test('_.toggle', function() {
+    equal(_.toggle('asc', ['desc', 'asc']), 'desc');
+    equal(_.toggle('desc', ['desc', 'asc']), 'asc');
+    equal(_.toggle(null, ['desc', 'asc']), 'desc');
+  });
+
   test('now', function() {
     var diff = _.now() - new Date().getTime();
     ok(diff <= 0 && diff > -5, 'Produces the correct time in milliseconds');//within 5ms
