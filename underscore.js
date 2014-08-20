@@ -338,10 +338,11 @@
   _.sortBy = function(obj, iteratee, context) {
     iteratee = _.iteratee(iteratee, context);
     return _.pluck(_.map(obj, function(value, index, list) {
+      var criteria = value != null ? iteratee(value, index, list) : void 0;
       return {
         value: value,
         index: index,
-        criteria: iteratee(value, index, list)
+        criteria: criteria
       };
     }).sort(function(left, right) {
       var a = left.criteria;
