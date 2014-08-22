@@ -54,9 +54,17 @@
   });
 
   test('_.toggle', function() {
-    equal(_.toggle('asc', ['desc', 'asc']), 'desc');
-    equal(_.toggle('desc', ['desc', 'asc']), 'asc');
-    equal(_.toggle(null, ['desc', 'asc']), 'desc');
+    equal(_.toggle(['desc', 'asc'], 'asc'), 'desc');
+    equal(_.toggle(['desc', 'asc'], 'desc'), 'asc');
+    equal(_.toggle(['desc', 'asc'], null), 'desc');
+  });
+
+  test('_.toggle with partials', function() {
+    var toggleOrder = _.partial(_.toggle, ['desc', 'asc']);
+
+    equal(toggleOrder('asc'), 'desc');
+    equal(toggleOrder('desc'), 'asc');
+    equal(toggleOrder(null), 'desc');
   });
 
   test('now', function() {
