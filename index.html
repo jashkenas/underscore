@@ -180,7 +180,7 @@
   <div id="sidebar" class="interface">
 
     <a class="toc_title" href="#">
-      Underscore.js <span class="version">(1.6.0)</span>
+      Underscore.js <span class="version">(1.7.0)</span>
     </a>
     <ul class="toc_section">
       <li>&raquo; <a href="https://github.com/jashkenas/underscore">GitHub Repository</a></li>
@@ -311,6 +311,7 @@
       <li>- <a href="#times">times</a></li>
       <li>- <a href="#random">random</a></li>
       <li>- <a href="#mixin">mixin</a></li>
+      <li>- <a href="#iteratee">iteratee</a></li>
       <li>- <a href="#uniqueId">uniqueId</a></li>
       <li>- <a href="#escape">escape</a></li>
       <li>- <a href="#unescape">unescape</a></li>
@@ -355,7 +356,7 @@
     </p>
 
     <p>
-      Underscore provides 80-odd functions that support both the usual
+      Underscore provides 115-odd functions that support both the usual
       functional suspects: <b>map</b>, <b>filter</b>, <b>invoke</b> &mdash;
       as well as more specialized helpers: function binding, javascript
       templating, deep equality testing, and so on.
@@ -391,11 +392,11 @@
 
     <table>
       <tr>
-        <td><a href="underscore.js">Development Version (1.6.0)</a></td>
+        <td><a href="underscore.js">Development Version (1.7.0)</a></td>
         <td><i>44kb, Uncompressed with Plentiful Comments</i></td>
       </tr>
       <tr>
-        <td><a href="underscore-min.js">Production Version (1.6.0)</a></td>
+        <td><a href="underscore-min.js">Production Version (1.7.0)</a></td>
         <td>
           <i>5.0kb, Minified and Gzipped</i>
           &nbsp;<small>(<a href="underscore-min.map">Source Map</a>)</small>
@@ -477,15 +478,15 @@ _.map({one: 1, two: 2, three: 3}, function(num, key){ return num * 3; });
         <b class="header">reduce</b><code>_.reduce(list, iteratee, [memo], [context])</code>
         <span class="alias">Aliases: <b>inject, foldl</b></span>
         <br />
-        Also known as <b>inject</b> and <b>foldl</b>, reduce boils down a <b>list</b> of values into a single value. 
-        <b>Memo</b> is the initial state of the reduction, and each successive step of it should be returned by 
-        <b>iteratee</b>. The iteratee is passed four arguments: the <tt>memo</tt>, then the <tt>value</tt> and 
-        <tt>index</tt> (or key) of the iteration, and finally a reference to the entire <tt>list</tt>. 
+        Also known as <b>inject</b> and <b>foldl</b>, reduce boils down a <b>list</b> of values into a single value.
+        <b>Memo</b> is the initial state of the reduction, and each successive step of it should be returned by
+        <b>iteratee</b>. The iteratee is passed four arguments: the <tt>memo</tt>, then the <tt>value</tt> and
+        <tt>index</tt> (or key) of the iteration, and finally a reference to the entire <tt>list</tt>.
       </p>
       <p>
-        If no memo is passed to the initial invocation of reduce, the iteratee is not invoked on the first element 
-        of the list. The first element is instead passed as the memo in the invocation of the iteratee on the next 
-        element in the list. 
+        If no memo is passed to the initial invocation of reduce, the iteratee is not invoked on the first element
+        of the list. The first element is instead passed as the memo in the invocation of the iteratee on the next
+        element in the list.
       </p>
       <pre>
 var sum = _.reduce([1, 2, 3], function(memo, num){ return memo + num; }, 0);
@@ -1204,6 +1205,21 @@ _.each(notes, function(note) {
 // renderNotes is run once, after all notes have saved.
 </pre>
 
+      <p id="before">
+        <b class="header">before</b><code>_.before(count, function)</code>
+        <br />
+        Creates a version of the function that can be called no more than
+        <b>count</b> times. The result of the last function call is memoized and
+        returned when <b>count</b> has been reached.
+      </p>
+      <pre>
+var monthlyMeeting = _.before(3, askForRaise);
+monthlyMeeting();
+monthlyMeeting();
+monthlyMeeting();
+// the result of any subsequent calls is the same as the second call
+</pre>
+
       <p id="wrap">
         <b class="header">wrap</b><code>_.wrap(function, wrapper)</code>
         <br />
@@ -1691,6 +1707,19 @@ _("fabio").capitalize();
 =&gt; "Fabio"
 </pre>
 
+      <p id="iteratee">
+        <b class="header">iteratee</b><code>_.iteratee(value, [context], [argCount])</code>
+        <br />
+        A mostly-internal function to generate callbacks that can be applied
+        to each element in a collection, returning the desired result — either
+        identity, an arbitrary callback, a property matcher, or a property accessor.
+      </p>
+      <pre>
+var stooges = [{name: 'curly', age: 25}, {name: 'moe', age: 21}, {name: 'larry', age: 23}];
+_.map(stooges, _.iteratee('age'));
+=&gt; [25, 21, 23];
+</pre>
+
       <p id="uniqueId">
         <b class="header">uniqueId</b><code>_.uniqueId([prefix])</code>
         <br />
@@ -1749,18 +1778,16 @@ _.now();
 </pre>
 
       <p id="template">
-        <b class="header">template</b><code>_.template(templateString, [data], [settings])</code>
+        <b class="header">template</b><code>_.template(templateString, [settings])</code>
         <br />
         Compiles JavaScript templates into functions that can be evaluated
         for rendering. Useful for rendering complicated bits of HTML from JSON
         data sources. Template functions can both interpolate variables, using
         <tt>&lt;%= &hellip; %&gt;</tt>, as well as execute arbitrary JavaScript code, with
         <tt>&lt;% &hellip; %&gt;</tt>. If you wish to interpolate a value, and have
-        it be HTML-escaped, use <tt>&lt;%- &hellip; %&gt;</tt> When you evaluate a template function, pass in a
-        <b>data</b> object that has properties corresponding to the template's free
-        variables. If you're writing a one-off, you can pass the <b>data</b>
-        object as the second parameter to <b>template</b> in order to render
-        immediately instead of returning a template function.  The <b>settings</b> argument
+        it be HTML-escaped, use <tt>&lt;%- &hellip; %&gt;</tt> When you evaluate a
+        template function, pass in a <b>data</b> object that has properties
+        corresponding to the template's free variables. The <b>settings</b> argument
         should be a hash containing any <tt>_.templateSettings</tt> that should be overridden.
       </p>
 
@@ -1768,10 +1795,6 @@ _.now();
 var compiled = _.template("hello: &lt;%= name %&gt;");
 compiled({name: 'moe'});
 =&gt; "hello: moe"
-
-var list = "&lt;% _.each(people, function(name) { %&gt; &lt;li&gt;&lt;%= name %&gt;&lt;/li&gt; &lt;% }); %&gt;";
-_.template(list, {people: ['moe', 'curly', 'larry']});
-=&gt; "&lt;li&gt;moe&lt;/li&gt;&lt;li&gt;curly&lt;/li&gt;&lt;li&gt;larry&lt;/li&gt;"
 
 var template = _.template("&lt;b&gt;&lt;%- value %&gt;&lt;/b&gt;");
 template({value: '&lt;script&gt;'});
@@ -1998,6 +2021,63 @@ _([1, 2, 3]).value();
 
       <h2 id="changelog">Change Log</h2>
 
+      <p id="1.7.0">
+        <b class="header">1.7.0</b> &mdash; <small><i>August 26, 2014</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.6.0...1.7.0">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/underscore/1.7.0/index.html">Docs</a><br />
+        <ul>
+          <li>
+            For consistency and speed across browsers, Underscore now ignores
+            native array methods for <tt>forEach</tt>, <tt>map</tt>, <tt>reduce</tt>,
+            <tt>reduceRight</tt>, <tt>filter</tt>, <tt>every</tt>, <tt>some</tt>,
+            <tt>indexOf</tt>, and <tt>lastIndexOf</tt>. "Sparse" arrays are
+            officially dead in Underscore.
+          </li>
+          <li>
+            Added <tt>_.iteratee</tt> to customize the iterators used by collection
+            functions. Many Underscore methods will take a string argument for easier
+            <tt>_.property</tt>-style lookups, an object for <tt>_.where</tt>-style
+            filtering, or a function as a custom callback.
+          </li>
+          <li>
+            Added <tt>_.before</tt> as a counterpart to <tt>_.after</tt>.
+          </li>
+          <li>
+            Added <tt>_.negate</tt> to invert the truth value of the passed-in
+            predicate.
+          </li>
+          <li>
+            Added <tt>_.noop</tt> as a handy empty placeholder function.
+          </li>
+          <li>
+            <tt>_.isEmpty</tt> now works with <tt>arguments</tt> objects.
+          </li>
+          <li>
+            <tt>_.has</tt> now guards against nullish objects.
+          </li>
+          <li>
+            Override base methods like <tt>each</tt> and <tt>some</tt>
+            and they'll be used internally by other Underscore functions too.
+          </li>
+          <li>
+            The escape functions handle backticks (<tt>`</tt>), to deal with an
+            IE &le; 8 bug.
+          </li>
+          <li>
+            <tt>_.memoize</tt> exposes the cache of memoized values as a property
+            on the returned function.
+          </li>
+          <li>
+            <tt>_.pick</tt> accepts `iteratee` and `context` arguments for a more
+            advanced callback.
+          </li>
+          <li>
+            Underscore templates no longer accept an initial <tt>data</tt> object.
+            <tt>_.template</tt> always returns a function now.
+          </li>
+          <li>
+            Optimizations and code cleanup aplenty.
+          </li>
+        </ul>
+      </p>
 
       <p id="1.6.0">
         <b class="header">1.6.0</b> &mdash; <small><i>February 10, 2014</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.5.2...1.6.0">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/underscore/1.6.0/index.html">Docs</a><br />
