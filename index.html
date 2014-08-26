@@ -118,7 +118,6 @@
       padding: 0 0 0 20px;
     }
       li {
-        width: 500px;
         margin-bottom: 10px;
       }
       code, pre, tt {
@@ -282,6 +281,7 @@
       <li>- <a href="#clone">clone</a></li>
       <li>- <a href="#tap">tap</a></li>
       <li>- <a href="#has">has</a></li>
+      <li>- <a href="#matches">matches</a></li>
       <li>- <a href="#property">property</a></li>
       <li>- <a href="#isEqual">isEqual</a></li>
       <li>- <a href="#isEmpty">isEmpty</a></li>
@@ -422,7 +422,7 @@
         <b>Require.js</b> <tt>require(["underscore"], ...</tt>
       </li>
       <li>
-        <b>Bower</b> <tt>bowser install underscore</tt>
+        <b>Bower</b> <tt>bower install underscore</tt>
       </li>
       <li>
         <b>Component</b> <tt>component install jashkenas/underscore</tt>
@@ -2003,6 +2003,10 @@ _([1, 2, 3]).value();
           <li>
             The <tt>_.each</tt> function now returns the original iterated list 
             (just like it used to), for better chaining.
+          </li>
+          <li>
+            The <tt>_.keys</tt> function now returns an empty array for
+            non-objects instead of throwing.
           </li>
           <li>
             &hellip; and more miscellaneous refactoring.
