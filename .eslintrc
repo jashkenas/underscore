@@ -1,0 +1,35 @@
+{
+  "env": {
+    "browser": true,
+    "node": true,
+    "amd": true
+  },
+
+  "rules": {
+    "brace-style": [1, "1tbs"],
+    "curly": [0, "multi"],
+    "eqeqeq": [1, "smart"],
+    "max-depth": [1, 4],
+    "max-params": [1, 5],
+    "new-cap": 2,
+    "new-parens": 0,
+    "no-constant-condition": 0,
+    "no-div-regex": 1,
+    "no-else-return": 1,
+    "no-extra-parens": 1,
+    "no-floating-decimal": 2,
+    "no-inner-declarations": 2,
+    "no-lonely-if": 1,
+    "no-nested-ternary": 2,
+    "no-new-object": 0,
+    "no-new-func": 0,
+    "no-underscore-dangle": 0,
+    "quotes": [2, "single", "avoid-escape"],
+    "radix": 2,
+    "space-after-keywords": [2, "always"],
+    "space-in-brackets": [2, "never"],
+    "space-unary-word-ops": 2,
+    "strict": 0,
+    "wrap-iife": 2
+  }
+}

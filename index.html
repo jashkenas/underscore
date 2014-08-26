@@ -180,7 +180,7 @@
   <div id="sidebar" class="interface">
 
     <a class="toc_title" href="#">
-      Underscore.js <span class="version">(1.6.0)</span>
+      Underscore.js <span class="version">(1.7.0)</span>
     </a>
     <ul class="toc_section">
       <li>&raquo; <a href="https://github.com/jashkenas/underscore">GitHub Repository</a></li>
@@ -220,6 +220,7 @@
       <li>- <a href="#sample">sample</a></li>
       <li>- <a href="#toArray">toArray</a></li>
       <li>- <a href="#size">size</a></li>
+      <li>- <a href="#partition">partition</a></li>
     </ul>
 
     <a class="toc_title" href="#arrays">
@@ -233,7 +234,6 @@
       <li>- <a href="#compact">compact</a></li>
       <li>- <a href="#flatten">flatten</a></li>
       <li>- <a href="#without">without</a></li>
-      <li>- <a href="#partition">partition</a></li>
       <li>- <a href="#union">union</a></li>
       <li>- <a href="#intersection">intersection</a></li>
       <li>- <a href="#difference">difference</a></li>
@@ -260,8 +260,8 @@
       <li>- <a href="#debounce">debounce</a></li>
       <li>- <a href="#once">once</a></li>
       <li>- <a href="#after">after</a></li>
-      <li>- <a href="#now">now</a></li>
       <li>- <a href="#wrap">wrap</a></li>
+      <li>- <a href="#negate">negate</a></li>
       <li>- <a href="#compose">compose</a></li>
     </ul>
 
@@ -311,10 +311,12 @@
       <li>- <a href="#times">times</a></li>
       <li>- <a href="#random">random</a></li>
       <li>- <a href="#mixin">mixin</a></li>
+      <li>- <a href="#iteratee">iteratee</a></li>
       <li>- <a href="#uniqueId">uniqueId</a></li>
       <li>- <a href="#escape">escape</a></li>
       <li>- <a href="#unescape">unescape</a></li>
       <li>- <a href="#result">result</a></li>
+      <li>- <a href="#now">now</a></li>
       <li>- <a href="#template">template</a></li>
     </ul>
 
@@ -344,9 +346,9 @@
 
     <p>
       <a href="http://github.com/jashkenas/underscore/">Underscore</a>
-      is a JavaScript library that provides a whole mess of useful functional 
-      programming helpers without extending any built-in objects. 
-      It&rsquo;s the answer to the question: &ldquo;If I sit down in front of a 
+      is a JavaScript library that provides a whole mess of useful functional
+      programming helpers without extending any built-in objects.
+      It&rsquo;s the answer to the question: &ldquo;If I sit down in front of a
       blank HTML page, and want to start being productive immediately, what do I need?&rdquo;
       &hellip; and the tie to go along with
       <a href="http://jquery.com">jQuery</a>'s tux and
@@ -354,13 +356,10 @@
     </p>
 
     <p>
-      Underscore provides 80-odd functions that support both the usual
-      functional suspects: <b>map</b>, <b>select</b>, <b>invoke</b> &mdash;
-      as well as more specialized helpers: function binding, javascript
-      templating, deep equality testing, and so on. It delegates to built-in
-      functions, if present, so modern browsers will use the
-      native implementations of <b>forEach</b>, <b>map</b>, <b>reduce</b>,
-      <b>filter</b>, <b>every</b>, <b>some</b> and <b>indexOf</b>.
+      Underscore provides over 100 functions that support both your favorite
+      workaday functional helpers: <b>map</b>, <b>filter</b>, <b>invoke</b> &mdash;
+      as well as more specialized goodies: function binding, javascript
+      templating, creating quick indexes, deep equality testing, and so on.
     </p>
 
     <p>
@@ -373,7 +372,7 @@
     </p>
 
     <p>
-      Enjoying Underscore, and want to turn it up to 11? Try <a href="http://documentcloud.github.io/underscore-contrib/">Underscore-contrib</a>.
+      Enjoying Underscore, and want to <i>turn it up to 11?</i> Try <a href="http://documentcloud.github.io/underscore-contrib/">Underscore-contrib</a>.
     </p>
 
     <p>
@@ -393,11 +392,11 @@
 
     <table>
       <tr>
-        <td><a href="underscore.js">Development Version (1.6.0)</a></td>
+        <td><a href="underscore.js">Development Version (1.7.0)</a></td>
         <td><i>44kb, Uncompressed with Plentiful Comments</i></td>
       </tr>
       <tr>
-        <td><a href="underscore-min.js">Production Version (1.6.0)</a></td>
+        <td><a href="underscore-min.js">Production Version (1.7.0)</a></td>
         <td>
           <i>5.0kb, Minified and Gzipped</i>
           &nbsp;<small>(<a href="underscore-min.map">Source Map</a>)</small>
@@ -415,10 +414,10 @@
     <h2>Installation</h2>
 
     <ul>
-      <li> 
+      <li>
         <b>Node.js</b> <tt>npm install underscore</tt>
       </li>
-      <li> 
+      <li>
         <b>Require.js</b> <tt>require(["underscore"], ...</tt>
       </li>
       <li>
@@ -434,15 +433,14 @@
       <h2 id="collections">Collection Functions (Arrays or Objects)</h2>
 
       <p id="each">
-        <b class="header">each</b><code>_.each(list, iterator, [context])</code>
+        <b class="header">each</b><code>_.each(list, iteratee, [context])</code>
         <span class="alias">Alias: <b>forEach</b></span>
         <br />
-        Iterates over a <b>list</b> of elements, yielding each in turn to an <b>iterator</b>
-        function. The <b>iterator</b> is bound to the <b>context</b> object, if one is
-        passed. Each invocation of <b>iterator</b> is called with three arguments:
-        <tt>(element, index, list)</tt>. If <b>list</b> is a JavaScript object, <b>iterator</b>'s
-        arguments will be <tt>(value, key, list)</tt>. Delegates to the native
-        <b>forEach</b> function if it exists, and returns the original <b>list</b> for chaining.
+        Iterates over a <b>list</b> of elements, yielding each in turn to an <b>iteratee</b>
+        function. The <b>iteratee</b> is bound to the <b>context</b> object, if one is
+        passed. Each invocation of <b>iteratee</b> is called with three arguments:
+        <tt>(element, index, list)</tt>. If <b>list</b> is a JavaScript object, <b>iteratee</b>'s
+        arguments will be <tt>(value, key, list)</tt>. Returns the <b>list</b> for chaining.
       </p>
       <pre>
 _.each([1, 2, 3], alert);
@@ -462,13 +460,13 @@ _.each({one: 1, two: 2, three: 3}, alert);
       </p>
 
       <p id="map">
-        <b class="header">map</b><code>_.map(list, iterator, [context])</code>
+        <b class="header">map</b><code>_.map(list, iteratee, [context])</code>
         <span class="alias">Alias: <b>collect</b></span>
         <br />
         Produces a new array of values by mapping each value in <b>list</b>
-        through a transformation function (<b>iterator</b>). If the native <b>map</b> method
-        exists, it will be used instead. If <b>list</b> is a JavaScript object,
-        <b>iterator</b>'s arguments will be <tt>(value, key, list)</tt>.
+        through a transformation function (<b>iteratee</b>). If <b>list</b>
+        is a JavaScript object, <b>iteratee</b>'s arguments will be
+        <tt>(value, key, list)</tt>.
       </p>
       <pre>
 _.map([1, 2, 3], function(num){ return num * 3; });
@@ -477,15 +475,18 @@ _.map({one: 1, two: 2, three: 3}, function(num, key){ return num * 3; });
 =&gt; [3, 6, 9]</pre>
 
       <p id="reduce">
-        <b class="header">reduce</b><code>_.reduce(list, iterator, memo, [context])</code>
+        <b class="header">reduce</b><code>_.reduce(list, iteratee, [memo], [context])</code>
         <span class="alias">Aliases: <b>inject, foldl</b></span>
         <br />
-        Also known as <b>inject</b> and <b>foldl</b>, <b>reduce</b> boils down a
-        <b>list</b> of values into a single value. <b>Memo</b> is the initial state
-        of the reduction, and each successive step of it should be returned by
-        <b>iterator</b>. The iterator is passed four arguments: the <tt>memo</tt>,
-        then the <tt>value</tt> and <tt>index</tt> (or key) of the iteration,
-        and finally a reference to the entire <tt>list</tt>.
+        Also known as <b>inject</b> and <b>foldl</b>, reduce boils down a <b>list</b> of values into a single value.
+        <b>Memo</b> is the initial state of the reduction, and each successive step of it should be returned by
+        <b>iteratee</b>. The iteratee is passed four arguments: the <tt>memo</tt>, then the <tt>value</tt> and
+        <tt>index</tt> (or key) of the iteration, and finally a reference to the entire <tt>list</tt>.
+      </p>
+      <p>
+        If no memo is passed to the initial invocation of reduce, the iteratee is not invoked on the first element
+        of the list. The first element is instead passed as the memo in the invocation of the iteratee on the next
+        element in the list.
       </p>
       <pre>
 var sum = _.reduce([1, 2, 3], function(memo, num){ return memo + num; }, 0);
@@ -493,7 +494,7 @@ var sum = _.reduce([1, 2, 3], function(memo, num){ return memo + num; }, 0);
 </pre>
 
       <p id="reduceRight">
-        <b class="header">reduceRight</b><code>_.reduceRight(list, iterator, memo, [context])</code>
+        <b class="header">reduceRight</b><code>_.reduceRight(list, iteratee, memo, [context])</code>
         <span class="alias">Alias: <b>foldr</b></span>
         <br />
         The right-associative version of <b>reduce</b>. Delegates to the
@@ -527,8 +528,7 @@ var even = _.find([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
         <span class="alias">Alias: <b>select</b></span>
         <br />
         Looks through each value in the <b>list</b>, returning an array of all
-        the values that pass a truth test (<b>predicate</b>). Delegates to the
-        native <b>filter</b> method, if it exists.
+        the values that pass a truth test (<b>predicate</b>).
       </p>
       <pre>
 var evens = _.filter([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
@@ -580,8 +580,8 @@ var odds = _.reject([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
         <b class="header">every</b><code>_.every(list, [predicate], [context])</code>
         <span class="alias">Alias: <b>all</b></span>
         <br />
-        Returns <i>true</i> if all of the values in the <b>list</b> pass the <b>predicate</b>
-        truth test. Delegates to the native method <b>every</b>, if present.
+        Returns <i>true</i> if all of the values in the <b>list</b> pass the
+        <b>predicate</b> truth test.
       </p>
       <pre>
 _.every([true, 1, null, 'yes'], _.identity);
@@ -594,8 +594,7 @@ _.every([true, 1, null, 'yes'], _.identity);
         <br />
         Returns <i>true</i> if any of the values in the <b>list</b> pass the
         <b>predicate</b> truth test. Short-circuits and stops traversing the list
-        if a true element is found. Delegates to the native method <b>some</b>,
-        if present.
+        if a true element is found.
       </p>
       <pre>
 _.some([null, 0, 'yes', false]);
@@ -639,11 +638,13 @@ _.pluck(stooges, 'name');
 </pre>
 
       <p id="max">
-        <b class="header">max</b><code>_.max(list, [iterator], [context])</code>
+        <b class="header">max</b><code>_.max(list, [iteratee], [context])</code>
         <br />
-        Returns the maximum value in <b>list</b>. If an <b>iterator</b>
+        Returns the maximum value in <b>list</b>. If an <b>iteratee</b>
         function is provided, it will be used on each value to generate the
-        criterion by which the value is ranked.
+        criterion by which the value is ranked. <i>-Infinity</i> is returned
+        if <b>list</b> is empty, so an <a href="#isEmpty">isEmpty</a> guard
+        may be required.
       </p>
       <pre>
 var stooges = [{name: 'moe', age: 40}, {name: 'larry', age: 50}, {name: 'curly', age: 60}];
@@ -652,11 +653,13 @@ _.max(stooges, function(stooge){ return stooge.age; });
 </pre>
 
       <p id="min">
-        <b class="header">min</b><code>_.min(list, [iterator], [context])</code>
+        <b class="header">min</b><code>_.min(list, [iteratee], [context])</code>
         <br />
-        Returns the minimum value in <b>list</b>. If an <b>iterator</b>
+        Returns the minimum value in <b>list</b>. If an <b>iteratee</b>
         function is provided, it will be used on each value to generate the
-        criterion by which the value is ranked.
+        criterion by which the value is ranked. <i>Infinity</i> is returned
+        if <b>list</b> is empty, so an <a href="#isEmpty">isEmpty</a> guard
+        may be required.
       </p>
       <pre>
 var numbers = [10, 5, 100, 2, 1000];
@@ -665,11 +668,11 @@ _.min(numbers);
 </pre>
 
       <p id="sortBy">
-        <b class="header">sortBy</b><code>_.sortBy(list, iterator, [context])</code>
+        <b class="header">sortBy</b><code>_.sortBy(list, iteratee, [context])</code>
         <br />
         Returns a (stably) sorted copy of <b>list</b>, ranked in ascending
-        order by the results of running each value through <b>iterator</b>.
-        Iterator may also be the string name of the property to sort by (eg.
+        order by the results of running each value through <b>iteratee</b>.
+        iteratee may also be the string name of the property to sort by (eg.
         <tt>length</tt>).
       </p>
       <pre>
@@ -678,11 +681,11 @@ _.sortBy([1, 2, 3, 4, 5, 6], function(num){ return Math.sin(num); });
 </pre>
 
       <p id="groupBy">
-        <b class="header">groupBy</b><code>_.groupBy(list, iterator, [context])</code>
+        <b class="header">groupBy</b><code>_.groupBy(list, iteratee, [context])</code>
         <br />
         Splits a collection into sets, grouped by the result of running each
-        value through <b>iterator</b>. If <b>iterator</b> is a string instead of
-        a function, groups by the property named by <b>iterator</b> on each of
+        value through <b>iteratee</b>. If <b>iteratee</b> is a string instead of
+        a function, groups by the property named by <b>iteratee</b> on each of
         the values.
       </p>
       <pre>
@@ -694,9 +697,9 @@ _.groupBy(['one', 'two', 'three'], 'length');
 </pre>
 
       <p id="indexBy">
-        <b class="header">indexBy</b><code>_.indexBy(list, iterator, [context])</code>
+        <b class="header">indexBy</b><code>_.indexBy(list, iteratee, [context])</code>
         <br />
-        Given a <b>list</b>, and an <b>iterator</b> function that returns a
+        Given a <b>list</b>, and an <b>iteratee</b> function that returns a
         key for each element in the list (or a property name),
         returns an object with an index of each item.
         Just like <a href="#groupBy">groupBy</a>, but for when you know your
@@ -713,7 +716,7 @@ _.indexBy(stooges, 'age');
 </pre>
 
       <p id="countBy">
-        <b class="header">countBy</b><code>_.countBy(list, iterator, [context])</code>
+        <b class="header">countBy</b><code>_.countBy(list, iteratee, [context])</code>
         <br />
         Sorts a list into groups and returns a count for the number of objects
         in each group.
@@ -772,6 +775,17 @@ _.sample([1, 2, 3, 4, 5, 6], 3);
       <pre>
 _.size({one: 1, two: 2, three: 3});
 =&gt; 3
+</pre>
+
+      <p id="partition">
+        <b class="header">partition</b><code>_.partition(array, predicate)</code>
+        <br />
+        Split <b>array</b> into two arrays: one whose elements all satisfy
+        <b>predicate</b> and one whose elements all do not satisfy <b>predicate</b>.
+      </p>
+      <pre>
+_.partition([0, 1, 2, 3, 4, 5], isOdd);
+=&gt; [[1, 3, 5], [0, 2, 4]]
 </pre>
 
       <h2 id="arrays">Array Functions</h2>
@@ -867,17 +881,6 @@ _.without([1, 2, 1, 0, 3, 1, 4], 0, 1);
 =&gt; [2, 3, 4]
 </pre>
 
-      <p id="partition">
-        <b class="header">partition</b><code>_.partition(array, predicate)</code>
-        <br />
-        Split <b>array</b> into two arrays: one whose elements all satisfy
-        <b>predicate</b> and one whose elements all do not satisfy <b>predicate</b>.
-      </p>
-      <pre>
-_.partition([0, 1, 2, 3, 4, 5], isOdd);
-=&gt; [[1, 3, 5], [0, 2, 4]]
-</pre>
-
       <p id="union">
         <b class="header">union</b><code>_.union(*arrays)</code>
         <br />
@@ -912,14 +915,14 @@ _.difference([1, 2, 3, 4, 5], [5, 2, 10]);
 </pre>
 
       <p id="uniq">
-        <b class="header">uniq</b><code>_.uniq(array, [isSorted], [iterator])</code>
+        <b class="header">uniq</b><code>_.uniq(array, [isSorted], [iteratee])</code>
         <span class="alias">Alias: <b>unique</b></span>
         <br />
         Produces a duplicate-free version of the <b>array</b>, using <i>===</i> to test
         object equality. If you know in advance that the <b>array</b> is sorted,
         passing <i>true</i> for <b>isSorted</b> will run a much faster algorithm.
         If you want to compute unique items based on a transformation, pass an
-        <b>iterator</b> function.
+        <b>iteratee</b> function.
       </p>
       <pre>
 _.uniq([1, 2, 1, 3, 1, 4]);
@@ -962,8 +965,7 @@ _.object([['moe', 30], ['larry', 40], ['curly', 50]]);
         <b class="header">indexOf</b><code>_.indexOf(array, value, [isSorted])</code>
         <br />
         Returns the index at which <b>value</b> can be found in the <b>array</b>,
-        or <i>-1</i> if value is not present in the <b>array</b>. Uses the native
-        <b>indexOf</b> function unless it's missing. If you're working with a
+        or <i>-1</i> if value is not present in the <b>array</b>. If you're working with a
         large array, and you know that the array is already sorted, pass <tt>true</tt>
         for <b>isSorted</b> to use a faster binary search ... or, pass a number as
         the third argument in order to look for the first matching value in the
@@ -978,8 +980,7 @@ _.indexOf([1, 2, 3], 2);
         <b class="header">lastIndexOf</b><code>_.lastIndexOf(array, value, [fromIndex])</code>
         <br />
         Returns the index of the last occurrence of <b>value</b> in the <b>array</b>,
-        or <i>-1</i> if value is not present. Uses the native <b>lastIndexOf</b>
-        function if possible. Pass <b>fromIndex</b> to start your search at a
+        or <i>-1</i> if value is not present. Pass <b>fromIndex</b> to start your search at a
         given index.
       </p>
       <pre>
@@ -988,13 +989,13 @@ _.lastIndexOf([1, 2, 3, 1, 2, 3], 2);
 </pre>
 
       <p id="sortedIndex">
-        <b class="header">sortedIndex</b><code>_.sortedIndex(list, value, [iterator], [context])</code>
+        <b class="header">sortedIndex</b><code>_.sortedIndex(list, value, [iteratee], [context])</code>
         <br />
         Uses a binary search to determine the index at which the <b>value</b>
         <i>should</i> be inserted into the <b>list</b> in order to maintain the <b>list</b>'s
-        sorted order. If an <b>iterator</b> function is provided, it will be used to compute
+        sorted order. If an <b>iteratee</b> function is provided, it will be used to compute
         the sort ranking of each value, including the <b>value</b> you pass.
-        Iterator may also be the string name of the property to sort by (eg. <tt>length</tt>).
+        The iteratee may also be the string name of the property to sort by (eg. <tt>length</tt>).
       </p>
       <pre>
 _.sortedIndex([10, 20, 30, 40, 50], 35);
@@ -1037,7 +1038,8 @@ _.range(0);
         Bind a <b>function</b> to an <b>object</b>, meaning that whenever
         the function is called, the value of <i>this</i> will be the <b>object</b>.
         Optionally, pass <b>arguments</b> to the <b>function</b> to pre-fill them,
-        also known as <b>partial application</b>.
+        also known as <b>partial application</b>. For partial application without
+        context binding, use <a href="#partial">partial</a>.
       </p>
       <pre>
 var func = function(greeting){ return greeting + ': ' + this.name };
@@ -1071,7 +1073,7 @@ jQuery('#underscore_button').bind('click', buttonView.onClick);
         <br />
         Partially apply a function by filling in any number of its <b>arguments</b>,
         <i>without</i> changing its dynamic <tt>this</tt> value. A close cousin
-        of <a href="#bind">bind</a>. You may pass <tt>_</tt> in your list of 
+        of <a href="#bind">bind</a>. You may pass <tt>_</tt> in your list of
         <b>arguments</b> to specify an argument that should not be pre-filled, but
         left open to supply at call-time.
       </p>
@@ -1203,16 +1205,19 @@ _.each(notes, function(note) {
 // renderNotes is run once, after all notes have saved.
 </pre>
 
-      <p id="now">
-        <b class="header">now</b><code>_.now()</code>
+      <p id="before">
+        <b class="header">before</b><code>_.before(count, function)</code>
         <br />
-        Returns an integer timestamp for the current time, using the fastest
-        method available in the runtime. Useful for implementing timing/animation
-        functions.
+        Creates a version of the function that can be called no more than
+        <b>count</b> times. The result of the last function call is memoized and
+        returned when <b>count</b> has been reached.
       </p>
       <pre>
-_.now();
-=&gt; 1392066795351
+var monthlyMeeting = _.before(3, askForRaise);
+monthlyMeeting();
+monthlyMeeting();
+monthlyMeeting();
+// the result of any subsequent calls is the same as the second call
 </pre>
 
       <p id="wrap">
@@ -1230,6 +1235,17 @@ hello = _.wrap(hello, function(func) {
 });
 hello();
 =&gt; 'before, hello: moe, after'
+</pre>
+
+      <p id="negate">
+        <b class="header">negate</b><code>_.negate(predicate)</code>
+        <br />
+        Returns a new negated version of the <b>predicate</b> function.
+      </p>
+      <pre>
+var isFalsy = _.negate(Boolean);
+_.find([-2, -1, 0, 1, 2], isFalsy);
+=&gt; 0
 </pre>
 
       <p id="compose">
@@ -1321,30 +1337,39 @@ _.extend({name: 'moe'}, {age: 50});
         <b class="header">pick</b><code>_.pick(object, *keys)</code>
         <br />
         Return a copy of the <b>object</b>, filtered to only have values for
-        the whitelisted <b>keys</b> (or array of valid keys).
+        the whitelisted <b>keys</b> (or array of valid keys).  Alternatively
+        accepts a predicate indicating which keys to pick.
       </p>
       <pre>
 _.pick({name: 'moe', age: 50, userid: 'moe1'}, 'name', 'age');
 =&gt; {name: 'moe', age: 50}
+_.pick({name: 'moe', age: 50, userid: 'moe1'}, function(value, key, object) {
+  return _.isNumber(value);
+});
+=&gt; {age: 50}
 </pre>
 
       <p id="omit">
         <b class="header">omit</b><code>_.omit(object, *keys)</code>
         <br />
         Return a copy of the <b>object</b>, filtered to omit the blacklisted
-        <b>keys</b> (or array of keys).
+        <b>keys</b> (or array of keys).  Alternatively accepts a predicate
+        indicating which keys to omit.
       </p>
       <pre>
 _.omit({name: 'moe', age: 50, userid: 'moe1'}, 'userid');
 =&gt; {name: 'moe', age: 50}
+_.omit({name: 'moe', age: 50, userid: 'moe1'}, function(value, key, object) {
+  return _.isNumber(value);
+});
+=&gt; {name: 'moe', userid: 'moe1'}
 </pre>
 
       <p id="defaults">
         <b class="header">defaults</b><code>_.defaults(object, *defaults)</code>
         <br />
-        Fill in <tt>undefined</tt> properties in <b>object</b> with values from the
-        <b>defaults</b> objects, and return the <b>object</b>. As soon as the
-        property is filled, further defaults will have no effect.
+        Fill in <tt>undefined</tt> properties in <b>object</b> with the first
+        value present in the following list of <b>defaults</b> objects.
       </p>
       <pre>
 var iceCream = {flavor: "chocolate"};
@@ -1431,8 +1456,9 @@ _.isEqual(moe, clone);
       <p id="isEmpty">
         <b class="header">isEmpty</b><code>_.isEmpty(object)</code>
         <br />
-        Returns <i>true</i> if <b>object</b> contains no values
-        (no enumerable own-properties).
+        Returns <i>true</i> if an enumerable <b>object</b> contains no
+        values (no enumerable own-properties). For strings and array-like
+        objects <tt>_.isEmpty</tt> checks if the length property is 0.
       </p>
       <pre>
 _.isEmpty([1, 2, 3]);
@@ -1616,7 +1642,7 @@ var underscore = _.noConflict();</pre>
         Returns the same value that is used as the argument. In math:
         <tt>f(x) = x</tt><br />
         This function looks useless, but is used throughout Underscore as
-        a default iterator.
+        a default iteratee.
       </p>
       <pre>
 var moe = {name: 'moe'};
@@ -1626,7 +1652,7 @@ moe === _.identity(moe);
       <p id="constant">
         <b class="header">constant</b><code>_.constant(value)</code>
         <br />
-        Creates a function that returns the same value that is used as the 
+        Creates a function that returns the same value that is used as the
         argument of <tt>_.constant</tt>.
       </p>
       <pre>
@@ -1634,11 +1660,18 @@ var moe = {name: 'moe'};
 moe === _.constant(moe)();
 =&gt; true</pre>
 
-      <p id="times">
-        <b class="header">times</b><code>_.times(n, iterator, [context])</code>
+      <p id="noop">
+        <b class="header">noop</b><code>_.noop()</code>
         <br />
-        Invokes the given iterator function <b>n</b> times. Each invocation of
-        <b>iterator</b> is called with an <tt>index</tt> argument. Produces an
+        Returns <tt>undefined</tt> irrespective of the arguments passed to it.
+        Useful as the default for optional callback arguments.
+      </p>
+
+      <p id="times">
+        <b class="header">times</b><code>_.times(n, iteratee, [context])</code>
+        <br />
+        Invokes the given iteratee function <b>n</b> times. Each invocation of
+        <b>iteratee</b> is called with an <tt>index</tt> argument. Produces an
         array of the returned values.
         <br />
         <i>Note: this example uses the <a href="#chaining">chaining syntax</a></i>.
@@ -1672,6 +1705,19 @@ _.mixin({
 });
 _("fabio").capitalize();
 =&gt; "Fabio"
+</pre>
+
+      <p id="iteratee">
+        <b class="header">iteratee</b><code>_.iteratee(value, [context], [argCount])</code>
+        <br />
+        A mostly-internal function to generate callbacks that can be applied
+        to each element in a collection, returning the desired result — either
+        identity, an arbitrary callback, a property matcher, or a property accessor.
+      </p>
+      <pre>
+var stooges = [{name: 'curly', age: 25}, {name: 'moe', age: 21}, {name: 'larry', age: 23}];
+_.map(stooges, _.iteratee('age'));
+=&gt; [25, 21, 23];
 </pre>
 
       <p id="uniqueId">
@@ -1720,19 +1766,29 @@ _.result(object, 'cheese');
 _.result(object, 'stuff');
 =&gt; "nonsense"</pre>
 
+      <p id="now">
+        <b class="header">now</b><code>_.now()</code>
+        <br />
+        Returns an integer timestamp for the current time, using the fastest
+        method available in the runtime. Useful for implementing timing/animation
+        functions.
+      </p>
+      <pre>
+_.now();
+=&gt; 1392066795351
+</pre>
+
       <p id="template">
-        <b class="header">template</b><code>_.template(templateString, [data], [settings])</code>
+        <b class="header">template</b><code>_.template(templateString, [settings])</code>
         <br />
         Compiles JavaScript templates into functions that can be evaluated
         for rendering. Useful for rendering complicated bits of HTML from JSON
         data sources. Template functions can both interpolate variables, using
         <tt>&lt;%= &hellip; %&gt;</tt>, as well as execute arbitrary JavaScript code, with
         <tt>&lt;% &hellip; %&gt;</tt>. If you wish to interpolate a value, and have
-        it be HTML-escaped, use <tt>&lt;%- &hellip; %&gt;</tt> When you evaluate a template function, pass in a
-        <b>data</b> object that has properties corresponding to the template's free
-        variables. If you're writing a one-off, you can pass the <b>data</b>
-        object as the second parameter to <b>template</b> in order to render
-        immediately instead of returning a template function.  The <b>settings</b> argument
+        it be HTML-escaped, use <tt>&lt;%- &hellip; %&gt;</tt> When you evaluate a
+        template function, pass in a <b>data</b> object that has properties
+        corresponding to the template's free variables. The <b>settings</b> argument
         should be a hash containing any <tt>_.templateSettings</tt> that should be overridden.
       </p>
 
@@ -1740,10 +1796,6 @@ _.result(object, 'stuff');
 var compiled = _.template("hello: &lt;%= name %&gt;");
 compiled({name: 'moe'});
 =&gt; "hello: moe"
-
-var list = "&lt;% _.each(people, function(name) { %&gt; &lt;li&gt;&lt;%= name %&gt;&lt;/li&gt; &lt;% }); %&gt;";
-_.template(list, {people: ['moe', 'curly', 'larry']});
-=&gt; "&lt;li&gt;moe&lt;/li&gt;&lt;li&gt;curly&lt;/li&gt;&lt;li&gt;larry&lt;/li&gt;"
 
 var template = _.template("&lt;b&gt;&lt;%- value %&gt;&lt;/b&gt;");
 template({value: '&lt;script&gt;'});
@@ -1819,7 +1871,7 @@ _([1, 2, 3]).map(function(n){ return n * 2; });</pre>
 
       <p>
         Calling <tt>chain</tt> will cause all future method calls to return
-        wrapped objects. When you've finished the computation, use
+        wrapped objects. When you've finished the computation, call
         <tt>value</tt> to retrieve the final value. Here's an example of chaining
         together a <b>map/flatten/reduce</b>, in order to get the word count of
         every word in a song.
@@ -1856,7 +1908,7 @@ _.chain(lyrics)
         <b class="header">chain</b><code>_.chain(obj)</code>
         <br />
         Returns a wrapped object. Calling methods on this object will continue
-        to return wrapped objects until <tt>value</tt> is used.
+        to return wrapped objects until <tt>value</tt> is called.
       </p>
       <pre>
 var stooges = [{name: 'curly', age: 25}, {name: 'moe', age: 21}, {name: 'larry', age: 23}];
@@ -1963,15 +2015,77 @@ _([1, 2, 3]).value();
         Underscore API.
       </p>
 
+      <p>
+        <a href="https://github.com/Suor/funcy">Funcy</a>, a practical
+        collection of functional helpers for Python, partially inspired by Underscore.
+      </p>
+
       <h2 id="changelog">Change Log</h2>
 
+      <p id="1.7.0">
+        <b class="header">1.7.0</b> &mdash; <small><i>August 26, 2014</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.6.0...1.7.0">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/underscore/1.7.0/index.html">Docs</a><br />
+        <ul>
+          <li>
+            For consistency and speed across browsers, Underscore now ignores
+            native array methods for <tt>forEach</tt>, <tt>map</tt>, <tt>reduce</tt>,
+            <tt>reduceRight</tt>, <tt>filter</tt>, <tt>every</tt>, <tt>some</tt>,
+            <tt>indexOf</tt>, and <tt>lastIndexOf</tt>. "Sparse" arrays are
+            officially dead in Underscore.
+          </li>
+          <li>
+            Added <tt>_.iteratee</tt> to customize the iterators used by collection
+            functions. Many Underscore methods will take a string argument for easier
+            <tt>_.property</tt>-style lookups, an object for <tt>_.where</tt>-style
+            filtering, or a function as a custom callback.
+          </li>
+          <li>
+            Added <tt>_.before</tt> as a counterpart to <tt>_.after</tt>.
+          </li>
+          <li>
+            Added <tt>_.negate</tt> to invert the truth value of the passed-in
+            predicate.
+          </li>
+          <li>
+            Added <tt>_.noop</tt> as a handy empty placeholder function.
+          </li>
+          <li>
+            <tt>_.isEmpty</tt> now works with <tt>arguments</tt> objects.
+          </li>
+          <li>
+            <tt>_.has</tt> now guards against nullish objects.
+          </li>
+          <li>
+            Override base methods like <tt>each</tt> and <tt>some</tt>
+            and they'll be used internally by other Underscore functions too.
+          </li>
+          <li>
+            The escape functions handle backticks (<tt>`</tt>), to deal with an
+            IE &le; 8 bug.
+          </li>
+          <li>
+            <tt>_.memoize</tt> exposes the cache of memoized values as a property
+            on the returned function.
+          </li>
+          <li>
+            <tt>_.pick</tt> accepts `iteratee` and `context` arguments for a more
+            advanced callback.
+          </li>
+          <li>
+            Underscore templates no longer accept an initial <tt>data</tt> object.
+            <tt>_.template</tt> always returns a function now.
+          </li>
+          <li>
+            Optimizations and code cleanup aplenty.
+          </li>
+        </ul>
+      </p>
 
       <p id="1.6.0">
-        <b class="header">1.6.0</b> &mdash; <small><i>February 10, 2014</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.5.2...1.6.0">Diff</a> &mdash; <a href="http://htmlpreview.github.io/?https://raw.github.com/jashkenas/underscore/1.6.0/index.html">Docs</a><br />
+        <b class="header">1.6.0</b> &mdash; <small><i>February 10, 2014</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.5.2...1.6.0">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/underscore/1.6.0/index.html">Docs</a><br />
         <ul>
           <li>
             Underscore now registers itself for AMD (Require.js), Bower and Component,
-            as well as being a CommonJS module and a regular (Java)Script. 
+            as well as being a CommonJS module and a regular (Java)Script.
             An ugliness, but perhaps a necessary one.
           </li>
           <li>
@@ -1997,12 +2111,15 @@ _([1, 2, 3]).value();
           </li>
           <li>
             The <tt>_.partial</tt> function may now be used to partially apply
-            any of its arguments, by passing <tt>_</tt> wherever you'd like a 
+            any of its arguments, by passing <tt>_</tt> wherever you'd like a
             placeholder variable, to be filled-in later.
           </li>
           <li>
-            The <tt>_.each</tt> function now returns the original iterated list 
-            (just like it used to), for better chaining.
+            The <tt>_.each</tt> function now returns a reference to the list for chaining.
+          </li>
+          <li>
+            The <tt>_.keys</tt> function now returns an empty array for
+            non-objects instead of throwing.
           </li>
           <li>
             The <tt>_.keys</tt> function now returns an empty array for
@@ -2015,7 +2132,7 @@ _([1, 2, 3]).value();
       </p>
 
       <p id="1.5.2">
-        <b class="header">1.5.2</b> &mdash; <small><i>September 7, 2013</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.5.1...1.5.2">Diff</a> &mdash; <a href="http://htmlpreview.github.io/?https://raw.github.com/jashkenas/underscore/1.5.2/index.html">Docs</a><br />
+        <b class="header">1.5.2</b> &mdash; <small><i>September 7, 2013</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.5.1...1.5.2">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/underscore/1.5.2/index.html">Docs</a><br />
         <ul>
           <li>
             Added an <tt>indexBy</tt> function, which fits in alongside its
@@ -2038,7 +2155,7 @@ _([1, 2, 3]).value();
       </p>
 
       <p id="1.5.1">
-        <b class="header">1.5.1</b> &mdash; <small><i>July 8, 2013</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.5.0...1.5.1">Diff</a> &mdash; <a href="http://htmlpreview.github.io/?https://raw.github.com/jashkenas/underscore/1.5.1/index.html">Docs</a><br />
+        <b class="header">1.5.1</b> &mdash; <small><i>July 8, 2013</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.5.0...1.5.1">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/underscore/1.5.1/index.html">Docs</a><br />
         <ul>
           <li>
             Removed <tt>unzip</tt>, as it's simply the application of <tt>zip</tt>
@@ -2049,7 +2166,7 @@ _([1, 2, 3]).value();
       </p>
 
       <p id="1.5.0">
-        <b class="header">1.5.0</b> &mdash; <small><i>July 6, 2013</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.4.4...1.5.0">Diff</a> &mdash; <a href="http://htmlpreview.github.io/?https://raw.github.com/jashkenas/underscore/1.5.0/index.html">Docs</a><br />
+        <b class="header">1.5.0</b> &mdash; <small><i>July 6, 2013</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.4.4...1.5.0">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/underscore/1.5.0/index.html">Docs</a><br />
         <ul>
           <li>
             Added a new <tt>unzip</tt> function, as the inverse of <tt>_.zip</tt>.
@@ -2080,7 +2197,7 @@ _([1, 2, 3]).value();
       </p>
 
       <p id="1.4.4">
-        <b class="header">1.4.4</b> &mdash; <small><i>January 30, 2013</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.4.3...1.4.4">Diff</a> &mdash; <a href="http://htmlpreview.github.io/?https://raw.github.com/jashkenas/underscore/1.4.4/index.html">Docs</a><br />
+        <b class="header">1.4.4</b> &mdash; <small><i>January 30, 2013</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.4.3...1.4.4">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/underscore/1.4.4/index.html">Docs</a><br />
         <ul>
           <li>
             Added <tt>_.findWhere</tt>, for finding the first element in a list
@@ -2106,7 +2223,7 @@ _([1, 2, 3]).value();
       </p>
 
       <p id="1.4.3">
-        <b class="header">1.4.3</b> &mdash; <small><i>December 4, 2012</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.4.2...1.4.3">Diff</a> &mdash; <a href="http://htmlpreview.github.io/?https://raw.github.com/jashkenas/underscore/1.4.3/index.html">Docs</a><br />
+        <b class="header">1.4.3</b> &mdash; <small><i>December 4, 2012</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.4.2...1.4.3">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/underscore/1.4.3/index.html">Docs</a><br />
         <ul>
           <li>
             Improved Underscore compatibility with Adobe's JS engine that can be
@@ -2131,7 +2248,7 @@ _([1, 2, 3]).value();
       </p>
 
       <p id="1.4.2">
-        <b class="header">1.4.2</b> &mdash; <small><i>October 6, 2012</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.4.1...1.4.2">Diff</a> &mdash; <a href="http://htmlpreview.github.io/?https://raw.github.com/jashkenas/underscore/1.4.2/index.html">Docs</a><br />
+        <b class="header">1.4.2</b> &mdash; <small><i>October 6, 2012</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.4.1...1.4.2">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/underscore/1.4.2/index.html">Docs</a><br />
         <ul>
           <li>
             For backwards compatibility, returned to pre-1.4.0 behavior when
@@ -2142,7 +2259,7 @@ _([1, 2, 3]).value();
       </p>
 
       <p id="1.4.1">
-        <b class="header">1.4.1</b> &mdash; <small><i>October 1, 2012</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.4.0...1.4.1">Diff</a> &mdash; <a href="http://htmlpreview.github.io/?https://raw.github.com/jashkenas/underscore/1.4.1/index.html">Docs</a><br />
+        <b class="header">1.4.1</b> &mdash; <small><i>October 1, 2012</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.4.0...1.4.1">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/underscore/1.4.1/index.html">Docs</a><br />
         <ul>
           <li>
             Fixed a 1.4.0 regression in the <tt>lastIndexOf</tt> function.
@@ -2151,7 +2268,7 @@ _([1, 2, 3]).value();
       </p>
 
       <p id="1.4.0">
-        <b class="header">1.4.0</b> &mdash; <small><i>September 27, 2012</i></small>  &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.3.3...1.4.0">Diff</a> &mdash; <a href="http://htmlpreview.github.io/?https://raw.github.com/jashkenas/underscore/1.4.0/index.html">Docs</a><br />
+        <b class="header">1.4.0</b> &mdash; <small><i>September 27, 2012</i></small>  &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.3.3...1.4.0">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/underscore/1.4.0/index.html">Docs</a><br />
         <ul>
           <li>
             Added a <tt>pairs</tt> function, for turning a JavaScript object
@@ -2216,7 +2333,7 @@ _([1, 2, 3]).value();
       </p>
 
       <p id="1.3.3">
-        <b class="header">1.3.3</b> &mdash; <small><i>April 10, 2012</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.3.1...1.3.3">Diff</a> &mdash; <a href="http://htmlpreview.github.io/?https://raw.github.com/jashkenas/underscore/1.3.3/index.html">Docs</a><br />
+        <b class="header">1.3.3</b> &mdash; <small><i>April 10, 2012</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.3.1...1.3.3">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/underscore/1.3.3/index.html">Docs</a><br />
         <ul>
           <li>
             Many improvements to <tt>_.template</tt>, which now provides the
@@ -2259,7 +2376,7 @@ _([1, 2, 3]).value();
       </p>
 
       <p id="1.3.1">
-        <b class="header">1.3.1</b> &mdash; <small><i>January 23, 2012</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.3.0...1.3.1">Diff</a> &mdash; <a href="http://htmlpreview.github.io/?https://raw.github.com/jashkenas/underscore/1.3.1/index.html">Docs</a><br />
+        <b class="header">1.3.1</b> &mdash; <small><i>January 23, 2012</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.3.0...1.3.1">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/underscore/1.3.1/index.html">Docs</a><br />
         <ul>
           <li>
             Added an <tt>_.has</tt> function, as a safer way to use <tt>hasOwnProperty</tt>.
@@ -2278,7 +2395,7 @@ _([1, 2, 3]).value();
       </p>
 
       <p id="1.3.0">
-        <b class="header">1.3.0</b> &mdash; <small><i>January 11, 2012</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.2.4...1.3.0">Diff</a> &mdash; <a href="http://htmlpreview.github.io/?https://raw.github.com/jashkenas/underscore/1.3.0/index.html">Docs</a><br />
+        <b class="header">1.3.0</b> &mdash; <small><i>January 11, 2012</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.2.4...1.3.0">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/underscore/1.3.0/index.html">Docs</a><br />
         <ul>
           <li>
             Removed AMD (RequireJS) support from Underscore. If you'd like to use
@@ -2289,7 +2406,7 @@ _([1, 2, 3]).value();
       </p>
 
       <p id="1.2.4">
-        <b class="header">1.2.4</b> &mdash; <small><i>January 4, 2012</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.2.3...1.2.4">Diff</a> &mdash; <a href="http://htmlpreview.github.io/?https://raw.github.com/jashkenas/underscore/1.2.4/index.html">Docs</a><br />
+        <b class="header">1.2.4</b> &mdash; <small><i>January 4, 2012</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.2.3...1.2.4">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/underscore/1.2.4/index.html">Docs</a><br />
         <ul>
           <li>
             You now can (and probably should, as it's simpler)
@@ -2312,7 +2429,7 @@ _([1, 2, 3]).value();
       </p>
 
       <p id="1.2.3">
-        <b class="header">1.2.3</b> &mdash; <small><i>December 7, 2011</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.2.2...1.2.3">Diff</a> &mdash; <a href="http://htmlpreview.github.io/?https://raw.github.com/jashkenas/underscore/1.2.3/index.html">Docs</a><br />
+        <b class="header">1.2.3</b> &mdash; <small><i>December 7, 2011</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.2.2...1.2.3">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/underscore/1.2.3/index.html">Docs</a><br />
         <ul>
           <li>
             Dynamic scope is now preserved for compiled <tt>_.template</tt> functions,
@@ -2330,7 +2447,7 @@ _([1, 2, 3]).value();
       </p>
 
       <p id="1.2.2">
-        <b class="header">1.2.2</b> &mdash; <small><i>November 14, 2011</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.2.1...1.2.2">Diff</a> &mdash; <a href="http://htmlpreview.github.io/?https://raw.github.com/jashkenas/underscore/1.2.1/index.html">Docs</a><br />
+        <b class="header">1.2.2</b> &mdash; <small><i>November 14, 2011</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.2.1...1.2.2">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/underscore/1.2.1/index.html">Docs</a><br />
         <ul>
           <li>
             Continued tweaks to <tt>_.isEqual</tt> semantics. Now JS primitives are
@@ -2353,7 +2470,7 @@ _([1, 2, 3]).value();
       </p>
 
       <p id="1.2.1">
-        <b class="header">1.2.1</b> &mdash; <small><i>October 24, 2011</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.2.0...1.2.1">Diff</a> &mdash; <a href="http://htmlpreview.github.io/?https://raw.github.com/jashkenas/underscore/1.2.1/index.html">Docs</a><br />
+        <b class="header">1.2.1</b> &mdash; <small><i>October 24, 2011</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.2.0...1.2.1">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/underscore/1.2.1/index.html">Docs</a><br />
         <ul>
           <li>
             Several important bug fixes for <tt>_.isEqual</tt>, which should now
@@ -2394,7 +2511,7 @@ _([1, 2, 3]).value();
       </p>
 
       <p id="1.2.0">
-        <b class="header">1.2.0</b> &mdash; <small><i>October 5, 2011</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.1.7...1.2.0">Diff</a> &mdash; <a href="http://htmlpreview.github.io/?https://raw.github.com/jashkenas/underscore/1.2.0/index.html">Docs</a><br />
+        <b class="header">1.2.0</b> &mdash; <small><i>October 5, 2011</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.1.7...1.2.0">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/underscore/1.2.0/index.html">Docs</a><br />
         <ul>
           <li>
             The <tt>_.isEqual</tt> function now
@@ -2425,7 +2542,7 @@ _([1, 2, 3]).value();
       </p>
 
       <p id="1.1.7">
-        <b class="header">1.1.7</b> &mdash; <small><i>July 13, 2011</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.1.6...1.1.7">Diff</a> &mdash; <a href="http://htmlpreview.github.io/?https://raw.github.com/jashkenas/underscore/1.1.7/index.html">Docs</a><br />
+        <b class="header">1.1.7</b> &mdash; <small><i>July 13, 2011</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.1.6...1.1.7">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/underscore/1.1.7/index.html">Docs</a><br />
         Added <tt>_.groupBy</tt>, which aggregates a collection into groups of like items.
         Added <tt>_.union</tt> and <tt>_.difference</tt>, to complement the
         (re-named) <tt>_.intersection</tt>.
@@ -2436,7 +2553,7 @@ _([1, 2, 3]).value();
       </p>
 
       <p id="1.1.6">
-        <b class="header">1.1.6</b> &mdash; <small><i>April 18, 2011</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.1.5...1.1.6">Diff</a> &mdash; <a href="http://htmlpreview.github.io/?https://raw.github.com/jashkenas/underscore/1.1.6/index.html">Docs</a><br />
+        <b class="header">1.1.6</b> &mdash; <small><i>April 18, 2011</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.1.5...1.1.6">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/underscore/1.1.6/index.html">Docs</a><br />
         Added <tt>_.after</tt>, which will return a function that only runs after
         first being called a specified number of times.
         <tt>_.invoke</tt> can now take a direct function reference.
@@ -2447,7 +2564,7 @@ _([1, 2, 3]).value();
       </p>
 
       <p id="1.1.5">
-        <b class="header">1.1.5</b> &mdash; <small><i>March 20, 2011</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.1.4...1.1.5">Diff</a> &mdash; <a href="http://htmlpreview.github.io/?https://raw.github.com/jashkenas/underscore/1.1.5/index.html">Docs</a><br />
+        <b class="header">1.1.5</b> &mdash; <small><i>March 20, 2011</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.1.4...1.1.5">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/underscore/1.1.5/index.html">Docs</a><br />
         Added an <tt>_.defaults</tt> function, for use merging together JS objects
         representing default options.
         Added an <tt>_.once</tt> function, for manufacturing functions that should
@@ -2460,7 +2577,7 @@ _([1, 2, 3]).value();
       </p>
 
       <p id="1.1.4">
-        <b class="header">1.1.4</b> &mdash; <small><i>January 9, 2011</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.1.3...1.1.4">Diff</a> &mdash; <a href="http://htmlpreview.github.io/?https://raw.github.com/jashkenas/underscore/1.1.4/index.html">Docs</a><br />
+        <b class="header">1.1.4</b> &mdash; <small><i>January 9, 2011</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.1.3...1.1.4">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/underscore/1.1.4/index.html">Docs</a><br />
         Improved compliance with ES5's Array methods when passing <tt>null</tt>
         as a value. <tt>_.wrap</tt> now correctly sets <tt>this</tt> for the
         wrapped function. <tt>_.indexOf</tt> now takes an optional flag for
@@ -2470,7 +2587,7 @@ _([1, 2, 3]).value();
       </p>
 
       <p id="1.1.3">
-        <b class="header">1.1.3</b> &mdash; <small><i>December 1, 2010</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.1.2...1.1.3">Diff</a> &mdash; <a href="http://htmlpreview.github.io/?https://raw.github.com/jashkenas/underscore/1.1.3/index.html">Docs</a><br />
+        <b class="header">1.1.3</b> &mdash; <small><i>December 1, 2010</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.1.2...1.1.3">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/underscore/1.1.3/index.html">Docs</a><br />
         In CommonJS, Underscore may now be required with just: <br />
         <tt>var _ = require("underscore")</tt>.
         Added <tt>_.throttle</tt> and <tt>_.debounce</tt> functions.
@@ -2487,21 +2604,21 @@ _([1, 2, 3]).value();
       </p>
 
       <p id="1.1.2">
-        <b class="header">1.1.2</b> &mdash; <small><i>October 15, 2010</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.1.1...1.1.2">Diff</a> &mdash; <a href="http://htmlpreview.github.io/?https://raw.github.com/jashkenas/underscore/1.1.2/index.html">Docs</a><br />
+        <b class="header">1.1.2</b> &mdash; <small><i>October 15, 2010</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.1.1...1.1.2">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/underscore/1.1.2/index.html">Docs</a><br />
         Fixed <tt>_.contains</tt>, which was mistakenly pointing at
         <tt>_.intersect</tt> instead of <tt>_.include</tt>, like it should
         have been. Added <tt>_.unique</tt> as an alias for <tt>_.uniq</tt>.
       </p>
 
       <p id="1.1.1">
-        <b class="header">1.1.1</b> &mdash; <small><i>October 5, 2010</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.1.0...1.1.1">Diff</a> &mdash; <a href="http://htmlpreview.github.io/?https://raw.github.com/jashkenas/underscore/1.1.1/index.html">Docs</a><br />
+        <b class="header">1.1.1</b> &mdash; <small><i>October 5, 2010</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.1.0...1.1.1">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/underscore/1.1.1/index.html">Docs</a><br />
         Improved the speed of <tt>_.template</tt>, and its handling of multiline
         interpolations. Ryan Tenney contributed optimizations to many Underscore
         functions. An annotated version of the source code is now available.
       </p>
 
       <p id="1.1.0">
-        <b class="header">1.1.0</b> &mdash; <small><i>August 18, 2010</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.0.4...1.1.0">Diff</a> &mdash; <a href="http://htmlpreview.github.io/?https://raw.github.com/jashkenas/underscore/1.1.0/index.html">Docs</a><br />
+        <b class="header">1.1.0</b> &mdash; <small><i>August 18, 2010</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.0.4...1.1.0">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/underscore/1.1.0/index.html">Docs</a><br />
         The method signature of <tt>_.reduce</tt> has been changed to match
         the ECMAScript 5 signature, instead of the Ruby/Prototype.js version.
         This is a backwards-incompatible change. <tt>_.template</tt> may now be
@@ -2510,33 +2627,33 @@ _([1, 2, 3]).value();
       </p>
 
       <p id="1.0.4">
-        <b class="header">1.0.4</b> &mdash; <small><i>June 22, 2010</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.0.3...1.0.4">Diff</a> &mdash; <a href="http://htmlpreview.github.io/?https://raw.github.com/jashkenas/underscore/1.0.4/index.html">Docs</a><br />
+        <b class="header">1.0.4</b> &mdash; <small><i>June 22, 2010</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.0.3...1.0.4">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/underscore/1.0.4/index.html">Docs</a><br />
         <a href="http://themoell.com/">Andri Möll</a> contributed the <tt>_.memoize</tt>
         function, which can be used to speed up expensive repeated computations
         by caching the results.
       </p>
 
       <p id="1.0.3">
-        <b class="header">1.0.3</b> &mdash; <small><i>June 14, 2010</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.0.2...1.0.3">Diff</a> &mdash; <a href="http://htmlpreview.github.io/?https://raw.github.com/jashkenas/underscore/1.0.3/index.html">Docs</a><br />
+        <b class="header">1.0.3</b> &mdash; <small><i>June 14, 2010</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.0.2...1.0.3">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/underscore/1.0.3/index.html">Docs</a><br />
         Patch that makes <tt>_.isEqual</tt> return <tt>false</tt> if any property
         of the compared object has a <tt>NaN</tt> value. Technically the correct
         thing to do, but of questionable semantics. Watch out for NaN comparisons.
       </p>
 
       <p id="1.0.2">
-        <b class="header">1.0.2</b> &mdash; <small><i>March 23, 2010</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.0.1...1.0.2">Diff</a> &mdash; <a href="http://htmlpreview.github.io/?https://raw.github.com/jashkenas/underscore/1.0.2/index.html">Docs</a><br />
+        <b class="header">1.0.2</b> &mdash; <small><i>March 23, 2010</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.0.1...1.0.2">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/underscore/1.0.2/index.html">Docs</a><br />
         Fixes <tt>_.isArguments</tt> in recent versions of Opera, which have
         arguments objects as real Arrays.
       </p>
 
       <p id="1.0.1">
-        <b class="header">1.0.1</b> &mdash; <small><i>March 19, 2010</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.0.0...1.0.1">Diff</a> &mdash; <a href="http://htmlpreview.github.io/?https://raw.github.com/jashkenas/underscore/1.0.1/index.html">Docs</a><br />
+        <b class="header">1.0.1</b> &mdash; <small><i>March 19, 2010</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.0.0...1.0.1">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/underscore/1.0.1/index.html">Docs</a><br />
         Bugfix for <tt>_.isEqual</tt>, when comparing two objects with the same
         number of undefined keys, but with different names.
       </p>
 
       <p id="1.0.0">
-        <b class="header">1.0.0</b> &mdash; <small><i>March 18, 2010</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/0.6.0...1.0.0">Diff</a> &mdash; <a href="http://htmlpreview.github.io/?https://raw.github.com/jashkenas/underscore/1.0.0/index.html">Docs</a><br />
+        <b class="header">1.0.0</b> &mdash; <small><i>March 18, 2010</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/0.6.0...1.0.0">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/underscore/1.0.0/index.html">Docs</a><br />
         Things have been stable for many months now, so Underscore is now
         considered to be out of beta, at <b>1.0</b>. Improvements since <b>0.6</b>
         include <tt>_.isBoolean</tt>, and the ability to have <tt>_.extend</tt>
@@ -2544,7 +2661,7 @@ _([1, 2, 3]).value();
       </p>
 
       <p id="0.6.0">
-        <b class="header">0.6.0</b> &mdash; <small><i>February 24, 2010</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/0.5.8...0.6.0">Diff</a> &mdash; <a href="http://htmlpreview.github.io/?https://raw.github.com/jashkenas/underscore/0.6.0/index.html">Docs</a><br />
+        <b class="header">0.6.0</b> &mdash; <small><i>February 24, 2010</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/0.5.8...0.6.0">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/underscore/0.6.0/index.html">Docs</a><br />
         Major release. Incorporates a number of
         <a href="https://github.com/ratbeard">Mile Frawley's</a> refactors for
         safer duck-typing on collection functions, and cleaner internals. A new
@@ -2555,7 +2672,7 @@ _([1, 2, 3]).value();
       </p>
 
       <p id="0.5.8">
-        <b class="header">0.5.8</b> &mdash; <small><i>January 28, 2010</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/0.5.7...0.5.8">Diff</a> &mdash; <a href="http://htmlpreview.github.io/?https://raw.github.com/jashkenas/underscore/0.5.8/index.html">Docs</a><br />
+        <b class="header">0.5.8</b> &mdash; <small><i>January 28, 2010</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/0.5.7...0.5.8">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/underscore/0.5.8/index.html">Docs</a><br />
         Fixed Underscore's collection functions to work on
         <a href="https://developer.mozilla.org/En/DOM/NodeList">NodeLists</a> and
         <a href="https://developer.mozilla.org/En/DOM/HTMLCollection">HTMLCollections</a>
@@ -2564,32 +2681,32 @@ _([1, 2, 3]).value();
       </p>
 
       <p id="0.5.7">
-        <b class="header">0.5.7</b> &mdash; <small><i>January 20, 2010</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/0.5.6...0.5.7">Diff</a> &mdash; <a href="http://htmlpreview.github.io/?https://raw.github.com/jashkenas/underscore/0.5.7/index.html">Docs</a><br />
+        <b class="header">0.5.7</b> &mdash; <small><i>January 20, 2010</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/0.5.6...0.5.7">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/underscore/0.5.7/index.html">Docs</a><br />
         A safer implementation of <tt>_.isArguments</tt>, and a
         faster <tt>_.isNumber</tt>,<br />thanks to
         <a href="http://jedschmidt.com/">Jed Schmidt</a>.
       </p>
 
       <p id="0.5.6">
-        <b class="header">0.5.6</b> &mdash; <small><i>January 18, 2010</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/0.5.5...0.5.6">Diff</a> &mdash; <a href="http://htmlpreview.github.io/?https://raw.github.com/jashkenas/underscore/0.5.6/index.html">Docs</a><br />
+        <b class="header">0.5.6</b> &mdash; <small><i>January 18, 2010</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/0.5.5...0.5.6">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/underscore/0.5.6/index.html">Docs</a><br />
         Customizable delimiters for <tt>_.template</tt>, contributed by
         <a href="https://github.com/iamnoah">Noah Sloan</a>.
       </p>
 
       <p id="0.5.5">
-        <b class="header">0.5.5</b> &mdash; <small><i>January 9, 2010</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/0.5.4...0.5.5">Diff</a> &mdash; <a href="http://htmlpreview.github.io/?https://raw.github.com/jashkenas/underscore/0.5.5/index.html">Docs</a><br />
+        <b class="header">0.5.5</b> &mdash; <small><i>January 9, 2010</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/0.5.4...0.5.5">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/underscore/0.5.5/index.html">Docs</a><br />
         Fix for a bug in MobileSafari's OOP-wrapper, with the arguments object.
       </p>
 
       <p id="0.5.4">
-        <b class="header">0.5.4</b> &mdash; <small><i>January 5, 2010</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/0.5.2...0.5.4">Diff</a> &mdash; <a href="http://htmlpreview.github.io/?https://raw.github.com/jashkenas/underscore/0.5.4/index.html">Docs</a><br />
+        <b class="header">0.5.4</b> &mdash; <small><i>January 5, 2010</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/0.5.2...0.5.4">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/underscore/0.5.4/index.html">Docs</a><br />
         Fix for multiple single quotes within a template string for
         <tt>_.template</tt>. See:
         <a href="http://www.west-wind.com/Weblog/posts/509108.aspx">Rick Strahl's blog post</a>.
       </p>
 
       <p id="0.5.2">
-        <b class="header">0.5.2</b> &mdash; <small><i>January 1, 2010</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/0.5.1...0.5.2">Diff</a> &mdash; <a href="http://htmlpreview.github.io/?https://raw.github.com/jashkenas/underscore/0.5.2/index.html">Docs</a><br />
+        <b class="header">0.5.2</b> &mdash; <small><i>January 1, 2010</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/0.5.1...0.5.2">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/underscore/0.5.2/index.html">Docs</a><br />
         New implementations of <tt>isArray</tt>, <tt>isDate</tt>, <tt>isFunction</tt>,
         <tt>isNumber</tt>, <tt>isRegExp</tt>, and <tt>isString</tt>, thanks to
         a suggestion from
@@ -2605,7 +2722,7 @@ _([1, 2, 3]).value();
       </p>
 
       <p id="0.5.1">
-        <b class="header">0.5.1</b> &mdash; <small><i>December 9, 2009</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/0.5.0...0.5.1">Diff</a> &mdash; <a href="http://htmlpreview.github.io/?https://raw.github.com/jashkenas/underscore/0.5.1/index.html">Docs</a><br />
+        <b class="header">0.5.1</b> &mdash; <small><i>December 9, 2009</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/0.5.0...0.5.1">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/underscore/0.5.1/index.html">Docs</a><br />
         Added an <tt>_.isArguments</tt> function. Lots of little safety checks
         and optimizations contributed by
         <a href="https://github.com/iamnoah">Noah Sloan</a> and
@@ -2613,7 +2730,7 @@ _([1, 2, 3]).value();
       </p>
 
       <p id="0.5.0">
-        <b class="header">0.5.0</b> &mdash; <small><i>December 7, 2009</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/0.4.7...0.5.0">Diff</a> &mdash; <a href="http://htmlpreview.github.io/?https://raw.github.com/jashkenas/underscore/0.5.0/index.html">Docs</a><br />
+        <b class="header">0.5.0</b> &mdash; <small><i>December 7, 2009</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/0.4.7...0.5.0">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/underscore/0.5.0/index.html">Docs</a><br />
         <b>[API Changes]</b> <tt>_.bindAll</tt> now takes the context object as
         its first parameter. If no method names are passed, all of the context
         object's methods are bound to it, enabling chaining and easier binding.
@@ -2626,7 +2743,7 @@ _([1, 2, 3]).value();
       </p>
 
       <p id="0.4.7">
-        <b class="header">0.4.7</b> &mdash; <small><i>December 6, 2009</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/0.4.6...0.4.7">Diff</a> &mdash; <a href="http://htmlpreview.github.io/?https://raw.github.com/jashkenas/underscore/0.4.7/index.html">Docs</a><br />
+        <b class="header">0.4.7</b> &mdash; <small><i>December 6, 2009</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/0.4.6...0.4.7">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/underscore/0.4.7/index.html">Docs</a><br />
         Added <tt>isDate</tt>, <tt>isNaN</tt>, and <tt>isNull</tt>, for completeness.
         Optimizations for <tt>isEqual</tt> when checking equality between Arrays
         or Dates. <tt>_.keys</tt> is now <small><i><b>25%&ndash;2X</b></i></small> faster (depending on your
@@ -2634,7 +2751,7 @@ _([1, 2, 3]).value();
       </p>
 
       <p id="0.4.6">
-        <b class="header">0.4.6</b> &mdash; <small><i>November 30, 2009</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/0.4.5...0.4.6">Diff</a> &mdash; <a href="http://htmlpreview.github.io/?https://raw.github.com/jashkenas/underscore/0.4.6/index.html">Docs</a><br />
+        <b class="header">0.4.6</b> &mdash; <small><i>November 30, 2009</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/0.4.5...0.4.6">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/underscore/0.4.6/index.html">Docs</a><br />
         Added the <tt>range</tt> function, a port of the
         <a href="http://docs.python.org/library/functions.html#range">Python
         function of the same name</a>, for generating flexibly-numbered lists
@@ -2643,7 +2760,7 @@ _([1, 2, 3]).value();
       </p>
 
       <p id="0.4.5">
-        <b class="header">0.4.5</b> &mdash; <small><i>November 19, 2009</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/0.4.4...0.4.5">Diff</a> &mdash; <a href="http://htmlpreview.github.io/?https://raw.github.com/jashkenas/underscore/0.4.5/index.html">Docs</a><br />
+        <b class="header">0.4.5</b> &mdash; <small><i>November 19, 2009</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/0.4.4...0.4.5">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/underscore/0.4.5/index.html">Docs</a><br />
         Added <tt>rest</tt> for Arrays and arguments objects, and aliased
         <tt>first</tt> as <tt>head</tt>, and <tt>rest</tt> as <tt>tail</tt>,
         thanks to <a href="https://github.com/lukesutton">Luke Sutton</a>'s patches.
@@ -2652,24 +2769,24 @@ _([1, 2, 3]).value();
       </p>
 
       <p id="0.4.4">
-        <b class="header">0.4.4</b> &mdash; <small><i>November 18, 2009</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/0.4.3...0.4.4">Diff</a> &mdash; <a href="http://htmlpreview.github.io/?https://raw.github.com/jashkenas/underscore/0.4.4/index.html">Docs</a><br />
+        <b class="header">0.4.4</b> &mdash; <small><i>November 18, 2009</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/0.4.3...0.4.4">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/underscore/0.4.4/index.html">Docs</a><br />
         Added <tt>isString</tt>, and <tt>isNumber</tt>, for consistency. Fixed
         <tt>_.isEqual(NaN, NaN)</tt> to return <i>true</i> (which is debatable).
       </p>
 
       <p id="0.4.3">
-        <b class="header">0.4.3</b> &mdash; <small><i>November 9, 2009</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/0.4.2...0.4.3">Diff</a> &mdash; <a href="http://htmlpreview.github.io/?https://raw.github.com/jashkenas/underscore/0.4.3/index.html">Docs</a><br />
+        <b class="header">0.4.3</b> &mdash; <small><i>November 9, 2009</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/0.4.2...0.4.3">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/underscore/0.4.3/index.html">Docs</a><br />
         Started using the native <tt>StopIteration</tt> object in browsers that support it.
         Fixed Underscore setup for CommonJS environments.
       </p>
 
       <p id="0.4.2">
-        <b class="header">0.4.2</b> &mdash; <small><i>November 9, 2009</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/0.4.1...0.4.2">Diff</a> &mdash; <a href="http://htmlpreview.github.io/?https://raw.github.com/jashkenas/underscore/0.4.2/index.html">Docs</a><br />
+        <b class="header">0.4.2</b> &mdash; <small><i>November 9, 2009</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/0.4.1...0.4.2">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/underscore/0.4.2/index.html">Docs</a><br />
         Renamed the unwrapping function to <tt>value</tt>, for clarity.
       </p>
 
       <p id="0.4.1">
-        <b class="header">0.4.1</b> &mdash; <small><i>November 8, 2009</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/0.4.0...0.4.1">Diff</a> &mdash; <a href="http://htmlpreview.github.io/?https://raw.github.com/jashkenas/underscore/0.4.1/index.html">Docs</a><br />
+        <b class="header">0.4.1</b> &mdash; <small><i>November 8, 2009</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/0.4.0...0.4.1">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/underscore/0.4.1/index.html">Docs</a><br />
         Chained Underscore objects now support the Array prototype methods, so
         that you can perform the full range of operations on a wrapped array
         without having to break your chain. Added a <tt>breakLoop</tt> method
@@ -2678,7 +2795,7 @@ _([1, 2, 3]).value();
       </p>
 
       <p id="0.4.0">
-        <b class="header">0.4.0</b> &mdash; <small><i>November 7, 2009</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/0.3.3...0.4.0">Diff</a> &mdash; <a href="http://htmlpreview.github.io/?https://raw.github.com/jashkenas/underscore/0.4.0/index.html">Docs</a><br />
+        <b class="header">0.4.0</b> &mdash; <small><i>November 7, 2009</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/0.3.3...0.4.0">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/underscore/0.4.0/index.html">Docs</a><br />
         All Underscore functions can now be called in an object-oriented style,
         like so: <tt>_([1, 2, 3]).map(...);</tt>. Original patch provided by
         <a href="http://macournoyer.com/">Marc-André Cournoyer</a>.
@@ -2688,20 +2805,20 @@ _([1, 2, 3]).value();
       </p>
 
       <p id="0.3.3">
-        <b class="header">0.3.3</b> &mdash; <small><i>October 31, 2009</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/0.3.2...0.3.3">Diff</a> &mdash; <a href="http://htmlpreview.github.io/?https://raw.github.com/jashkenas/underscore/0.3.3/index.html">Docs</a><br />
+        <b class="header">0.3.3</b> &mdash; <small><i>October 31, 2009</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/0.3.2...0.3.3">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/underscore/0.3.3/index.html">Docs</a><br />
         Added the JavaScript 1.8 function <tt>reduceRight</tt>. Aliased it
         as <tt>foldr</tt>, and aliased <tt>reduce</tt> as <tt>foldl</tt>.
       </p>
 
       <p id="0.3.2">
-        <b class="header">0.3.2</b> &mdash; <small><i>October 29, 2009</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/0.3.1...0.3.2">Diff</a> &mdash; <a href="http://htmlpreview.github.io/?https://raw.github.com/jashkenas/underscore/0.3.2/index.html">Docs</a><br />
+        <b class="header">0.3.2</b> &mdash; <small><i>October 29, 2009</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/0.3.1...0.3.2">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/underscore/0.3.2/index.html">Docs</a><br />
         Now runs on stock <a href="http://www.mozilla.org/rhino/">Rhino</a>
         interpreters with: <tt>load("underscore.js")</tt>.
         Added <a href="#identity"><tt>identity</tt></a> as a utility function.
       </p>
 
       <p id="0.3.1">
-        <b class="header">0.3.1</b> &mdash; <small><i>October 29, 2009</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/0.3.0...0.3.1">Diff</a> &mdash; <a href="http://htmlpreview.github.io/?https://raw.github.com/jashkenas/underscore/0.3.1/index.html">Docs</a><br />
+        <b class="header">0.3.1</b> &mdash; <small><i>October 29, 2009</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/0.3.0...0.3.1">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/underscore/0.3.1/index.html">Docs</a><br />
         All iterators are now passed in the original collection as their third
         argument, the same as JavaScript 1.6's <b>forEach</b>. Iterating over
         objects is now called with <tt>(value, key, collection)</tt>, for details
@@ -2709,7 +2826,7 @@ _([1, 2, 3]).value();
       </p>
 
       <p id="0.3.0">
-        <b class="header">0.3.0</b> &mdash; <small><i>October 29, 2009</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/0.2.0...0.3.0">Diff</a> &mdash; <a href="http://htmlpreview.github.io/?https://raw.github.com/jashkenas/underscore/0.3.0/index.html">Docs</a><br />
+        <b class="header">0.3.0</b> &mdash; <small><i>October 29, 2009</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/0.2.0...0.3.0">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/underscore/0.3.0/index.html">Docs</a><br />
         Added <a href="https://github.com/DmitryBaranovskiy">Dmitry Baranovskiy</a>'s
         comprehensive optimizations, merged in
         <a href="https://github.com/kriskowal">Kris Kowal</a>'s patches to make Underscore
@@ -2718,20 +2835,20 @@ _([1, 2, 3]).value();
       </p>
 
       <p id="0.2.0">
-        <b class="header">0.2.0</b> &mdash; <small><i>October 28, 2009</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/0.1.1...0.2.0">Diff</a> &mdash; <a href="http://htmlpreview.github.io/?https://raw.github.com/jashkenas/underscore/0.2.0/index.html">Docs</a><br />
+        <b class="header">0.2.0</b> &mdash; <small><i>October 28, 2009</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/0.1.1...0.2.0">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/underscore/0.2.0/index.html">Docs</a><br />
         Added <tt>compose</tt> and <tt>lastIndexOf</tt>, renamed <tt>inject</tt> to
         <tt>reduce</tt>, added aliases for <tt>inject</tt>, <tt>filter</tt>,
         <tt>every</tt>, <tt>some</tt>, and <tt>forEach</tt>.
       </p>
 
       <p id="0.1.1">
-        <b class="header">0.1.1</b> &mdash; <small><i>October 28, 2009</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/0.1.0...0.1.1">Diff</a> &mdash; <a href="http://htmlpreview.github.io/?https://raw.github.com/jashkenas/underscore/0.1.1/index.html">Docs</a><br />
+        <b class="header">0.1.1</b> &mdash; <small><i>October 28, 2009</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/0.1.0...0.1.1">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/underscore/0.1.1/index.html">Docs</a><br />
         Added <tt>noConflict</tt>, so that the "Underscore" object can be assigned to
         other variables.
       </p>
 
       <p id="0.1.0">
-        <b class="header">0.1.0</b> &mdash; <small><i>October 28, 2009</i></small> &mdash; <a href="http://htmlpreview.github.io/?https://raw.github.com/jashkenas/underscore/0.1.1/index.html">Docs</a><br />
+        <b class="header">0.1.0</b> &mdash; <small><i>October 28, 2009</i></small> &mdash; <a href="https://cdn.rawgit.com/jashkenas/underscore/0.1.1/index.html">Docs</a><br />
         Initial release of Underscore.js.
       </p>
 

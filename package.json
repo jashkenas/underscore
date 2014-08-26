@@ -1,19 +1,29 @@
 {
-  "name"          : "underscore",
-  "description"   : "JavaScript's functional programming helper library.",
-  "homepage"      : "http://underscorejs.org",
-  "keywords"      : ["util", "functional", "server", "client", "browser"],
-  "author"        : "Jeremy Ashkenas <jeremy@documentcloud.org>",
-  "repository"    : {"type": "git", "url": "git://github.com/jashkenas/underscore.git"},
-  "main"          : "underscore.js",
-  "version"       : "1.6.0",
+  "name": "underscore",
+  "description": "JavaScript's functional programming helper library.",
+  "homepage": "http://underscorejs.org",
+  "keywords": [
+    "util",
+    "functional",
+    "server",
+    "client",
+    "browser"
+  ],
+  "author": "Jeremy Ashkenas <jeremy@documentcloud.org>",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/jashkenas/underscore.git"
+  },
+  "main": "underscore.js",
+  "version": "1.7.0",
   "devDependencies": {
     "docco": "0.6.x",
-    "phantomjs": "1.9.0-1",
-    "uglify-js": "2.4.x"
+    "phantomjs": "1.9.7-1",
+    "uglify-js": "2.4.x",
+    "eslint": "0.6.x"
   },
   "scripts": {
-    "test": "phantomjs test/vendor/runner.js test/index.html?noglobals=true",
+    "test": "phantomjs test/vendor/runner.js test/index.html?noglobals=true && eslint underscore.js test/*.js test/vendor/runner.js",
     "build": "uglifyjs underscore.js -c \"evaluate=false\" --comments \"/    .*/\" -m --source-map underscore-min.map -o underscore-min.js",
     "doc": "docco underscore.js"
   },
@@ -23,5 +33,9 @@
       "url": "https://raw.github.com/jashkenas/underscore/master/LICENSE"
     }
   ],
-  "files"         : ["underscore.js", "underscore-min.js", "LICENSE"]
+  "files": [
+    "underscore.js",
+    "underscore-min.js",
+    "LICENSE"
+  ]
 }

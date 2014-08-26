@@ -180,9 +180,18 @@ ul.sections > li > div {
   display: block;
 }
 
+#jump_page_wrapper{
+  position: fixed;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+
 #jump_page {
   padding: 5px 0 3px;
   margin: 0 0 25px 25px;
+  max-height: 100%;
+  overflow: auto;
 }
 
 #jump_page .source {
