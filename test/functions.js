@@ -512,9 +512,9 @@
   test('after', function() {
     var testAfter = function(afterAmount, timesCalled) {
       var afterCalled = 0;
-      var after = _.after(afterAmount, function() {
+      var after = _.after(function() {
         afterCalled++;
-      });
+      }, afterAmount);
       while (timesCalled--) after();
       return afterCalled;
     };
@@ -528,7 +528,7 @@
   test('before', function() {
     var testBefore = function(beforeAmount, timesCalled) {
       var beforeCalled = 0;
-      var before = _.before(beforeAmount, function() { beforeCalled++; });
+      var before = _.before(function() { beforeCalled++; }, beforeAmount);
       while (timesCalled--) before();
       return beforeCalled;
     };
@@ -539,7 +539,7 @@
     equal(testBefore(0, 1), 0, 'before(0) should not fire when first invoked');
 
     var context = {num: 0};
-    var increment = _.before(3, function(){ return ++this.num; });
+    var increment = _.before(function(){ return ++this.num; }, 3);
     _.times(10, increment, context);
     equal(increment(), 2, 'stores a memo to the last value');
     equal(context.num, 2, 'provides context');
