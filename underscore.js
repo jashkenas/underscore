@@ -563,10 +563,16 @@
     if (array == null) return [];
     var length = _.max(arguments, 'length').length;
     var results = Array(length);
-    for (var i = 0; i < length; i++) {
-      results[i] = _.pluck(arguments, i);
+    while (length-- > 0) {
+      results[length] = _.pluck(arguments, length);
     }
     return results;
+  };
+
+  // Complement of _.zip. Unzip accepts an array of arrays and groups
+  // each array's elements on shared indices
+  _.unzip = function(array) {
+    return _.zip.apply(null, array);
   };
 
   // Converts lists into objects. Pass either a single array of `[key, value]`
