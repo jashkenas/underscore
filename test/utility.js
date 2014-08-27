@@ -53,6 +53,20 @@
     }), 'should produce a random number when passed `Number.MAX_VALUE`');
   });
 
+  test('_.toggle', function() {
+    equal(_.toggle(['desc', 'asc'], 'asc'), 'desc');
+    equal(_.toggle(['desc', 'asc'], 'desc'), 'asc');
+    equal(_.toggle(['desc', 'asc'], null), 'desc');
+  });
+
+  test('_.toggle with partials', function() {
+    var toggleOrder = _.partial(_.toggle, ['desc', 'asc']);
+
+    equal(toggleOrder('asc'), 'desc');
+    equal(toggleOrder('desc'), 'asc');
+    equal(toggleOrder(null), 'desc');
+  });
+
   test('now', function() {
     var diff = _.now() - new Date().getTime();
     ok(diff <= 0 && diff > -5, 'Produces the correct time in milliseconds');//within 5ms

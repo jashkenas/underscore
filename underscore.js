@@ -1211,6 +1211,10 @@
     return min + Math.floor(Math.random() * (max - min + 1));
   };
 
+  _.toggle = function(options, value) {
+    return value === options[0] ? options[1] : options[0];
+  };
+
   // A (possibly faster) way to get the current timestamp as an integer.
   _.now = Date.now || function() {
     return new Date().getTime();
