@@ -420,7 +420,10 @@
     equal(_.isEqual(a.isEqual(b), _(true)), true, '`isEqual` can be chained');
 
     // Objects from another frame.
-    ok(_.isEqual({}, iObject));
+    ok(_.isEqual({}, iObject), 'Objects with equivalent members created in different documents are equal');
+
+    // Array from another frame.
+    ok(_.isEqual([1, 2, 3], iArray), 'Arrays with equivalent elements created in different documents are equal');
 
     // Objects without a `constructor` property
     if (Object.create) {
