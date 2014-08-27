@@ -209,6 +209,17 @@
     deepEqual(_.zip(), [], '_.zip() returns []');
   });
 
+  test('unzip', function() {
+    deepEqual(_.unzip([['a', 'b'], [1, 2]]), [['a', 1], ['b', 2]]);
+
+    // complements zip
+    var zipped = _.zip(['fred', 'barney'], [30, 40], [true, false]);
+    deepEqual(_.unzip(zipped), [['fred', 'barney'], [30, 40], [true, false]]);
+
+    zipped = _.zip(['moe', 30], ['larry', 40], ['curly', 50, 'extra data']);
+    deepEqual(_.unzip(zipped), [['moe', 30, void 0], ['larry', 40, void 0], ['curly', 50, 'extra data']], 'Uses length of largest array');
+  });
+
   test('object', function() {
     var result = _.object(['moe', 'larry', 'curly'], [30, 40, 50]);
     var shouldBe = {moe: 30, larry: 40, curly: 50};
