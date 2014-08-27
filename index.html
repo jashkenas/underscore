@@ -308,6 +308,7 @@
       <li>- <a href="#noConflict">noConflict</a></li>
       <li>- <a href="#identity">identity</a></li>
       <li>- <a href="#constant">constant</a></li>
+      <li>- <a href="#noop">noop</a></li>
       <li>- <a href="#times">times</a></li>
       <li>- <a href="#random">random</a></li>
       <li>- <a href="#mixin">mixin</a></li>
@@ -1091,7 +1092,8 @@ add5(10);
         <b>hashFunction</b>, it will be used to compute the hash key for storing
         the result, based on the arguments to the original function. The default
         <b>hashFunction</b> just uses the first argument to the memoized function
-        as the key.
+        as the key. The cache of memoized values is available as the <tt>cache</tt>
+        property on the returned function.
       </p>
       <pre>
 var fibonacci = _.memoize(function(n) {
@@ -1633,7 +1635,8 @@ _.isUndefined(window.missingVariable);
         a reference to the <b>Underscore</b> object.
       </p>
       <pre>
-var underscore = _.noConflict();</pre>
+var underscore = _.noConflict();
+</pre>
 
       <p id="identity">
         <b class="header">identity</b><code>_.identity(value)</code>
@@ -1646,7 +1649,8 @@ var underscore = _.noConflict();</pre>
       <pre>
 var moe = {name: 'moe'};
 moe === _.identity(moe);
-=&gt; true</pre>
+=&gt; true
+</pre>
 
       <p id="constant">
         <b class="header">constant</b><code>_.constant(value)</code>
@@ -1665,6 +1669,9 @@ moe === _.constant(moe)();
         Returns <tt>undefined</tt> irrespective of the arguments passed to it.
         Useful as the default for optional callback arguments.
       </p>
+      <pre>
+obj.initialize = _.noop;
+</pre>
 
       <p id="times">
         <b class="header">times</b><code>_.times(n, iteratee, [context])</code>
@@ -1712,6 +1719,12 @@ _("fabio").capitalize();
         A mostly-internal function to generate callbacks that can be applied
         to each element in a collection, returning the desired result — either
         identity, an arbitrary callback, a property matcher, or a property accessor.
+        <br />
+        The full list of Underscore methods that transform predicates
+        through <tt>_.iteratee</tt> is <tt>map</tt>, <tt>find</tt>,
+        <tt>filter</tt>, <tt>reject, <tt>every</tt>, <tt>some</tt>, <tt>max</tt>,
+        <tt>min</tt>, <tt>sortBy</tt>, <tt>groupBy</tt>, <tt>indexBy</tt>,
+        <tt>countBy</tt>, <tt>sortedIndex</tt>, <tt>partition</tt>, and <tt>unique</tt>.
       </p>
       <pre>
 var stooges = [{name: 'curly', age: 25}, {name: 'moe', age: 21}, {name: 'larry', age: 23}];
@@ -1733,7 +1746,7 @@ _.uniqueId('contact_');
         <b class="header">escape</b><code>_.escape(string)</code>
         <br />
         Escapes a string for insertion into HTML, replacing
-        <tt>&amp;</tt>, <tt>&lt;</tt>, <tt>&gt;</tt>, <tt>&quot;</tt>, and <tt>&#x27;</tt> characters.
+        <tt>&amp;</tt>, <tt>&lt;</tt>, <tt>&gt;</tt>, <tt>&quot;</tt>, <tt>&#96;</tt>, and <tt>&#x27;</tt> characters.
       </p>
       <pre>
 _.escape('Curly, Larry &amp; Moe');
@@ -1744,7 +1757,7 @@ _.escape('Curly, Larry &amp; Moe');
         <br />
         The opposite of <a href="#escape"><b>escape</b></a>, replaces
         <tt>&amp;amp;</tt>, <tt>&amp;lt;</tt>, <tt>&amp;gt;</tt>,
-        <tt>&amp;quot;</tt>, and <tt>&amp;#x27;</tt>
+        <tt>&amp;quot;</tt>, <tt>&amp;#96;</tt> and <tt>&amp;#x27;</tt>
         with their unescaped counterparts.
       </p>
       <pre>
