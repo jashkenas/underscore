@@ -140,7 +140,7 @@
     iteratee = createCallback(iteratee, context, 4);
     var keys = obj.length !== +obj.length && _.keys(obj),
         length = (keys || obj).length,
-        i = 0, currentKey;
+        i = 0;
     if (arguments.length < 3) {
       if (!length) throw new TypeError(reduceError);
       memo = obj[keys ? keys[i++] : i++];
@@ -162,18 +162,17 @@
     if (obj == null) obj = [];
     iteratee = createCallback(iteratee, context, 4);
     var keys = obj.length !== + obj.length && _.keys(obj),
-        i = (keys || obj).length,
-        currentKey;
+        i = (keys || obj).length;
     if (arguments.length < 3) {
       if (!i) throw new TypeError(reduceError);
       memo = obj[keys ? keys[--i] : --i];
     }
     if (keys) {
-      while(i--) {
+      while (i--) {
         memo = iteratee(memo, obj[keys[i]], keys[i], obj);
       }
     } else {
-      while(i--) {
+      while (i--) {
         memo = iteratee(memo, obj[i], i, obj);
       }
     }
