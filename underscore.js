@@ -217,10 +217,15 @@
     predicate = _.iteratee(predicate, context);
     var keys = obj.length !== +obj.length && _.keys(obj),
         length = (keys || obj).length,
-        index, currentKey;
-    for (index = 0; index < length; index++) {
-      currentKey = keys ? keys[index] : index;
-      if (!predicate(obj[currentKey], currentKey, obj)) return false;
+        i;
+    if (keys) {
+      for (i = 0; i < length; i++) {
+        if (!predicate(obj[keys[i]], keys[i], obj)) return false;
+      }
+    } else {
+      for (i = 0; i < length; i++) {
+        if (!predicate(obj[i], i, obj)) return false;
+      }
     }
     return true;
   };
