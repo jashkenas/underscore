@@ -162,15 +162,20 @@
     if (obj == null) obj = [];
     iteratee = createCallback(iteratee, context, 4);
     var keys = obj.length !== + obj.length && _.keys(obj),
-        index = (keys || obj).length,
+        i = (keys || obj).length,
         currentKey;
     if (arguments.length < 3) {
-      if (!index) throw new TypeError(reduceError);
-      memo = obj[keys ? keys[--index] : --index];
+      if (!i) throw new TypeError(reduceError);
+      memo = obj[keys ? keys[--i] : --i];
     }
-    while (index--) {
-      currentKey = keys ? keys[index] : index;
-      memo = iteratee(memo, obj[currentKey], currentKey, obj);
+    if (keys) {
+      while(i--) {
+        memo = iteratee(memo, obj[keys[i]], keys[i], obj);
+      }
+    } else {
+      while(i--) {
+        memo = iteratee(memo, obj[i], i, obj);
+      }
     }
     return memo;
   };
