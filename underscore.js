@@ -118,10 +118,15 @@
     var keys = obj.length !== +obj.length && _.keys(obj),
         length = (keys || obj).length,
         results = Array(length),
-        currentKey;
-    for (var index = 0; index < length; index++) {
-      currentKey = keys ? keys[index] : index;
-      results[index] = iteratee(obj[currentKey], currentKey, obj);
+        i;
+    if (keys) {
+      for (i = 0; i < length; i++) {
+        results[i] = iteratee(obj[keys[i]], keys[i], obj);
+      }
+    } else {
+      for (i = 0; i < length; i++) {
+        results[i] = iteratee(obj[i], i, obj);
+      }
     }
     return results;
   };
@@ -135,14 +140,19 @@
     iteratee = createCallback(iteratee, context, 4);
     var keys = obj.length !== +obj.length && _.keys(obj),
         length = (keys || obj).length,
-        index = 0, currentKey;
+        i = 0;
     if (arguments.length < 3) {
       if (!length) throw new TypeError(reduceError);
-      memo = obj[keys ? keys[index++] : index++];
+      memo = obj[keys ? keys[i++] : i++];
     }
-    for (; index < length; index++) {
-      currentKey = keys ? keys[index] : index;
-      memo = iteratee(memo, obj[currentKey], currentKey, obj);
+    if (keys) {
+      for (; i < length; i++) {
+        memo = iteratee(memo, obj[keys[i]], keys[i], obj);
+      }
+    } else {
+      for (; i < length; i++) {
+        memo = iteratee(memo, obj[i], i, obj);
+      }
     }
     return memo;
   };
@@ -152,15 +162,19 @@
     if (obj == null) obj = [];
     iteratee = createCallback(iteratee, context, 4);
     var keys = obj.length !== + obj.length && _.keys(obj),
-        index = (keys || obj).length,
-        currentKey;
+        i = (keys || obj).length;
     if (arguments.length < 3) {
-      if (!index) throw new TypeError(reduceError);
-      memo = obj[keys ? keys[--index] : --index];
+      if (!i) throw new TypeError(reduceError);
+      memo = obj[keys ? keys[--i] : --i];
     }
-    while (index--) {
-      currentKey = keys ? keys[index] : index;
-      memo = iteratee(memo, obj[currentKey], currentKey, obj);
+    if (keys) {
+      while (i--) {
+        memo = iteratee(memo, obj[keys[i]], keys[i], obj);
+      }
+    } else {
+      while (i--) {
+        memo = iteratee(memo, obj[i], i, obj);
+      }
     }
     return memo;
   };
@@ -202,10 +216,15 @@
     predicate = _.iteratee(predicate, context);
     var keys = obj.length !== +obj.length && _.keys(obj),
         length = (keys || obj).length,
-        index, currentKey;
-    for (index = 0; index < length; index++) {
-      currentKey = keys ? keys[index] : index;
-      if (!predicate(obj[currentKey], currentKey, obj)) return false;
+        i;
+    if (keys) {
+      for (i = 0; i < length; i++) {
+        if (!predicate(obj[keys[i]], keys[i], obj)) return false;
+      }
+    } else {
+      for (i = 0; i < length; i++) {
+        if (!predicate(obj[i], i, obj)) return false;
+      }
     }
     return true;
   };
@@ -217,10 +236,15 @@
     predicate = _.iteratee(predicate, context);
     var keys = obj.length !== +obj.length && _.keys(obj),
         length = (keys || obj).length,
-        index, currentKey;
-    for (index = 0; index < length; index++) {
-      currentKey = keys ? keys[index] : index;
-      if (predicate(obj[currentKey], currentKey, obj)) return true;
+        i;
+    if (keys) {
+      for (i = 0; i < length; i++) {
+        if (predicate(obj[keys[i]], keys[i], obj)) return true;
+      }
+    } else {
+      for (i = 0; i < length; i++) {
+        if (predicate(obj[i], i, obj)) return true;
+      }
     }
     return false;
   };
