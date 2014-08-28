@@ -140,14 +140,19 @@
     iteratee = createCallback(iteratee, context, 4);
     var keys = obj.length !== +obj.length && _.keys(obj),
         length = (keys || obj).length,
-        index = 0, currentKey;
+        i = 0, currentKey;
     if (arguments.length < 3) {
       if (!length) throw new TypeError(reduceError);
-      memo = obj[keys ? keys[index++] : index++];
+      memo = obj[keys ? keys[i++] : i++];
     }
-    for (; index < length; index++) {
-      currentKey = keys ? keys[index] : index;
-      memo = iteratee(memo, obj[currentKey], currentKey, obj);
+    if (keys) {
+      for (; i < length; i++) {
+        memo = iteratee(memo, obj[keys[i]], keys[i], obj);
+      }
+    } else {
+      for (; i < length; i++) {
+        memo = iteratee(memo, obj[i], i, obj);
+      }
     }
     return memo;
   };
