@@ -118,10 +118,15 @@
     var keys = obj.length !== +obj.length && _.keys(obj),
         length = (keys || obj).length,
         results = Array(length),
-        currentKey;
-    for (var index = 0; index < length; index++) {
-      currentKey = keys ? keys[index] : index;
-      results[index] = iteratee(obj[currentKey], currentKey, obj);
+        i;
+    if (keys) {
+      for (i = 0; i < length; i++) {
+        results[i] = iteratee(obj[keys[i]], keys[i], obj);
+      }
+    } else {
+      for (i = 0; i < length; i++) {
+        results[i] = iteratee(obj[i], i, obj);
+      }
     }
     return results;
   };
