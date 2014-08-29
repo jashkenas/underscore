@@ -336,13 +336,17 @@
 
   // Sort the object's values by a criterion produced by one or more iteratees.
   _.sortBy = function(obj, iteratee, context) {
-    var iteratees = [].concat(iteratee).map(function(i){return _.iteratee(i,context)});
+    var iteratees = [].concat(iteratee).map(function(i){
+      return _.iteratee(i,context);
+    });
     var length = iteratees.length;
     return _.pluck(_.map(obj, function(value, index, list) {
       return {
         value: value,
         index: index,
-        criterias: _.map(iteratees,function(it){return it(value,index,list)})
+        criterias: _.map(iteratees,function(it){
+          return it(value,index,list);
+        })
       };
     }).sort(function(left, right) {
       for (var n = 0; n < length; n++) {
