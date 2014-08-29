@@ -496,6 +496,10 @@
 
     list = ['q', 'w', 'e', 'r', 't', 'y'];
     deepEqual(_.sortBy(list), ['e', 'q', 'r', 't', 'w', 'y'], 'uses _.identity if iterator is not specified');
+
+    var people2 = [{name : 'curly', age : 50},{name: 'moe', age: 30},{name : 'curly', age : 27}];
+    people2 = _.sortBy(people2, ['name','age'] );
+    deepEqual(_.pluck(people2, 'age'), [27,50,30], 'stooges sorted first by name, then age');
   });
 
   test('groupBy', function() {
