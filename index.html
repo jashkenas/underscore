@@ -1859,7 +1859,7 @@ template({name: "Mustache"});
       </p>
 
       <pre>
-_.template("Using 'with': <%= data.answer %>", {answer: 'no'}, {variable: 'data'});
+_.template("Using 'with': <%= data.answer %>", {variable: 'data'})({answer: 'no'});
 =&gt; "Using 'with': no"</pre>
 
       <p>
