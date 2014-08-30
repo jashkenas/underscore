@@ -41,6 +41,20 @@
     answers = 0;
     _.each(b, function(){ ++answers; });
     equal(answers, 100, 'enumerates [0, length)');
+
+
+    var collection = [1, 2, 3], count = 0;
+    _.each(collection, function() {
+      if (count < 10) collection.push(count++);
+    });
+    equal(count, 3);
+
+    collection = {a: 1, b: 2, c: 3};
+    count = 0;
+    _.each(collection, function() {
+      if (count < 10) collection[count] = count++;
+    });
+    equal(count, 3);
   });
 
   test('forEach', function() {
