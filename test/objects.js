@@ -4,10 +4,11 @@
   /* global iObject, iElement, iArguments, iFunction, iArray, iString, iNumber, iBoolean, iDate, iRegExp, iNaN, iNull, iUndefined, ActiveXObject */
 
   test('keys', function() {
-    deepEqual(_.keys({one : 1, two : 2}), ['one', 'two'], 'can extract the keys from an object');
+    deepEqual(_.keys({one: 1, two: 2}), ['one', 'two'], 'can extract the keys from an object');
     // the test above is not safe because it relies on for-in enumeration order
     var a = []; a[1] = 0;
-    deepEqual(_.keys(a), ['1'], 'is not fooled by sparse arrays; see issue #95');
+    deepEqual(_.keys(a), ['0', '1'], '*is* fooled by sparse arrays');
+    deepEqual(_.keys(/(.)/.exec('a')), ['0', '1', 'index', 'input'], 'can extract the keys from an array with additional keys');
     deepEqual(_.keys(null), []);
     deepEqual(_.keys(void 0), []);
     deepEqual(_.keys(1), []);
@@ -183,6 +184,8 @@
     equal(_.clone(undefined), void 0, 'non objects should not be changed by clone');
     equal(_.clone(1), 1, 'non objects should not be changed by clone');
     equal(_.clone(null), null, 'non objects should not be changed by clone');
+
+    ok('0' in _.clone(Array(1)), 'should produce a dense copy');
   });
 
   test('isEqual', function() {

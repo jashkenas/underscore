@@ -402,7 +402,6 @@
   // Safely create a real, live array from anything iterable.
   _.toArray = function(obj) {
     if (!obj) return [];
-    if (_.isArray(obj)) return slice.call(obj);
     if (obj.length === +obj.length) return _.map(obj, _.identity);
     return _.values(obj);
   };
@@ -849,14 +848,23 @@
   // Object Functions
   // ----------------
 
-  // Retrieve the names of an object's properties.
-  // Delegates to **ECMAScript 5**'s native `Object.keys`
-  _.keys = function(obj) {
-    if (!_.isObject(obj)) return [];
-    if (nativeKeys) return nativeKeys(obj);
+  function shimKeys(obj) {
     var keys = [];
     for (var key in obj) if (_.has(obj, key)) keys.push(key);
     return keys;
+  }
+
+  // Retrieve the names of an object's properties.
+  _.keys = function(obj) {
+    if (!_.isObject(obj)) {
+      return [];
+    } else if (_.isArray(obj)) {
+      var keys = _.map(_.range(obj.length), String);
+      push.apply(keys, _.difference(shimKeys(obj), keys));
+      return keys;
+    } else {
+      return (nativeKeys || shimKeys)(obj);
+    }
   };
 
   // Retrieve the values of an object's properties.
@@ -965,7 +973,7 @@
   // Create a (shallow-cloned) duplicate of an object.
   _.clone = function(obj) {
     if (!_.isObject(obj)) return obj;
-    return _.isArray(obj) ? obj.slice() : _.extend({}, obj);
+    return _.isArray(obj) ? _.toArray(obj) : _.extend({}, obj);
   };
 
   // Invokes interceptor with the obj, and then returns obj.
