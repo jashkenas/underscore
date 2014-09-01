@@ -512,6 +512,47 @@
     deepEqual(_.sortBy(list), ['e', 'q', 'r', 't', 'w', 'y'], 'uses _.identity if iterator is not specified');
   });
 
+  test('sortByDescending', function() {
+    var people = [{name : 'curly', age : 50}, {name : 'moe', age : 30}];
+    people = _.sortByDescending(people, function(person){ return person.age; });
+    deepEqual(_.pluck(people, 'name'), ['curly', 'moe'], 'stooges sorted by descending age');
+
+    var list = [undefined, 4, 1, undefined, 3, 2];
+    deepEqual(_.sortByDescending(list, _.identity), [undefined, undefined, 4, 3, 2, 1], 'sortByDescending with undefined values');
+
+    list = ['one', 'two', 'three', 'four', 'five'];
+    var sorted = _.sortByDescending(list, 'length');
+    deepEqual(sorted, ['three', 'four', 'five', 'one', 'two'], 'sorted by descending length');
+
+    function Pair(x, y) {
+      this.x = x;
+      this.y = y;
+    }
+
+    var collection = [
+      new Pair(undefined, 1), new Pair(undefined, 2),
+      new Pair(undefined, 3), new Pair(undefined, 4),
+      new Pair(undefined, 5), new Pair(undefined, 6),
+      new Pair(2, 1), new Pair(2, 2),
+      new Pair(2, 3), new Pair(2, 4),
+      new Pair(2, 5), new Pair(2, 6),
+      new Pair(1, 1), new Pair(1, 2),
+      new Pair(1, 3), new Pair(1, 4),
+      new Pair(1, 5), new Pair(1, 6)
+    ];
+
+    var actual = _.sortByDescending(collection, function(pair) {
+      return pair.x;
+    });
+
+    deepEqual(actual, collection, 'sortByDescending should be stable');
+
+    deepEqual(_.sortByDescending(collection, 'x'), collection, 'sortByDescending accepts property string');
+
+    list = ['q', 'w', 'e', 'r', 't', 'y'];
+    deepEqual(_.sortByDescending(list), ['y', 'w', 't', 'r', 'q', 'e'], 'uses _.identity if iterator is not specified');
+  });
+
   test('groupBy', function() {
     var parity = _.groupBy([1, 2, 3, 4, 5, 6], function(num){ return num % 2; });
     ok('0' in parity && '1' in parity, 'created a group for each value');
