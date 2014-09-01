@@ -1205,12 +1205,15 @@
   };
 
   // Return a random integer between min and max (inclusive).
+  // Note the subtraction of 1e-16, to prevent a very occasional error where we'd 
+  // return max + 1 due to rounding (see 
+  // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random)
   _.random = function(min, max) {
     if (max == null) {
       max = min;
       min = 0;
     }
-    return min + Math.floor(Math.random() * (max - min + 1));
+    return min + Math.floor(Math.random() * (max - min + 1 - 1e-16));
   };
 
   // A (possibly faster) way to get the current timestamp as an integer.
