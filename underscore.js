@@ -1177,9 +1177,14 @@
   _.noop = function(){};
 
   _.property = function(key) {
-    return function(obj) {
+    getProperty = function(obj) {
+      // Allow for getting nested properties
+      if (!(key in obj) && key.indexOf('.') > -1){
+        return getProperty(key.split('.').slice(1).join('.'));
+      }
       return obj[key];
-    };
+    }
+    return getProperty;
   };
 
   // Returns a predicate for checking whether an object has a given set of `key:value` pairs.
