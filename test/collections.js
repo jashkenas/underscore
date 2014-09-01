@@ -510,6 +510,8 @@
 
     list = ['q', 'w', 'e', 'r', 't', 'y'];
     deepEqual(_.sortBy(list), ['e', 'q', 'r', 't', 'w', 'y'], 'uses _.identity if iterator is not specified');
+
+    deepEqual(_.sortBy([NaN, 1]), [1, NaN], 'sorts NaNs like Array.prototype.sort()');
   });
 
   test('groupBy', function() {
