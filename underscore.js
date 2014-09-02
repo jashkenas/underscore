@@ -346,10 +346,21 @@
     }).sort(function(left, right) {
       var a = left.criteria;
       var b = right.criteria;
-      if (a !== b) {
-        if (a > b || a === void 0) return 1;
-        if (a < b || b === void 0) return -1;
+
+      // If a value is not equal to itself it is NaN
+      var aNumber = _.isNumber(a) && a === a;
+      var bNumber = _.isNumber(b) && b === b;
+      if (aNumber !== bNumber) {
+        return bNumber ? 1 : -1;
       }
+
+      if (!bNumber) {
+        a = String(a);
+        b = String(b);
+      }
+
+      if (a > b) return 1;
+      if (a < b) return -1;
       return left.index - right.index;
     }), 'value');
   };
