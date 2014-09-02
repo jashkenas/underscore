@@ -483,21 +483,22 @@
   document.body.appendChild(iframe);
   var iDoc = (iDoc = iframe.contentDocument || iframe.contentWindow).document || iDoc;
   iDoc.write(
-    '<script>' +
-    '  parent.iElement   = document.createElement("div");' +
-    '  parent.iArguments = (function(){ return arguments; })(1, 2, 3);' +
-    '  parent.iArray     = [1, 2, 3];' +
-    '  parent.iString    = new String("hello");' +
-    '  parent.iNumber    = new Number(100);' +
-    '  parent.iFunction  = (function(){});' +
-    '  parent.iDate      = new Date();' +
-    '  parent.iRegExp    = /hi/;' +
-    '  parent.iNaN       = NaN;' +
-    '  parent.iNull      = null;' +
-    '  parent.iBoolean   = new Boolean(false);' +
-    '  parent.iUndefined = undefined;' +
-    '  parent.iObject     = {};' +
-    '</script>'
+    '<script>\
+      parent.iElement   = document.createElement("div");\
+      parent.iArguments = (function(){ return arguments; })(1, 2, 3);\
+      parent.iArray     = [1, 2, 3];\
+      parent.iString    = new String("hello");\
+      parent.iNumber    = new Number(100);\
+      parent.iFunction  = (function(){});\
+      parent.iDate      = new Date();\
+      parent.iRegExp    = /hi/;\
+      parent.iNaN       = NaN;\
+      parent.iNull      = null;\
+      parent.iBoolean   = new Boolean(false);\
+      parent.iUndefined = undefined;\
+      parent.iObject     = {};\
+      parent.iError     = new Error();\
+    </script>'
   );
   iDoc.close();
 
@@ -636,6 +637,20 @@
     ok(_.isUndefined(), 'nothing is undefined');
     ok(_.isUndefined(undefined), 'undefined is undefined');
     ok(_.isUndefined(iUndefined), 'even from another frame');
+  });
+
+  test('isError', function() {
+    ok(!_.isError(1), 'numbers are not Errors');
+    ok(!_.isError(null), 'null is not an Error');
+    ok(!_.isError(Error), 'functions are not Errors');
+    ok(_.isError(new Error()), 'Errors are Errors');
+    ok(_.isError(iError), 'even from another frame');
+    ok(_.isError(new EvalError()), 'EvalErrors are Errors');
+    ok(_.isError(new RangeError()), 'RangeErrors are Errors');
+    ok(_.isError(new ReferenceError()), 'ReferenceErrors are Errors');
+    ok(_.isError(new SyntaxError()), 'SyntaxErrors are Errors');
+    ok(_.isError(new TypeError()), 'TypeErrors are Errors');
+    ok(_.isError(new URIError()), 'URIErrors are Errors');
   });
 
   if (window.ActiveXObject) {
