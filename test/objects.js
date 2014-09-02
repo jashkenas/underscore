@@ -63,7 +63,7 @@
     F.prototype = {a: 'b'};
     var subObj = new F();
     subObj.c = 'd';
-    deepEqual(_.extend({}, subObj), {c: 'd'}, 'extend ignores any properties but own from source');
+    deepEqual(_.extend({}, subObj), {a: 'b', c: 'd'}, 'extend copies all properties from source');
 
     try {
       result = {};
