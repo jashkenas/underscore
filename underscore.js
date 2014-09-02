@@ -334,8 +334,8 @@
     return _.shuffle(obj).slice(0, Math.max(0, n));
   };
 
-  // Sort the object's values by a criterion produced by an iteratee.
-  _.sortBy = function(obj, iteratee, context) {
+  // Internal sort function used by sortBy (ascending) and sortByDescending
+  var internalSort = function(obj, iteratee, context, compare) {
     iteratee = _.iteratee(iteratee, context);
     return _.pluck(_.map(obj, function(value, index, list) {
       return {
@@ -347,13 +347,34 @@
       var a = left.criteria;
       var b = right.criteria;
       if (a !== b) {
-        if (a > b || a === void 0) return 1;
-        if (a < b || b === void 0) return -1;
+        return compare(a, b);
       }
       return left.index - right.index;
     }), 'value');
   };
+  
+  // Internal comparison function used for sorting
+  var compareAscending = function(a, b) {
+    if (a > b || a === void 0) return 1;
+    if (a < b || b === void 0) return -1;
+    return 0;
+  };
+  
+  // Internal comparison function used for sorting
+  var compareDescending = function(a, b) { 
+    return -1 * compareAscending(a, b); 
+  };
 
+  // Sort the object's values by a criterion produced by an iteratee.
+  _.sortBy = function(obj, iteratee, context) {
+    return internalSort(obj, iteratee, context, compareAscending); 
+  };
+  
+  // Sort the object's values in reverse order by a criterion produced by an iteratee.
+  _.sortByDescending = function(obj, iteratee, context) {
+    return internalSort(obj, iteratee, context, compareDescending); 
+  };
+  
   // An internal function used for aggregate "group by" operations.
   var group = function(behavior) {
     return function(obj, iteratee, context) {
