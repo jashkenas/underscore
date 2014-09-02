@@ -334,21 +334,28 @@
     return _.shuffle(obj).slice(0, Math.max(0, n));
   };
 
-  // Sort the object's values by a criterion produced by an iteratee.
+  // Sort the object's values by a criterion produced by one or more iteratees.
   _.sortBy = function(obj, iteratee, context) {
-    iteratee = _.iteratee(iteratee, context);
+    var iteratees = [].concat(iteratee).map(function(i){
+      return _.iteratee(i,context);
+    });
+    var length = iteratees.length;
     return _.pluck(_.map(obj, function(value, index, list) {
       return {
         value: value,
         index: index,
-        criteria: iteratee(value, index, list)
+        criterias: _.map(iteratees,function(it){
+          return it(value,index,list);
+        })
       };
     }).sort(function(left, right) {
-      var a = left.criteria;
-      var b = right.criteria;
-      if (a !== b) {
-        if (a > b || a === void 0) return 1;
-        if (a < b || b === void 0) return -1;
+      for (var n = 0; n < length; n++) {
+        var a = left.criterias[n];
+        var b = right.criterias[n];
+        if (a !== b) {
+          if (a > b || a === void 0) return 1;
+          if (a < b || b === void 0) return -1;
+        }
       }
       return left.index - right.index;
     }), 'value');
