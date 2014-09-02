@@ -652,6 +652,16 @@
     strictEqual(_.has(undefined, 'foo'), false, 'has() returns false for undefined');
   });
 
+  test('get', function () {
+    var obj = {foo: 'bar', func: function(){}};
+    ok(_.get(obj, 'foo') == 'bar', 'get() get the property from the object.');
+    ok(_.get(obj, 'bar') == undefined, 'get() return undefined when the object dont have the property.');
+    ok(_.get(obj, 'bar', 'bar') == 'bar', 'get() return default value if object dont have the property, and the default value is providered.');
+
+    strictEqual(_.get(null, 'foo'), undefined, 'get() returns undefined for null');
+    strictEqual(_.get(undefined, 'foo'), undefined, 'get() returns undefined for undefined');
+  });
+
   test('matches', function() {
     var moe = {name: 'Moe Howard', hair: true};
     var curly = {name: 'Curly Howard', hair: false};

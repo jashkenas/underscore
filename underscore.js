@@ -1155,6 +1155,21 @@
     return obj != null && hasOwnProperty.call(obj, key);
   };
 
+  // Shortcut function for getting value for key.
+  // If this object dont have the given key, the default value would be returned.
+  // Acts like dict.get(k, v) in Python.
+  _.get = function(obj, key, default_value) {
+    if (obj != null) {
+        if (_.has(obj, key)) {
+          return obj[key];
+        } else {
+          return default_value;
+        }
+    } else {
+        return undefined;
+    }
+  };
+
   // Utility Functions
   // -----------------
 
