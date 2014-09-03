@@ -79,8 +79,10 @@
     doubled = _([1, 2, 3]).map(function(num){ return num * 2; });
     deepEqual(doubled, [2, 4, 6], 'OO-style doubled numbers');
 
-    if (document.querySelectorAll) {
-      var ids = _.map(document.querySelectorAll('#map-test *'), function(n){ return n.id; });
+    if (typeof document != 'undefined') {
+      var nodes = _.filter(document.getElementById('map-test').childNodes, _.isElement);
+      var ids = _.map(nodes, 'id');
+      equal(nodes.length, 2);
       deepEqual(ids, ['id1', 'id2'], 'Can use collection methods on NodeLists.');
     }
 
@@ -651,12 +653,14 @@
     var numbers = _.toArray({one : 1, two : 2, three : 3});
     deepEqual(numbers, [1, 2, 3], 'object flattened into array');
 
-    // test in IE < 9
-    try {
-      var actual = _.toArray(document.childNodes);
-    } catch(ex) { }
-
-    ok(_.isArray(actual), 'should not throw converting a node list');
+    if (typeof document != 'undefined') {
+      // test in IE < 9
+      var actual;
+      try {
+        actual = _.toArray(document.childNodes);
+      } catch(ex) { }
+      deepEqual(actual, _.map(document.childNodes, _.identity), 'works on NodeList');
+    }
   });
 
   test('size', function() {
