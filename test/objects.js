@@ -1,7 +1,7 @@
 (function() {
 
   module('Objects');
-  /* global iObject, iElement, iArguments, iFunction, iArray, iString, iNumber, iBoolean, iDate, iRegExp, iNaN, iNull, iUndefined, ActiveXObject */
+  /* global iObject, iElement, iArguments, iFunction, iArray, iString, iNumber, iBoolean, iDate, iError, iRegExp, iNaN, iNull, iUndefined, ActiveXObject */
 
   test('keys', function() {
     deepEqual(_.keys({one : 1, two : 2}), ['one', 'two'], 'can extract the keys from an object');
