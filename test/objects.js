@@ -483,22 +483,24 @@
   document.body.appendChild(iframe);
   var iDoc = (iDoc = iframe.contentDocument || iframe.contentWindow).document || iDoc;
   iDoc.write(
-    '<script>\
-      parent.iElement   = document.createElement("div");\
-      parent.iArguments = (function(){ return arguments; })(1, 2, 3);\
-      parent.iArray     = [1, 2, 3];\
-      parent.iString    = new String("hello");\
-      parent.iNumber    = new Number(100);\
-      parent.iFunction  = (function(){});\
-      parent.iDate      = new Date();\
-      parent.iRegExp    = /hi/;\
-      parent.iNaN       = NaN;\
-      parent.iNull      = null;\
-      parent.iBoolean   = new Boolean(false);\
-      parent.iUndefined = undefined;\
-      parent.iObject     = {};\
-      parent.iError     = new Error();\
-    </script>'
+    [
+    '<script>',
+      'parent.iElement   = document.createElement("div");',
+      'parent.iArguments = (function(){ return arguments; })(1, 2, 3);',
+      'parent.iArray     = [1, 2, 3];',
+      'parent.iString    = new String("hello");',
+      'parent.iNumber    = new Number(100);',
+      'parent.iFunction  = (function(){});',
+      'parent.iDate      = new Date();',
+      'parent.iRegExp    = /hi/;',
+      'parent.iNaN       = NaN;',
+      'parent.iNull      = null;',
+      'parent.iBoolean   = new Boolean(false);',
+      'parent.iUndefined = undefined;',
+      'parent.iObject     = {};',
+      'parent.iError     = new Error();',
+    '</script>'
+    ].join('\n')
   );
   iDoc.close();
 
