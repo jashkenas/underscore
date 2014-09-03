@@ -1,6 +1,4 @@
 language: node_js
-addons:
-  firefox: "10.0"
 node_js:
   - "0.8"
   - "0.12"
@@ -9,15 +7,25 @@ matrix:
   include:
     - node_js: "0.10"
       env: BROWSER=true
-env: BROWSER=false
 before_install:
   - npm install -g npm
-  - if [[ $BROWSER == true ]]; then npm install karma-phantomjs-launcher karma-firefox-launcher; fi
+  - npm install -g karma-cli
 before_script:
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
 script:
   - npm test
-  - "[ $BROWSER == false ] || ./node_modules/karma/bin/karma start --browsers Firefox,PhantomJS"
+  - "[ $BROWSER == false ] || npm run test-browser"
+  # Karma sauce is limited to running about 5-7 browsers (or it will tiemout) at a time so we just run vendor by vendor here
+  - "[ $BROWSER == false ] || karma start karma.conf-sauce.js --browsers FIREFOX_V4,FIREFOX_V11,FIREFOX_V20,FIREFOX_V30,FIREFOX_V35"
+  - "[ $BROWSER == false ] || karma start karma.conf-sauce.js --browsers CHROME_V28,CHROME_V35,CHROME_V40,ANDROID_V4.0,ANDROID_V4.3"
+  - "[ $BROWSER == false ] || karma start karma.conf-sauce.js --browsers INTERNET_EXPLORER_V9,INTERNET_EXPLORER_V10,INTERNET_EXPLORER_V11"
+  - "[ $BROWSER == false ] || karma start karma.conf-sauce.js --browsers SAFARI_V5,SAFARI_V6,SAFARI_V7"
+  - "[ $BROWSER == false ] || karma start karma.conf-sauce.js --browsers OPERA_V11,OPERA_V12"
 notifications:
   email: false
+env:
+  global:
+  - secure: bDZSBQfqr21hCayjcZ20IxrV6+XGhxQPFIfwWqEKLrF93Gu8LLVjZRxXE/mE8I8N4Z5WtDNb4ZHrm/TTzmcPa5MuHgIxEdknQCncobH8oimwc83SHwEPk6okeNKl39VlCjvvnmoe/V/KpnknuYn3Rqghtl/Uv9KLpCwskwjTtcw=
+  - secure: SRECgXuwcZTcD3GVxTS2bYNgRyye4vq6BLrV2PH9FyNenowsKQR2EwlC/dppc1Q8NWMgv79J/R96q9JOFh+mEH9L5dlBb2yhnGH8amVeM/ChAJHT/F8YktKM453uVpz5fR00QcCQDDUOx6Pvx374ID0OKNpWKAkQBWA9mPTsLnE=
+  matrix: BROWSER=false
