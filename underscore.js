@@ -861,7 +861,7 @@
     if (nativeKeys) return nativeKeys(obj);
     var keys = [];
     for (var key in obj) if (_.has(obj, key)) keys.push(key);
-    
+
     // Ahem, Internet Explorer.
     if (hasEnumBug) {
       var nonEnumIdx = nonEnumerableProps.length;
@@ -1260,9 +1260,11 @@
 
   // If the value of the named `property` is a function then invoke it with the
   // `object` as context; otherwise, return it.
-  _.result = function(object, property) {
-    if (object == null) return void 0;
-    var value = object[property];
+  _.result = function(object, property, fallback) {
+    var value = object == null ? void 0 : object[property];
+    if (value === void 0) {
+      return fallback;
+    }
     return _.isFunction(value) ? object[property]() : value;
   };
 
