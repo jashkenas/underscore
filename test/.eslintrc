@@ -12,7 +12,6 @@
     "strictEqual": false,
     "notStrictEqual": false,
     "notEqual": false,
-    "raises": false,
     "throws": false,
     "asyncTest": false,
     "start": false
