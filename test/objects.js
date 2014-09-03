@@ -1,4 +1,4 @@
-(function() {
+(function(_) {
 
   module('Objects');
 
@@ -693,4 +693,4 @@
     deepEqual(_.map([null, undefined, 5, {}], oCon), [false, false, false, true], 'doesnt fasley match constructor on undefined/null');
   });
 
-}());
+}(typeof require === 'function' ? require('..') : this._));

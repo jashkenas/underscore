@@ -1,4 +1,4 @@
-(function() {
+(function(_) {
 
   var templateSettings;
 
@@ -351,4 +351,4 @@
     strictEqual(template(), '<<\nx\n>>');
   });
 
-}());
+}(typeof require === 'function' ? require('..') : this._));
