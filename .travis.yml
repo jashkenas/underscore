@@ -1,5 +1,9 @@
 language: node_js
 node_js:
-  - '0.10'
+- '0.10'
 notifications:
   email: false
+env:
+  global:
+  - secure: HNxvir0JZPu3aES+e5hLrSf0qRCmvAbxUFw/F8fBpPSrhOMQcLcz/4PwNZtCitlzgvYHgnOuGNPiRyBjD7KyOInDz9TAoFEy26b6DW21DrdBXszFpa6seD800zkbfo3SkiTBArBMnkFxjY/34nSkt8FLbucASD98CYZFPF5Ry1M=
+  - secure: JHs03agkHAAhhIca/+xw2iIJZwsgGwFx0i1e0uTeofhBEulY49MeX06tPlHr83BoYUtJj0OS9HY3VT/JHq1DhswXzxx2FAaFf63iIbQPVBMGKyd8Vy5dua6LHpbl39Aeq93BqY38d4AoKWwzrLc/FbRxzSKuQo1BqfL8aKSrLY4=

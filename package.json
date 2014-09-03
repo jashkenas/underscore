@@ -26,7 +26,7 @@
     "uglify-js": "2.4.x"
   },
   "scripts": {
-    "test": "./node_modules/karma/bin/karma start && eslint underscore.js test/*.js",
+    "test": "./node_modules/karma/bin/karma start && eslint underscore.js test/*.js && ./node_modules/karma/bin/karma start karma.conf-sauce.js",
     "build": "uglifyjs underscore.js -c \"evaluate=false\" --comments \"/    .*/\" -m --source-map underscore-min.map -o underscore-min.js",
     "doc": "docco underscore.js"
   },
