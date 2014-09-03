@@ -2566,7 +2566,7 @@ _([1, 2, 3]).value();
         first being called a specified number of times.
         <tt>_.invoke</tt> can now take a direct function reference.
         <tt>_.every</tt> now requires an iterator function to be passed, which
-        mirrors the ECMA5 API.
+        mirrors the ES5 API.
         <tt>_.extend</tt> no longer copies keys when the value is undefined.
         <tt>_.bind</tt> now errors when trying to bind an undefined value.
       </p>
@@ -2599,13 +2599,13 @@ _([1, 2, 3]).value();
         In CommonJS, Underscore may now be required with just: <br />
         <tt>var _ = require("underscore")</tt>.
         Added <tt>_.throttle</tt> and <tt>_.debounce</tt> functions.
-        Removed <tt>_.breakLoop</tt>, in favor of an ECMA5-style un-<i>break</i>-able
+        Removed <tt>_.breakLoop</tt>, in favor of an ES5-style un-<i>break</i>-able
         each implementation &mdash; this removes the try/catch, and you'll now have
         better stack traces for exceptions that are thrown within an Underscore iterator.
         Improved the <b>isType</b> family of functions for better interoperability
         with Internet Explorer host objects.
         <tt>_.template</tt> now correctly escapes backslashes in templates.
-        Improved <tt>_.reduce</tt> compatibility with the ECMA5 version:
+        Improved <tt>_.reduce</tt> compatibility with the ES5 version:
         if you don't pass an initial value, the first item in the collection is used.
         <tt>_.each</tt> no longer returns the iterated collection, for improved
         consistency with ES5's <tt>forEach</tt>.
