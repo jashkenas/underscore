@@ -849,7 +849,7 @@
   // Object Functions
   // ----------------
 
-  // Keys in IE that won't be iterated by `for key in ...` and thus missed.
+  // Keys in IE < 9 that won't be iterated by `for key in ...` and thus missed.
   var hasEnumBug = !({toString: null}).propertyIsEnumerable('toString');
   var nonEnumerableProps = ['constructor', 'valueOf', 'isPrototypeOf', 'toString',
                       'propertyIsEnumerable', 'hasOwnProperty', 'toLocaleString'];
@@ -862,7 +862,7 @@
     var keys = [];
     for (var key in obj) if (_.has(obj, key)) keys.push(key);
 
-    // Ahem, Internet Explorer.
+    // Ahem, IE < 9.
     if (hasEnumBug) {
       var nonEnumIdx = nonEnumerableProps.length;
       while (nonEnumIdx--) {
@@ -1118,7 +1118,7 @@
     };
   });
 
-  // Define a fallback version of the method in browsers (ahem, IE), where
+  // Define a fallback version of the method in browsers (ahem, IE < 9), where
   // there isn't any inspectable "Arguments" type.
   if (!_.isArguments(arguments)) {
     _.isArguments = function(obj) {
