@@ -1267,8 +1267,8 @@
     }
 
     if (_.isFunction(value)) {
-      var args = arguments.slice(2);
-      return object[property](args);
+      var args = Array.prototype.slice.call(arguments, 2);
+      return value.apply(object, args);
     }
     
     return value;
