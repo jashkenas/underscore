@@ -1265,7 +1265,13 @@
     if (value === void 0) {
       return fallback;
     }
-    return _.isFunction(value) ? object[property]() : value;
+
+    if (_.isFunction(value)) {
+      var args = arguments.slice(2);
+      return object[property](args);
+    }
+    
+    return value;
   };
 
   // Generate a unique integer id (unique within the entire client session).
@@ -1417,7 +1423,7 @@
       return result(this, method.apply(this._wrapped, arguments));
     };
   });
-
+  
   // Extracts the result from a wrapped and chained object.
   _.prototype.value = function() {
     return this._wrapped;
