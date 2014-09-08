@@ -2067,6 +2067,30 @@ _([1, 2, 3]).value();
             <tt>_.has</tt> now guards against nullish objects.
           </li>
           <li>
+            <tt>_.omit</tt> can now take an iteratee function.
+          </li>
+          <li>
+            <tt>_.partition</tt> is now called with <tt>index</tt> and <tt>object</tt>.
+          </li>
+          <li>
+            <tt>_.matches</tt> creates a shallow clone of your object and only iterates
+            over own properties.
+          </li>
+          <li>
+            Aligning better with the forthcoming ECMA6 <tt>Object.assign</tt>,
+            <tt>_.extend</tt> only iterates over the object's own properties.
+          </li>
+          <li>
+            Falsey guards are no longer needed in <tt>_.extend</tt> and
+            <tt>_.defaults</tt>&mdash;if the passed in argument isn't a JavaScript
+            object it's just returned.
+          </li>
+          <li>
+            Fixed a few edge cases in <tt>_.max</tt> and <tt>_.min</tt> to
+            handle arrays containing <tt>NaN</tt> (like strings or other objects)
+            and <tt>Infinity</tt> and <tt>-Infinity</tt>.
+          </li>
+          <li>
             Override base methods like <tt>each</tt> and <tt>some</tt>
             and they'll be used internally by other Underscore functions too.
           </li>

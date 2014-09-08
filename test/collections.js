@@ -79,14 +79,7 @@
     doubled = _([1, 2, 3]).map(function(num){ return num * 2; });
     deepEqual(doubled, [2, 4, 6], 'OO-style doubled numbers');
 
-    if (typeof document != 'undefined') {
-      var nodes = _.filter(document.getElementById('map-test').childNodes, _.isElement);
-      var ids = _.map(nodes, 'id');
-      equal(nodes.length, 2);
-      deepEqual(ids, ['id1', 'id2'], 'Can use collection methods on NodeLists.');
-    }
-
-    ids = _.map({length: 2, 0: {id: '1'}, 1: {id: '2'}}, function(n){
+    var ids = _.map({length: 2, 0: {id: '1'}, 1: {id: '2'}}, function(n){
       return n.id;
     });
     deepEqual(ids, ['1', '2'], 'Can use collection methods on Array-likes.');
@@ -710,5 +703,27 @@
       equal(this, predicate);
     }, predicate);
   });
+
+  if (typeof document != 'undefined') {
+    test('Can use various collection methods on NodeLists', function() {
+        var parent = document.createElement('div');
+        parent.innerHTML = '<span id=id1></span>textnode<span id=id2></span>';
+
+        var elementChildren = _.filter(parent.childNodes, _.isElement);
+        equal(elementChildren.length, 2);
+
+        deepEqual(_.map(elementChildren, 'id'), ['id1', 'id2']);
+        deepEqual(_.map(parent.childNodes, 'nodeType'), [1, 3, 1]);
+
+        ok(!_.every(parent.childNodes, _.isElement));
+        ok(_.some(parent.childNodes, _.isElement));
+
+        function compareNode(node) {
+          return _.isElement(node) ? node.id.charAt(2) : void 0;
+        }
+        equal(_.max(parent.childNodes, compareNode), _.last(parent.childNodes));
+        equal(_.min(parent.childNodes, compareNode), _.first(parent.childNodes));
+    });
+  }
 
 }());
