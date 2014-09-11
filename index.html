@@ -1798,7 +1798,7 @@ _.now();
         data sources. Template functions can both interpolate variables, using
         <tt>&lt;%= &hellip; %&gt;</tt>, as well as execute arbitrary JavaScript code, with
         <tt>&lt;% &hellip; %&gt;</tt>. If you wish to interpolate a value, and have
-        it be HTML-escaped, use <tt>&lt;%- &hellip; %&gt;</tt> When you evaluate a
+        it be HTML-escaped, use <tt>&lt;%- &hellip; %&gt;</tt>. When you evaluate a
         template function, pass in a <b>data</b> object that has properties
         corresponding to the template's free variables. The <b>settings</b> argument
         should be a hash containing any <tt>_.templateSettings</tt> that should be overridden.
@@ -1828,12 +1828,12 @@ compiled({epithet: "stooge"});
         template settings to use different symbols to set off interpolated code.
         Define an <b>interpolate</b> regex to match expressions that should be
         interpolated verbatim, an <b>escape</b> regex to match expressions that should
-        be inserted after being HTML escaped, and an <b>evaluate</b> regex to match
+        be inserted after being HTML-escaped, and an <b>evaluate</b> regex to match
         expressions that should be evaluated without insertion into the resulting
         string. You may define or omit any combination of the three.
         For example, to perform
-        <a href="https://github.com/janl/mustache.js#readme">Mustache.js</a>
-        style templating:
+        <a href="https://github.com/janl/mustache.js#readme">Mustache.js</a>-style
+        templating:
       </p>
 
       <pre>
@@ -1847,7 +1847,7 @@ template({name: "Mustache"});
 
       <p>
         By default, <b>template</b> places the values from your data in the local scope
-        via the <tt>with</tt> statement.  However, you can specify a single variable name
+        via the <tt>with</tt> statement. However, you can specify a single variable name
         with the <b>variable</b> setting. This can significantly improve the speed
         at which a template is able to render.
       </p>
@@ -1857,8 +1857,8 @@ _.template("Using 'with': <%= data.answer %>", {variable: 'data'})({answer: 'no'
 =&gt; "Using 'with': no"</pre>
 
       <p>
-        Precompiling your templates can be a big help when debugging errors you can't
-        reproduce.  This is because precompiled templates can provide line numbers and
+        Precompiling your templates can be a big help when you're debugging errors you can't
+        reproduce. This is because precompiled templates can provide line numbers and
         a stack trace, something that is not possible when compiling templates on the client.
         The <b>source</b> property is available on the compiled template
         function for easy precompilation.
