@@ -99,7 +99,8 @@
     iteratee = createCallback(iteratee, context);
     var i, length = obj.length;
     if (length === +length) {
-      for (i = 0; i < length; i++) {
+      i = length;
+      while (--i >= 0) {
         iteratee(obj[i], i, obj);
       }
     } else {
