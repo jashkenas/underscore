@@ -744,7 +744,7 @@
       context = this;
       args = arguments;
       if (remaining <= 0 || remaining > wait) {
-        if(timeout) {
+        if (timeout) {
           clearTimeout(timeout);
           timeout = null;
         }
