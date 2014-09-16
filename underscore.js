@@ -99,13 +99,18 @@
     iteratee = createCallback(iteratee, context);
     var i, length = obj.length;
     if (length === +length) {
-      for (i = 0; i < length; i++) {
+      i = 0;
+      while(i < length) {
         iteratee(obj[i], i, obj);
+        i++;
       }
     } else {
       var keys = _.keys(obj);
-      for (i = 0, length = keys.length; i < length; i++) {
+      i = 0;
+      length = keys.length;
+      while(i < length) {
         iteratee(obj[keys[i]], keys[i], obj);
+        i++;
       }
     }
     return obj;
