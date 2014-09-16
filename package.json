@@ -27,12 +27,7 @@
     "build": "uglifyjs underscore.js -c \"evaluate=false\" --comments \"/    .*/\" -m --source-map underscore-min.map -o underscore-min.js",
     "doc": "docco underscore.js"
   },
-  "licenses": [
-    {
-      "type": "MIT",
-      "url": "https://raw.github.com/jashkenas/underscore/master/LICENSE"
-    }
-  ],
+  "license": "MIT",
   "files": [
     "underscore.js",
     "underscore-min.js",
