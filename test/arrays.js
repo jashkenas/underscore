@@ -1,4 +1,4 @@
-(function() {
+(function(_) {
 
   module('Arrays');
 
@@ -338,4 +338,4 @@
     deepEqual(_.range(0, -10, -1), [0, -1, -2, -3, -4, -5, -6, -7, -8, -9], 'final example in the Python docs');
   });
 
-}());
+}(typeof require === 'function' ? require('..') : this._));

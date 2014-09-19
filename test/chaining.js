@@ -1,4 +1,4 @@
-(function() {
+(function(_) {
 
   module('Chaining');
 
@@ -85,4 +85,4 @@
     deepEqual(o.filter(function(i) { return i > 2; }).value(), [3, 4]);
   });
 
-}());
+}(typeof require === 'function' ? require('..') : this._));

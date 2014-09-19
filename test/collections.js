@@ -1,4 +1,4 @@
-(function() {
+(function(_) {
 
   module('Collections');
 
@@ -726,4 +726,4 @@
     });
   }
 
-}());
+}(typeof require === 'function' ? require('..') : this._));

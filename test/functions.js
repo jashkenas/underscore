@@ -1,10 +1,10 @@
-(function() {
+(function(_) {
 
   module('Functions');
 
   test('bind', function() {
-    var context = {name : 'moe'};
-    var func = function(arg) { return 'name: ' + (this.name || arg); };
+    var context = {_name : 'moe'};
+    var func = function(arg) { return 'name: ' + (this._name || arg); };
     var bound = _.bind(func, context);
     equal(bound(), 'name: moe', 'can bind a function to a context');
 
@@ -550,4 +550,4 @@
     equal(identity, _.identity, '_.iteratee is exposed as an external function.');
   });
 
-}());
+}(typeof require === 'function' ? require('..') : this._));
