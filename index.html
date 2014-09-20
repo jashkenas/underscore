@@ -465,9 +465,10 @@ _.each({one: 1, two: 2, three: 3}, alert);
         <span class="alias">Alias: <b>collect</b></span>
         <br />
         Produces a new array of values by mapping each value in <b>list</b>
-        through a transformation function (<b>iteratee</b>). If <b>list</b>
-        is a JavaScript object, <b>iteratee</b>'s arguments will be
-        <tt>(value, key, list)</tt>.
+        through a transformation function (<b>iteratee</b>). Each invocation
+        of <b>iteratee</b> is called with three arguments: <tt>(value, index,
+        list)</tt>. If <b>list</b> is a JavaScript object, <b>iteratee</b>'s
+        arguments will be <tt>(value, key, list)</tt>.
       </p>
       <pre>
 _.map([1, 2, 3], function(num){ return num * 3; });
