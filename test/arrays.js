@@ -116,6 +116,20 @@
     list = [1, 2, 2, 3, 4, 4];
     deepEqual(_.uniq(list, true, iterator), [1, 2, 3, 4], 'iterator works with sorted array');
 
+    var kittens = [
+      {kitten: 'Celery', cuteness: 8},
+      {kitten: 'Juniper', cuteness: 10},
+      {kitten: 'Spottis', cuteness: 10}
+    ];
+
+    var expected = [
+      {kitten: 'Celery', cuteness: 8},
+      {kitten: 'Juniper', cuteness: 10}
+    ];
+
+    deepEqual(_.uniq(kittens, true, 'cuteness'), expected, 'string iterator works with sorted array');
+
+
     var result = (function(){ return _.uniq(arguments); }(1, 2, 1, 3, 1, 4));
     deepEqual(result, [1, 2, 3, 4], 'works on an arguments object');
 
