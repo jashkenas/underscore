@@ -513,11 +513,11 @@
         if (!i || seen !== computed) result.push(value);
         seen = computed;
       } else if (iteratee) {
-        if (_.indexOf(seen, computed) < 0) {
+        if (!_.contains(seen, computed)) {
           seen.push(computed);
           result.push(value);
         }
-      } else if (_.indexOf(result, value) < 0) {
+      } else if (!_.contains(result, value)) {
         result.push(value);
       }
     }
