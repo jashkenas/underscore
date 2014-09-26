@@ -636,6 +636,14 @@
     return range;
   };
 
+  // Swaps items in the array and returns the array with swapped values
+  _.swap = function(array, i1, i2) {
+    var first = array[i1], second = array[i2];
+    array.splice(i1, 1, second);
+    array.splice(i2, 1, first);
+    return array;
+  };
+
   // Function (ahem) Functions
   // ------------------
 
