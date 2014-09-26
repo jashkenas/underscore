@@ -466,15 +466,19 @@
 
   // Internal implementation of a recursive `flatten` function.
   var flatten = function(input, shallow, strict, startIndex) {
-    var output = [], value;
-    for (var i = startIndex || 0, length = input.length; i < length; i++) {
+    var output = [], idx = 0, value;
+    for (var i = startIndex || 0, length = input && input.length; i < length; i++) {
       value = input[i];
-      if (!_.isArray(value) && !_.isArguments(value)) {
-        if (!strict) output.push(value);
-      } else {
+      if (value && value.length >= 0 && (_.isArray(value) || _.isArguments(value))) {
         //flatten current level of array or arguments object
         if (!shallow) value = flatten(value, shallow, strict);
-        push.apply(output, value);
+        var j = 0, len = value.length;
+        output.length += len;
+        while (j < len) {
+          output[idx++] = value[j++];
+        }
+      } else if (!strict) {
+        output[idx++] = value;
       }
     }
     return output;
