@@ -503,6 +503,19 @@
 
     deepEqual(_.sortBy(collection, 'x'), collection, 'sortBy accepts property string');
 
+    var collectionWithDifferentDatatypes = [
+      new Pair("1", 100), new Pair("1", 1),
+      new Pair("1", 2), new Pair("1", 200)
+    ];
+
+    var sortedList = _.sortBy(collectionWithDifferentDatatypes, function(pair) {
+      return [pair.x, pair.y];
+    });
+
+    var expectedSortedList = [  new Pair("1", 1), new Pair("1", 2), new Pair("1", 100), new Pair("1", 200) ];
+
+    deepEqual(sortedList, expectedSortedList, 'sortBy should sort it');
+
     list = ['q', 'w', 'e', 'r', 't', 'y'];
     deepEqual(_.sortBy(list), ['e', 'q', 'r', 't', 'w', 'y'], 'uses _.identity if iterator is not specified');
   });

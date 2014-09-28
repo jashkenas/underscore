@@ -347,6 +347,10 @@
       var a = left.criteria;
       var b = right.criteria;
       if (a !== b) {
+        for (var index = 0; index < _.keys(a).length; index++) {
+          if (a[index] > b[index] || a === void 0) return 1;
+          if (a[index] < b[index] || b === void 0) return -1;
+        }
         if (a > b || a === void 0) return 1;
         if (a < b || b === void 0) return -1;
       }
