@@ -56,7 +56,7 @@
   // Internal function that returns an efficient (for current engines) version
   // of the passed-in callback, to be repeatedly applied in other Underscore
   // functions.
-  var createCallback = function(func, context, argCount) {
+  var optimizeCb = function(func, context, argCount) {
     if (context === void 0) return func;
     switch (argCount == null ? 3 : argCount) {
       case 1: return function(value) {
@@ -80,11 +80,14 @@
   // A mostly-internal function to generate callbacks that can be applied
   // to each element in a collection, returning the desired result — either
   // identity, an arbitrary callback, a property matcher, or a property accessor.
-  _.iteratee = function(value, context, argCount) {
+  var cb = function(value, context, argCount) {
     if (value == null) return _.identity;
-    if (_.isFunction(value)) return createCallback(value, context, argCount);
+    if (_.isFunction(value)) return optimizeCb(value, context, argCount);
     if (_.isObject(value)) return _.matches(value);
     return _.property(value);
+  };
+  _.iteratee = function(value, context) {
+    return cb(value, context);
   };
 
   // Collection Functions
@@ -95,7 +98,7 @@
   // sparse array-likes as if they were dense.
   _.each = _.forEach = function(obj, iteratee, context) {
     if (obj == null) return obj;
-    iteratee = createCallback(iteratee, context);
+    iteratee = optimizeCb(iteratee, context);
     var i, length = obj.length;
     if (length === +length) {
       for (i = 0; i < length; i++) {
@@ -113,7 +116,7 @@
   // Return the results of applying the iteratee to each element.
   _.map = _.collect = function(obj, iteratee, context) {
     if (obj == null) return [];
-    iteratee = _.iteratee(iteratee, context);
+    iteratee = cb(iteratee, context);
     var keys = obj.length !== +obj.length && _.keys(obj),
         length = (keys || obj).length,
         results = Array(length),
@@ -131,7 +134,7 @@
   // or `foldl`.
   _.reduce = _.foldl = _.inject = function(obj, iteratee, memo, context) {
     if (obj == null) obj = [];
-    iteratee = createCallback(iteratee, context, 4);
+    iteratee = optimizeCb(iteratee, context, 4);
     var keys = obj.length !== +obj.length && _.keys(obj),
         length = (keys || obj).length,
         index = 0, currentKey;
@@ -149,7 +152,7 @@
   // The right-associative version of reduce, also known as `foldr`.
   _.reduceRight = _.foldr = function(obj, iteratee, memo, context) {
     if (obj == null) obj = [];
-    iteratee = createCallback(iteratee, context, 4);
+    iteratee = optimizeCb(iteratee, context, 4);
     var keys = obj.length !== + obj.length && _.keys(obj),
         index = (keys || obj).length,
         currentKey;
@@ -167,7 +170,7 @@
   // Return the first value which passes a truth test. Aliased as `detect`.
   _.find = _.detect = function(obj, predicate, context) {
     var result;
-    predicate = _.iteratee(predicate, context);
+    predicate = cb(predicate, context);
     _.some(obj, function(value, index, list) {
       if (predicate(value, index, list)) {
         result = value;
@@ -182,7 +185,7 @@
   _.filter = _.select = function(obj, predicate, context) {
     var results = [];
     if (obj == null) return results;
-    predicate = _.iteratee(predicate, context);
+    predicate = cb(predicate, context);
     _.each(obj, function(value, index, list) {
       if (predicate(value, index, list)) results.push(value);
     });
@@ -191,14 +194,14 @@
 
   // Return all the elements for which a truth test fails.
   _.reject = function(obj, predicate, context) {
-    return _.filter(obj, _.negate(_.iteratee(predicate)), context);
+    return _.filter(obj, _.negate(cb(predicate)), context);
   };
 
   // Determine whether all of the elements match a truth test.
   // Aliased as `all`.
   _.every = _.all = function(obj, predicate, context) {
     if (obj == null) return true;
-    predicate = _.iteratee(predicate, context);
+    predicate = cb(predicate, context);
     var keys = obj.length !== +obj.length && _.keys(obj),
         length = (keys || obj).length,
         index, currentKey;
@@ -213,7 +216,7 @@
   // Aliased as `any`.
   _.some = _.any = function(obj, predicate, context) {
     if (obj == null) return false;
-    predicate = _.iteratee(predicate, context);
+    predicate = cb(predicate, context);
     var keys = obj.length !== +obj.length && _.keys(obj),
         length = (keys || obj).length,
         index, currentKey;
@@ -271,7 +274,7 @@
         }
       }
     } else {
-      iteratee = _.iteratee(iteratee, context);
+      iteratee = cb(iteratee, context);
       _.each(obj, function(value, index, list) {
         computed = iteratee(value, index, list);
         if (computed > lastComputed || computed === -Infinity && result === -Infinity) {
@@ -296,7 +299,7 @@
         }
       }
     } else {
-      iteratee = _.iteratee(iteratee, context);
+      iteratee = cb(iteratee, context);
       _.each(obj, function(value, index, list) {
         computed = iteratee(value, index, list);
         if (computed < lastComputed || computed === Infinity && result === Infinity) {
@@ -335,7 +338,7 @@
 
   // Sort the object's values by a criterion produced by an iteratee.
   _.sortBy = function(obj, iteratee, context) {
-    iteratee = _.iteratee(iteratee, context);
+    iteratee = cb(iteratee, context);
     return _.pluck(_.map(obj, function(value, index, list) {
       return {
         value: value,
@@ -357,7 +360,7 @@
   var group = function(behavior) {
     return function(obj, iteratee, context) {
       var result = {};
-      iteratee = _.iteratee(iteratee, context);
+      iteratee = cb(iteratee, context);
       _.each(obj, function(value, index) {
         var key = iteratee(value, index, obj);
         behavior(result, value, key);
@@ -388,7 +391,7 @@
   // Use a comparator function to figure out the smallest index at which
   // an object should be inserted so as to maintain order. Uses binary search.
   _.sortedIndex = function(array, obj, iteratee, context) {
-    iteratee = _.iteratee(iteratee, context, 1);
+    iteratee = cb(iteratee, context, 1);
     var value = iteratee(obj);
     var low = 0, high = array.length;
     while (low < high) {
@@ -415,7 +418,7 @@
   // Split a collection into two arrays: one whose elements all satisfy the given
   // predicate, and one whose elements all do not satisfy the predicate.
   _.partition = function(obj, predicate, context) {
-    predicate = _.iteratee(predicate, context);
+    predicate = cb(predicate, context);
     var pass = [], fail = [];
     _.each(obj, function(value, key, obj) {
       (predicate(value, key, obj) ? pass : fail).push(value);
@@ -504,7 +507,7 @@
       iteratee = isSorted;
       isSorted = false;
     }
-    if (iteratee != null) iteratee = _.iteratee(iteratee, context);
+    if (iteratee != null) iteratee = cb(iteratee, context);
     var result = [];
     var seen = [];
     for (var i = 0, length = array.length; i < length; i++) {
@@ -931,7 +934,7 @@
     var result = {}, key;
     if (obj == null) return result;
     if (_.isFunction(iteratee)) {
-      iteratee = createCallback(iteratee, context);
+      iteratee = optimizeCb(iteratee, context);
       for (key in obj) {
         var value = obj[key];
         if (iteratee(value, key, obj)) result[key] = value;
@@ -1209,7 +1212,7 @@
   // Run a function **n** times.
   _.times = function(n, iteratee, context) {
     var accum = Array(Math.max(0, n));
-    iteratee = createCallback(iteratee, context, 1);
+    iteratee = optimizeCb(iteratee, context, 1);
     for (var i = 0; i < n; i++) accum[i] = iteratee(i);
     return accum;
   };
