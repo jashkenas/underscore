@@ -638,6 +638,34 @@
 
     return range;
   };
+  
+  // Generate a non-negative integers Array by decomposing non-negative
+  // integer number **int** into **count** random integer terms.
+  _.decompose = function(int, count) {
+    var idx;
+    var cmp = [];
+    var sum = 0;
+    var rnd;
+    
+    if (int < 0 || !count || count <= 0) return [];
+    
+    for (idx = 0; idx < count; idx++) {
+      rnd = _.random(0, int);
+      cmp.push(rnd);
+      sum += rnd;
+    }
+    
+    var diff = Math.floor(sum / int);
+    var tmpSum = 0;
+    for (idx = 0; idx < count; idx++) {
+      if (diff > 0) cmp[idx] = Math.floor(cmp[idx] / diff);
+      tmpSum += cmp[idx];
+    }
+    
+    cmp[0] += int - tmpSum;
+    
+    return cmp;
+  };
 
   // Function (ahem) Functions
   // ------------------
