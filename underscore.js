@@ -920,10 +920,12 @@
   _.extend = function(obj) {
     if (!_.isObject(obj)) return obj;
     var source, prop;
+    var defProp = Object.defineProperty || function (obj, prop, desc) { obj[prop] = desc; };
+    var getProp = Object.getOwnPropertyDescriptor || function (obj, prop) { return obj[prop]; };
     for (var i = 1, length = arguments.length; i < length; i++) {
       source = arguments[i];
       for (prop in source) {
-        obj[prop] = source[prop];
+         Object.defineProperty(obj, prop, Object.getOwnPropertyDescriptor(source, prop));
       }
     }
     return obj;
