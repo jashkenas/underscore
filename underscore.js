@@ -925,7 +925,7 @@
     for (var i = 1, length = arguments.length; i < length; i++) {
       source = arguments[i];
       for (prop in source) {
-         Object.defineProperty(obj, prop, Object.getOwnPropertyDescriptor(source, prop));
+         defProp(obj, prop, Object.getProp(source, prop));
       }
     }
     return obj;
