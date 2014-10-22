@@ -87,7 +87,7 @@
     return _.property(value);
   };
   _.iteratee = function(value, context) {
-    return cb(value, context);
+    return cb(value, context, Infinity);
   };
 
   // Collection Functions

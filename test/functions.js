@@ -562,6 +562,16 @@
   test('iteratee', function() {
     var identity = _.iteratee();
     equal(identity, _.identity, '_.iteratee is exposed as an external function.');
+
+    function fn() {
+      return arguments;
+    }
+    _.each([_.iteratee(fn), _.iteratee(fn, {})], function(cb) {
+      equal(cb().length, 0);
+      deepEqual(_.toArray(cb(1, 2, 3)), _.range(1, 4));
+      deepEqual(_.toArray(cb(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)), _.range(1, 11));
+    });
+    
   });
 
 }());
