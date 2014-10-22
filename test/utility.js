@@ -297,14 +297,6 @@
     strictEqual(_.result(obj, 'a', 'failed'), undefined);
   });
 
-  test('result fallback can use a function', function() {
-    var obj = {a: [1, 2, 3]};
-    strictEqual(_.result(obj, 'b', _.constant(5)), 5);
-    strictEqual(_.result(obj, 'b', function() {
-      return this.a;
-    }), obj.a, 'called with context');
-  });
-
   test('_.templateSettings.variable', function() {
     var s = '<%=data.x%>';
     var data = {x: 'x'};

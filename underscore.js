@@ -1269,9 +1269,9 @@
   _.result = function(object, property, fallback) {
     var value = object == null ? void 0 : object[property];
     if (value === void 0) {
-      value = fallback;
+      return fallback;
     }
-    return _.isFunction(value) ? value.call(object) : value;
+    return _.isFunction(value) ? object[property]() : value;
   };
 
   // Generate a unique integer id (unique within the entire client session).
