@@ -1048,6 +1048,15 @@
   // Fill in a given object with default properties.
   _.defaults = createAssigner(_.allKeys, true);
 
+  // Creates an object that inherits from the given prototype object.
+  // If additional properties are provided then they will be added to the
+  // created object.
+  _.create = function(prototype, props) {
+    var result = baseCreate(prototype);
+    if (props) _.assign(result, props);
+    return result;
+  };
+
   // Create a (shallow-cloned) duplicate of an object.
   _.clone = function(obj) {
     if (!_.isObject(obj)) return obj;
