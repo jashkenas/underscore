@@ -85,10 +85,10 @@
     if (_.isFunction(value)) return optimizeCb(value, context, argCount);
     if (_.isObject(value)) return _.matches(value);
     return _.property(value);
-  };
+  };/*
   _.iteratee = function(value, context) {
     return cb(value, context);
-  };
+  };*/
 
   // Collection Functions
   // --------------------
@@ -100,14 +100,14 @@
     if (obj == null) return obj;
     iteratee = optimizeCb(iteratee, context);
     var i, length = obj.length;
-    if (length === +length) {
-      for (i = 0; i < length; i++) {
-        iteratee(obj[i], i, obj);
-      }
-    } else {
+    if (_.isObject(obj)) {
       var keys = _.keys(obj);
       for (i = 0, length = keys.length; i < length; i++) {
         iteratee(obj[keys[i]], keys[i], obj);
+      }
+    } else {
+      for (i = 0; i < length; i++) {
+        iteratee(obj[i], i, obj);
       }
     }
     return obj;
@@ -117,7 +117,7 @@
   _.map = _.collect = function(obj, iteratee, context) {
     if (obj == null) return [];
     iteratee = cb(iteratee, context);
-    var keys = obj.length !== +obj.length && _.keys(obj),
+    var keys = _.isObject(obj) && _.keys(obj),
         length = (keys || obj).length,
         results = Array(length),
         currentKey;
@@ -135,7 +135,7 @@
   _.reduce = _.foldl = _.inject = function(obj, iteratee, memo, context) {
     if (obj == null) obj = [];
     iteratee = optimizeCb(iteratee, context, 4);
-    var keys = obj.length !== +obj.length && _.keys(obj),
+    var keys = _.isObject(obj) && _.keys(obj),
         length = (keys || obj).length,
         index = 0, currentKey;
     if (arguments.length < 3) {
@@ -153,7 +153,7 @@
   _.reduceRight = _.foldr = function(obj, iteratee, memo, context) {
     if (obj == null) obj = [];
     iteratee = optimizeCb(iteratee, context, 4);
-    var keys = obj.length !== + obj.length && _.keys(obj),
+    var keys = _.isObject(obj) && _.keys(obj),
         index = (keys || obj).length,
         currentKey;
     if (arguments.length < 3) {
@@ -170,10 +170,10 @@
   // Return the first value which passes a truth test. Aliased as `detect`.
   _.find = _.detect = function(obj, predicate, context) {
     var key;
-    if (obj.length === +obj.length) {
-      key = _.findIndex(obj, predicate, context);
-    } else {
+    if (_.isObject(obj)) {
       key = _.findKey(obj, predicate, context);
+    } else {
+      key = _.findIndex(obj, predicate, context);
     }
     if (key !== void 0 && key !== -1) return obj[key];
   };
@@ -200,7 +200,7 @@
   _.every = _.all = function(obj, predicate, context) {
     if (obj == null) return true;
     predicate = cb(predicate, context);
-    var keys = obj.length !== +obj.length && _.keys(obj),
+    var keys = _.isObject(obj) && _.keys(obj),
         length = (keys || obj).length,
         index, currentKey;
     for (index = 0; index < length; index++) {
@@ -215,7 +215,7 @@
   _.some = _.any = function(obj, predicate, context) {
     if (obj == null) return false;
     predicate = cb(predicate, context);
-    var keys = obj.length !== +obj.length && _.keys(obj),
+    var keys = _.isObject(obj) && _.keys(obj),
         length = (keys || obj).length,
         index, currentKey;
     for (index = 0; index < length; index++) {
@@ -229,7 +229,7 @@
   // Aliased as `include`.
   _.contains = _.include = function(obj, target) {
     if (obj == null) return false;
-    if (obj.length !== +obj.length) obj = _.values(obj);
+    if (_.isObject(obj)) obj = _.values(obj);
     return _.indexOf(obj, target) >= 0;
   };
 
@@ -264,7 +264,7 @@
     var result = -Infinity, lastComputed = -Infinity,
         value, computed;
     if (iteratee == null && obj != null) {
-      obj = obj.length === +obj.length ? obj : _.values(obj);
+      obj = _.isObject(obj) ? _.values(obj) : obj;
       for (var i = 0, length = obj.length; i < length; i++) {
         value = obj[i];
         if (value > result) {
@@ -289,7 +289,7 @@
     var result = Infinity, lastComputed = Infinity,
         value, computed;
     if (iteratee == null && obj != null) {
-      obj = obj.length === +obj.length ? obj : _.values(obj);
+      obj = _.isObject(obj) ? _.values(obj) : obj;
       for (var i = 0, length = obj.length; i < length; i++) {
         value = obj[i];
         if (value < result) {
@@ -312,7 +312,7 @@
   // Shuffle a collection, using the modern version of the
   // [Fisher-Yates shuffle](http://en.wikipedia.org/wiki/Fisher–Yates_shuffle).
   _.shuffle = function(obj) {
-    var set = obj && obj.length === +obj.length ? obj : _.values(obj);
+    var set = obj && _.isObject(obj) ? _.values(obj) : obj;
     var length = set.length;
     var shuffled = Array(length);
     for (var index = 0, rand; index < length; index++) {
@@ -328,7 +328,7 @@
   // The internal `guard` argument allows it to work with `map`.
   _.sample = function(obj, n, guard) {
     if (n == null || guard) {
-      if (obj.length !== +obj.length) obj = _.values(obj);
+      if (_.isObject(obj)) obj = _.values(obj);
       return obj[_.random(obj.length - 1)];
     }
     return _.shuffle(obj).slice(0, Math.max(0, n));
@@ -403,14 +403,14 @@
   _.toArray = function(obj) {
     if (!obj) return [];
     if (_.isArray(obj)) return slice.call(obj);
-    if (obj.length === +obj.length) return _.map(obj, _.identity);
-    return _.values(obj);
+    if (_.isObject(obj)) return _.values(obj);
+    return _.map(obj, _.identity);
   };
 
   // Return the number of elements in an object.
   _.size = function(obj) {
     if (obj == null) return 0;
-    return obj.length === +obj.length ? obj.length : _.keys(obj).length;
+    return _.isObject(obj) ? _.keys(obj).length : obj.length;
   };
 
   // Split a collection into two arrays: one whose elements all satisfy the given
@@ -931,13 +931,15 @@
 
   // Extend a given object with all the properties in passed-in object(s).
   _.extend = function(obj) {
-    if (!_.isObject(obj)) return obj;
-    var source, prop;
-    for (var i = 1, length = arguments.length; i < length; i++) {
-      source = arguments[i];
-      for (prop in source) {
-        obj[prop] = source[prop];
+    if (_.isObject(obj)) {
+      var source, prop;
+      for (var i = 1, length = arguments.length; i < length; i++) {
+        source = arguments[i];
+        for (prop in source) {
+          obj[prop] = source[prop];
+        }
       }
+      return obj;
     }
     return obj;
   };
@@ -988,20 +990,22 @@
 
   // Fill in a given object with default properties.
   _.defaults = function(obj) {
-    if (!_.isObject(obj)) return obj;
-    for (var i = 1, length = arguments.length; i < length; i++) {
-      var source = arguments[i];
-      for (var prop in source) {
-        if (obj[prop] === void 0) obj[prop] = source[prop];
+    if (_.isObject(obj)) {
+      for (var i = 1, length = arguments.length; i < length; i++) {
+        var source = arguments[i];
+        for (var prop in source) {
+          if (obj[prop] === void 0) obj[prop] = source[prop];
+        }
       }
+      return obj;
     }
     return obj;
   };
 
   // Create a (shallow-cloned) duplicate of an object.
   _.clone = function(obj) {
-    if (!_.isObject(obj)) return obj;
-    return _.isArray(obj) ? obj.slice() : _.extend({}, obj);
+    if (_.isObject(obj)) return _.isArray(obj) ? obj.slice() : _.extend({}, obj);
+    return obj;
   };
 
   // Invokes interceptor with the obj, and then returns obj.
