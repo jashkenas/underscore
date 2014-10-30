@@ -845,13 +845,12 @@
   // Returns a function that will only be executed before being called N times.
   _.before = function(times, func) {
     var memo;
+    --times;
     return function() {
-      if (--times > 0) {
+      if (--times >= 0) {
         memo = func.apply(this, arguments);
       }
-      if (times <= 1) {
-        func = null;
-      }
+      if (times <= 0) func = null;
       return memo;
     };
   };
