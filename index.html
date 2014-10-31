@@ -471,9 +471,9 @@ _.each({one: 1, two: 2, three: 3}, alert);
         <tt>list</tt>.
       </p>
       <pre>
-_.map([1, 2, 3], function(num){ return num * 3; });
+var triple = _.map([1, 2, 3], function(num){ return num * 3; });
 =&gt; [3, 6, 9]
-_.map({one: 1, two: 2, three: 3}, function(num, key){ return num * 3; });
+var triple = _.map({one: 1, two: 2, three: 3}, function(num, key){ return num * 3; });
 =&gt; [3, 6, 9]</pre>
 
       <p id="reduce">
