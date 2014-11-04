@@ -306,6 +306,9 @@
       strictEqual(_.indexOf(array, 1, fromIndex), 0);
     });
     strictEqual(_.indexOf([1, 2, 3], 1, true), 0);
+	
+    index = _.indexOf([], undefined, true);
+    equal(index, -1, 'empty array with truthy `isSorted` returns -1');
   });
 
   test('lastIndexOf', function() {

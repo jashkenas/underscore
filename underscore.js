@@ -600,7 +600,7 @@
     var i = 0, length = array && array.length;
     if (typeof isSorted == 'number') {
       i = isSorted < 0 ? Math.max(0, length + isSorted) : isSorted;
-    } else if (isSorted) {
+    } else if (isSorted && length) {
       i = _.sortedIndex(array, item);
       return array[i] === item ? i : -1;
     }
