@@ -1427,8 +1427,8 @@ _.has({a: 1, b: 2, c: 3}, "b");
         property of any passed-in object.
       </p>
       <pre>
-var moe = {name: 'moe'};
-'moe' === _.property('name')(moe);
+var stooge = {name: 'moe'};
+'moe' === _.property('name')(stooge);
 =&gt; true</pre>
 
       <p id="matches">
@@ -1448,11 +1448,11 @@ var readyToGoList = _.filter(list, ready);</pre>
         if they should be considered equal.
       </p>
       <pre>
-var moe   = {name: 'moe', luckyNumbers: [13, 27, 34]};
-var clone = {name: 'moe', luckyNumbers: [13, 27, 34]};
-moe == clone;
+var stooge = {name: 'moe', luckyNumbers: [13, 27, 34]};
+var clone  = {name: 'moe', luckyNumbers: [13, 27, 34]};
+stooge == clone;
 =&gt; false
-_.isEqual(moe, clone);
+_.isEqual(stooge, clone);
 =&gt; true
 </pre>
 
@@ -1633,7 +1633,7 @@ _.isUndefined(window.missingVariable);
       <p id="noConflict">
         <b class="header">noConflict</b><code>_.noConflict()</code>
         <br />
-        Give control of the "_" variable back to its previous owner. Returns
+        Give control of the <tt>_</tt> variable back to its previous owner. Returns
         a reference to the <b>Underscore</b> object.
       </p>
       <pre>
@@ -1649,8 +1649,8 @@ var underscore = _.noConflict();
         a default iteratee.
       </p>
       <pre>
-var moe = {name: 'moe'};
-moe === _.identity(moe);
+var stooge = {name: 'moe'};
+stooge === _.identity(stooge);
 =&gt; true
 </pre>
 
@@ -1661,8 +1661,8 @@ moe === _.identity(moe);
         argument of <tt>_.constant</tt>.
       </p>
       <pre>
-var moe = {name: 'moe'};
-moe === _.constant(moe)();
+var stooge = {name: 'moe'};
+stooge === _.constant(stooge)();
 =&gt; true</pre>
 
       <p id="noop">
@@ -1796,7 +1796,7 @@ _.now();
         <br />
         Compiles JavaScript templates into functions that can be evaluated
         for rendering. Useful for rendering complicated bits of HTML from JSON
-        data sources. Template functions can both interpolate variables, using
+        data sources. Template functions can both interpolate values, using
         <tt>&lt;%= &hellip; %&gt;</tt>, as well as execute arbitrary JavaScript code, with
         <tt>&lt;% &hellip; %&gt;</tt>. If you wish to interpolate a value, and have
         it be HTML-escaped, use <tt>&lt;%- &hellip; %&gt;</tt>. When you evaluate a
@@ -1955,6 +1955,12 @@ _([1, 2, 3]).value();
         a Lua port of the functions that are applicable in both languages.
         Includes OOP-wrapping and chaining.
         (<a href="https://github.com/mirven/underscore.lua">source</a>)
+      </p>
+
+      <p>
+        <a href="http://www.dollarswift.org/">Dollar.swift</a>, a Swift port
+        of many of the Underscore.js functions and more.
+        (<a href="https://github.com/ankurp/Dollar.swift">source</a>)
       </p>
 
       <p>

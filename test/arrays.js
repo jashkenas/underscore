@@ -366,6 +366,48 @@
     }), [0, -1, -1]);
   });
 
+  test('findIndex', function() {
+    var objects = [
+      {'a': 0, 'b': 0},
+      {'a': 1, 'b': 1},
+      {'a': 2, 'b': 2}
+    ];
+
+    equal(_.findIndex(objects, function(obj) {
+      return obj.a === 0;
+    }), 0);
+
+    equal(_.findIndex(objects, function(obj) {
+      return obj.b * obj.a === 4;
+    }), 2);
+
+    equal(_.findIndex(objects, 'a'), 1, 'Uses lookupIterator');
+
+    equal(_.findIndex(objects, function(obj) {
+      return obj.b * obj.a === 5;
+    }), -1);
+
+    equal(_.findIndex(null, _.noop), -1);
+    strictEqual(_.findIndex(objects, function(a) {
+      return a.foo === null;
+    }), -1);
+    _.findIndex([{a: 1}], function(a, key, obj) {
+      equal(key, 0);
+      deepEqual(obj, [{a: 1}]);
+      strictEqual(this, objects, 'called with context');
+    }, objects);
+
+    var sparse = [];
+    sparse[20] = {'a': 2, 'b': 2};
+    equal(_.findIndex(sparse, function(obj) {
+      return obj && obj.b * obj.a === 4;
+    }), 20, 'Works with sparse arrays');
+
+    var array = [1, 2, 3, 4];
+    array.match = 55;
+    strictEqual(_.findIndex(array, function(x) { return x === 55; }), -1, 'doesn\'t match array-likes keys');
+  });
+
   test('range', function() {
     deepEqual(_.range(0), [], 'range with 0 as a first argument generates an empty array');
     deepEqual(_.range(4), [0, 1, 2, 3], 'range with a single positive argument generates an array of elements 0,1,2,...,n-1');
