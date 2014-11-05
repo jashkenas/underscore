@@ -635,6 +635,19 @@
 
     return range;
   };
+  
+  // Split an **array** into several arrays containing **int** or less elements
+  // of initial array
+  _.chunk = function(array, int) {
+    var result = [];
+    
+    if (int <= 0) return [];
+    if (int >= _.size(array)) return array;
+    
+    while (_.size(array) > 0) result.push(array.splice(0, int));
+    
+    return result;
+  };
 
   // Function (ahem) Functions
   // ------------------
