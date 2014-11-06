@@ -647,15 +647,16 @@
     return range;
   };
   
-  // Split an **array** into several arrays containing **int** or less elements
+  // Split an **array** into several arrays containing **count** or less elements
   // of initial array
-  _.chunk = function(array, int) {
+  _.chunk = function(array, count) {
     var result = [];
     
-    if (int <= 0) return [];
-    if (int >= _.size(array)) return array;
+    if (array == null || count <= 0) return [];
     
-    while (_.size(array) > 0) result.push(array.splice(0, int));
+    for (var i = 0, lng = array.length; i < lng; i += count) {
+      result.push(array.slice(i, i + int);
+    }
     
     return result;
   };

@@ -421,6 +421,7 @@
   
   test('chunk', function() {
     deepEqual(_.chunk([], 2), [], 'chunk for empty array returns an empty array');
+    deepEqual(_.chunk(null, 2), [], 'chunk for null returns an empty array');
     
     deepEqual(_.chunk([1, 2, 3], 0), [], 'chunk into parts of 0 elements returns an empty array');
     deepEqual(_.chunk([1, 2, 3], -1), [], 'chunk into parts of negative amount of elements returns an empty array');
