@@ -653,9 +653,10 @@
     var result = [];
     
     if (array == null || count <= 0) return [];
+    if (count >= array.length) return array;
     
     for (var i = 0, lng = array.length; i < lng; i += count) {
-      result.push(array.slice(i, i + int);
+      result.push(array.slice(i, i + count));
     }
     
     return result;
