@@ -432,29 +432,5 @@
     deepEqual(_.chunk([10, 20, 30, 40, 50, 60, 70], 2), [[10, 20], [30, 40], [50, 60], [70]], 'chunk into parts of less then current array length elements');
     deepEqual(_.chunk([10, 20, 30, 40, 50, 60, 70], 3), [[10, 20, 30], [40, 50, 60], [70]], 'chunk into parts of less then current array length elements');
   });
-
-  test('decompose', function() {
-    deepEqual(_.decompose(0), [], 'decompose without second argument generates an empty array');
-    deepEqual(_.decompose(5, 0), [], 'decompose with 0 as a second argument generates an empty array');
-    deepEqual(_.decompose(7, -2), [], 'decompose with a negative integer as a second argument generates an empty array');
-    deepEqual(_.decompose(-7, 2), [], 'decompose with a negative integer as a first argument generates an empty array');
-    
-    deepEqual(_.decompose(0, 3), [0, 0, 0], 'decompose for zero returns an array of zeros');
-    deepEqual(_.decompose(17, 1), [17], 'decompose into one term returns array with a single element containing this term');
-    
-    var array = _.decompose(32, 5);
-    var sum = 0;
-    var idx;
-    
-    for ( idx = 0; idx < 5; idx++) sum += array[idx];
-    strictEqual(sum, 32, 'summ of terms should match the first argument of decompose');
-    strictEqual(_.size(array), 5, 'count of terms in array should match the second argument of decompose');
-    
-    array = _.decompose(17, 21);
-    sum = 0;
-    for ( idx = 0; idx < 21; idx++) sum += array[idx];
-    strictEqual(sum, 17, 'summ of terms should match the first argument of decompose even if second argument is greater that first');
-    strictEqual(_.size(array), 21, 'count of terms in array should match the second argument of decompose even if second argument is greater that first');
-  });
   
 }());
