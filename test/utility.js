@@ -138,8 +138,8 @@
     equal(_.unescape(str), str, 'can unescape &amp;');
 
     // test unescape of ' and ` symbols escaped in Dec format
-    equal(_.unescape("&#39;"), "'", 'can unescape &#39;');
-    equal(_.unescape("&#96;"), '`', 'can unescape &#96;');
+    equal(_.unescape('&#39;'), '\'', 'can unescape &#39;');
+    equal(_.unescape('&#96;'), '`', 'can unescape &#96;');
   });
 
   test('template', function() {

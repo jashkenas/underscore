@@ -1262,9 +1262,9 @@
     '`': '&#x60;'
   };
   var unescapeMap = _.invert(escapeMap);
-  // Also adding ' and ` symbols escaped in Dec format
-  unescapeMap["&#39;"] = "'";
-  unescapeMap["&#96;"] = '`';
+  // Some server side frameworks (e.g. Django) escape ' and ` symbols in decimal format. So adding them for _.unescape.
+  unescapeMap['&#39;'] = '\'';
+  unescapeMap['&#96;'] = '`';
 
   // Functions for escaping and unescaping strings to/from HTML interpolation.
   var createEscaper = function(map) {
