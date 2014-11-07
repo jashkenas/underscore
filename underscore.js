@@ -1218,7 +1218,7 @@
   
   // Generates a function for a given object that returns a given property (including those of ancestors) 
   _.propertyOf = function(obj) {
-    return obj == null ? _.noop : function(key) {
+    return obj == null ? function(){} : function(key) {
       return obj[key];
     };
   };
