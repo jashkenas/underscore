@@ -1215,6 +1215,13 @@
       return obj == null ? void 0 : obj[key];
     };
   };
+  
+  // Generates a function for a given object that returns a given property (including those of ancestors) 
+  _.propertyOf = function(obj) {
+    return obj == null ? function(){} : function(key) {
+      return obj[key];
+    };
+  };
 
   // Returns a predicate for checking whether an object has a given set of `key:value` pairs.
   _.matches = function(attrs) {
