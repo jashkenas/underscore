@@ -438,9 +438,9 @@
 
   // Returns a new array skipping a specified number of elements.
   _.skip = function(obj, n) {
-    if(_.isNull(obj)  || !_.isNumber(n)) return [];
+    if (_.isNull(obj)  || !_.isNumber(n)) return [];
     return slice.call(obj, (n < 0 ? 0 : n));
-  }
+  };
 
   // Returns everything but the last entry of the array. Especially useful on
   // the arguments object. Passing **n** will return all the values in
