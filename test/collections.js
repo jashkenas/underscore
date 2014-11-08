@@ -22,8 +22,8 @@
     deepEqual(answers, ['one', 'two', 'three'], 'iterating over objects works, and ignores the object prototype.');
     delete obj.constructor.prototype.four;
 
-    keys = [];
-    values = []
+    var keys = [];
+    var values = []
     var obj = {one: 1, length: 5};
     _.each(obj, function(value, key){ keys.push(key); values.push(value); });
     deepEqual(keys, ['one', 'length'], 'Objects are properly iterated over, even with keys that are native to arrays');
