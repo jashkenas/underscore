@@ -381,6 +381,15 @@
     deepEqual(_.pluck([{'[object Object]': 1}], {}), [1]);
   });
 
+  test('pluckWhere', function() {
+    var people = [{name: 'moe', age: 30},{name: 'larry', age: 40},{name: 'curly', age: 50}];
+    function test(person) {
+      if (person.age < 35){ return 'name'; }
+      if (person.age < 45){ return 'age'; }
+    }
+    deepEqual(_.pluckWhere(people,test), ['moe',40]);
+  });
+
   test('where', function() {
     var list = [{a: 1, b: 2}, {a: 2, b: 2}, {a: 1, b: 3}, {a: 1, b: 4}];
     var result = _.where(list, {a: 1});
