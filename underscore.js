@@ -100,7 +100,7 @@
     if (obj == null) return obj;
     iteratee = optimizeCb(iteratee, context);
     var i, length = obj.length;
-    if (length === +length) {
+    if (length === +length && (_.isArray(obj) || _.isArguments(obj))) {
       for (i = 0; i < length; i++) {
         iteratee(obj[i], i, obj);
       }
