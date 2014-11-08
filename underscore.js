@@ -866,22 +866,38 @@
   var nonEnumerableProps = ['constructor', 'valueOf', 'isPrototypeOf', 'toString',
                       'propertyIsEnumerable', 'hasOwnProperty', 'toLocaleString'];
 
-  // Retrieve the names of an object's properties.
+  function collectNonEnumProps(obj, keys) {
+    var nonEnumIdx = nonEnumerableProps.length;
+    var proto = typeof obj.constructor === 'function' ? FuncProto : ObjProto;
+
+    while (nonEnumIdx--) {
+      var prop = nonEnumerableProps[nonEnumIdx];
+      if (prop === 'constructor' ? _.has(obj, prop) : prop in obj &&
+        obj[prop] !== proto[prop] && !_.contains(keys, prop)) {
+        keys.push(prop);
+      }
+    }
+  }
+
+  // Retrieve the names of an object's own properties.
   // Delegates to **ECMAScript 5**'s native `Object.keys`
   _.keys = function(obj) {
     if (!_.isObject(obj)) return [];
     if (nativeKeys) return nativeKeys(obj);
     var keys = [];
     for (var key in obj) if (_.has(obj, key)) keys.push(key);
-
     // Ahem, IE < 9.
-    if (hasEnumBug) {
-      var nonEnumIdx = nonEnumerableProps.length;
-      while (nonEnumIdx--) {
-        var prop = nonEnumerableProps[nonEnumIdx];
-        if (_.has(obj, prop) && !_.contains(keys, prop)) keys.push(prop);
-      }
-    }
+    if (hasEnumBug) collectNonEnumProps(obj, keys);
+    return keys;
+  };
+
+  // Retrieve all the property names of an object.
+  _.keysIn = function(obj) {
+    if (!_.isObject(obj)) return [];
+    var keys = [];
+    for (var key in obj) keys.push(key);
+    // Ahem, IE < 9.
+    if (hasEnumBug) collectNonEnumProps(obj, keys);
     return keys;
   };
 

@@ -32,6 +32,44 @@
     deepEqual(_.keys(trouble).sort(), troubleKeys, 'matches non-enumerable properties');
   });
 
+  test('keysIn', function() {
+    deepEqual(_.keysIn({one : 1, two : 2}), ['one', 'two'], 'can extract the keysIn from an object');
+    // the test above is not safe because it relies on for-in enumeration order
+    var a = []; a[1] = 0;
+    deepEqual(_.keysIn(a), ['1'], 'is not fooled by sparse arrays; see issue #95');
+
+    a.a = a;
+    deepEqual(_.keysIn(a), ['1', 'a'], 'is not fooled by sparse arrays with additional properties');
+
+    _.each([null, void 0, 1, 'a', true, NaN, {}, [], new Number(5), new Date(0)], function(val) {
+      deepEqual(_.keysIn(val), []);
+    });
+
+    // keysIn that may be missed if the implementation isn't careful
+    var trouble = {
+      constructor: Object,
+      valueOf: _.noop,
+      hasOwnProperty: null,
+      toString: 5,
+      toLocaleString: undefined,
+      propertyIsEnumerable: /a/,
+      isPrototypeOf: this
+    };
+    var troubleKeys = ['constructor', 'valueOf', 'hasOwnProperty', 'toString', 'toLocaleString', 'propertyIsEnumerable',
+                  'isPrototypeOf'].sort();
+    deepEqual(_.keysIn(trouble).sort(), troubleKeys, 'matches non-enumerable properties');
+
+    function A() {}
+    A.prototype.foo = 'foo';
+    var b = new A();
+    b.bar = 'bar';
+    deepEqual(_.keysIn(b), ['bar', 'foo'], 'should include inherited keys');
+
+    function y() {}
+    y.x = 'z';
+    deepEqual(_.keysIn(y), ['x'], 'should get keys from constructor');
+  });
+
   test('values', function() {
     deepEqual(_.values({one: 1, two: 2}), [1, 2], 'can extract the values from an object');
     deepEqual(_.values({one: 1, two: 2, length: 3}), [1, 2, 3], '... even when one of them is "length"');
