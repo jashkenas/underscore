@@ -247,6 +247,18 @@
     return _.map(obj, _.property(key));
   };
 
+  // Convenience version of a common use case of 'reduce' : fetch a property
+  // at a key determined by a callback if the key is truthy
+  _.pluckWhere = function(obj,iteratee,context) {
+    var currentKey;
+    iteratee = cb(iteratee,context);
+    return _.reduce(obj,function(results,value,key,obj){
+      currentKey = iteratee(value,key,obj);
+      if (currentKey || currentKey === 0 || currentKey === '')results.push(value[currentKey]);
+      return results;
+    },[]);
+  };
+
   // Convenience version of a common use case of `filter`: selecting only objects
   // containing specific `key:value` pairs.
   _.where = function(obj, attrs) {
