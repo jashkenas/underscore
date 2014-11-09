@@ -642,6 +642,9 @@
     shuffled = _.shuffle({a: 1, b: 2, c: 3, d: 4});
     equal(shuffled.length, 4);
     deepEqual(shuffled.sort(), [1, 2, 3, 4], 'works on objects');
+
+		shuffled = _.shuffle(numbers, function() { return 0.5; });
+		deepEqual(shuffled, [0, 2, 4, 6, 8, 9, 5, 3, 7, 1], 'works with custom random function');
   });
 
   test('sample', function() {
