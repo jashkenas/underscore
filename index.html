@@ -733,10 +733,13 @@ _.countBy([1, 2, 3, 4, 5], function(num) {
 </pre>
 
       <p id="shuffle">
-        <b class="header">shuffle</b><code>_.shuffle(list)</code>
+        <b class="header">shuffle</b><code>_.shuffle(list, [randomFn])</code>
         <br />
         Returns a shuffled copy of the <b>list</b>, using a version of the
         <a href="http://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle">Fisher-Yates shuffle</a>.
+        The function <b>randomFn</b> (which has to return a number between 0 
+        inclusive and 1 exclusive) is used as a random number generator. 
+        If <b>randomFn</b> is not specified, uses <tt>Math.random</tt>.
       </p>
       <pre>
 _.shuffle([1, 2, 3, 4, 5, 6]);
@@ -1688,11 +1691,14 @@ obj.initialize = _.noop;
 _(3).times(function(n){ genie.grantWishNumber(n); });</pre>
 
       <p id="random">
-        <b class="header">random</b><code>_.random(min, max)</code>
+        <b class="header">random</b><code>_.random(min, max, [randomFn])</code>
         <br />
         Returns a random integer between <b>min</b> and <b>max</b>, inclusive.
         If you only pass one argument, it will return a number between <tt>0</tt>
         and that number.
+        The function <b>randomFn</b> (which has to return a number between 0 
+        inclusive and 1 exclusive) is used as a random number generator. 
+        If <b>randomFn</b> is not specified, uses <tt>Math.random</tt>.
       </p>
       <pre>
 _.random(0, 100);

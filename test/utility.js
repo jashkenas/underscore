@@ -71,6 +71,8 @@
     ok(_.some(array, function() {
       return _.random(Number.MAX_VALUE) > 0;
     }), 'should produce a random number when passed `Number.MAX_VALUE`');
+
+		equal(_.random(0, 5, function () { return 0.5; }), 3, 'should work with custom random function');
   });
 
   test('now', function() {

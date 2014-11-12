@@ -311,12 +311,12 @@
 
   // Shuffle a collection, using the modern version of the
   // [Fisher-Yates shuffle](http://en.wikipedia.org/wiki/Fisher–Yates_shuffle).
-  _.shuffle = function(obj) {
+  _.shuffle = function(obj, randomFn) {
     var set = obj && obj.length === +obj.length ? obj : _.values(obj);
     var length = set.length;
     var shuffled = Array(length);
     for (var index = 0, rand; index < length; index++) {
-      rand = _.random(0, index);
+      rand = _.random(0, index, randomFn);
       if (rand !== index) shuffled[index] = shuffled[rand];
       shuffled[rand] = set[index];
     }
@@ -1258,12 +1258,13 @@
   };
 
   // Return a random integer between min and max (inclusive).
-  _.random = function(min, max) {
+  _.random = function(min, max, randomFn) {
+    randomFn = randomFn || Math.random;
     if (max == null) {
       max = min;
       min = 0;
     }
-    return min + Math.floor(Math.random() * (max - min + 1));
+    return min + Math.floor(randomFn() * (max - min + 1));
   };
 
   // A (possibly faster) way to get the current timestamp as an integer.
