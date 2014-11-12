@@ -1231,11 +1231,11 @@ monthlyMeeting();
         and execute it conditionally.
       </p>
       <pre>
-var hello = function(name) { return "hello: " + name; };
-hello = _.wrap(hello, function(func) {
+var firstFunction = function(name) { return "hello: " + name; };
+var secondFunction = _.wrap(firstFunction, function(func) {
   return "before, " + func("moe") + ", after";
 });
-hello();
+secondFunction();
 =&gt; 'before, hello: moe, after'
 </pre>
 
