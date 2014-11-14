@@ -2,6 +2,13 @@
 
   module('Objects');
 
+  test('newer', function() {
+    function Person() {}
+    var PersonGenerator = _.newer(Person);
+    equal(PersonGenerator instanceof Function, true, 'creates generator function')
+    equal(PersonGenerator() instanceof Person, true, 'generated object is instance of constructor')
+  });
+
   test('keys', function() {
     deepEqual(_.keys({one : 1, two : 2}), ['one', 'two'], 'can extract the keys from an object');
     // the test above is not safe because it relies on for-in enumeration order
