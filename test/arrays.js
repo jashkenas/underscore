@@ -110,6 +110,24 @@
     equal(_.without(list, list[0]).length, 1, 'ditto.');
   });
 
+  test('sortedIndex', function() {
+    var numbers = [10, 20, 30, 40, 50], num = 35;
+    var indexForNum = _.sortedIndex(numbers, num);
+    equal(indexForNum, 3, '35 should be inserted at index 3');
+
+    var indexFor30 = _.sortedIndex(numbers, 30);
+    equal(indexFor30, 2, '30 should be inserted at index 2');
+
+    var objects = [{x: 10}, {x: 20}, {x: 30}, {x: 40}];
+    var iterator = function(obj){ return obj.x; };
+    strictEqual(_.sortedIndex(objects, {x: 25}, iterator), 2);
+    strictEqual(_.sortedIndex(objects, {x: 35}, 'x'), 3);
+
+    var context = {1: 2, 2: 3, 3: 4};
+    iterator = function(obj){ return this[obj]; };
+    strictEqual(_.sortedIndex([1, 3], 2, iterator, context), 1);
+  });
+
   test('uniq', function() {
     var list = [1, 2, 1, 3, 1, 4];
     deepEqual(_.uniq(list), [1, 2, 3, 4], 'can find the unique values of an unsorted array');
