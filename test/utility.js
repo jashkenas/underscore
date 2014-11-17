@@ -78,6 +78,40 @@
     ok(diff <= 0 && diff > -5, 'Produces the correct time in milliseconds');//within 5ms
   });
 
+  test('comparator', function() {
+    _.each([
+      [2, 1],
+      [2, '1'],
+      ['2', 1],
+      [1.0001, 1],
+      [1, null],
+      [null, -1],
+      [void 0, null],
+      [void 0, 5],
+      [NaN, 'something'],
+      ['b', 'a'],
+      [-5, '-6.05']
+    ], function(vals) {
+      var a = vals[0], b = vals[1];
+      equal(_.comparator(a, b), 1, '\'' + a + '\' >= \'' + b + '\'');
+      equal(_.comparator(b, a), -1, '\'' + b + '\' <= \'' + a + '\'');
+    });
+
+    _.each([
+      [0, 0],
+      [null, 0],
+      [void 0, void 0],
+      [NaN, NaN],
+      [1, {valueOf: _.constant(1)}],
+      [1, '1'],
+      ['zap', 'zap']
+    ], function(vals) {
+      var a = vals[0], b = vals[1];
+      equal(_.comparator(a, b), 0, '\'' + a + '\' == \'' + b + '\'');
+      equal(_.comparator(b, a), 0, '\'' + b + '\' == \'' + a + '\'');
+    });
+  });
+
   test('uniqueId', function() {
     var ids = [], i = 0;
     while (i++ < 100) ids.push(_.uniqueId());
