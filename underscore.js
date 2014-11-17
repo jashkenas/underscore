@@ -1413,6 +1413,11 @@
     instance._chain = true;
     return instance;
   };
+  
+  // Call a function with the value and return the result
+  _.prototype.call = function(obj, fn, context) {
+    return fn.call(context, obj);
+  }l
 
   // OOP
   // ---------------
