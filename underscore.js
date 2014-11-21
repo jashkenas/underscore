@@ -1145,6 +1145,16 @@
     return type === 'function' || type === 'object' && !!obj;
   };
 
+  // Is a given variable a Promise?
+  _.isPromise = function(obj) {
+    return obj && typeof obj.then === 'function';
+  };
+
+  // Is a given variable a ECMA6's Generator?
+  _.isGenerator = function(obj) {
+    return obj && typeof obj.next == 'function' && typeof obj['throw'] == 'function';
+  };
+
   // Add some isType methods: isArguments, isFunction, isString, isNumber, isDate, isRegExp, isError.
   _.each(['Arguments', 'Function', 'String', 'Number', 'Date', 'RegExp', 'Error'], function(name) {
     _['is' + name] = function(obj) {

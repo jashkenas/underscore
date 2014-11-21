@@ -4,7 +4,9 @@
     "node": true,
     "amd": true
   },
-
+  "globals": {
+    "Promise": true
+  },
   "rules": {
     "brace-style": [1, "1tbs"],
     "curly": [0, "multi"],
