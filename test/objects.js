@@ -644,6 +644,44 @@
     ok(_.isError(new URIError()), 'URIErrors are Errors');
   });
 
+  test('isPromise', function() {
+    ok(!_.isPromise(arguments), 'the arguments object is not thenable');
+    ok(!_.isPromise([1, 2, 3]), 'and arrays are not thenable');
+    ok(!_.isPromise(document.body), 'and a DOM elements is not thenable');
+    ok(!_.isPromise(function () {}), 'and functions are not thenable');
+    ok(!_.isPromise({}), 'and objects are not thenable');
+    ok(!_.isPromise(null), 'and not null');
+    ok(!_.isPromise(undefined), 'and not undefined');
+    ok(!_.isPromise('string'), 'and not string');
+    ok(!_.isPromise(12), 'and not number');
+    ok(!_.isPromise(true), 'and not boolean');
+    if (typeof Promise != 'undefined') {
+      ok(_.isPromise(new Promise(function() {})), 'native Promise is thenable');
+    }
+  });
+
+  test('isGenerator', function() {
+    ok(!_.isGenerator(arguments), 'the arguments object is not generator');
+    ok(!_.isGenerator([1, 2, 3]), 'and arrays are not generator');
+    ok(!_.isGenerator(document.body), 'and a DOM elements is not generator');
+    ok(!_.isGenerator(function () {}), 'and functions are not generator');
+    ok(!_.isGenerator(null), 'and not null');
+    ok(!_.isGenerator(undefined), 'and not undefined');
+    ok(!_.isGenerator('string'), 'and not string');
+    ok(!_.isGenerator(12), 'and not number');
+    ok(!_.isGenerator(true), 'and not boolean');
+
+    var gen;
+
+    try {
+        gen = Function('(function*() {})')();
+    } catch (e) {
+        return;
+    }
+
+    ok(_.isGenerator(gen, 'native generator'));
+  });
+
   test('tap', function() {
     var intercepted = null;
     var interceptor = function(obj) { intercepted = obj; };
