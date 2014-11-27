@@ -942,11 +942,11 @@
   };
 
   // Make an object's level one
-  _.simple = function(obj) {
-    var result = {};
+  _.simple = function(obj, result) {
+    var result = result || {};
     for (var key in obj) {
       if (typeof obj[key] == 'object') {
-        _.simple(obj[key]);
+        _.simple(obj[key], result);
       } else {
         result[key] = obj[key];
       }
