@@ -29,7 +29,11 @@
   var
     nativeIsArray      = Array.isArray,
     nativeKeys         = Object.keys,
-    nativeBind         = FuncProto.bind;
+    nativeBind         = FuncProto.bind,
+    nativeCreate       = Object.create;
+
+  // Reusable constructor function for prototype setting.
+  var Ctor = function(){};
 
   // Create a safe reference to the Underscore object for use below.
   var _ = function(obj) {
@@ -106,6 +110,16 @@
       }
       return obj;
     };
+  };
+
+  // An internal function for creating a new object that inherts from another.
+  var baseCreate = function(prototype) {
+    if (!_.isObject(prototype)) return {};
+    if (nativeCreate) return nativeCreate(prototype);
+    Ctor.prototype = prototype;
+    var result = new Ctor;
+    Ctor.prototype = null;
+    return result;
   };
 
   // Collection Functions
@@ -668,16 +682,11 @@
   // Function (ahem) Functions
   // ------------------
 
-  // Reusable constructor function for prototype setting.
-  var Ctor = function(){};
-
   // Determines whether to execute a function as a constructor
   // or a normal function with the provided arguments
   var executeBound = function(sourceFunc, boundFunc, context, callingContext, args) {
     if (!(callingContext instanceof boundFunc)) return sourceFunc.apply(context, args);
-    Ctor.prototype = sourceFunc.prototype;
-    var self = new Ctor;
-    Ctor.prototype = null;
+    var self = baseCreate(sourceFunc.prototype);
     var result = sourceFunc.apply(self, args);
     if (_.isObject(result)) return result;
     return self;
@@ -1022,6 +1031,15 @@
       }
     }
     return obj;
+  };
+
+  // Creates an object that inherits from the given prototype object.
+  // If additional properties are provided then they will be added to the
+  // created object.
+  _.create = function(prototype, props) {
+    var result = baseCreate(prototype);
+    if (props) _.assign(result, props);
+    return result;
   };
 
   // Create a (shallow-cloned) duplicate of an object.
