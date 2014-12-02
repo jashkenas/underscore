@@ -334,15 +334,22 @@
     strictEqual(_.any, _.some, 'alias for any');
   });
 
-  test('contains', function() {
-    ok(_.contains([1, 2, 3], 2), 'two is in the array');
-    ok(!_.contains([1, 3, 9], 2), 'two is not in the array');
-    ok(_.contains({moe: 1, larry: 3, curly: 9}, 3) === true, '_.contains on objects checks their values');
-    ok(_([1, 2, 3]).contains(2), 'OO-style contains');
+  test('includes', function() {
+    _.each([null, void 0, 0, 1, NaN, {}, []], function(val) {
+      strictEqual(_.includes(val, 'hasOwnProperty'), false);
+    });
+    strictEqual(_.includes([1, 2, 3], 2), true, 'two is in the array');
+    ok(!_.includes([1, 3, 9], 2), 'two is not in the array');
+    ok(_.includes({moe: 1, larry: 3, curly: 9}, 3) === true, '_.includes on objects checks their values');
+    ok(_([1, 2, 3]).includes(2), 'OO-style includes');
   });
 
   test('include', function() {
-    strictEqual(_.contains, _.include, 'alias for contains');
+    strictEqual(_.includes, _.include, 'alias for includes');
+  });
+
+  test('contains', function() {
+    strictEqual(_.includes, _.contains, 'alias for includes');
   });
 
   test('invoke', function() {
