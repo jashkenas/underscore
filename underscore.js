@@ -863,7 +863,7 @@
   // Returns a function that will only be executed after being called N times.
   _.after = function(times, func) {
     return function() {
-      if (--times < 1) {
+      if (times-- < 1) {
         return func.apply(this, arguments);
       }
     };
