@@ -258,8 +258,8 @@
   };
 
   // Determine if the array or object contains a given value (using `===`).
-  // Aliased as `include`.
-  _.contains = _.include = function(obj, target) {
+  // Aliased as `includes` and `include`.
+  _.contains = _.includes = _.include = function(obj, target) {
     if (obj == null) return false;
     if (obj.length !== +obj.length) obj = _.values(obj);
     return _.indexOf(obj, target) >= 0;
