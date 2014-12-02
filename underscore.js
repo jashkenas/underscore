@@ -906,6 +906,15 @@
     }
   }
 
+  // takes Constructor and returns generator returning new instances
+  _.newer = function(constructor) {
+      return function() {
+          var instance = Object.create(constructor.prototype);
+          var result = constructor.apply(instance, arguments);
+          return typeof result === 'object' ? result : instance;
+      };
+  };
+
   // Retrieve the names of an object's own properties.
   // Delegates to **ECMAScript 5**'s native `Object.keys`
   _.keys = function(obj) {
