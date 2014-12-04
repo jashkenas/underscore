@@ -90,8 +90,11 @@
     if (_.isObject(value)) return _.matcher(value);
     return _.property(value);
   };
-  _.iteratee = function(value, context) {
+  var iteratee = _.iteratee = function(value, context) {
     return cb(value, context, Infinity);
+  };
+  var getIteratee = function(value, context, argCount) {
+    return _.iteratee === iteratee ? cb(value, context, argCount) : _.iteratee(value, context);
   };
 
   // An internal function for creating assigner functions.
@@ -138,7 +141,7 @@
   // Handles raw objects in addition to array-likes. Treats all
   // sparse array-likes as if they were dense.
   _.each = _.forEach = function(obj, iteratee, context) {
-    iteratee = optimizeCb(iteratee, context);
+    iteratee = getIteratee(iteratee, context);
     var i, length;
     if (isArrayLike(obj)) {
       for (i = 0, length = obj.length; i < length; i++) {
@@ -155,7 +158,7 @@
 
   // Return the results of applying the iteratee to each element.
   _.map = _.collect = function(obj, iteratee, context) {
-    iteratee = cb(iteratee, context);
+    iteratee = getIteratee(iteratee, context);
     var keys = !isArrayLike(obj) && _.keys(obj),
         length = (keys || obj).length,
         results = Array(length);
@@ -179,7 +182,7 @@
     }
 
     return function(obj, iteratee, memo, context) {
-      iteratee = optimizeCb(iteratee, context, 4);
+      iteratee = getIteratee(iteratee, context, 4);
       var keys = !isArrayLike(obj) && _.keys(obj),
           length = (keys || obj).length,
           index = dir > 0 ? 0 : length - 1;
@@ -214,7 +217,7 @@
   // Aliased as `select`.
   _.filter = _.select = function(obj, predicate, context) {
     var results = [];
-    predicate = cb(predicate, context);
+    predicate = getIteratee(predicate, context);
     _.each(obj, function(value, index, list) {
       if (predicate(value, index, list)) results.push(value);
     });
@@ -223,13 +226,13 @@
 
   // Return all the elements for which a truth test fails.
   _.reject = function(obj, predicate, context) {
-    return _.filter(obj, _.negate(cb(predicate)), context);
+    return _.filter(obj, _.negate(getIteratee(predicate)), context);
   };
 
   // Determine whether all of the elements match a truth test.
   // Aliased as `all`.
   _.every = _.all = function(obj, predicate, context) {
-    predicate = cb(predicate, context);
+    predicate = getIteratee(predicate, context);
     var keys = !isArrayLike(obj) && _.keys(obj),
         length = (keys || obj).length;
     for (var index = 0; index < length; index++) {
@@ -242,7 +245,7 @@
   // Determine if at least one element in the object matches a truth test.
   // Aliased as `any`.
   _.some = _.any = function(obj, predicate, context) {
-    predicate = cb(predicate, context);
+    predicate = getIteratee(predicate, context);
     var keys = !isArrayLike(obj) && _.keys(obj),
         length = (keys || obj).length;
     for (var index = 0; index < length; index++) {
@@ -299,7 +302,7 @@
         }
       }
     } else {
-      iteratee = cb(iteratee, context);
+      iteratee = getIteratee(iteratee, context);
       _.each(obj, function(value, index, list) {
         computed = iteratee(value, index, list);
         if (computed > lastComputed || computed === -Infinity && result === -Infinity) {
@@ -324,7 +327,7 @@
         }
       }
     } else {
-      iteratee = cb(iteratee, context);
+      iteratee = getIteratee(iteratee, context);
       _.each(obj, function(value, index, list) {
         computed = iteratee(value, index, list);
         if (computed < lastComputed || computed === Infinity && result === Infinity) {
@@ -363,7 +366,7 @@
 
   // Sort the object's values by a criterion produced by an iteratee.
   _.sortBy = function(obj, iteratee, context) {
-    iteratee = cb(iteratee, context);
+    iteratee = getIteratee(iteratee, context);
     return _.pluck(_.map(obj, function(value, index, list) {
       return {
         value: value,
@@ -385,7 +388,7 @@
   var group = function(behavior) {
     return function(obj, iteratee, context) {
       var result = {};
-      iteratee = cb(iteratee, context);
+      iteratee = getIteratee(iteratee, context);
       _.each(obj, function(value, index) {
         var key = iteratee(value, index, obj);
         behavior(result, value, key);
@@ -430,7 +433,7 @@
   // Split a collection into two arrays: one whose elements all satisfy the given
   // predicate, and one whose elements all do not satisfy the predicate.
   _.partition = function(obj, predicate, context) {
-    predicate = cb(predicate, context);
+    predicate = getIteratee(predicate, context);
     var pass = [], fail = [];
     _.each(obj, function(value, key, obj) {
       (predicate(value, key, obj) ? pass : fail).push(value);
@@ -517,7 +520,7 @@
       iteratee = isSorted;
       isSorted = false;
     }
-    if (iteratee != null) iteratee = cb(iteratee, context);
+    if (iteratee != null) iteratee = getIteratee(iteratee, context);
     var result = [];
     var seen = [];
     for (var i = 0, length = array.length; i < length; i++) {
@@ -637,7 +640,7 @@
   // Generator function to create the findIndex and findLastIndex functions
   function createIndexFinder(dir) {
     return function(array, predicate, context) {
-      predicate = cb(predicate, context);
+      predicate = getIteratee(predicate, context);
       var length = array != null && array.length;
       var index = dir > 0 ? 0 : length - 1;
       for (; index >= 0 && index < length; index += dir) {
@@ -655,7 +658,7 @@
   // Use a comparator function to figure out the smallest index at which
   // an object should be inserted so as to maintain order. Uses binary search.
   _.sortedIndex = function(array, obj, iteratee, context) {
-    iteratee = cb(iteratee, context, 1);
+    iteratee = getIteratee(iteratee, context, 1);
     var value = iteratee(obj);
     var low = 0, high = array.length;
     while (low < high) {
@@ -946,7 +949,7 @@
   // Returns the results of applying the iteratee to each element of the object
   // In contrast to _.map it returns an object
   _.mapObject = function(obj, iteratee, context) {
-    iteratee = cb(iteratee, context);
+    iteratee = getIteratee(iteratee, context);
     var keys =  _.keys(obj),
           length = keys.length,
           results = {},
@@ -998,7 +1001,7 @@
 
   // Returns the first key on an object that passes a predicate test
   _.findKey = function(obj, predicate, context) {
-    predicate = cb(predicate, context);
+    predicate = getIteratee(predicate, context);
     var keys = _.keys(obj), key;
     for (var i = 0, length = keys.length; i < length; i++) {
       key = keys[i];
@@ -1193,8 +1196,20 @@
     return type === 'function' || type === 'object' && !!obj;
   };
 
-  // Add some isType methods: isArguments, isFunction, isString, isNumber, isDate, isRegExp, isError.
-  _.each(['Arguments', 'Function', 'String', 'Number', 'Date', 'RegExp', 'Error'], function(name) {
+  // Is a given variable a function?
+  _.isFunction = function(obj) {
+      // Work around an IE 11 bug (#1621) 
+      return typeof obj == 'function' || false;
+  };
+
+  // Add some isType methods: isArguments, isString, isNumber, isDate, isRegExp, isError.
+  var isMethods = ['Arguments', 'String', 'Number', 'Date', 'RegExp', 'Error'];
+
+  // De-optimize isFunction to work around some typeof bugs in old v8
+  // and in Safari 8 (#1929).
+  if (_.isFunction(/./) || typeof Int8Array === 'object') isMethods.push('Function');
+
+  _.each(isMethods, function(name) {
     _['is' + name] = function(obj) {
       return toString.call(obj) === '[object ' + name + ']';
     };
@@ -1205,14 +1220,6 @@
   if (!_.isArguments(arguments)) {
     _.isArguments = function(obj) {
       return _.has(obj, 'callee');
-    };
-  }
-
-  // Optimize `isFunction` if appropriate. Work around some typeof bugs in old v8,
-  // IE 11 (#1621), and in Safari 8 (#1929).
-  if (typeof /./ != 'function' && typeof Int8Array != 'object') {
-    _.isFunction = function(obj) {
-      return typeof obj == 'function' || false;
     };
   }
 
