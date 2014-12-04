@@ -418,6 +418,14 @@
 
   test('contains', function() {
     strictEqual(_.includes, _.contains, 'alias for includes');
+
+    var numbers = [1, 2, 3, 1, 2, 3, 1, 2, 3];
+    strictEqual(_.includes(numbers, 1, 1), true);
+    strictEqual(_.includes(numbers, 1, -1), false);
+    strictEqual(_.includes(numbers, 1, -2), false);
+    strictEqual(_.includes(numbers, 1, -3), true);
+    strictEqual(_.includes(numbers, 1, 6), true);
+    strictEqual(_.includes(numbers, 1, 7), false);
   });
 
   test('includes with NaN', function() {
