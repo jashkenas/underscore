@@ -122,9 +122,7 @@
     ok(_.reduce(null, _.noop, 138) === 138, 'handles a null (with initial value) properly');
     equal(_.reduce([], _.noop, undefined), undefined, 'undefined can be passed as a special case');
     equal(_.reduce([_], _.noop), _, 'collection of length one with no initial value returns the first item');
-
-    throws(function() { _.reduce([], _.noop); }, TypeError, 'throws an error for empty arrays with no initial value');
-    throws(function() {_.reduce(null, _.noop);}, TypeError, 'handles a null (without initial value) properly');
+    equal(_.reduce([], _.noop), undefined, 'returns undefined when collection is empty and no initial value');
   });
 
   test('foldl', function() {
@@ -145,9 +143,7 @@
     equal(_.reduceRight([_], _.noop), _, 'collection of length one with no initial value returns the first item');
 
     equal(_.reduceRight([], _.noop, undefined), undefined, 'undefined can be passed as a special case');
-
-    throws(function() { _.reduceRight([], _.noop); }, TypeError, 'throws an error for empty arrays with no initial value');
-    throws(function() {_.reduceRight(null, _.noop);}, TypeError, 'handles a null (without initial value) properly');
+    equal(_.reduceRight([], _.noop), undefined, 'returns undefined when collection is empty and no initial value');
 
     // Assert that the correct arguments are being passed.
 

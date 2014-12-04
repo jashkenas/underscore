@@ -160,8 +160,6 @@
     return results;
   };
 
-  var reduceError = 'Reduce of empty array with no initial value';
-
   // **Reduce** builds up a single result from a list of values, aka `inject`,
   // or `foldl`.
   _.reduce = _.foldl = _.inject = function(obj, iteratee, memo, context) {
@@ -171,7 +169,6 @@
         length = (keys || obj).length,
         index = 0, currentKey;
     if (arguments.length < 3) {
-      if (!length) throw new TypeError(reduceError);
       memo = obj[keys ? keys[index++] : index++];
     }
     for (; index < length; index++) {
@@ -189,10 +186,9 @@
         index = (keys || obj).length,
         currentKey;
     if (arguments.length < 3) {
-      if (!index) throw new TypeError(reduceError);
       memo = obj[keys ? keys[--index] : --index];
     }
-    while (index--) {
+    while (index-- > 0) {
       currentKey = keys ? keys[index] : index;
       memo = iteratee(memo, obj[currentKey], currentKey, obj);
     }
