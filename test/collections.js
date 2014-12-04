@@ -352,11 +352,17 @@
     strictEqual(_.includes, _.contains, 'alias for includes');
   });
 
-  test('invoke', function() {
+  test('invoke', 3, function() {
     var list = [[5, 1, 7], [3, 2, 1]];
     var result = _.invoke(list, 'sort');
     deepEqual(result[0], [1, 5, 7], 'first array sorted');
     deepEqual(result[1], [1, 2, 3], 'second array sorted');
+
+    _.invoke([{
+      method: function() {
+        deepEqual(_.toArray(arguments), [1, 2, 3], 'called with arguments');
+      }
+    }], 'method', 1, 2, 3);
   });
 
   test('invoke w/ function reference', function() {
@@ -364,6 +370,10 @@
     var result = _.invoke(list, Array.prototype.sort);
     deepEqual(result[0], [1, 5, 7], 'first array sorted');
     deepEqual(result[1], [1, 2, 3], 'second array sorted');
+
+    deepEqual(_.invoke([1, 2, 3], function(a) {
+      return a + this;
+    }, 5), [6, 7, 8], 'receives params from invoke');
   });
 
   // Relevant when using ClojureScript
