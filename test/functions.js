@@ -43,7 +43,7 @@
     throws(function() { _.bind('notafunction'); }, TypeError, 'throws an error when binding to a non-function');
   });
 
-  test('partial', function() {
+  test('partial', 9, function() {
     var obj = {name: 'moe'};
     var func = function() { return this.name + ' ' + _.toArray(arguments).join(' '); };
 
@@ -73,6 +73,8 @@
     ok(widget instanceof MyWidget, 'Can partially bind a constructor');
     equal(widget.get(), 'foo', 'keeps prototype');
     deepEqual(widget.options, {a: 1});
+
+    throws(function() { _.partial('notafunction'); }, TypeError, 'throws an error when called with a non-function');
   });
 
   test('bindAll', function() {
@@ -107,7 +109,7 @@
     equal(sayLast(1, 2, 3, 4, 5, 6, 7, 'Tom'), 'hi: moe', 'createCallback works with any number of arguments');
   });
 
-  test('memoize', function() {
+  test('memoize', 15, function() {
     var fib = function(n) {
       return n < 2 ? n : fib(n - 1) + fib(n - 2);
     };
@@ -154,22 +156,28 @@
     notStrictEqual(myObj, undefined, 'object is created if second argument used as key');
     strictEqual(myObj, myObjAlias, 'object is cached if second argument used as key');
     strictEqual(myObj.value, 'a', 'object is not modified if second argument used as key');
+
+    throws(function() { _.memoize('notafunction'); }, TypeError, 'throws an error when memoizing non-function');
   });
 
-  asyncTest('delay', 2, function() {
+  asyncTest('delay', 3, function() {
     var delayed = false;
     _.delay(function(){ delayed = true; }, 100);
     setTimeout(function(){ ok(!delayed, "didn't delay the function quite yet"); }, 50);
     setTimeout(function(){ ok(delayed, 'delayed the function'); start(); }, 150);
+
+    throws(function() { _.delay('notafunction', 1); }, TypeError, 'throws an error when delaying non-function');
   });
 
-  asyncTest('defer', 1, function() {
+  asyncTest('defer', 2, function() {
     var deferred = false;
     _.defer(function(bool){ deferred = bool; }, true);
     _.delay(function(){ ok(deferred, 'deferred the function'); start(); }, 50);
+
+    throws(function() { _.defer('notafunction'); }, TypeError, 'throws an error when deferring non-function');
   });
 
-  asyncTest('throttle', 2, function() {
+  asyncTest('throttle', 3, function() {
     var counter = 0;
     var incr = function(){ counter++; };
     var throttledIncr = _.throttle(incr, 32);
@@ -177,6 +185,8 @@
 
     equal(counter, 1, 'incr was called immediately');
     _.delay(function(){ equal(counter, 2, 'incr was throttled'); start(); }, 64);
+
+    throws(function() { _.throttle('notafunction', 1); }, TypeError, 'throws an error when throttling non-function');
   });
 
   asyncTest('throttle arguments', 2, function() {
@@ -377,13 +387,15 @@
     }, 100);
   });
 
-  asyncTest('debounce', 1, function() {
+  asyncTest('debounce', 2, function() {
     var counter = 0;
     var incr = function(){ counter++; };
     var debouncedIncr = _.debounce(incr, 32);
     debouncedIncr(); debouncedIncr();
     _.delay(debouncedIncr, 16);
     _.delay(function(){ equal(counter, 1, 'incr was debounced'); start(); }, 96);
+
+    throws(function() { _.debounce('notafunction', 1); }, TypeError, 'throws an error when debouncing non-function');
   });
 
   asyncTest('debounce asap', 4, function() {
@@ -457,7 +469,7 @@
     }, 100);
   });
 
-  test('once', function() {
+  test('once', 3, function() {
     var num = 0;
     var increment = _.once(function(){ return ++num; });
     increment();
@@ -465,6 +477,8 @@
     equal(num, 1);
 
     equal(increment(), 1, 'stores a memo to the last value');
+
+    throws(function() { _.once('notafunction'); }, TypeError, 'throws an error when called with a non-function');
   });
 
   test('Recursive onced function.', 1, function() {
@@ -475,7 +489,7 @@
     f();
   });
 
-  test('wrap', function() {
+  test('wrap', 5, function() {
     var greet = function(name){ return 'hi: ' + name; };
     var backwards = _.wrap(greet, function(func, name){ return func(name) + ' ' + name.split('').reverse().join(''); });
     equal(backwards('moe'), 'hi: moe eom', 'wrapped the salutation function');
@@ -489,15 +503,20 @@
     var wrapped = _.wrap(noop, function(){ return Array.prototype.slice.call(arguments, 0); });
     var ret     = wrapped(['whats', 'your'], 'vector', 'victor');
     deepEqual(ret, [noop, ['whats', 'your'], 'vector', 'victor']);
+
+    throws(function() { _.wrap(greet, 'notafunction'); }, TypeError, 'throws an error when wrapping function is a non-function');
+    ok(_.wrap('moe', greet), 'does not throw an error when wrapping non-function');
   });
 
-  test('negate', function() {
+  test('negate', 3, function() {
     var isOdd = function(n){ return n & 1; };
     equal(_.negate(isOdd)(2), true, 'should return the complement of the given function');
     equal(_.negate(isOdd)(3), false, 'should return the complement of the given function');
+
+    throws(function() { _.negate('notafunction'); }, TypeError, 'throws an error when negating non-function');
   });
 
-  test('compose', function() {
+  test('compose', 8, function() {
     var greet = function(name){ return 'hi: ' + name; };
     var exclaim = function(sentence){ return sentence + '!'; };
     var composed = _.compose(exclaim, greet);
@@ -521,9 +540,12 @@
     }
     composed = _.compose(f, g, h);
     equal(composed(1, 2, 3), 12);
+
+    throws(function() { _.compose('notafunction'); }, TypeError, 'throws an error when composing a non-function');
+    throws(function() { _.compose(greet, exclaim, 'notafunction'); }, TypeError, 'throws an error when composing a non-function');
   });
 
-  test('after', function() {
+  test('after', 5, function() {
     var testAfter = function(afterAmount, timesCalled) {
       var afterCalled = 0;
       var after = _.after(afterAmount, function() {
@@ -537,9 +559,11 @@
     equal(testAfter(5, 4), 0, 'after(N) should not fire unless called N times');
     equal(testAfter(0, 0), 0, 'after(0) should not fire immediately');
     equal(testAfter(0, 1), 1, 'after(0) should fire when first invoked');
+
+    throws(function() { _.after(1, 'notafunction'); }, TypeError, 'throws an error when called with a non-function');
   });
 
-  test('before', function() {
+  test('before', 7, function() {
     var testBefore = function(beforeAmount, timesCalled) {
       var beforeCalled = 0;
       var before = _.before(beforeAmount, function() { beforeCalled++; });
@@ -557,6 +581,8 @@
     _.times(10, increment, context);
     equal(increment(), 2, 'stores a memo to the last value');
     equal(context.num, 2, 'provides context');
+
+    throws(function() { _.before(1, 'notafunction'); }, TypeError, 'throws an error when called with a non-function');
   });
 
   test('iteratee', function() {

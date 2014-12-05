@@ -185,7 +185,7 @@
   _.reduceRight = _.foldr = function(obj, iteratee, memo, context) {
     if (obj == null) obj = [];
     iteratee = optimizeCb(iteratee, context, 4);
-    var keys = obj.length !== + obj.length && _.keys(obj),
+    var keys = obj.length !== +obj.length && _.keys(obj),
         index = (keys || obj).length,
         currentKey;
     if (arguments.length < 3) {
@@ -708,6 +708,7 @@
   // arguments pre-filled, without changing its dynamic `this` context. _ acts
   // as a placeholder, allowing any combination of arguments to be pre-filled.
   _.partial = function(func) {
+    if (!_.isFunction(func)) throw new TypeError('Partial must be called on a function');
     var boundArgs = slice.call(arguments, 1);
     return function bound() {
       var position = 0;
@@ -735,6 +736,7 @@
 
   // Memoize an expensive function by storing its results.
   _.memoize = function(func, hasher) {
+    if (!_.isFunction(func)) throw new TypeError('Memoize must be called on a function');
     var memoize = function(key) {
       var cache = memoize.cache;
       var address = '' + (hasher ? hasher.apply(this, arguments) : key);
@@ -748,6 +750,7 @@
   // Delays a function for the given number of milliseconds, and then calls
   // it with the arguments supplied.
   _.delay = function(func, wait) {
+    if (!_.isFunction(func)) throw new TypeError('Delay must be called on a function');
     var args = slice.call(arguments, 2);
     return setTimeout(function(){
       return func.apply(null, args);
@@ -766,6 +769,7 @@
   // but if you'd like to disable the execution on the leading edge, pass
   // `{leading: false}`. To disable execution on the trailing edge, ditto.
   _.throttle = function(func, wait, options) {
+    if (!_.isFunction(func)) throw new TypeError('Throttle must be called on a function');
     var context, args, result;
     var timeout = null;
     var previous = 0;
@@ -802,6 +806,7 @@
   // N milliseconds. If `immediate` is passed, trigger the function on the
   // leading edge, instead of the trailing.
   _.debounce = function(func, wait, immediate) {
+    if (!_.isFunction(func)) throw new TypeError('Debounce must be called on a function');
     var timeout, args, context, timestamp, result;
 
     var later = function() {
@@ -837,11 +842,13 @@
   // allowing you to adjust arguments, run code before and after, and
   // conditionally execute the original function.
   _.wrap = function(func, wrapper) {
+    if (!_.isFunction(wrapper)) throw new TypeError('Wrapping function must be a function');
     return _.partial(wrapper, func);
   };
 
   // Returns a negated version of the passed-in predicate.
   _.negate = function(predicate) {
+    if (!_.isFunction(predicate)) throw new TypeError('Negate must be called on a function');
     return function() {
       return !predicate.apply(this, arguments);
     };
@@ -850,6 +857,7 @@
   // Returns a function that is the composition of a list of functions, each
   // consuming the return value of the function that follows.
   _.compose = function() {
+    if (!_.every(arguments, _.isFunction)) throw new TypeError('Compose must be called with all functions');
     var args = arguments;
     var start = args.length - 1;
     return function() {
@@ -862,6 +870,7 @@
 
   // Returns a function that will only be executed after being called N times.
   _.after = function(times, func) {
+    if (!_.isFunction(func)) throw new TypeError('After must be called on a function');
     return function() {
       if (--times < 1) {
         return func.apply(this, arguments);
@@ -871,6 +880,7 @@
 
   // Returns a function that will only be executed before being called N times.
   _.before = function(times, func) {
+    if (!_.isFunction(func)) throw new TypeError('Before must be called on a function');
     var memo;
     return function() {
       if (--times > 0) {
@@ -883,7 +893,9 @@
 
   // Returns a function that will be executed at most one time, no matter how
   // often you call it. Useful for lazy initialization.
-  _.once = _.partial(_.before, 2);
+  _.once = function(func) {
+      return _.before(2, func);
+  };
 
   // Object Functions
   // ----------------
