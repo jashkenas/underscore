@@ -97,6 +97,14 @@
     equal(_.flatten([_.range(10), _.range(10), 5, 1, 3]).length, 23);
     equal(_.flatten([new Array(1000000), _.range(56000), 5, 1, 3]).length, 1056003, 'Flatten can handle massive collections');
     equal(_.flatten([new Array(1000000), _.range(56000), 5, 1, 3], true).length, 1056003, 'Flatten can handle massive collections');
+
+    equal(_.flatten({length: 2, 0: 0, 1: {length: 1, 0: _.range(10)}}).length, 11, 'can flatten array-likes');
+    equal(_.flatten({length: 2, 0: 0, 1: {length: 1, 0: _.range(10)}}, true).length, 2, 'can flatten array-likes');
+
+    equal(_.flatten('testing').length, 1, 'does not flatten strings to chars');
+    equal(_.flatten('testing', true).length, 1, 'does not flatten strings to chars');
+    equal(_.flatten(['testing']).length, 1, 'does not flatten strings to chars');
+    equal(_.flatten(['testing'], true).length, 1, 'does not flatten strings to chars');
   });
 
   test('without', function() {

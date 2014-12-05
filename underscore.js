@@ -185,7 +185,7 @@
   _.reduceRight = _.foldr = function(obj, iteratee, memo, context) {
     if (obj == null) obj = [];
     iteratee = optimizeCb(iteratee, context, 4);
-    var keys = obj.length !== + obj.length && _.keys(obj),
+    var keys = obj.length !== +obj.length && _.keys(obj),
         index = (keys || obj).length,
         currentKey;
     if (arguments.length < 3) {
@@ -499,10 +499,12 @@
 
   // Internal implementation of a recursive `flatten` function.
   var flatten = function(input, shallow, strict, startIndex) {
+    if (input == null) return [];
+    if (_.isString(input)) return [input];
     var output = [], idx = 0, value;
-    for (var i = startIndex || 0, length = input && input.length; i < length; i++) {
+    for (var i = startIndex || 0, length = input.length; i < length; i++) {
       value = input[i];
-      if (value && value.length >= 0 && (_.isArray(value) || _.isArguments(value))) {
+      if (value && value.length === +value.length && !_.isString(value)) {
         //flatten current level of array or arguments object
         if (!shallow) value = flatten(value, shallow, strict);
         var j = 0, len = value.length;
