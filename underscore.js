@@ -1307,7 +1307,7 @@
     '<': '&lt;',
     '>': '&gt;',
     '"': '&quot;',
-    "'": '&#x27;',
+    "'": "&#x27;",
     '`': '&#x60;'
   };
   var unescapeMap = _.invert(escapeMap);
