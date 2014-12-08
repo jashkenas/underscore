@@ -340,6 +340,17 @@
     });
     strictEqual(_.includes([1, 2, 3], 2), true, 'two is in the array');
     ok(!_.includes([1, 3, 9], 2), 'two is not in the array');
+
+    var numbers = [1, 2, 3, 1, 2, 3, 1, 2, 3];
+    strictEqual(_.includes(numbers, 1, 1), true);
+    strictEqual(_.includes(numbers, 1, -1), false);
+    strictEqual(_.includes(numbers, 1, -2), false);
+    strictEqual(_.includes(numbers, 1, -3), true);
+    strictEqual(_.includes(numbers, 1, 6), true);
+    strictEqual(_.includes(numbers, 1, 7), false);
+
+    strictEqual(_.includes([5, 4, 3, 2, 1], 5, true), true, 'doesn\'t delegate to binary search');
+
     ok(_.includes({moe: 1, larry: 3, curly: 9}, 3) === true, '_.includes on objects checks their values');
     ok(_([1, 2, 3]).includes(2), 'OO-style includes');
   });
