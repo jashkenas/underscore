@@ -405,6 +405,7 @@
   test('pluck', function() {
     var people = [{name: 'moe', age: 30}, {name: 'curly', age: 50}];
     deepEqual(_.pluck(people, 'name'), ['moe', 'curly'], 'pulls names out of objects');
+    deepEqual(_.pluck(people, 'address'), [undefined, undefined], 'pulls address of objects');
     //compat: most flexible handling of edge cases
     deepEqual(_.pluck([{'[object Object]': 1}], {}), [1]);
   });
