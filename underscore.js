@@ -60,38 +60,24 @@
   // Internal function that returns an efficient (for current engines) version
   // of the passed-in callback, to be repeatedly applied in other Underscore
   // functions.
-  var optimizeCb = function(func, context, argCount) {
+  var optimizeCb = function(func, context) {
     if (context === void 0) return func;
-    switch (argCount == null ? 3 : argCount) {
-      case 1: return function(value) {
-        return func.call(context, value);
-      };
-      case 2: return function(value, other) {
-        return func.call(context, value, other);
-      };
-      case 3: return function(value, index, collection) {
-        return func.call(context, value, index, collection);
-      };
-      case 4: return function(accumulator, value, index, collection) {
-        return func.call(context, accumulator, value, index, collection);
-      };
-    }
     return function() {
-      return func.apply(context, arguments);
+      return _.apply(func, context, arguments);
     };
   };
 
   // A mostly-internal function to generate callbacks that can be applied
   // to each element in a collection, returning the desired result — either
   // identity, an arbitrary callback, a property matcher, or a property accessor.
-  var cb = function(value, context, argCount) {
+  var cb = function(value, context) {
     if (value == null) return _.identity;
-    if (_.isFunction(value)) return optimizeCb(value, context, argCount);
+    if (_.isFunction(value)) return optimizeCb(value, context);
     if (_.isObject(value)) return _.matches(value);
     return _.property(value);
   };
   _.iteratee = function(value, context) {
-    return cb(value, context, Infinity);
+    return cb(value, context);
   };
 
   // An internal function for creating assigner functions.
@@ -1233,6 +1219,24 @@
   _.noConflict = function() {
     root._ = previousUnderscore;
     return this;
+  };
+
+  _.apply = function(func, context, args) {
+    switch (args.length) {
+      case 0:
+        return func.call(context);
+      case 1:
+        return func.call(context, args[0]);
+      case 2:
+        return func.call(context, args[0], args[1]);
+      case 3:
+        return func.call(context, args[0], args[1], args[2]);
+      case 4:
+        return func.call(context, args[0], args[1], args[2], args[3]);
+      case 5:
+        return func.call(context, args[0], args[1], args[2], args[3], args[4]);
+    }
+    return func.apply(context, args);
   };
 
   // Keep the identity function around for default iteratees.
