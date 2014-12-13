@@ -637,6 +637,17 @@
     ok(_.isFunction(function(){}), 'even anonymous ones');
   });
 
+  if (typeof Int8Array !== 'undefined') {
+      test('#1929 Typed Array constructors are functions', function() {
+          _.chain(['Float32Array', 'Float64Array', 'Int8Array', 'Int16Array', 'Int32Array', 'Uint8Array', 'Uint8ClampedArray', 'Uint16Array', 'Uint32Array'])
+          .map(_.propertyOf(typeof GLOBAL != 'undefined' ? GLOBAL : window))
+          .compact()
+          .each(function(TypedArray) {
+              equal(toString(TypedArray) === '[object Function]', _.isFunction(TypedArray));
+          });
+      });
+  }
+
   test('isDate', function() {
     ok(!_.isDate(100), 'numbers are not dates');
     ok(!_.isDate({}), 'objects are not dates');
