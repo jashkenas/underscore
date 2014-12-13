@@ -638,14 +638,16 @@
   });
 
   if (typeof Int8Array !== 'undefined') {
-      test('#1929 Typed Array constructors are functions', function() {
-          _.chain(['Float32Array', 'Float64Array', 'Int8Array', 'Int16Array', 'Int32Array', 'Uint8Array', 'Uint8ClampedArray', 'Uint16Array', 'Uint32Array'])
-          .map(_.propertyOf(typeof GLOBAL != 'undefined' ? GLOBAL : window))
-          .compact()
-          .each(function(TypedArray) {
-              equal(toString(TypedArray) === '[object Function]', _.isFunction(TypedArray));
-          });
+    test('#1929 Typed Array constructors are functions', function() {
+      _.chain(['Float32Array', 'Float64Array', 'Int8Array', 'Int16Array', 'Int32Array', 'Uint8Array', 'Uint8ClampedArray', 'Uint16Array', 'Uint32Array'])
+      .map(_.propertyOf(typeof GLOBAL != 'undefined' ? GLOBAL : window))
+      .compact()
+      .each(function(TypedArray) {
+          // PhantomJS reports `typeof UInt8Array == 'object'` and doesn't report toString TypeArray
+          // as a function
+          strictEqual(_.isFunction(TypedArray), Object.prototype.toString.call(TypedArray) === '[object Function]');
       });
+    });
   }
 
   test('isDate', function() {
