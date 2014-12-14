@@ -1,6 +1,7 @@
 (function() {
 
   module('Functions');
+  var slice = Array.prototype.slice;
 
   test('bind', function() {
     var context = {name : 'moe'};
@@ -564,14 +565,29 @@
     equal(identity, _.identity, '_.iteratee is exposed as an external function.');
 
     function fn() {
-      return arguments;
+      return slice.call(arguments);
     }
     _.each([_.iteratee(fn), _.iteratee(fn, {})], function(cb) {
       equal(cb().length, 0);
       deepEqual(_.toArray(cb(1, 2, 3)), _.range(1, 4));
       deepEqual(_.toArray(cb(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)), _.range(1, 11));
     });
-    
+
+    var iteratee = _.iteratee;
+    var context = {name : 'moe'};
+    var array = [1, 2, 3];
+    _.iteratee = function() {
+      return fn;
+    };
+    var result = _.map(array);
+    deepEqual(result, [[1, 0, array], [2, 1, array], [3, 2, array]], 'customizing iteratee changes behavior of collection functions');
+
+    _.iteratee = function() {
+      result = slice.call(arguments);
+    };
+    _.filter([], fn, context);
+    deepEqual(result, [fn, context], 'custom iteratee does not receive argCount param');
+    _.iteratee = iteratee;
   });
 
 }());

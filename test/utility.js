@@ -25,6 +25,20 @@
     equal(_.identity(stooge), stooge, 'stooge is the same as his identity');
   });
 
+  test('apply', function() {
+    _.chain(15)
+   .range()
+   .each(function(argCount, index) {
+      var args = _.range(argCount);
+      var context = {};
+      _.apply(function() {
+        strictEqual(this, context);
+        var value = index === 0 ? void 0 : index - 1;
+        strictEqual(_.last(arguments), value);
+      }, context, args);
+   });
+  });
+
   test('constant', function() {
     var stooge = {name : 'moe'};
     equal(_.constant(stooge)(), stooge, 'should create a function that returns stooge');
