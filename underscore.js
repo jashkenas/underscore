@@ -729,9 +729,7 @@
 
   // Defers a function, scheduling it to run after the current call stack has
   // cleared.
-  _.defer = function(func) {
-    return _.delay.apply(_, [func, 1].concat(slice.call(arguments, 1)));
-  };
+  _.defer = _.partial(_.delay, _, 1);
 
   // Returns a function, that, when invoked, will only be triggered at most once
   // during a given window of time. Normally, the throttled function will run
