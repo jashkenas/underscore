@@ -126,6 +126,14 @@
     var context = {1: 2, 2: 3, 3: 4};
     iterator = function(obj){ return this[obj]; };
     strictEqual(_.sortedIndex([1, 3], 2, iterator, context), 1);
+
+    var values = [0, 1, 3, 7, 15, 31, 63, 127, 255, 511, 1023, 2047, 4095, 8191, 16383, 32767, 65535, 131071, 262143, 524287, 1048575, 2097151, 4194303, 8388607, 16777215, 33554431, 67108863, 134217727, 268435455, 536870911, 1073741823, 2147483647];
+    var array = Array(Math.pow(2, 32) - 1);
+    var length = values.length;
+    while (length--) {
+      array[values[length]] = values[length];
+    }
+    equal(_.sortedIndex(array, 2147483648), 2147483648, 'should work with large indexes');
   });
 
   test('uniq', function() {
@@ -324,7 +332,7 @@
       strictEqual(_.indexOf(array, 1, fromIndex), 0);
     });
     strictEqual(_.indexOf([1, 2, 3], 1, true), 0);
-	
+
     index = _.indexOf([], undefined, true);
     equal(index, -1, 'empty array with truthy `isSorted` returns -1');
   });
