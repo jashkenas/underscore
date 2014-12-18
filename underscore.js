@@ -666,7 +666,7 @@
       idx = from < 0 ? idx + from + 1 : Math.min(idx, from + 1);
     }
     if (item !== item) {
-      return _.findLastIndex(array.slice(0, idx), _.isNaN);
+      return _.findLastIndex(slice.call(array, 0, idx), _.isNaN);
     }
     while (--idx >= 0) if (array[idx] === item) return idx;
     return -1;

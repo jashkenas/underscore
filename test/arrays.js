@@ -342,6 +342,10 @@
   test('indexOf with NaN', function() {
     strictEqual(_.indexOf([1, 2, NaN, NaN], NaN), 2, 'Expected [1, 2, NaN] to contain NaN');
     strictEqual(_.indexOf([1, 2, Infinity], NaN), -1, 'Expected [1, 2, NaN] to contain NaN');
+
+    (function() {
+      strictEqual(_.indexOf(arguments, NaN), 2, 'Expected arguments [1, 2, NaN] to contain NaN');
+    }(1, 2, NaN, NaN));
   });
 
   test('indexOf with +- 0', function() {
@@ -412,6 +416,10 @@
   test('lastIndexOf with NaN', function() {
     strictEqual(_.lastIndexOf([1, 2, NaN, NaN], NaN), 3, 'Expected [1, 2, NaN] to contain NaN');
     strictEqual(_.lastIndexOf([1, 2, Infinity], NaN), -1, 'Expected [1, 2, NaN] to contain NaN');
+
+    (function() {
+      strictEqual(_.lastIndexOf(arguments, NaN), 3, 'Expected arguments [1, 2, NaN] to contain NaN');
+    }(1, 2, NaN, NaN));
   });
 
   test('lastIndexOf with +- 0', function() {
