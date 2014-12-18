@@ -653,6 +653,9 @@
       i = _.sortedIndex(array, item);
       return array[i] === item ? i : -1;
     }
+    if (item !== item) {
+      return _.findIndex(slice.call(array, i), _.isNaN);
+    }
     for (; i < length; i++) if (array[i] === item) return i;
     return -1;
   };
@@ -662,6 +665,9 @@
     if (typeof from == 'number') {
       idx = from < 0 ? idx + from + 1 : Math.min(idx, from + 1);
     }
+    if (item !== item) {
+      return _.findLastIndex(array.slice(0, idx), _.isNaN);
+    }
     while (--idx >= 0) if (array[idx] === item) return idx;
     return -1;
   };
@@ -669,9 +675,18 @@
   // Returns the first index on an array-like that passes a predicate test
   _.findIndex = function(array, predicate, context) {
     predicate = cb(predicate, context);
-    var length = array != null ? array.length : 0;
-    for (var i = 0; i < length; i++) {
-      if (predicate(array[i], i, array)) return i;
+    var length = array != null && array.length;
+    for (var index = 0; index < length; index++) {
+      if (predicate(array[index], index, array)) return index;
+    }
+    return -1;
+  };
+
+  _.findLastIndex = function(array, predicate, context) {
+    predicate = cb(predicate, context);
+    var index = array != null && array.length;
+    while (index--) {
+      if (predicate(array[index], index, array)) return index;
     }
     return -1;
   };

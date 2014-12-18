@@ -339,6 +339,18 @@
     equal(index, -1, 'empty array with truthy `isSorted` returns -1');
   });
 
+  test('indexOf with NaN', function() {
+    strictEqual(_.indexOf([1, 2, NaN, NaN], NaN), 2, 'Expected [1, 2, NaN] to contain NaN');
+    strictEqual(_.indexOf([1, 2, Infinity], NaN), -1, 'Expected [1, 2, NaN] to contain NaN');
+  });
+
+  test('indexOf with +- 0', function() {
+    _.each([-0, +0], function(val) {
+      strictEqual(_.indexOf([1, 2, val, val], val), 2);
+      strictEqual(_.indexOf([1, 2, val, val], -val), 2);
+    });
+  });
+
   test('lastIndexOf', function() {
     var numbers = [1, 0, 1];
     var falsey = [void 0, '', 0, false, NaN, null, undefined];
@@ -397,11 +409,25 @@
     }), [0, -1, -1]);
   });
 
+  test('lastIndexOf with NaN', function() {
+    strictEqual(_.lastIndexOf([1, 2, NaN, NaN], NaN), 3, 'Expected [1, 2, NaN] to contain NaN');
+    strictEqual(_.lastIndexOf([1, 2, Infinity], NaN), -1, 'Expected [1, 2, NaN] to contain NaN');
+  });
+
+  test('lastIndexOf with +- 0', function() {
+    _.each([-0, +0], function(val) {
+      strictEqual(_.lastIndexOf([1, 2, val, val], val), 3);
+      strictEqual(_.lastIndexOf([1, 2, val, val], -val), 3);
+      strictEqual(_.lastIndexOf([-1, 1, 2], -val), -1);
+    });
+  });
+
   test('findIndex', function() {
     var objects = [
       {'a': 0, 'b': 0},
       {'a': 1, 'b': 1},
-      {'a': 2, 'b': 2}
+      {'a': 2, 'b': 2},
+      {'a': 0, 'b': 0}
     ];
 
     equal(_.findIndex(objects, function(obj) {
@@ -437,6 +463,49 @@
     var array = [1, 2, 3, 4];
     array.match = 55;
     strictEqual(_.findIndex(array, function(x) { return x === 55; }), -1, 'doesn\'t match array-likes keys');
+  });
+
+  test('findLastIndex', function() {
+    var objects = [
+      {'a': 0, 'b': 0},
+      {'a': 1, 'b': 1},
+      {'a': 2, 'b': 2},
+      {'a': 0, 'b': 0}
+    ];
+
+    equal(_.findLastIndex(objects, function(obj) {
+      return obj.a === 0;
+    }), 3);
+
+    equal(_.findLastIndex(objects, function(obj) {
+      return obj.b * obj.a === 4;
+    }), 2);
+
+    equal(_.findLastIndex(objects, 'a'), 2, 'Uses lookupIterator');
+
+    equal(_.findLastIndex(objects, function(obj) {
+      return obj.b * obj.a === 5;
+    }), -1);
+
+    equal(_.findLastIndex(null, _.noop), -1);
+    strictEqual(_.findLastIndex(objects, function(a) {
+      return a.foo === null;
+    }), -1);
+    _.findLastIndex([{a: 1}], function(a, key, obj) {
+      equal(key, 0);
+      deepEqual(obj, [{a: 1}]);
+      strictEqual(this, objects, 'called with context');
+    }, objects);
+
+    var sparse = [];
+    sparse[20] = {'a': 2, 'b': 2};
+    equal(_.findLastIndex(sparse, function(obj) {
+      return obj && obj.b * obj.a === 4;
+    }), 20, 'Works with sparse arrays');
+
+    var array = [1, 2, 3, 4];
+    array.match = 55;
+    strictEqual(_.findLastIndex(array, function(x) { return x === 55; }), -1, 'doesn\'t match array-likes keys');
   });
 
   test('range', function() {
