@@ -883,7 +883,7 @@
   // ----------------
 
   // Keys in IE < 9 that won't be iterated by `for key in ...` and thus missed.
-  var hasEnumBug = !({toString: null}).propertyIsEnumerable('toString');
+  var hasEnumBug = !{toString: null}.propertyIsEnumerable('toString');
   var nonEnumerableProps = ['constructor', 'valueOf', 'isPrototypeOf', 'toString',
                       'propertyIsEnumerable', 'hasOwnProperty', 'toLocaleString'];
 
@@ -1118,7 +1118,7 @@
       if (length !== b.length) return false;
       // Deep compare the contents, ignoring non-numeric properties.
       while (length--) {
-        if (!(eq(a[length], b[length], aStack, bStack))) return false;
+        if (!eq(a[length], b[length], aStack, bStack)) return false;
       }
     } else {
       // Deep compare objects.
