@@ -1148,18 +1148,11 @@
   _.isEmpty = function(obj) {
     if (obj == null) return true;
     if (_.isArray(obj) || _.isString(obj) || _.isArguments(obj)) return obj.length === 0;
-    for (var key in obj) if (_.has(obj, key)) return false;
     // Ahem, IE < 9.
-    if (hasEnumBug) {
-      var nonEnumIdx = nonEnumerableProps.length;
-      var proto = typeof obj.constructor === 'function' ? FuncProto : ObjProto;
-
-      while (nonEnumIdx--) {
-        var prop = nonEnumerableProps[nonEnumIdx];
-        if (prop === 'constructor' ? _.has(obj, prop) : prop in obj && obj[prop] !== proto[prop]) {
-          return false;
-        }
-      }
+    if (!hasEnumBug) {
+      for (var key in obj) if (_.has(obj, key)) return false;
+    } else {
+      return _.keys(obj).length === 0;
     }
     return true;
   };
