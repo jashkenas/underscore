@@ -1147,7 +1147,8 @@
   // An "empty" object has no enumerable own-properties.
   _.isEmpty = function(obj) {
     if (obj == null) return true;
-    if (_.isArray(obj) || _.isString(obj) || _.isArguments(obj)) return obj.length === 0;
+    var length = obj.length;
+    if (typeof length == 'number') return length === 0;
     // Ahem, IE < 9.
     if (!hasEnumBug) {
       for (var key in obj) if (_.has(obj, key)) return false;
