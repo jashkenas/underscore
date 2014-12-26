@@ -112,7 +112,7 @@
     };
   };
 
-  // An internal function for creating a new object that inherts from another.
+  // An internal function for creating a new object that inherits from another.
   var baseCreate = function(prototype) {
     if (!_.isObject(prototype)) return {};
     if (nativeCreate) return nativeCreate(prototype);
