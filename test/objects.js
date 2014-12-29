@@ -562,6 +562,10 @@
     var args = function(){ return arguments; };
     ok(_.isEmpty(args()), 'empty arguments object is empty');
     ok(!_.isEmpty(args('')), 'non-empty arguments object is not empty');
+
+    // covers collecting non-enumerable properties in IE < 9
+    var nonEnumProp = {'toString': 5};
+    ok(!_.isEmpty(nonEnumProp), 'non-enumerable property is not empty');
   });
 
   test('isElement', function() {
