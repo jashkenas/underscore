@@ -160,40 +160,41 @@
     return results;
   };
 
+  // Wrapping function to construct a reducer function
+  function wrapReduce(iterator, dir) {
+    return function(obj, iteratee, memo, context) {
+      if (obj == null) obj = [];
+      iteratee = optimizeCb(iteratee, context, 4);
+      var keys = obj.length !== +obj.length && _.keys(obj),
+          length = (keys || obj).length,
+          index = dir > 0 ? 0 : length - 1;
+      // Determine the initial value if none provided
+      if (arguments.length < 3) {
+        memo = obj[keys ? keys[index] : index];
+        index += dir;
+      }
+      return iterator(obj, iteratee, memo, keys, index, length);
+    };
+  }
+
   // **Reduce** builds up a single result from a list of values, aka `inject`,
   // or `foldl`.
-  _.reduce = _.foldl = _.inject = function(obj, iteratee, memo, context) {
-    if (obj == null) obj = [];
-    iteratee = optimizeCb(iteratee, context, 4);
-    var keys = obj.length !== +obj.length && _.keys(obj),
-        length = (keys || obj).length,
-        index = 0, currentKey;
-    if (arguments.length < 3) {
-      memo = obj[keys ? keys[index++] : index++];
-    }
+  _.reduce = _.foldl = _.inject = wrapReduce(function(obj, iteratee, memo, keys, index, length) {
     for (; index < length; index++) {
-      currentKey = keys ? keys[index] : index;
+      var currentKey = keys ? keys[index] : index;
       memo = iteratee(memo, obj[currentKey], currentKey, obj);
     }
     return memo;
-  };
+  }, 1);
 
   // The right-associative version of reduce, also known as `foldr`.
-  _.reduceRight = _.foldr = function(obj, iteratee, memo, context) {
-    if (obj == null) obj = [];
-    iteratee = optimizeCb(iteratee, context, 4);
-    var keys = obj.length !== + obj.length && _.keys(obj),
-        index = (keys || obj).length,
-        currentKey;
-    if (arguments.length < 3) {
-      memo = obj[keys ? keys[--index] : --index];
-    }
-    while (index-- > 0) {
-      currentKey = keys ? keys[index] : index;
+  _.reduceRight = _.foldr = wrapReduce(function(obj, iteratee, memo, keys, index) {
+    for (; index >= 0; index--) {
+      var currentKey = keys ? keys[index] : index;
       memo = iteratee(memo, obj[currentKey], currentKey, obj);
     }
     return memo;
-  };
+  }, -1);
 
   // Return the first value which passes a truth test. Aliased as `detect`.
   _.find = _.detect = function(obj, predicate, context) {
