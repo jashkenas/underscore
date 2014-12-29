@@ -1143,12 +1143,22 @@
     return eq(a, b, [], []);
   };
 
+  /**
+  * Used as the maximum length of an array-like value.
+  * See the [ES6 spec](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-tolength)
+  * for more details.
+  */
+  var MAX_SAFE_INTEGER = Math.pow(2, 53) - 1;
+  function isLength(value) {
+    return typeof value == 'number' && value > -1 && value <= MAX_SAFE_INTEGER;
+  }
+
   // Is a given array, string, or object empty?
   // An "empty" object has no enumerable own-properties.
   _.isEmpty = function(obj) {
     if (obj == null) return true;
     var length = obj.length;
-    if (typeof length == 'number') return length === 0;
+    if (isLength(length) && (_.isArray(obj) || _.isString(obj) || _.isArguments(obj))) return length === 0;
     // Ahem, IE < 9.
     if (!hasEnumBug) {
       for (var key in obj) if (_.has(obj, key)) return false;
