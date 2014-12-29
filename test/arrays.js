@@ -261,6 +261,8 @@
   });
 
   test('unzip', function() {
+    deepEqual(_.unzip(null), [], 'handles null');
+
     deepEqual(_.unzip([['a', 'b'], [1, 2]]), [['a', 1], ['b', 2]]);
 
     // complements zip
