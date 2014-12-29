@@ -1159,13 +1159,7 @@
     if (obj == null) return true;
     var length = obj.length;
     if (isLength(length) && (_.isArray(obj) || _.isString(obj) || _.isArguments(obj))) return length === 0;
-    // Ahem, IE < 9.
-    if (!hasEnumBug) {
-      for (var key in obj) if (_.has(obj, key)) return false;
-    } else {
-      return _.keys(obj).length === 0;
-    }
-    return true;
+    return _.keys(obj).length === 0;
   };
 
   // Is a given value a DOM element?
