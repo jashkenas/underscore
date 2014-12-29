@@ -136,6 +136,17 @@
     equal(_.sortedIndex(array, 2147483648), 2147483648, 'should work with large indexes');
   });
 
+  test('sortedIndex conforms to sortBy (#1768)', function() {
+    var sorted = _([{a: NaN}, {a: NaN}, {a: void 0}, {a: 0}, {a: 1}, {a: 2}, {a: 3}, {a: '4'}, {a: 'foo'}])
+                  .sortBy('a');
+    _.each([0, 1, 2, 3, '4', 'foo'], function(val) {
+      equal(_.sortedIndex(sorted, {a: val}, 'a'), _.findIndex(sorted, {a: val}), 'For val: ' + val);
+    });
+
+    sorted = _.sortBy([undefined, 1, undefined, 2]);
+    equal(_.sortedIndex(sorted, undefined, _.identity), 2);
+  });
+
   test('uniq', function() {
     var list = [1, 2, 1, 3, 1, 4];
     deepEqual(_.uniq(list), [1, 2, 3, 4], 'can find the unique values of an unsorted array');
