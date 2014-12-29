@@ -161,7 +161,7 @@
   };
 
   // Wrapping function to construct a reducer function
-  function wrapReduce(iterator, dir) {
+  function createReduce(dir) {
     return function(obj, iteratee, memo, context) {
       if (obj == null) obj = [];
       iteratee = optimizeCb(iteratee, context, 4);
@@ -173,28 +173,20 @@
         memo = obj[keys ? keys[index] : index];
         index += dir;
       }
-      return iterator(obj, iteratee, memo, keys, index, length);
+      for (; index >= 0 && index < length; index += dir) {
+        var currentKey = keys ? keys[index] : index;
+        memo = iteratee(memo, obj[currentKey], currentKey, obj);
+      }
+      return memo;
     };
   }
 
   // **Reduce** builds up a single result from a list of values, aka `inject`,
   // or `foldl`.
-  _.reduce = _.foldl = _.inject = wrapReduce(function(obj, iteratee, memo, keys, index, length) {
-    for (; index < length; index++) {
-      var currentKey = keys ? keys[index] : index;
-      memo = iteratee(memo, obj[currentKey], currentKey, obj);
-    }
-    return memo;
-  }, 1);
+  _.reduce = _.foldl = _.inject = createReduce(1);
 
   // The right-associative version of reduce, also known as `foldr`.
-  _.reduceRight = _.foldr = wrapReduce(function(obj, iteratee, memo, keys, index) {
-    for (; index >= 0; index--) {
-      var currentKey = keys ? keys[index] : index;
-      memo = iteratee(memo, obj[currentKey], currentKey, obj);
-    }
-    return memo;
-  }, -1);
+  _.reduceRight = _.foldr = createReduce(-1);
 
   // Return the first value which passes a truth test. Aliased as `detect`.
   _.find = _.detect = function(obj, predicate, context) {
