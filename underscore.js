@@ -195,6 +195,31 @@
     return memo;
   };
 
+  // **Transform** is an alternative to reduce that transforms `obj` to a new
+  // `accumulator` object.
+  _.transform = function(obj, iteratee, accumulator, context) {
+    if (accumulator == null) {
+      if (_.isArray(obj)) {
+        accumulator = [];
+      } else if (_.isObject(obj)) {
+        var Ctor = obj.constructor;
+        accumulator = baseCreate(typeof Ctor == 'function' && Ctor.prototype);
+      } else {
+        accumulator = {};
+      }
+    }
+    if (obj == null) return accumulator;
+    iteratee = optimizeCb(iteratee, context, 4);
+    var keys = obj.length !== +obj.length && _.keys(obj),
+      length = (keys || obj).length,
+      index, currentKey;
+    for (index = 0; index < length; index++) {
+      currentKey = keys ? keys[index] : index;
+      if (iteratee(accumulator, obj[currentKey], currentKey, obj) === false) break;
+    }
+    return accumulator;
+  };
+
   // Return the first value which passes a truth test. Aliased as `detect`.
   _.find = _.detect = function(obj, predicate, context) {
     var key;
