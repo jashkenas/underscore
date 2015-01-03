@@ -730,7 +730,7 @@
   });
 
   test('has', function () {
-    var obj = {foo: 'bar', func: function(){}};
+    var obj = {foo: 'bar', func: function(){}, bar: {foo: 'bar', one: {again: 'bar'}}};
     ok(_.has(obj, 'foo'), 'has() checks that the object has a property.');
     ok(!_.has(obj, 'baz'), "has() returns false if the object doesn't have the property.");
     ok(_.has(obj, 'func'), 'has() works for functions too.');
@@ -741,6 +741,10 @@
     ok(!_.has(child, 'foo'), 'has() does not check the prototype chain for a property.');
     strictEqual(_.has(null, 'foo'), false, 'has() returns false for null');
     strictEqual(_.has(undefined, 'foo'), false, 'has() returns false for undefined');
+		ok(_.has(obj, 'bar.foo'), 'has() can access child properties');
+		ok(_.has(obj, 'bar.one.again', 'has() can access nested child properties'));
+		ok(!_.has(obj, 'bar.one.two'), 'has() checks that the nested child property exists');
+		ok(!_.has(obj, 'bar.two.one'), 'has() checked that one child exists');
   });
 
   test('matches', function() {
