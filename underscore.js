@@ -122,6 +122,13 @@
     return result;
   };
 
+	// An internal function to resolve object from string of properties.
+	var resolveObject = function(obj, path) {
+		return [obj || self].concat(path.split('.')).reduce(function(prev, curr) {
+			return prev[curr];
+		});
+	};
+
   // Collection Functions
   // --------------------
 
@@ -1239,6 +1246,12 @@
   // Shortcut function for checking if an object has a given property directly
   // on itself (in other words, not on a prototype).
   _.has = function(obj, key) {
+    if (_.isString(key) && key.indexOf('.') !== -1) {
+      var keys = key.split('.');
+      key = keys.pop();
+      var path = keys.join('.');
+      obj = resolveObject(obj, path);
+    }
     return obj != null && hasOwnProperty.call(obj, key);
   };
 
