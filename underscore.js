@@ -398,7 +398,13 @@
         criteria: iteratee(value, index, list)
       };
     }).sort(function(left, right) {
-      return _.comparator(left.criteria, right.criteria) || left.index - right.index;
+      var a = left.criteria;
+      var b = right.criteria;
+      if (a !== b) {
+        if (a > b || a === void 0) return 1;
+        if (a < b || b === void 0) return -1;
+      }
+      return left.index - right.index;
     }), 'value');
   };
 
@@ -670,7 +676,7 @@
     var low = 0, high = array.length;
     while (low < high) {
       var mid = Math.floor((low + high) / 2);
-      if (_.comparator(iteratee(array[mid]), value) < 0) low = mid + 1; else high = mid;
+      if (iteratee(array[mid]) < value) low = mid + 1; else high = mid;
     }
     return low;
   };
@@ -1292,18 +1298,6 @@
       }
       return true;
     };
-  };
-
-  // Default internal comparator for determining whether a is greater (1),
-  // equal (0) or less than (-1) some object b
-  _.comparator = function(a, b) {
-    if (a === b) return 0;
-    var isAComparable = a >= a, isBComparable = b >= b;
-    if (isAComparable || isBComparable) {
-      if (isAComparable && !isBComparable) return -1;
-      if (isBComparable && !isAComparable) return 1;
-    }
-    return a > b ? 1 : (b > a) ? -1 : 0;
   };
 
   // Run a function **n** times.
