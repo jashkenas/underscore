@@ -406,7 +406,7 @@
     strictEqual(_.includes, _.contains, 'alias for includes');
   });
 
-  test('invoke', 3, function() {
+  test('invoke', 5, function() {
     var list = [[5, 1, 7], [3, 2, 1]];
     var result = _.invoke(list, 'sort');
     deepEqual(result[0], [1, 5, 7], 'first array sorted');
@@ -417,6 +417,12 @@
         deepEqual(_.toArray(arguments), [1, 2, 3], 'called with arguments');
       }
     }], 'method', 1, 2, 3);
+
+    deepEqual(_.invoke([{a: null}, {}, {a: _.constant(1)}], 'a'), [null, void 0, 1], 'handles null & undefined');
+
+    throws(function() {
+      _.invoke([{a: 1}], 'a');
+    }, TypeError, 'throws for non-functions');
   });
 
   test('invoke w/ function reference', function() {
