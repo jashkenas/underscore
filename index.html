@@ -239,6 +239,7 @@
       <li>- <a href="#difference">difference</a></li>
       <li>- <a href="#uniq">uniq</a></li>
       <li>- <a href="#zip">zip</a></li>
+      <li>- <a href="#unzip">unzip</a></li>
       <li>- <a href="#object">object</a></li>
       <li>- <a href="#indexOf">indexOf</a></li>
       <li>- <a href="#lastIndexOf">lastIndexOf</a></li>
@@ -271,11 +272,14 @@
     </a>
     <ul class="toc_section">
       <li>- <a href="#keys">keys</a></li>
+      <li>- <a href="#keysIn">keysIn</a></li>
       <li>- <a href="#values">values</a></li>
       <li>- <a href="#pairs">pairs</a></li>
       <li>- <a href="#invert">invert</a></li>
       <li>- <a href="#object-functions">functions</a></li>
       <li>- <a href="#extend">extend</a></li>
+      <li>- <a href="#assign">assign</a></li>
+      <li>- <a href="#create">create</a></li>
       <li>- <a href="#pick">pick</a></li>
       <li>- <a href="#omit">omit</a></li>
       <li>- <a href="#defaults">defaults</a></li>
@@ -284,6 +288,7 @@
       <li>- <a href="#has">has</a></li>
       <li>- <a href="#matches">matches</a></li>
       <li>- <a href="#property">property</a></li>
+      <li>- <a href="#propertyOf">propertyOf</a></li>
       <li>- <a href="#isEqual">isEqual</a></li>
       <li>- <a href="#isEmpty">isEmpty</a></li>
       <li>- <a href="#isElement">isElement</a></li>
@@ -947,9 +952,16 @@ _.uniq([1, 2, 1, 3, 1, 4]);
 _.zip(['moe', 'larry', 'curly'], [30, 40, 50], [true, false, false]);
 =&gt; [["moe", 30, true], ["larry", 40, false], ["curly", 50, false]]
 
-_.zip.apply(_, arrayOfRowsOfData);
-=&gt; arrayOfColumnsOfData
 </pre>
+
+<p id="unzip">
+        <b class="header">unzip</b><code>_.unzip(*arrays)</code>
+        <br>
+        The opposite of <a href="#zip">zip</a>. Given a number of <b>arrays</b>, returns a
+        series of new arrays, the first of which contains all of the first elements
+        in the input arrays, the second of which contains all of the second elements,
+        and so on. Use with <tt>apply</tt> to pass in an array of arrays.
+      </p>
 
       <p id="object">
         <b class="header">object</b><code>_.object(list, [values])</code>
@@ -959,11 +971,9 @@ _.zip.apply(_, arrayOfRowsOfData);
         If duplicate keys exist, the last value wins.
       </p>
       <pre>
-_.object(['moe', 'larry', 'curly'], [30, 40, 50]);
-=&gt; {moe: 30, larry: 40, curly: 50}
+_.unzip(["moe", 30, true], ["larry", 40, false], ["curly", 50, false]);
+=&gt; [['moe', 'larry', 'curly'], [30, 40, 50], [true, false, false]]
 
-_.object([['moe', 30], ['larry', 40], ['curly', 50]]);
-=&gt; {moe: 30, larry: 40, curly: 50}
 </pre>
 
       <p id="indexOf">
@@ -1083,9 +1093,14 @@ jQuery('#underscore_button').bind('click', buttonView.onClick);
         left open to supply at call-time.
       </p>
       <pre>
-var add = function(a, b) { return a + b; };
-add5 = _.partial(add, 5);
-add5(10);
+var subtract = function(a, b) { return b - a; };
+sub5 = _.partial(subtract, 5);
+sub5(20);
+=&gt; 15
+
+// Using a placeholder
+subFrom20 = _.partial(subtract, _, 20);
+subFrom20(5);
 =&gt; 15
 </pre>
 
@@ -1275,17 +1290,31 @@ welcome('moe');
       <p id="keys">
         <b class="header">keys</b><code>_.keys(object)</code>
         <br />
-        Retrieve all the names of the <b>object</b>'s properties.
+        Retrieve all the names of the <b>object</b>'s own enumerable properties.
       </p>
       <pre>
 _.keys({one: 1, two: 2, three: 3});
 =&gt; ["one", "two", "three"]
 </pre>
 
+      <p id="keysIn">
+        <b class="header">keysIn</b><code>_.keysIn(object)</code>
+        <br />
+        Retrieve all the inheritted and own properties of an <b>object</b>.
+      </p>
+      <pre>
+function Class() {
+  this.a = 5;
+}
+Class.prototype.b = 1;
+_.keysIn(new Class());
+=&gt; ["a", "b"]
+</pre>
+
       <p id="values">
         <b class="header">values</b><code>_.values(object)</code>
         <br />
-        Return all of the values of the <b>object</b>'s properties.
+        Return all of the values of the <b>object</b>'s own properties.
       </p>
       <pre>
 _.values({one: 1, two: 2, three: 3});
@@ -1329,7 +1358,7 @@ _.functions(_);
       <p id="extend">
         <b class="header">extend</b><code>_.extend(destination, *sources)</code>
         <br />
-        Copy all of the properties in the <b>source</b> objects over to the
+        Copy all of the properties <strong>in</strong> the <b>source</b> objects over to the
         <b>destination</b> object, and return the <b>destination</b> object.
         It's in-order, so the last source will override properties of the same
         name in previous arguments.
@@ -1337,6 +1366,49 @@ _.functions(_);
       <pre>
 _.extend({name: 'moe'}, {age: 50});
 =&gt; {name: 'moe', age: 50}
+</pre>
+
+<p id="assign">
+        <b class="header">assign</b><code>_.assign(destination, *sources)</code>
+        <br />
+        Like <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object/assign"><tt>Object.assign</tt></a> and similar to <tt>_.extend</tt>, this function copies all of the <strong>own</strong> enumerable properties of the <b>source</b> objects over to the destination object.
+      </p>
+      <pre>
+_.assign({name: 'moe'}, {age: 50});
+=&gt; {name: 'moe', age: 50}
+</pre>
+
+<p id="create">
+        <b class="header">create</b><code>_.create(parentPrototype, [properties])</code>
+        <br />
+        Similar to <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object/create"><tt>Object.create</tt></a>, creates an object that inherits from
+        the given prototype. If a properties object is provided, the properties will
+        be added to the returned object.
+      </p>
+      <pre>
+function Employee(name) {
+    this.name = name;
+    this.dept = "general";
+}
+Employee.prototype = {
+  goHome: function() {
+    console.log(this.name + " is going home");
+  }
+}
+ 
+function Manager(name) {
+    Employee.call(this, name);
+    this.reports = [];
+}
+Manager.prototype = _.create(Employee.prototype, {
+  shoutAt: function(name) {
+    console.log(this.name + " is now shouting at " + name);
+  }
+});
+
+var alex = new Manager("Alex");
+alex.shoutAt("Jack");
+alex.goHome();
 </pre>
 
       <p id="pick">
@@ -1432,7 +1504,19 @@ _.has({a: 1, b: 2, c: 3}, "b");
       <pre>
 var stooge = {name: 'moe'};
 'moe' === _.property('name')(stooge);
-=&gt; true</pre>
+=&gt; true
+</pre>
+
+      <p id="propertyOf">
+        <b class="header">propertyOf</b><code>_.propertyOf(object)</code>
+        <br />
+        Inverse of <tt>_.property</tt>. Takes an object and returns a function
+        which will return the value of a provided property.
+      </p>
+      <pre>
+var stooge = {name: 'moe'};
+_.propertyOf(stooge)('name');
+=&gt; 'moe'</pre>
 
       <p id="matches">
         <b class="header">matches</b><code>_.matches(attrs)</code>
@@ -1590,6 +1674,20 @@ _.isDate(new Date());
       </p>
       <pre>
 _.isRegExp(/moe/);
+=&gt; true
+</pre>
+
+      <p id="isError">
+        <b class="header">isError</b><code>_.isError(object)</code>
+        <br />
+        Returns <i>true</i> if <b>object</b> inherrits from an Error.
+      </p>
+      <pre>
+try {
+  throw new TypeError("Example");
+} catch (o_O) {
+  _.isError(o_O)
+}
 =&gt; true
 </pre>
 
@@ -1770,17 +1868,21 @@ _.unescape('Curly, Larry &amp;amp; Moe');
 =&gt; "Curly, Larry &amp; Moe"</pre>
 
       <p id="result">
-        <b class="header">result</b><code>_.result(object, property)</code>
+        <b class="header">result</b><code>_.result(object, property, [defaultValue])</code>
         <br />
         If the value of the named <b>property</b> is a function then invoke it
-        with the <b>object</b> as context; otherwise, return it.
+        with the <b>object</b> as context; otherwise, return it. If a default value
+        is provided and the property doesn't exist than the default will be returned.
       </p>
       <pre>
 var object = {cheese: 'crumpets', stuff: function(){ return 'nonsense'; }};
 _.result(object, 'cheese');
 =&gt; "crumpets"
 _.result(object, 'stuff');
-=&gt; "nonsense"</pre>
+=&gt; "nonsense"
+_.result(object, 'meat', 'ham');
+=&gt; "ham"
+</pre>
 
       <p id="now">
         <b class="header">now</b><code>_.now()</code>
@@ -2043,6 +2145,76 @@ _([1, 2, 3]).value();
       </p>
 
       <h2 id="changelog">Change Log</h2>
+
+      <p id="1.8.0">
+        <b class="header">1.8.0</b> &mdash; <small><i>Jan 23, 2015</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.7.0...1.8.0">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/underscore/1.8.0/index.html">Docs</a><br />
+        <ul>
+          <li>
+            Added <tt>_.keysIn</tt> which returns the enumerable properties of an object.
+          </li>
+          <li>
+            Reverted change where <tt>_.extend</tt> only iterates own properties, it now uses <tt>_.keysIn</tt>. Added <tt>_.assign</tt> that aligns closely with ECMA6 <tt>Object.assign</tt> and iterates over own properties.
+          </li>
+
+          <li>
+            Added <tt>_.create</tt> helper for simpler inheritance patterns.
+          </li>
+
+          <li>
+            Added extremely handy <tt>_.transform</tt> method as an alternative to <tt>_.reduce</tt> in many cases.
+          </li
+>
+          <li>
+            Added <tt>_.isError</tt> which determines if an object is derived from the <tt>Error</tt> object.
+          </li>
+
+          <li>
+            Added <tt>_.unzip</tt> again for easier use in chaining.
+          </li>
+
+          <li>
+            <tt>_.result</tt> now takes an optional default value argument. If this argument is a function
+            it is called.
+          </li>
+
+          <li>
+            Added <tt>_.propertyOf</tt> wrapper as a flip of <tt>_.property</tt>.
+          </li>
+          <li>
+            <tt>_.property</tt> now returns <tt>undefined</tt> when passed <tt>null</tt> or <tt>undefined</tt>.
+          </li>
+
+          <li>
+            <tt>_.partial</tt> can now be used with constructors!
+          </li>
+
+          <li>
+            <tt>_.uniq</tt> now uses sorted iteration when provided <tt>sorted=true</tt> and given an <tt>iteratee</tt> argument.
+          </li>
+
+          <li>
+            Aliased <tt>_.contains</tt> as <tt>_.includes</tt> and added support for finding <tt>NaN</tt>.
+          </li>
+          <li>
+            <tt>_.contains</tt> can be provided an optional start index.
+          </li>
+          <li>
+            <tt>_.indexOf</tt> and <tt>_.lastIndexOf</tt> now support search for <tt>NaN</tt>.
+          </li>
+
+          <li>
+            <tt>_.iteratee</tt> no longer takes the wrapped functions expected argument length.
+          </li>
+          
+          <li>
+            Fixed a bug where <tt>_.keys</tt> and other object and collection methods did not iterate several
+            properties in several old IE environments.
+          </li>
+          <li>
+            A number of code simplifications, changes for improved cross platform compatibility, and a number of edge case bug fixes.
+          </li>
+        </ul>
+      </p>
 
       <p id="1.7.0">
         <b class="header">1.7.0</b> &mdash; <small><i>August 26, 2014</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.6.0...1.7.0">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/underscore/1.7.0/index.html">Docs</a><br />
