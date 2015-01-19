@@ -312,55 +312,39 @@
     return _.find(obj, _.matches(attrs));
   };
 
-  // Return the maximum element (or element-based computation).
-  _.max = function(obj, iteratee, context) {
-    var result = -Infinity, lastComputed = -Infinity,
-        value, computed;
-    if (iteratee == null && obj != null) {
-      obj = obj.length === +obj.length ? obj : _.values(obj);
-      for (var i = 0, length = obj.length; i < length; i++) {
-        value = obj[i];
-        if (value > result) {
-          result = value;
+  function createBoundsFinder(dir) {
+    var inf = -Infinity * dir;
+    return function(obj, iteratee, context) {
+      var result = inf, lastComputed = inf,
+          value, computed;
+      if (iteratee == null && obj != null) {
+        obj = obj.length === +obj.length ? obj : _.values(obj);
+        for (var i = 0, length = obj.length; i < length; i++) {
+          value = obj[i];
+          if (_.comparator(value, result) === dir) {
+            result = value;
+          }
         }
+      } else {
+        iteratee = cb(iteratee, context);
+        _.each(obj, function(value, index, list) {
+          computed = iteratee(value, index, list);
+          if (computed <= computed && (_.comparator(computed, lastComputed) === dir ||
+                computed === inf && result === inf)) {
+            result = value;
+            lastComputed = computed;
+          }
+        });
       }
-    } else {
-      iteratee = cb(iteratee, context);
-      _.each(obj, function(value, index, list) {
-        computed = iteratee(value, index, list);
-        if (computed > lastComputed || computed === -Infinity && result === -Infinity) {
-          result = value;
-          lastComputed = computed;
-        }
-      });
-    }
-    return result;
-  };
+      return result;
+    };
+  }
+
+  // Return the maximum element (or element-based computation).
+  _.max = createBoundsFinder(1);
 
   // Return the minimum element (or element-based computation).
-  _.min = function(obj, iteratee, context) {
-    var result = Infinity, lastComputed = Infinity,
-        value, computed;
-    if (iteratee == null && obj != null) {
-      obj = obj.length === +obj.length ? obj : _.values(obj);
-      for (var i = 0, length = obj.length; i < length; i++) {
-        value = obj[i];
-        if (value < result) {
-          result = value;
-        }
-      }
-    } else {
-      iteratee = cb(iteratee, context);
-      _.each(obj, function(value, index, list) {
-        computed = iteratee(value, index, list);
-        if (computed < lastComputed || computed === Infinity && result === Infinity) {
-          result = value;
-          lastComputed = computed;
-        }
-      });
-    }
-    return result;
-  };
+  _.min = createBoundsFinder(-1);
 
   // Shuffle a collection, using the modern version of the
   // [Fisher-Yates shuffle](http://en.wikipedia.org/wiki/Fisher–Yates_shuffle).
