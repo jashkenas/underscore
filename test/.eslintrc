@@ -14,7 +14,8 @@
     "notEqual": false,
     "throws": false,
     "asyncTest": false,
-    "start": false
+    "start": false,
+    "expect": false
   },
   "rules": {
     "brace-style": 0,
