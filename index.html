@@ -683,8 +683,11 @@ _.min(numbers);
       <pre>
 _.sortBy([1, 2, 3, 4, 5, 6], function(num){ return Math.sin(num); });
 =&gt; [5, 4, 6, 3, 1, 2]
-</pre>
 
+var stooges = [{name: 'moe', age: 40}, {name: 'larry', age: 50}, {name: 'curly', age: 60}];
+_.sortBy(stooges, 'name');
+=&gt; [{name: 'curly', age: 60}, {name: 'larry', age: 50}, {name: 'moe', age: 40}];
+</pre>
       <p id="groupBy">
         <b class="header">groupBy</b><code>_.groupBy(list, iteratee, [context])</code>
         <br />
