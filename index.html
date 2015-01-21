@@ -200,6 +200,7 @@
       <li>- <a href="#map">map</a></li>
       <li>- <a href="#reduce">reduce</a></li>
       <li>- <a href="#reduceRight">reduceRight</a></li>
+      <li>- <a href="#transform">transform</a></li>
       <li>- <a href="#find">find</a></li>
       <li>- <a href="#filter">filter</a></li>
       <li>- <a href="#where">where</a></li>
@@ -516,6 +517,28 @@ var sum = _.reduce([1, 2, 3], function(memo, num){ return memo + num; }, 0);
 var list = [[0, 1], [2, 3], [4, 5]];
 var flat = _.reduceRight(list, function(a, b) { return a.concat(b); }, []);
 =&gt; [4, 5, 2, 3, 0, 1]
+</pre>
+
+<p id="transform">
+        <b class="header">transform</b><code>_.transform(collection, iteratee, [memo], [context])</code>
+        <br />
+        <tt>_.transform</tt> is an alternative to <tt>_.reduce</tt> that transforms
+        the given collection into a new collection. Unlike <tt>_.reduce</tt> if the
+        memo isn't specified it will default to a new instance of the type of the collection.
+        Another distinction is that the memo cannot be changed, which means returning
+        the memo isn't necessary.
+      </p>
+      <pre>
+_.transform(['bob', 'nick', 'rick'], function(memo, name) {
+   memo[name] = true;
+}, {});
+=&gt; {'bob': true, 'nick': true, 'rick': true}
+
+// Note: transform guesses the type you want if you don't specify!
+_.transform({'a': 3, 'b': 4}, function(memo, val, key) {
+  memo[key] = Math.pow(2, val);
+});
+=&gt; {'a': 8, 'b': 16}
 </pre>
 
       <p id="find">
@@ -962,6 +985,10 @@ _.zip(['moe', 'larry', 'curly'], [30, 40, 50], [true, false, false]);
         in the input arrays, the second of which contains all of the second elements,
         and so on. Use with <tt>apply</tt> to pass in an array of arrays.
       </p>
+      <pre>
+_.unzip(["moe", 30, true], ["larry", 40, false], ["curly", 50, false]);
+=&gt; [['moe', 'larry', 'curly'], [30, 40, 50], [true, false, false]]
+</pre>
 
       <p id="object">
         <b class="header">object</b><code>_.object(list, [values])</code>
@@ -971,8 +998,8 @@ _.zip(['moe', 'larry', 'curly'], [30, 40, 50], [true, false, false]);
         If duplicate keys exist, the last value wins.
       </p>
       <pre>
-_.unzip(["moe", 30, true], ["larry", 40, false], ["curly", 50, false]);
-=&gt; [['moe', 'larry', 'curly'], [30, 40, 50], [true, false, false]]
+_.object(['moe', 'larry', 'curly'], [30, 40, 50]);
+=&gt; {moe: 30, larry: 40, curly: 50}
 
 </pre>
 
@@ -1300,7 +1327,7 @@ _.keys({one: 1, two: 2, three: 3});
       <p id="keysIn">
         <b class="header">keysIn</b><code>_.keysIn(object)</code>
         <br />
-        Retrieve all the inheritted and own properties of an <b>object</b>.
+        Retrieve all the inheritted and own enumerable properties of an <b>object</b>.
       </p>
       <pre>
 function Class() {
@@ -1371,7 +1398,10 @@ _.extend({name: 'moe'}, {age: 50});
 <p id="assign">
         <b class="header">assign</b><code>_.assign(destination, *sources)</code>
         <br />
-        Like <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object/assign"><tt>Object.assign</tt></a> and similar to <tt>_.extend</tt>, this function copies all of the <strong>own</strong> enumerable properties of the <b>source</b> objects over to the destination object.
+        Like <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object/assign"><tt>Object.assign</tt></a> and
+        similar to <tt>_.extend</tt>, this function copies all of
+        the <strong>own</strong> enumerable properties of the <b>source</b> objects
+        over to the destination object.
       </p>
       <pre>
 _.assign({name: 'moe'}, {age: 50});
@@ -1817,7 +1847,7 @@ _("fabio").capitalize();
 </pre>
 
       <p id="iteratee">
-        <b class="header">iteratee</b><code>_.iteratee(value, [context], [argCount])</code>
+        <b class="header">iteratee</b><code>_.iteratee(value, [context])</code>
         <br />
         A mostly-internal function to generate callbacks that can be applied
         to each element in a collection, returning the desired result — either
@@ -1873,6 +1903,7 @@ _.unescape('Curly, Larry &amp;amp; Moe');
         If the value of the named <b>property</b> is a function then invoke it
         with the <b>object</b> as context; otherwise, return it. If a default value
         is provided and the property doesn't exist than the default will be returned.
+        If <tt>defaultValue</tt> is a function its result will be returned.
       </p>
       <pre>
 var object = {cheese: 'crumpets', stuff: function(){ return 'nonsense'; }};
@@ -2161,7 +2192,7 @@ _([1, 2, 3]).value();
           </li>
 
           <li>
-            Added extremely handy <tt>_.transform</tt> method as an alternative to <tt>_.reduce</tt> in many cases.
+            Added the handy <tt>_.transform</tt> method as an alternative to <tt>_.reduce</tt> in many cases.
           </li
 >
           <li>
@@ -2203,15 +2234,15 @@ _([1, 2, 3]).value();
           </li>
 
           <li>
-            <tt>_.iteratee</tt> no longer takes the wrapped functions expected argument length.
+            <tt>_.iteratee</tt> no longer exposes setting the <tt>argCount</tt> parameter.
           </li>
           
           <li>
-            Fixed a bug where <tt>_.keys</tt> and other object and collection methods did not iterate several
-            properties in several old IE environments.
+            Fixed a bug where <tt>_.keys</tt> and other object and collection methods
+            did not iterate several reserved properties in old IE environments.
           </li>
           <li>
-            A number of code simplifications, changes for improved cross platform compatibility, and a number of edge case bug fixes.
+            Plenty of simplifications, edge case bug fixes, and changes for improved cross platform compatibility.
           </li>
         </ul>
       </p>
