@@ -122,6 +122,15 @@
     return result;
   };
 
+  // Helper for collection methods to determine whether a collection
+  // should be iterated as an array or as an object
+  // Related: http://people.mozilla.org/~jorendorff/es6-draft.html#sec-tolength
+  var MAX_ARRAY_INDEX = Math.pow(2, 53) - 1;
+  var isArrayLike = function(collection) {
+    var length = collection && collection.length;
+    return typeof length == 'number' && length >= 0 && length <= MAX_ARRAY_INDEX;
+  };
+
   // Collection Functions
   // --------------------
 
@@ -132,7 +141,7 @@
     if (obj == null) return obj;
     iteratee = optimizeCb(iteratee, context);
     var i, length = obj.length;
-    if (length === +length) {
+    if (isArrayLike(obj)) {
       for (i = 0; i < length; i++) {
         iteratee(obj[i], i, obj);
       }
@@ -149,7 +158,7 @@
   _.map = _.collect = function(obj, iteratee, context) {
     if (obj == null) return [];
     iteratee = cb(iteratee, context);
-    var keys = obj.length !== +obj.length && _.keys(obj),
+    var keys = !isArrayLike(obj) && _.keys(obj),
         length = (keys || obj).length,
         results = Array(length),
         currentKey;
@@ -175,7 +184,7 @@
     return function(obj, iteratee, memo, context) {
       if (obj == null) return memo;
       iteratee = optimizeCb(iteratee, context, 4);
-      var keys = obj.length !== +obj.length && _.keys(obj),
+      var keys = !isArrayLike(obj) && _.keys(obj),
           length = (keys || obj).length,
           index = dir > 0 ? 0 : length - 1;
       // Determine the initial value if none is provided.
@@ -222,7 +231,7 @@
   // Return the first value which passes a truth test. Aliased as `detect`.
   _.find = _.detect = function(obj, predicate, context) {
     var key;
-    if (obj.length === +obj.length) {
+    if (isArrayLike(obj)) {
       key = _.findIndex(obj, predicate, context);
     } else {
       key = _.findKey(obj, predicate, context);
@@ -252,7 +261,7 @@
   _.every = _.all = function(obj, predicate, context) {
     if (obj == null) return true;
     predicate = cb(predicate, context);
-    var keys = obj.length !== +obj.length && _.keys(obj),
+    var keys = !isArrayLike(obj) && _.keys(obj),
         length = (keys || obj).length,
         index, currentKey;
     for (index = 0; index < length; index++) {
@@ -267,7 +276,7 @@
   _.some = _.any = function(obj, predicate, context) {
     if (obj == null) return false;
     predicate = cb(predicate, context);
-    var keys = obj.length !== +obj.length && _.keys(obj),
+    var keys = !isArrayLike(obj) && _.keys(obj),
         length = (keys || obj).length,
         index, currentKey;
     for (index = 0; index < length; index++) {
@@ -281,7 +290,7 @@
   // Aliased as `includes` and `include`.
   _.contains = _.includes = _.include = function(obj, target, fromIndex) {
     if (obj == null) return false;
-    if (obj.length !== +obj.length) obj = _.values(obj);
+    if (!isArrayLike(obj)) obj = _.values(obj);
     return _.indexOf(obj, target, typeof fromIndex == 'number' && fromIndex) >= 0;
   };
 
@@ -317,7 +326,7 @@
     var result = -Infinity, lastComputed = -Infinity,
         value, computed;
     if (iteratee == null && obj != null) {
-      obj = obj.length === +obj.length ? obj : _.values(obj);
+      obj = isArrayLike(obj) ? obj : _.values(obj);
       for (var i = 0, length = obj.length; i < length; i++) {
         value = obj[i];
         if (value > result) {
@@ -342,7 +351,7 @@
     var result = Infinity, lastComputed = Infinity,
         value, computed;
     if (iteratee == null && obj != null) {
-      obj = obj.length === +obj.length ? obj : _.values(obj);
+      obj = isArrayLike(obj) ? obj : _.values(obj);
       for (var i = 0, length = obj.length; i < length; i++) {
         value = obj[i];
         if (value < result) {
@@ -365,7 +374,7 @@
   // Shuffle a collection, using the modern version of the
   // [Fisher-Yates shuffle](http://en.wikipedia.org/wiki/Fisher–Yates_shuffle).
   _.shuffle = function(obj) {
-    var set = obj && obj.length === +obj.length ? obj : _.values(obj);
+    var set = isArrayLike(obj) ? obj : _.values(obj);
     var length = set.length;
     var shuffled = Array(length);
     for (var index = 0, rand; index < length; index++) {
@@ -381,7 +390,7 @@
   // The internal `guard` argument allows it to work with `map`.
   _.sample = function(obj, n, guard) {
     if (n == null || guard) {
-      if (obj.length !== +obj.length) obj = _.values(obj);
+      if (!isArrayLike(obj)) obj = _.values(obj);
       return obj[_.random(obj.length - 1)];
     }
     return _.shuffle(obj).slice(0, Math.max(0, n));
@@ -443,14 +452,14 @@
   _.toArray = function(obj) {
     if (!obj) return [];
     if (_.isArray(obj)) return slice.call(obj);
-    if (obj.length === +obj.length) return _.map(obj, _.identity);
+    if (isArrayLike(obj)) return _.map(obj, _.identity);
     return _.values(obj);
   };
 
   // Return the number of elements in an object.
   _.size = function(obj) {
     if (obj == null) return 0;
-    return obj.length === +obj.length ? obj.length : _.keys(obj).length;
+    return isArrayLike(obj) ? obj.length : _.keys(obj).length;
   };
 
   // Split a collection into two arrays: one whose elements all satisfy the given
@@ -510,7 +519,7 @@
     var output = [], idx = 0, value;
     for (var i = startIndex || 0, length = input && input.length; i < length; i++) {
       value = input[i];
-      if (value && value.length >= 0 && (_.isArray(value) || _.isArguments(value))) {
+      if (isArrayLike(value) && (_.isArray(value) || _.isArguments(value))) {
         //flatten current level of array or arguments object
         if (!shallow) value = flatten(value, shallow, strict);
         var j = 0, len = value.length;

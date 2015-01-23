@@ -69,6 +69,50 @@
     });
   });
 
+  test('Iterating objects with sketchy length properties', function() {
+    var functions = [
+        'each', 'map', 'filter', 'find',
+        'some', 'every', 'max', 'min',
+        'groupBy', 'countBy', 'partition', 'indexBy'
+    ];
+    var reducers = ['reduce', 'reduceRight'];
+
+    var tricks = [
+      {length: '5'},
+      {
+        length: {
+          valueOf: _.constant(5)
+        }
+      },
+      {length: Math.pow(2, 53) + 1},
+      {length: Math.pow(2, 53)},
+      {length: null},
+      {length: -2},
+      {length: new Number(15)}
+    ];
+
+    expect(tricks.length * (functions.length + reducers.length + 4));
+
+    _.each(tricks, function(trick) {
+      var length = trick.length;
+      strictEqual(_.size(trick), 1, 'size on obj with length: ' + length);
+      deepEqual(_.toArray(trick), [length], 'toArray on obj with length: ' + length);
+      deepEqual(_.shuffle(trick), [length], 'shuffle on obj with length: ' + length);
+      deepEqual(_.sample(trick), length, 'sample on obj with length: ' + length);
+
+
+      _.each(functions, function(method) {
+        _[method](trick, function(val, key) {
+          strictEqual(key, 'length', method + ': ran with length = ' + val);
+        });
+      });
+
+      _.each(reducers, function(method) {
+        strictEqual(_[method](trick), trick.length, method);
+      });
+    });
+  });
+
   test('map', function() {
     var doubled = _.map([1, 2, 3], function(num){ return num * 2; });
     deepEqual(doubled, [2, 4, 6], 'doubled numbers');
