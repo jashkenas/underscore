@@ -1485,7 +1485,9 @@
 
   // Helper function to continue chaining intermediate results.
   var result = function(instance, obj) {
-    return instance._chain ? _(obj).chain() : obj;
+    var ret = instance._chain ? _(obj).chain() : obj;
+    ret._broken = instance._broken;
+    return ret;
   };
 
   // Add your own custom functions to the Underscore object.
@@ -1493,6 +1495,7 @@
     _.each(_.functions(obj), function(name) {
       var func = _[name] = obj[name];
       _.prototype[name] = function() {
+        if (this._broken) return this;
         var args = [this._wrapped];
         push.apply(args, arguments);
         return result(this, func.apply(_, args));
@@ -1507,6 +1510,7 @@
   _.each(['pop', 'push', 'reverse', 'shift', 'sort', 'splice', 'unshift'], function(name) {
     var method = ArrayProto[name];
     _.prototype[name] = function() {
+      if (this._broken) return this;
       var obj = this._wrapped;
       method.apply(obj, arguments);
       if ((name === 'shift' || name === 'splice') && obj.length === 0) delete obj[0];
@@ -1518,6 +1522,7 @@
   _.each(['concat', 'join', 'slice'], function(name) {
     var method = ArrayProto[name];
     _.prototype[name] = function() {
+      if (this._broken) return this;
       return result(this, method.apply(this._wrapped, arguments));
     };
   });
@@ -1525,6 +1530,15 @@
   // Extracts the result from a wrapped and chained object.
   _.prototype.value = function() {
     return this._wrapped;
+  };
+
+  // Helper function to break out of a chain if a
+  // condition passes
+  _.prototype.breakIf = function(predicate, context) {
+    predicate = cb(predicate, context, 1);
+    var ret = result(this, this._wrapped);
+    ret._broken = ret._broken || !!predicate(this._wrapped);
+    return ret;
   };
 
   // AMD registration happens at the end for compatibility with AMD loaders
