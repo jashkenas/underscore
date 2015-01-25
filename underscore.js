@@ -739,11 +739,15 @@
   // as a placeholder, allowing any combination of arguments to be pre-filled.
   _.partial = function(func) {
     var boundArgs = slice.call(arguments, 1);
+    var pIndexes = [];
+    for (var i = 0, length = boundArgs.length; i < length; i++) {
+      if (boundArgs[i] === _) pIndexes.push(i);
+    }
     return function bound() {
       var position = 0;
       var args = boundArgs.slice();
-      for (var i = 0, length = args.length; i < length; i++) {
-        if (args[i] === _) args[i] = arguments[position++];
+      for (var i = 0, length = pIndexes.length; i < length; i++) {
+        args[pIndexes[i]] = arguments[position++];
       }
       while (position < arguments.length) args.push(arguments[position++]);
       return executeBound(func, bound, this, this, args);
