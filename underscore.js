@@ -672,24 +672,23 @@
     return -1;
   };
 
-  // Returns the first index on an array-like that passes a predicate test
-  _.findIndex = function(array, predicate, context) {
-    predicate = cb(predicate, context);
-    var length = array != null && array.length;
-    for (var index = 0; index < length; index++) {
-      if (predicate(array[index], index, array)) return index;
-    }
-    return -1;
-  };
+  // Generator function to create the findIndex and findLastIndex functions
+  function createIndexFinder(dir) {
+    return function(array, predicate, context) {
+      predicate = cb(predicate, context);
+      var length = array != null && array.length;
+      var index = dir > 0 ? 0 : length - 1;
+      for (; index >= 0 && index < length; index += dir) {
+        if (predicate(array[index], index, array)) return index;
+      }
+      return -1;
+    };
+  }
 
-  _.findLastIndex = function(array, predicate, context) {
-    predicate = cb(predicate, context);
-    var index = array != null && array.length;
-    while (index--) {
-      if (predicate(array[index], index, array)) return index;
-    }
-    return -1;
-  };
+  // Returns the first index on an array-like that passes a predicate test
+  _.findIndex = createIndexFinder(1);
+
+  _.findLastIndex = createIndexFinder(-1);
 
   // Use a comparator function to figure out the smallest index at which
   // an object should be inserted so as to maintain order. Uses binary search.
