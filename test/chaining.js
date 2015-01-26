@@ -85,4 +85,13 @@
     deepEqual(o.filter(function(i) { return i > 2; }).value(), [3, 4]);
   });
 
+  test('#1562: Engine proxies for chained functions', function() {
+    var wrapped = _(512);
+    strictEqual(wrapped.toJSON(), 512);
+    strictEqual(wrapped.valueOf(), 512);
+    strictEqual(+wrapped, 512);
+    strictEqual(wrapped.toString(), '512');
+    strictEqual('' + wrapped, '512');
+  });
+
 }());
