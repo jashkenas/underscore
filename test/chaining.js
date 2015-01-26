@@ -85,4 +85,43 @@
     deepEqual(o.filter(function(i) { return i > 2; }).value(), [3, 4]);
   });
 
+  test('breakIf', 4, function() {
+    var call = _.partial(ok, true);
+    var dontCall = _.partial(ok, false);
+    var result = _.chain([1, 2, 3, 4, 5])
+     .breakIf(_.constant(false))
+     .tap(call)
+     .filter(function(val) {
+      return val > 1;
+     })
+     .breakIf(function(array) {
+      return array.length !== 4;
+     })
+     .tap(call)
+     .breakIf(function() {
+      return this != 'foo';
+     }, 'foo')
+     .transform(function(memo, val) {
+      memo[val] = true;
+     }, {})
+     .breakIf('a')
+     .tap(call)
+     .breakIf({
+      2: true
+     })
+     .tap(dontCall)
+     .breakIf('c')
+     .tap(_.partial(dontCall, 'Don\'t re-enter a broken wrapper with a false cond'))
+     .keys()
+     .slice(1)
+     .pop()
+     .value();
+    deepEqual(result, {
+      2: true,
+      3: true,
+      4: true,
+      5: true
+    });
+  });
+
 }());
