@@ -119,6 +119,8 @@
     var subObj = new F();
     subObj.c = 'd';
     deepEqual(_.extend({}, subObj), {a: 'b', c: 'd'}, 'extend copies all properties from source');
+    _.extend(subObj, {});
+    ok(!subObj.hasOwnProperty('a'), "extend does not convert destination object's 'in' properties to 'own' properties");
 
     try {
       result = {};
