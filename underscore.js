@@ -95,7 +95,7 @@
   };
 
   // An internal function for creating assigner functions.
-  var createAssigner = function(keysFunc) {
+  var createAssigner = function(keysFunc, undefinedOnly) {
     return function(obj) {
       var length = arguments.length;
       if (length < 2 || obj == null) return obj;
@@ -105,7 +105,7 @@
             l = keys.length;
         for (var i = 0; i < l; i++) {
           var key = keys[i];
-          obj[key] = source[key];
+          if (!undefinedOnly || obj[key] === void 0) obj[key] = source[key];
         }
       }
       return obj;
@@ -1050,16 +1050,7 @@
   };
 
   // Fill in a given object with default properties.
-  _.defaults = function(obj) {
-    if (!_.isObject(obj)) return obj;
-    for (var i = 1, length = arguments.length; i < length; i++) {
-      var source = arguments[i];
-      for (var prop in source) {
-        if (obj[prop] === void 0) obj[prop] = source[prop];
-      }
-    }
-    return obj;
-  };
+  _.defaults = createAssigner(_.keysIn, true);
 
   // Creates an object that inherits from the given prototype object.
   // If additional properties are provided then they will be added to the
