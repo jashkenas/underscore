@@ -450,6 +450,20 @@
     strictEqual(_.includes, _.contains, 'alias for includes');
   });
 
+  test('includes with NaN', function() {
+    strictEqual(_.includes([1, 2, NaN, NaN], NaN), true, 'Expected [1, 2, NaN] to contain NaN');
+    strictEqual(_.includes([1, 2, Infinity], NaN), false, 'Expected [1, 2, NaN] to contain NaN');
+  });
+
+  test('includes with +- 0', function() {
+    _.each([-0, +0], function(val) {
+      strictEqual(_.includes([1, 2, val, val], val), true);
+      strictEqual(_.includes([1, 2, val, val], -val), true);
+      strictEqual(_.includes([-1, 1, 2], -val), false);
+    });
+  });
+
+
   test('invoke', 5, function() {
     var list = [[5, 1, 7], [3, 2, 1]];
     var result = _.invoke(list, 'sort');
