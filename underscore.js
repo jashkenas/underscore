@@ -1227,8 +1227,8 @@
     };
   }
 
-  // Optimize `isFunction` if appropriate. Work around an IE 11 bug (#1621).
-  // Work around a Safari 8 bug (#1929)
+  // Optimize `isFunction` if appropriate. Work around some typeof bugs in old v8,
+  // IE 11 (#1621), and in Safari 8 (#1929).
   if (typeof /./ != 'function' && typeof Int8Array != 'object') {
     _.isFunction = function(obj) {
       return typeof obj == 'function' || false;
