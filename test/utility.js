@@ -98,6 +98,9 @@
     deepEqual(_.times(0, _.identity), []);
     deepEqual(_.times(-1, _.identity), []);
     deepEqual(_.times(parseFloat('-Infinity'), _.identity), []);
+    
+    // repeats constants
+    deepEqual([1,1,1], _.times(3, 1), 'repeats constants');
   });
 
   test('mixin', function() {
