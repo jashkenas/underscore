@@ -1320,7 +1320,8 @@
   // Run a function **n** times.
   _.times = function(n, iteratee, context) {
     var accum = Array(Math.max(0, n));
-    iteratee = optimizeCb(iteratee, _.isFunction(context) ? context : _.constant(context), 1);
+    if (!_.isFunction(iteratee)) iteratee = _.constant(iteratee);
+    iteratee = optimizeCb(iteratee, context, 1);
     for (var i = 0; i < n; i++) accum[i] = iteratee(i);
     return accum;
   };
