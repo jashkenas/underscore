@@ -245,6 +245,8 @@
       <li>- <a href="#indexOf">indexOf</a></li>
       <li>- <a href="#lastIndexOf">lastIndexOf</a></li>
       <li>- <a href="#sortedIndex">sortedIndex</a></li>
+      <li>- <a href="#findIndex">findIndex</a></li>
+      <li>- <a href="#findLastIndex">findLastIndex</a></li>
       <li>- <a href="#range">range</a></li>
     </ul>
 
@@ -275,9 +277,11 @@
       <li>- <a href="#keys">keys</a></li>
       <li>- <a href="#keysIn">keysIn</a></li>
       <li>- <a href="#values">values</a></li>
+      <li>- <a href="#mapValues">mapValues</a></li>
       <li>- <a href="#pairs">pairs</a></li>
       <li>- <a href="#invert">invert</a></li>
       <li>- <a href="#object-functions">functions</a></li>
+      <li>- <a href="#findKey">findKey</a></li>
       <li>- <a href="#extend">extend</a></li>
       <li>- <a href="#assign">assign</a></li>
       <li>- <a href="#create">create</a></li>
@@ -1050,6 +1054,46 @@ _.sortedIndex(stooges, {name: 'larry', age: 50}, 'age');
 =&gt; 1
 </pre>
 
+      <p id="findIndex">
+        <b class="header">findIndex</b><code>_.findIndex(array, predicate, [context])</code>
+        <br />
+        Similar to <a href="#indexOf"><tt>_.indexOf</tt></a>, returns the first index
+        where the <strong>predicate</strong> truth test passes; otherwise returns <i>-1</i>.
+      </p>
+      <pre>
+function isPrime(element, index, array) {
+  var start = 2;
+  while (start <= Math.sqrt(element)) {
+    if (element % start++ < 1) {
+      return false;
+    }
+  }
+  return element > 1;
+}
+_.findIndex([4, 6, 8, 12], isPrime);
+=&gt; -1 // not found
+_.findIndex([4, 6, 7, 12], isPrime);
+=&gt; 2
+</pre>
+
+      <p id="findLastIndex">
+        <b class="header">findLastIndex</b><code>_.findLastIndex(array, predicate, [context])</code>
+        <br />
+        Like <a href="#findIndex"><tt>_.findIndex</tt></a> but iterates the array in reverse,
+        returning the index closest to the end where the <strong>predicate</strong> truth test
+        passes.
+      </p>
+      <pre>
+var users = [{'id': 1, 'name': 'Bob', 'last': 'Brown'},
+             {'id': 2, 'name': 'Ted', 'last': 'White'},
+             {'id': 3, 'name': 'Frank', 'last': 'James'},
+             {'id': 4, 'name': 'Ted', 'last': 'Jones'}];
+_.findLastIndex(users, {
+  name: 'Ted'
+});
+=&gt; 3
+</pre>
+
       <p id="range">
         <b class="header">range</b><code>_.range([start], stop, [step])</code>
         <br />
@@ -1350,6 +1394,20 @@ _.values({one: 1, two: 2, three: 3});
 =&gt; [1, 2, 3]
 </pre>
 
+<p id="mapValues">
+        <b class="header">mapValues</b><code>_.mapValues(array, iteratee, [context])</code>
+        <br />
+        Iterates an object and returns a new object with the values computed by
+        the given <tt>iteratee</tt>.
+      </p>
+      <pre>
+_.mapValues({a: 1, b: 2}, function(val, key) {
+    return val * 2;
+});
+=> {a: 2, b: 4}
+=&gt; 3
+</pre>
+
       <p id="pairs">
         <b class="header">pairs</b><code>_.pairs(object)</code>
         <br />
@@ -1382,6 +1440,17 @@ _.invert({Moe: "Moses", Larry: "Louis", Curly: "Jerome"});
       <pre>
 _.functions(_);
 =&gt; ["all", "any", "bind", "bindAll", "clone", "compact", "compose" ...
+</pre>
+
+<p id="findKey">
+        <b class="header">findKey</b><code>_.findKey(object, predicate, [context])</code>
+        <br />
+        Similar to <a href="#findIndex"><tt>_.findIndex</tt></a> but iterates objects.
+        Returns the <i>key</i> where the <strong>predicate</strong> truth test
+        passes or <i>undefined</i>.
+      </p>
+      <pre>
+
 </pre>
 
       <p id="extend">
@@ -2186,7 +2255,9 @@ _([1, 2, 3]).value();
             Added <tt>_.keysIn</tt> which returns the enumerable properties of an object.
           </li>
           <li>
-            Reverted change where <tt>_.extend</tt> only iterates own properties, it now uses <tt>_.keysIn</tt>. Added <tt>_.assign</tt> that aligns closely with ECMA6 <tt>Object.assign</tt> and iterates over own properties.
+            Reverted change where <tt>_.extend</tt> only iterates own properties, it now
+            uses <tt>_.keysIn</tt>. Added <tt>_.assign</tt> that aligns closely with ECMA6
+            <tt>Object.assign</tt> and iterates over own properties.
           </li>
 
           <li>
@@ -2194,11 +2265,22 @@ _([1, 2, 3]).value();
           </li>
 
           <li>
-            Added the handy <tt>_.transform</tt> method as an alternative to <tt>_.reduce</tt> in many cases.
-          </li
->
+            Added <tt>_.mapValues</tt>.
+          </li>
+
           <li>
-            Added <tt>_.isError</tt> which determines if an object is derived from the <tt>Error</tt> object.
+            Added <tt>_.findIndex</tt> (similar to <a href="https://developer.mozilla.org/Web/JavaScript/Reference/Global_Objects/Array/findIndex">Array.prototype.findIndex</a>),
+            <tt>_.findLastIndex</tt>, and <tt>_.findKey</tt>.
+          </li>
+
+          <li>
+            Added the handy <tt>_.transform</tt> method as an alternative to <tt>_.reduce</tt>
+            in many cases.
+          </li>
+
+          <li>
+            Added <tt>_.isError</tt> which determines if an object is derived from the <tt>Error</tt>
+            object.
           </li>
 
           <li>
@@ -2206,15 +2288,16 @@ _([1, 2, 3]).value();
           </li>
 
           <li>
-            <tt>_.result</tt> now takes an optional default value argument. If this argument is a function
-            it is called.
+            <tt>_.result</tt> now takes an optional default value argument.
+            If this argument is a function it is called.
           </li>
 
           <li>
             Added <tt>_.propertyOf</tt> wrapper as a flip of <tt>_.property</tt>.
           </li>
           <li>
-            <tt>_.property</tt> now returns <tt>undefined</tt> when passed <tt>null</tt> or <tt>undefined</tt>.
+            <tt>_.property</tt> now returns <tt>undefined</tt> when passed
+            <tt>null</tt> or <tt>undefined</tt>.
           </li>
 
           <li>
@@ -2222,7 +2305,8 @@ _([1, 2, 3]).value();
           </li>
 
           <li>
-            <tt>_.uniq</tt> now uses sorted iteration when provided <tt>sorted=true</tt> and given an <tt>iteratee</tt> argument.
+            <tt>_.uniq</tt> now uses sorted iteration when provided <tt>sorted=true</tt> and
+            given an <tt>iteratee</tt> argument.
           </li>
 
           <li>
