@@ -138,11 +138,10 @@
   // Handles raw objects in addition to array-likes. Treats all
   // sparse array-likes as if they were dense.
   _.each = _.forEach = function(obj, iteratee, context) {
-    if (obj == null) return obj;
     iteratee = optimizeCb(iteratee, context);
-    var i, length = obj.length;
+    var i, length;
     if (isArrayLike(obj)) {
-      for (i = 0; i < length; i++) {
+      for (i = 0, length = obj.length; i < length; i++) {
         iteratee(obj[i], i, obj);
       }
     } else {
@@ -156,7 +155,6 @@
 
   // Return the results of applying the iteratee to each element.
   _.map = _.collect = function(obj, iteratee, context) {
-    if (obj == null) return [];
     iteratee = cb(iteratee, context);
     var keys = !isArrayLike(obj) && _.keys(obj),
         length = (keys || obj).length,
@@ -181,7 +179,6 @@
     }
 
     return function(obj, iteratee, memo, context) {
-      if (obj == null) return memo;
       iteratee = optimizeCb(iteratee, context, 4);
       var keys = !isArrayLike(obj) && _.keys(obj),
           length = (keys || obj).length,
@@ -241,7 +238,6 @@
   // Aliased as `select`.
   _.filter = _.select = function(obj, predicate, context) {
     var results = [];
-    if (obj == null) return results;
     predicate = cb(predicate, context);
     _.each(obj, function(value, index, list) {
       if (predicate(value, index, list)) results.push(value);
@@ -257,7 +253,6 @@
   // Determine whether all of the elements match a truth test.
   // Aliased as `all`.
   _.every = _.all = function(obj, predicate, context) {
-    if (obj == null) return true;
     predicate = cb(predicate, context);
     var keys = !isArrayLike(obj) && _.keys(obj),
         length = (keys || obj).length;
@@ -271,7 +266,6 @@
   // Determine if at least one element in the object matches a truth test.
   // Aliased as `any`.
   _.some = _.any = function(obj, predicate, context) {
-    if (obj == null) return false;
     predicate = cb(predicate, context);
     var keys = !isArrayLike(obj) && _.keys(obj),
         length = (keys || obj).length;
@@ -285,7 +279,6 @@
   // Determine if the array or object contains a given value (using `===`).
   // Aliased as `includes` and `include`.
   _.contains = _.includes = _.include = function(obj, target, fromIndex) {
-    if (obj == null) return false;
     if (!isArrayLike(obj)) obj = _.values(obj);
     return _.indexOf(obj, target, typeof fromIndex == 'number' && fromIndex) >= 0;
   };
@@ -625,9 +618,8 @@
   // pairs, or two parallel arrays of the same length -- one of keys, and one of
   // the corresponding values.
   _.object = function(list, values) {
-    if (list == null) return {};
     var result = {};
-    for (var i = 0, length = list.length; i < length; i++) {
+    for (var i = 0, length = list && list.length; i < length; i++) {
       if (values) {
         result[list[i]] = values[i];
       } else {
@@ -980,7 +972,6 @@
   // Returns the results of applying the iteratee to each element of the object
   // In contrast to _.map it returns an object
   _.mapValues = function(obj, iteratee, context) {
-    if (obj == null) return {};
     iteratee = cb(iteratee, context);
     var keys =  _.keys(obj),
           length = keys.length,

@@ -174,8 +174,10 @@
     result = _.pick(['a', 'b'], 1);
     deepEqual(result, {1: 'b'}, 'can pick numeric properties');
 
-    deepEqual(_.pick(null, 'a', 'b'), {}, 'non objects return empty object');
-    deepEqual(_.pick(undefined, 'toString'), {}, 'null/undefined return empty object');
+    _.each([null, void 0], function(val) {
+      deepEqual(_.pick(val, 'hasOwnProperty'), {}, 'Called with null/undefined');
+      deepEqual(_.pick(val, _.constant(true)), {});
+    });
     deepEqual(_.pick(5, 'toString', 'b'), {toString: Number.prototype.toString}, 'can iterate primitives');
 
     var data = {a: 1, b: 2, c: 3};
