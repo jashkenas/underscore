@@ -15,7 +15,8 @@
     "throws": false,
     "asyncTest": false,
     "start": false,
-    "expect": false
+    "expect": false,
+    "QUnit": false
   },
   "rules": {
     "brace-style": 0,
