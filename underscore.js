@@ -160,10 +160,9 @@
     iteratee = cb(iteratee, context);
     var keys = !isArrayLike(obj) && _.keys(obj),
         length = (keys || obj).length,
-        results = Array(length),
-        currentKey;
+        results = Array(length);
     for (var index = 0; index < length; index++) {
-      currentKey = keys ? keys[index] : index;
+      var currentKey = keys ? keys[index] : index;
       results[index] = iteratee(obj[currentKey], currentKey, obj);
     }
     return results;
@@ -219,10 +218,9 @@
     if (obj == null) return accumulator;
     iteratee = optimizeCb(iteratee, context, 4);
     var keys = obj.length !== +obj.length && _.keys(obj),
-      length = (keys || obj).length,
-      index, currentKey;
-    for (index = 0; index < length; index++) {
-      currentKey = keys ? keys[index] : index;
+      length = (keys || obj).length;
+    for (var index = 0; index < length; index++) {
+      var currentKey = keys ? keys[index] : index;
       if (iteratee(accumulator, obj[currentKey], currentKey, obj) === false) break;
     }
     return accumulator;
@@ -262,10 +260,9 @@
     if (obj == null) return true;
     predicate = cb(predicate, context);
     var keys = !isArrayLike(obj) && _.keys(obj),
-        length = (keys || obj).length,
-        index, currentKey;
-    for (index = 0; index < length; index++) {
-      currentKey = keys ? keys[index] : index;
+        length = (keys || obj).length;
+    for (var index = 0; index < length; index++) {
+      var currentKey = keys ? keys[index] : index;
       if (!predicate(obj[currentKey], currentKey, obj)) return false;
     }
     return true;
@@ -277,10 +274,9 @@
     if (obj == null) return false;
     predicate = cb(predicate, context);
     var keys = !isArrayLike(obj) && _.keys(obj),
-        length = (keys || obj).length,
-        index, currentKey;
-    for (index = 0; index < length; index++) {
-      currentKey = keys ? keys[index] : index;
+        length = (keys || obj).length;
+    for (var index = 0; index < length; index++) {
+      var currentKey = keys ? keys[index] : index;
       if (predicate(obj[currentKey], currentKey, obj)) return true;
     }
     return false;
@@ -516,9 +512,9 @@
 
   // Internal implementation of a recursive `flatten` function.
   var flatten = function(input, shallow, strict, startIndex) {
-    var output = [], idx = 0, value;
+    var output = [], idx = 0;
     for (var i = startIndex || 0, length = input && input.length; i < length; i++) {
-      value = input[i];
+      var value = input[i];
       if (isArrayLike(value) && (_.isArray(value) || _.isArguments(value))) {
         //flatten current level of array or arguments object
         if (!shallow) value = flatten(value, shallow, strict);
