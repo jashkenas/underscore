@@ -19,7 +19,7 @@
   "devDependencies": {
     "docco": "0.6.x",
     "eslint": "0.6.x",
-    "phantomjs": "1.9.11",
+    "phantomjs": "~1.9.11",
     "qunit-cli": "0.1.4",
     "uglify-js": "2.4.x"
   },
