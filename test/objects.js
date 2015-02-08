@@ -1,6 +1,9 @@
 (function() {
+  var _ = typeof require == 'function' ? require('..') : window._;
 
-  module('Objects');
+  QUnit.module('Objects');
+
+  var testElement = typeof document === 'object' ? document.createElement('div') : void 0;
 
   test('keys', function() {
     deepEqual(_.keys({one : 1, two : 2}), ['one', 'two'], 'can extract the keys from an object');
@@ -570,10 +573,12 @@
     ok(!_.isEmpty(nonEnumProp), 'non-enumerable property is not empty');
   });
 
-  test('isElement', function() {
-    ok(!_.isElement('div'), 'strings are not dom elements');
-    ok(_.isElement(document.body), 'the body tag is a DOM element');
-  });
+  if (typeof document === 'object') {
+    test('isElement', function() {
+      ok(!_.isElement('div'), 'strings are not dom elements');
+      ok(_.isElement(testElement), 'an element is a DOM element');
+    });
+  }
 
   test('isArguments', function() {
     var args = (function(){ return arguments; }(1, 2, 3));
@@ -587,7 +592,9 @@
   test('isObject', function() {
     ok(_.isObject(arguments), 'the arguments object is object');
     ok(_.isObject([1, 2, 3]), 'and arrays');
-    ok(_.isObject(document.body), 'and DOM element');
+    if (testElement) {
+      ok(_.isObject(testElement), 'and DOM element');
+    }
     ok(_.isObject(function () {}), 'and functions');
     ok(!_.isObject(null), 'but not null');
     ok(!_.isObject(undefined), 'and not undefined');
@@ -605,10 +612,13 @@
 
   test('isString', function() {
     var obj = new String('I am a string object');
-    ok(!_.isString(document.body), 'the document body is not a string');
+    if (testElement) {
+      ok(!_.isString(testElement), 'an element is not a string');
+    }
     ok(_.isString([1, 2, 3].join(', ')), 'but strings are');
-    ok(_.isString('I am a string literal'), 'string literals are');
+    strictEqual(_.isString('I am a string literal'), true, 'string literals are');
     ok(_.isString(obj), 'so are String objects');
+    strictEqual(_.isString(1), false);
   });
 
   test('isNumber', function() {
@@ -638,9 +648,12 @@
     ok(!_.isFunction(undefined), 'undefined vars are not functions');
     ok(!_.isFunction([1, 2, 3]), 'arrays are not functions');
     ok(!_.isFunction('moe'), 'strings are not functions');
-    ok(!_.isFunction(document.createElement('div')), 'elements are not functions');
     ok(_.isFunction(_.isFunction), 'but functions are');
     ok(_.isFunction(function(){}), 'even anonymous ones');
+
+    if (testElement) {
+      ok(!_.isFunction(testElement), 'elements are not functions');
+    }
   });
 
   if (typeof Int8Array !== 'undefined') {

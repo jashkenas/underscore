@@ -1,8 +1,8 @@
 (function() {
-
+  var _ = typeof require == 'function' ? require('..') : window._;
   var templateSettings;
 
-  module('Utility', {
+  QUnit.module('Utility', {
 
     setup: function() {
       templateSettings = _.clone(_.templateSettings);

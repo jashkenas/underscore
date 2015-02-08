@@ -1,6 +1,7 @@
 (function() {
+  var _ = typeof require == 'function' ? require('..') : window._;
 
-  module('Collections');
+  QUnit.module('Collections');
 
   test('each', function() {
     _.each([1, 2, 3], function(num, i) {

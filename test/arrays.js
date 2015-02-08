@@ -1,6 +1,7 @@
 (function() {
+  var _ = typeof require == 'function' ? require('..') : window._;
 
-  module('Arrays');
+  QUnit.module('Arrays');
 
   test('first', function() {
     equal(_.first([1, 2, 3]), 1, 'can pull out the first element of an array');

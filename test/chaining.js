@@ -1,6 +1,7 @@
 (function() {
+  var _ = typeof require == 'function' ? require('..') : window._;
 
-  module('Chaining');
+  QUnit.module('Chaining');
 
   test('map/flatten/reduce', function() {
     var lyrics = [

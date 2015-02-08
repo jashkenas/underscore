@@ -1,6 +1,7 @@
 (function() {
+  var _ = typeof require == 'function' ? require('..') : window._;
 
-  module('Functions');
+  QUnit.module('Functions');
 
   test('bind', function() {
     var context = {name : 'moe'};

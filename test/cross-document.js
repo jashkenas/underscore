@@ -1,7 +1,9 @@
 (function() {
   if (typeof document == 'undefined') return;
 
-  module('Cross Document');
+  var _ = typeof require == 'function' ? require('..') : window._;
+
+  QUnit.module('Cross Document');
   /* global iObject, iElement, iArguments, iFunction, iArray, iError, iString, iNumber, iBoolean, iDate, iRegExp, iNaN, iNull, iUndefined, ActiveXObject */
 
   // Setup remote variables for iFrame tests.
