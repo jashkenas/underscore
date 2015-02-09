@@ -563,6 +563,8 @@
     equal(3, _.max([1, 2, 3, 'test']), 'Finds correct max in array starting with num and containing a NaN');
     equal(3, _.max(['test', 1, 2, 3]), 'Finds correct max in array starting with NaN');
 
+    equal([3, 6], _.map([[1, 2, 3], [4, 5, 6]], _.max), 'Finds correct max in array when mapping through multiple arrays');
+
     var a = {x: -Infinity};
     var b = {x: -Infinity};
     var iterator = function(o){ return o.x; };
@@ -588,6 +590,8 @@
     equal(Infinity, _.min({}), 'Minimum value of an empty object');
     equal(Infinity, _.min([]), 'Minimum value of an empty array');
     equal(_.min({'a': 'a'}), Infinity, 'Minimum value of a non-numeric collection');
+
+    equal([1, 4], _.map([[1, 2, 3], [4, 5, 6]], _.min), 'Finds correct min in array when mapping through multiple arrays');
 
     var now = new Date(9999999999);
     var then = new Date(0);
