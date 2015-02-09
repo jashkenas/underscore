@@ -135,6 +135,37 @@
       array[values[length]] = values[length];
     }
     equal(_.sortedIndex(array, 2147483648), 2147483648, 'should work with large indexes');
+
+  });
+
+  test('sortedIndex conforms to sortBy for undefined (#1834)', function() {
+    var sorted = _([{a: NaN}, {a: NaN}, {a: void 0}, {a: 0}, {a: 1}, {a: 2}, {a: 3}])
+                  .sortBy('a');
+    _.each([0, 1, 2, 3, undefined], function(val) {
+      equal(_.sortedIndex(sorted, {a: val}, 'a'), _.findIndex(sorted, {a: val}), 'For val: ' + val);
+    });
+
+    sorted = _.sortBy([undefined, 1, undefined, 2]);
+    equal(_.sortedIndex(sorted, undefined, _.identity), 2);
+
+    var edgeCaseNumbers = [-Infinity, -Infinity, 0, Number.MAX_VALUE, Infinity, Infinity, undefined, undefined];
+
+    var indexForUndefined = _.sortedIndex(edgeCaseNumbers, undefined);
+    equal(indexForUndefined, 6, 'undefined should be inserted at index 6');
+
+    var indexForNegInfinity = _.sortedIndex(edgeCaseNumbers, -Infinity);
+    equal(indexForNegInfinity, 0, 'negative infinity should be inserted at index 0');
+
+    var indexForInfinity = _.sortedIndex(edgeCaseNumbers, Infinity);
+    equal(indexForInfinity, 4, 'infinity should be inserted at index 4');
+
+    var indexForZero = _.sortedIndex(edgeCaseNumbers, 0);
+    equal(indexForZero, 2, '0 should be inserted at index 2');
+
+    var numbers = [10, 20, 30, 40, 50];
+
+    var indexForUndefinedSimple = _.sortedIndex(numbers, undefined);
+    equal(indexForUndefinedSimple, 5, 'undefined should be inserted at index 5');
   });
 
   test('uniq', function() {

@@ -685,7 +685,8 @@
     var low = 0, high = array.length;
     while (low < high) {
       var mid = Math.floor((low + high) / 2);
-      if (iteratee(array[mid]) < value) low = mid + 1; else high = mid;
+      var cur = iteratee(array[mid]);
+      if ( cur < value || (value === void 0 && cur <= Infinity || _.isNaN(cur))) low = mid + 1; else high = mid;
     }
     return low;
   };
