@@ -141,7 +141,7 @@
     var sorted = _.sortBy([undefined, 1, undefined, 2]);
     equal(_.sortedIndex(sorted, undefined, _.identity), 2);
 
-    var edgeCaseNumbers = [-Infinity, -Infinity, 0, Number.MAX_VALUE, Infinity, Infinity, undefined, undefined, NaN];
+    var edgeCaseNumbers = [-Infinity, -Infinity, 0, 345345345234, Infinity, Infinity, undefined, undefined, NaN];
 
     var indexForUndefined = _.sortedIndex(edgeCaseNumbers, undefined);
     equal(indexForUndefined, 6, 'undefined should be inserted at index 6');
