@@ -137,6 +137,33 @@
     equal(_.sortedIndex(array, 2147483648), 2147483648, 'should work with large indexes');
   });
 
+  test('sortedIndex conforms to sortBy for undefined (#1834)', function() {
+    var sorted = _.sortBy([undefined, 1, undefined, 2]);
+    equal(_.sortedIndex(sorted, undefined, _.identity), 2);
+
+    var edgeCaseNumbers = [-Infinity, -Infinity, 0, Number.MAX_VALUE, Infinity, Infinity, undefined, undefined, NaN];
+
+    var indexForUndefined = _.sortedIndex(edgeCaseNumbers, undefined);
+    equal(indexForUndefined, 6, 'undefined should be inserted at index 6');
+
+    var indexForNegInfinity = _.sortedIndex(edgeCaseNumbers, -Infinity);
+    equal(indexForNegInfinity, 0, 'negative infinity should be inserted at index 0');
+
+    var indexForInfinity = _.sortedIndex(edgeCaseNumbers, Infinity);
+    equal(indexForInfinity, 4, 'infinity should be inserted at index 4');
+
+    var indexForZero = _.sortedIndex(edgeCaseNumbers, 0);
+    equal(indexForZero, 2, '0 should be inserted at index 2');
+
+    var indexForNaN = _.sortedIndex(edgeCaseNumbers, NaN);
+    equal(indexForNaN, 8, 'NaN should be inserted at index 8');
+
+    var numbers = [10, 20, 30, 40, 50];
+
+    var indexForUndefinedSimple = _.sortedIndex(numbers, undefined);
+    equal(indexForUndefinedSimple, 5, 'undefined should be inserted at index 5');
+  });
+
   test('uniq', function() {
     var list = [1, 2, 1, 3, 1, 4];
     deepEqual(_.uniq(list), [1, 2, 3, 4], 'can find the unique values of an unsorted array');
