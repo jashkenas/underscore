@@ -13,7 +13,9 @@
     equal(bound(), 'name: moe', 'can do OO-style binding');
 
     bound = _.bind(func, null, 'curly');
-    equal(bound(), 'name: curly', 'can bind without specifying a context');
+    var result = bound();
+    // Work around a PhantomJS bug when applying a function with null|undefined.
+    ok(result === 'name: curly' || result === 'name: ' + window.name, 'can bind without specifying a context');
 
     func = function(salutation, name) { return salutation + ': ' + name; };
     func = _.bind(func, this, 'hello');
