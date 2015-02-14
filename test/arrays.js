@@ -204,11 +204,13 @@
     result = _.intersection([2, 4, 3, 1], [1, 2, 3]);
     deepEqual(result, [2, 3, 1], 'preserves order of first array');
     result = _.intersection(null, [1, 2, 3]);
-    equal(Object.prototype.toString.call(result), '[object Array]', 'returns an empty array when passed null as first argument');
-    equal(result.length, 0, 'returns an empty array when passed null as first argument');
-    result = _.intersection([1, 2, 3], null);
-    equal(Object.prototype.toString.call(result), '[object Array]', 'returns an empty array when passed null as argument beyond the first');
-    equal(result.length, 0, 'returns an empty array when passed null as argument beyond the first');
+    deepEqual(result, [1, 2, 3], 'ignores a null value when it is the first item passed');
+    result = _.intersection([1, 2], null, [2, 3])
+    deepEqual(result, [2], 'ignores null values when they are passed as arguments beyond the first');
+    result = _.intersection([1, 2], [2, 3], null)
+    deepEqual(result, [2], 'ignores a null value when it is passed as the last argument');
+    result = _.intersection(null, null);
+    deepEqual(result, [], 'only passing null values returns an empty array');
   });
 
   test('union', function() {

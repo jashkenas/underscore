@@ -572,13 +572,17 @@
   // Produce an array that contains every item shared between all the
   // passed-in arrays.
   _.intersection = function(array) {
-    if (array == null) return [];
+    if (array == null) {
+      if (arguments.length === 0) return [];
+      return _.intersection.apply(arguments[1], Array.prototype.slice.call(arguments, 1));
+    }
     var result = [];
     var argsLength = arguments.length;
     for (var i = 0, length = array.length; i < length; i++) {
       var item = array[i];
       if (_.contains(result, item)) continue;
       for (var j = 1; j < argsLength; j++) {
+        if (arguments[j] == null) continue;
         if (!_.contains(arguments[j], item)) break;
       }
       if (j === argsLength) result.push(item);
