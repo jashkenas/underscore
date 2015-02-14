@@ -39,6 +39,8 @@
     deepEqual(_.flatten(result), [2, 3, 2, 3], 'works well with _.map');
     result = (function(){ return _(arguments).rest(); }(1, 2, 3, 4));
     deepEqual(result, [2, 3, 4], 'works on arguments object');
+    deepEqual(_.rest([1,2,3], -2), [2, 3]);
+    deepEqual(_.rest([1,2,3], -3), [1, 2, 3]);
   });
 
   test('tail', function() {
@@ -71,6 +73,8 @@
 
     equal(_.last(null), undefined, 'handles nulls');
     strictEqual(_.last([1, 2, 3], -1).length, 0);
+
+    deepEqual(_.last([1,2,3], 6), [1, 2, 3]);
   });
 
   test('compact', function() {

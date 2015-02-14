@@ -782,10 +782,13 @@
     ok(_.isArray(_.toArray(arguments)), 'arguments object converted into array');
     var a = [1, 2, 3];
     ok(_.toArray(a) !== a, 'array is cloned');
+    notEqual(_.toArray(a), a, 'array is cloned');
     deepEqual(_.toArray(a), [1, 2, 3], 'cloned array contains same elements');
 
     var numbers = _.toArray({one : 1, two : 2, three : 3});
     deepEqual(numbers, [1, 2, 3], 'object flattened into array');
+
+    deepEqual(_.toArray({0: 1, 1: 2, length: 2}), [1, 2], 'works on array likes');
 
     if (typeof document != 'undefined') {
       // test in IE < 9

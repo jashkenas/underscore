@@ -284,7 +284,7 @@
 
   // Invoke a method (with arguments) on every item in a collection.
   _.invoke = function(obj, method) {
-    var args = slice.call(arguments, 2);
+    var args = _.rest(arguments, 2);
     var isFunc = _.isFunction(method);
     return _.map(obj, function(value) {
       var func = isFunc ? method : value[method];
@@ -439,8 +439,7 @@
   // Safely create a real, live array from anything iterable.
   _.toArray = function(obj) {
     if (!obj) return [];
-    if (_.isArray(obj)) return slice.call(obj);
-    if (isArrayLike(obj)) return _.map(obj, _.identity);
+    if (isArrayLike(obj)) return _.rest(obj, 0);
     return _.values(obj);
   };
 
@@ -494,7 +493,15 @@
   // the rest N values in the array. The **guard**
   // check allows it to work with `_.map`.
   _.rest = _.tail = _.drop = function(array, n, guard) {
-    return slice.call(array, n == null || guard ? 1 : n);
+    if (guard || n === void 0) n = 1;
+    if (n > array.length) return [];
+    else if (n < 0) return slice.call(array, n);
+    var index = array.length;
+    var result = Array(index - n);
+    while (index--) {
+      result[index - n] = array[index];
+    }
+    return result;
   };
 
   // Trim out all falsy values from an array.
@@ -529,7 +536,7 @@
 
   // Return a version of the array that does not contain the specified value(s).
   _.without = function(array) {
-    return _.difference(array, slice.call(arguments, 1));
+    return _.difference(array, _.rest(arguments));
   };
 
   // Produce a duplicate-free version of the array. If the array has already
@@ -641,7 +648,7 @@
       return array[i] === item ? i : -1;
     }
     if (item !== item) {
-      return _.findIndex(slice.call(array, i), _.isNaN);
+      return _.findIndex(_.rest(array, i), _.isNaN);
     }
     for (; i < length; i++) if (array[i] === item) return i;
     return -1;
@@ -727,11 +734,11 @@
   // optionally). Delegates to **ECMAScript 5**'s native `Function.bind` if
   // available.
   _.bind = function(func, context) {
-    if (nativeBind && func.bind === nativeBind) return nativeBind.apply(func, slice.call(arguments, 1));
+    if (nativeBind && func.bind === nativeBind) return nativeBind.apply(func, _.rest(arguments));
     if (!_.isFunction(func)) throw new TypeError('Bind must be called on a function');
-    var args = slice.call(arguments, 2);
+    var args = _.rest(arguments, 2);
     return function bound() {
-      return executeBound(func, bound, context, this, args.concat(slice.call(arguments)));
+      return executeBound(func, bound, context, this, args.concat(_.rest(arguments, 0)));
     };
   };
 
@@ -739,7 +746,7 @@
   // arguments pre-filled, without changing its dynamic `this` context. _ acts
   // as a placeholder, allowing any combination of arguments to be pre-filled.
   _.partial = function(func) {
-    var boundArgs = slice.call(arguments, 1);
+    var boundArgs = _.rest(arguments);
     return function bound() {
       var position = 0, length = boundArgs.length;
       var args = Array(length);
@@ -779,7 +786,7 @@
   // Delays a function for the given number of milliseconds, and then calls
   // it with the arguments supplied.
   _.delay = function(func, wait) {
-    var args = slice.call(arguments, 2);
+    var args = _.rest(arguments, 2);
     return setTimeout(function(){
       return func.apply(null, args);
     }, wait);
@@ -1080,7 +1087,7 @@
   // Create a (shallow-cloned) duplicate of an object.
   _.clone = function(obj) {
     if (!_.isObject(obj)) return obj;
-    return _.isArray(obj) ? obj.slice() : _.extend({}, obj);
+    return _.isArray(obj) ? _.rest(obj, 0) : _.extend({}, obj);
   };
 
   // Invokes interceptor with the obj, and then returns obj.
