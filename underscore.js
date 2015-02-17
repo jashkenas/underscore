@@ -571,19 +571,19 @@
 
   // Produce an array that contains every item shared between all the
   // passed-in arrays.
-  _.intersection = function(array) {
-    if (array == null) {
-      if (arguments.length === 0) return [];
-      return _.intersection.apply(arguments[1], Array.prototype.slice.call(arguments, 1));
-    }
+  _.intersection = function() {
+    var array = _.filter(arguments, function(value) {
+      return isArrayLike(value) && (_.isArray(value) || _.isArguments(value));
+    });
+    if (array.length === 0) return [];
+    var firstItem = array.shift();
     var result = [];
-    var argsLength = arguments.length;
-    for (var i = 0, length = array.length; i < length; i++) {
-      var item = array[i];
+    var argsLength = array.length;
+    for (var i = 0, length = firstItem.length; i < length; i++) {
+      var item = firstItem[i];
       if (_.contains(result, item)) continue;
-      for (var j = 1; j < argsLength; j++) {
-        if (arguments[j] == null) continue;
-        if (!_.contains(arguments[j], item)) break;
+      for (var j = 0; j < argsLength; j++) {
+        if (!_.contains(array[j], item)) break;
       }
       if (j === argsLength) result.push(item);
     }

@@ -213,6 +213,12 @@
     deepEqual(result, [2], 'ignores a null value when it is passed as the last argument');
     result = _.intersection(null, null);
     deepEqual(result, [], 'only passing null values returns an empty array');
+    result = _.intersection({}, [1, 2], [2, 3]);
+    deepEqual(result, [2], 'ignores an object when it is the first item passed');
+    result = _.intersection({}, [1, 2], {}, [2, 3]);
+    deepEqual(result, [2], 'ignores objects when they are passed as the first argument, and arguments beyond');
+    result = _.intersection('', [1, 2], '', [2, 3]);
+    deepEqual(result, [2], 'ignores strings when they are passed as the first argument, and arguments beyond');
   });
 
   test('union', function() {
