@@ -1,5 +1,5 @@
 raw
 node_modules
-.log
-.idea
-.swp
+*.log
+*.idea
+*.swp
