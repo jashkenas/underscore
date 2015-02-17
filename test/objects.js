@@ -768,6 +768,11 @@
     var moe = {name: 'Moe Howard', hair: true};
     var curly = {name: 'Curly Howard', hair: false};
     var stooges = [moe, curly];
+    var car = {speed: 50};
+    var toyota = Object.create(car);
+
+    equal(_.matches({speed: 50})(toyota), false, 'should only match own properties');
+    equal(_.matches({speed: 50})(car), true, 'should only match own properties');
 
     equal(_.matches({hair: true})(moe), true, 'Returns a boolean');
     equal(_.matches({hair: true})(curly), false, 'Returns a boolean');
