@@ -21,7 +21,7 @@
     "eslint": "0.6.x",
     "karma": "~0.12.31",
     "karma-qunit": "~0.1.4",
-    "qunit-cli": "~0.1.4",
+    "qunit-cli": "~0.2.0",
     "uglify-js": "2.4.x"
   },
   "scripts": {
