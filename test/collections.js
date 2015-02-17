@@ -36,26 +36,6 @@
     var a = [1, 2, 3];
     strictEqual(_.each(a, function(){}), a);
     strictEqual(_.each(null, function(){}), null);
-
-    var b = [1, 2, 3];
-    b.length = 100;
-    answers = 0;
-    _.each(b, function(){ ++answers; });
-    equal(answers, 100, 'enumerates [0, length)');
-
-
-    var collection = [1, 2, 3], count = 0;
-    _.each(collection, function() {
-      if (count < 10) collection.push(count++);
-    });
-    equal(count, 3);
-
-    collection = {a: 1, b: 2, c: 3};
-    count = 0;
-    _.each(collection, function() {
-      if (count < 10) collection[count] = count++;
-    });
-    equal(count, 3);
   });
 
   test('forEach', function() {
@@ -111,6 +91,50 @@
       _.each(reducers, function(method) {
         strictEqual(_[method](trick), trick.length, method);
       });
+    });
+  });
+
+  test('Resistant to collection length and properties changing while iterating', function() {
+
+    var collection = [
+      'each', 'map', 'filter', 'find',
+      'some', 'every', 'max', 'min', 'reject',
+      'groupBy', 'countBy', 'partition', 'indexBy',
+      'transform', 'reduce', 'reduceRight'
+    ];
+    var array = [
+      'findIndex', 'findLastIndex'
+    ];
+    var object = [
+      'mapValues', 'findKey', 'pick', 'omit'
+    ];
+
+    _.each(collection.concat(array), function(method) {
+      var sparseArray = [1, 2, 3];
+      sparseArray.length = 100;
+      var answers = 0;
+      _[method](sparseArray, function(){
+        ++answers;
+        return method === 'every' ? true : null;
+      }, {});
+      equal(answers, 100, method + ' enumerates [0, length)');
+
+      var growingCollection = [1, 2, 3], count = 0;
+      _[method](growingCollection, function() {
+        if (count < 10) growingCollection.push(count++);
+        return method === 'every' ? true : null;
+      }, {});
+      equal(count, 3, method + ' is resistant to length changes');
+    });
+
+    _.each(collection.concat(object), function(method) {
+      var changingObject = {0: 0, 1: 1}, count = 0;
+      _[method](changingObject, function(val) {
+        if (count < 10) changingObject[++count] = val + 1;
+        return method === 'every' ? true : null;
+      }, {});
+
+      equal(count, 2, method + ' is resistant to property changes');
     });
   });
 
