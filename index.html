@@ -97,7 +97,7 @@
       font-size: 16px;
       line-height: 30px;
     }
-    span.alias, span.guard {
+    span.alias {
       font-size: 14px;
       font-style: italic;
       margin-left: 20px;
@@ -471,8 +471,7 @@ _.each({one: 1, two: 2, three: 3}, alert);
         through a transformation function (<b>iteratee</b>). The <tt>iteratee</tt>
         is passed three arguments: the <tt>value</tt>, then the <tt>index</tt>
         (or <tt>key</tt>) of the iteration, and finally a reference to the entire
-        <tt>list</tt>. Selective <b>Underscore</b> functions marked as <tt>guarded</tt>
-        can be used as an <tt>iteratee</tt> to <b>_.map</b>.
+        <tt>list</tt>.
       </p>
       <pre>
 _.map([1, 2, 3], function(num){ return num * 3; });
@@ -754,7 +753,6 @@ _.shuffle([1, 2, 3, 4, 5, 6]);
 
       <p id="sample">
         <b class="header">sample</b><code>_.sample(list, [n])</code>
-        <span class="guard"><b>Guarded</b></span>
         <br />
         Produce a random sample from the <b>list</b>. Pass a number to
         return <b>n</b> random elements from the list. Otherwise a single random
@@ -812,7 +810,6 @@ _.partition([0, 1, 2, 3, 4, 5], isOdd);
       <p id="first">
         <b class="header">first</b><code>_.first(array, [n])</code>
         <span class="alias">Alias: <b>head</b>, <b>take</b></span>
-        <span class="guard"><b>Guarded</b></span>
         <br />
         Returns the first element of an <b>array</b>. Passing <b>n</b> will
         return the first <b>n</b> elements of the array.
@@ -824,7 +821,6 @@ _.first([5, 4, 3, 2, 1]);
 
       <p id="initial">
         <b class="header">initial</b><code>_.initial(array, [n])</code>
-        <span class="guard"><b>Guarded</b></span>
         <br />
         Returns everything but the last entry of the array. Especially useful on
         the arguments object. Pass <b>n</b> to exclude the last <b>n</b> elements
@@ -837,7 +833,6 @@ _.initial([5, 4, 3, 2, 1]);
 
       <p id="last">
         <b class="header">last</b><code>_.last(array, [n])</code>
-        <span class="guard"><b>Guarded</b></span>
         <br />
         Returns the last element of an <b>array</b>. Passing <b>n</b> will return
         the last <b>n</b> elements of the array.
@@ -850,7 +845,6 @@ _.last([5, 4, 3, 2, 1]);
       <p id="rest">
         <b class="header">rest</b><code>_.rest(array, [index])</code>
         <span class="alias">Alias: <b>tail, drop</b></span>
-        <span class="guard"><b>Guarded</b></span>
         <br />
         Returns the <b>rest</b> of the elements in an array. Pass an <b>index</b>
         to return the values of the array from that index onward.
