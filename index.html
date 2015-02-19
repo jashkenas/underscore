@@ -274,7 +274,7 @@
     </a>
     <ul class="toc_section">
       <li>- <a href="#keys">keys</a></li>
-      <li>- <a href="#keysIn">keysIn</a></li>
+      <li>- <a href="#allKeys">allKeys</a></li>
       <li>- <a href="#values">values</a></li>
       <li>- <a href="#mapObject">mapObject</a></li>
       <li>- <a href="#pairs">pairs</a></li>
@@ -403,12 +403,12 @@
     <table>
       <tr>
         <td><a href="underscore.js">Development Version (1.8.0)</a></td>
-        <td><i>52kb, Uncompressed with Plentiful Comments</i></td>
+        <td><i>51kb, Uncompressed with Plentiful Comments</i></td>
       </tr>
       <tr>
         <td><a href="underscore-min.js">Production Version (1.8.0)</a></td>
         <td>
-          <i>5.8kb, Minified and Gzipped</i>
+          <i>5.7kb, Minified and Gzipped</i>
           &nbsp;<small>(<a href="underscore-min.map">Source Map</a>)</small>
         </td>
       </tr>
@@ -1421,8 +1421,6 @@ _.functions(_);
         Returns the <i>key</i> where the <b>predicate</b> truth test
         passes or <i>undefined</i>.
       </p>
-      <pre>
-</pre>
 
       <p id="extend">
         <b class="header">extend</b><code>_.extend(destination, *sources)</code>
@@ -2191,8 +2189,16 @@ _([1, 2, 3]).value();
             Reverted a 1.7.0 change where <tt>_.extend</tt> only copied "own" properties.
           </li>
           <li>
+            Added <tt>_.mapObject</tt>, which is like <tt>_.map</tt>, but just
+            for the values in your object. (A crowd favorite.)
+          </li>
+          <li>
             Added <tt>_.extendOwn</tt> &mdash; a form of <tt>_.extend</tt> that
             only copies over "own" properties.
+          </li>
+          <li>
+            Added <tt>_.findIndex</tt> and <tt>_.findLastIndex</tt> functions,
+            along the lines of <tt>_.indexOf</tt> and <tt>_.lastIndexOf</tt>.
           </li>
           <li>
             Added an <tt>_.isError</tt> function.
