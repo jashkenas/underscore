@@ -933,7 +933,7 @@
   });
 
 
-  test('mapValues', function() {
+  test('mapObject', function() {
    var obj = {'a': 1, 'b': 2};
    var objects = {
       a: {'a': 0, 'b': 0},
@@ -941,49 +941,49 @@
       c: {'a': 2, 'b': 2}
     };
 
-    deepEqual(_.mapValues(obj, function(val) {
+    deepEqual(_.mapObject(obj, function(val) {
       return val * 2;
     }), {'a': 2, 'b': 4}, 'simple objects');
 
-    deepEqual(_.mapValues(objects, function(val) {
+    deepEqual(_.mapObject(objects, function(val) {
       return _.reduce(val, function(memo,v){
        return memo + v;
       },0);
     }), {'a': 0, 'b': 2, 'c': 4}, 'nested objects');
 
-    deepEqual(_.mapValues(obj, function(val,key,obj) {
+    deepEqual(_.mapObject(obj, function(val,key,obj) {
       return obj[key] * 2;
     }), {'a': 2, 'b': 4}, 'correct keys');
 
-    deepEqual(_.mapValues([1,2], function(val) {
+    deepEqual(_.mapObject([1,2], function(val) {
       return val * 2;
     }), {'0': 2, '1': 4}, 'check behavior for arrays');
 
-    deepEqual(_.mapValues(obj, function(val) {
+    deepEqual(_.mapObject(obj, function(val) {
       return val * this.multiplier;
     }, {multiplier : 3}), {'a': 3, 'b': 6}, 'keep context');
 
-    deepEqual(_.mapValues({a: 1}, function() {
+    deepEqual(_.mapObject({a: 1}, function() {
       return this.length;
     }, [1,2]), {'a': 2}, 'called with context');
 
-    var ids = _.mapValues({length: 2, 0: {id: '1'}, 1: {id: '2'}}, function(n){
+    var ids = _.mapObject({length: 2, 0: {id: '1'}, 1: {id: '2'}}, function(n){
       return n.id;
     });
     deepEqual(ids, {'length': undefined, '0': '1', '1': '2'}, 'Check with array-like objects');
 
     // Passing a property name like _.pluck.
     var people = {'a': {name : 'moe', age : 30}, 'b': {name : 'curly', age : 50}};
-    deepEqual(_.mapValues(people, 'name'), {'a': 'moe', 'b': 'curly'}, 'predicate string map to object properties');
+    deepEqual(_.mapObject(people, 'name'), {'a': 'moe', 'b': 'curly'}, 'predicate string map to object properties');
 
     _.each([null, void 0, 1, 'abc', [], {}, undefined], function(val){
-      deepEqual(_.mapValues(val, _.identity), {}, 'mapValue identity');
+      deepEqual(_.mapObject(val, _.identity), {}, 'mapValue identity');
     });
 
     var Proto = function(){this.a = 1;};
     Proto.prototype.b = 1;
     var protoObj = new Proto();
-    deepEqual(_.mapValues(protoObj, _.identity), {a: 1}, 'ignore inherited values from prototypes');
+    deepEqual(_.mapObject(protoObj, _.identity), {a: 1}, 'ignore inherited values from prototypes');
 
   });
 }());

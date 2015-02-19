@@ -106,7 +106,7 @@
       'findIndex', 'findLastIndex'
     ];
     var object = [
-      'mapValues', 'findKey', 'pick', 'omit'
+      'mapObject', 'findKey', 'pick', 'omit'
     ];
 
     _.each(collection.concat(array), function(method) {

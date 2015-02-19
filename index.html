@@ -200,7 +200,6 @@
       <li>- <a href="#map">map</a></li>
       <li>- <a href="#reduce">reduce</a></li>
       <li>- <a href="#reduceRight">reduceRight</a></li>
-      <li>- <a href="#transform">transform</a></li>
       <li>- <a href="#find">find</a></li>
       <li>- <a href="#filter">filter</a></li>
       <li>- <a href="#where">where</a></li>
@@ -277,7 +276,7 @@
       <li>- <a href="#keys">keys</a></li>
       <li>- <a href="#keysIn">keysIn</a></li>
       <li>- <a href="#values">values</a></li>
-      <li>- <a href="#mapValues">mapValues</a></li>
+      <li>- <a href="#mapObject">mapObject</a></li>
       <li>- <a href="#pairs">pairs</a></li>
       <li>- <a href="#invert">invert</a></li>
       <li>- <a href="#object-functions">functions</a></li>
@@ -523,28 +522,6 @@ var sum = _.reduce([1, 2, 3], function(memo, num){ return memo + num; }, 0);
 var list = [[0, 1], [2, 3], [4, 5]];
 var flat = _.reduceRight(list, function(a, b) { return a.concat(b); }, []);
 =&gt; [4, 5, 2, 3, 0, 1]
-</pre>
-
-<p id="transform">
-        <b class="header">transform</b><code>_.transform(collection, iteratee, [memo], [context])</code>
-        <br />
-        <tt>_.transform</tt> is an alternative to <tt>_.reduce</tt> that transforms
-        the given collection into a new collection. Unlike <tt>_.reduce</tt> if the
-        memo isn't specified it will default to a new instance of the type of the collection.
-        Another distinction is that the memo cannot be changed, which means returning
-        the memo isn't necessary.
-      </p>
-      <pre>
-_.transform(['bob', 'nick', 'rick'], function(memo, name) {
-   memo[name] = true;
-}, {});
-=&gt; {'bob': true, 'nick': true, 'rick': true}
-
-// Note: transform guesses the type you want if you don't specify!
-_.transform({'a': 3, 'b': 4}, function(memo, val, key) {
-  memo[key] = Math.pow(2, val);
-});
-=&gt; {'a': 8, 'b': 16}
 </pre>
 
       <p id="find">
@@ -1066,15 +1043,6 @@ _.sortedIndex(stooges, {name: 'larry', age: 50}, 'age');
         where the <strong>predicate</strong> truth test passes; otherwise returns <i>-1</i>.
       </p>
       <pre>
-function isPrime(element, index, array) {
-  var start = 2;
-  while (start <= Math.sqrt(element)) {
-    if (element % start++ < 1) {
-      return false;
-    }
-  }
-  return element > 1;
-}
 _.findIndex([4, 6, 8, 12], isPrime);
 =&gt; -1 // not found
 _.findIndex([4, 6, 7, 12], isPrime);
@@ -1375,18 +1343,18 @@ _.keys({one: 1, two: 2, three: 3});
 =&gt; ["one", "two", "three"]
 </pre>
 
-      <p id="keysIn">
-        <b class="header">keysIn</b><code>_.keysIn(object)</code>
+      <p id="allKeys">
+        <b class="header">allKeys</b><code>_.allKeys(object)</code>
         <br />
-        Retrieve all the inheritted and own enumerable properties of an <b>object</b>.
+        Retrieve <i>all</i> the names of <b>object</b>'s own and inherited properties.
       </p>
       <pre>
-function Class() {
-  this.a = 5;
+function Stooge(name) {
+  this.name = name;
 }
-Class.prototype.b = 1;
-_.keysIn(new Class());
-=&gt; ["a", "b"]
+Stooge.prototype.silly = true;
+_.allKeys(new Stooge("Moe"));
+=&gt; ["name", "silly"]
 </pre>
 
       <p id="values">
@@ -1399,14 +1367,14 @@ _.values({one: 1, two: 2, three: 3});
 =&gt; [1, 2, 3]
 </pre>
 
-<p id="mapValues">
-        <b class="header">mapValues</b><code>_.mapValues(array, iteratee, [context])</code>
+<p id="mapObject">
+        <b class="header">mapObject</b><code>_.mapObject(array, iteratee, [context])</code>
         <br />
         Iterates an object and returns a new object with the values computed by
         the given <tt>iteratee</tt>.
       </p>
       <pre>
-_.mapValues({a: 1, b: 2}, function(val, key) {
+_.mapObject({a: 1, b: 2}, function(val, key) {
     return val * 2;
 });
 => {a: 2, b: 4}
