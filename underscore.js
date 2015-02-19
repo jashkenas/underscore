@@ -1090,8 +1090,7 @@
   };
 
   // Returns whether an object has a given set of `key:value` pairs.
-  _.matches = function(object, attrs) {
-    if (arguments.length < 2) return _.matcher(object);
+  _.isMatch = function(object, attrs) {
     var keys = _.keys(attrs), length = keys.length;
     if (object == null) return !length;
     var obj = Object(object);
@@ -1310,18 +1309,20 @@
     };
   };
 
-  // Generates a function for a given object that returns a given property (including those of ancestors)
+  // Generates a function for a given object that returns a given property 
+  // (including those of ancestors)
   _.propertyOf = function(obj) {
     return obj == null ? function(){} : function(key) {
       return obj[key];
     };
   };
 
-  // Returns a predicate for checking whether an object has a given set of `key:value` pairs.
-  _.matcher = function(attrs) {
+  // Returns a predicate for checking whether an object has a given set of 
+  // `key:value` pairs.
+  _.matcher = _.matches = function(attrs) {
     attrs = _.assign({}, attrs);
     return function(obj) {
-      return _.matches(obj, attrs);
+      return _.isMatch(obj, attrs);
     };
   };
 
