@@ -275,6 +275,40 @@
     equal(_.clone(undefined), void 0, 'non objects should not be changed by clone');
     equal(_.clone(1), 1, 'non objects should not be changed by clone');
     equal(_.clone(null), null, 'non objects should not be changed by clone');
+
+    var stringObject = new String('abc');
+    var clonedStringObject = _.clone(stringObject);
+    ok(clonedStringObject instanceof String, 'cloned instance of a string object should be a string object');
+    equal(clonedStringObject.toString(), stringObject.toString(), 'strings objects should be cloned');
+
+    equal(typeof _.clone('abc'), 'string', 'cloned instance of a string should be a string');
+
+    var number = new Number('123');
+    var clonedNumber = _.clone(number);
+    equal(clonedNumber.toString(), number.toString(), 'numbers should be cloned');
+
+    equal(_.clone(Number.POSITIVE_INFINITY), Number.POSITIVE_INFINITY, 'complex numbers should be cloned');
+
+    equal(_.clone(Math.PI), Math.PI, 'Math objects should be cloned');
+
+    var date = new Date('2014/02/03 15:30:10');
+    var clonedDate = _.clone(date);
+    equal(_.clone(date).toString(), date.toString(), 'dates should be cloned');
+
+    clonedDate.setHours(10);
+    equal(15, date.getHours(), 'cloned dates can be changed without affecting the original');
+
+    var regexp = /someRegex/gim;
+    regexp.lastIndex = 6;
+    var clonedRegexp = _.clone(regexp);
+
+    equal(clonedRegexp.pattern, regexp.pattern, 'regular expression patterns should be cloned');
+    equal(true, clonedRegexp.global, 'global match flag on regular expressions should be cloned');
+    equal(true, clonedRegexp.ignoreCase, 'ignore case flag on regular expressions should be cloned');
+    equal(true, clonedRegexp.multiline, 'multiline match flag on regular expressions should be cloned');
+
+    clonedRegexp.lastIndex = 2;
+    equal(6, regexp.lastIndex, 'cloned regular expressions can be changed without affecting the original');
   });
 
   test('create', function() {
@@ -631,6 +665,7 @@
     ok(_.isNumber(NaN), 'NaN *is* a number');
     ok(_.isNumber(Infinity), 'Infinity is a number');
     ok(!_.isNumber('1'), 'numeric strings are not numbers');
+    ok(_.isNumber(new Number('123'), 'numbers created with constructor are numbers'));
   });
 
   test('isBoolean', function() {
@@ -680,6 +715,7 @@
   test('isRegExp', function() {
     ok(!_.isRegExp(_.identity), 'functions are not RegExps');
     ok(_.isRegExp(/identity/), 'but RegExps are');
+    ok(_.isRegExp(new RegExp('identity')), 'as are RegExps created with constructor');
   });
 
   test('isFinite', function() {
