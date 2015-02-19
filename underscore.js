@@ -1,4 +1,4 @@
-//     Underscore.js 1.7.0
+//     Underscore.js 1.8.0
 //     http://underscorejs.org
 //     (c) 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 //     Underscore may be freely distributed under the MIT license.
@@ -55,7 +55,7 @@
   }
 
   // Current version.
-  _.VERSION = '1.7.0';
+  _.VERSION = '1.8.0';
 
   // Internal function that returns an efficient (for current engines) version
   // of the passed-in callback, to be repeatedly applied in other Underscore
@@ -199,29 +199,6 @@
   // The right-associative version of reduce, also known as `foldr`.
   _.reduceRight = _.foldr = createReduce(-1);
 
-  // **Transform** is an alternative to reduce that transforms `obj` to a new
-  // `accumulator` object.
-  _.transform = function(obj, iteratee, accumulator, context) {
-    if (accumulator == null) {
-      if (_.isArray(obj)) {
-        accumulator = [];
-      } else if (_.isObject(obj)) {
-        var Ctor = obj.constructor;
-        accumulator = baseCreate(typeof Ctor == 'function' && Ctor.prototype);
-      } else {
-        accumulator = {};
-      }
-    }
-    iteratee = optimizeCb(iteratee, context, 4);
-    var keys = !isArrayLike(obj) && _.keys(obj),
-      length = (keys || obj).length;
-    for (var index = 0; index < length; index++) {
-      var currentKey = keys ? keys[index] : index;
-      if (iteratee(accumulator, obj[currentKey], currentKey, obj) === false) break;
-    }
-    return accumulator;
-  };
-
   // Return the first value which passes a truth test. Aliased as `detect`.
   _.find = _.detect = function(obj, predicate, context) {
     var key;
@@ -277,9 +254,9 @@
 
   // Determine if the array or object contains a given value (using `===`).
   // Aliased as `includes` and `include`.
-  _.contains = _.includes = _.include = function(obj, target, fromIndex) {
+  _.contains = _.includes = _.include = function(obj, target) {
     if (!isArrayLike(obj)) obj = _.values(obj);
-    return _.indexOf(obj, target, typeof fromIndex == 'number' && fromIndex) >= 0;
+    return _.indexOf(obj, target) >= 0;
   };
 
   // Invoke a method (with arguments) on every item in a collection.
@@ -946,7 +923,7 @@
   };
 
   // Retrieve all the property names of an object.
-  _.keysIn = function(obj) {
+  _.allKeys = function(obj) {
     if (!_.isObject(obj)) return [];
     var keys = [];
     for (var key in obj) keys.push(key);
@@ -1013,11 +990,11 @@
   };
 
   // Extend a given object with all the properties in passed-in object(s).
-  _.extend = createAssigner(_.keysIn);
+  _.extend = createAssigner(_.allKeys);
 
   // Assigns a given object with all the own properties in the passed-in object(s)
   // (https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object/assign)
-  _.assign = createAssigner(_.keys);
+  _.extendOwn = createAssigner(_.keys);
 
   // Returns the first key on an object that passes a predicate test
   _.findKey = function(obj, predicate, context) {
@@ -1064,16 +1041,7 @@
   };
 
   // Fill in a given object with default properties.
-  _.defaults = createAssigner(_.keysIn, true);
-
-  // Creates an object that inherits from the given prototype object.
-  // If additional properties are provided then they will be added to the
-  // created object.
-  _.create = function(prototype, props) {
-    var result = baseCreate(prototype);
-    if (props) _.assign(result, props);
-    return result;
-  };
+  _.defaults = createAssigner(_.allKeys, true);
 
   // Create a (shallow-cloned) duplicate of an object.
   _.clone = function(obj) {
@@ -1309,8 +1277,7 @@
     };
   };
 
-  // Generates a function for a given object that returns a given property 
-  // (including those of ancestors)
+  // Generates a function for a given object that returns a given property.
   _.propertyOf = function(obj) {
     return obj == null ? function(){} : function(key) {
       return obj[key];
@@ -1320,7 +1287,7 @@
   // Returns a predicate for checking whether an object has a given set of 
   // `key:value` pairs.
   _.matcher = _.matches = function(attrs) {
-    attrs = _.assign({}, attrs);
+    attrs = _.extendOwn({}, attrs);
     return function(obj) {
       return _.isMatch(obj, attrs);
     };

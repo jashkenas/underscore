@@ -180,7 +180,7 @@
   <div id="sidebar" class="interface">
 
     <a class="toc_title" href="#">
-      Underscore.js <span class="version">(1.7.0)</span>
+      Underscore.js <span class="version">(1.8.0)</span>
     </a>
     <ul class="toc_section">
       <li>&raquo; <a href="https://github.com/jashkenas/underscore">GitHub Repository</a></li>
@@ -239,6 +239,7 @@
       <li>- <a href="#difference">difference</a></li>
       <li>- <a href="#uniq">uniq</a></li>
       <li>- <a href="#zip">zip</a></li>
+      <li>- <a href="#unzip">unzip</a></li>
       <li>- <a href="#object">object</a></li>
       <li>- <a href="#indexOf">indexOf</a></li>
       <li>- <a href="#lastIndexOf">lastIndexOf</a></li>
@@ -393,13 +394,13 @@
 
     <table>
       <tr>
-        <td><a href="underscore.js">Development Version (1.7.0)</a></td>
-        <td><i>46kb, Uncompressed with Plentiful Comments</i></td>
+        <td><a href="underscore.js">Development Version (1.8.0)</a></td>
+        <td><i>52kb, Uncompressed with Plentiful Comments</i></td>
       </tr>
       <tr>
-        <td><a href="underscore-min.js">Production Version (1.7.0)</a></td>
+        <td><a href="underscore-min.js">Production Version (1.8.0)</a></td>
         <td>
-          <i>5.2kb, Minified and Gzipped</i>
+          <i>5.8kb, Minified and Gzipped</i>
           &nbsp;<small>(<a href="underscore-min.map">Source Map</a>)</small>
         </td>
       </tr>
@@ -954,6 +955,19 @@ _.zip(['moe', 'larry', 'curly'], [30, 40, 50], [true, false, false]);
 
 _.zip.apply(_, arrayOfRowsOfData);
 =&gt; arrayOfColumnsOfData
+</pre>
+
+      <p id="unzip">
+        <b class="header">unzip</b><code>_.unzip(*arrays)</code>
+        <br>
+        The opposite of <a href="#zip">zip</a>. Given a number of <b>arrays</b>, returns a
+        series of new arrays, the first of which contains all of the first elements
+        in the input arrays, the second of which contains all of the second elements,
+        and so on. Use with <tt>apply</tt> to pass in an array of arrays.
+      </p>
+      <pre>
+_.unzip(["moe", 30, true], ["larry", 40, false], ["curly", 50, false]);
++=&gt; [['moe', 'larry', 'curly'], [30, 40, 50], [true, false, false]]
 </pre>
 
       <p id="object">
@@ -2048,6 +2062,41 @@ _([1, 2, 3]).value();
       </p>
 
       <h2 id="changelog">Change Log</h2>
+
+      <p id="1.8.0">
+        <b class="header">1.8.0</b> &mdash; <small><i>Feb. 19, 2015</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.7.0...1.8.0">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/underscore/1.8.0/index.html">Docs</a><br />
+        <ul>
+          <li>
+            Added <tt>_.allKeys</tt> which returns <i>all</i> the enumerable property
+            names on an object.
+          </li>
+          <li>
+            Reverted a 1.7.0 change where <tt>_.extend</tt> only copied "own" properties.
+          </li>
+          <li>
+            Added <tt>_.extendOwn</tt> &mdash; a form of <tt>_.extend</tt> that
+            only copies over "own" properties.
+          </li>
+          <li>
+            Added an <tt>_.isError</tt> function.
+          </li>
+          <li>
+            Restored the <tt>_.unzip</tt> function as the inverse of <tt>zip</tt>.
+          </li>
+          <li>
+            <tt>_.result</tt> now takes an optional <b>fallback</b> value (or function
+            that provides a default value).
+          </li>
+          <li>
+            Added <tt>_.propertyOf</tt> wrapper as a mirror-world version 
+            of <tt>_.property</tt>.
+          </li>
+          <li>
+            Various and diverse code simplifications, changes for improved 
+            cross-platform compatibility, and edge case bug fixes.
+          </li>
+        </ul>
+      </p>
 
       <p id="1.7.0">
         <b class="header">1.7.0</b> &mdash; <small><i>August 26, 2014</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.6.0...1.7.0">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/underscore/1.7.0/index.html">Docs</a><br />

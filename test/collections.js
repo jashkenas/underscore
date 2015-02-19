@@ -100,7 +100,7 @@
       'each', 'map', 'filter', 'find',
       'some', 'every', 'max', 'min', 'reject',
       'groupBy', 'countBy', 'partition', 'indexBy',
-      'transform', 'reduce', 'reduceRight'
+      'reduce', 'reduceRight'
     ];
     var array = [
       'findIndex', 'findLastIndex'
@@ -250,53 +250,6 @@
 
   test('foldr', function() {
     strictEqual(_.reduceRight, _.foldr, 'alias for reduceRight');
-  });
-
-  test('transform', function() {
-    var list = _.transform(['foo', 'bar', 'baz'], function(accumulator, value, index){ accumulator[index] = value + '2'; });
-    deepEqual(list, ['foo2', 'bar2', 'baz2'], 'handles arrays with no accumulator');
-
-    list = _.transform(['foo', 'bar', 'baz'], function(accumulator, value, index){ accumulator[index] = value + '2'; }, []);
-    deepEqual(list, ['foo2', 'bar2', 'baz2'], 'handles arrays with array accumulator');
-
-    list = _.transform(['foo', 'bar', 'baz'], function(accumulator, value, index){ accumulator[index] = value + '2'; }, {});
-    deepEqual(list, {0: 'foo2', 1: 'bar2', 2: 'baz2'}, 'handles arrays with object accumulator');
-
-    var obj = _.transform({foo: 1, bar: 2, baz: 3}, function(accumulator, value, key){ accumulator[key] = value + 1; });
-    deepEqual(obj, {foo: 2, bar: 3, baz: 4}, 'handles objects with no accumulator');
-
-    obj = _.transform({foo: 1, bar: 2, baz: 3}, function(accumulator, value, key){ accumulator[key] = value + 1; }, {});
-    deepEqual(obj, {foo: 2, bar: 3, baz: 4}, 'handles objects with array accumulator');
-
-    obj = _.transform({0: 'foo', 1: 'bar', 2: 'baz'}, function(accumulator, value, key){ accumulator[key] = value + '2'; }, []);
-    deepEqual(obj, ['foo2', 'bar2', 'baz2'], 'handles objects with object accumulator');
-
-    function Obj(props) { _.extend(this, props); }
-    var instance = new Obj({foo: 1, bar: 2, baz: 3});
-    obj = _.transform(instance, function(accumulator, value, key){ accumulator[key] = value + 1; });
-    ok(obj !== instance && obj instanceof Obj, 'creates a new instance of the object');
-    deepEqual(obj, new Obj({foo: 2, bar: 3, baz: 4}), 'handles instances with no accumulator');
-
-    var context = {}, actualContext;
-    _.transform([1], function() { actualContext = this; }, {}, context);
-    strictEqual(actualContext, context, 'iterates with the correct context');
-
-    obj = {foo: 1};
-    var accumulator = {};
-    var args = [accumulator, 'foo', obj.foo, obj], actualArgs;
-    _.transform(obj, function() { actualArgs = _.toArray(args); }, accumulator);
-    deepEqual(args, actualArgs, 'iterates with the correct arguments');
-
-    accumulator = {};
-    strictEqual(_.transform([1], function() {}, accumulator), accumulator);
-
-    deepEqual(_.transform(), {}, 'should return an empty object when no obj or accumulator is passed');
-
-    accumulator = [];
-    strictEqual(_.transform(null, null, accumulator), accumulator, 'should return the accumulator when no obj is passed');
-
-    list = _.transform([1, 2, 3, 4], function(accumulator, value) { return value < 3 && accumulator.push(value); });
-    deepEqual(list, [1, 2], 'transform should stop when false is returned.');
   });
 
   test('find', function() {
@@ -452,14 +405,6 @@
     });
     strictEqual(_.includes([1, 2, 3], 2), true, 'two is in the array');
     ok(!_.includes([1, 3, 9], 2), 'two is not in the array');
-
-    var numbers = [1, 2, 3, 1, 2, 3, 1, 2, 3];
-    strictEqual(_.includes(numbers, 1, 1), true);
-    strictEqual(_.includes(numbers, 1, -1), false);
-    strictEqual(_.includes(numbers, 1, -2), false);
-    strictEqual(_.includes(numbers, 1, -3), true);
-    strictEqual(_.includes(numbers, 1, 6), true);
-    strictEqual(_.includes(numbers, 1, 7), false);
 
     strictEqual(_.includes([5, 4, 3, 2, 1], 5, true), true, 'doesn\'t delegate to binary search');
 

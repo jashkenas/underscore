@@ -35,20 +35,20 @@
     deepEqual(_.keys(trouble).sort(), troubleKeys, 'matches non-enumerable properties');
   });
 
-  test('keysIn', function() {
-    deepEqual(_.keysIn({one : 1, two : 2}), ['one', 'two'], 'can extract the keysIn from an object');
+  test('allKeys', function() {
+    deepEqual(_.allKeys({one : 1, two : 2}), ['one', 'two'], 'can extract the allKeys from an object');
     // the test above is not safe because it relies on for-in enumeration order
     var a = []; a[1] = 0;
-    deepEqual(_.keysIn(a), ['1'], 'is not fooled by sparse arrays; see issue #95');
+    deepEqual(_.allKeys(a), ['1'], 'is not fooled by sparse arrays; see issue #95');
 
     a.a = a;
-    deepEqual(_.keysIn(a), ['1', 'a'], 'is not fooled by sparse arrays with additional properties');
+    deepEqual(_.allKeys(a), ['1', 'a'], 'is not fooled by sparse arrays with additional properties');
 
     _.each([null, void 0, 1, 'a', true, NaN, {}, [], new Number(5), new Date(0)], function(val) {
-      deepEqual(_.keysIn(val), []);
+      deepEqual(_.allKeys(val), []);
     });
 
-    // keysIn that may be missed if the implementation isn't careful
+    // allKeys that may be missed if the implementation isn't careful
     var trouble = {
       constructor: Object,
       valueOf: _.noop,
@@ -60,17 +60,17 @@
     };
     var troubleKeys = ['constructor', 'valueOf', 'hasOwnProperty', 'toString', 'toLocaleString', 'propertyIsEnumerable',
                   'isPrototypeOf'].sort();
-    deepEqual(_.keysIn(trouble).sort(), troubleKeys, 'matches non-enumerable properties');
+    deepEqual(_.allKeys(trouble).sort(), troubleKeys, 'matches non-enumerable properties');
 
     function A() {}
     A.prototype.foo = 'foo';
     var b = new A();
     b.bar = 'bar';
-    deepEqual(_.keysIn(b), ['bar', 'foo'], 'should include inherited keys');
+    deepEqual(_.allKeys(b), ['bar', 'foo'], 'should include inherited keys');
 
     function y() {}
     y.x = 'z';
-    deepEqual(_.keysIn(y), ['x'], 'should get keys from constructor');
+    deepEqual(_.allKeys(y), ['x'], 'should get keys from constructor');
   });
 
   test('values', function() {
@@ -136,33 +136,33 @@
     strictEqual(_.extend(undefined, {a: 1}), undefined, 'extending undefined results in undefined');
   });
 
-  test('assign', function() {
+  test('extendOwn', function() {
     var result;
-    equal(_.assign({}, {a: 'b'}).a, 'b', 'can assign an object with the attributes of another');
-    equal(_.assign({a: 'x'}, {a: 'b'}).a, 'b', 'properties in source override destination');
-    equal(_.assign({x: 'x'}, {a: 'b'}).x, 'x', "properties not in source don't get overriden");
-    result = _.assign({x: 'x'}, {a: 'a'}, {b: 'b'});
+    equal(_.extendOwn({}, {a: 'b'}).a, 'b', 'can assign an object with the attributes of another');
+    equal(_.extendOwn({a: 'x'}, {a: 'b'}).a, 'b', 'properties in source override destination');
+    equal(_.extendOwn({x: 'x'}, {a: 'b'}).x, 'x', "properties not in source don't get overriden");
+    result = _.extendOwn({x: 'x'}, {a: 'a'}, {b: 'b'});
     deepEqual(result, {x: 'x', a: 'a', b: 'b'}, 'can assign from multiple source objects');
-    result = _.assign({x: 'x'}, {a: 'a', x: 2}, {a: 'b'});
+    result = _.extendOwn({x: 'x'}, {a: 'a', x: 2}, {a: 'b'});
     deepEqual(result, {x: 2, a: 'b'}, 'assigning from multiple source objects last property trumps');
-    deepEqual(_.assign({}, {a: void 0, b: null}), {a: void 0, b: null}, 'assign copies undefined values');
+    deepEqual(_.extendOwn({}, {a: void 0, b: null}), {a: void 0, b: null}, 'assign copies undefined values');
 
     var F = function() {};
     F.prototype = {a: 'b'};
     var subObj = new F();
     subObj.c = 'd';
-    deepEqual(_.assign({}, subObj), {c: 'd'}, 'assign copies own properties from source');
+    deepEqual(_.extendOwn({}, subObj), {c: 'd'}, 'assign copies own properties from source');
 
     result = {};
-    deepEqual(_.assign(result, null, undefined, {a: 1}), {a: 1}, 'should not error on `null` or `undefined` sources');
+    deepEqual(_.extendOwn(result, null, undefined, {a: 1}), {a: 1}, 'should not error on `null` or `undefined` sources');
 
     _.each(['a', 5, null, false], function(val) {
-      strictEqual(_.assign(val, {a: 1}), val, 'assigning non-objects results in returning the non-object value');
+      strictEqual(_.extendOwn(val, {a: 1}), val, 'assigning non-objects results in returning the non-object value');
     });
 
-    strictEqual(_.assign(undefined, {a: 1}), undefined, 'assigning undefined results in undefined');
+    strictEqual(_.extendOwn(undefined, {a: 1}), undefined, 'assigning undefined results in undefined');
 
-    result = _.assign({a: 1, 0: 2, 1: '5', length: 6}, {0: 1, 1: 2, length: 2});
+    result = _.extendOwn({a: 1, 0: 2, 1: '5', length: 6}, {0: 1, 1: 2, length: 2});
     deepEqual(result, {a: 1, 0: 1, 1: 2, length: 2}, 'assign should treat array-like objects like normal objects');
   });
 
@@ -275,32 +275,6 @@
     equal(_.clone(undefined), void 0, 'non objects should not be changed by clone');
     equal(_.clone(1), 1, 'non objects should not be changed by clone');
     equal(_.clone(null), null, 'non objects should not be changed by clone');
-  });
-
-  test('create', function() {
-    var Parent = function() {};
-    Parent.prototype = {foo: function() {}, bar: 2};
-
-    _.each(['foo', null, undefined, 1], function(val) {
-      deepEqual(_.create(val), {}, 'should return empty object when a non-object is provided');
-    });
-
-    ok(_.create([]) instanceof Array, 'should return new instance of array when array is provided');
-
-    var Child = function() {};
-    Child.prototype = _.create(Parent.prototype);
-    ok(new Child instanceof Parent, 'object should inherit prototype');
-
-    var func = function() {};
-    Child.prototype = _.create(Parent.prototype, {func: func});
-    strictEqual(Child.prototype.func, func, 'properties should be added to object');
-
-    Child.prototype = _.create(Parent.prototype, {constructor: Child});
-    strictEqual(Child.prototype.constructor, Child);
-
-    Child.prototype.foo = 'foo';
-    var created = _.create(Child.prototype, new Child);
-    ok(!created.hasOwnProperty('foo'), 'should only add own properties');
   });
 
   test('isEqual', function() {
