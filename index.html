@@ -200,6 +200,7 @@
       <li>- <a href="#map">map</a></li>
       <li>- <a href="#reduce">reduce</a></li>
       <li>- <a href="#reduceRight">reduceRight</a></li>
+      <li>- <a href="#transform">transform</a></li>
       <li>- <a href="#find">find</a></li>
       <li>- <a href="#filter">filter</a></li>
       <li>- <a href="#where">where</a></li>
@@ -244,6 +245,8 @@
       <li>- <a href="#indexOf">indexOf</a></li>
       <li>- <a href="#lastIndexOf">lastIndexOf</a></li>
       <li>- <a href="#sortedIndex">sortedIndex</a></li>
+      <li>- <a href="#findIndex">findIndex</a></li>
+      <li>- <a href="#findLastIndex">findLastIndex</a></li>
       <li>- <a href="#range">range</a></li>
     </ul>
 
@@ -272,11 +275,16 @@
     </a>
     <ul class="toc_section">
       <li>- <a href="#keys">keys</a></li>
+      <li>- <a href="#keysIn">keysIn</a></li>
       <li>- <a href="#values">values</a></li>
+      <li>- <a href="#mapValues">mapValues</a></li>
       <li>- <a href="#pairs">pairs</a></li>
       <li>- <a href="#invert">invert</a></li>
       <li>- <a href="#object-functions">functions</a></li>
+      <li>- <a href="#findKey">findKey</a></li>
       <li>- <a href="#extend">extend</a></li>
+      <li>- <a href="#assign">assign</a></li>
+      <li>- <a href="#create">create</a></li>
       <li>- <a href="#pick">pick</a></li>
       <li>- <a href="#omit">omit</a></li>
       <li>- <a href="#defaults">defaults</a></li>
@@ -285,6 +293,7 @@
       <li>- <a href="#has">has</a></li>
       <li>- <a href="#matches">matches</a></li>
       <li>- <a href="#property">property</a></li>
+      <li>- <a href="#propertyOf">propertyOf</a></li>
       <li>- <a href="#isEqual">isEqual</a></li>
       <li>- <a href="#isEmpty">isEmpty</a></li>
       <li>- <a href="#isElement">isElement</a></li>
@@ -514,6 +523,28 @@ var sum = _.reduce([1, 2, 3], function(memo, num){ return memo + num; }, 0);
 var list = [[0, 1], [2, 3], [4, 5]];
 var flat = _.reduceRight(list, function(a, b) { return a.concat(b); }, []);
 =&gt; [4, 5, 2, 3, 0, 1]
+</pre>
+
+<p id="transform">
+        <b class="header">transform</b><code>_.transform(collection, iteratee, [memo], [context])</code>
+        <br />
+        <tt>_.transform</tt> is an alternative to <tt>_.reduce</tt> that transforms
+        the given collection into a new collection. Unlike <tt>_.reduce</tt> if the
+        memo isn't specified it will default to a new instance of the type of the collection.
+        Another distinction is that the memo cannot be changed, which means returning
+        the memo isn't necessary.
+      </p>
+      <pre>
+_.transform(['bob', 'nick', 'rick'], function(memo, name) {
+   memo[name] = true;
+}, {});
+=&gt; {'bob': true, 'nick': true, 'rick': true}
+
+// Note: transform guesses the type you want if you don't specify!
+_.transform({'a': 3, 'b': 4}, function(memo, val, key) {
+  memo[key] = Math.pow(2, val);
+});
+=&gt; {'a': 8, 'b': 16}
 </pre>
 
       <p id="find">
@@ -953,11 +984,9 @@ _.uniq([1, 2, 1, 3, 1, 4]);
 _.zip(['moe', 'larry', 'curly'], [30, 40, 50], [true, false, false]);
 =&gt; [["moe", 30, true], ["larry", 40, false], ["curly", 50, false]]
 
-_.zip.apply(_, arrayOfRowsOfData);
-=&gt; arrayOfColumnsOfData
 </pre>
 
-      <p id="unzip">
+<p id="unzip">
         <b class="header">unzip</b><code>_.unzip(*arrays)</code>
         <br>
         The opposite of <a href="#zip">zip</a>. Given a number of <b>arrays</b>, returns a
@@ -967,7 +996,7 @@ _.zip.apply(_, arrayOfRowsOfData);
       </p>
       <pre>
 _.unzip(["moe", 30, true], ["larry", 40, false], ["curly", 50, false]);
-+=&gt; [['moe', 'larry', 'curly'], [30, 40, 50], [true, false, false]]
+=&gt; [['moe', 'larry', 'curly'], [30, 40, 50], [true, false, false]]
 </pre>
 
       <p id="object">
@@ -1028,6 +1057,46 @@ _.sortedIndex([10, 20, 30, 40, 50], 35);
 var stooges = [{name: 'moe', age: 40}, {name: 'curly', age: 60}];
 _.sortedIndex(stooges, {name: 'larry', age: 50}, 'age');
 =&gt; 1
+</pre>
+
+      <p id="findIndex">
+        <b class="header">findIndex</b><code>_.findIndex(array, predicate, [context])</code>
+        <br />
+        Similar to <a href="#indexOf"><tt>_.indexOf</tt></a>, returns the first index
+        where the <strong>predicate</strong> truth test passes; otherwise returns <i>-1</i>.
+      </p>
+      <pre>
+function isPrime(element, index, array) {
+  var start = 2;
+  while (start <= Math.sqrt(element)) {
+    if (element % start++ < 1) {
+      return false;
+    }
+  }
+  return element > 1;
+}
+_.findIndex([4, 6, 8, 12], isPrime);
+=&gt; -1 // not found
+_.findIndex([4, 6, 7, 12], isPrime);
+=&gt; 2
+</pre>
+
+      <p id="findLastIndex">
+        <b class="header">findLastIndex</b><code>_.findLastIndex(array, predicate, [context])</code>
+        <br />
+        Like <a href="#findIndex"><tt>_.findIndex</tt></a> but iterates the array in reverse,
+        returning the index closest to the end where the <strong>predicate</strong> truth test
+        passes.
+      </p>
+      <pre>
+var users = [{'id': 1, 'name': 'Bob', 'last': 'Brown'},
+             {'id': 2, 'name': 'Ted', 'last': 'White'},
+             {'id': 3, 'name': 'Frank', 'last': 'James'},
+             {'id': 4, 'name': 'Ted', 'last': 'Jones'}];
+_.findLastIndex(users, {
+  name: 'Ted'
+});
+=&gt; 3
 </pre>
 
       <p id="range">
@@ -1102,9 +1171,14 @@ jQuery('#underscore_button').bind('click', buttonView.onClick);
         left open to supply at call-time.
       </p>
       <pre>
-var add = function(a, b) { return a + b; };
-add5 = _.partial(add, 5);
-add5(10);
+var subtract = function(a, b) { return b - a; };
+sub5 = _.partial(subtract, 5);
+sub5(20);
+=&gt; 15
+
+// Using a placeholder
+subFrom20 = _.partial(subtract, _, 20);
+subFrom20(5);
 =&gt; 15
 </pre>
 
@@ -1294,21 +1368,49 @@ welcome('moe');
       <p id="keys">
         <b class="header">keys</b><code>_.keys(object)</code>
         <br />
-        Retrieve all the names of the <b>object</b>'s properties.
+        Retrieve all the names of the <b>object</b>'s own enumerable properties.
       </p>
       <pre>
 _.keys({one: 1, two: 2, three: 3});
 =&gt; ["one", "two", "three"]
 </pre>
 
+      <p id="keysIn">
+        <b class="header">keysIn</b><code>_.keysIn(object)</code>
+        <br />
+        Retrieve all the inheritted and own enumerable properties of an <b>object</b>.
+      </p>
+      <pre>
+function Class() {
+  this.a = 5;
+}
+Class.prototype.b = 1;
+_.keysIn(new Class());
+=&gt; ["a", "b"]
+</pre>
+
       <p id="values">
         <b class="header">values</b><code>_.values(object)</code>
         <br />
-        Return all of the values of the <b>object</b>'s properties.
+        Return all of the values of the <b>object</b>'s own properties.
       </p>
       <pre>
 _.values({one: 1, two: 2, three: 3});
 =&gt; [1, 2, 3]
+</pre>
+
+<p id="mapValues">
+        <b class="header">mapValues</b><code>_.mapValues(array, iteratee, [context])</code>
+        <br />
+        Iterates an object and returns a new object with the values computed by
+        the given <tt>iteratee</tt>.
+      </p>
+      <pre>
+_.mapValues({a: 1, b: 2}, function(val, key) {
+    return val * 2;
+});
+=> {a: 2, b: 4}
+=&gt; 3
 </pre>
 
       <p id="pairs">
@@ -1345,10 +1447,21 @@ _.functions(_);
 =&gt; ["all", "any", "bind", "bindAll", "clone", "compact", "compose" ...
 </pre>
 
+<p id="findKey">
+        <b class="header">findKey</b><code>_.findKey(object, predicate, [context])</code>
+        <br />
+        Similar to <a href="#findIndex"><tt>_.findIndex</tt></a> but iterates objects.
+        Returns the <i>key</i> where the <strong>predicate</strong> truth test
+        passes or <i>undefined</i>.
+      </p>
+      <pre>
+
+</pre>
+
       <p id="extend">
         <b class="header">extend</b><code>_.extend(destination, *sources)</code>
         <br />
-        Copy all of the properties in the <b>source</b> objects over to the
+        Copy all of the properties <strong>in</strong> the <b>source</b> objects over to the
         <b>destination</b> object, and return the <b>destination</b> object.
         It's in-order, so the last source will override properties of the same
         name in previous arguments.
@@ -1356,6 +1469,52 @@ _.functions(_);
       <pre>
 _.extend({name: 'moe'}, {age: 50});
 =&gt; {name: 'moe', age: 50}
+</pre>
+
+<p id="assign">
+        <b class="header">assign</b><code>_.assign(destination, *sources)</code>
+        <br />
+        Like <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object/assign"><tt>Object.assign</tt></a> and
+        similar to <tt>_.extend</tt>, this function copies all of
+        the <strong>own</strong> enumerable properties of the <b>source</b> objects
+        over to the destination object.
+      </p>
+      <pre>
+_.assign({name: 'moe'}, {age: 50});
+=&gt; {name: 'moe', age: 50}
+</pre>
+
+<p id="create">
+        <b class="header">create</b><code>_.create(parentPrototype, [properties])</code>
+        <br />
+        Similar to <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object/create"><tt>Object.create</tt></a>, creates an object that inherits from
+        the given prototype. If a properties object is provided, the properties will
+        be added to the returned object.
+      </p>
+      <pre>
+function Employee(name) {
+    this.name = name;
+    this.dept = "general";
+}
+Employee.prototype = {
+  goHome: function() {
+    console.log(this.name + " is going home");
+  }
+}
+ 
+function Manager(name) {
+    Employee.call(this, name);
+    this.reports = [];
+}
+Manager.prototype = _.create(Employee.prototype, {
+  shoutAt: function(name) {
+    console.log(this.name + " is now shouting at " + name);
+  }
+});
+
+var alex = new Manager("Alex");
+alex.shoutAt("Jack");
+alex.goHome();
 </pre>
 
       <p id="pick">
@@ -1451,7 +1610,19 @@ _.has({a: 1, b: 2, c: 3}, "b");
       <pre>
 var stooge = {name: 'moe'};
 'moe' === _.property('name')(stooge);
-=&gt; true</pre>
+=&gt; true
+</pre>
+
+      <p id="propertyOf">
+        <b class="header">propertyOf</b><code>_.propertyOf(object)</code>
+        <br />
+        Inverse of <tt>_.property</tt>. Takes an object and returns a function
+        which will return the value of a provided property.
+      </p>
+      <pre>
+var stooge = {name: 'moe'};
+_.propertyOf(stooge)('name');
+=&gt; 'moe'</pre>
 
       <p id="matches">
         <b class="header">matches</b><code>_.matches(attrs)</code>
@@ -1612,6 +1783,20 @@ _.isRegExp(/moe/);
 =&gt; true
 </pre>
 
+      <p id="isError">
+        <b class="header">isError</b><code>_.isError(object)</code>
+        <br />
+        Returns <i>true</i> if <b>object</b> inherrits from an Error.
+      </p>
+      <pre>
+try {
+  throw new TypeError("Example");
+} catch (o_O) {
+  _.isError(o_O)
+}
+=&gt; true
+</pre>
+
       <p id="isNaN">
         <b class="header">isNaN</b><code>_.isNaN(object)</code>
         <br />
@@ -1738,7 +1923,7 @@ _("fabio").capitalize();
 </pre>
 
       <p id="iteratee">
-        <b class="header">iteratee</b><code>_.iteratee(value, [context], [argCount])</code>
+        <b class="header">iteratee</b><code>_.iteratee(value, [context])</code>
         <br />
         A mostly-internal function to generate callbacks that can be applied
         to each element in a collection, returning the desired result — either
@@ -1789,17 +1974,22 @@ _.unescape('Curly, Larry &amp;amp; Moe');
 =&gt; "Curly, Larry &amp; Moe"</pre>
 
       <p id="result">
-        <b class="header">result</b><code>_.result(object, property)</code>
+        <b class="header">result</b><code>_.result(object, property, [defaultValue])</code>
         <br />
         If the value of the named <b>property</b> is a function then invoke it
-        with the <b>object</b> as context; otherwise, return it.
+        with the <b>object</b> as context; otherwise, return it. If a default value
+        is provided and the property doesn't exist than the default will be returned.
+        If <tt>defaultValue</tt> is a function its result will be returned.
       </p>
       <pre>
 var object = {cheese: 'crumpets', stuff: function(){ return 'nonsense'; }};
 _.result(object, 'cheese');
 =&gt; "crumpets"
 _.result(object, 'stuff');
-=&gt; "nonsense"</pre>
+=&gt; "nonsense"
+_.result(object, 'meat', 'ham');
+=&gt; "ham"
+</pre>
 
       <p id="now">
         <b class="header">now</b><code>_.now()</code>
