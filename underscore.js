@@ -987,12 +987,12 @@
   };
 
   // Return a copy of the object only containing the whitelisted properties.
-  _.pick = function(obj, iteratee, context) {
-    var result = {}, keys;
+  _.pick = function(object, oiteratee, context) {
+    var result = {}, obj = object, iteratee, keys;
     if (obj == null) return result;
-    if (_.isFunction(iteratee)) {
+    if (_.isFunction(oiteratee)) {
       keys = _.allKeys(obj);
-      iteratee = optimizeCb(iteratee, context);
+      iteratee = optimizeCb(oiteratee, context);
     } else {
       keys = flatten(arguments, false, false, 1);
       iteratee = function(value, key, obj) { return key in obj; };

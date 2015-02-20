@@ -168,6 +168,11 @@
     deepEqual(_.pick(data, function(val, key) {
       return this[key] === 3 && this === instance;
     }, instance), {c: 3}, 'function is given context');
+
+    ok(!_.has(_.pick({}, 'foo'), 'foo'), 'does not set own property if property not in object');
+    _.pick(data, function(value, key, obj) {
+      equal(obj, data, 'passes same object as third parameter of iteratee');
+    });
   });
 
   test('omit', function() {
