@@ -1,4 +1,4 @@
-//     Underscore.js 1.8.0
+//     Underscore.js 1.8.1
 //     http://underscorejs.org
 //     (c) 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 //     Underscore may be freely distributed under the MIT license.
@@ -32,7 +32,7 @@
     nativeBind         = FuncProto.bind,
     nativeCreate       = Object.create;
 
-  // Reusable constructor function for prototype setting.
+  // Naked function reference for surrogate-prototype-swapping.
   var Ctor = function(){};
 
   // Create a safe reference to the Underscore object for use below.
@@ -55,7 +55,7 @@
   }
 
   // Current version.
-  _.VERSION = '1.8.0';
+  _.VERSION = '1.8.1';
 
   // Internal function that returns an efficient (for current engines) version
   // of the passed-in callback, to be repeatedly applied in other Underscore
@@ -705,9 +705,10 @@
     if (nativeBind && func.bind === nativeBind) return nativeBind.apply(func, slice.call(arguments, 1));
     if (!_.isFunction(func)) throw new TypeError('Bind must be called on a function');
     var args = slice.call(arguments, 2);
-    return function bound() {
+    var bound = function() {
       return executeBound(func, bound, context, this, args.concat(slice.call(arguments)));
     };
+    return bound;
   };
 
   // Partially apply a function by creating a version that has had some of its
@@ -715,7 +716,7 @@
   // as a placeholder, allowing any combination of arguments to be pre-filled.
   _.partial = function(func) {
     var boundArgs = slice.call(arguments, 1);
-    return function bound() {
+    var bound = function() {
       var position = 0, length = boundArgs.length;
       var args = Array(length);
       for (var i = 0; i < length; i++) {
@@ -724,6 +725,7 @@
       while (position < arguments.length) args.push(arguments[position++]);
       return executeBound(func, bound, this, this, args);
     };
+    return bound;
   };
 
   // Bind a number of an object's methods to that object. Remaining arguments
@@ -892,24 +894,6 @@
   // Object Functions
   // ----------------
 
-  // Keys in IE < 9 that won't be iterated by `for key in ...` and thus missed.
-  var hasEnumBug = !{toString: null}.propertyIsEnumerable('toString');
-  var nonEnumerableProps = ['constructor', 'valueOf', 'isPrototypeOf', 'toString',
-                      'propertyIsEnumerable', 'hasOwnProperty', 'toLocaleString'];
-
-  function collectNonEnumProps(obj, keys) {
-    var nonEnumIdx = nonEnumerableProps.length;
-    var proto = typeof obj.constructor === 'function' ? FuncProto : ObjProto;
-
-    while (nonEnumIdx--) {
-      var prop = nonEnumerableProps[nonEnumIdx];
-      if (prop === 'constructor' ? _.has(obj, prop) : prop in obj &&
-        obj[prop] !== proto[prop] && !_.contains(keys, prop)) {
-        keys.push(prop);
-      }
-    }
-  }
-
   // Retrieve the names of an object's own properties.
   // Delegates to **ECMAScript 5**'s native `Object.keys`
   _.keys = function(obj) {
@@ -917,8 +901,6 @@
     if (nativeKeys) return nativeKeys(obj);
     var keys = [];
     for (var key in obj) if (_.has(obj, key)) keys.push(key);
-    // Ahem, IE < 9.
-    if (hasEnumBug) collectNonEnumProps(obj, keys);
     return keys;
   };
 
@@ -927,8 +909,6 @@
     if (!_.isObject(obj)) return [];
     var keys = [];
     for (var key in obj) keys.push(key);
-    // Ahem, IE < 9.
-    if (hasEnumBug) collectNonEnumProps(obj, keys);
     return keys;
   };
 
@@ -1012,7 +992,9 @@
     if (obj == null) return result;
     if (_.isFunction(iteratee)) {
       iteratee = optimizeCb(iteratee, context);
-      for (key in obj) {
+      var keys = _.allKeys(obj);
+      for (var i = 0; i < keys.length; i++) {
+        var key = keys[i];
         var value = obj[key];
         if (iteratee(value, key, obj)) result[key] = value;
       }
