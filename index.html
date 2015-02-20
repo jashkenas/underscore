@@ -619,11 +619,12 @@ _.some([null, 0, 'yes', false]);
 </pre>
 
       <p id="contains">
-        <b class="header">contains</b><code>_.contains(list, value)</code>
-        <span class="alias">Alias: <b>include</b></span>
+        <b class="header">contains</b><code>_.contains(list, value, [fromIndex])</code>
+        <span class="alias">Alias: <b>includes</b></span>
         <br />
         Returns <i>true</i> if the <b>value</b> is present in the <b>list</b>.
-        Uses <b>indexOf</b> internally, if <b>list</b> is an Array.
+        Uses <b>indexOf</b> internally, if <b>list</b> is an Array. 
+        Use <b>fromIndex</b> to start your search at a given index.
       </p>
       <pre>
 _.contains([1, 2, 3], 3);
