@@ -254,9 +254,9 @@
 
   // Determine if the array or object contains a given value (using `===`).
   // Aliased as `includes` and `include`.
-  _.contains = _.includes = _.include = function(obj, target) {
+  _.contains = _.includes = _.include = function(obj, target, fromIndex) {
     if (!isArrayLike(obj)) obj = _.values(obj);
-    return _.indexOf(obj, target) >= 0;
+    return _.indexOf(obj, target, typeof fromIndex == 'number' && fromIndex) >= 0;
   };
 
   // Invoke a method (with arguments) on every item in a collection.
