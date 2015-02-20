@@ -36,7 +36,7 @@
   });
 
   test('allKeys', function() {
-    deepEqual(_.allKeys({one : 1, two : 2}), ['one', 'two'], 'can extract the allKeys from an object');
+    deepEqual(_.allKeys({one : 1, two : 2}), ['one', 'two'], 'can extract the keys from an object');
     // the test above is not safe because it relies on for-in enumeration order
     var a = []; a[1] = 0;
     deepEqual(_.allKeys(a), ['1'], 'is not fooled by sparse arrays; see issue #95');
@@ -48,7 +48,7 @@
       deepEqual(_.allKeys(val), []);
     });
 
-    // allKeys that may be missed if the implementation isn't careful
+    // Keys that may be missed if the implementation isn't careful
     var trouble = {
       constructor: Object,
       valueOf: _.noop,

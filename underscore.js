@@ -929,7 +929,7 @@
   };
 
   // Retrieve all the property names of an object.
-  _.allKeys = function(obj) {
+  _.allKeys = _.keysIn = function(obj) {
     if (!_.isObject(obj)) return [];
     var keys = [];
     for (var key in obj) keys.push(key);
