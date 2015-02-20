@@ -27,17 +27,7 @@
     func = function(salutation, firstname, lastname) { return salutation + ': ' + firstname + ' ' + lastname; };
     func = _.bind(func, this, 'hello', 'moe', 'curly');
     equal(func(), 'hello: moe curly', 'the function was partially applied in advance and can accept multiple arguments');
-
-    // These tests are only meaningful when using a browser without a native bind function
-    // To test this with a modern browser, set underscore's nativeBind to undefined
-    var F = function () { return this; };
-    var boundf = _.bind(F, {hello: 'moe curly'});
-    var Boundf = boundf; // make eslint happy.
-    var newBoundf = new Boundf();
-    equal(newBoundf.hello, 'moe curly', 'function should not be bound to the context, because this ain\'t ECMA5');
-    equal(boundf().hello, 'moe curly', "When called without the new operator, it's OK to be bound to the context");
-    ok(!(newBoundf instanceof F), 'a bound instance is not an instance of the original function');
-
+    
     throws(function() { _.bind('notafunction'); }, TypeError, 'throws an error when binding to a non-function');
   });
 
