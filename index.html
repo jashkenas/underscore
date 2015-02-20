@@ -282,7 +282,7 @@
       <li>- <a href="#object-functions">functions</a></li>
       <li>- <a href="#findKey">findKey</a></li>
       <li>- <a href="#extend">extend</a></li>
-      <li>- <a href="#assign">assign</a></li>
+      <li>- <a href="#extendOwn">extendOwn</a></li>
       <li>- <a href="#create">create</a></li>
       <li>- <a href="#pick">pick</a></li>
       <li>- <a href="#omit">omit</a></li>
@@ -1436,9 +1436,9 @@ _.extend({name: 'moe'}, {age: 50});
 =&gt; {name: 'moe', age: 50}
 </pre>
 
-      <p id="assign">
-        <b class="header">assign</b><code>_.assign(destination, *sources)</code>
-        <span class="alias">Alias: <b>extendOwn</b></span>
+      <p id="extendOwn">
+        <b class="header">extendOwn</b><code>_.extendOwn(destination, *sources)</code>
+        <span class="alias">Alias: <b>assign</b></span>
         <br />
         Like <b>extend</b>, but only copies <i>own</i> properties over to the 
         destination object.
