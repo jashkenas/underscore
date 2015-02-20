@@ -775,7 +775,7 @@
 
     //null edge cases
     var oCon = {'constructor': Object};
-    deepEqual(_.map([null, undefined, 5, {}], _.partial(_.isMatch, _, oCon)), [false, false, false, true], 'doesnt fasley match constructor on undefined/null');
+    deepEqual(_.map([null, undefined, 5, {}], _.partial(_.isMatch, _, oCon)), [false, false, false, true], 'doesnt falsey match constructor on undefined/null');
   });
 
   test('matcher', function() {
@@ -832,7 +832,7 @@
 
     //null edge cases
     var oCon = _.matcher({'constructor': Object});
-    deepEqual(_.map([null, undefined, 5, {}], oCon), [false, false, false, true], 'doesnt fasley match constructor on undefined/null');
+    deepEqual(_.map([null, undefined, 5, {}], oCon), [false, false, false, true], 'doesnt falsey match constructor on undefined/null');
   });
 
   test('matcher', function() {
@@ -889,7 +889,7 @@
 
     //null edge cases
     var oCon = _.matcher({'constructor': Object});
-    deepEqual(_.map([null, undefined, 5, {}], oCon), [false, false, false, true], 'doesnt fasley match constructor on undefined/null');
+    deepEqual(_.map([null, undefined, 5, {}], oCon), [false, false, false, true], 'doesnt falsey match constructor on undefined/null');
   });
 
   test('findKey', function() {
