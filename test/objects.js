@@ -66,7 +66,7 @@
     A.prototype.foo = 'foo';
     var b = new A();
     b.bar = 'bar';
-    deepEqual(_.allKeys(b), ['bar', 'foo'], 'should include inherited keys');
+    deepEqual(_.allKeys(b).sort(), ['bar', 'foo'], 'should include inherited keys');
 
     function y() {}
     y.x = 'z';

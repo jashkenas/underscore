@@ -896,17 +896,21 @@
 
   // Keys in IE < 9 that won't be iterated by `for key in ...` and thus missed.
   var hasEnumBug = !{toString: null}.propertyIsEnumerable('toString');
-  var nonEnumerableProps = ['constructor', 'valueOf', 'isPrototypeOf', 'toString',
+  var nonEnumerableProps = ['valueOf', 'isPrototypeOf', 'toString',
                       'propertyIsEnumerable', 'hasOwnProperty', 'toLocaleString'];
 
   function collectNonEnumProps(obj, keys) {
     var nonEnumIdx = nonEnumerableProps.length;
-    var proto = typeof obj.constructor === 'function' ? FuncProto : ObjProto;
+    var constructor = obj.constructor;
+    var proto = (_.isFunction(constructor) && constructor.prototype) || ObjProto;
+
+    // Constructor is a special case.
+    var prop = 'constructor';
+    if (_.has(obj, prop) && !_.contains(keys, prop)) keys.push(prop);
 
     while (nonEnumIdx--) {
-      var prop = nonEnumerableProps[nonEnumIdx];
-      if (prop === 'constructor' ? _.has(obj, prop) : prop in obj &&
-        obj[prop] !== proto[prop] && !_.contains(keys, prop)) {
+      prop = nonEnumerableProps[nonEnumIdx];
+      if (prop in obj && obj[prop] !== proto[prop] && !_.contains(keys, prop)) {
         keys.push(prop);
       }
     }
