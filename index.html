@@ -290,10 +290,11 @@
       <li>- <a href="#clone">clone</a></li>
       <li>- <a href="#tap">tap</a></li>
       <li>- <a href="#has">has</a></li>
-      <li>- <a href="#matches">matches</a></li>
+      <li>- <a href="#matcher">matcher</a></li>
       <li>- <a href="#property">property</a></li>
       <li>- <a href="#propertyOf">propertyOf</a></li>
       <li>- <a href="#isEqual">isEqual</a></li>
+      <li>- <a href="#isMatch">isMatch</a></li>
       <li>- <a href="#isEmpty">isEmpty</a></li>
       <li>- <a href="#isElement">isElement</a></li>
       <li>- <a href="#isArray">isArray</a></li>
@@ -1549,14 +1550,14 @@ var stooge = {name: 'moe'};
 _.propertyOf(stooge)('name');
 =&gt; 'moe'</pre>
 
-      <p id="matches">
-        <b class="header">matches</b><code>_.matches(attrs)</code>
+      <p id="matcher">
+        <b class="header">matcher</b><code>_.matcher(attrs)</code>
         <br />
         Returns a predicate function that will tell you if a passed in object
         contains all of the key/value properties present in <b>attrs</b>.
       </p>
       <pre>
-var ready = _.matches({selected: true, visible: true});
+var ready = _.matcher({selected: true, visible: true});
 var readyToGoList = _.filter(list, ready);</pre>
 
       <p id="isEqual">
@@ -1571,6 +1572,18 @@ var clone  = {name: 'moe', luckyNumbers: [13, 27, 34]};
 stooge == clone;
 =&gt; false
 _.isEqual(stooge, clone);
+=&gt; true
+</pre>
+
+      <p id="isMatch">
+        <b class="header">isMatch</b><code>_.isMatch(object, properties)</code>
+        <br />
+        Tells you if the keys and values in <b>properties</b> are contained
+        in <b>object</b>.
+      </p>
+      <pre>
+var stooge = {name: 'moe', age: 32};
+_.isMatch(stooge, {age: 32});
 =&gt; true
 </pre>
 
@@ -2203,6 +2216,11 @@ _([1, 2, 3]).value();
             which nicely complement their twin-twins <tt>_.indexOf</tt> and <tt>_.lastIndexOf</tt>.
           </li>
           <li>
+            Added an <tt>_.isMatch</tt> predicate function that tells you if an
+            object matches key-value properties. A kissing cousin of 
+            <tt>_.isEqual</tt> and <tt>_.matcher</tt>.
+          </li>
+          <li>
             Added an <tt>_.isError</tt> function.
           </li>
           <li>
@@ -2216,6 +2234,10 @@ _([1, 2, 3]).value();
           <li>
             Added the <tt>_.propertyOf</tt> function generator as a mirror-world 
             version of <tt>_.property</tt>.
+          </li>
+          <li>
+            Deprecated <tt>_.matches</tt>. It's now known by a more harmonious
+            name — <tt>_.matcher</tt>.
           </li>
           <li>
             Various and diverse code simplifications, changes for improved 
