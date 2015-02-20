@@ -15,24 +15,6 @@
     deepEqual(_.keys(1), []);
     deepEqual(_.keys('a'), []);
     deepEqual(_.keys(true), []);
-
-    // keys that may be missed if the implementation isn't careful
-    var trouble = {
-      'constructor': Object,
-      'valueOf': _.noop,
-      'hasOwnProperty': null,
-      'toString': 5,
-      'toLocaleString': undefined,
-      'propertyIsEnumerable': /a/,
-      'isPrototypeOf': this,
-      '__defineGetter__': Boolean,
-      '__defineSetter__': {},
-      '__lookupSetter__': false,
-      '__lookupGetter__': []
-    };
-    var troubleKeys = ['constructor', 'valueOf', 'hasOwnProperty', 'toString', 'toLocaleString', 'propertyIsEnumerable',
-                  'isPrototypeOf', '__defineGetter__', '__defineSetter__', '__lookupSetter__', '__lookupGetter__'].sort();
-    deepEqual(_.keys(trouble).sort(), troubleKeys, 'matches non-enumerable properties');
   });
 
   test('allKeys', function() {
@@ -48,25 +30,11 @@
       deepEqual(_.allKeys(val), []);
     });
 
-    // allKeys that may be missed if the implementation isn't careful
-    var trouble = {
-      constructor: Object,
-      valueOf: _.noop,
-      hasOwnProperty: null,
-      toString: 5,
-      toLocaleString: undefined,
-      propertyIsEnumerable: /a/,
-      isPrototypeOf: this
-    };
-    var troubleKeys = ['constructor', 'valueOf', 'hasOwnProperty', 'toString', 'toLocaleString', 'propertyIsEnumerable',
-                  'isPrototypeOf'].sort();
-    deepEqual(_.allKeys(trouble).sort(), troubleKeys, 'matches non-enumerable properties');
-
     function A() {}
     A.prototype.foo = 'foo';
     var b = new A();
     b.bar = 'bar';
-    deepEqual(_.allKeys(b), ['bar', 'foo'], 'should include inherited keys');
+    deepEqual(_.allKeys(b).sort(), ['bar', 'foo'], 'should include inherited keys');
 
     function y() {}
     y.x = 'z';
@@ -543,10 +511,6 @@
     var args = function(){ return arguments; };
     ok(_.isEmpty(args()), 'empty arguments object is empty');
     ok(!_.isEmpty(args('')), 'non-empty arguments object is not empty');
-
-    // covers collecting non-enumerable properties in IE < 9
-    var nonEnumProp = {'toString': 5};
-    ok(!_.isEmpty(nonEnumProp), 'non-enumerable property is not empty');
   });
 
   if (typeof document === 'object') {
@@ -772,10 +736,6 @@
 
     Prototest.x = 5;
     ok(_.isMatch({x: 5, y: 1}, Prototest), 'spec can be a function');
-
-    //null edge cases
-    var oCon = {'constructor': Object};
-    deepEqual(_.map([null, undefined, 5, {}], _.partial(_.isMatch, _, oCon)), [false, false, false, true], 'doesnt fasley match constructor on undefined/null');
   });
 
   test('matcher', function() {
@@ -828,11 +788,6 @@
     o.b = 2;
     o.a = 1;
     equal(m({'b': 1}), true, 'changing spec object doesnt change matches result');
-
-
-    //null edge cases
-    var oCon = _.matcher({'constructor': Object});
-    deepEqual(_.map([null, undefined, 5, {}], oCon), [false, false, false, true], 'doesnt fasley match constructor on undefined/null');
   });
 
   test('matcher', function() {
@@ -885,11 +840,6 @@
     o.b = 2;
     o.a = 1;
     equal(m({'b': 1}), true, 'changing spec object doesnt change matches result');
-
-
-    //null edge cases
-    var oCon = _.matcher({'constructor': Object});
-    deepEqual(_.map([null, undefined, 5, {}], oCon), [false, false, false, true], 'doesnt fasley match constructor on undefined/null');
   });
 
   test('findKey', function() {
