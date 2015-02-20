@@ -28,15 +28,20 @@
     func = _.bind(func, this, 'hello', 'moe', 'curly');
     equal(func(), 'hello: moe curly', 'the function was partially applied in advance and can accept multiple arguments');
 
+    func = function(context, message) { equal(this, context, message); };
+    _.bind(func, 0, 0, 'can bind a function to `0`')();
+    _.bind(func, '', '', 'can bind a function to an empty string')();
+    _.bind(func, false, false, 'can bind a function to `false`')();
+
     // These tests are only meaningful when using a browser without a native bind function
     // To test this with a modern browser, set underscore's nativeBind to undefined
     var F = function () { return this; };
     var boundf = _.bind(F, {hello: 'moe curly'});
     var Boundf = boundf; // make eslint happy.
     var newBoundf = new Boundf();
-    equal(newBoundf.hello, 'moe curly', 'function should not be bound to the context, because this ain\'t ECMA5');
+    equal(newBoundf.hello, undefined, 'function should not be bound to the context, to comply with ECMAScript 5');
     equal(boundf().hello, 'moe curly', "When called without the new operator, it's OK to be bound to the context");
-    ok(!(newBoundf instanceof F), 'a bound instance is not an instance of the original function');
+    ok(newBoundf instanceof F, 'a bound instance is an instance of the original function');
 
     throws(function() { _.bind('notafunction'); }, TypeError, 'throws an error when binding to a non-function');
   });
@@ -57,6 +62,20 @@
 
     func = _.partial(function() { return typeof arguments[2]; }, _, 'b', _, 'd');
     equal(func('a'), 'undefined', 'unfilled placeholders are undefined');
+
+    // passes context
+    function MyWidget(name, options) {
+      this.name = name;
+      this.options = options;
+    }
+    MyWidget.prototype.get = function() {
+      return this.name;
+    };
+    var MyWidgetWithCoolOpts = _.partial(MyWidget, _, {a: 1});
+    var widget = new MyWidgetWithCoolOpts('foo');
+    ok(widget instanceof MyWidget, 'Can partially bind a constructor');
+    equal(widget.get(), 'foo', 'keeps prototype');
+    deepEqual(widget.options, {a: 1});
   });
 
   test('bindAll', function() {
