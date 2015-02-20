@@ -990,7 +990,9 @@
     if (obj == null) return result;
     if (_.isFunction(iteratee)) {
       iteratee = optimizeCb(iteratee, context);
-      for (key in obj) {
+      var keys = _.allKeys(obj);
+      for (var i = 0; i < keys.length; i++) {
+        var key = keys[i];
         var value = obj[key];
         if (iteratee(value, key, obj)) result[key] = value;
       }
