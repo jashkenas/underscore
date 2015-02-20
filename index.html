@@ -180,7 +180,7 @@
   <div id="sidebar" class="interface">
 
     <a class="toc_title" href="#">
-      Underscore.js <span class="version">(1.7.0)</span>
+      Underscore.js <span class="version">(1.8.0)</span>
     </a>
     <ul class="toc_section">
       <li>&raquo; <a href="https://github.com/jashkenas/underscore">GitHub Repository</a></li>
@@ -239,10 +239,13 @@
       <li>- <a href="#difference">difference</a></li>
       <li>- <a href="#uniq">uniq</a></li>
       <li>- <a href="#zip">zip</a></li>
+      <li>- <a href="#unzip">unzip</a></li>
       <li>- <a href="#object">object</a></li>
       <li>- <a href="#indexOf">indexOf</a></li>
       <li>- <a href="#lastIndexOf">lastIndexOf</a></li>
       <li>- <a href="#sortedIndex">sortedIndex</a></li>
+      <li>- <a href="#findIndex">findIndex</a></li>
+      <li>- <a href="#findLastIndex">findLastIndex</a></li>
       <li>- <a href="#range">range</a></li>
     </ul>
 
@@ -271,11 +274,16 @@
     </a>
     <ul class="toc_section">
       <li>- <a href="#keys">keys</a></li>
+      <li>- <a href="#allKeys">allKeys</a></li>
       <li>- <a href="#values">values</a></li>
+      <li>- <a href="#mapObject">mapObject</a></li>
       <li>- <a href="#pairs">pairs</a></li>
       <li>- <a href="#invert">invert</a></li>
       <li>- <a href="#object-functions">functions</a></li>
+      <li>- <a href="#findKey">findKey</a></li>
       <li>- <a href="#extend">extend</a></li>
+      <li>- <a href="#assign">assign</a></li>
+      <li>- <a href="#create">create</a></li>
       <li>- <a href="#pick">pick</a></li>
       <li>- <a href="#omit">omit</a></li>
       <li>- <a href="#defaults">defaults</a></li>
@@ -284,6 +292,7 @@
       <li>- <a href="#has">has</a></li>
       <li>- <a href="#matches">matches</a></li>
       <li>- <a href="#property">property</a></li>
+      <li>- <a href="#propertyOf">propertyOf</a></li>
       <li>- <a href="#isEqual">isEqual</a></li>
       <li>- <a href="#isEmpty">isEmpty</a></li>
       <li>- <a href="#isElement">isElement</a></li>
@@ -391,15 +400,15 @@
 
     <h2>Downloads <i style="padding-left: 12px; font-size:12px;">(Right-click, and use "Save As")</i></h2>
 
-    <table>
+    <table style="min-width: 640px;">
       <tr>
-        <td><a href="underscore.js">Development Version (1.7.0)</a></td>
-        <td><i>46kb, Uncompressed with Plentiful Comments</i></td>
+        <td><a href="underscore.js">Development Version (1.8.0)</a></td>
+        <td><i>51kb, Uncompressed with Plentiful Comments</i></td>
       </tr>
       <tr>
-        <td><a href="underscore-min.js">Production Version (1.7.0)</a></td>
+        <td><a href="underscore-min.js">Production Version (1.8.0)</a></td>
         <td>
-          <i>5.2kb, Minified and Gzipped</i>
+          <i>5.7kb, Minified and Gzipped <b>(3x smaller than Lodash ;)</b></i>
           &nbsp;<small>(<a href="underscore-min.map">Source Map</a>)</small>
         </td>
       </tr>
@@ -417,6 +426,9 @@
     <ul>
       <li>
         <b>Node.js</b> <tt>npm install underscore</tt>
+      </li>
+      <li>
+        <b>Meteor.js</b> <tt>meteor add underscore</tt>
       </li>
       <li>
         <b>Require.js</b> <tt>require(["underscore"], ...</tt>
@@ -465,15 +477,18 @@ _.each({one: 1, two: 2, three: 3}, alert);
         <span class="alias">Alias: <b>collect</b></span>
         <br />
         Produces a new array of values by mapping each value in <b>list</b>
-        through a transformation function (<b>iteratee</b>). If <b>list</b>
-        is a JavaScript object, <b>iteratee</b>'s arguments will be
-        <tt>(value, key, list)</tt>.
+        through a transformation function (<b>iteratee</b>). The <tt>iteratee</tt>
+        is passed three arguments: the <tt>value</tt>, then the <tt>index</tt>
+        (or <tt>key</tt>) of the iteration, and finally a reference to the entire
+        <tt>list</tt>.
       </p>
       <pre>
 _.map([1, 2, 3], function(num){ return num * 3; });
 =&gt; [3, 6, 9]
 _.map({one: 1, two: 2, three: 3}, function(num, key){ return num * 3; });
-=&gt; [3, 6, 9]</pre>
+=&gt; [3, 6, 9]
+_.map([[1, 2], [3, 4]], _.first);
+=&gt; [1, 3]</pre>
 
       <p id="reduce">
         <b class="header">reduce</b><code>_.reduce(list, iteratee, [memo], [context])</code>
@@ -679,8 +694,11 @@ _.min(numbers);
       <pre>
 _.sortBy([1, 2, 3, 4, 5, 6], function(num){ return Math.sin(num); });
 =&gt; [5, 4, 6, 3, 1, 2]
-</pre>
 
+var stooges = [{name: 'moe', age: 40}, {name: 'larry', age: 50}, {name: 'curly', age: 60}];
+_.sortBy(stooges, 'name');
+=&gt; [{name: 'curly', age: 60}, {name: 'larry', age: 50}, {name: 'moe', age: 40}];
+</pre>
       <p id="groupBy">
         <b class="header">groupBy</b><code>_.groupBy(list, iteratee, [context])</code>
         <br />
@@ -943,8 +961,19 @@ _.uniq([1, 2, 1, 3, 1, 4]);
 _.zip(['moe', 'larry', 'curly'], [30, 40, 50], [true, false, false]);
 =&gt; [["moe", 30, true], ["larry", 40, false], ["curly", 50, false]]
 
-_.zip.apply(_, arrayOfRowsOfData);
-=&gt; arrayOfColumnsOfData
+</pre>
+
+<p id="unzip">
+        <b class="header">unzip</b><code>_.unzip(*arrays)</code>
+        <br>
+        The opposite of <a href="#zip">zip</a>. Given a number of <b>arrays</b>, returns a
+        series of new arrays, the first of which contains all of the first elements
+        in the input arrays, the second of which contains all of the second elements,
+        and so on. Use with <tt>apply</tt> to pass in an array of arrays.
+      </p>
+      <pre>
+_.unzip(["moe", 30, true], ["larry", 40, false], ["curly", 50, false]);
+=&gt; [['moe', 'larry', 'curly'], [30, 40, 50], [true, false, false]]
 </pre>
 
       <p id="object">
@@ -1007,13 +1036,44 @@ _.sortedIndex(stooges, {name: 'larry', age: 50}, 'age');
 =&gt; 1
 </pre>
 
+      <p id="findIndex">
+        <b class="header">findIndex</b><code>_.findIndex(array, predicate, [context])</code>
+        <br />
+        Similar to <a href="#indexOf"><tt>_.indexOf</tt></a>, returns the first index
+        where the <strong>predicate</strong> truth test passes; otherwise returns <i>-1</i>.
+      </p>
+      <pre>
+_.findIndex([4, 6, 8, 12], isPrime);
+=&gt; -1 // not found
+_.findIndex([4, 6, 7, 12], isPrime);
+=&gt; 2
+</pre>
+
+      <p id="findLastIndex">
+        <b class="header">findLastIndex</b><code>_.findLastIndex(array, predicate, [context])</code>
+        <br />
+        Like <a href="#findIndex"><tt>_.findIndex</tt></a> but iterates the array in reverse,
+        returning the index closest to the end where the <strong>predicate</strong> truth test
+        passes.
+      </p>
+      <pre>
+var users = [{'id': 1, 'name': 'Bob', 'last': 'Brown'},
+             {'id': 2, 'name': 'Ted', 'last': 'White'},
+             {'id': 3, 'name': 'Frank', 'last': 'James'},
+             {'id': 4, 'name': 'Ted', 'last': 'Jones'}];
+_.findLastIndex(users, {
+  name: 'Ted'
+});
+=&gt; 3
+</pre>
+
       <p id="range">
         <b class="header">range</b><code>_.range([start], stop, [step])</code>
         <br />
         A function to create flexibly-numbered lists of integers, handy for
         <tt>each</tt> and <tt>map</tt> loops. <b>start</b>, if omitted, defaults
         to <i>0</i>; <b>step</b> defaults to <i>1</i>. Returns a list of integers
-        from <b>start</b> to <b>stop</b>, incremented (or decremented) by <b>step</b>,
+        from <b>start</b> (inclusive) to <b>stop</b> (exclusive), incremented (or decremented) by <b>step</b>,
         exclusive. Note that ranges that <b>stop</b> before they <b>start</b>
         are considered to be zero-length instead of negative — if you'd like a
         negative range, use a negative <b>step</b>.
@@ -1079,9 +1139,14 @@ jQuery('#underscore_button').bind('click', buttonView.onClick);
         left open to supply at call-time.
       </p>
       <pre>
-var add = function(a, b) { return a + b; };
-add5 = _.partial(add, 5);
-add5(10);
+var subtract = function(a, b) { return b - a; };
+sub5 = _.partial(subtract, 5);
+sub5(20);
+=&gt; 15
+
+// Using a placeholder
+subFrom20 = _.partial(subtract, _, 20);
+subFrom20(5);
 =&gt; 15
 </pre>
 
@@ -1271,21 +1336,48 @@ welcome('moe');
       <p id="keys">
         <b class="header">keys</b><code>_.keys(object)</code>
         <br />
-        Retrieve all the names of the <b>object</b>'s properties.
+        Retrieve all the names of the <b>object</b>'s own enumerable properties.
       </p>
       <pre>
 _.keys({one: 1, two: 2, three: 3});
 =&gt; ["one", "two", "three"]
 </pre>
 
+      <p id="allKeys">
+        <b class="header">allKeys</b><code>_.allKeys(object)</code>
+        <br />
+        Retrieve <i>all</i> the names of <b>object</b>'s own and inherited properties.
+      </p>
+      <pre>
+function Stooge(name) {
+  this.name = name;
+}
+Stooge.prototype.silly = true;
+_.allKeys(new Stooge("Moe"));
+=&gt; ["name", "silly"]
+</pre>
+
       <p id="values">
         <b class="header">values</b><code>_.values(object)</code>
         <br />
-        Return all of the values of the <b>object</b>'s properties.
+        Return all of the values of the <b>object</b>'s own properties.
       </p>
       <pre>
 _.values({one: 1, two: 2, three: 3});
 =&gt; [1, 2, 3]
+</pre>
+
+<p id="mapObject">
+        <b class="header">mapObject</b><code>_.mapObject(array, iteratee, [context])</code>
+        <br />
+        Like <a href="#map">map</a>, but for objects. Transform the value
+        of each property in turn.
+      </p>
+      <pre>
+_.mapObject({start: 5, end: 12}, function(val, key) {
+  return val + 5;
+});
+=&gt; {start: 10, b: 17}
 </pre>
 
       <p id="pairs">
@@ -1322,10 +1414,18 @@ _.functions(_);
 =&gt; ["all", "any", "bind", "bindAll", "clone", "compact", "compose" ...
 </pre>
 
+      <p id="findKey">
+        <b class="header">findKey</b><code>_.findKey(object, predicate, [context])</code>
+        <br />
+        Similar to <a href="#findIndex"><tt>_.findIndex</tt></a> but for keys in objects.
+        Returns the <i>key</i> where the <b>predicate</b> truth test
+        passes or <i>undefined</i>.
+      </p>
+
       <p id="extend">
         <b class="header">extend</b><code>_.extend(destination, *sources)</code>
         <br />
-        Copy all of the properties in the <b>source</b> objects over to the
+        Copy all of the properties <strong>in</strong> the <b>source</b> objects over to the
         <b>destination</b> object, and return the <b>destination</b> object.
         It's in-order, so the last source will override properties of the same
         name in previous arguments.
@@ -1334,6 +1434,13 @@ _.functions(_);
 _.extend({name: 'moe'}, {age: 50});
 =&gt; {name: 'moe', age: 50}
 </pre>
+
+      <p id="extendOwn">
+        <b class="header">extendOwn</b><code>_.extendOwn(destination, *sources)</code>
+        <br />
+        Like <b>extend</b>, but only copies <i>own</i> properties over to the 
+        destination object.
+      </p>
 
       <p id="pick">
         <b class="header">pick</b><code>_.pick(object, *keys)</code>
@@ -1382,8 +1489,8 @@ _.defaults(iceCream, {flavor: "vanilla", sprinkles: "lots"});
       <p id="clone">
         <b class="header">clone</b><code>_.clone(object)</code>
         <br />
-        Create a shallow-copied clone of the <b>object</b>. Any nested objects
-        or arrays will be copied by reference, not duplicated.
+        Create a shallow-copied clone of the provided <i>plain</i> <b>object</b>. 
+        Any nested objects or arrays will be copied by reference, not duplicated.
       </p>
       <pre>
 _.clone({name: 'moe'});
@@ -1426,9 +1533,21 @@ _.has({a: 1, b: 2, c: 3}, "b");
         property of any passed-in object.
       </p>
       <pre>
-var moe = {name: 'moe'};
-'moe' === _.property('name')(moe);
-=&gt; true</pre>
+var stooge = {name: 'moe'};
+'moe' === _.property('name')(stooge);
+=&gt; true
+</pre>
+
+      <p id="propertyOf">
+        <b class="header">propertyOf</b><code>_.propertyOf(object)</code>
+        <br />
+        Inverse of <tt>_.property</tt>. Takes an object and returns a function
+        which will return the value of a provided property.
+      </p>
+      <pre>
+var stooge = {name: 'moe'};
+_.propertyOf(stooge)('name');
+=&gt; 'moe'</pre>
 
       <p id="matches">
         <b class="header">matches</b><code>_.matches(attrs)</code>
@@ -1447,11 +1566,11 @@ var readyToGoList = _.filter(list, ready);</pre>
         if they should be considered equal.
       </p>
       <pre>
-var moe   = {name: 'moe', luckyNumbers: [13, 27, 34]};
-var clone = {name: 'moe', luckyNumbers: [13, 27, 34]};
-moe == clone;
+var stooge = {name: 'moe', luckyNumbers: [13, 27, 34]};
+var clone  = {name: 'moe', luckyNumbers: [13, 27, 34]};
+stooge == clone;
 =&gt; false
-_.isEqual(moe, clone);
+_.isEqual(stooge, clone);
 =&gt; true
 </pre>
 
@@ -1589,6 +1708,20 @@ _.isRegExp(/moe/);
 =&gt; true
 </pre>
 
+      <p id="isError">
+        <b class="header">isError</b><code>_.isError(object)</code>
+        <br />
+        Returns <i>true</i> if <b>object</b> inherrits from an Error.
+      </p>
+      <pre>
+try {
+  throw new TypeError("Example");
+} catch (o_O) {
+  _.isError(o_O)
+}
+=&gt; true
+</pre>
+
       <p id="isNaN">
         <b class="header">isNaN</b><code>_.isNaN(object)</code>
         <br />
@@ -1632,7 +1765,7 @@ _.isUndefined(window.missingVariable);
       <p id="noConflict">
         <b class="header">noConflict</b><code>_.noConflict()</code>
         <br />
-        Give control of the "_" variable back to its previous owner. Returns
+        Give control of the <tt>_</tt> variable back to its previous owner. Returns
         a reference to the <b>Underscore</b> object.
       </p>
       <pre>
@@ -1648,8 +1781,8 @@ var underscore = _.noConflict();
         a default iteratee.
       </p>
       <pre>
-var moe = {name: 'moe'};
-moe === _.identity(moe);
+var stooge = {name: 'moe'};
+stooge === _.identity(stooge);
 =&gt; true
 </pre>
 
@@ -1660,8 +1793,8 @@ moe === _.identity(moe);
         argument of <tt>_.constant</tt>.
       </p>
       <pre>
-var moe = {name: 'moe'};
-moe === _.constant(moe)();
+var stooge = {name: 'moe'};
+stooge === _.constant(stooge)();
 =&gt; true</pre>
 
       <p id="noop">
@@ -1715,7 +1848,7 @@ _("fabio").capitalize();
 </pre>
 
       <p id="iteratee">
-        <b class="header">iteratee</b><code>_.iteratee(value, [context], [argCount])</code>
+        <b class="header">iteratee</b><code>_.iteratee(value, [context])</code>
         <br />
         A mostly-internal function to generate callbacks that can be applied
         to each element in a collection, returning the desired result — either
@@ -1766,17 +1899,22 @@ _.unescape('Curly, Larry &amp;amp; Moe');
 =&gt; "Curly, Larry &amp; Moe"</pre>
 
       <p id="result">
-        <b class="header">result</b><code>_.result(object, property)</code>
+        <b class="header">result</b><code>_.result(object, property, [defaultValue])</code>
         <br />
         If the value of the named <b>property</b> is a function then invoke it
-        with the <b>object</b> as context; otherwise, return it.
+        with the <b>object</b> as context; otherwise, return it. If a default value
+        is provided and the property doesn't exist than the default will be returned.
+        If <tt>defaultValue</tt> is a function its result will be returned.
       </p>
       <pre>
 var object = {cheese: 'crumpets', stuff: function(){ return 'nonsense'; }};
 _.result(object, 'cheese');
 =&gt; "crumpets"
 _.result(object, 'stuff');
-=&gt; "nonsense"</pre>
+=&gt; "nonsense"
+_.result(object, 'meat', 'ham');
+=&gt; "ham"
+</pre>
 
       <p id="now">
         <b class="header">now</b><code>_.now()</code>
@@ -1795,10 +1933,10 @@ _.now();
         <br />
         Compiles JavaScript templates into functions that can be evaluated
         for rendering. Useful for rendering complicated bits of HTML from JSON
-        data sources. Template functions can both interpolate variables, using
+        data sources. Template functions can both interpolate values, using
         <tt>&lt;%= &hellip; %&gt;</tt>, as well as execute arbitrary JavaScript code, with
         <tt>&lt;% &hellip; %&gt;</tt>. If you wish to interpolate a value, and have
-        it be HTML-escaped, use <tt>&lt;%- &hellip; %&gt;</tt> When you evaluate a
+        it be HTML-escaped, use <tt>&lt;%- &hellip; %&gt;</tt>. When you evaluate a
         template function, pass in a <b>data</b> object that has properties
         corresponding to the template's free variables. The <b>settings</b> argument
         should be a hash containing any <tt>_.templateSettings</tt> that should be overridden.
@@ -1828,12 +1966,12 @@ compiled({epithet: "stooge"});
         template settings to use different symbols to set off interpolated code.
         Define an <b>interpolate</b> regex to match expressions that should be
         interpolated verbatim, an <b>escape</b> regex to match expressions that should
-        be inserted after being HTML escaped, and an <b>evaluate</b> regex to match
+        be inserted after being HTML-escaped, and an <b>evaluate</b> regex to match
         expressions that should be evaluated without insertion into the resulting
         string. You may define or omit any combination of the three.
         For example, to perform
-        <a href="https://github.com/janl/mustache.js#readme">Mustache.js</a>
-        style templating:
+        <a href="https://github.com/janl/mustache.js#readme">Mustache.js</a>-style
+        templating:
       </p>
 
       <pre>
@@ -1847,7 +1985,7 @@ template({name: "Mustache"});
 
       <p>
         By default, <b>template</b> places the values from your data in the local scope
-        via the <tt>with</tt> statement.  However, you can specify a single variable name
+        via the <tt>with</tt> statement. However, you can specify a single variable name
         with the <b>variable</b> setting. This can significantly improve the speed
         at which a template is able to render.
       </p>
@@ -1858,7 +1996,7 @@ _.template("Using 'with': <%= data.answer %>", {variable: 'data'})({answer: 'no'
 
       <p>
         Precompiling your templates can be a big help when debugging errors you can't
-        reproduce.  This is because precompiled templates can provide line numbers and
+        reproduce. This is because precompiled templates can provide line numbers and
         a stack trace, something that is not possible when compiling templates on the client.
         The <b>source</b> property is available on the compiled template
         function for easy precompilation.
@@ -1957,6 +2095,12 @@ _([1, 2, 3]).value();
       </p>
 
       <p>
+        <a href="http://www.dollarswift.org/">Dollar.swift</a>, a Swift port
+        of many of the Underscore.js functions and more.
+        (<a href="https://github.com/ankurp/Dollar.swift">source</a>)
+      </p>
+
+      <p>
         <a href="http://underscorem.org/">Underscore.m</a>, an Objective-C port
         of many of the Underscore.js functions, using a syntax that encourages
         chaining.
@@ -2033,6 +2177,52 @@ _([1, 2, 3]).value();
       </p>
 
       <h2 id="changelog">Change Log</h2>
+
+      <p id="1.8.0">
+        <b class="header">1.8.0</b> &mdash; <small><i>Feb. 19, 2015</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.7.0...1.8.0">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/underscore/1.8.0/index.html">Docs</a><br />
+        <ul>
+          <li>
+            Added <tt>_.mapObject</tt>, which is similar to <tt>_.map</tt>, but just
+            for the values in your object. (A real crowd pleaser.)
+          </li>
+          <li>
+            Added <tt>_.allKeys</tt> which returns <i>all</i> the enumerable property
+            names on an object.
+          </li>
+          <li>
+            Reverted a 1.7.0 change where <tt>_.extend</tt> only copied "own" 
+            properties. Hopefully this will un-break you &mdash; if it breaks you
+            again, I apologize.
+          </li>
+          <li>
+            Added <tt>_.extendOwn</tt> &mdash; a less-useful form of <tt>_.extend</tt> that
+            only copies over "own" properties.
+          </li>
+          <li>
+            Added <tt>_.findIndex</tt> and <tt>_.findLastIndex</tt> functions,
+            which nicely complement their twin-twins <tt>_.indexOf</tt> and <tt>_.lastIndexOf</tt>.
+          </li>
+          <li>
+            Added an <tt>_.isError</tt> function.
+          </li>
+          <li>
+            Restored the <tt>_.unzip</tt> function as the inverse of <tt>zip</tt>.
+            Flip-flopping. I know.
+          </li>
+          <li>
+            <tt>_.result</tt> now takes an optional fallback value (or function
+            that provides the fallback value).
+          </li>
+          <li>
+            Added the <tt>_.propertyOf</tt> function generator as a mirror-world 
+            version of <tt>_.property</tt>.
+          </li>
+          <li>
+            Various and diverse code simplifications, changes for improved 
+            cross-platform compatibility, and edge case bug fixes.
+          </li>
+        </ul>
+      </p>
 
       <p id="1.7.0">
         <b class="header">1.7.0</b> &mdash; <small><i>August 26, 2014</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.6.0...1.7.0">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/underscore/1.7.0/index.html">Docs</a><br />
@@ -2182,6 +2372,9 @@ _([1, 2, 3]).value();
             Some optimizations relating to functions that can be implemented
             in terms of <tt>_.keys</tt> (which includes, significantly,
             <tt>each</tt> on objects). Also for <tt>debounce</tt> in a tight loop.
+          </li>
+          <li>
+            The <tt>_.escape</tt> function no longer escapes '/'.
           </li>
         </ul>
       </p>
@@ -2590,7 +2783,7 @@ _([1, 2, 3]).value();
         first being called a specified number of times.
         <tt>_.invoke</tt> can now take a direct function reference.
         <tt>_.every</tt> now requires an iterator function to be passed, which
-        mirrors the ECMA5 API.
+        mirrors the ES5 API.
         <tt>_.extend</tt> no longer copies keys when the value is undefined.
         <tt>_.bind</tt> now errors when trying to bind an undefined value.
       </p>
@@ -2601,10 +2794,10 @@ _([1, 2, 3]).value();
         representing default options.
         Added an <tt>_.once</tt> function, for manufacturing functions that should
         only ever execute a single time.
-        <tt>_.bind</tt> now delegates to the native ECMAScript 5 version,
+        <tt>_.bind</tt> now delegates to the native ES5 version,
         where available.
         <tt>_.keys</tt> now throws an error when used on non-Object values, as in
-        ECMAScript 5.
+        ES5.
         Fixed a bug with <tt>_.keys</tt> when used over sparse arrays.
       </p>
 
@@ -2623,13 +2816,13 @@ _([1, 2, 3]).value();
         In CommonJS, Underscore may now be required with just: <br />
         <tt>var _ = require("underscore")</tt>.
         Added <tt>_.throttle</tt> and <tt>_.debounce</tt> functions.
-        Removed <tt>_.breakLoop</tt>, in favor of an ECMA5-style un-<i>break</i>-able
+        Removed <tt>_.breakLoop</tt>, in favor of an ES5-style un-<i>break</i>-able
         each implementation &mdash; this removes the try/catch, and you'll now have
         better stack traces for exceptions that are thrown within an Underscore iterator.
         Improved the <b>isType</b> family of functions for better interoperability
         with Internet Explorer host objects.
         <tt>_.template</tt> now correctly escapes backslashes in templates.
-        Improved <tt>_.reduce</tt> compatibility with the ECMA5 version:
+        Improved <tt>_.reduce</tt> compatibility with the ES5 version:
         if you don't pass an initial value, the first item in the collection is used.
         <tt>_.each</tt> no longer returns the iterated collection, for improved
         consistency with ES5's <tt>forEach</tt>.
@@ -2652,7 +2845,7 @@ _([1, 2, 3]).value();
       <p id="1.1.0">
         <b class="header">1.1.0</b> &mdash; <small><i>August 18, 2010</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.0.4...1.1.0">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/underscore/1.1.0/index.html">Docs</a><br />
         The method signature of <tt>_.reduce</tt> has been changed to match
-        the ECMAScript 5 signature, instead of the Ruby/Prototype.js version.
+        the ES5 signature, instead of the Ruby/Prototype.js version.
         This is a backwards-incompatible change. <tt>_.template</tt> may now be
         called with no arguments, and preserves whitespace. <tt>_.contains</tt>
         is a new alias for <tt>_.include</tt>.
@@ -2699,7 +2892,7 @@ _([1, 2, 3]).value();
         safer duck-typing on collection functions, and cleaner internals. A new
         <tt>_.mixin</tt> method that allows you to extend Underscore with utility
         functions of your own. Added <tt>_.times</tt>, which works the same as in
-        Ruby or Prototype.js. Native support for ECMAScript 5's <tt>Array.isArray</tt>,
+        Ruby or Prototype.js. Native support for ES5's <tt>Array.isArray</tt>,
         and <tt>Object.keys</tt>.
       </p>
 

@@ -15,27 +15,28 @@
     "url": "git://github.com/jashkenas/underscore.git"
   },
   "main": "underscore.js",
-  "version": "1.7.0",
+  "version": "1.8.0",
   "devDependencies": {
     "docco": "0.6.x",
-    "phantomjs": "1.9.7-1",
-    "uglify-js": "2.4.x",
-    "eslint": "0.6.x"
+    "eslint": "0.6.x",
+    "karma": "~0.12.31",
+    "karma-qunit": "~0.1.4",
+    "qunit-cli": "~0.2.0",
+    "uglify-js": "2.4.x"
   },
   "scripts": {
-    "test": "phantomjs test/vendor/runner.js test/index.html?noglobals=true && eslint underscore.js test/*.js test/vendor/runner.js",
+    "test": "npm run test-node && npm run lint",
+    "lint": "eslint underscore.js test/*.js",
+    "test-node": "qunit-cli test/*.js",
+    "test-browser": "npm i karma-phantomjs-launcher && ./node_modules/karma/bin/karma start",
     "build": "uglifyjs underscore.js -c \"evaluate=false\" --comments \"/    .*/\" -m --source-map underscore-min.map -o underscore-min.js",
     "doc": "docco underscore.js"
   },
-  "licenses": [
-    {
-      "type": "MIT",
-      "url": "https://raw.github.com/jashkenas/underscore/master/LICENSE"
-    }
-  ],
+  "license": "MIT",
   "files": [
     "underscore.js",
     "underscore-min.js",
+    "underscore-min.map",
     "LICENSE"
   ]
 }

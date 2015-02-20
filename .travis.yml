@@ -1,8 +1,23 @@
 language: node_js
+addons:
+  firefox: "10.0"
 node_js:
-  - 0.8
-  - '0.10'
+  - "0.8"
+  - "0.12"
+  - "io.js"
+matrix:
+  include:
+    - node_js: "0.10"
+      env: BROWSER=true
+env: BROWSER=false
 before_install:
-  - 'npm install npm -g'
+  - npm install -g npm
+  - if [[ $BROWSER == true ]]; then npm install karma-phantomjs-launcher karma-firefox-launcher; fi
+before_script:
+  - export DISPLAY=:99.0
+  - sh -e /etc/init.d/xvfb start
+script:
+  - npm test
+  - "[ $BROWSER == false ] || ./node_modules/karma/bin/karma start --browsers Firefox,PhantomJS"
 notifications:
   email: false

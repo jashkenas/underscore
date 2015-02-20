@@ -1,2 +1,5 @@
 raw
 node_modules
+*.log
+*.idea
+*.swp
