@@ -1,49 +1,51 @@
 var _ = require('./');
 
+// Browsers to run on Sauce Labs platforms
+var sauceBrowsers = _.reduce([
+  ['firefox', '35'],
+  ['firefox', '30'],
+  ['firefox', '20'],
+  ['firefox', '11'],
+  ['firefox', '4'],
+
+  ['chrome', '40'],
+  ['chrome', '35'],
+  ['chrome', '28'],
+
+  ['internet explorer', '11', 'Windows 8.1'],
+  ['internet explorer', '10', 'Windows 8'],
+  ['internet explorer', '9', 'Windows 7'],
+  // Currently do not work with Karma.
+  // ['internet explorer', '8', 'Windows 7'],
+  // ['internet explorer', '7', 'Windows XP'],
+  // ['internet explorer', '6', 'Windows XP'],
+
+  ['opera', '12'],
+  ['opera', '11'],
+
+  ['android', '4.3'],
+  ['android', '4.0'],
+
+  ['safari', '8'],
+  ['safari', '6'],
+  ['safari', '7'],
+  ['safari', '5']
+], function(memo, platform) {
+  var label = (platform[0] + '_v' + platform[1]).replace(' ', '_').toUpperCase();
+  memo[label] = _.pick({
+    'base': 'SauceLabs',
+    'browserName': platform[0],
+    'version': platform[1],
+    'platform': platform[2]
+  }, Boolean);
+  return memo;
+}, {});
+
 module.exports = function(config) {
   if ( !process.env.SAUCE_USERNAME || !process.env.SAUCE_ACCESS_KEY ) {
     console.log('Sauce environments not set --- Skipping');
     return process.exit(0);
   }
-  // Browsers to run on Sauce Labs platforms
-  var sauceBrowsers = _.transform([
-    ['firefox', '35'],
-    ['firefox', '30'],
-    ['firefox', '20'],
-    ['firefox', '11'],
-    ['firefox', '4'],
-
-    ['chrome', '40'],
-    ['chrome', '35'],
-    ['chrome', '28'],
-
-    ['internet explorer', '11', 'Windows 8.1'],
-    ['internet explorer', '10', 'Windows 8'],
-    ['internet explorer', '9', 'Windows 7'],
-    // Currently do not work with Karma.
-    // ['internet explorer', '8', 'Windows 7'],
-    // ['internet explorer', '7', 'Windows XP'],
-    // ['internet explorer', '6', 'Windows XP'],
-
-    ['opera', '12'],
-    ['opera', '11'],
-
-    ['android', '4.3'],
-    ['android', '4.0'],
-
-    ['safari', '8'],
-    ['safari', '6'],
-    ['safari', '7'],
-    ['safari', '5']
-  ], function(memo, platform) {
-    var label = (platform[0] + '_v' + platform[1]).replace(' ', '_').toUpperCase();
-    memo[label] = _.pick({
-      'base': 'SauceLabs',
-      'browserName': platform[0],
-      'version': platform[1],
-      'platform': platform[2]
-    }, Boolean);
-  }, {});
 
   config.set({
     basePath: '',
@@ -52,6 +54,7 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
+      'test/vendor/qunit-extras.js',
       'underscore.js',
       'test/*.js'
     ],

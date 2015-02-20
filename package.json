@@ -28,7 +28,6 @@
     "test": "npm run test-node && npm run lint",
     "lint": "eslint underscore.js test/*.js",
     "test-node": "qunit-cli test/*.js",
-    "test-sauce": "npm i karma-sauce-launcher && ./node_modules/karma/bin/karma start karma.conf-sauce.js",
     "test-browser": "npm i karma-phantomjs-launcher && ./node_modules/karma/bin/karma start",
     "build": "uglifyjs underscore.js -c \"evaluate=false\" --comments \"/    .*/\" -m --source-map underscore-min.map -o underscore-min.js",
     "doc": "docco underscore.js"
