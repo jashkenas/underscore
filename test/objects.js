@@ -136,33 +136,33 @@
     strictEqual(_.extend(undefined, {a: 1}), undefined, 'extending undefined results in undefined');
   });
 
-  test('extendOwn', function() {
+  test('assign', function() {
     var result;
-    equal(_.extendOwn({}, {a: 'b'}).a, 'b', 'can assign an object with the attributes of another');
-    equal(_.extendOwn({a: 'x'}, {a: 'b'}).a, 'b', 'properties in source override destination');
-    equal(_.extendOwn({x: 'x'}, {a: 'b'}).x, 'x', "properties not in source don't get overriden");
-    result = _.extendOwn({x: 'x'}, {a: 'a'}, {b: 'b'});
+    equal(_.assign({}, {a: 'b'}).a, 'b', 'can assign an object with the attributes of another');
+    equal(_.assign({a: 'x'}, {a: 'b'}).a, 'b', 'properties in source override destination');
+    equal(_.assign({x: 'x'}, {a: 'b'}).x, 'x', "properties not in source don't get overriden");
+    result = _.assign({x: 'x'}, {a: 'a'}, {b: 'b'});
     deepEqual(result, {x: 'x', a: 'a', b: 'b'}, 'can assign from multiple source objects');
-    result = _.extendOwn({x: 'x'}, {a: 'a', x: 2}, {a: 'b'});
+    result = _.assign({x: 'x'}, {a: 'a', x: 2}, {a: 'b'});
     deepEqual(result, {x: 2, a: 'b'}, 'assigning from multiple source objects last property trumps');
-    deepEqual(_.extendOwn({}, {a: void 0, b: null}), {a: void 0, b: null}, 'assign copies undefined values');
+    deepEqual(_.assign({}, {a: void 0, b: null}), {a: void 0, b: null}, 'assign copies undefined values');
 
     var F = function() {};
     F.prototype = {a: 'b'};
     var subObj = new F();
     subObj.c = 'd';
-    deepEqual(_.extendOwn({}, subObj), {c: 'd'}, 'assign copies own properties from source');
+    deepEqual(_.assign({}, subObj), {c: 'd'}, 'assign copies own properties from source');
 
     result = {};
-    deepEqual(_.extendOwn(result, null, undefined, {a: 1}), {a: 1}, 'should not error on `null` or `undefined` sources');
+    deepEqual(_.assign(result, null, undefined, {a: 1}), {a: 1}, 'should not error on `null` or `undefined` sources');
 
     _.each(['a', 5, null, false], function(val) {
-      strictEqual(_.extendOwn(val, {a: 1}), val, 'assigning non-objects results in returning the non-object value');
+      strictEqual(_.assign(val, {a: 1}), val, 'assigning non-objects results in returning the non-object value');
     });
 
-    strictEqual(_.extendOwn(undefined, {a: 1}), undefined, 'assigning undefined results in undefined');
+    strictEqual(_.assign(undefined, {a: 1}), undefined, 'assigning undefined results in undefined');
 
-    result = _.extendOwn({a: 1, 0: 2, 1: '5', length: 6}, {0: 1, 1: 2, length: 2});
+    result = _.assign({a: 1, 0: 2, 1: '5', length: 6}, {0: 1, 1: 2, length: 2});
     deepEqual(result, {a: 1, 0: 1, 1: 2, length: 2}, 'assign should treat array-like objects like normal objects');
   });
 
