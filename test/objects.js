@@ -997,4 +997,8 @@
     assert.deepEqual(_.mapObject(protoObj, _.identity), {a: 1}, 'ignore inherited values from prototypes');
 
   });
+
+  QUnit.test('mapValues', function(assert) {
+    assert.strictEqual(_.mapValues, _.mapObject, 'is an alias for mapObject');
+  });
 }());

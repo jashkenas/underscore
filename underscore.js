@@ -993,7 +993,7 @@
 
   // Returns the results of applying the iteratee to each element of the object
   // In contrast to _.map it returns an object
-  _.mapObject = function(obj, iteratee, context) {
+  _.mapObject = _.mapValues = function(obj, iteratee, context) {
     iteratee = cb(iteratee, context);
     var keys = _.keys(obj),
         length = keys.length,
