@@ -400,7 +400,7 @@
 
     <h2>Downloads <i style="padding-left: 12px; font-size:12px;">(Right-click, and use "Save As")</i></h2>
 
-    <table>
+    <table style="min-width: 640px;">
       <tr>
         <td><a href="underscore.js">Development Version (1.8.0)</a></td>
         <td><i>51kb, Uncompressed with Plentiful Comments</i></td>
@@ -408,7 +408,7 @@
       <tr>
         <td><a href="underscore-min.js">Production Version (1.8.0)</a></td>
         <td>
-          <i>5.7kb, Minified and Gzipped</i>
+          <i>5.7kb, Minified and Gzipped <b>(3x smaller than Lodash ;)</b></i>
           &nbsp;<small>(<a href="underscore-min.map">Source Map</a>)</small>
         </td>
       </tr>
@@ -2182,37 +2182,40 @@ _([1, 2, 3]).value();
         <b class="header">1.8.0</b> &mdash; <small><i>Feb. 19, 2015</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.7.0...1.8.0">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/underscore/1.8.0/index.html">Docs</a><br />
         <ul>
           <li>
+            Added <tt>_.mapObject</tt>, which is similar to <tt>_.map</tt>, but just
+            for the values in your object. (A real crowd pleaser.)
+          </li>
+          <li>
             Added <tt>_.allKeys</tt> which returns <i>all</i> the enumerable property
             names on an object.
           </li>
           <li>
-            Reverted a 1.7.0 change where <tt>_.extend</tt> only copied "own" properties.
+            Reverted a 1.7.0 change where <tt>_.extend</tt> only copied "own" 
+            properties. Hopefully this will un-break you &mdash; if it breaks you
+            again, I apologize.
           </li>
           <li>
-            Added <tt>_.mapObject</tt>, which is like <tt>_.map</tt>, but just
-            for the values in your object. (A crowd favorite.)
-          </li>
-          <li>
-            Added <tt>_.extendOwn</tt> &mdash; a form of <tt>_.extend</tt> that
+            Added <tt>_.extendOwn</tt> &mdash; a less-useful form of <tt>_.extend</tt> that
             only copies over "own" properties.
           </li>
           <li>
             Added <tt>_.findIndex</tt> and <tt>_.findLastIndex</tt> functions,
-            along the lines of <tt>_.indexOf</tt> and <tt>_.lastIndexOf</tt>.
+            which nicely complement their twin-twins <tt>_.indexOf</tt> and <tt>_.lastIndexOf</tt>.
           </li>
           <li>
             Added an <tt>_.isError</tt> function.
           </li>
           <li>
             Restored the <tt>_.unzip</tt> function as the inverse of <tt>zip</tt>.
+            Flip-flopping. I know.
           </li>
           <li>
-            <tt>_.result</tt> now takes an optional <b>fallback</b> value (or function
-            that provides a default value).
+            <tt>_.result</tt> now takes an optional fallback value (or function
+            that provides the fallback value).
           </li>
           <li>
-            Added <tt>_.propertyOf</tt> wrapper as a mirror-world version 
-            of <tt>_.property</tt>.
+            Added the <tt>_.propertyOf</tt> function generator as a mirror-world 
+            version of <tt>_.property</tt>.
           </li>
           <li>
             Various and diverse code simplifications, changes for improved 
