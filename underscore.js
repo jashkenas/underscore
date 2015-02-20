@@ -212,13 +212,11 @@
         accumulator = {};
       }
     }
-    if (obj == null) return accumulator;
     iteratee = optimizeCb(iteratee, context, 4);
-    var keys = obj.length !== +obj.length && _.keys(obj),
-      length = (keys || obj).length,
-      index, currentKey;
-    for (index = 0; index < length; index++) {
-      currentKey = keys ? keys[index] : index;
+    var keys = !isArrayLike(obj) && _.keys(obj),
+      length = (keys || obj).length;
+    for (var index = 0; index < length; index++) {
+      var currentKey = keys ? keys[index] : index;
       if (iteratee(accumulator, obj[currentKey], currentKey, obj) === false) break;
     }
     return accumulator;
