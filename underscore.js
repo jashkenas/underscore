@@ -1,4 +1,4 @@
-//     Underscore.js 1.8.0
+//     Underscore.js 1.8.1
 //     http://underscorejs.org
 //     (c) 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 //     Underscore may be freely distributed under the MIT license.
@@ -29,11 +29,7 @@
   var
     nativeIsArray      = Array.isArray,
     nativeKeys         = Object.keys,
-    nativeBind         = FuncProto.bind,
-    nativeCreate       = Object.create;
-
-  // Reusable constructor function for prototype setting.
-  var Ctor = function(){};
+    nativeBind         = FuncProto.bind;
 
   // Create a safe reference to the Underscore object for use below.
   var _ = function(obj) {
@@ -55,7 +51,7 @@
   }
 
   // Current version.
-  _.VERSION = '1.8.0';
+  _.VERSION = '1.8.1';
 
   // Internal function that returns an efficient (for current engines) version
   // of the passed-in callback, to be repeatedly applied in other Underscore
