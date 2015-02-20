@@ -2,6 +2,7 @@
   var _ = typeof require == 'function' ? require('..') : window._;
 
   QUnit.module('Functions');
+  QUnit.config.asyncRetries = 3;
 
   test('bind', function() {
     var context = {name : 'moe'};
