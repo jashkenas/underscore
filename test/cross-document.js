@@ -110,7 +110,8 @@
     ok(_.isError(iError), 'even from another frame');
   });
 
-  if (typeof ActiveXObject != 'undefined') {
+  // Is IE and not Karma (Karma isn't allowed to create these objects for security reasons).
+  if (!document.URL.match(/(debug|context)\.html/) && typeof ActiveXObject != 'undefined') {
     test('IE host objects', function() {
       var xml = new ActiveXObject('Msxml2.DOMDocument.3.0');
       ok(!_.isNumber(xml));

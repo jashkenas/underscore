@@ -16,8 +16,8 @@ var sauceBrowsers = _.reduce([
   ['internet explorer', '10', 'Windows 8'],
   ['internet explorer', '9', 'Windows 7'],
   // Currently do not work with Karma.
-  // ['internet explorer', '8', 'Windows 7'],
-  // ['internet explorer', '7', 'Windows XP'],
+  ['internet explorer', '8', 'Windows 7'],
+  ['internet explorer', '7', 'Windows XP'],
   // ['internet explorer', '6', 'Windows XP'],
 
   ['opera', '12'],
