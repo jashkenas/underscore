@@ -15,6 +15,24 @@
     deepEqual(_.keys(1), []);
     deepEqual(_.keys('a'), []);
     deepEqual(_.keys(true), []);
+
+    // keys that may be missed if the implementation isn't careful
+    var trouble = {
+      'constructor': Object,
+      'valueOf': _.noop,
+      'hasOwnProperty': null,
+      'toString': 5,
+      'toLocaleString': undefined,
+      'propertyIsEnumerable': /a/,
+      'isPrototypeOf': this,
+      '__defineGetter__': Boolean,
+      '__defineSetter__': {},
+      '__lookupSetter__': false,
+      '__lookupGetter__': []
+    };
+    var troubleKeys = ['constructor', 'valueOf', 'hasOwnProperty', 'toString', 'toLocaleString', 'propertyIsEnumerable',
+                  'isPrototypeOf', '__defineGetter__', '__defineSetter__', '__lookupSetter__', '__lookupGetter__'].sort();
+    deepEqual(_.keys(trouble).sort(), troubleKeys, 'matches non-enumerable properties');
   });
 
   test('allKeys', function() {
@@ -29,6 +47,20 @@
     _.each([null, void 0, 1, 'a', true, NaN, {}, [], new Number(5), new Date(0)], function(val) {
       deepEqual(_.allKeys(val), []);
     });
+
+    // allKeys that may be missed if the implementation isn't careful
+    var trouble = {
+      constructor: Object,
+      valueOf: _.noop,
+      hasOwnProperty: null,
+      toString: 5,
+      toLocaleString: undefined,
+      propertyIsEnumerable: /a/,
+      isPrototypeOf: this
+    };
+    var troubleKeys = ['constructor', 'valueOf', 'hasOwnProperty', 'toString', 'toLocaleString', 'propertyIsEnumerable',
+                  'isPrototypeOf'].sort();
+    deepEqual(_.allKeys(trouble).sort(), troubleKeys, 'matches non-enumerable properties');
 
     function A() {}
     A.prototype.foo = 'foo';
@@ -111,7 +143,7 @@
     equal(_.extendOwn({x: 'x'}, {a: 'b'}).x, 'x', "properties not in source don't get overriden");
     result = _.extendOwn({x: 'x'}, {a: 'a'}, {b: 'b'});
     deepEqual(result, {x: 'x', a: 'a', b: 'b'}, 'can assign from multiple source objects');
-    result = _.extendOwn({x: 'x'}, {a: 'a', x: 2}, {a: 'b'});
+    result = _.assign({x: 'x'}, {a: 'a', x: 2}, {a: 'b'});
     deepEqual(result, {x: 2, a: 'b'}, 'assigning from multiple source objects last property trumps');
     deepEqual(_.extendOwn({}, {a: void 0, b: null}), {a: void 0, b: null}, 'assign copies undefined values');
 
@@ -122,10 +154,10 @@
     deepEqual(_.extendOwn({}, subObj), {c: 'd'}, 'assign copies own properties from source');
 
     result = {};
-    deepEqual(_.extendOwn(result, null, undefined, {a: 1}), {a: 1}, 'should not error on `null` or `undefined` sources');
+    deepEqual(_.assign(result, null, undefined, {a: 1}), {a: 1}, 'should not error on `null` or `undefined` sources');
 
     _.each(['a', 5, null, false], function(val) {
-      strictEqual(_.extendOwn(val, {a: 1}), val, 'assigning non-objects results in returning the non-object value');
+      strictEqual(_.assign(val, {a: 1}), val, 'assigning non-objects results in returning the non-object value');
     });
 
     strictEqual(_.extendOwn(undefined, {a: 1}), undefined, 'assigning undefined results in undefined');
@@ -168,6 +200,11 @@
     deepEqual(_.pick(data, function(val, key) {
       return this[key] === 3 && this === instance;
     }, instance), {c: 3}, 'function is given context');
+
+    ok(!_.has(_.pick({}, 'foo'), 'foo'), 'does not set own property if property not in object');
+    _.pick(data, function(value, key, obj) {
+      equal(obj, data, 'passes same object as third parameter of iteratee');
+    });
   });
 
   test('omit', function() {
@@ -511,6 +548,10 @@
     var args = function(){ return arguments; };
     ok(_.isEmpty(args()), 'empty arguments object is empty');
     ok(!_.isEmpty(args('')), 'non-empty arguments object is not empty');
+
+    // covers collecting non-enumerable properties in IE < 9
+    var nonEnumProp = {'toString': 5};
+    ok(!_.isEmpty(nonEnumProp), 'non-enumerable property is not empty');
   });
 
   if (typeof document === 'object') {
@@ -736,6 +777,10 @@
 
     Prototest.x = 5;
     ok(_.isMatch({x: 5, y: 1}, Prototest), 'spec can be a function');
+
+    //null edge cases
+    var oCon = {'constructor': Object};
+    deepEqual(_.map([null, undefined, 5, {}], _.partial(_.isMatch, _, oCon)), [false, false, false, true], 'doesnt falsey match constructor on undefined/null');
   });
 
   test('matcher', function() {
@@ -788,6 +833,11 @@
     o.b = 2;
     o.a = 1;
     equal(m({'b': 1}), true, 'changing spec object doesnt change matches result');
+
+
+    //null edge cases
+    var oCon = _.matcher({'constructor': Object});
+    deepEqual(_.map([null, undefined, 5, {}], oCon), [false, false, false, true], 'doesnt falsey match constructor on undefined/null');
   });
 
   test('matcher', function() {
@@ -840,6 +890,11 @@
     o.b = 2;
     o.a = 1;
     equal(m({'b': 1}), true, 'changing spec object doesnt change matches result');
+
+
+    //null edge cases
+    var oCon = _.matcher({'constructor': Object});
+    deepEqual(_.map([null, undefined, 5, {}], oCon), [false, false, false, true], 'doesnt falsey match constructor on undefined/null');
   });
 
   test('findKey', function() {
