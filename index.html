@@ -180,7 +180,7 @@
   <div id="sidebar" class="interface">
 
     <a class="toc_title" href="#">
-      Underscore.js <span class="version">(1.8.1)</span>
+      Underscore.js <span class="version">(1.8.2)</span>
     </a>
     <ul class="toc_section">
       <li>&raquo; <a href="https://github.com/jashkenas/underscore">GitHub Repository</a></li>
@@ -403,13 +403,13 @@
 
     <table>
       <tr>
-        <td><a href="underscore.js">Development Version (1.8.1)</a></td>
-        <td><i>49kb, Uncompressed with Plentiful Comments</i></td>
+        <td><a href="underscore.js">Development Version (1.8.2)</a></td>
+        <td><i>51kb, Uncompressed with Plentiful Comments</i></td>
       </tr>
       <tr>
-        <td><a href="underscore-min.js">Production Version (1.8.1)</a></td>
+        <td><a href="underscore-min.js">Production Version (1.8.2)</a></td>
         <td>
-          <i>5.4kb, Minified and Gzipped</i>
+          <i>5.7kb, Minified and Gzipped</i>
           &nbsp;<small>(<a href="underscore-min.map">Source Map</a>)</small>
         </td>
       </tr>
@@ -2193,13 +2193,26 @@ _([1, 2, 3]).value();
 
       <h2 id="changelog">Change Log</h2>
 
+      <p id="1.8.2">
+        <b class="header">1.8.2</b> &mdash; <small><i>Feb. 22, 2015</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.8.1...1.8.2">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/underscore/1.8.2/index.html">Docs</a><br />
+        <ul>
+          <li>
+            Restores the previous old-Internet-Explorer edge cases changed in 
+            1.8.1.
+          </li>
+          <li>
+            Adds a <tt>fromIndex</tt> argument to <tt>_.contains</tt>.
+          </li>
+        </ul>
+      </p>
+
       <p id="1.8.1">
         <b class="header">1.8.1</b> &mdash; <small><i>Feb. 19, 2015</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.8.0...1.8.1">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/underscore/1.8.1/index.html">Docs</a><br />
         <ul>
           <li>
-            Fixes/changes some old-Internet-Explorer and related edge case 
+            Fixes/changes some old-Internet Explorer and related edge case 
             behavior. Test your app with Underscore 1.8.1 in an old IE and let
-            us know how its doing...
+            us know how it's doing...
           </li>
         </ul>
       </p>
