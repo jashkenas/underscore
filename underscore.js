@@ -1053,7 +1053,7 @@
   // created object.
   _.create = function(prototype, props) {
     var result = baseCreate(prototype);
-    if (props) _.assign(result, props);
+    if (props) _.extendOwn(result, props);
     return result;
   };
 
