@@ -548,17 +548,13 @@
   // passed-in arrays.
   _.intersection = function(array) {
     if (array == null) return [];
-    var result = [];
-    var argsLength = arguments.length;
-    for (var i = 0, length = array.length; i < length; i++) {
-      var item = array[i];
-      if (_.contains(result, item)) continue;
-      for (var j = 1; j < argsLength; j++) {
-        if (!_.contains(arguments[j], item)) break;
-      }
-      if (j === argsLength) result.push(item);
-    }
-    return result;
+    var otherArrays = arguments;
+    var result = _.filter(array, function(item){
+      return _.every(otherArrays, function(otherArray){
+        return _.contains(otherArray, item)
+      })
+    });
+    return _.uniq(result);
   };
 
   // Take the difference between one array and a number of other arrays.
