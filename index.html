@@ -1445,6 +1445,11 @@ _.extend({name: 'moe'}, {age: 50});
         destination object.
       </p>
 
+      <pre>
+var stooge = {name: 'moe'};
+_.extendOwn(stooge, {age: 50});
+=&gt; {name: 'moe', age: 50}</pre>
+
       <p id="pick">
         <b class="header">pick</b><code>_.pick(object, *keys)</code>
         <br />
