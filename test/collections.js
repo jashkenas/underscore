@@ -23,6 +23,13 @@
     deepEqual(answers, ['one', 'two', 'three'], 'iterating over objects works, and ignores the object prototype.');
     delete obj.constructor.prototype.four;
 
+    // ensure the each function is JITed
+    _(1000).times(function() { _.each([], function(){}); });
+    var count = 0;
+    obj = {1 : 'foo', 2 : 'bar', 3 : 'baz'};
+    _.each(obj, function(value, key){ count++; });
+    equal(count, 3, 'the fun should be called only 3 times');
+
     var answer = null;
     _.each([1, 2, 3], function(num, index, arr){ if (_.include(arr, num)) answer = true; });
     ok(answer, 'can reference the original collection from inside the iterator');
