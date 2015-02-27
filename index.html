@@ -1445,10 +1445,11 @@ _.extend({name: 'moe'}, {age: 50});
         destination object.
       </p>
 
-      <pre>
-var stooge = {name: 'moe'};
-_.extendOwn(stooge, {age: 50});
-=&gt; {name: 'moe', age: 50}</pre>
+    <pre>
+var tweet = {message: 'Hello!'};
+var user = {name: 'Moe'};
+_.extendOwn(tweet, user);
+=> {message: 'Hello!', name: 'Moe'} // value of tweet</pre>
 
       <p id="pick">
         <b class="header">pick</b><code>_.pick(object, *keys)</code>
