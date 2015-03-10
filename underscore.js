@@ -520,19 +520,41 @@
     if (iteratee != null) iteratee = cb(iteratee, context);
     var result = [];
     var seen = [];
+    var seenPrimitive = {};
     for (var i = 0, length = array.length; i < length; i++) {
       var value = array[i],
           computed = iteratee ? iteratee(value, i, array) : value;
+
+      var vType = typeof computed,
+          vKey = vType[0] + computed,
+          isPrimitive = _.contains(['number', 'string', 'boolean', 'undefined'], vType);
+
       if (isSorted) {
         if (!i || seen !== computed) result.push(value);
         seen = computed;
       } else if (iteratee) {
-        if (!_.contains(seen, computed)) {
+
+        if (isPrimitive){
+          if (seenPrimitive[vKey] === undefined){
+            seenPrimitive[vKey] = true;
+            result.push(value);
+          }
+        } else if (!_.contains(seen, computed)){
           seen.push(computed);
           result.push(value);
         }
-      } else if (!_.contains(result, value)) {
-        result.push(value);
+
+      } else {
+
+        if (isPrimitive){
+          if (seenPrimitive[vKey] === undefined){
+            seenPrimitive[vKey] = true;
+            result.push(value);
+          }
+        } else if (!_.contains(result, value)){
+          result.push(value);
+        }
+
       }
     }
     return result;
@@ -1134,7 +1156,7 @@
     }
     // Assume equality for cyclic structures. The algorithm for detecting cyclic
     // structures is adapted from ES 5.1 section 15.12.3, abstract operation `JO`.
-    
+
     // Initializing stack of traversed objects.
     // It's done here since we only need them for objects and arrays comparison.
     aStack = aStack || [];
@@ -1298,7 +1320,7 @@
     };
   };
 
-  // Returns a predicate for checking whether an object has a given set of 
+  // Returns a predicate for checking whether an object has a given set of
   // `key:value` pairs.
   _.matcher = _.matches = function(attrs) {
     attrs = _.extendOwn({}, attrs);
@@ -1525,7 +1547,7 @@
   // Provide unwrapping proxy for some methods used in engine operations
   // such as arithmetic and JSON stringification.
   _.prototype.valueOf = _.prototype.toJSON = _.prototype.value;
-  
+
   _.prototype.toString = function() {
     return '' + this._wrapped;
   };

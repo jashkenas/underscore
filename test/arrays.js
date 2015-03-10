@@ -176,6 +176,11 @@
 
     deepEqual(_.uniq(null), []);
 
+    deepEqual(_.uniq([1, '1', true, 'true']), [1, '1', true, 'true'], 'it does not conflate primitive data types');
+
+    var iterfn = function(n){ return n; };
+    deepEqual(_.uniq([1, '1', true, 'true'], iterfn), [1, '1', true, 'true'], 'it does not conflate primitive data types when using iteratee');
+
     var context = {};
     list = [3];
     _.uniq(list, function(value, index, array) {
