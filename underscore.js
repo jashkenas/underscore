@@ -533,7 +533,7 @@
           isPrimitive = _.contains(['number', 'string', 'boolean', 'undefined'], vType);
 
         if (isPrimitive) {
-          var vKey = vType[0] + computed;
+          var vKey = vType == 'string' ? 's' + computed : computed;
           if (seenPrimitive[vKey] === undefined){
             seenPrimitive[vKey] = true;
             result.push(value);
