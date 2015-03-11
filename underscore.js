@@ -539,9 +539,11 @@
             result.push(value);
           }
 
-        } else if (iteratee && !_.contains(seen, computed)) {
-          seen.push(computed);
-          result.push(value);
+        } else if (iteratee) {
+          if (!_.contains(seen, computed)) {
+            seen.push(computed);
+            result.push(value);
+          }
 
         } else if (!_.contains(result, value)) {
           result.push(value);
