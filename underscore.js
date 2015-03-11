@@ -525,34 +525,25 @@
       var value = array[i],
           computed = iteratee ? iteratee(value, i, array) : value;
 
-      var vType = typeof computed,
-          isPrimitive = _.contains(['number', 'string', 'boolean', 'undefined'], vType);
-
-      if (isPrimitive) var vKey = vType[0] + computed;
-
       if (isSorted) {
         if (!i || seen !== computed) result.push(value);
         seen = computed;
-      } else if (iteratee) {
+      } else {
+        var vType = typeof computed,
+          isPrimitive = _.contains(['number', 'string', 'boolean', 'undefined'], vType);
 
-        if (isPrimitive){
+        if (isPrimitive) {
+          var vKey = vType[0] + computed;
           if (seenPrimitive[vKey] === undefined){
             seenPrimitive[vKey] = true;
             result.push(value);
           }
-        } else if (!_.contains(seen, computed)){
+
+        } else if (iteratee && !_.contains(seen, computed)) {
           seen.push(computed);
           result.push(value);
-        }
 
-      } else {
-
-        if (isPrimitive){
-          if (seenPrimitive[vKey] === undefined){
-            seenPrimitive[vKey] = true;
-            result.push(value);
-          }
-        } else if (!_.contains(result, value)){
+        } else if (!_.contains(result, value)) {
           result.push(value);
         }
 
