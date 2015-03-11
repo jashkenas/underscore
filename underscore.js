@@ -526,8 +526,9 @@
           computed = iteratee ? iteratee(value, i, array) : value;
 
       var vType = typeof computed,
-          vKey = vType[0] + computed,
           isPrimitive = _.contains(['number', 'string', 'boolean', 'undefined'], vType);
+
+      if (isPrimitive) var vKey = vType[0] + computed;
 
       if (isSorted) {
         if (!i || seen !== computed) result.push(value);
