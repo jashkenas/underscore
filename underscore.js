@@ -259,6 +259,16 @@
     return _.indexOf(obj, target, typeof fromIndex == 'number' && fromIndex) >= 0;
   };
 
+  // Determine if an array contains all elements of a target sub-array
+  _.containsAll = _.includesAll = function(obj, target) {
+    return _.intersection(obj, target).length == target.length;
+  };
+
+  // Determine if an array contains any elements of a target sub-array
+  _.containsAny = _.includesAny = function(obj, target) {
+    return _.intersection(obj, target).length > 0;
+  };
+
   // Invoke a method (with arguments) on every item in a collection.
   _.invoke = function(obj, method) {
     var args = slice.call(arguments, 2);
