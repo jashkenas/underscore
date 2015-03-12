@@ -529,10 +529,11 @@
         if (!i || seen !== computed) result.push(value);
         seen = computed;
       } else {
-        var isPrimitive = !_.isObject(computed);
+        var vType = typeof computed,
+            isPrimitive = _.contains(['number', 'string', 'boolean', 'undefined'], vType) || _.isNull(computed);
 
         if (isPrimitive) {
-          var vKey = (typeof computed === 'string') ? 's' + computed : computed;
+          var vKey = (vType === 'string') ? 's' + computed : computed;
           if (seenPrimitive[vKey] === undefined){
             seenPrimitive[vKey] = true;
             result.push(value);
