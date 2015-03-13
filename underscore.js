@@ -655,16 +655,25 @@
 
   // Use a comparator function to figure out the smallest index at which
   // an object should be inserted so as to maintain order. Uses binary search.
-  _.sortedIndex = function(array, obj, iteratee, context) {
-    iteratee = cb(iteratee, context, 1);
-    var value = iteratee(obj);
-    var low = 0, high = array.length;
-    while (low < high) {
-      var mid = Math.floor((low + high) / 2);
-      if (iteratee(array[mid]) < value) low = mid + 1; else high = mid;
-    }
-    return low;
-  };
+  function createSortedIndexFinder(lessThan) {
+    return function(array, obj, iteratee, context) {
+      iteratee = cb(iteratee, context, 1);
+      var value = iteratee(obj);
+      var low = 0, high = array.length;
+      while (low < high) {
+        var mid = Math.floor((low + high) / 2);
+        var computed = iteratee(array[mid]);
+        if ((lessThan && computed < value) || (!lessThan && computed <= value)) {
+          low = mid + 1;
+        } else {
+          high = mid;
+        }
+      }
+      return low;
+    };
+  }
+  _.sortedIndex = createSortedIndexFinder(true);
+  _.sortedLastIndex = createSortedIndexFinder(false);
 
   // Generate an integer Array containing an arithmetic progression. A port of
   // the native Python `range()` function. See
