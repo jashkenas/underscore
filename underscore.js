@@ -616,7 +616,8 @@
       return array[i] === item ? i : -1;
     }
     if (item !== item) {
-      return _.findIndex(slice.call(array, i), _.isNaN);
+      var index = _.findIndex(slice.call(array, i), _.isNaN);
+      return index >= 0 ? index + i : -1;
     }
     for (; i < length; i++) if (array[i] === item) return i;
     return -1;
