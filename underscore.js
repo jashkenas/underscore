@@ -252,11 +252,12 @@
     return false;
   };
 
-  // Determine if the array or object contains a given value (using `===`).
+  // Determine if the array or object contains a given item (using `===`).
   // Aliased as `includes` and `include`.
-  _.contains = _.includes = _.include = function(obj, target, fromIndex) {
+  _.contains = _.includes = _.include = function(obj, item, fromIndex, guard) {
     if (!isArrayLike(obj)) obj = _.values(obj);
-    return _.indexOf(obj, target, typeof fromIndex == 'number' && fromIndex) >= 0;
+    if (typeof fromIndex != 'number' || guard) fromIndex = 0;
+    return _.indexOf(obj, item, fromIndex) >= 0;
   };
 
   // Determine if an array contains all elements of a target sub-array
@@ -626,7 +627,8 @@
       return array[i] === item ? i : -1;
     }
     if (item !== item) {
-      return _.findIndex(slice.call(array, i), _.isNaN);
+      var index = _.findIndex(slice.call(array, i), _.isNaN);
+      return index >= 0 ? index + i : -1;
     }
     for (; i < length; i++) if (array[i] === item) return i;
     return -1;
@@ -679,7 +681,7 @@
   // the native Python `range()` function. See
   // [the Python documentation](http://docs.python.org/library/functions.html#range).
   _.range = function(start, stop, step) {
-    if (arguments.length <= 1) {
+    if (stop == null) {
       stop = start || 0;
       start = 0;
     }

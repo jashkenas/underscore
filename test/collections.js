@@ -427,12 +427,14 @@
     strictEqual(_.includes, _.contains, 'alias for includes');
 
     var numbers = [1, 2, 3, 1, 2, 3, 1, 2, 3];
-    strictEqual(_.includes(numbers, 1, 1), true);
-    strictEqual(_.includes(numbers, 1, -1), false);
-    strictEqual(_.includes(numbers, 1, -2), false);
-    strictEqual(_.includes(numbers, 1, -3), true);
-    strictEqual(_.includes(numbers, 1, 6), true);
-    strictEqual(_.includes(numbers, 1, 7), false);
+    strictEqual(_.includes(numbers, 1, 1), true, 'contains takes a fromIndex');
+    strictEqual(_.includes(numbers, 1, -1), false, 'contains takes a fromIndex');
+    strictEqual(_.includes(numbers, 1, -2), false, 'contains takes a fromIndex');
+    strictEqual(_.includes(numbers, 1, -3), true, 'contains takes a fromIndex');
+    strictEqual(_.includes(numbers, 1, 6), true, 'contains takes a fromIndex');
+    strictEqual(_.includes(numbers, 1, 7), false, 'contains takes a fromIndex');
+
+    ok(_.every([1, 2, 3], _.partial(_.contains, numbers)), 'fromIndex is guarded');
   });
 
   test('includes with NaN', function() {
