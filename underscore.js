@@ -262,12 +262,12 @@
 
   // Determine if an array contains all elements of a target sub-array
   _.containsAll = _.includesAll = function(obj, target) {
-    return _.intersection(obj, target).length == target.length;
+    return _.every(target, _.partial(_.contains, obj));
   };
 
   // Determine if an array contains any elements of a target sub-array
   _.containsAny = _.includesAny = function(obj, target) {
-    return _.intersection(obj, target).length > 0;
+    return _.any(target, _.partial(_.contains, obj));
   };
 
   // Invoke a method (with arguments) on every item in a collection.
