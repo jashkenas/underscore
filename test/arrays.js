@@ -316,9 +316,10 @@
     equal(_.indexOf(numbers, num, true), 1, '40 is in the list');
     equal(_.indexOf(numbers, 6, true), -1, '6 isnt in the list');
     equal(_.indexOf([1, 2, 5, 4, 6, 7], 5, true), -1, 'sorted indexOf doesn\'t uses binary search');
-    ok(_.every(['1', [], {}, null], function() {
-      return _.indexOf(numbers, num, {}) === 1;
+    ok(_.every(['1', [], {}, null], function(isSorted) {
+      return _.indexOf(numbers, num, isSorted) === 1;
     }), 'non-nums as fromIndex make indexOf assume sorted');
+    equal(_.indexOf([1, 2, NaN], NaN, true), 2, 'isSorted with NaN returns correct result');
 
     numbers = [1, 2, 3, 1, 2, 3, 1, 2, 3];
     index = _.indexOf(numbers, 2, 5);
