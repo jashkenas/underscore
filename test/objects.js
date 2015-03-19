@@ -566,7 +566,9 @@
     ok(_.isEmpty(), 'undefined is empty');
     ok(_.isEmpty(''), 'the empty string is empty');
     ok(!_.isEmpty('moe'), 'but other strings are not');
-
+    if (testElement) {
+      ok(_.isEmpty(testElement.childNodes), 'NodeList is empty');
+    }
     var obj = {one : 1};
     delete obj.one;
     ok(_.isEmpty(obj), 'deleting all the keys from an object empties it');
