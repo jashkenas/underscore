@@ -645,11 +645,11 @@
             length = idx >= 0 ? Math.min(idx + 1, length) : idx + length + 1;
         }
       } else if (sortedIndex && idx && length) {
-        idx = _[sortedIndex](array, item);
+        idx = sortedIndex(array, item);
         return array[idx] === item ? idx : -1;
       }
       if (item !== item) {
-        idx = _[predicateFind](slice.call(array, i, length), _.isNaN);
+        idx = predicateFind(slice.call(array, i, length), _.isNaN);
         return idx >= 0 ? idx + i : -1;
       }
       for (idx = dir > 0 ? i : length - 1; idx >= 0 && idx < length; idx += dir) {
@@ -663,8 +663,8 @@
   // or -1 if the item is not included in the array.
   // If the array is large and already in sort order, pass `true`
   // for **isSorted** to use binary search.
-  _.indexOf = createIndexFinder(1, 'findIndex', 'sortedIndex');
-  _.lastIndexOf = createIndexFinder(-1, 'findLastIndex');
+  _.indexOf = createIndexFinder(1, _.findIndex, _.sortedIndex);
+  _.lastIndexOf = createIndexFinder(-1, _.findLastIndex);
 
   // Generate an integer Array containing an arithmetic progression. A port of
   // the native Python `range()` function. See
