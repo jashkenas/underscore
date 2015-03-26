@@ -515,6 +515,32 @@
     equal(_.negate(isOdd)(3), false, 'should return the complement of the given function');
   });
 
+  test('allPass', function() {
+    var isOdd = function(n){ return n & 1; };
+    var gt10 = function(n) { return n > 10; };
+    var gt20 = function(n) { return n > 20; };
+    var isOddGt10AndGt20 = _.allPass(isOdd, gt10, gt20);
+    equal(isOddGt10AndGt20(21), true, 'true if all predicates pass');
+    equal(isOddGt10AndGt20(22), false, 'false if any predicate fails');
+    equal(isOddGt10AndGt20(20), false, 'false if any predicate fails');
+    equal(isOddGt10AndGt20(19), false, 'false if any predicate fails');
+    equal(isOddGt10AndGt20(10), false, 'false if any predicate fails');
+    equal(isOddGt10AndGt20(9), false, 'false if any predicate fails');
+  });
+
+  test('allPass', function() {
+    var isOdd = function(n){ return n & 1; };
+    var gt10 = function(n) { return n > 10; };
+    var gt20 = function(n) { return n > 20; };
+    var isOddGt10OrGt20 = _.anyPass(isOdd, gt10, gt20);
+    equal(isOddGt10OrGt20(22), true, 'true if any predicates pass');
+    equal(isOddGt10OrGt20(21), true, 'true if any predicates pass');
+    equal(isOddGt10OrGt20(20), true, 'true if any predicates pass');
+    equal(isOddGt10OrGt20(19), true, 'true if any predicates pass');
+    equal(isOddGt10OrGt20(9), true, 'true if any predicates fail');
+    equal(isOddGt10OrGt20(10), false, 'false if all predicates fail');
+  });
+
   test('compose', function() {
     var greet = function(name){ return 'hi: ' + name; };
     var exclaim = function(sentence){ return sentence + '!'; };

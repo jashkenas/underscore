@@ -863,6 +863,21 @@
     };
   };
 
+  // Creates a composite predicate function
+  function createCompositePredicates(method) {
+      return function() {
+          var predicates = slice.call(arguments);
+          return function() {
+              var context = this, args = arguments;
+              return method(predicates, function(predicate) { return predicate.apply(context, args); });
+          };
+      };
+  }
+
+  // Returns a composite predicate function, similar to binary logic operators.
+  _.allPass = createCompositePredicates(_.every);
+  _.anyPass = createCompositePredicates(_.some);
+
   // Returns a function that is the composition of a list of functions, each
   // consuming the return value of the function that follows.
   _.compose = function() {
