@@ -866,7 +866,7 @@
   // Creates a composite predicate function
   function createCompositePredicates(method) {
       return function() {
-          var predicates = slice.call(arguments);
+          var predicates = _.map(arguments, cb);
           return function() {
               var context = this, args = arguments;
               return method(predicates, function(predicate) { return predicate.apply(context, args); });
