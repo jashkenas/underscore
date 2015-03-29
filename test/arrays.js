@@ -112,9 +112,9 @@
   });
 
   test('sortedIndex', function() {
-    var numbers = [10, 20, 30, 40, 50], num = 35;
+    var numbers = [10, 20, 30, 30, 30, 40, 50], num = 35;
     var indexForNum = _.sortedIndex(numbers, num);
-    equal(indexForNum, 3, '35 should be inserted at index 3');
+    equal(indexForNum, 5, '35 should be inserted at index 5');
 
     var indexFor30 = _.sortedIndex(numbers, 30);
     equal(indexFor30, 2, '30 should be inserted at index 2');
@@ -135,6 +135,32 @@
       array[values[length]] = values[length];
     }
     equal(_.sortedIndex(array, 2147483648), 2147483648, 'should work with large indexes');
+  });
+
+  test('sortedLastIndex', function() {
+    var numbers = [10, 20, 30, 30, 30, 40, 50], num = 35;
+    var indexForNum = _.sortedLastIndex(numbers, num);
+    equal(indexForNum, 5, '35 should be inserted at index 5');
+
+    var indexFor30 = _.sortedLastIndex(numbers, 30);
+    equal(indexFor30, 5, '30 should be inserted at index 5');
+
+    var objects = [{x: 10}, {x: 20}, {x: 30}, {x: 40}];
+    var iterator = function(obj){ return obj.x; };
+    strictEqual(_.sortedLastIndex(objects, {x: 25}, iterator), 2);
+    strictEqual(_.sortedLastIndex(objects, {x: 35}, 'x'), 3);
+
+    var context = {1: 2, 2: 3, 3: 4};
+    iterator = function(obj){ return this[obj]; };
+    strictEqual(_.sortedLastIndex([1, 3], 2, iterator, context), 1);
+
+    var values = [0, 1, 3, 7, 15, 31, 63, 127, 255, 511, 1023, 2047, 4095, 8191, 16383, 32767, 65535, 131071, 262143, 524287, 1048575, 2097151, 4194303, 8388607, 16777215, 33554431, 67108863, 134217727, 268435455, 536870911, 1073741823, 2147483647];
+    var array = Array(Math.pow(2, 32) - 1);
+    var length = values.length;
+    while (length--) {
+      array[values[length]] = values[length];
+    }
+    equal(_.sortedLastIndex(array, 2147483648), 2147483648, 'should work with large indexes');
   });
 
   test('uniq', function() {
