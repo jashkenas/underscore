@@ -208,6 +208,8 @@
       <li>- <a href="#every">every</a></li>
       <li>- <a href="#some">some</a></li>
       <li>- <a href="#contains">contains</a></li>
+      <li>- <a href="#containsAll">containsAll</a></li>
+      <li>- <a href="#containsAny">containsAny</a></li>
       <li>- <a href="#invoke">invoke</a></li>
       <li>- <a href="#pluck">pluck</a></li>
       <li>- <a href="#max">max</a></li>
@@ -627,6 +629,28 @@ _.some([null, 0, 'yes', false]);
       </p>
       <pre>
 _.contains([1, 2, 3], 3);
+=&gt; true
+</pre>
+
+      <p id="containsAll">
+        <b class="header">containsAll</b><code>_.containsAll(list, sublist)</code>
+        <span class="alias">Alias: <b>includesAll</b></span>
+        <br />
+        Returns <i>true</i> if every value in the <b>sublist</b> is present in the <b>list</b>.
+      </p>
+      <pre>
+_.containsAll([1, 2, 3], [1, 3]);
+=&gt; true
+</pre>
+
+      <p id="containsAny">
+        <b class="header">containsAny</b><code>_.containsAny(list, sublist)</code>
+        <span class="alias">Alias: <b>includesAny</b></span>
+        <br />
+        Returns <i>true</i> if at least one value in the <b>sublist</b> is present in the <b>list</b>.
+      </p>
+      <pre>
+_.containsAll([1, 2, 3], [1, 4]);
 =&gt; true
 </pre>
 

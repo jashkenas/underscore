@@ -260,6 +260,16 @@
     return _.indexOf(obj, item, fromIndex) >= 0;
   };
 
+  // Determine if an array contains all elements of a target sub-array
+  _.containsAll = _.includesAll = function(obj, target) {
+    return _.every(target, _.partial(_.contains, obj));
+  };
+
+  // Determine if an array contains any elements of a target sub-array
+  _.containsAny = _.includesAny = function(obj, target) {
+    return _.any(target, _.partial(_.contains, obj));
+  };
+
   // Invoke a method (with arguments) on every item in a collection.
   _.invoke = function(obj, method) {
     var args = slice.call(arguments, 2);

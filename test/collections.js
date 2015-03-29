@@ -450,6 +450,28 @@
     });
   });
 
+  test('includesAll', function() {
+    var collection = [1, 2, 3];
+
+    strictEqual(_.includesAll(collection, [1, 2]), true);
+    strictEqual(_.includesAll(collection, [1, 4]), false);
+  });
+
+  test('containsAll', function() {
+    strictEqual(_.containsAll, _.includesAll, 'alias for includesAll');
+  });
+
+  test('includesAny', function() {
+    var collection = [1, 2, 3];
+
+    strictEqual(_.includesAny(collection, [1, 2]), true);
+    strictEqual(_.includesAny(collection, [1, 4]), true);
+    strictEqual(_.includesAny(collection, [4, 5]), false);
+  });
+
+  test('containsAny', function() {
+    strictEqual(_.containsAny, _.includesAny, 'alias for includesAny');
+  });
 
   test('invoke', 5, function() {
     var list = [[5, 1, 7], [3, 2, 1]];
