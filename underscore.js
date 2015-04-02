@@ -19,7 +19,6 @@
 
   // Create quick reference variables for speed access to core prototypes.
   var
-    push             = ArrayProto.push,
     slice            = ArrayProto.slice,
     toString         = ObjProto.toString,
     hasOwnProperty   = ObjProto.hasOwnProperty;
@@ -96,7 +95,7 @@
 
   // Similar to ES6's rest params (http://ariya.ofilabs.com/2013/03/es6-and-rest-parameter.html)
   // This accumulates the arguments passed into an array, after a given index.
-  _.restParams = function(func, startIndex) {
+  _.restParam = function(func, startIndex) {
     startIndex = startIndex == null ? func.length - 1 : +startIndex;
     return function() {
       var length = arguments.length > startIndex ? arguments.length - startIndex : 0;
@@ -108,7 +107,6 @@
         case 0: return func.call(this, rest);
         case 1: return func.call(this, arguments[0], rest);
         case 2: return func.call(this, arguments[0], arguments[1], rest);
-        case 3: return func.call(this, arguments[0], arguments[1], arguments[2], rest);
       }
       var args = Array(startIndex + 1);
       for (index = 0; index < startIndex; index++) {
@@ -276,7 +274,7 @@
   };
 
   // Invoke a method (with arguments) on every item in a collection.
-  _.invoke = _.restParams(function(obj, method, args) {
+  _.invoke = _.restParam(function(obj, method, args) {
     var isFunc = _.isFunction(method);
     return _.map(obj, function(value) {
       var func = isFunc ? method : value[method];
@@ -513,7 +511,7 @@
   };
 
   // Return a version of the array that does not contain the specified value(s).
-  _.without = _.restParams(function(array, otherArrays) {
+  _.without = _.restParam(function(array, otherArrays) {
     return _.difference(array, otherArrays);
   });
 
@@ -713,7 +711,7 @@
     if (nativeBind && func.bind === nativeBind) return nativeBind.apply(func, slice.call(arguments, 1));
     if (!_.isFunction(func)) throw new TypeError('Bind must be called on a function');
     var args = slice.call(arguments, 2);
-    var bound = _.restParams(function(callArgs) {
+    var bound = _.restParam(function(callArgs) {
       return executeBound(func, bound, context, this, args.concat(callArgs));
     });
     return bound;
@@ -723,7 +721,7 @@
   // arguments pre-filled, without changing its dynamic `this` context. _ acts
   // as a placeholder by default, allowing any combination of arguments to be
   // pre-filled. Set `_.partial.placeholder` for a custom placeholder argument.
-  _.partial = _.restParams(function(func, boundArgs) {
+  _.partial = _.restParam(function(func, boundArgs) {
     var placeholder = _.partial.placeholder;
     var bound = function() {
       var position = 0, length = boundArgs.length;
@@ -742,7 +740,7 @@
   // Bind a number of an object's methods to that object. Remaining arguments
   // are the method names to be bound. Useful for ensuring that all callbacks
   // defined on an object belong to it.
-  _.bindAll = _.restParams(function(obj, keys) {
+  _.bindAll = _.restParam(function(obj, keys) {
     if (keys.length < 1) throw new Error('bindAll must be passed function names');
     return _.each(keys, function(key) {
       obj[key] = _.bind(obj[key], obj);
@@ -763,7 +761,7 @@
 
   // Delays a function for the given number of milliseconds, and then calls
   // it with the arguments supplied.
-  _.delay = _.restParams(function(func, wait, args) {
+  _.delay = _.restParam(function(func, wait, args) {
     return setTimeout(function(){
       return func.apply(null, args);
     }, wait);
@@ -1508,11 +1506,10 @@
   _.mixin = function(obj) {
     _.each(_.functions(obj), function(name) {
       var func = _[name] = obj[name];
-      _.prototype[name] = function() {
-        var args = [this._wrapped];
-        push.apply(args, arguments);
+      _.prototype[name] = _.restParam(function(args) {
+        args.unshift(this._wrapped);
         return result(this, func.apply(_, args));
-      };
+      });
     });
   };
 
