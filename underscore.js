@@ -391,9 +391,9 @@
   };
 
   // An internal function used for aggregate "group by" operations.
-  var group = function(behavior, initializer) {
+  var group = function(behavior, partition) {
     return function(obj, iteratee, context) {
-      var result = initializer ? initializer() : {};
+      var result = partition ? [[], []] : {};
       iteratee = cb(iteratee, context);
       _.each(obj, function(value, index) {
         var key = iteratee(value, index, obj);
@@ -440,7 +440,7 @@
   // predicate, and one whose elements all do not satisfy the predicate.
   _.partition = group(function(result, value, pass) {
     result[pass ? 0 : 1].push(value);
-  }, function() { return [[], []]; });
+  }, true);
 
   // Array Functions
   // ---------------
