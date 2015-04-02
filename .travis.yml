@@ -8,7 +8,7 @@ matrix:
     - node_js: "0.10"
       env: BROWSER=true
 before_install:
-  - npm install -g npm
+  - npm install -g npm@2.6
   - npm install -g karma-cli
 before_script:
   - npm install karma-sauce-launcher

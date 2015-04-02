@@ -15,7 +15,7 @@
     "url": "git://github.com/jashkenas/underscore.git"
   },
   "main": "underscore.js",
-  "version": "1.8.2",
+  "version": "1.8.3",
   "devDependencies": {
     "docco": "*",
     "eslint": "0.6.x",
