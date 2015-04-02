@@ -716,11 +716,14 @@
   // are the method names to be bound. Useful for ensuring that all callbacks
   // defined on an object belong to it.
   _.bindAll = function(obj) {
-    var i, length = arguments.length, key;
+    var i, length = arguments.length, keys;
     if (length <= 1) throw new Error('bindAll must be passed function names');
     for (i = 1; i < length; i++) {
-      key = arguments[i];
-      obj[key] = _.bind(obj[key], obj);
+      keys = arguments[i];
+      if (!_.isArray(keys)) keys = [keys];
+      _.each(keys, function(key){
+        obj[key] = _.bind(obj[key], obj);
+      });
     }
     return obj;
   };
