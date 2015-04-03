@@ -743,10 +743,13 @@
   // are the method names to be bound. Useful for ensuring that all callbacks
   // defined on an object belong to it.
   _.bindAll = restArgs(function(obj, keys) {
-    if (keys.length < 1) throw new Error('bindAll must be passed function names');
-    return _.each(keys, function(key) {
+    keys = flatten(keys, false, false);
+    var index = keys.length;
+    if (index < 1) throw new Error('bindAll must be passed function names');
+    while (index--) {
+      var key = keys[index];
       obj[key] = _.bind(obj[key], obj);
-    });
+    };
   });
 
   // Memoize an expensive function by storing its results.
