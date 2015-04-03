@@ -77,6 +77,16 @@
     ok(widget instanceof MyWidget, 'Can partially bind a constructor');
     equal(widget.get(), 'foo', 'keeps prototype');
     deepEqual(widget.options, {a: 1});
+
+    _.partial.placeholder = obj;
+    func = _.partial(function() { return arguments.length; }, obj, 'b', obj, 'd');
+    equal(func('a'), 4, 'allows the placeholder to be swapped out');
+
+    _.partial.placeholder = {};
+    func = _.partial(function() { return arguments.length; }, obj, 'b', obj, 'd');
+    equal(func('a'), 5, 'swapping the placeholder preserves previously bound arguments');
+
+    _.partial.placeholder = _;
   });
 
   test('bindAll', function() {
@@ -575,7 +585,7 @@
       deepEqual(_.toArray(cb(1, 2, 3)), _.range(1, 4));
       deepEqual(_.toArray(cb(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)), _.range(1, 11));
     });
-    
+
   });
 
 }());
