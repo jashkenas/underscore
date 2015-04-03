@@ -277,55 +277,32 @@
     return _.find(obj, _.matcher(attrs));
   };
 
-  // Return the maximum element (or element-based computation).
-  _.max = function(obj, iteratee, context) {
-    var result = -Infinity, lastComputed = -Infinity,
-        value, computed;
-    if (iteratee == null && obj != null) {
-      obj = isArrayLike(obj) ? obj : _.values(obj);
-      for (var i = 0, length = obj.length; i < length; i++) {
-        value = obj[i];
-        if (value > result) {
-          result = value;
-        }
-      }
-    } else {
+  // Generator function to create the max and min functions
+  var createExtremumFinder = function(max) {
+    return function(obj, iteratee, context) {
+      var keys = !isArrayLike(obj) && _.keys(obj),
+          length = (keys || obj).length,
+          result = max ? -Infinity : Infinity,
+          lastComputed = result,
+          found = false;
       iteratee = cb(iteratee, context);
-      _.each(obj, function(value, index, list) {
-        computed = iteratee(value, index, list);
-        if (computed > lastComputed || computed === -Infinity && result === -Infinity) {
+      for (var index = 0; index < length; index++) {
+        var currentKey = keys ? keys[index] : index;
+        var value = obj[currentKey];
+        var computed = iteratee(value, currentKey, obj);
+        if ((max ? computed > lastComputed : computed < lastComputed) || (!found && computed === result)) {
+          found = true;
           result = value;
           lastComputed = computed;
         }
-      });
-    }
-    return result;
+      }
+      return result;
+    };
   };
 
-  // Return the minimum element (or element-based computation).
-  _.min = function(obj, iteratee, context) {
-    var result = Infinity, lastComputed = Infinity,
-        value, computed;
-    if (iteratee == null && obj != null) {
-      obj = isArrayLike(obj) ? obj : _.values(obj);
-      for (var i = 0, length = obj.length; i < length; i++) {
-        value = obj[i];
-        if (value < result) {
-          result = value;
-        }
-      }
-    } else {
-      iteratee = cb(iteratee, context);
-      _.each(obj, function(value, index, list) {
-        computed = iteratee(value, index, list);
-        if (computed < lastComputed || computed === Infinity && result === Infinity) {
-          result = value;
-          lastComputed = computed;
-        }
-      });
-    }
-    return result;
-  };
+  // Return the extremum element (or element-based computation).
+  _.max = createExtremumFinder(true);
+  _.min = createExtremumFinder(false);
 
   // Shuffle a collection, using the modern version of the
   // [Fisher-Yates shuffle](http://en.wikipedia.org/wiki/Fisher–Yates_shuffle).
