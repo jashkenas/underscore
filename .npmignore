@@ -1,0 +1,9 @@
+raw
+*.log
+*.idea
+*.swp
+
+# Development files
+/test/
+/.eslintrc
+/.travis.yml
