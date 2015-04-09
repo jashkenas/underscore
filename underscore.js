@@ -19,7 +19,6 @@
 
   // Create quick reference variables for speed access to core prototypes.
   var
-    push             = ArrayProto.push,
     slice            = ArrayProto.slice,
     toString         = ObjProto.toString,
     hasOwnProperty   = ObjProto.hasOwnProperty;
@@ -92,6 +91,30 @@
   };
   _.iteratee = function(value, context) {
     return cb(value, context, Infinity);
+  };
+
+  // Similar to ES6's rest param (http://ariya.ofilabs.com/2013/03/es6-and-rest-parameter.html)
+  // This accumulates the arguments passed into an array, after a given index.
+  var restArgs = function(func, startIndex) {
+    startIndex = startIndex == null ? func.length - 1 : +startIndex;
+    return function() {
+      var length = Math.max(arguments.length - startIndex, 0);
+      var rest = Array(length);
+      for (var index = 0; index < length; index++) {
+        rest[index] = arguments[index + startIndex];
+      }
+      switch (startIndex) {
+        case 0: return func.call(this, rest);
+        case 1: return func.call(this, arguments[0], rest);
+        case 2: return func.call(this, arguments[0], arguments[1], rest);
+      }
+      var args = Array(startIndex + 1);
+      for (index = 0; index < startIndex; index++) {
+        args[index] = arguments[index];
+      }
+      args[startIndex] = rest;
+      return func.apply(this, args);
+    };
   };
 
   // An internal function for creating a new object that inherits from another.
@@ -251,14 +274,13 @@
   };
 
   // Invoke a method (with arguments) on every item in a collection.
-  _.invoke = function(obj, method) {
-    var args = slice.call(arguments, 2);
+  _.invoke = restArgs(function(obj, method, args) {
     var isFunc = _.isFunction(method);
     return _.map(obj, function(value) {
       var func = isFunc ? method : value[method];
       return func == null ? func : func.apply(value, args);
     });
-  };
+  });
 
   // Convenience version of a common use case of `map`: fetching a property.
   _.pluck = function(obj, key) {
@@ -489,9 +511,9 @@
   };
 
   // Return a version of the array that does not contain the specified value(s).
-  _.without = function(array) {
-    return _.difference(array, slice.call(arguments, 1));
-  };
+  _.without = restArgs(function(array, otherArrays) {
+    return _.difference(array, otherArrays);
+  });
 
   // Produce a duplicate-free version of the array. If the array has already
   // been sorted, you have the option of using a faster algorithm.
@@ -689,9 +711,9 @@
     if (nativeBind && func.bind === nativeBind) return nativeBind.apply(func, slice.call(arguments, 1));
     if (!_.isFunction(func)) throw new TypeError('Bind must be called on a function');
     var args = slice.call(arguments, 2);
-    var bound = function() {
-      return executeBound(func, bound, context, this, args.concat(slice.call(arguments)));
-    };
+    var bound = restArgs(function(callArgs) {
+      return executeBound(func, bound, context, this, args.concat(callArgs));
+    });
     return bound;
   };
 
@@ -699,9 +721,8 @@
   // arguments pre-filled, without changing its dynamic `this` context. _ acts
   // as a placeholder by default, allowing any combination of arguments to be
   // pre-filled. Set `_.partial.placeholder` for a custom placeholder argument.
-  _.partial = function(func) {
-    var boundArgs = slice.call(arguments, 1),
-        placeholder = _.partial.placeholder;
+  _.partial = restArgs(function(func, boundArgs) {
+    var placeholder = _.partial.placeholder;
     var bound = function() {
       var position = 0, length = boundArgs.length;
       var args = Array(length);
@@ -712,22 +733,19 @@
       return executeBound(func, bound, this, this, args);
     };
     return bound;
-  };
+  });
 
   _.partial.placeholder = _;
 
   // Bind a number of an object's methods to that object. Remaining arguments
   // are the method names to be bound. Useful for ensuring that all callbacks
   // defined on an object belong to it.
-  _.bindAll = function(obj) {
-    var i, length = arguments.length, key;
-    if (length <= 1) throw new Error('bindAll must be passed function names');
-    for (i = 1; i < length; i++) {
-      key = arguments[i];
+  _.bindAll = restArgs(function(obj, keys) {
+    if (keys.length < 1) throw new Error('bindAll must be passed function names');
+    return _.each(keys, function(key) {
       obj[key] = _.bind(obj[key], obj);
-    }
-    return obj;
-  };
+    });
+  });
 
   // Memoize an expensive function by storing its results.
   _.memoize = function(func, hasher) {
@@ -743,12 +761,11 @@
 
   // Delays a function for the given number of milliseconds, and then calls
   // it with the arguments supplied.
-  _.delay = function(func, wait) {
-    var args = slice.call(arguments, 2);
+  _.delay = restArgs(function(func, wait, args) {
     return setTimeout(function(){
       return func.apply(null, args);
     }, wait);
-  };
+  });
 
   // Defers a function, scheduling it to run after the current call stack has
   // cleared.
@@ -878,6 +895,8 @@
   // Returns a function that will be executed at most one time, no matter how
   // often you call it. Useful for lazy initialization.
   _.once = _.partial(_.before, 2);
+
+  _.restArgs = restArgs;
 
   // Object Functions
   // ----------------
@@ -1489,11 +1508,10 @@
   _.mixin = function(obj) {
     _.each(_.functions(obj), function(name) {
       var func = _[name] = obj[name];
-      _.prototype[name] = function() {
-        var args = [this._wrapped];
-        push.apply(args, arguments);
+      _.prototype[name] = restArgs(function(args) {
+        args.unshift(this._wrapped);
         return result(this, func.apply(_, args));
-      };
+      });
     });
   };
 
