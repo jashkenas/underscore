@@ -588,28 +588,28 @@
 
   });
 
-  test('restParam', 10, function() {
-    _.restParam(function(a, args) {
+  test('restArgs', 10, function() {
+    _.restArgs(function(a, args) {
         strictEqual(a, 1);
         deepEqual(args, [2, 3], 'collects rest arguments into an array');
     })(1, 2, 3);
 
-    _.restParam(function(a, args) {
+    _.restArgs(function(a, args) {
         strictEqual(a, undefined);
         deepEqual(args, [], 'passes empty array if there are not enough arguments');
     })();
 
-    _.restParam(function(a, b, c, args) {
+    _.restArgs(function(a, b, c, args) {
         strictEqual(arguments.length, 4);
         deepEqual(args, [4, 5], 'works on functions with many named parameters');
     })(1, 2, 3, 4, 5);
 
     var obj = {};
-    _.restParam(function() {
+    _.restArgs(function() {
         strictEqual(this, obj, 'invokes function with this context');
     }).call(obj);
 
-    _.restParam(function(array, iteratee, context) {
+    _.restArgs(function(array, iteratee, context) {
         deepEqual(array, [1, 2, 3, 4], 'startIndex can be used manually specify index of rest parameter');
         strictEqual(iteratee, undefined);
         strictEqual(context, undefined);
