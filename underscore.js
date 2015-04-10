@@ -485,24 +485,35 @@
     return _.filter(array, _.identity);
   };
 
-  // Internal implementation of a recursive `flatten` function.
+  // Internal implementation of a iterative `flatten` function.
   var flatten = function(input, shallow, strict, startIndex) {
-    var output = [], idx = 0;
-    for (var i = startIndex || 0, length = getLength(input); i < length; i++) {
-      var value = input[i];
-      if (isArrayLike(value) && (_.isArray(value) || _.isArguments(value))) {
+    var cloned = isArrayLike(input) ? slice.call(input, startIndex || 0) : _.clone(input);
+    var output = [];
+    var depth = 0;
+    var length = getLength(cloned);
+    while (length) {
+      var value = cloned.pop();
+      length--;
+      if (value === _) {
+        depth--;
+      } else if (isArrayLike(value) && (_.isArray(value) || _.isArguments(value)) && (!shallow || depth < 1)) {
         //flatten current level of array or arguments object
-        if (!shallow) value = flatten(value, shallow, strict);
-        var j = 0, len = value.length;
-        output.length += len;
-        while (j < len) {
-          output[idx++] = value[j++];
+        var len = value.length;
+        var idx = cloned.length;
+        length += len + 1;
+        cloned.length = length;
+        cloned[idx++] = _;
+        var i = 0;
+        while (i < len) {
+          cloned[idx++] = value[i++];
         }
-      } else if (!strict) {
-        output[idx++] = value;
+        depth++;
+      } else if (!strict || depth >= 1) {
+        output.push(value);
       }
     }
-    return output;
+    cloned = null;
+    return output.reverse();
   };
 
   // Flatten out an array, either recursively (by default), or just one level.
