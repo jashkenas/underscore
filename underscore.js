@@ -650,12 +650,15 @@
   // Split an **array** into several arrays containing **count** or less elements
   // of initial array
   _.chunk = function(array, count) {
+    count = count || 1;
+
+    if (count <= 1) return array.slice();
+
     var result = [];
+    var i = 0, length = array.length;
 
-    if (array == null || count <= 0) return [];
-
-    for (var i = 0, length = array.length; i < length;) {
-      result.push(array.slice(i, i += count));
+    while (i < length) {
+      result.push(slice.call(array, i, i += count));
     }
 
     return result;
