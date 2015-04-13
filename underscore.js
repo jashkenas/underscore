@@ -699,12 +699,13 @@
   // Split an **array** into several arrays containing **count** or less elements
   // of initial array
   _.chunk = function(array, count) {
+    count = +count || 1;
+    if (count <= 1) return slice.call(array);
+
     var result = [];
-
-    if (array == null || count <= 0) return [];
-
-    for (var i = 0, length = array.length; i < length;) {
-      result.push(array.slice(i, i += count));
+    var i = 0, length = array.length;
+    while (i < length) {
+      result.push(slice.call(array, i, i += count));
     }
 
     return result;
