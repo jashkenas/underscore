@@ -8,8 +8,10 @@
   // Baseline setup
   // --------------
 
-  // Establish the root object, `window` in the browser, or `exports` on the server.
-  var root = this;
+  // Establish the root object, `window` (`self`) in the browser, or `global` on the server.
+  // We use `self` instead of `window` for `WebWorker` support.
+  var root = (typeof self == 'object' && self.self == self && self) ||
+            (typeof global == 'object' && global.global == global && global);
 
   // Save the previous value of the `_` variable.
   var previousUnderscore = root._;
@@ -1562,4 +1564,4 @@
       return _;
     });
   }
-}.call(this));
+}());
