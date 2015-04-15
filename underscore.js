@@ -770,7 +770,7 @@
   // Defers a function, scheduling it to run after the current call stack has
   // cleared. Use native promise if available.
   _.defer = (function() {
-    if (!Promise) {
+    if (typeof Promise !== 'function') {
       return _.partial(_.delay, _, 1);
     }
     var _promise = new Promise(function(resolve) {
