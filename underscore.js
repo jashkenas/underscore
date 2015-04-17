@@ -1,4 +1,4 @@
-//     Underscore.js 1.8.2
+//     Underscore.js 1.8.3
 //     http://underscorejs.org
 //     (c) 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 //     Underscore may be freely distributed under the MIT license.
@@ -19,7 +19,6 @@
 
   // Create quick reference variables for speed access to core prototypes.
   var
-    push             = ArrayProto.push,
     slice            = ArrayProto.slice,
     toString         = ObjProto.toString,
     hasOwnProperty   = ObjProto.hasOwnProperty;
@@ -55,7 +54,7 @@
   }
 
   // Current version.
-  _.VERSION = '1.8.2';
+  _.VERSION = '1.8.3';
 
   // Internal function that returns an efficient (for current engines) version
   // of the passed-in callback, to be repeatedly applied in other Underscore
@@ -94,21 +93,27 @@
     return cb(value, context, Infinity);
   };
 
-  // An internal function for creating assigner functions.
-  var createAssigner = function(keysFunc, undefinedOnly) {
-    return function(obj) {
-      var length = arguments.length;
-      if (length < 2 || obj == null) return obj;
-      for (var index = 1; index < length; index++) {
-        var source = arguments[index],
-            keys = keysFunc(source),
-            l = keys.length;
-        for (var i = 0; i < l; i++) {
-          var key = keys[i];
-          if (!undefinedOnly || obj[key] === void 0) obj[key] = source[key];
-        }
+  // Similar to ES6's rest param (http://ariya.ofilabs.com/2013/03/es6-and-rest-parameter.html)
+  // This accumulates the arguments passed into an array, after a given index.
+  var restArgs = function(func, startIndex) {
+    startIndex = startIndex == null ? func.length - 1 : +startIndex;
+    return function() {
+      var length = Math.max(arguments.length - startIndex, 0);
+      var rest = Array(length);
+      for (var index = 0; index < length; index++) {
+        rest[index] = arguments[index + startIndex];
       }
-      return obj;
+      switch (startIndex) {
+        case 0: return func.call(this, rest);
+        case 1: return func.call(this, arguments[0], rest);
+        case 2: return func.call(this, arguments[0], arguments[1], rest);
+      }
+      var args = Array(startIndex + 1);
+      for (index = 0; index < startIndex; index++) {
+        args[index] = arguments[index];
+      }
+      args[startIndex] = rest;
+      return func.apply(this, args);
     };
   };
 
@@ -122,12 +127,20 @@
     return result;
   };
 
+  var property = function(key) {
+    return function(obj) {
+      return obj == null ? void 0 : obj[key];
+    };
+  };
+
   // Helper for collection methods to determine whether a collection
   // should be iterated as an array or as an object
   // Related: http://people.mozilla.org/~jorendorff/es6-draft.html#sec-tolength
+  // Avoids a very nasty iOS 8 JIT bug on ARM-64. #2094
   var MAX_ARRAY_INDEX = Math.pow(2, 53) - 1;
+  var getLength = property('length');
   var isArrayLike = function(collection) {
-    var length = collection != null && collection.length;
+    var length = getLength(collection);
     return typeof length == 'number' && length >= 0 && length <= MAX_ARRAY_INDEX;
   };
 
@@ -167,16 +180,16 @@
   };
 
   // Create a reducing function iterating left or right.
-  function createReduce(dir) {
+  var createReduce = function(dir) {
     // Optimized iterator function as using arguments.length
     // in the main function will deoptimize the, see #1991.
-    function iterator(obj, iteratee, memo, keys, index, length) {
+    var iterator = function(obj, iteratee, memo, keys, index, length) {
       for (; index >= 0 && index < length; index += dir) {
         var currentKey = keys ? keys[index] : index;
         memo = iteratee(memo, obj[currentKey], currentKey, obj);
       }
       return memo;
-    }
+    };
 
     return function(obj, iteratee, memo, context) {
       iteratee = optimizeCb(iteratee, context, 4);
@@ -190,7 +203,7 @@
       }
       return iterator(obj, iteratee, memo, keys, index, length);
     };
-  }
+  };
 
   // **Reduce** builds up a single result from a list of values, aka `inject`,
   // or `foldl`.
@@ -261,14 +274,13 @@
   };
 
   // Invoke a method (with arguments) on every item in a collection.
-  _.invoke = function(obj, method) {
-    var args = slice.call(arguments, 2);
+  _.invoke = restArgs(function(obj, method, args) {
     var isFunc = _.isFunction(method);
     return _.map(obj, function(value) {
       var func = isFunc ? method : value[method];
       return func == null ? func : func.apply(value, args);
     });
-  };
+  });
 
   // Convenience version of a common use case of `map`: fetching a property.
   _.pluck = function(obj, key) {
@@ -383,9 +395,9 @@
   };
 
   // An internal function used for aggregate "group by" operations.
-  var group = function(behavior) {
+  var group = function(behavior, partition) {
     return function(obj, iteratee, context) {
-      var result = {};
+      var result = partition ? [[], []] : {};
       iteratee = cb(iteratee, context);
       _.each(obj, function(value, index) {
         var key = iteratee(value, index, obj);
@@ -430,14 +442,9 @@
 
   // Split a collection into two arrays: one whose elements all satisfy the given
   // predicate, and one whose elements all do not satisfy the predicate.
-  _.partition = function(obj, predicate, context) {
-    predicate = cb(predicate, context);
-    var pass = [], fail = [];
-    _.each(obj, function(value, key, obj) {
-      (predicate(value, key, obj) ? pass : fail).push(value);
-    });
-    return [pass, fail];
-  };
+  _.partition = group(function(result, value, pass) {
+    result[pass ? 0 : 1].push(value);
+  }, true);
 
   // Array Functions
   // ---------------
@@ -481,7 +488,7 @@
   // Internal implementation of a recursive `flatten` function.
   var flatten = function(input, shallow, strict, startIndex) {
     var output = [], idx = 0;
-    for (var i = startIndex || 0, length = input && input.length; i < length; i++) {
+    for (var i = startIndex || 0, length = getLength(input); i < length; i++) {
       var value = input[i];
       if (isArrayLike(value) && (_.isArray(value) || _.isArguments(value))) {
         //flatten current level of array or arguments object
@@ -504,15 +511,14 @@
   };
 
   // Return a version of the array that does not contain the specified value(s).
-  _.without = function(array) {
-    return _.difference(array, slice.call(arguments, 1));
-  };
+  _.without = restArgs(function(array, otherArrays) {
+    return _.difference(array, otherArrays);
+  });
 
   // Produce a duplicate-free version of the array. If the array has already
   // been sorted, you have the option of using a faster algorithm.
   // Aliased as `unique`.
   _.uniq = _.unique = function(array, isSorted, iteratee, context) {
-    if (array == null) return [];
     if (!_.isBoolean(isSorted)) {
       context = iteratee;
       iteratee = isSorted;
@@ -521,7 +527,7 @@
     if (iteratee != null) iteratee = cb(iteratee, context);
     var result = [];
     var seen = [];
-    for (var i = 0, length = array.length; i < length; i++) {
+    for (var i = 0, length = getLength(array); i < length; i++) {
       var value = array[i],
           computed = iteratee ? iteratee(value, i, array) : value;
       if (isSorted) {
@@ -548,10 +554,9 @@
   // Produce an array that contains every item shared between all the
   // passed-in arrays.
   _.intersection = function(array) {
-    if (array == null) return [];
     var result = [];
     var argsLength = arguments.length;
-    for (var i = 0, length = array.length; i < length; i++) {
+    for (var i = 0, length = getLength(array); i < length; i++) {
       var item = array[i];
       if (_.contains(result, item)) continue;
       for (var j = 1; j < argsLength; j++) {
@@ -580,7 +585,7 @@
   // Complement of _.zip. Unzip accepts an array of arrays and groups
   // each array's elements on shared indices
   _.unzip = function(array) {
-    var length = array && _.max(array, 'length').length || 0;
+    var length = array && _.max(array, getLength).length || 0;
     var result = Array(length);
 
     for (var index = 0; index < length; index++) {
@@ -594,7 +599,7 @@
   // the corresponding values.
   _.object = function(list, values) {
     var result = {};
-    for (var i = 0, length = list && list.length; i < length; i++) {
+    for (var i = 0, length = getLength(list); i < length; i++) {
       if (values) {
         result[list[i]] = values[i];
       } else {
@@ -605,17 +610,17 @@
   };
 
   // Generator function to create the findIndex and findLastIndex functions
-  function createPredicateIndexFinder(dir) {
+  var createPredicateIndexFinder = function(dir) {
     return function(array, predicate, context) {
       predicate = cb(predicate, context);
-      var length = array != null && array.length;
+      var length = getLength(array);
       var index = dir > 0 ? 0 : length - 1;
       for (; index >= 0 && index < length; index += dir) {
         if (predicate(array[index], index, array)) return index;
       }
       return -1;
     };
-  }
+  };
 
   // Returns the first index on an array-like that passes a predicate test
   _.findIndex = createPredicateIndexFinder(1);
@@ -626,7 +631,7 @@
   _.sortedIndex = function(array, obj, iteratee, context) {
     iteratee = cb(iteratee, context, 1);
     var value = iteratee(obj);
-    var low = 0, high = array.length;
+    var low = 0, high = getLength(array);
     while (low < high) {
       var mid = Math.floor((low + high) / 2);
       if (iteratee(array[mid]) < value) low = mid + 1; else high = mid;
@@ -635,9 +640,9 @@
   };
 
   // Generator function to create the indexOf and lastIndexOf functions
-  function createIndexFinder(dir, predicateFind, sortedIndex) {
+  var createIndexFinder = function(dir, predicateFind, sortedIndex) {
     return function(array, item, idx) {
-      var i = 0, length = array ? array.length : -1;
+      var i = 0, length = getLength(array);
       if (typeof idx == 'number') {
         if (dir > 0) {
             i = idx >= 0 ? idx : Math.max(idx + length, i);
@@ -657,7 +662,7 @@
       }
       return -1;
     };
-  }
+  };
 
   // Return the position of the first occurrence of an item in an array,
   // or -1 if the item is not included in the array.
@@ -706,41 +711,41 @@
     if (nativeBind && func.bind === nativeBind) return nativeBind.apply(func, slice.call(arguments, 1));
     if (!_.isFunction(func)) throw new TypeError('Bind must be called on a function');
     var args = slice.call(arguments, 2);
-    var bound = function() {
-      return executeBound(func, bound, context, this, args.concat(slice.call(arguments)));
-    };
+    var bound = restArgs(function(callArgs) {
+      return executeBound(func, bound, context, this, args.concat(callArgs));
+    });
     return bound;
   };
 
   // Partially apply a function by creating a version that has had some of its
   // arguments pre-filled, without changing its dynamic `this` context. _ acts
-  // as a placeholder, allowing any combination of arguments to be pre-filled.
-  _.partial = function(func) {
-    var boundArgs = slice.call(arguments, 1);
+  // as a placeholder by default, allowing any combination of arguments to be
+  // pre-filled. Set `_.partial.placeholder` for a custom placeholder argument.
+  _.partial = restArgs(function(func, boundArgs) {
+    var placeholder = _.partial.placeholder;
     var bound = function() {
       var position = 0, length = boundArgs.length;
       var args = Array(length);
       for (var i = 0; i < length; i++) {
-        args[i] = boundArgs[i] === _ ? arguments[position++] : boundArgs[i];
+        args[i] = boundArgs[i] === placeholder ? arguments[position++] : boundArgs[i];
       }
       while (position < arguments.length) args.push(arguments[position++]);
       return executeBound(func, bound, this, this, args);
     };
     return bound;
-  };
+  });
+
+  _.partial.placeholder = _;
 
   // Bind a number of an object's methods to that object. Remaining arguments
   // are the method names to be bound. Useful for ensuring that all callbacks
   // defined on an object belong to it.
-  _.bindAll = function(obj) {
-    var i, length = arguments.length, key;
-    if (length <= 1) throw new Error('bindAll must be passed function names');
-    for (i = 1; i < length; i++) {
-      key = arguments[i];
+  _.bindAll = restArgs(function(obj, keys) {
+    if (keys.length < 1) throw new Error('bindAll must be passed function names');
+    return _.each(keys, function(key) {
       obj[key] = _.bind(obj[key], obj);
-    }
-    return obj;
-  };
+    });
+  });
 
   // Memoize an expensive function by storing its results.
   _.memoize = function(func, hasher) {
@@ -756,12 +761,11 @@
 
   // Delays a function for the given number of milliseconds, and then calls
   // it with the arguments supplied.
-  _.delay = function(func, wait) {
-    var args = slice.call(arguments, 2);
+  _.delay = restArgs(function(func, wait, args) {
     return setTimeout(function(){
       return func.apply(null, args);
     }, wait);
-  };
+  });
 
   // Defers a function, scheduling it to run after the current call stack has
   // cleared.
@@ -892,6 +896,8 @@
   // often you call it. Useful for lazy initialization.
   _.once = _.partial(_.before, 2);
 
+  _.restArgs = restArgs;
+
   // Object Functions
   // ----------------
 
@@ -900,7 +906,7 @@
   var nonEnumerableProps = ['valueOf', 'isPrototypeOf', 'toString',
                       'propertyIsEnumerable', 'hasOwnProperty', 'toLocaleString'];
 
-  function collectNonEnumProps(obj, keys) {
+  var collectNonEnumProps = function(obj, keys) {
     var nonEnumIdx = nonEnumerableProps.length;
     var constructor = obj.constructor;
     var proto = (_.isFunction(constructor) && constructor.prototype) || ObjProto;
@@ -915,7 +921,7 @@
         keys.push(prop);
       }
     }
-  }
+  };
 
   // Retrieve the names of an object's own properties.
   // Delegates to **ECMAScript 5**'s native `Object.keys`
@@ -994,6 +1000,24 @@
       if (_.isFunction(obj[key])) names.push(key);
     }
     return names.sort();
+  };
+
+  // An internal function for creating assigner functions.
+  var createAssigner = function(keysFunc, undefinedOnly) {
+    return function(obj) {
+      var length = arguments.length;
+      if (length < 2 || obj == null) return obj;
+      for (var index = 1; index < length; index++) {
+        var source = arguments[index],
+            keys = keysFunc(source),
+            l = keys.length;
+        for (var i = 0; i < l; i++) {
+          var key = keys[i];
+          if (!undefinedOnly || obj[key] === void 0) obj[key] = source[key];
+        }
+      }
+      return obj;
+    };
   };
 
   // Extend a given object with all the properties in passed-in object(s).
@@ -1135,7 +1159,7 @@
     }
     // Assume equality for cyclic structures. The algorithm for detecting cyclic
     // structures is adapted from ES 5.1 section 15.12.3, abstract operation `JO`.
-    
+
     // Initializing stack of traversed objects.
     // It's done here since we only need them for objects and arrays comparison.
     aStack = aStack || [];
@@ -1286,11 +1310,7 @@
 
   _.noop = function(){};
 
-  _.property = function(key) {
-    return function(obj) {
-      return obj == null ? void 0 : obj[key];
-    };
-  };
+  _.property = property;
 
   // Generates a function for a given object that returns a given property.
   _.propertyOf = function(obj) {
@@ -1299,7 +1319,7 @@
     };
   };
 
-  // Returns a predicate for checking whether an object has a given set of 
+  // Returns a predicate for checking whether an object has a given set of
   // `key:value` pairs.
   _.matcher = _.matches = function(attrs) {
     attrs = _.extendOwn({}, attrs);
@@ -1488,11 +1508,10 @@
   _.mixin = function(obj) {
     _.each(_.functions(obj), function(name) {
       var func = _[name] = obj[name];
-      _.prototype[name] = function() {
-        var args = [this._wrapped];
-        push.apply(args, arguments);
+      _.prototype[name] = restArgs(function(args) {
+        args.unshift(this._wrapped);
         return result(this, func.apply(_, args));
-      };
+      });
     });
   };
 
@@ -1526,7 +1545,7 @@
   // Provide unwrapping proxy for some methods used in engine operations
   // such as arithmetic and JSON stringification.
   _.prototype.valueOf = _.prototype.toJSON = _.prototype.value;
-  
+
   _.prototype.toString = function() {
     return '' + this._wrapped;
   };

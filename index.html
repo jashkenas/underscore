@@ -180,7 +180,7 @@
   <div id="sidebar" class="interface">
 
     <a class="toc_title" href="#">
-      Underscore.js <span class="version">(1.8.2)</span>
+      Underscore.js <span class="version">(1.8.3)</span>
     </a>
     <ul class="toc_section">
       <li>&raquo; <a href="https://github.com/jashkenas/underscore">GitHub Repository</a></li>
@@ -279,6 +279,7 @@
       <li>- <a href="#mapObject">mapObject</a></li>
       <li>- <a href="#pairs">pairs</a></li>
       <li>- <a href="#invert">invert</a></li>
+      <li>- <a href="#create">create</a></li>
       <li>- <a href="#object-functions">functions</a></li>
       <li>- <a href="#findKey">findKey</a></li>
       <li>- <a href="#extend">extend</a></li>
@@ -402,11 +403,11 @@
 
     <table>
       <tr>
-        <td><a href="underscore.js">Development Version (1.8.2)</a></td>
-        <td><i>51kb, Uncompressed with Plentiful Comments</i></td>
+        <td><a href="underscore.js">Development Version (1.8.3)</a></td>
+        <td><i>52kb, Uncompressed with Plentiful Comments</i></td>
       </tr>
       <tr>
-        <td><a href="underscore-min.js">Production Version (1.8.2)</a></td>
+        <td><a href="underscore-min.js">Production Version (1.8.3)</a></td>
         <td>
           <i>5.7kb, Minified and Gzipped</i>
           &nbsp;<small>(<a href="underscore-min.map">Source Map</a>)</small>
@@ -1231,7 +1232,7 @@ $(window).scroll(throttled);
       </p>
 
       <p>
-        Pass <tt>true</tt> for the <b>immediate</b> parameter to cause
+        Pass <tt>true</tt> for the <b>immediate</b> argument to cause
         <b>debounce</b> to trigger the function on the leading instead of the
         trailing edge of the <b>wait</b> interval. Useful in circumstances like
         preventing accidental double-clicks on a "submit" button from firing a
@@ -1402,6 +1403,17 @@ _.pairs({one: 1, two: 2, three: 3});
       <pre>
 _.invert({Moe: "Moses", Larry: "Louis", Curly: "Jerome"});
 =&gt; {Moses: "Moe", Louis: "Larry", Jerome: "Curly"};
+</pre>
+
+      <p id="create">
+        <b class="header">create</b><code>_.create(prototype, props)</code>
+        <br />
+        Creates a new object with the given prototype, optionally attaching 
+        <b>props</b> as <i>own</i> properties. Basically, <tt>Object.create</tt>,
+        but without all of the property descriptor jazz.
+      </p>
+      <pre>
+var moe = _.create(Stooge.prototype, {name: "Moe"});
 </pre>
 
       <p id="object-functions">
@@ -2192,6 +2204,20 @@ _([1, 2, 3]).value();
       </p>
 
       <h2 id="changelog">Change Log</h2>
+
+      <p id="1.8.3">
+        <b class="header">1.8.3</b> &mdash; <small><i>April 2, 2015</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.8.2...1.8.3">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/underscore/1.8.3/index.html">Docs</a><br />
+        <ul>
+          <li>
+            Adds an <tt>_.create</tt> method, as a slimmed down version of 
+            <tt>Object.create</tt>.
+          </li>
+          <li>
+            Works around an iOS bug that can improperly cause <tt>isArrayLike</tt>
+            to be JIT-ed. Also fixes a bug when passing <tt>0</tt> to <tt>isArrayLike</tt>.
+          </li>
+        </ul>
+      </p>
 
       <p id="1.8.2">
         <b class="header">1.8.2</b> &mdash; <small><i>Feb. 22, 2015</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.8.1...1.8.2">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/underscore/1.8.2/index.html">Docs</a><br />

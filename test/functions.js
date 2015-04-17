@@ -77,6 +77,16 @@
     ok(widget instanceof MyWidget, 'Can partially bind a constructor');
     equal(widget.get(), 'foo', 'keeps prototype');
     deepEqual(widget.options, {a: 1});
+
+    _.partial.placeholder = obj;
+    func = _.partial(function() { return arguments.length; }, obj, 'b', obj, 'd');
+    equal(func('a'), 4, 'allows the placeholder to be swapped out');
+
+    _.partial.placeholder = {};
+    func = _.partial(function() { return arguments.length; }, obj, 'b', obj, 'd');
+    equal(func('a'), 5, 'swapping the placeholder preserves previously bound arguments');
+
+    _.partial.placeholder = _;
   });
 
   test('bindAll', function() {
@@ -575,7 +585,35 @@
       deepEqual(_.toArray(cb(1, 2, 3)), _.range(1, 4));
       deepEqual(_.toArray(cb(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)), _.range(1, 11));
     });
-    
+
+  });
+
+  test('restArgs', 10, function() {
+    _.restArgs(function(a, args) {
+        strictEqual(a, 1);
+        deepEqual(args, [2, 3], 'collects rest arguments into an array');
+    })(1, 2, 3);
+
+    _.restArgs(function(a, args) {
+        strictEqual(a, undefined);
+        deepEqual(args, [], 'passes empty array if there are not enough arguments');
+    })();
+
+    _.restArgs(function(a, b, c, args) {
+        strictEqual(arguments.length, 4);
+        deepEqual(args, [4, 5], 'works on functions with many named parameters');
+    })(1, 2, 3, 4, 5);
+
+    var obj = {};
+    _.restArgs(function() {
+        strictEqual(this, obj, 'invokes function with this context');
+    }).call(obj);
+
+    _.restArgs(function(array, iteratee, context) {
+        deepEqual(array, [1, 2, 3, 4], 'startIndex can be used manually specify index of rest parameter');
+        strictEqual(iteratee, undefined);
+        strictEqual(context, undefined);
+    }, 0)(1, 2, 3, 4);
   });
 
 }());
