@@ -737,12 +737,12 @@
   });
 
   test('shuffle', function() {
-    var numbers = _.range(10);
+    deepEqual(_.shuffle([1]), [1], 'behaves correctly on size 1 arrays');
+    var numbers = _.range(20);
     var shuffled = _.shuffle(numbers);
+    notDeepEqual(numbers, shuffled, 'does change the order'); // Chance of false negative: 1 in ~2.4*10^18
     notStrictEqual(numbers, shuffled, 'original object is unmodified');
-    ok(_.every(_.range(10), function() { //appears consistent?
-      return _.every(numbers, _.partial(_.contains, numbers));
-    }), 'contains the same members before and after shuffle');
+    deepEqual(numbers, _.sortBy(shuffled), 'contains the same members before and after shuffle');
 
     shuffled = _.shuffle({a: 1, b: 2, c: 3, d: 4});
     equal(shuffled.length, 4);
@@ -750,6 +750,8 @@
   });
 
   test('sample', function() {
+    strictEqual(_.sample([1]), 1, 'behaves correctly when no second parameter is given');
+    deepEqual(_.sample([1, 2, 3], -2), [], 'behaves correctly on negative n');
     var numbers = _.range(10);
     var allSampled = _.sample(numbers, 10).sort();
     deepEqual(allSampled, numbers, 'contains the same members before and after sample');
@@ -761,6 +763,9 @@
     notStrictEqual(_.sample([1, 2, 3], 0), [], 'sampling an array with 0 picks returns an empty array');
     deepEqual(_.sample([1, 2], -1), [], 'sampling a negative number of picks returns an empty array');
     ok(_.contains([1, 2, 3], _.sample({a: 1, b: 2, c: 3})), 'sample one value from an object');
+    var partialSample = _.sample(_.range(1000), 10);
+    var partialSampleSorted = partialSample.sort();
+    notDeepEqual(partialSampleSorted, _.range(10), 'samples from the whole array, not just the beginning');
   });
 
   test('toArray', function() {
