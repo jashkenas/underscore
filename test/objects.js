@@ -4,6 +4,7 @@
   QUnit.module('Objects');
 
   var testElement = typeof document === 'object' ? document.createElement('div') : void 0;
+  var testNodeList = typeof document === 'object' ? document.querySelectorAll('div') : void 0;
 
   test('keys', function() {
     deepEqual(_.keys({one : 1, two : 2}), ['one', 'two'], 'can extract the keys from an object');
@@ -584,6 +585,13 @@
     test('isElement', function() {
       ok(!_.isElement('div'), 'strings are not dom elements');
       ok(_.isElement(testElement), 'an element is a DOM element');
+    });
+
+    test('isNodeList', function() {
+      ok(!_.isNodeList('div'), 'a string is not a NodeList');
+      ok(!_.isNodeList(testElement), 'a DOM element is not a NodeList');
+      ok(!_.isNodeList([1, 2, 3]), 'an array is not a NodeList');
+      ok(_.isNodeList(testNodeList), 'a NodeList is a NodeList');
     });
   }
 
