@@ -19,6 +19,7 @@
 
   // Create quick reference variables for speed access to core prototypes.
   var
+    push             = ArrayProto.push,
     slice            = ArrayProto.slice,
     toString         = ObjProto.toString,
     hasOwnProperty   = ObjProto.hasOwnProperty;
@@ -576,12 +577,6 @@
     });
   };
 
-  // Zip together multiple lists into a single array -- elements that share
-  // an index go together.
-  _.zip = function() {
-    return _.unzip(arguments);
-  };
-
   // Complement of _.zip. Unzip accepts an array of arrays and groups
   // each array's elements on shared indices
   _.unzip = function(array) {
@@ -593,6 +588,10 @@
     }
     return result;
   };
+
+  // Zip together multiple lists into a single array -- elements that share
+  // an index go together.
+  _.zip = restArgs(_.unzip);
 
   // Converts lists into objects. Pass either a single array of `[key, value]`
   // pairs, or two parallel arrays of the same length -- one of keys, and one of
@@ -1507,10 +1506,11 @@
   _.mixin = function(obj) {
     _.each(_.functions(obj), function(name) {
       var func = _[name] = obj[name];
-      _.prototype[name] = restArgs(function(args) {
-        args.unshift(this._wrapped);
+      _.prototype[name] = function() {
+        var args = [this._wrapped];
+        push.apply(args, arguments);
         return result(this, func.apply(_, args));
-      });
+      };
     });
   };
 
