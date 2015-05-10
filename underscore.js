@@ -611,6 +611,21 @@
     return result;
   };
 
+  _.removeItem = function(valueOrPredicate){
+    var selfArray = this;
+    var removedValues = [];
+    var predicate = typeof valueOrPredicate == "function" ? valueOrPredicate : function (value) { return value === valueOrPredicate; };
+    for (var i = 0; i < selfArray.length; i++) {
+      var value = selfArray[i];
+      if(predicate(value)){
+        removedValues.push(value);
+        selfArray.splice(i, 1);
+        i--;
+      }
+    }
+    return removedValues;
+  }
+
   // Generator function to create the findIndex and findLastIndex functions
   var createPredicateIndexFinder = function(dir) {
     return function(array, predicate, context) {
