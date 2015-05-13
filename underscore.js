@@ -11,7 +11,7 @@
   // Establish the root object, `window` in the browser, or `exports` on the server.
   var root = this;
 
-  if(root._) {
+  if (root._) {
   // Save the previous value of the `_` variable.
     var previousUnderscore = root._;
   }
