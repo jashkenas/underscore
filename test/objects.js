@@ -554,6 +554,13 @@
 
     var other = {a: 1};
     strictEqual(_.isEqual(new Foo, other), false, 'Objects from different constructors are not equal');
+
+
+    // Tricky object cases val comparisions
+    equal(_.isEqual([0], [-0]), false);
+    equal(_.isEqual({a: 0}, {a: -0}), false);
+    equal(_.isEqual([NaN], [NaN]), true);
+    equal(_.isEqual({a: NaN}, {a: NaN}), true);
   });
 
   test('isEmpty', function() {
