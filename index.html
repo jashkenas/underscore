@@ -623,7 +623,7 @@ _.some([null, 0, 'yes', false]);
         <span class="alias">Alias: <b>includes</b></span>
         <br />
         Returns <i>true</i> if the <b>value</b> is present in the <b>list</b>.
-        Uses <b>indexOf</b> internally, if <b>list</b> is an Array. 
+        Uses <b>indexOf</b> internally, if <b>list</b> is an Array.
         Use <b>fromIndex</b> to start your search at a given index.
       </p>
       <pre>
@@ -1408,7 +1408,7 @@ _.invert({Moe: "Moses", Larry: "Louis", Curly: "Jerome"});
       <p id="create">
         <b class="header">create</b><code>_.create(prototype, props)</code>
         <br />
-        Creates a new object with the given prototype, optionally attaching 
+        Creates a new object with the given prototype, optionally attaching
         <b>props</b> as <i>own</i> properties. Basically, <tt>Object.create</tt>,
         but without all of the property descriptor jazz.
       </p>
@@ -1453,7 +1453,7 @@ _.extend({name: 'moe'}, {age: 50});
         <b class="header">extendOwn</b><code>_.extendOwn(destination, *sources)</code>
         <span class="alias">Alias: <b>assign</b></span>
         <br />
-        Like <b>extend</b>, but only copies <i>own</i> properties over to the 
+        Like <b>extend</b>, but only copies <i>own</i> properties over to the
         destination object.
       </p>
 
@@ -1504,7 +1504,7 @@ _.defaults(iceCream, {flavor: "vanilla", sprinkles: "lots"});
       <p id="clone">
         <b class="header">clone</b><code>_.clone(object)</code>
         <br />
-        Create a shallow-copied clone of the provided <i>plain</i> <b>object</b>. 
+        Create a shallow-copied clone of the provided <i>plain</i> <b>object</b>.
         Any nested objects or arrays will be copied by reference, not duplicated.
       </p>
       <pre>
@@ -1566,6 +1566,7 @@ _.propertyOf(stooge)('name');
 
       <p id="matcher">
         <b class="header">matcher</b><code>_.matcher(attrs)</code>
+        <span class="alias">Alias: <b>matches</b></span>
         <br />
         Returns a predicate function that will tell you if a passed in object
         contains all of the key/value properties present in <b>attrs</b>.
@@ -2216,7 +2217,7 @@ _([1, 2, 3]).value();
         <b class="header">1.8.3</b> &mdash; <small><i>April 2, 2015</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.8.2...1.8.3">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/underscore/1.8.3/index.html">Docs</a><br />
         <ul>
           <li>
-            Adds an <tt>_.create</tt> method, as a slimmed down version of 
+            Adds an <tt>_.create</tt> method, as a slimmed down version of
             <tt>Object.create</tt>.
           </li>
           <li>
@@ -2230,7 +2231,7 @@ _([1, 2, 3]).value();
         <b class="header">1.8.2</b> &mdash; <small><i>Feb. 22, 2015</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.8.1...1.8.2">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/underscore/1.8.2/index.html">Docs</a><br />
         <ul>
           <li>
-            Restores the previous old-Internet-Explorer edge cases changed in 
+            Restores the previous old-Internet-Explorer edge cases changed in
             1.8.1.
           </li>
           <li>
@@ -2243,7 +2244,7 @@ _([1, 2, 3]).value();
         <b class="header">1.8.1</b> &mdash; <small><i>Feb. 19, 2015</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.8.0...1.8.1">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/underscore/1.8.1/index.html">Docs</a><br />
         <ul>
           <li>
-            Fixes/changes some old-Internet Explorer and related edge case 
+            Fixes/changes some old-Internet Explorer and related edge case
             behavior. Test your app with Underscore 1.8.1 in an old IE and let
             us know how it's doing...
           </li>
@@ -2262,7 +2263,7 @@ _([1, 2, 3]).value();
             names on an object.
           </li>
           <li>
-            Reverted a 1.7.0 change where <tt>_.extend</tt> only copied "own" 
+            Reverted a 1.7.0 change where <tt>_.extend</tt> only copied "own"
             properties. Hopefully this will un-break you &mdash; if it breaks you
             again, I apologize.
           </li>
@@ -2276,7 +2277,7 @@ _([1, 2, 3]).value();
           </li>
           <li>
             Added an <tt>_.isMatch</tt> predicate function that tells you if an
-            object matches key-value properties. A kissing cousin of 
+            object matches key-value properties. A kissing cousin of
             <tt>_.isEqual</tt> and <tt>_.matcher</tt>.
           </li>
           <li>
@@ -2291,7 +2292,7 @@ _([1, 2, 3]).value();
             that provides the fallback value).
           </li>
           <li>
-            Added the <tt>_.propertyOf</tt> function generator as a mirror-world 
+            Added the <tt>_.propertyOf</tt> function generator as a mirror-world
             version of <tt>_.property</tt>.
           </li>
           <li>
@@ -2299,7 +2300,7 @@ _([1, 2, 3]).value();
             name — <tt>_.matcher</tt>.
           </li>
           <li>
-            Various and diverse code simplifications, changes for improved 
+            Various and diverse code simplifications, changes for improved
             cross-platform compatibility, and edge case bug fixes.
           </li>
         </ul>
