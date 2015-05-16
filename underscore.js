@@ -1204,7 +1204,7 @@
       var typeA = typeof a;
       if( typeA != typeof b ) return false;
       if( typeA == 'object' ) return a && b ? eq( a, b ) : a === b;
-      return a === 0 || a != a ? eq(a, b) : a === b;
+      return a != a ? b != b : a === b;
   };
 
   // Is a given array, string, or object empty?
