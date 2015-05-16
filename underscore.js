@@ -1114,8 +1114,7 @@
     // See the [Harmony `egal` proposal](http://wiki.ecmascript.org/doku.php?id=harmony:egal).
     if (a === b) return a !== 0 || 1 / a === 1 / b;
     if( typeof a != 'object' && typeof b != 'object' ) return a != a && b != b;
-
-    if (a == null || b == null) return a === b;
+    if (a == null || b == null) return false;
 
     // Unwrap any wrapped objects.
     if (a instanceof _) a = a._wrapped;
@@ -1205,7 +1204,9 @@
 
   // Perform a deep comparison to check if two objects are equal.
   _.isEqual = function(a, b) {
-      return eq( a, b );
+      if (a === b) return a !== 0 || 1 / a === 1 / b;
+      if( typeof a != 'object' && typeof b != 'object' ) return a != a && b != b;
+      return a != null && b != null && eq( a, b );
   };
 
   // Is a given array, string, or object empty?
