@@ -1201,9 +1201,7 @@
       // Identical objects are equal. `0 === -0`, but they aren't identical.
       // See the [Harmony `egal` proposal](http://wiki.ecmascript.org/doku.php?id=harmony:egal).
       if (a === b) return a !== 0 || 1 / a === 1 / b;
-      var typeA = typeof a;
-      if( typeA != typeof b ) return false;
-      if( typeA == 'object' ) return a && b ? eq( a, b ) : a === b;
+      if( ( typeof a == 'object' || typeof b == 'object' ) && a != null && b != null ) return eq( a, b );
       return a != a ? b != b : a === b;
   };
 
