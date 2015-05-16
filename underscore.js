@@ -1203,7 +1203,10 @@
 
   // Perform a deep comparison to check if two objects are equal.
   _.isEqual = function(a, b) {
-    return eq(a, b);
+      var typeA = typeof a;
+      if( typeA != typeof b ) return false;
+      if( typeA == 'object' ) return a && b ? eq( a, b ) : a === b;
+      return a === 0 || a != a ? eq(a, b) : a === b;
   };
 
   // Is a given array, string, or object empty?
