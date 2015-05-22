@@ -1111,12 +1111,14 @@
 
 
   // Internal recursive comparison function for `isEqual`.
-  var eq = function(a, b, aStack, bStack) {
-    // Identical objects are equal. `0 === -0`, but they aren't identical.
-    // See the [Harmony `egal` proposal](http://wiki.ecmascript.org/doku.php?id=harmony:egal).
-    if (a === b) return a !== 0 || 1 / a === 1 / b;
-    // A strict comparison is necessary because `null == undefined`.
-    if (a == null || b == null) return a === b;
+  var deepEq, eq = function(a, b, aStack, bStack) {
+      if (a === b) return a !== 0 || 1 / a === 1 / b;
+      var typeA = typeof a;
+      return typeA != 'function' && typeA != 'object' && typeof b != 'object' ?
+        a != a && b != b : a != null && b != null && deepEq(a, b, aStack, bStack);
+  };
+
+  deepEq = function(a, b, aStack, bStack) {
     // Unwrap any wrapped objects.
     if (a instanceof _) a = a._wrapped;
     if (b instanceof _) b = b._wrapped;
@@ -1205,7 +1207,10 @@
 
   // Perform a deep comparison to check if two objects are equal.
   _.isEqual = function(a, b) {
-    return eq(a, b);
+      if (a === b) return a !== 0 || 1 / a === 1 / b;
+      var typeA = typeof a;
+      return typeA != 'function' && typeA != 'object' && typeof b != 'object' ?
+        a != a && b != b : a != null && b != null &&  deepEq(a, b);
   };
 
   // Is a given array, string, or object empty?
