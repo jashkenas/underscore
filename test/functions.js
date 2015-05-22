@@ -119,6 +119,10 @@
 
     var sayLast = moe.sayLast;
     equal(sayLast(1, 2, 3, 4, 5, 6, 7, 'Tom'), 'hi: moe', 'createCallback works with any number of arguments');
+
+    _.bindAll(moe, ['getName']);
+    var getName = moe.getName;
+    equal(getName(), 'name: moe', 'flattens arguments into a single list');
   });
 
   test('memoize', function() {
