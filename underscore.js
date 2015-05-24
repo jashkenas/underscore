@@ -10,8 +10,8 @@
 
   // Establish the root object, `window` (`self`) in the browser, or `global` on the server.
   // We use `self` instead of `window` for `WebWorker` support.
-  var root = (typeof self == 'object' && self.self == self && self) ||
-            (typeof global == 'object' && global.global == global && global);
+  var root = (typeof self === 'object' && self.self === self && self) ||
+            (typeof global === 'object' && global.global === global && global);
 
   // Save the previous value of the `_` variable.
   var previousUnderscore = root._;
@@ -749,7 +749,7 @@
     while (index--) {
       var key = keys[index];
       obj[key] = _.bind(obj[key], obj);
-    };
+    }
   });
 
   // Memoize an expensive function by storing its results.
@@ -1041,6 +1041,11 @@
     }
   };
 
+  // Internal pick helper function to determine if `obj` has key `key.
+  var keyInObj = function(value, key, obj) {
+      return key in obj;
+  };
+
   // Return a copy of the object only containing the whitelisted properties.
   _.pick = restArgs(function(obj, keys) {
     var result = {}, iteratee = keys[0];
@@ -1049,7 +1054,7 @@
       if (keys.length > 1) iteratee = optimizeCb(iteratee, keys[1]);
       keys = _.allKeys(obj);
     } else {
-      iteratee = function(value, key, obj) { return key in obj; };
+      iteratee = keyInObj;
       keys = flatten(keys, false, false);
       obj = Object(obj);
     }
@@ -1116,7 +1121,8 @@
 
 
   // Internal recursive comparison function for `isEqual`.
-  var eq = function(a, b, aStack, bStack) {
+  var eq, deepEq;
+  eq = function(a, b, aStack, bStack) {
     // Identical objects are equal. `0 === -0`, but they aren't identical.
     // See the [Harmony `egal` proposal](http://wiki.ecmascript.org/doku.php?id=harmony:egal).
     if (a === b) return a !== 0 || 1 / a === 1 / b;
@@ -1130,7 +1136,8 @@
     return deepEq(a, b, aStack, bStack);
   };
 
-  var deepEq = function(a, b, aStack, bStack) {
+  // Internal recursive comparison function for `isEqual`.
+  deepEq = function(a, b, aStack, bStack) {
     // Unwrap any wrapped objects.
     if (a instanceof _) a = a._wrapped;
     if (b instanceof _) b = b._wrapped;
