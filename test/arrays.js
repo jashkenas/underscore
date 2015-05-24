@@ -534,4 +534,12 @@
     deepEqual(_.range(0, -10, -1), [0, -1, -2, -3, -4, -5, -6, -7, -8, -9], 'final example in the Python docs');
   });
 
+  test('removeItem', function(){
+    var testArray = [0, 1, 2, 3, 4, 5];
+    deepEqual(_.removeItem(testArray, 2), [0, 1, 3, 4, 5]);
+    testArray = [{values: 90}, {values: 80}, {values: 70}, {values: 80}]
+    deepEqual(_.removeItem(testArray, function(item){return item.values === 80}), [{values: 90}, {values: 70}])
+    deepEqual(testArray.length, 4);
+  })
+
 }());

@@ -611,19 +611,17 @@
     return result;
   };
 
-  _.removeItem = function(valueOrPredicate){
-    var selfArray = this;
-    var removedValues = [];
+  _.removeItem = function(array, valueOrPredicate){
+    var length = getLength(array);
+    var outputValues = [];
     var predicate = typeof valueOrPredicate == "function" ? valueOrPredicate : function (value) { return value === valueOrPredicate; };
-    for (var i = 0; i < selfArray.length; i++) {
-      var value = selfArray[i];
-      if(predicate(value)){
-        removedValues.push(value);
-        selfArray.splice(i, 1);
-        i--;
+    for (var i = 0; i < length; i++) {
+      var value = array[i];
+      if(!predicate(value)){
+        outputValues.push(value);  
       }
     }
-    return removedValues;
+    return outputValues;
   }
 
   // Generator function to create the findIndex and findLastIndex functions
