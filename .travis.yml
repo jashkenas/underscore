@@ -30,3 +30,4 @@ env:
   - secure: bDZSBQfqr21hCayjcZ20IxrV6+XGhxQPFIfwWqEKLrF93Gu8LLVjZRxXE/mE8I8N4Z5WtDNb4ZHrm/TTzmcPa5MuHgIxEdknQCncobH8oimwc83SHwEPk6okeNKl39VlCjvvnmoe/V/KpnknuYn3Rqghtl/Uv9KLpCwskwjTtcw=
   - secure: SRECgXuwcZTcD3GVxTS2bYNgRyye4vq6BLrV2PH9FyNenowsKQR2EwlC/dppc1Q8NWMgv79J/R96q9JOFh+mEH9L5dlBb2yhnGH8amVeM/ChAJHT/F8YktKM453uVpz5fR00QcCQDDUOx6Pvx374ID0OKNpWKAkQBWA9mPTsLnE=
   matrix: BROWSER=false
+after_success: npm run coveralls

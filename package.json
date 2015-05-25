@@ -17,16 +17,20 @@
   "main": "underscore.js",
   "version": "1.8.3",
   "devDependencies": {
+    "coveralls": "^2.11.2",
     "docco": "*",
     "eslint": "0.6.x",
     "karma": "~0.12.31",
     "karma-qunit": "~0.1.4",
+    "nyc": "^2.1.3",
     "qunit-cli": "~0.2.0",
     "uglify-js": "2.4.x"
   },
   "scripts": {
     "test": "npm run test-node && npm run lint",
     "lint": "eslint underscore.js test/*.js",
+    "coverage": "nyc npm run test-node && nyc report",
+    "coveralls": "nyc npm run test-node && nyc report --reporter=text-lcov | coveralls",
     "test-node": "qunit-cli test/*.js",
     "test-browser": "npm i karma-phantomjs-launcher && ./node_modules/karma/bin/karma start",
     "build": "uglifyjs underscore.js -c \"evaluate=false\" --comments \"/    .*/\" -m --source-map underscore-min.map -o underscore-min.js",
