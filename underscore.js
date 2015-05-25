@@ -1041,7 +1041,7 @@
     }
   };
 
-  // Internal pick helper function to determine if `obj` has key `key.
+  // Internal pick helper function to determine if `obj` has key `key`.
   var keyInObj = function(value, key, obj) {
       return key in obj;
   };
