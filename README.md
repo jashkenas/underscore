@@ -9,7 +9,7 @@
                                                                                    \/___/
 
 [![Build Status](https://travis-ci.org/jashkenas/underscore.png)](https://travis-ci.org/jashkenas/underscore)
-[![Coverage Status](https://coveralls.io/repos/jashkenas/underscore/badge.svg?branch=)](https://coveralls.io/r/bcoe/underscore?branch=)
+[![Coverage Status](https://coveralls.io/repos/jashkenas/underscore/badge.svg?branch=)](https://coveralls.io/r/jashkenas/underscore?branch=)
 
 Underscore.js is a utility-belt library for JavaScript that provides
 support for the usual functional suspects (each, map, reduce, filter...)
