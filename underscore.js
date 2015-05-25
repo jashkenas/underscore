@@ -865,13 +865,13 @@
 
   // Creates a composite predicate function
   function createCompositePredicates(method) {
-      return function() {
-          var predicates = _.map(arguments, cb);
-          return function() {
-              var context = this, args = arguments;
+      return restArgs(function(predicates) {
+          predicates = _.map(predicates, cb);
+          return restArgs(function(args) {
+              var context = this;
               return method(predicates, function(predicate) { return predicate.apply(context, args); });
-          };
-      };
+          });
+      });
   }
 
   // Returns a composite predicate function, similar to binary logic operators.
