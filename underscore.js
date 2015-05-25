@@ -488,15 +488,10 @@
   // Passing an **n** will return a copy of array with the first N entries reversed.
   _.reverse = _.flip = function(array, n, guard) {
 	  if (array == null) return void 0;
-	  var revarray = [];
-	  if (n == null || n >= array.length || guard) {
-      _.times(array.length, function(i) { revarray.unshift(array[i])});
-		  return revarray;
-	  }
-	  else {
-		  _.times(Math.max(0, n), function(i) { revarray.unshift(array[i]) } );
-		  return revarray.concat(array.slice(Math.max(0, n)));
-	  }
+	  var copy = array.slice();
+	  if (n == null || n >= array.length || guard) return array.slice().reverse();
+		  // _.times(Math.max(0, n), function(i) { revarray.unshift(array[i]) } );
+		return array.slice(0, Math.max(0, n)).reverse().concat(array.slice(Math.max(0,n)));
   };
 
   // Trim out all falsy values from an array.
