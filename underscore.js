@@ -489,13 +489,13 @@
   _.reverse = _.flip = function(array, n, guard) {
 	  if (array == null) return void 0;
 	  var revarray = [];
-	  if (n == null || guard) {
-		  while ( (i = array.shift()) != undefined ) { revarray.unshift(i); };
+	  if (n == null || n >= array.length || guard) {
+      _.times(array.length, function(i) { revarray.unshift(array[i])});
 		  return revarray;
 	  }
 	  else {
-		  _.times(n, function() { revarray.unshift(array.shift()) } );
-		  return revarray.concat(array);
+		  _.times(Math.max(0, n), function(i) { revarray.unshift(array[i]) } );
+		  return revarray.concat(array.slice(Math.max(0, n)));
 	  }
   };
 
