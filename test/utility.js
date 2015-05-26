@@ -182,7 +182,7 @@
 
     var namespaceCollisionTemplate = _.template('<%= pageCount %> <%= thumbnails[pageCount] %> <% _.each(thumbnails, function(p) { %><div class="thumbnail" rel="<%= p %>"></div><% }); %>');
     result = namespaceCollisionTemplate({
-      pageCount : 3,
+      pageCount: 3,
       thumbnails: {
         1: 'p1-thumbnail.gif',
         2: 'p2-thumbnail.gif',
@@ -211,7 +211,7 @@
     equal(result, '<i>&lt;script&gt;</i>');
 
     var stooge = {
-      name    : 'Moe',
+      name: 'Moe',
       template: _.template("I'm <%= this.name %>")
     };
     equal(stooge.template(), "I'm Moe");
@@ -225,7 +225,7 @@
     equal(template({data: 12345}).replace(/\s/g, ''), '<li>24690</li>');
 
     _.templateSettings = {
-      evaluate   : /\{\{([\s\S]+?)\}\}/g,
+      evaluate: /\{\{([\s\S]+?)\}\}/g,
       interpolate: /\{\{=([\s\S]+?)\}\}/g
     };
 
@@ -240,7 +240,7 @@
     equal(quoteInStatementAndBody({foo: 'bar'}), "Statement quotes and 'quotes'.");
 
     _.templateSettings = {
-      evaluate   : /<\?([\s\S]+?)\?>/g,
+      evaluate: /<\?([\s\S]+?)\?>/g,
       interpolate: /<\?=([\s\S]+?)\?>/g
     };
 

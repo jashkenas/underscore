@@ -91,9 +91,9 @@
 
   test('bindAll', function() {
     var curly = {name: 'curly'}, moe = {
-      name   : 'moe',
+      name: 'moe',
       getName: function() { return 'name: ' + this.name; },
-      sayHi  : function() { return 'hi: ' + this.name; }
+      sayHi: function() { return 'hi: ' + this.name; }
     };
     curly.getName = moe.getName;
     _.bindAll(moe, 'getName', 'sayHi');
@@ -103,9 +103,9 @@
 
     curly = {name: 'curly'};
     moe = {
-      name   : 'moe',
+      name: 'moe',
       getName: function() { return 'name: ' + this.name; },
-      sayHi  : function() { return 'hi: ' + this.name; },
+      sayHi: function() { return 'hi: ' + this.name; },
       sayLast: function() { return this.sayHi(_.last(arguments)); }
     };
 

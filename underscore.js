@@ -384,8 +384,8 @@
     iteratee = cb(iteratee, context);
     return _.pluck(_.map(obj, function(value, index, list) {
       return {
-        value   : value,
-        index   : index,
+        value: value,
+        index: index,
         criteria: iteratee(value, index, list)
       };
     }).sort(function(left, right) {
@@ -1423,9 +1423,9 @@
   // By default, Underscore uses ERB-style template delimiters, change the
   // following template settings to use alternative delimiters.
   _.templateSettings = {
-    evaluate   : /<%([\s\S]+?)%>/g,
+    evaluate: /<%([\s\S]+?)%>/g,
     interpolate: /<%=([\s\S]+?)%>/g,
-    escape     : /<%-([\s\S]+?)%>/g
+    escape: /<%-([\s\S]+?)%>/g
   };
 
   // When customizing `templateSettings`, if you don't want to define an
@@ -1436,10 +1436,10 @@
   // Certain characters need to be escaped so that they can be put into a
   // string literal.
   var escapes = {
-    "'"     : "'",
-    '\\'    : '\\',
-    '\r'    : 'r',
-    '\n'    : 'n',
+    "'": "'",
+    '\\': '\\',
+    '\r': 'r',
+    '\n': 'n',
     '\u2028': 'u2028',
     '\u2029': 'u2029'
   };
