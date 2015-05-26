@@ -369,14 +369,14 @@
     var sample = isArrayLike(obj) ? _.clone(obj) : _.values(obj);
     var length = getLength(sample);
     n = Math.max(Math.min(n, length), 0);
-    var rand, temp;
-    for (var index = length - 1; index > length - n - 1; index--) {
-      rand = _.random(0, index);
-      temp = sample[index];
+    var last = length - 1;
+    for (var index = 0; index < n; index++) {
+      var rand = _.random(index, last);
+      var temp = sample[index];
       sample[index] = sample[rand];
       sample[rand] = temp;
     }
-    return sample.slice(length - n);
+    return sample.slice(0, n);
   };
 
   // Sort the object's values by a criterion produced by an iteratee.
