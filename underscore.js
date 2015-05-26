@@ -484,6 +484,14 @@
   _.rest = _.tail = _.drop = function(array, n, guard) {
     return slice.call(array, n == null || guard ? 1 : n);
   };
+  
+  // Returns a copy of the reversed array. Aliased as `flip`.
+  // Passing an **n** will return a copy of array with the first N entries reversed.
+  _.reverse = _.flip = function(array, n, guard) {
+	  if (array == null) return void 0;
+	  if (n == null || n >= array.length || guard) return array.slice().reverse();
+		return array.slice(0, Math.max(0, n)).reverse().concat(array.slice(Math.max(0,n)));
+  };
 
   // Trim out all falsy values from an array.
   _.compact = function(array) {

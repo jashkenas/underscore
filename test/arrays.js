@@ -41,6 +41,17 @@
     deepEqual(result, [2, 3, 4], 'works on arguments object');
   });
 
+  test('reverse', function() {
+    var numbers = [0, 1, 2, 3 ,4];
+    deepEqual(_.reverse(numbers), [4, 3, 2, 1, 0], 'working reverse()');
+    deepEqual(_.reverse(numbers, -1), [0, 1, 2, 3 ,4], 'working reverse(-1)');
+    deepEqual(_.reverse(numbers, 0), [0, 1, 2, 3 ,4], 'working reverse(0)');
+    deepEqual(_.reverse(numbers, 1), [0, 1, 2, 3 ,4], 'working reverse(1)');
+    deepEqual(_.reverse(numbers, 3), [2, 1, 0, 3 ,4], 'working reverse(3)');
+    deepEqual(_.reverse(numbers, 5), [4, 3, 2, 1, 0], 'working reverse(5)');
+    deepEqual(_.reverse(numbers, 6), [4, 3, 2, 1, 0], 'working reverse(6)');
+  });
+
   test('tail', function() {
     strictEqual(_.rest, _.tail, 'alias for rest');
   });
