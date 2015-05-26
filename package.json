@@ -18,7 +18,7 @@
   "version": "1.8.3",
   "devDependencies": {
     "docco": "*",
-    "eslint": "0.6.x",
+    "eslint": "0.21.x",
     "karma": "~0.12.31",
     "karma-qunit": "~0.1.4",
     "qunit-cli": "~0.2.0",
@@ -26,7 +26,7 @@
   },
   "scripts": {
     "test": "npm run test-node && npm run lint",
-    "lint": "eslint underscore.js test/*.js",
+    "lint": "eslint --reset underscore.js test/*.js",
     "test-node": "qunit-cli test/*.js",
     "test-browser": "npm i karma-phantomjs-launcher && ./node_modules/karma/bin/karma start",
     "build": "uglifyjs underscore.js -c \"evaluate=false\" --comments \"/    .*/\" -m --source-map underscore-min.map -o underscore-min.js",
