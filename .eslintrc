@@ -16,7 +16,7 @@
     "eol-last": 2,
     "eqeqeq": [2, "smart"],
     "indent": [2, 2, {"indentSwitchCase": true}],
-    "key-spacing": [1, { "align": "colon" }],
+    "key-spacing": 1,
     "linebreak-style": 2,
     "max-depth": [1, 4],
     "max-params": [1, 5],
