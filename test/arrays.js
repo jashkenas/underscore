@@ -98,6 +98,11 @@
     equal(_.flatten([_.range(10), _.range(10), 5, 1, 3]).length, 23);
     equal(_.flatten([new Array(1000000), _.range(56000), 5, 1, 3]).length, 1056003, 'Flatten can handle massive collections');
     equal(_.flatten([new Array(1000000), _.range(56000), 5, 1, 3], true).length, 1056003, 'Flatten can handle massive collections');
+
+    var x = _.range(100000);
+    for (var i = 0; i < 1000; i++) x = [x];
+    deepEqual(_.flatten(x), _.range(100000), 'Flatten can handle very deep arrays');
+    deepEqual(_.flatten(x, true), x[0], 'Flatten can handle very deep arrays with shallow');
   });
 
   test('without', function() {
