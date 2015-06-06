@@ -23,6 +23,20 @@
     deepEqual(answers, ['one', 'two', 'three'], 'iterating over objects works, and ignores the object prototype.');
     delete obj.constructor.prototype.four;
 
+    if (typeof Set == 'function') {
+      answers = [];
+      var set = new Set([1, 2, 3]);
+      _.each(set, function(value){ answers.push(value); });
+      deepEqual(answers, [1, 2, 3], 'iterating over Set works');
+    }
+
+    if (typeof Map == 'function') {
+      answers = [];
+      var map = new Map([['one', 1], ['two', 2], ['three', 3]]);
+      _.each(map, function(value, key){ answers.push(key); });
+      deepEqual(answers, ['one', 'two', 'three'], 'iterating over Map works');
+    }
+
     // ensure the each function is JITed
     _(1000).times(function() { _.each([], function(){}); });
     var count = 0;
