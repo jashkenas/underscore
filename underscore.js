@@ -902,7 +902,7 @@
   // often you call it. Useful for lazy initialization.
   _.once = _.partial(_.before, 2);
 
-  _.restArgs = restArgs;
+  _.restParam = _.restArgs = restArgs;
 
   // Object Functions
   // ----------------
