@@ -180,7 +180,7 @@
   <div id="sidebar" class="interface">
 
     <a class="toc_title" href="#">
-      Underscore.js <span class="version">(1.8.3)</span>
+      Underscore.js <span class="version">(1.9.0)</span>
     </a>
     <ul class="toc_section">
       <li>&raquo; <a href="https://github.com/jashkenas/underscore">GitHub Repository</a></li>
@@ -256,6 +256,7 @@
       <li>- <a href="#bind">bind</a></li>
       <li>- <a href="#bindAll">bindAll</a></li>
       <li>- <a href="#partial">partial</a></li>
+      <li>- <a href="#restParam">restParam</a></li>
       <li>- <a href="#memoize">memoize</a></li>
       <li>- <a href="#delay">delay</a></li>
       <li>- <a href="#defer">defer</a></li>
@@ -1151,6 +1152,10 @@ sub5(20);
 subFrom20 = _.partial(subtract, _, 20);
 subFrom20(5);
 =&gt; 15
+
+// To change the placeholder to any given value set
+var customPlaceholder = null;
+_.partial.placeholder = customPlaceholder;
 </pre>
 
       <p id="memoize">
@@ -1168,6 +1173,25 @@ subFrom20(5);
 var fibonacci = _.memoize(function(n) {
   return n &lt; 2 ? n: fibonacci(n - 1) + fibonacci(n - 2);
 });
+</pre>
+
+<p id="restParam">
+        <b class="header">memoize</b><code>_.memoize(function, [index=function.length-1])</code>
+        <span class="alias">Alias: <b>restArgs</b></span>
+        <br />
+        Similar to ES6's <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Functions/rest_parameters">rest param</a>,
+        <code>restParam</code> collects arguments passed to a function from
+        a given <code>index</code> as an array.
+      </p>
+      <pre>
+function multiply(multiplier, ...theArgs) {
+  return theArgs.map(function (element) {
+    return multiplier * element;
+  });
+}
+
+var arr = multiply(2, 1, 2, 3); 
+console.log(arr); // [2, 4, 6]
 </pre>
 
       <p id="delay">
@@ -2205,6 +2229,32 @@ _([1, 2, 3]).value();
       </p>
 
       <h2 id="changelog">Change Log</h2>
+
+      <p id="1.9.0">
+        <b class="header">1.9.0</b> &mdash; <small><i>June 12, 2015</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.8.3...1.9.0">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/underscore/1.9.0/index.html">Docs</a><br />
+        <ul>
+          <li>
+            Adds <tt>_.restParam</tt> wrapper function.
+          </li>
+          <li>
+            Adds support for several environments including: <code>WebWorker</code>, browserify and ES6 imports.
+          </li>
+          <li>
+            Remove use of native implementation of <code>Function.prototype.bind</code>
+            in <code>_.bind</code>.
+          </li>
+          <li>
+            The placeholder used for partial is now configurable by setting
+            <code>_.partial.placeholder</code>.
+          </li>
+          <li>
+            <code>_.bindAll</code> now accepts arrays or arguments for keys.
+          </li>
+          <li>
+            Numerous performance improvements.
+          </li>
+        </ul>
+      </p>
 
       <p id="1.8.3">
         <b class="header">1.8.3</b> &mdash; <small><i>April 2, 2015</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.8.2...1.8.3">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/underscore/1.8.3/index.html">Docs</a><br />

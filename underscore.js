@@ -1,4 +1,4 @@
-//     Underscore.js 1.8.3
+//     Underscore.js 1.9.0
 //     http://underscorejs.org
 //     (c) 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 //     Underscore may be freely distributed under the MIT license.
@@ -56,7 +56,7 @@
   }
 
   // Current version.
-  _.VERSION = '1.8.3';
+  _.VERSION = '1.9.0';
 
   // Internal function that returns an efficient (for current engines) version
   // of the passed-in callback, to be repeatedly applied in other Underscore
