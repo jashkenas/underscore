@@ -547,19 +547,19 @@
     var coalescedString = _.coalesce(null, 'hi coalesce', 'too far');
     equal(coalescedString(), 'hi coalesce', 'does not consider null or undefined');
     var name = 'Jake';
-    coalescedFunctions = _.coalesce(
+    var coalescedFunctions = _.coalesce(
       function() { return null; },
       function() { return; },
       function() { return name; },
       function() { return 'welcome'; }
     );
     equal(coalescedFunctions(), 'Jake', 'accepts coalescing of functions');
-    coalescedObject = _.coalesce(
+    var coalescedObject = _.coalesce(
       null,
       {object: 'test'}
     );
     deepEqual(coalescedObject(), {object: 'test'}, 'works with objects');
-    coalescedArray = _.coalesce(
+    var coalescedArray = _.coalesce(
       null,
       [0, 1, 2]
     );
