@@ -541,6 +541,31 @@
     equal(composed(1, 2, 3), 12);
   });
 
+  test('coalesce', function() {
+    var coalesced = _.coalesce(null, undefined, undefined);
+    equal(coalesced(), null, 'returns null if no value present');
+    var coalesced = _.coalesce(null, undefined, 'hi coalesce', 'too far');
+    equal(coalesced(), 'hi coalesce', 'does not consider null or undefined');
+    var name = 'Jake';
+    coalesced = _.coalesce(
+      function() { return null; }, 
+      function() { return undefined; },
+      function() { return name; },
+      function() { return 'welcome'; }
+    );
+    equal(coalesced(), 'Jake', 'accepts coalescing of functions');
+    coalesced = _.coalesce(
+      null,
+      { object: 'test' }
+    );
+    deepEqual(coalesced(), { object: 'test' }, 'works with objects');
+    coalesced = _.coalesce(
+      null,
+      [ 0, 1, 2 ]
+    );
+    deepEqual(coalesced(), [ 0, 1, 2 ], 'works with arrays');
+  });
+
   test('after', function() {
     var testAfter = function(afterAmount, timesCalled) {
       var afterCalled = 0;
