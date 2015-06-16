@@ -542,28 +542,28 @@
   });
 
   test('coalesce', function() {
-    var coalesced = _.coalesce(null, undefined, undefined);
-    equal(coalesced(), null, 'returns null if no value present');
-    var coalesced = _.coalesce(null, undefined, 'hi coalesce', 'too far');
-    equal(coalesced(), 'hi coalesce', 'does not consider null or undefined');
+    var coalescedNull = _.coalesce(null);
+    equal(coalescedNull(), null, 'returns null if no value present');
+    var coalescedString = _.coalesce(null, 'hi coalesce', 'too far');
+    equal(coalescedString(), 'hi coalesce', 'does not consider null or undefined');
     var name = 'Jake';
-    coalesced = _.coalesce(
-      function() { return null; }, 
-      function() { return undefined; },
+    coalescedFunctions = _.coalesce(
+      function() { return null; },
+      function() { return; },
       function() { return name; },
       function() { return 'welcome'; }
     );
-    equal(coalesced(), 'Jake', 'accepts coalescing of functions');
-    coalesced = _.coalesce(
+    equal(coalescedFunctions(), 'Jake', 'accepts coalescing of functions');
+    coalescedObject = _.coalesce(
       null,
-      { object: 'test' }
+      {object: 'test'}
     );
-    deepEqual(coalesced(), { object: 'test' }, 'works with objects');
-    coalesced = _.coalesce(
+    deepEqual(coalescedObject(), {object: 'test'}, 'works with objects');
+    coalescedArray = _.coalesce(
       null,
-      [ 0, 1, 2 ]
+      [0, 1, 2]
     );
-    deepEqual(coalesced(), [ 0, 1, 2 ], 'works with arrays');
+    deepEqual(coalescedArray(), [0, 1, 2], 'works with arrays');
   });
 
   test('after', function() {
