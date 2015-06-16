@@ -876,7 +876,8 @@
       return result;
     };
   };
-
+  
+  // Returns the first non-null, defined value
   _.coalesce = function() {
     var args = arguments;
     return function() {
