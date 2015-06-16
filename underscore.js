@@ -877,6 +877,23 @@
     };
   };
 
+  // Returns the first non-null, defined value
+  _.coalesce = function() {
+    var args = arguments;
+    return function() {
+      for (var i = 0; i < args.length; i++) {
+        if (typeof args[i] === 'function') {
+          if (args[i].apply() !== null && typeof args[i].apply() !== 'undefined') {
+            return args[i].apply();
+          }
+        } else if (args[i] !== null && typeof args[i] !== 'undefined') {
+          return args[i];
+        }
+      }
+      return null;
+    };
+  };
+
   // Returns a function that will only be executed on and after the Nth call.
   _.after = function(times, func) {
     return function() {
