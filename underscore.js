@@ -17,12 +17,13 @@
   var previousUnderscore = root._;
 
   // Save bytes in the minified (but not gzipped) version:
-  var ArrayProto = Array.prototype, ObjProto = Object.prototype;
+  var ArrayProto = Array.prototype, FuncProto = Function.prototype, ObjProto = Object.prototype;
 
   // Create quick reference variables for speed access to core prototypes.
   var
     push = ArrayProto.push,
     slice = ArrayProto.slice,
+    bind = FuncProto.bind,
     toString = ObjProto.toString,
     hasOwnProperty = ObjProto.hasOwnProperty;
 
@@ -712,7 +713,9 @@
   // Create a function bound to a given object (assigning `this`, and arguments,
   // optionally). Delegates to **ECMAScript 5**'s native `Function.bind` if
   // available.
-  _.bind = restArgs(function(func, context, args) {
+  _.bind = bind ? restArgs(function(func, args) {
+      return bind.apply(func, args);
+  }) : restArgs(function(func, context, args) {
     if (!_.isFunction(func)) throw new TypeError('Bind must be called on a function');
     var bound = restArgs(function(callArgs) {
       return executeBound(func, bound, context, this, args.concat(callArgs));
