@@ -970,6 +970,26 @@
     strictEqual(_.findKey(array, function(x) { return x === 55; }), 'match', 'matches array-likes keys');
   });
 
+  test('merge', function(){
+    var obj1 = {
+      var1: true,
+      var2: 'something',
+      var3: ['some array']
+    },
+    obj2 = {
+      var4: false,
+      var5: 'text'
+    },
+    result = {
+      var1: true,
+      var2: 'something',
+      var3: ['some array'],
+      var4: false,
+      var5: 'text'
+    };
+
+    deepEqual(_.merge(obj1, obj2), result, 'merge objects');
+  });
 
   test('mapObject', function() {
     var obj = {a: 1, b: 2};
