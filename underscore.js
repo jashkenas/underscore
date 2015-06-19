@@ -962,6 +962,15 @@
     return values;
   };
 
+  // Merge two objects together
+  _.merge = function(obj1, obj2){
+    var resultObj = obj2;
+    Object.keys(obj1).forEach(function(key){
+      resultObj[key] = obj1[key];
+    });
+    return resultObj;
+  };
+
   // Returns the results of applying the iteratee to each element of the object
   // In contrast to _.map it returns an object
   _.mapObject = function(obj, iteratee, context) {
