@@ -69,9 +69,6 @@
       case 1: return function(value) {
         return func.call(context, value);
       };
-      case 2: return function(value, other) {
-        return func.call(context, value, other);
-      };
       case 3: return function(value, index, collection) {
         return func.call(context, value, index, collection);
       };
