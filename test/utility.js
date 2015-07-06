@@ -14,6 +14,37 @@
 
   });
 
+  if (typeof this == 'object') {
+    test('noConflict', function() {
+      var underscore = _.noConflict();
+      equal(underscore.identity(1), 1);
+      if (typeof require != 'function') {
+        equal(this._, void 0, 'global underscore is removed');
+        this._ = underscore;
+      }
+    });
+  }
+
+  if (typeof require == 'function') {
+    asyncTest('noConflict (node vm)', 2, function() {
+      var fs = require('fs');
+      var vm = require('vm');
+      var filename = __dirname + '/../underscore.js';
+      fs.readFile(filename, function(err, content){
+        var sandbox = vm.createScript(
+          content + 'this.underscore = this._.noConflict();',
+          filename
+        );
+        var context = {_: 'oldvalue'};
+        sandbox.runInNewContext(context);
+        equal(context._, 'oldvalue');
+        equal(context.underscore.VERSION, _.VERSION);
+
+        start();
+      });
+    });
+  }
+
   test('#750 - Return _ instance.', 2, function() {
     var instance = _([]);
     ok(_(instance) === instance);
