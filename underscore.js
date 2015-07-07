@@ -450,6 +450,28 @@
     result[pass ? 0 : 1].push(value);
   }, true);
 
+  //Split a collection into sub-collections: where each element in the sub-collections 
+  //has a maximum of number elements in it.
+  _.partitionInto = function(obj, number) {
+    if (!_.isArray(obj)) return [];
+
+    var validNumber = function(num) {
+      return _.isNumber(num) && (num > 0) && (num < _.size(obj));
+    }
+    if (!validNumber(number)) return [];
+
+    var partitionInto = function(list, num, memo) {
+      if (_.isEmpty(list)) {
+        return memo;
+      } else {
+        memo.push(_.first(list, num));
+        return partitionInto(_.rest(list, num), num, memo.slice());
+      }
+    }
+
+    return partitionInto(obj, number, []);
+  }
+
   // Array Functions
   // ---------------
 
