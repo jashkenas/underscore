@@ -136,15 +136,35 @@
     };
   };
 
+  // Helper to determine if index is within the bounds of an array.
+  var isIndex = function(index, length) {
+    return index >= 0 && index < length;
+  };
+
   // Helper for collection methods to determine whether a collection
-  // should be iterated as an array or as an object
+  // should be iterated as an array or as an object.
   // Related: http://people.mozilla.org/~jorendorff/es6-draft.html#sec-tolength
   // Avoids a very nasty iOS 8 JIT bug on ARM-64. #2094
   var MAX_ARRAY_INDEX = Math.pow(2, 53) - 1;
   var getLength = property('length');
   var isArrayLike = function(collection) {
     var length = getLength(collection);
-    return typeof length == 'number' && length >= 0 && length <= MAX_ARRAY_INDEX;
+    return typeof length == 'number' && isIndex(length, MAX_ARRAY_INDEX);
+  };
+
+  // Helper to determine if the arguments to a function are from
+  // an iteration of `each`, `map`, and friends.
+  var isIterationCall = function(value, index, collection) {
+    if (!_.isObject(collection)) return false;
+    var contains = typeof index === 'number' ?
+      isArrayLike(collection) && isIndex(index, collection.length) :
+      index in collection;
+    if (contains) {
+      var other = collection[index];
+      return value === value ? value === other : other !== other;
+    }
+
+    return false;
   };
 
   // Collection Functions
