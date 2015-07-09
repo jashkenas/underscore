@@ -291,7 +291,9 @@
   // Aliased as `includes` and `include`.
   _.contains = _.includes = _.include = function(obj, item, fromIndex, guard) {
     if (!isArrayLike(obj)) obj = _.values(obj);
-    if (typeof fromIndex != 'number' || guard) fromIndex = 0;
+    if (typeof fromIndex != 'number' || (guard && isIterationCall(item, fromIndex, guard))) {
+      fromIndex = 0;
+    }
     return _.indexOf(obj, item, fromIndex) >= 0;
   };
 
@@ -325,7 +327,8 @@
   _.max = function(obj, iteratee, context) {
     var result = -Infinity, lastComputed = -Infinity,
         value, computed;
-    if (iteratee == null || (typeof iteratee == 'number' && typeof obj[0] != 'object') && obj != null) {
+    if (context && isIterationCall(obj, iteratee, context)) iteratee = null;
+    if (iteratee == null) {
       obj = isArrayLike(obj) ? obj : _.values(obj);
       for (var i = 0, length = obj.length; i < length; i++) {
         value = obj[i];
@@ -350,7 +353,8 @@
   _.min = function(obj, iteratee, context) {
     var result = Infinity, lastComputed = Infinity,
         value, computed;
-    if (iteratee == null || (typeof iteratee == 'number' && typeof obj[0] != 'object') && obj != null) {
+    if (context && isIterationCall(obj, iteratee, context)) iteratee = null;
+    if (iteratee == null) {
       obj = isArrayLike(obj) ? obj : _.values(obj);
       for (var i = 0, length = obj.length; i < length; i++) {
         value = obj[i];
@@ -381,7 +385,7 @@
   // If **n** is not specified, returns a single random element.
   // The internal `guard` argument allows it to work with `map`.
   _.sample = function(obj, n, guard) {
-    if (n == null || guard) {
+    if (n == null || (guard && isIterationCall(obj, n, guard))) {
       if (!isArrayLike(obj)) obj = _.values(obj);
       return obj[_.random(obj.length - 1)];
     }
@@ -478,7 +482,7 @@
   // allows it to work with `_.map`.
   _.first = _.head = _.take = function(array, n, guard) {
     if (array == null) return void 0;
-    if (n == null || guard) return array[0];
+    if (n == null || (guard && isIterationCall(array, n, guard))) return array[0];
     return _.initial(array, array.length - n);
   };
 
@@ -486,14 +490,15 @@
   // the arguments object. Passing **n** will return all the values in
   // the array, excluding the last N.
   _.initial = function(array, n, guard) {
-    return slice.call(array, 0, Math.max(0, array.length - (n == null || guard ? 1 : n)));
+    if (n == null || (guard && isIterationCall(array, n, guard))) n = 1;
+    return slice.call(array, 0, Math.max(0, array.length - n));
   };
 
   // Get the last element of an array. Passing **n** will return the last N
   // values in the array.
   _.last = function(array, n, guard) {
     if (array == null) return void 0;
-    if (n == null || guard) return array[array.length - 1];
+    if (n == null || (guard && isIterationCall(array, n, guard))) return array[array.length - 1];
     return _.rest(array, Math.max(0, array.length - n));
   };
 
@@ -501,7 +506,8 @@
   // Especially useful on the arguments object. Passing an **n** will return
   // the rest N values in the array.
   _.rest = _.tail = _.drop = function(array, n, guard) {
-    return slice.call(array, n == null || guard ? 1 : n);
+    if (n == null || (guard && isIterationCall(array, n, guard))) n = 1;
+    return slice.call(array, n);
   };
 
   // Trim out all falsy values from an array.
