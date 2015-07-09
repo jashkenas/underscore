@@ -1,5 +1,5 @@
-                       __
-                      /\ \                                                         __
+   __  __              __
+   \_\ \_\            /\ \                                                         __
      __  __    ___    \_\ \     __   _ __   ____    ___    ___   _ __    __       /\_\    ____
     /\ \/\ \ /' _ `\  /'_  \  /'__`\/\  __\/ ,__\  / ___\ / __`\/\  __\/'__`\     \/\ \  /',__\
     \ \ \_\ \/\ \/\ \/\ \ \ \/\  __/\ \ \//\__, `\/\ \__//\ \ \ \ \ \//\  __/  __  \ \ \/\__, `\
@@ -8,15 +8,4 @@
                                                                                   \ \____/
                                                                                    \/___/
 
-Underscore.js is a utility-belt library for JavaScript that provides
-support for the usual functional suspects (each, map, reduce, filter...)
-without extending any core JavaScript objects.
-
-For Docs, License, Tests, and pre-packed downloads, see:
-http://underscorejs.org
-
-Underscore is an open-sourced component of DocumentCloud:
-https://github.com/documentcloud
-
-Many thanks to our contributors:
-https://github.com/jashkenas/underscore/contributors
+Ünderscore.js is a the German version of Underscore.js.
