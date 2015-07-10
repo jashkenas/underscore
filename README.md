@@ -8,4 +8,4 @@
                                                                                     \ \____/
                                                                                      \/___/
 
-Ünderscore.js is [Underscore.js](https://github.com/jashkenas/underscore) with an umlat in the title.
+Ünderscore.js is [Underscore.js](https://github.com/jashkenas/underscore) with an [umlaut](https://en.wikipedia.org/wiki/Umlaut_(linguistics)) in the title.
