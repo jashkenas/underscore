@@ -148,18 +148,17 @@
   test('Iterate function as object', function() {
     //github issue #1992: collection methods should not iterate functions as arrays but as objects
 
-    var collection_methods = ['each','map','reduce','reduceRight','find','filter','where','findWhere','reject','every','some','contains','pluck','max','min','sortBy','groupBy','indexBy','countBy','shuffle','sample','toArray','size','partition'];
-    collection_methods.map(iterate_function_as_object);
+    var collectionMethods = ['each', 'map', 'reduce', 'reduceRight', 'find', 'filter', 'where', 'findWhere', 'reject', 'every', 'some', 'contains', 'pluck', 'max', 'min', 'sortBy', 'groupBy', 'indexBy', 'countBy', 'shuffle', 'sample', 'toArray', 'size', 'partition'];
+    _.each(collectionMethods, iterateFunctionAsObject);
 
-    function iterate_function_as_object(method) {
-
-      var fn = function(a, b, c) {};
+    function iterateFunctionAsObject(method) {
+      var fn = function(a, b, c) {a = b = c;};
       fn.foo = 'bar';
-      _[method](fn, function(value,key) {
-        strictEqual(key+value, 'foobar', '_.' + method + ' iterates function as object');
+
+      _[method](fn, function(value, key) {
+        strictEqual(key + value, 'foobar', '_.' + method + ' iterates function as object');
       });
     }
-
   });
 
   test('map', function() {
