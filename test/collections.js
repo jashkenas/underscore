@@ -145,6 +145,23 @@
     });
   });
 
+  test('Iterate function as object', function() {
+    //github issue #1992: collection methods should not iterate functions as arrays but as objects
+
+    var collection_methods = ['each','map','reduce','reduceRight','find','filter','where','findWhere','reject','every','some','contains','pluck','max','min','sortBy','groupBy','indexBy','countBy','shuffle','sample','toArray','size','partition'];
+    collection_methods.map(iterate_function_as_object);
+
+    function iterate_function_as_object(method) {
+
+      var fn = function(a, b, c) {};
+      fn.foo = 'bar';
+      _[method](fn, function(value,key) {
+        strictEqual(key+value, 'foobar', '_.' + method + ' iterates function as object');
+      });
+    }
+
+  });
+
   test('map', function() {
     var doubled = _.map([1, 2, 3], function(num){ return num * 2; });
     deepEqual(doubled, [2, 4, 6], 'doubled numbers');
