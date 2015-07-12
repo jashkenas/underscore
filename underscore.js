@@ -143,7 +143,7 @@
   var MAX_ARRAY_INDEX = Math.pow(2, 53) - 1;
   var getLength = property('length');
   var isArrayLike = function(collection) {
-    if ( typeof collection === 'function' && collection.constructor !== root.NodeList ) return false;
+    if ( typeof collection === 'function' && Object.prototype.toString.call(collection) !== '[object NodeList]' ) return false;
     var length = getLength(collection);
     return typeof length == 'number' && length >= 0 && length <= MAX_ARRAY_INDEX;
   };
