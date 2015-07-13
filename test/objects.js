@@ -668,6 +668,11 @@
     if (testElement) {
       ok(!_.isFunction(testElement), 'elements are not functions');
     }
+
+    var nodelist = typeof document != 'undefined' && document.childNodes;
+    if (nodelist) {
+      ok(!_.isFunction(nodelist));
+    }
   });
 
   if (typeof Int8Array !== 'undefined') {
