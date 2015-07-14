@@ -626,7 +626,7 @@
       return -1;
     };
   };
-    
+
 
   // Returns the first index on an array-like that passes a predicate test
   _.findIndex = createPredicateIndexFinder(1);
@@ -639,8 +639,8 @@
     predicate = cb(predicate, context);
     var length = getLength(array);
     var res = [];
-    for(var index = 0; i < length; i++) {
-      if(predicate(array[index],index,array)) res.push(index);
+    for (var index = 0; index < length; index++) {
+      if (predicate(array[index], index, array)) res.push(index);
     }
     return res;
   };
