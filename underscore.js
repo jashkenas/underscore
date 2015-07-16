@@ -1056,7 +1056,7 @@
       keys = _.allKeys(obj);
     } else {
       iteratee = keyInObj;
-      keys = flatten(keys, false, false);
+      keys = _.map(flatten(keys, false, false), String);
       obj = Object(obj);
     }
     for (var i = 0, length = keys.length; i < length; i++) {
