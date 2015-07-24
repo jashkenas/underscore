@@ -598,7 +598,8 @@ var odds = _.reject([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
         <span class="alias">Alias: <b>all</b></span>
         <br />
         Returns <i>true</i> if all of the values in the <b>list</b> pass the
-        <b>predicate</b> truth test.
+        <b>predicate</b> truth test. Short-circuits and stops traversing the list
+        if a false element is found.
       </p>
       <pre>
 _.every([true, 1, null, 'yes'], _.identity);
