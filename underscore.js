@@ -628,9 +628,23 @@
     };
   };
 
+
   // Returns the first index on an array-like that passes a predicate test
   _.findIndex = createPredicateIndexFinder(1);
   _.findLastIndex = createPredicateIndexFinder(-1);
+
+
+  // function findAllIndexes to find all indexes on an array-like that
+  // pass a predicate test
+  _.findAllIndexes = function(array, predicate, context) {
+    predicate = cb(predicate, context);
+    var length = getLength(array);
+    var res = [];
+    for (var index = 0; index < length; index++) {
+      if (predicate(array[index], index, array)) res.push(index);
+    }
+    return res;
+  };
 
   // Use a comparator function to figure out the smallest index at which
   // an object should be inserted so as to maintain order. Uses binary search.
