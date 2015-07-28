@@ -696,6 +696,19 @@
     return range;
   };
 
+  // Split an **array** into several arrays containing **count** or less elements
+  // of initial array
+  _.chunk = function(array, count) {
+    if (count == null || count < 1) return [];
+
+    var result = [];
+    var i = 0, length = array.length;
+    while (i < length) {
+      result.push(slice.call(array, i, i += count));
+    }
+    return result;
+  };
+
   // Function (ahem) Functions
   // ------------------
 
