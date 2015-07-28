@@ -632,7 +632,7 @@
       this.y = y;
     }
 
-    var collection = [
+    var stableArray = [
       new Pair(1, 1), new Pair(1, 2),
       new Pair(1, 3), new Pair(1, 4),
       new Pair(1, 5), new Pair(1, 6),
@@ -644,13 +644,20 @@
       new Pair(void 0, 5), new Pair(void 0, 6)
     ];
 
-    var actual = _.sortBy(collection, function(pair) {
+    var stableObject = _.object('abcdefghijklmnopqr'.split(''), stableArray);
+
+    var actual = _.sortBy(stableArray, function(pair) {
       return pair.x;
     });
 
-    deepEqual(actual, collection, 'sortBy should be stable');
+    deepEqual(actual, stableArray, 'sortBy should be stable for arrays');
+    deepEqual(_.sortBy(stableArray, 'x'), stableArray, 'sortBy accepts property string');
 
-    deepEqual(_.sortBy(collection, 'x'), collection, 'sortBy accepts property string');
+    actual = _.sortBy(stableObject, function(pair) {
+      return pair.x;
+    });
+
+    deepEqual(actual, stableArray, 'sortBy should be stable for objects');
 
     list = ['q', 'w', 'e', 'r', 't', 'y'];
     deepEqual(_.sortBy(list), ['e', 'q', 'r', 't', 'w', 'y'], 'uses _.identity if iterator is not specified');
