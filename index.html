@@ -221,6 +221,7 @@
       <li>- <a href="#toArray">toArray</a></li>
       <li>- <a href="#size">size</a></li>
       <li>- <a href="#partition">partition</a></li>
+      <li>- <a href="#isEqual">isEqual</a></li>
     </ul>
 
     <a class="toc_title" href="#arrays">
@@ -293,7 +294,6 @@
       <li>- <a href="#matcher">matcher</a></li>
       <li>- <a href="#property">property</a></li>
       <li>- <a href="#propertyOf">propertyOf</a></li>
-      <li>- <a href="#isEqual">isEqual</a></li>
       <li>- <a href="#isMatch">isMatch</a></li>
       <li>- <a href="#isEmpty">isEmpty</a></li>
       <li>- <a href="#isElement">isElement</a></li>
@@ -807,6 +807,21 @@ _.size({one: 1, two: 2, three: 3});
       <pre>
 _.partition([0, 1, 2, 3, 4, 5], isOdd);
 =&gt; [[1, 3, 5], [0, 2, 4]]
+</pre>
+
+      <p id="isEqual">
+        <b class="header">isEqual</b><code>_.isEqual(object, other)</code>
+        <br />
+        Performs an optimized deep comparison between the two objects, to determine
+        if they should be considered equal.
+      </p>
+      <pre>
+var stooge = {name: 'moe', luckyNumbers: [13, 27, 34]};
+var clone  = {name: 'moe', luckyNumbers: [13, 27, 34]};
+stooge == clone;
+=&gt; false
+_.isEqual(stooge, clone);
+=&gt; true
 </pre>
 
       <h2 id="arrays">Array Functions</h2>
@@ -1575,21 +1590,6 @@ _.propertyOf(stooge)('name');
       <pre>
 var ready = _.matcher({selected: true, visible: true});
 var readyToGoList = _.filter(list, ready);</pre>
-
-      <p id="isEqual">
-        <b class="header">isEqual</b><code>_.isEqual(object, other)</code>
-        <br />
-        Performs an optimized deep comparison between the two objects, to determine
-        if they should be considered equal.
-      </p>
-      <pre>
-var stooge = {name: 'moe', luckyNumbers: [13, 27, 34]};
-var clone  = {name: 'moe', luckyNumbers: [13, 27, 34]};
-stooge == clone;
-=&gt; false
-_.isEqual(stooge, clone);
-=&gt; true
-</pre>
 
       <p id="isMatch">
         <b class="header">isMatch</b><code>_.isMatch(object, properties)</code>
