@@ -719,6 +719,7 @@
     ok(!_.isNaN(void 0), 'undefined is not NaN');
     ok(!_.isNaN(null), 'null is not NaN');
     ok(!_.isNaN(0), '0 is not NaN');
+    ok(!_.isNaN(new Number(0)), 'wrapped 0 is not NaN');
     ok(_.isNaN(NaN), 'but NaN is');
     ok(_.isNaN(new Number(NaN)), 'wrapped NaN is still NaN');
   });
