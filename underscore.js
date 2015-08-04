@@ -1299,7 +1299,7 @@
     return isFinite(obj) && !isNaN(parseFloat(obj));
   };
 
-  // Is the given value `NaN`? (NaN is the only number which does not equal itself).
+  // Is the given value `NaN`?
   _.isNaN = function(obj) {
     return _.isNumber(obj) && isNaN(obj);
   };
