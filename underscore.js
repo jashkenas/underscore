@@ -1057,6 +1057,12 @@
     }
   };
 
+  // Convenience version of a common use case of `findKey`:
+  // returning the first key equal to a given value
+  _.findKeyByValue = function(obj, value) {
+    return _.findKey(obj, _.partial(_.isEqual, value));
+  };
+
   // Internal pick helper function to determine if `obj` has key `key`.
   var keyInObj = function(value, key, obj) {
     return key in obj;

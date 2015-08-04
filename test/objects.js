@@ -976,6 +976,14 @@
     strictEqual(_.findKey(array, function(x) { return x === 55; }), 'match', 'matches array-likes keys');
   });
 
+  test('findKeyByValue', function() {
+    var objects = {
+      a: {a: 0, b: 0},
+      b: {a: 1, b: 1},
+      c: {a: 2, b: 2}
+    };
+    equal(_.findKeyByValue(objects, {a: 1, b: 1}), 'b', void 0);
+  });
 
   test('mapObject', function() {
     var obj = {a: 1, b: 2};
