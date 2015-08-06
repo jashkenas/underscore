@@ -225,6 +225,22 @@
     if (key !== void 0 && key !== -1) return obj[key];
   };
 
+
+  _.simplify = function(paramArr) {
+    var changed;
+    var arr = _.clone(paramArr);
+    var simplified;
+    do {
+      simplified = [];
+      changed = false;
+      _.each(arr, function(item) {
+        simplified.push.apply(simplified, (changed = _.isArray(item) && _.every(item, _.isArray)) ? item : [item]);
+      });
+      arr = simplified;
+    } while (changed)
+    return simplified;
+  };
+
   // Return all the elements that pass a truth test.
   // Aliased as `select`.
   _.filter = _.select = function(obj, predicate, context) {
