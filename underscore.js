@@ -1347,6 +1347,16 @@
     };
   };
 
+  // create a collection from keys and list of corresponding (to keys) lists of values
+  // _.collection(['name', 'score'], [['Anastasia', 'Jim', 'Anthony', 'Edmund'], [20, 40, 90, 80, 100]]);
+  // => [{"name":"Anastasia","score":20},{"name":"Jim","score":40},{"name":"Anthony","score":90},{"name":"Edmund","score":80},{"score":100}]
+  _.collection = function(keys, valueLists) {
+    var output = Array.apply(null, Array(Math.max.apply(null, _.pluck(valueLists, 'length'))));
+    return output.map(function(one, index) {
+      return _.object(keys, _.pluck(valueLists, index));
+    });
+  };
+
   _.noop = function(){};
 
   _.property = property;

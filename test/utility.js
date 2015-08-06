@@ -51,6 +51,13 @@
     ok(new _(instance) === instance);
   });
 
+  test('collection', function() {
+    var names = ['Anastasia', 'Jim', 'Anthony', 'Edmund'];
+    var scores = [20, 40, 90, 80, 100];
+    var col = _.collection(['name', 'score'], [names, scores]);
+    equal(col.length, Math.max(names.length, scores.length), 'should return result which has length equal to  max length of all lists');
+  });
+
   test('identity', function() {
     var stooge = {name: 'moe'};
     equal(_.identity(stooge), stooge, 'stooge is the same as his identity');
