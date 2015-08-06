@@ -41,7 +41,6 @@
   "files": [
     "underscore.js",
     "underscore-min.js",
-    "underscore-min.map",
-    "LICENSE"
+    "underscore-min.map"
   ]
 }
