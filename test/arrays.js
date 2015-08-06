@@ -77,6 +77,7 @@
     equal(_.compact([0, 1, false, 2, false, 3]).length, 3, 'can trim out all falsy values');
     var result = (function(){ return _.compact(arguments).length; }(0, 1, false, 2, false, 3));
     equal(result, 3, 'works on an arguments object');
+    equal(_.compact([0, 1, false, 2, false, 3], true).length, 4, 'can trim out all falsy values except zero when allowZero flag is set');
   });
 
   test('flatten', function() {

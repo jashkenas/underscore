@@ -485,9 +485,11 @@
     return slice.call(array, n == null || guard ? 1 : n);
   };
 
-  // Trim out all falsy values from an array.
-  _.compact = function(array) {
-    return _.filter(array, _.identity);
+  // Trim out all falsy values from an array unless allowZero flag is set.
+  _.compact = function(array, allowZero) {
+    return allowZero ? _.filter(array, function(item) {
+      return item || _.isFinite(item);
+    }) : _.filter(array, _.identity);
   };
 
   // Internal implementation of a recursive `flatten` function.
