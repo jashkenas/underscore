@@ -52,7 +52,7 @@
   });
 
   test('collection', function() {
-    equal(_.collection(['name', 'score'], [['Anastasia', 'Suzanne', 'Edmund'], [90, 95, 100, 50]]), [{name: 'Anastasia', score: 90}, {name: 'Suzanne', score: 95}, {name: 'Edmund', score: 100}, {name: void 0, score: 50}]);
+    equal(_.collection(['name', 'score'], [['Anastasia', 'Suzanne', 'Edmund'], [90, 95, 100, 50]]), [{name: 'Anastasia', score: 90}, {name: 'Suzanne', score: 95}, {name: 'Edmund', score: 100}, {score: 50}]);
   });
 
   test('identity', function() {
