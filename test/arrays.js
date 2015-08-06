@@ -79,6 +79,10 @@
     equal(result, 3, 'works on an arguments object');
   });
 
+  test('simplify', function() {
+    deepEqual(_.simplify([[1, 2, 3], [2, 3, 4], [[[3, 4, 5], [6, 7, 8]]]]), [[1, 2, 3], [2, 3, 4], [3, 4, 5], [6, 7, 8]], 'should simplify array as expected');
+  });
+
   test('flatten', function() {
     deepEqual(_.flatten(null), [], 'Flattens supports null');
     deepEqual(_.flatten(void 0), [], 'Flattens supports undefined');
