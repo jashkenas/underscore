@@ -561,7 +561,7 @@
 
     // 1 arg
     deepEqual(_.perform([1]), [1], 'perform with no function returns the original array');
-    
+ 
     // 2 arg
     var arr = [{name: 'James'}, {name: 'Chloe'}];
     var nameMe = function() {

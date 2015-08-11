@@ -715,7 +715,7 @@
   _.perform = function(array, fn /*, argsToFn */) {
     if (array == null) return [];
     if (fn == null) return array;
-    
+
     var args = _.toArray(arguments).slice(2);
     var ret = [];
 
