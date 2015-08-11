@@ -710,6 +710,22 @@
     return result;
   };
 
+  // Make each object in **array** perform (call) **fn** optionally with **argsToFn**
+  // Return the result of these function calls in an array
+  _.perform = function(array, fn /*, argsToFn */) {
+    if (array == null) return [];
+    if (fn == null) return array;
+    
+    var args = _.toArray(arguments).slice(2);
+    var ret = [];
+
+    _.each(array, function(obj) {
+      ret.push(fn.apply(obj, args));
+    });
+
+    return ret;
+  };
+
   // Function (ahem) Functions
   // ------------------
 
