@@ -240,9 +240,8 @@ functions.</p>
       <span class="hljs-keyword">case</span> <span class="hljs-number">1</span>: <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(value)</span> </span>{
         <span class="hljs-keyword">return</span> func.call(context, value);
       };
-      <span class="hljs-keyword">case</span> <span class="hljs-number">2</span>: <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(value, other)</span> </span>{
-        <span class="hljs-keyword">return</span> func.call(context, value, other);
-      };
+      <span class="hljs-comment">// The 2-parameter case has been omitted only because no current consumers</span>
+      <span class="hljs-comment">// made use of it.</span>
       <span class="hljs-keyword">case</span> <span class="hljs-number">3</span>: <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(value, index, collection)</span> </span>{
         <span class="hljs-keyword">return</span> func.call(context, value, index, collection);
       };
