@@ -143,7 +143,6 @@ are declared here.</p>
             <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">var</span>
     nativeIsArray      = <span class="hljs-built_in">Array</span>.isArray,
     nativeKeys         = <span class="hljs-built_in">Object</span>.keys,
-    nativeBind         = FuncProto.bind,
     nativeCreate       = <span class="hljs-built_in">Object</span>.create;</pre></div></div>
             
         </li>
@@ -240,9 +239,8 @@ functions.</p>
       <span class="hljs-keyword">case</span> <span class="hljs-number">1</span>: <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(value)</span> </span>{
         <span class="hljs-keyword">return</span> func.call(context, value);
       };
-      <span class="hljs-keyword">case</span> <span class="hljs-number">2</span>: <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(value, other)</span> </span>{
-        <span class="hljs-keyword">return</span> func.call(context, value, other);
-      };
+      <span class="hljs-comment">// The 2-parameter case has been omitted only because no current consumers</span>
+      <span class="hljs-comment">// made use of it.</span>
       <span class="hljs-keyword">case</span> <span class="hljs-number">3</span>: <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(value, index, collection)</span> </span>{
         <span class="hljs-keyword">return</span> func.call(context, value, index, collection);
       };
@@ -265,7 +263,7 @@ functions.</p>
                 <a class="pilcrow" href="#section-14">&#182;</a>
               </div>
               <p>A mostly-internal function to generate callbacks that can be applied
-to each element in a collection, returning the desired result — either
+to each element in a collection, returning the desired result — either an
 identity, an arbitrary callback, a property matcher, or a property accessor.</p>
 
             </div>
@@ -348,8 +346,8 @@ identity, an arbitrary callback, a property matcher, or a property accessor.</p>
                 <a class="pilcrow" href="#section-17">&#182;</a>
               </div>
               <p>Helper for collection methods to determine whether a collection
-should be iterated as an array or as an object
-Related: <a href="http://people.mozilla.org/~jorendorff/es6-draft.html#sec-tolength">http://people.mozilla.org/~jorendorff/es6-draft.html#sec-tolength</a>
+should be iterated as an array or as an object.</p>
+<p>Related: <a href="http://people.mozilla.org/~jorendorff/es6-draft.html#sec-tolength">http://people.mozilla.org/~jorendorff/es6-draft.html#sec-tolength</a>
 Avoids a very nasty iOS 8 JIT bug on ARM-64. #2094</p>
 
             </div>
