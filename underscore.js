@@ -84,7 +84,7 @@
   };
 
   // A mostly-internal function to generate callbacks that can be applied
-  // to each element in a collection, returning the desired result — either
+  // to each element in a collection, returning the desired result — either an
   // identity, an arbitrary callback, a property matcher, or a property accessor.
   var cb = function(value, context, argCount) {
     if (value == null) return _.identity;
