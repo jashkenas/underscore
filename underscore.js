@@ -185,8 +185,8 @@
 
   // Create a reducing function iterating left or right.
   var createReduce = function(dir) {
-    // Optimized iterator function as using arguments.length
-    // in the main function will deoptimize the, see #1991.
+    // Optimize iterator function to use arguments.length
+    // in the main function. This will deoptimize the length lookup time.
     var reducer = function(obj, iteratee, memo, initial) {
       var keys = !isArrayLike(obj) && _.keys(obj),
           length = (keys || obj).length,
