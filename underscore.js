@@ -400,6 +400,25 @@
     }), 'value');
   };
 
+  // reduce a collection by removing outliers for a given property
+  // Use it like this:
+  // var col = [{a:20}, {a:30}, {a: '5'}, {a:20}, {a: 10}, {a: '5'}, {a: '5'}, {a: '5'}, {a: 20}, {a: 30}, {a: 50}]
+
+  // for the collection examine property 'a' and take the most common 10% for values above 6
+  // _.removeOutliers(col, 'a', 0.1, 6);
+
+  _.removeOutliers = function(obj, prop, percentageDecimal, min, max) {
+    var temp;
+    return _.flatten(_.values(_.chain(obj).groupBy(prop).filter(function(value, key) {
+        key = parseInt(key) || key;
+        return ((min ? (key>=min) : true) && (max ? (key<=max) : true));
+    }).tap(function(items) {
+        temp = items;
+    }).value()).sort(function(a, b) {
+        return a.length < b.length;
+    }).slice(0, Math.ceil(temp.length * percentageDecimal)));
+  };
+
   // An internal function used for aggregate "group by" operations.
   var group = function(behavior, partition) {
     return function(obj, iteratee, context) {
