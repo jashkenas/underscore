@@ -618,6 +618,16 @@
     ok(_.isObject(new String('string')), 'but new String()');
   });
 
+  test('isPrimitive', function () {
+    ok(!_.isPrimitive({}));
+    ok(!_.isPrimitive(new Date()));
+    ok(_.isPrimitive('abc'));
+    ok(_.isPrimitive('123'));
+    ok(_.isPrimitive(true));
+    ok(_.isPrimitive(void 0));
+    ok(_.isPrimitive(null));
+  });
+
   test('isArray', function() {
     ok(!_.isArray(void 0), 'undefined vars are not arrays');
     ok(!_.isArray(arguments), 'the arguments object is not an array');

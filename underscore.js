@@ -1265,6 +1265,12 @@
     return toString.call(obj) === '[object Array]';
   };
 
+  // Is a given variable a primitive
+  _.isPrimitive = function(obj) {
+    var type = typeof obj;
+    return obj === null || type === 'undefined' || type === 'string' || type === 'number' || type === 'boolean' || type === 'symbol';
+  };
+
   // Is a given variable an object?
   _.isObject = function(obj) {
     var type = typeof obj;
