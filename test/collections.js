@@ -663,6 +663,10 @@
     deepEqual(_.sortBy(list), ['e', 'q', 'r', 't', 'w', 'y'], 'uses _.identity if iterator is not specified');
   });
 
+  test('reduceOutliers', function() {
+    ok(_.removeOutliers([{a:20}, {a:30}, {a: '5'}, {a:20}, {a: 10}, {a: '5'}, {a: '5'}, {a: '5'}, {a: 20}, {a: 30}, {a: 50}],'a', 0.01, 6).length === 3);
+  });
+
   test('groupBy', function() {
     var parity = _.groupBy([1, 2, 3, 4, 5, 6], function(num){ return num % 2; });
     ok('0' in parity && '1' in parity, 'created a group for each value');
