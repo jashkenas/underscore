@@ -145,7 +145,7 @@
   var getLength = property('length');
   var isArrayLike = function(collection) {
     var length = getLength(collection);
-    return typeof length == 'number' && length >= 0 && length <= MAX_ARRAY_INDEX;
+    return typeof length === 'number' && length >= 0 && length <= MAX_ARRAY_INDEX;
   };
 
   // Collection Functions
@@ -306,7 +306,7 @@
   _.max = function(obj, iteratee, context) {
     var result = -Infinity, lastComputed = -Infinity,
         value, computed;
-    if (iteratee == null || (typeof iteratee == 'number' && typeof obj[0] != 'object') && obj != null) {
+    if (iteratee == null || (typeof iteratee === 'number' && typeof obj[0] != 'object') && obj != null) {
       obj = isArrayLike(obj) ? obj : _.values(obj);
       for (var i = 0, length = obj.length; i < length; i++) {
         value = obj[i];
@@ -331,7 +331,7 @@
   _.min = function(obj, iteratee, context) {
     var result = Infinity, lastComputed = Infinity,
         value, computed;
-    if (iteratee == null || (typeof iteratee == 'number' && typeof obj[0] != 'object') && obj != null) {
+    if (iteratee == null || (typeof iteratee === 'number' && typeof obj[0] != 'object') && obj != null) {
       obj = isArrayLike(obj) ? obj : _.values(obj);
       for (var i = 0, length = obj.length; i < length; i++) {
         value = obj[i];
@@ -650,7 +650,7 @@
   var createIndexFinder = function(dir, predicateFind, sortedIndex) {
     return function(array, item, idx) {
       var i = 0, length = getLength(array);
-      if (typeof idx == 'number') {
+      if (typeof idx === 'number') {
         if (dir > 0) {
           i = idx >= 0 ? idx : Math.max(idx + length, i);
         } else {
@@ -1291,7 +1291,7 @@
   var nodelist = root.document && root.document.childNodes;
   if (typeof /./ != 'function' && typeof Int8Array != 'object' && typeof nodelist != 'function') {
     _.isFunction = function(obj) {
-      return typeof obj == 'function' || false;
+      return typeof obj === 'function' || false;
     };
   }
 
