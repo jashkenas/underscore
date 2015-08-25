@@ -272,7 +272,7 @@
   // Aliased as `includes` and `include`.
   _.contains = _.includes = _.include = function(obj, item, fromIndex, guard) {
     if (!isArrayLike(obj)) obj = _.values(obj);
-    if (typeof fromIndex != 'number' || guard) fromIndex = 0;
+    if (typeof fromIndex !== 'number' || guard) fromIndex = 0;
     return _.indexOf(obj, item, fromIndex) >= 0;
   };
 
@@ -306,7 +306,7 @@
   _.max = function(obj, iteratee, context) {
     var result = -Infinity, lastComputed = -Infinity,
         value, computed;
-    if (iteratee == null || (typeof iteratee === 'number' && typeof obj[0] != 'object') && obj != null) {
+    if (iteratee == null || (typeof iteratee === 'number' && typeof obj[0] !== 'object') && obj != null) {
       obj = isArrayLike(obj) ? obj : _.values(obj);
       for (var i = 0, length = obj.length; i < length; i++) {
         value = obj[i];
@@ -331,7 +331,7 @@
   _.min = function(obj, iteratee, context) {
     var result = Infinity, lastComputed = Infinity,
         value, computed;
-    if (iteratee == null || (typeof iteratee === 'number' && typeof obj[0] != 'object') && obj != null) {
+    if (iteratee == null || (typeof iteratee === 'number' && typeof obj[0] !== 'object') && obj != null) {
       obj = isArrayLike(obj) ? obj : _.values(obj);
       for (var i = 0, length = obj.length; i < length; i++) {
         value = obj[i];
@@ -1185,7 +1185,7 @@
 
     var areArrays = className === '[object Array]';
     if (!areArrays) {
-      if (typeof a != 'object' || typeof b != 'object') return false;
+      if (typeof a !== 'object' || typeof b !== 'object') return false;
 
       // Objects with different constructors are not equivalent, but `Object`s or `Array`s
       // from different frames are.
@@ -1289,7 +1289,7 @@
   // Optimize `isFunction` if appropriate. Work around some typeof bugs in old v8,
   // IE 11 (#1621), Safari 8 (#1929), and PhantomJS (#2236).
   var nodelist = root.document && root.document.childNodes;
-  if (typeof /./ != 'function' && typeof Int8Array != 'object' && typeof nodelist != 'function') {
+  if (typeof /./ !== 'function' && typeof Int8Array !== 'object' && typeof nodelist !== 'function') {
     _.isFunction = function(obj) {
       return typeof obj === 'function' || false;
     };
