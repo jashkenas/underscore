@@ -11,8 +11,8 @@
   // Establish the root object, `window` (`self`) in the browser, `global`
   // on the server, or `this` in some virtual machines. We use `self`
   // instead of `window` for `WebWorker` support.
-  var root = typeof self === 'object' && self.self === self && self ||
-            typeof global === 'object' && global.global === global && global ||
+  var root = typeof self == 'object' && self.self === self && self ||
+            typeof global == 'object' && global.global === global && global ||
             this;
 
   // Save the previous value of the `_` variable.
@@ -571,7 +571,7 @@
       for (j = 1; j < argsLength; j++) {
         if (!_.contains(arguments[j], item)) break;
       }
-      if (j === argsLength) result.push(item);
+      if (j == argsLength) result.push(item);
     }
     return result;
   };
@@ -1149,7 +1149,7 @@
     if (a !== a) return b !== b;
     // Exhaust primitive checks
     var type = typeof a;
-    if (type !== 'function' && type !== 'object' && typeof b !== 'object') return false;
+    if (type != 'function' && type != 'object' && typeof b != 'object') return false;
     return deepEq(a, b, aStack, bStack);
   };
 
@@ -1183,7 +1183,7 @@
         return +a === +b;
     }
 
-    var areArrays = className === '[object Array]';
+    var areArrays = className == '[object Array]';
     if (!areArrays) {
       if (typeof a != 'object' || typeof b != 'object') return false;
 
@@ -1251,7 +1251,7 @@
   _.isEmpty = function(obj) {
     if (obj == null) return true;
     if (isArrayLike(obj) && (_.isArray(obj) || _.isString(obj) || _.isArguments(obj))) return obj.length === 0;
-    return _.keys(obj).length === 0;
+    return _.keys(obj).length == 0;
   };
 
   // Is a given value a DOM element?
@@ -1262,19 +1262,19 @@
   // Is a given value an array?
   // Delegates to ECMA5's native Array.isArray
   _.isArray = nativeIsArray || function(obj) {
-    return toString.call(obj) === '[object Array]';
+    return toString.call(obj) == '[object Array]';
   };
 
   // Is a given variable an object?
   _.isObject = function(obj) {
     var type = typeof obj;
-    return type === 'function' || type === 'object' && !!obj;
+    return type == 'function' || type == 'object' && !!obj;
   };
 
   // Add some isType methods: isArguments, isFunction, isString, isNumber, isDate, isRegExp, isError.
   _.each(['Arguments', 'Function', 'String', 'Number', 'Date', 'RegExp', 'Error'], function(name) {
     _['is' + name] = function(obj) {
-      return toString.call(obj) === '[object ' + name + ']';
+      return toString.call(obj) == '[object ' + name + ']';
     };
   });
 
@@ -1307,7 +1307,7 @@
 
   // Is a given value a boolean?
   _.isBoolean = function(obj) {
-    return obj === true || obj === false || toString.call(obj) === '[object Boolean]';
+    return obj === true || obj === false || toString.call(obj) == '[object Boolean]';
   };
 
   // Is a given value equal to null?
@@ -1566,7 +1566,7 @@
     _.prototype[name] = function() {
       var obj = this._wrapped;
       method.apply(obj, arguments);
-      if ((name === 'shift' || name === 'splice') && obj.length === 0) delete obj[0];
+      if ((name == 'shift' || name == 'splice') && obj.length == 0) delete obj[0];
       return chainResult(this, obj);
     };
   });
@@ -1599,7 +1599,7 @@
   // popular enough to be bundled in a third party lib, but not be part of
   // an AMD load request. Those cases could generate an error when an
   // anonymous define() is called outside of a loader request.
-  if (typeof define === 'function' && define.amd) {
+  if (typeof define == 'function' && define.amd) {
     define('underscore', [], function() {
       return _;
     });
