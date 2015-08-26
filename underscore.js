@@ -571,7 +571,7 @@
       for (j = 1; j < argsLength; j++) {
         if (!_.contains(arguments[j], item)) break;
       }
-      if (j == argsLength) result.push(item);
+      if (j === argsLength) result.push(item);
     }
     return result;
   };
@@ -1149,7 +1149,7 @@
     if (a !== a) return b !== b;
     // Exhaust primitive checks
     var type = typeof a;
-    if (type != 'function' && type != 'object' && typeof b != 'object') return false;
+    if (type !== 'function' && type !== 'object' && typeof b != 'object') return false;
     return deepEq(a, b, aStack, bStack);
   };
 
@@ -1160,7 +1160,7 @@
     if (b instanceof _) b = b._wrapped;
     // Compare `[[Class]]` names.
     var className = toString.call(a);
-    if (className != toString.call(b)) return false;
+    if (className !== toString.call(b)) return false;
     switch (className) {
       // Strings, numbers, regular expressions, dates, and booleans are compared by value.
       case '[object RegExp]':
@@ -1183,7 +1183,7 @@
         return +a === +b;
     }
 
-    var areArrays = className == '[object Array]';
+    var areArrays = className === '[object Array]';
     if (!areArrays) {
       if (typeof a != 'object' || typeof b != 'object') return false;
 
@@ -1218,7 +1218,7 @@
     if (areArrays) {
       // Compare array lengths to determine if a deep comparison is necessary.
       length = a.length;
-      if (length != b.length) return false;
+      if (length !== b.length) return false;
       // Deep compare the contents, ignoring non-numeric properties.
       while (length--) {
         if (!eq(a[length], b[length], aStack, bStack)) return false;
@@ -1228,7 +1228,7 @@
       var keys = _.keys(a), key;
       length = keys.length;
       // Ensure that both objects contain the same number of properties before comparing deep equality.
-      if (_.keys(b).length != length) return false;
+      if (_.keys(b).length !== length) return false;
       while (length--) {
         // Deep compare each member
         key = keys[length];
@@ -1251,7 +1251,7 @@
   _.isEmpty = function(obj) {
     if (obj == null) return true;
     if (isArrayLike(obj) && (_.isArray(obj) || _.isString(obj) || _.isArguments(obj))) return obj.length === 0;
-    return _.keys(obj).length == 0;
+    return _.keys(obj).length === 0;
   };
 
   // Is a given value a DOM element?
@@ -1262,19 +1262,19 @@
   // Is a given value an array?
   // Delegates to ECMA5's native Array.isArray
   _.isArray = nativeIsArray || function(obj) {
-    return toString.call(obj) == '[object Array]';
+    return toString.call(obj) === '[object Array]';
   };
 
   // Is a given variable an object?
   _.isObject = function(obj) {
     var type = typeof obj;
-    return type == 'function' || type == 'object' && !!obj;
+    return type === 'function' || type === 'object' && !!obj;
   };
 
   // Add some isType methods: isArguments, isFunction, isString, isNumber, isDate, isRegExp, isError.
   _.each(['Arguments', 'Function', 'String', 'Number', 'Date', 'RegExp', 'Error'], function(name) {
     _['is' + name] = function(obj) {
-      return toString.call(obj) == '[object ' + name + ']';
+      return toString.call(obj) === '[object ' + name + ']';
     };
   });
 
@@ -1307,7 +1307,7 @@
 
   // Is a given value a boolean?
   _.isBoolean = function(obj) {
-    return obj === true || obj === false || toString.call(obj) == '[object Boolean]';
+    return obj === true || obj === false || toString.call(obj) === '[object Boolean]';
   };
 
   // Is a given value equal to null?
@@ -1566,7 +1566,7 @@
     _.prototype[name] = function() {
       var obj = this._wrapped;
       method.apply(obj, arguments);
-      if ((name == 'shift' || name == 'splice') && obj.length == 0) delete obj[0];
+      if ((name === 'shift' || name === 'splice') && obj.length === 0) delete obj[0];
       return chainResult(this, obj);
     };
   });
