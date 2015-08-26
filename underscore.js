@@ -48,8 +48,8 @@
   // Export the Underscore object for **Node.js**, with
   // backwards-compatibility for their old module API. If we're in
   // the browser, add `_` as a global object.
-  if (typeof exports !== 'undefined') {
-    if (typeof module !== 'undefined' && module.exports) {
+  if (typeof exports != 'undefined') {
+    if (typeof module != 'undefined' && module.exports) {
       exports = module.exports = _;
     }
     exports._ = _;
@@ -1160,7 +1160,7 @@
     if (b instanceof _) b = b._wrapped;
     // Compare `[[Class]]` names.
     var className = toString.call(a);
-    if (className !== toString.call(b)) return false;
+    if (className != toString.call(b)) return false;
     switch (className) {
       // Strings, numbers, regular expressions, dates, and booleans are compared by value.
       case '[object RegExp]':
@@ -1218,7 +1218,7 @@
     if (areArrays) {
       // Compare array lengths to determine if a deep comparison is necessary.
       length = a.length;
-      if (length !== b.length) return false;
+      if (length != b.length) return false;
       // Deep compare the contents, ignoring non-numeric properties.
       while (length--) {
         if (!eq(a[length], b[length], aStack, bStack)) return false;
@@ -1228,7 +1228,7 @@
       var keys = _.keys(a), key;
       length = keys.length;
       // Ensure that both objects contain the same number of properties before comparing deep equality.
-      if (_.keys(b).length !== length) return false;
+      if (_.keys(b).length != length) return false;
       while (length--) {
         // Deep compare each member
         key = keys[length];
