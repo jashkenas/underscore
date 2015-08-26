@@ -926,19 +926,26 @@
     var args = Array.prototype.slice.call(arguments, 1);
 
     if (args.length === 1) {
-      return _.map(funcs, function(func) {
+      var appls = _.map(funcs, function(func) {
         return _.map(args[0], func);
-      }).reduce(function(agg, result) {
+      });
+
+      return _.reduce(appls, function(agg, result) {
         return agg.concat(result);
       }, []);
+
     } else if (args.length > 1) {
-      var partials = _.map(funcs, function(func) {
+
+      var appls = _.map(funcs, function(func) {
         return _.map(args[0], function(arg){
           return _.partial(func, arg);
         });
-      }).reduce(function(agg, result) {
+      });
+
+      var partials = _.reduce(appls, function(agg, result) {
         return agg.concat(result);
       }, []);
+
       var rest = Array.prototype.slice.call(args, 1);
       return _.nMap.apply(self, [partials].concat(rest));
     }
