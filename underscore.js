@@ -926,11 +926,11 @@
     var args = Array.prototype.slice.call(arguments, 1);
 
     if (args.length === 1) {
-      var appls = _.map(funcs, function(func) {
+      var appl = _.map(funcs, function(func) {
         return _.map(args[0], func);
       });
 
-      return _.reduce(appls, function(agg, result) {
+      return _.reduce(appl, function(agg, result) {
         return agg.concat(result);
       }, []);
 
