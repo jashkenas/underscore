@@ -244,7 +244,7 @@
 
   _.set = function(obj, objDelta) {
     return _.each(obj, function(o) {
-       _.extendOwn(o, objDelta);
+      _.extendOwn(o, objDelta);
     });
   };
 

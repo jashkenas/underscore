@@ -323,8 +323,8 @@
   });
 
   test('set', function() {
-    var col = [{a:1, b:2}, {a:3, b:4}, {a:5, b:6}];
-    _.set(col, {c:5});
+    var col = [{a: 1, b: 2}, {a: 3, b: 4}, {a: 5, b: 6}];
+    _.set(col, {c: 5});
     strictEqual(_.pluck(col, 'c').length, 3);
   });
 
