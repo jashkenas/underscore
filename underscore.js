@@ -242,6 +242,12 @@
     return _.filter(obj, _.negate(cb(predicate)), context);
   };
 
+  _.set = function(obj, objDelta) {
+    return _.each(obj, function(o) {
+      _.extendOwn(o, objDelta);
+    });
+  };
+
   // Determine whether all of the elements match a truth test.
   // Aliased as `all`.
   _.every = _.all = function(obj, predicate, context) {

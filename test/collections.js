@@ -322,6 +322,12 @@
     deepEqual(_(list).filter({}), list, 'OO-filter');
   });
 
+  test('set', function() {
+    var col = [{a: 1, b: 2}, {a: 3, b: 4}, {a: 5, b: 6}];
+    _.set(col, {c: 5});
+    strictEqual(_.pluck(col, 'c').length, 3);
+  });
+
   test('select', function() {
     strictEqual(_.filter, _.select, 'alias for filter');
   });
