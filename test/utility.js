@@ -51,6 +51,11 @@
     ok(new _(instance) === instance);
   });
 
+  test('collection', function() {
+    equal(_.collection(['name', 'score'], [['Anastasia', 'Suzanne', 'Edmund'], [90, 95, 100, 50]]).length, 4, 'should create collection of expected length');
+    equal(_.isEqual(_.collection(['name', 'score'], [['Anastasia', 'Suzanne', 'Edmund'], [90, 95, 100, 50]]), [{name: 'Anastasia', score: 90}, {name: 'Suzanne', score: 95}, {name: 'Edmund', score: 100}, {name: void 0, score: 50}]), true, 'should create expected object');
+  });
+
   test('identity', function() {
     var stooge = {name: 'moe'};
     equal(_.identity(stooge), stooge, 'stooge is the same as his identity');

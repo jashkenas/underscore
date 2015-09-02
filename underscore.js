@@ -1390,6 +1390,16 @@
     return new Date().getTime();
   };
 
+  // create a collection from keys and list of lists (values)
+  // _.collection(['name', 'score'], [['Anastasia', 'Suzanne', 'Edmund'], [90, 95, 100, 50]]);
+  // => [{"name":"Anastasia","score":90},{"name":"Suzanne","score":95},{"name":"Edmund","score":100}, {"name": undefined, "score":50}]
+  _.collection = function(keys, valueLists) {
+    var output = Array.apply(null, Array(Math.max.apply(null, _.pluck(valueLists, 'length'))));
+    return output.map(function(one, index) {
+      return _.object(keys, _.pluck(valueLists, index));
+    });
+  };
+
    // List of HTML entities for escaping.
   var escapeMap = {
     '&': '&amp;',
