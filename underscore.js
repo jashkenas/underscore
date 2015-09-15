@@ -432,10 +432,15 @@
     if (_.has(result, key)) result[key]++; else result[key] = 1;
   });
 
+  var reStrSymbol = /[^\ud800-\udfff]|[\ud800-\udbff][\udc00-\udfff]|[\ud800-\udfff]/g;
   // Safely create a real, live array from anything iterable.
   _.toArray = function(obj) {
     if (!obj) return [];
     if (_.isArray(obj)) return slice.call(obj);
+    if (_.isString(obj)) {
+      // Keep surrogate pair characters together
+      return obj ? obj.match(reStrSymbol) : [];
+    }
     if (isArrayLike(obj)) return _.map(obj, _.identity);
     return _.values(obj);
   };
