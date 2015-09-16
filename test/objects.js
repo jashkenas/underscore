@@ -782,6 +782,23 @@
     assert.strictEqual(_.has(void 0, 'foo'), false, 'has() returns false for undefined');
   });
 
+  test('update, replace', function(assert) {
+    var simpleObject = {customerID: "foobar001"};
+    var simpleObject_expected = {customerID: "0101-foobar001"};
+
+    var nestedComplexExample = {a:{b:{c:{d:{customerID:"nestedID"},customerID:"nestedIDxyz"}}}};
+    var nestedComplexExample_expected = {a:{b:{c:{d:{customerID:"0101-nestedID"},customerID:"0101-nestedIDxyz"}}}};
+
+    var callback = function(item) { return "0101-" + item; }; 
+
+    assert.deepEqual(_.update('customerID',simpleObject,callback), simpleObject_expected, 'Update updates the customer ID containing a new format');
+    assert.equal([], -1, 'Update when is not an object returns -1');
+    assert.equal({}, -1, 'Update when is empty returns -1');
+
+    assert.deepEqual(_.update('customerID',nestedComplexExample,callback),nestedComplexExample_expected, 'Deep nesting should still have the keys updated');
+    assert.equal(_.update(' ',nestedComplexExample,callback),-1, 'Deep nesting without key match should return the -1');
+  });
+
   test('isMatch', function(assert) {
     var moe = {name: 'Moe Howard', hair: true};
     var curly = {name: 'Curly Howard', hair: false};
