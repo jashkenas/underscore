@@ -1141,6 +1141,19 @@
     return true;
   };
 
+  // Replaces each found key's value with the return value of the passed in function
+  // Returns a copy of the object, or -1 if the key wasn't found, wasn't an object or no update
+  _.update = _.replace = function(key, object, callback) {
+    var keys = _.keys(object);
+    if(typeof(callback)!=='function') return -1; 
+    if((typeof(object)!=='object') || (keys.indexOf(key)===-1)) return -1;
+    for(var item in object){
+      if(item === key){
+        object[key] = callback(object[key]);
+      }
+    }
+    return object;
+  };
 
   // Internal recursive comparison function for `isEqual`.
   var eq, deepEq;
