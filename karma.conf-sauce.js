@@ -12,7 +12,8 @@ var sauceBrowsers = _.reduce([
   ['chrome', '35'],
   ['chrome', '28'],
 
-  ['internet explorer', '11', 'Windows 8.1'],
+  ['microsoftedge', '20.10240', 'Windows 10'],
+  ['internet explorer', '11', 'Windows 10'],
   ['internet explorer', '10', 'Windows 8'],
   ['internet explorer', '9', 'Windows 7'],
   // Currently do not work with Karma.
