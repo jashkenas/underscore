@@ -789,8 +789,10 @@
     var numbers = _.toArray({one: 1, two: 2, three: 3});
     assert.deepEqual(numbers, [1, 2, 3], 'object flattened into array');
 
-    var astral = _.toArray('\udfff💩poop💩\ud800');
-    assert.deepEqual(astral, ['\udfff', '💩', 'p', 'o', 'o', 'p', '💩', '\ud800'], 'maintains astral characters');
+    var hearts = '\uD83D\uDC95';
+    var pair = hearts.split('');
+    var expected = [pair[0], hearts, '&', hearts, pair[1]];
+    assert.deepEqual(_.toArray(expected.join('')), expected, 'maintains astral characters');
     assert.deepEqual(_.toArray(''), [], 'empty string into empty array');
 
     if (typeof document != 'undefined') {
