@@ -89,6 +89,66 @@
     _.partial.placeholder = _;
   });
 
+  test('comb', function(assert){
+    var testFunc1 = function(a, b, c) {
+      return 'Func1 ' + b;
+    }, testFunc2 = function(a, b, c) {
+      return 'Func2 ' + b;
+    }, testFunc3 = function(a, b, c) {
+      return 'Func3 ' + b;
+    }, defFunc = function(a, b, c) {
+      return 'Default';
+    };
+
+    var testFunc = _.comb(defFunc);
+
+    var setDefault = testFunc._default();
+    assert.equal(setDefault(), 'Default', 'Properly loads default function when initialized');
+
+    //Single function tests
+    testFunc.link(0, _, 0, testFunc1);
+    var setCase1 = testFunc._funcs()[0],
+    setPattern1 = testFunc._patterns()[0];
+
+    assert.equal(setCase1.apply(null, ['foo', 'bar', 'zed']), 'Func1 bar', 'Properly stores functions with case method');
+    assert.deepEqual([0, _, 0], setPattern1, 'Properly stores patterns with case method');
+
+    //Tests for default matcher
+    var defMatch = testFunc._matcher();
+    var val1 = [0, 'foo', _],
+        val2 = [0, 'foo', 'bar'],
+        val3 = [1, 'bar', 'zed'];
+
+    assert.equal(defMatch(val1, val2), true, 'Properly matches given values with given array to match to: 1');
+    assert.equal(defMatch(val1, val3), false, 'Properly matches given values with given array to match to: 2');
+    assert.equal(defMatch(val2, val2), true, 'Properly matches given values with given array to match to: 3');
+    assert.equal(defMatch(val2, val3), false, 'Properly matches given values with given array to match to: 4');
+
+    //Tests using main caller using matcher
+    testFunc.link(0, _, 1, testFunc2);
+    testFunc.link(1, _, _, testFunc3);
+
+    assert.equal(testFunc(0, 'Case 1', 0), 'Func1 Case 1', 'Properly calls function based on case: 1');
+    assert.equal(testFunc(0, 'Case 2', 1), 'Func2 Case 2', 'Properly calls function based on case: 2');
+    assert.equal(testFunc(1, 'Case 3', 1), 'Func3 Case 3', 'Properly calls function based on case: 3');
+    assert.equal(testFunc('foo', 'Case 3', 1), 'Default', 'Properly calls default function if no case matches');
+
+    //Test to make sure fixed values are prioritized over arbitrary values
+    testFunc.link(2, 2, _, 'Given Value');
+    testFunc.link(2, 2, 2, 'Given Value Fixed');
+    assert.equal(testFunc(2, 2, 2), 'Given Value Fixed', 'Properly defined given value call with fixed parameters');
+    assert.equal(testFunc(2, 2, 'bar'), 'Given Value', 'Properly defined given value call with arbitrary parameters');
+
+    //Test to make sure last fixed value definition is prioritized
+    testFunc.link(2, 2, 2, 'Second def');
+    assert.equal(testFunc(2, 2, 2), 'Second def', 'Properly overwrites fixed value parameters');
+
+    //Test to make sure arbitrary values overwrites previous arbitray values
+    testFunc.link(1, _, _, 'New Fixed');
+    assert.equal(testFunc(1, 'Case 3', 1), 'New Fixed', 'Properly overwrites previous arbitrary value parameters');
+
+  });
+
   test('bindAll', function(assert) {
     var curly = {name: 'curly'}, moe = {
       name: 'moe',
