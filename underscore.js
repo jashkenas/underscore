@@ -924,6 +924,111 @@
 
   _.restArgs = restArgs;
 
+  // Returns a function that allows defining functions to be called depending on
+  // case defined argument values. Similar to pattern matching values.
+  _.comb = function(def) {
+    var _default = def,
+    _patterns = [],
+    _funcs = [];
+
+    var _matcher = function(given, match) {
+      var doesMatch = _.reduce(given, function(prev, next, i) {
+        var result = false;
+        if (next.VERSION || next === match[i]) { //test to see if given parameter is an underscore instance
+          result = true && prev;
+        }
+        return result;
+      }, true);
+      return doesMatch;
+    };
+
+    var patternHasArbitrary = function(pattern) {
+      var does = false;
+      for (var i = 0; i < pattern.length; i++) {
+        if (pattern[i].VERSION) {
+          does = true;
+          break;
+        }
+      }
+      return does;
+    };
+
+    var exp = function() {
+      //Collect arguments function was called with
+      var _args = [];
+      for (var i = 0; i < arguments.length; i++) {
+        _args.push(arguments[i]);
+      }
+      //Find a matching pattern along with its index
+      var match = null;
+      for (var j = 0; j < _patterns.length; j++) {
+        if (_matcher(_patterns[j], _args)) {
+          if ( patternHasArbitrary(_patterns[j])) {
+            if (!match) {
+              match = {
+                index: j
+              };
+            } else if (patternHasArbitrary(_patterns[match.index])) {
+              match = {
+                index: j
+              };
+            }
+          } else {
+            match = {
+              index: j
+            };
+          }
+        }
+      }
+      //If it didn't find a matching pattern, return the arguments called with default
+      if (match === null) {
+        return _default.apply(null, _args);
+      }
+      //Otherwise return the arguments called with the matching function
+      return _funcs[match.index].apply(null, _args);
+    };
+
+    exp._matcher = function() {
+      return _matcher;
+    };
+
+    exp._default = function() {
+      return _default;
+    };
+
+    exp._patterns = function() {
+      return _patterns;
+    };
+
+    exp._funcs = function() {
+      return _funcs;
+    };
+
+    exp.link = function() {
+      var _args = [];
+      for (var i = 0; i < arguments.length; i++) {
+        _args.push(arguments[i]);
+      }
+      var newpattern = [];
+      for (var j = 0; j < _args.length - 1; j++) {
+        newpattern.push(_args[j]);
+      }
+      var lastValue = _args[_args.length - 1],
+          _func = null;
+      if (_.isFunction(lastValue)){
+        _func = lastValue;
+      } else {
+        _func = function() {
+          return lastValue;
+        };
+      }
+      _patterns.push(newpattern);
+      _funcs.push(_func);
+      return exp;
+    };
+    return exp;
+  };
+
   // Object Functions
   // ----------------
 
