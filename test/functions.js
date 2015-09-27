@@ -90,13 +90,13 @@
   });
 
   test('comb', function(assert){
-    var testFunc1 = function(a, b, c) {
+    var testFunc1 = function(a, b) {
       return 'Func1 ' + b;
-    }, testFunc2 = function(a, b, c) {
+    }, testFunc2 = function(a, b) {
       return 'Func2 ' + b;
-    }, testFunc3 = function(a, b, c) {
+    }, testFunc3 = function(a, b) {
       return 'Func3 ' + b;
-    }, defFunc = function(a, b, c) {
+    }, defFunc = function(a, b) {
       return 'Default';
     };
 
