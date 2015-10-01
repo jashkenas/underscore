@@ -716,6 +716,34 @@
     return result;
   };
 
+  // return all combinations of **array** containing **size** elements.
+  // _.combinations(['A', 'B', 'C'], 2);
+  // => [['B', 'A'], ['C', 'A'], ['C', 'B']]
+  _.combinations = function(array, size){
+    var length = array.length;
+
+    if (length === 0) return [];
+    if (size == null || size > length || size < 1) return [];
+    if (length === size) return [array.slice()];
+
+    var result = [];
+    var combination = Array(size);
+
+    function combine(count, start) {
+      if (count === 0) {
+        result.push(combination.slice());
+      } else {
+        var j = count - 1;
+        for (var i = start; i < length; i++) {
+          combination[j] = array[i];
+          combine(j, i + 1);
+        }
+      }
+    }
+    combine(size, 0);
+    return result;
+  };
+
   // Function (ahem) Functions
   // ------------------
 

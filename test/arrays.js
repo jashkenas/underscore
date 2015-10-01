@@ -554,4 +554,17 @@
     assert.deepEqual(_.chunk([10, 20, 30, 40, 50, 60, 70], 2), [[10, 20], [30, 40], [50, 60], [70]], 'chunk into parts of less then current array length elements');
     assert.deepEqual(_.chunk([10, 20, 30, 40, 50, 60, 70], 3), [[10, 20, 30], [40, 50, 60], [70]], 'chunk into parts of less then current array length elements');
   });
+
+  test('combinations', function(assert){
+    assert.deepEqual(_.combinations([], 2), [], 'combinations of an empty array returns an empty array');
+    assert.deepEqual(_.combinations(['A', 'B', 'C']), [], 'defaults to empty array (combination size 0)');
+    assert.deepEqual(_.combinations(['A', 'B', 'C'], 0), [], 'combinations of 0 length returns empty array');
+    assert.deepEqual(_.combinations(['A', 'B', 'C'], -1), [], 'combinations of a negative length returns an empty array');
+    assert.deepEqual(_.combinations(['A', 'B', 'C'], 4), [], 'combinations of more than current array length returns an empty array');
+    assert.deepEqual(_.combinations(['A', 'B', 'C'], 1), [['A'], ['B'], ['C']], 'combinations of 1 length returns original array');
+    assert.deepEqual(_.combinations(['A', 'B', 'C'], 3), [['A', 'B', 'C']], 'combinations of length equal to the current array length return the original array');
+    assert.deepEqual(_.combinations(['A', 'B', 'C'], 2), [['B', 'A'], ['C', 'A'], ['C', 'B']], 'combinations of less than current array length elements');
+    assert.deepEqual(_.combinations(['A', 'B', 'C', 'D'], 3), [['C', 'B', 'A'], ['D', 'B', 'A'], ['D', 'C', 'A'], ['D', 'C', 'B']], 'combinations of less than current array length elements');
+  });
+
 }());
