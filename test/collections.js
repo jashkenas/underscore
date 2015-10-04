@@ -564,6 +564,18 @@
     assert.equal(3, _.max([1, 2, 3, 'test']), 'Finds correct max in array starting with num and containing a NaN');
     assert.equal(3, _.max(['test', 1, 2, 3]), 'Finds correct max in array starting with NaN');
 
+    assert.equal(3, _.max([1, 2, 3, null]), 'Finds correct max in array starting with num and containing a `null`');
+    assert.equal(3, _.max([null, 1, 2, 3]), 'Finds correct max in array starting with a `null`');
+
+    assert.equal(3, _.max([1, 2, 3, '']), 'Finds correct max in array starting with num and containing an empty string');
+    assert.equal(3, _.max(['', 1, 2, 3]), 'Finds correct max in array starting with an empty string');
+
+    assert.equal(3, _.max([1, 2, 3, false]), 'Finds correct max in array starting with num and containing a false');
+    assert.equal(3, _.max([false, 1, 2, 3]), 'Finds correct max in array starting with a false');
+
+    assert.equal(4, _.max([0, 1, 2, 3, 4]), 'Finds correct max in array containing a zero');
+    assert.equal(0, _.max([-3, -2, -1, 0]), 'Finds correct max in array containing negative numbers');
+
     assert.deepEqual([3, 6], _.map([[1, 2, 3], [4, 5, 6]], _.max), 'Finds correct max in array when mapping through multiple arrays');
 
     var a = {x: -Infinity};
@@ -602,6 +614,12 @@
 
     assert.equal(1, _.min([1, 2, 3, 'test']), 'Finds correct min in array starting with num and containing a NaN');
     assert.equal(1, _.min(['test', 1, 2, 3]), 'Finds correct min in array starting with NaN');
+
+    assert.equal(1, _.min([1, 2, 3, null]), 'Finds correct min in array starting with num and containing a `null`');
+    assert.equal(1, _.min([null, 1, 2, 3]), 'Finds correct min in array starting with a `null`');
+
+    assert.equal(0, _.min([0, 1, 2, 3, 4]), 'Finds correct min in array containing a zero');
+    assert.equal(-3, _.min([-3, -2, -1, 0]), 'Finds correct min in array containing negative numbers');
 
     var a = {x: Infinity};
     var b = {x: Infinity};
