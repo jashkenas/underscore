@@ -33,7 +33,8 @@
   var
     nativeIsArray = Array.isArray,
     nativeKeys = Object.keys,
-    nativeCreate = Object.create;
+    nativeCreate = Object.create,
+    nativeGetPrototypeOf = Object.getPrototypeOf;
 
   // Naked function reference for surrogate-prototype-swapping.
   var Ctor = function(){};
@@ -129,6 +130,10 @@
     var result = new Ctor;
     Ctor.prototype = null;
     return result;
+  };
+
+  var baseGetPrototype = nativeGetPrototypeOf || function() {
+    return null;
   };
 
   var property = function(key) {
@@ -1328,7 +1333,10 @@
   // Shortcut function for checking if an object has a given property directly
   // on itself (in other words, not on a prototype).
   _.has = function(obj, key) {
-    return obj != null && hasOwnProperty.call(obj, key);
+    if (!_.isObject(obj)) return false;
+    if (hasOwnProperty.call(obj, key)) return true;
+    // Fix an IE prototype-less object bug. #2308
+    return key in obj && baseGetPrototype(obj) === null;
   };
 
   // Utility Functions
