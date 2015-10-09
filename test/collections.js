@@ -520,6 +520,23 @@
     assert.deepEqual(_.where([_, {a: 1, b: 2}, _], test), [_, _], 'checks properties given function');
   });
 
+  test('whereNot', function(assert) {
+    var list = [{a: 1, b: 2}, {a: 2, b: 2}, {a: 1, b: 3}, {a: 1, b: 4}];
+    var result = _.whereNot(list, {a: 1});
+    assert.equal(result.length, 1);
+    assert.equal(result[result.length - 1].b, 2);
+    result = _.whereNot(list, {b: 2});
+    assert.equal(result.length, 2);
+    assert.equal(result[0].a, 1);
+    result = _.whereNot(list, {});
+    assert.equal(result.length, 0);
+
+    function test() {}
+    test.map = _.map;
+    assert.deepEqual(_.whereNot([_, {a: 1, b: 2}, _], test), [{a: 1, b: 2}], 'checks properties given function');
+  });
+
+
   test('findWhere', function(assert) {
     var list = [{a: 1, b: 2}, {a: 2, b: 2}, {a: 1, b: 3}, {a: 1, b: 4}, {a: 2, b: 4}];
     var result = _.findWhere(list, {a: 1});
