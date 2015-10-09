@@ -296,6 +296,12 @@
     return _.filter(obj, _.matcher(attrs));
   };
 
+  // Convenience version of a common use case of `reject`: selecting only objects
+  // containing NONE of the specific `key:value` pairs.
+  _.whereNot = function(obj, attrs) {
+    return _.reject(obj, _.matcher(attrs));
+  };
+
   // Convenience version of a common use case of `find`: getting the first object
   // containing specific `key:value` pairs.
   _.findWhere = function(obj, attrs) {
