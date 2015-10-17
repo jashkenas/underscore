@@ -30,6 +30,12 @@
     _.each(obj, function(){ count++; });
     assert.equal(count, 3, 'the fun should be called only 3 times');
 
+    obj = {'length': 1};
+    _.each(obj, function(value, key) {
+      assert.equal(value, 1, 'objects with the key `length` are iterated correctly');
+      assert.equal(key, 'length', 'objects with the key `length` are iterated correctly');
+    });
+
     var answer = null;
     _.each([1, 2, 3], function(num, index, arr){ if (_.include(arr, num)) answer = true; });
     assert.ok(answer, 'can reference the original collection from inside the iterator');

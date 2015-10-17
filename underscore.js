@@ -159,7 +159,7 @@
   _.each = _.forEach = function(obj, iteratee, context) {
     iteratee = optimizeCb(iteratee, context);
     var i, length;
-    if (isArrayLike(obj)) {
+    if (isArrayLike(obj) && _.indexOf(_.keys(obj), 'length') < 0) {
       for (i = 0, length = obj.length; i < length; i++) {
         iteratee(obj[i], i, obj);
       }
