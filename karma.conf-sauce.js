@@ -4,32 +4,34 @@ var _ = require('./');
 var sauceBrowsers = _.reduce([
   ['firefox', '35'],
   ['firefox', '30'],
-  ['firefox', '20'],
+  ['firefox', '21'],
   ['firefox', '11'],
   ['firefox', '4'],
 
   ['chrome', '40'],
-  ['chrome', '35'],
-  ['chrome', '28'],
+  ['chrome', '39'],
+  ['chrome', '31'],
+  ['chrome', '26'],
 
-  ['microsoftedge', '20.10240', 'Windows 10'],
+  ['microsoftedge', '20', 'Windows 10'],
   ['internet explorer', '11', 'Windows 10'],
   ['internet explorer', '10', 'Windows 8'],
   ['internet explorer', '9', 'Windows 7'],
-  // Currently do not work with Karma.
-  // ['internet explorer', '8', 'Windows 7'],
-  // ['internet explorer', '7', 'Windows XP'],
+  ['internet explorer', '8'],
+  ['internet explorer', '7', 'Windows XP'],
   // ['internet explorer', '6', 'Windows XP'],
 
   ['opera', '12'],
   ['opera', '11'],
 
-  ['android', '4.3'],
+  ['android', '5'],
+  ['android', '4.4'],
+  ['android', '4.3'], 
   ['android', '4.0'],
 
-  ['safari', '8'],
-  ['safari', '6'],
+  ['safari', '8.0', 'OS X 10.10'],
   ['safari', '7'],
+  ['safari', '6'],
   ['safari', '5']
 ], function(memo, platform) {
   var label = (platform[0] + '_v' + platform[1]).replace(' ', '_').toUpperCase();
@@ -59,6 +61,10 @@ module.exports = function(config) {
       'underscore.js',
       'test/*.js'
     ],
+
+    // Number of sauce tests to start in parallel
+    concurrency: 2,
+
     // test results reporter to use
     reporters: ['dots', 'saucelabs'],
     port: 9876,
