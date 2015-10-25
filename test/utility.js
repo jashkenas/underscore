@@ -188,6 +188,11 @@
   });
 
   test('template', function(assert) {
+    var undefinedTemplate = _.template();
+    assert.equal(undefinedTemplate(), '', 'can handle undefined templates');
+    var nullTemplate = _.template(null);
+    assert.equal(nullTemplate(), '', 'can handle null templates');
+
     var basicTemplate = _.template("<%= thing %> is gettin' on my noives!");
     var result = basicTemplate({thing: 'This'});
     assert.equal(result, "This is gettin' on my noives!", 'can do basic attribute interpolation');
