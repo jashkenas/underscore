@@ -1491,7 +1491,7 @@
     // Compile the template source, escaping string literals appropriately.
     var index = 0;
     var source = "__p+='";
-    text.replace(matcher, function(match, escape, interpolate, evaluate, offset) {
+    if (text) text.replace(matcher, function(match, escape, interpolate, evaluate, offset) {
       source += text.slice(index, offset).replace(escapeRegExp, escapeChar);
       index = offset + match.length;
 
