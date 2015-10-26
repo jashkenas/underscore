@@ -20,7 +20,7 @@
     "coveralls": "^2.11.2",
     "docco": "*",
     "eslint": "0.21.x",
-    "karma": "~0.12.31",
+    "karma": "^0.13.13",
     "karma-qunit": "~0.1.4",
     "nyc": "^2.1.3",
     "qunit-cli": "~0.2.0",
