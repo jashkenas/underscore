@@ -17,8 +17,8 @@ var sauceBrowsers = _.reduce([
   ['internet explorer', '11', 'Windows 10'],
   ['internet explorer', '10', 'Windows 8'],
   ['internet explorer', '9', 'Windows 7'],
-  ['internet explorer', '8'],
-  // Currently karma-sauce has issues with sockets and these browsers
+  // Currently disabled due to karma-sauce issues
+  // ['internet explorer', '8'],
   // ['internet explorer', '7'],
   // ['internet explorer', '6'],
 
