@@ -244,20 +244,20 @@
   test('defaults', function(assert) {
     var options = {zero: 0, one: 1, empty: '', nan: NaN, nothing: null};
 
-    _.defaults(options, {zero: 1, one: 10, twenty: 20, nothing: 'str'});
+    options = _.defaults(options, {zero: 1, one: 10, twenty: 20, nothing: 'str'});
     assert.equal(options.zero, 0, 'value exists');
     assert.equal(options.one, 1, 'value exists');
     assert.equal(options.twenty, 20, 'default applied');
     assert.equal(options.nothing, null, "null isn't overridden");
 
-    _.defaults(options, {empty: 'full'}, {nan: 'nan'}, {word: 'word'}, {word: 'dog'});
+    options = _.defaults(options, {empty: 'full'}, {nan: 'nan'}, {word: 'word'}, {word: 'dog'});
     assert.equal(options.empty, '', 'value exists');
     assert.ok(_.isNaN(options.nan), "NaN isn't overridden");
     assert.equal(options.word, 'word', 'new value is added, first one wins');
 
     try {
       options = {};
-      _.defaults(options, null, void 0, {a: 1});
+      options = _.defaults(options, null, void 0, {a: 1});
     } catch(e) { /* ignored */ }
 
     assert.equal(options.a, 1, 'should not error on `null` or `undefined` sources');
