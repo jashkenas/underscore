@@ -790,7 +790,7 @@
   // Delays a function for the given number of milliseconds, and then calls
   // it with the arguments supplied.
   _.delay = restArgs(function(func, wait, args) {
-    return setTimeout(function(){
+    return setTimeout(function() {
       return func.apply(null, args);
     }, wait);
   });
@@ -850,35 +850,25 @@
   // N milliseconds. If `immediate` is passed, trigger the function on the
   // leading edge, instead of the trailing.
   _.debounce = function(func, wait, immediate) {
-    var timeout, args, context, timestamp, result;
+    var timeout, result;
 
-    var later = function() {
-      var last = _.now() - timestamp;
-
-      if (last < wait && last >= 0) {
-        timeout = setTimeout(later, wait - last);
-      } else {
-        timeout = null;
-        if (!immediate) {
-          result = func.apply(context, args);
-          if (!timeout) context = args = null;
-        }
-      }
+    var later = function(context, args) {
+      timeout = null;
+      if (args) result = func.apply(context, args);
     };
 
-    var debounced = function() {
-      context = this;
-      args = arguments;
-      timestamp = _.now();
+    var debounced = restArgs(function(args) {
       var callNow = immediate && !timeout;
-      if (!timeout) timeout = setTimeout(later, wait);
+      if (timeout) clearTimeout(timeout);
       if (callNow) {
-        result = func.apply(context, args);
-        context = args = null;
+        timeout = setTimeout(later, wait);
+        result = func.apply(this, args);
+      } else if (!immediate) {
+        timeout = _.delay(later, wait, this, args);
       }
 
       return result;
-    };
+    });
 
     debounced.clear = function() {
       clearTimeout(timeout);
