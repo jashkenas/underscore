@@ -395,6 +395,30 @@
     }, 100);
   });
 
+  asyncTest('throttle cleared', function(assert) {
+    var counter = 0;
+    var incr = function(){ counter++; };
+    var throttledIncr = _.throttle(incr, 32);
+    throttledIncr();
+    throttledIncr.clear();
+    throttledIncr();
+    throttledIncr();
+
+    assert.equal(counter, 2, 'incr was called immediately');
+    _.delay(function(){ assert.equal(counter, 3, 'incr was throttled'); start(); }, 64);
+  });
+
+  asyncTest('throttle cleared with leading: false', function(assert) {
+    var counter = 0;
+    var incr = function(){ counter++; };
+    var throttledIncr = _.throttle(incr, 32, {leading: false});
+    throttledIncr();
+    throttledIncr.clear();
+
+    assert.equal(counter, 0, 'incr was throttled');
+    _.delay(function(){ assert.equal(counter, 0, 'incr was throttled'); start(); }, 64);
+  });
+
   asyncTest('debounce', 1, function(assert) {
     var counter = 0;
     var incr = function(){ counter++; };
