@@ -872,7 +872,7 @@
 
     debounced.clear = function() {
       clearTimeout(timeout);
-      timeout = context = args = null;
+      timeout = null;
     };
 
     return debounced;
