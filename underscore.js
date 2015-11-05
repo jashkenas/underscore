@@ -857,7 +857,7 @@
       }
     };
 
-    return function() {
+    var debounced = function() {
       context = this;
       args = arguments;
       timestamp = _.now();
@@ -870,6 +870,13 @@
 
       return result;
     };
+
+    debounced.clear = function() {
+      clearTimeout(timeout);
+      timeout = context = args = null;
+    };
+
+    return debounced;
   };
 
   // Returns the first function passed as an argument to the second,
