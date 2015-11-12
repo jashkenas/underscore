@@ -21,6 +21,8 @@
       if (typeof require != 'function') {
         assert.equal(this._, void 0, 'global underscore is removed');
         this._ = underscore;
+      } else if (typeof global !== 'undefined') {
+        delete global._;
       }
     });
   }
