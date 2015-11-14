@@ -218,7 +218,7 @@
   _.reduceRight = _.foldr = createReduce(-1);
   
   /*
-    var arr3 = {
+    var arr = {
         0: {
             age: 12
         },
@@ -231,10 +231,10 @@
         length: 3,
         ok: 'fine'
     };
-    var str3 = _.ease('<div><%=k%>:<%=v.age%>+<%=l.ok%></div>')(arr3);
-    console.log(str3);
+    var str3 = _.ease('<div><%=k%>:<%=v.age%>+<%=l.ok%></div>')(arr);
     //=> <div>0:12+fine</div><div>1:14+fine</div><div>2:16+fine</div>
   */
+  //According to _.reduce and the _.template transform data into a string
   _.ease = function (template) {
     return function (list) {
       return _.reduce(list, function (memo, value, key, list) {
