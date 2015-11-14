@@ -216,6 +216,37 @@
 
   // The right-associative version of reduce, also known as `foldr`.
   _.reduceRight = _.foldr = createReduce(-1);
+  
+  /*
+    var arr3 = {
+        0: {
+            age: 12
+        },
+        1: {
+            age: 14
+        },
+        2: {
+            age: 16
+        },
+        length: 3,
+        ok: 'fine'
+    };
+    var str3 = _.ease('<div><%=k%>:<%=v.age%>+<%=l.ok%></div>')(arr3);
+    console.log(str3);
+    //=> <div>0:12+fine</div><div>1:14+fine</div><div>2:16+fine</div>
+  */
+  _.ease = function (template) {
+    return function (list) {
+      return _.reduce(list, function (memo, value, key, list) {
+        return memo + _.template(template)({
+          v: value,
+          k: key,
+          l: list
+        });
+      }, '');
+    }
+  };
+  
 
   // Return the first value which passes a truth test. Aliased as `detect`.
   _.find = _.detect = function(obj, predicate, context) {
