@@ -69,9 +69,11 @@
   });
 
   test('compact', function(assert) {
-    assert.equal(_.compact([0, 1, false, 2, false, 3]).length, 3, 'can trim out all falsy values');
-    var result = (function(){ return _.compact(arguments).length; }(0, 1, false, 2, false, 3));
-    assert.equal(result, 3, 'works on an arguments object');
+    assert.deepEqual(_.compact([1, false, null, 0, '', void 0, NaN, 2]), [1, 2], 'removes all falsy values');
+    var result = (function(){ return _.compact(arguments); }(0, 1, false, 2, false, 3));
+    assert.deepEqual(result, [1, 2, 3], 'works on an arguments object');
+    result = _.map([[1, false, false], [false, false, 3]], _.compact);
+    assert.deepEqual(result, [[1], [3]], 'works well with _.map');
   });
 
   test('flatten', function(assert) {
