@@ -27,15 +27,13 @@
 
   test('rest', function(assert) {
     var numbers = [1, 2, 3, 4];
-    assert.deepEqual(_.rest(numbers), [2, 3, 4], 'working rest()');
-    assert.deepEqual(_.rest(numbers, 0), [1, 2, 3, 4], 'working rest(0)');
-    assert.deepEqual(_.rest(numbers, 2), [3, 4], 'rest can take an index');
+    assert.deepEqual(_.rest(numbers), [2, 3, 4], 'fetches all but the first element');
+    assert.deepEqual(_.rest(numbers, 0), [1, 2, 3, 4], 'returns the whole array when n is 0');
+    assert.deepEqual(_.rest(numbers, 2), [3, 4], 'returns all but the first n elements');
     var result = (function(){ return _(arguments).rest(); }(1, 2, 3, 4));
-    assert.deepEqual(result, [2, 3, 4], 'works on arguments object');
+    assert.deepEqual(result, [2, 3, 4], 'works on an arguments object');
     result = _.map([[1, 2, 3], [1, 2, 3]], _.rest);
     assert.deepEqual(_.flatten(result), [2, 3, 2, 3], 'works well with _.map');
-    result = (function(){ return _(arguments).rest(); }(1, 2, 3, 4));
-    assert.deepEqual(result, [2, 3, 4], 'works on arguments object');
   });
 
   test('tail', function(assert) {
