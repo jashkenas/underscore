@@ -14,7 +14,7 @@
 
     answers = [];
     _.each([1, 2, 3], function(num){ answers.push(num); });
-    assert.deepEqual(answers, [1, 2, 3], 'aliased as "forEach"');
+    assert.deepEqual(answers, [1, 2, 3], 'can iterate a simple array');
 
     answers = [];
     var obj = {one: 1, two: 2, three: 3};
@@ -46,7 +46,7 @@
   });
 
   test('forEach', function(assert) {
-    assert.strictEqual(_.each, _.forEach, 'alias for each');
+    assert.strictEqual(_.forEach, _.each, 'is an alias for each');
   });
 
   test('lookupIterator with contexts', function(assert) {
@@ -172,7 +172,7 @@
   });
 
   test('collect', function(assert) {
-    assert.strictEqual(_.map, _.collect, 'alias for map');
+    assert.strictEqual(_.collect, _.map, 'is an alias for map');
   });
 
   test('reduce', function(assert) {
@@ -182,9 +182,6 @@
     var context = {multiplier: 3};
     sum = _.reduce([1, 2, 3], function(memo, num){ return memo + num * this.multiplier; }, 0, context);
     assert.equal(sum, 18, 'can reduce with a context object');
-
-    sum = _.inject([1, 2, 3], function(memo, num){ return memo + num; }, 0);
-    assert.equal(sum, 6, 'aliased as "inject"');
 
     sum = _([1, 2, 3]).reduce(function(memo, num){ return memo + num; }, 0);
     assert.equal(sum, 6, 'OO-style reduce');
@@ -202,7 +199,11 @@
   });
 
   test('foldl', function(assert) {
-    assert.strictEqual(_.reduce, _.foldl, 'alias for reduce');
+    assert.strictEqual(_.foldl, _.reduce, 'is an alias for reduce');
+  });
+
+  test('inject', function(assert) {
+    assert.strictEqual(_.inject, _.reduce, 'is an alias for reduce');
   });
 
   test('reduceRight', function(assert) {
@@ -256,7 +257,7 @@
   });
 
   test('foldr', function(assert) {
-    assert.strictEqual(_.reduceRight, _.foldr, 'alias for reduceRight');
+    assert.strictEqual(_.foldr, _.reduceRight, 'is an alias for reduceRight');
   });
 
   test('find', function(assert) {
@@ -298,7 +299,7 @@
   });
 
   test('detect', function(assert) {
-    assert.strictEqual(_.detect, _.find, 'alias for detect');
+    assert.strictEqual(_.detect, _.find, 'is an alias for find');
   });
 
   test('filter', function(assert) {
@@ -323,7 +324,7 @@
   });
 
   test('select', function(assert) {
-    assert.strictEqual(_.filter, _.select, 'alias for filter');
+    assert.strictEqual(_.select, _.filter, 'is an alias for filter');
   });
 
   test('reject', function(assert) {
@@ -373,7 +374,7 @@
   });
 
   test('all', function(assert) {
-    assert.strictEqual(_.all, _.every, 'alias for all');
+    assert.strictEqual(_.all, _.every, 'is an alias for every');
   });
 
   test('some', function(assert) {
@@ -403,7 +404,7 @@
   });
 
   test('any', function(assert) {
-    assert.strictEqual(_.any, _.some, 'alias for any');
+    assert.strictEqual(_.any, _.some, 'is an alias for some');
   });
 
   test('includes', function(assert) {
@@ -417,24 +418,25 @@
 
     assert.ok(_.includes({moe: 1, larry: 3, curly: 9}, 3) === true, '_.includes on objects checks their values');
     assert.ok(_([1, 2, 3]).includes(2), 'OO-style includes');
+
+    var numbers = [1, 2, 3, 1, 2, 3, 1, 2, 3];
+    assert.strictEqual(_.includes(numbers, 1, 1), true, 'takes a fromIndex');
+    assert.strictEqual(_.includes(numbers, 1, -1), false, 'takes a fromIndex');
+    assert.strictEqual(_.includes(numbers, 1, -2), false, 'takes a fromIndex');
+    assert.strictEqual(_.includes(numbers, 1, -3), true, 'takes a fromIndex');
+    assert.strictEqual(_.includes(numbers, 1, 6), true, 'takes a fromIndex');
+    assert.strictEqual(_.includes(numbers, 1, 7), false, 'takes a fromIndex');
+
+    assert.ok(_.every([1, 2, 3], _.partial(_.includes, numbers)), 'fromIndex is guarded');
   });
 
   test('include', function(assert) {
-    assert.strictEqual(_.includes, _.include, 'alias for includes');
+    assert.strictEqual(_.include, _.includes, 'is an alias for includes');
   });
 
   test('contains', function(assert) {
-    assert.strictEqual(_.includes, _.contains, 'alias for includes');
+    assert.strictEqual(_.contains, _.includes, 'is an alias for includes');
 
-    var numbers = [1, 2, 3, 1, 2, 3, 1, 2, 3];
-    assert.strictEqual(_.includes(numbers, 1, 1), true, 'contains takes a fromIndex');
-    assert.strictEqual(_.includes(numbers, 1, -1), false, 'contains takes a fromIndex');
-    assert.strictEqual(_.includes(numbers, 1, -2), false, 'contains takes a fromIndex');
-    assert.strictEqual(_.includes(numbers, 1, -3), true, 'contains takes a fromIndex');
-    assert.strictEqual(_.includes(numbers, 1, 6), true, 'contains takes a fromIndex');
-    assert.strictEqual(_.includes(numbers, 1, 7), false, 'contains takes a fromIndex');
-
-    assert.ok(_.every([1, 2, 3], _.partial(_.contains, numbers)), 'fromIndex is guarded');
   });
 
   test('includes with NaN', function(assert) {
