@@ -80,11 +80,11 @@
   });
 
   test('flatten', function(assert) {
-    assert.deepEqual(_.flatten(null), [], 'Flattens supports null');
-    assert.deepEqual(_.flatten(void 0), [], 'Flattens supports undefined');
+    assert.deepEqual(_.flatten(null), [], 'supports null');
+    assert.deepEqual(_.flatten(void 0), [], 'supports undefined');
 
-    assert.deepEqual(_.flatten([[], [[]], []]), [], 'Flattens empty arrays');
-    assert.deepEqual(_.flatten([[], [[]], []], true), [[]], 'Flattens empty arrays');
+    assert.deepEqual(_.flatten([[], [[]], []]), [], 'supports empty arrays');
+    assert.deepEqual(_.flatten([[], [[]], []], true), [[]], 'can shallowly flatten empty arrays');
 
     var list = [1, [2], [3, [[[4]]]]];
     assert.deepEqual(_.flatten(list), [1, 2, 3, 4], 'can flatten nested arrays');
@@ -94,15 +94,15 @@
     list = [[1], [2], [3], [[4]]];
     assert.deepEqual(_.flatten(list, true), [1, 2, 3, [4]], 'can shallowly flatten arrays containing only other arrays');
 
-    assert.equal(_.flatten([_.range(10), _.range(10), 5, 1, 3], true).length, 23);
-    assert.equal(_.flatten([_.range(10), _.range(10), 5, 1, 3]).length, 23);
-    assert.equal(_.flatten([new Array(1000000), _.range(56000), 5, 1, 3]).length, 1056003, 'Flatten can handle massive collections');
-    assert.equal(_.flatten([new Array(1000000), _.range(56000), 5, 1, 3], true).length, 1056003, 'Flatten can handle massive collections');
+    assert.equal(_.flatten([_.range(10), _.range(10), 5, 1, 3], true).length, 23, 'can flatten medium length arrays');
+    assert.equal(_.flatten([_.range(10), _.range(10), 5, 1, 3]).length, 23, 'can shallowly flatten medium length arrays');
+    assert.equal(_.flatten([new Array(1000000), _.range(56000), 5, 1, 3]).length, 1056003, 'can handle massive arrays');
+    assert.equal(_.flatten([new Array(1000000), _.range(56000), 5, 1, 3], true).length, 1056003, 'can handle massive arrays in shallow mode');
 
     var x = _.range(100000);
     for (var i = 0; i < 1000; i++) x = [x];
-    assert.deepEqual(_.flatten(x), _.range(100000), 'Flatten can handle very deep arrays');
-    assert.deepEqual(_.flatten(x, true), x[0], 'Flatten can handle very deep arrays with shallow');
+    assert.deepEqual(_.flatten(x), _.range(100000), 'can handle very deep arrays');
+    assert.deepEqual(_.flatten(x, true), x[0], 'can handle very deep arrays in shallow mode');
   });
 
   test('without', function(assert) {
