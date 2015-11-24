@@ -56,16 +56,16 @@
 
   test('last', function(assert) {
     assert.equal(_.last([1, 2, 3]), 3, 'can pull out the last element of an array');
-    assert.deepEqual(_.last([1, 2, 3], 0), [], 'can pass an index to last');
-    assert.deepEqual(_.last([1, 2, 3], 2), [2, 3], 'can pass an index to last');
-    assert.deepEqual(_.last([1, 2, 3], 5), [1, 2, 3], 'can pass an index to last');
+    assert.equal(_([1, 2, 3]).last(), 3, 'can perform OO-style "last()"');
+    assert.deepEqual(_.last([1, 2, 3], 0), [], 'returns an empty array when n <= 0 (0 case)');
+    assert.deepEqual(_.last([1, 2, 3], -1), [], 'returns an empty array when n <= 0 (negative case)');
+    assert.deepEqual(_.last([1, 2, 3], 2), [2, 3], 'can fetch the last n elements');
+    assert.deepEqual(_.last([1, 2, 3], 5), [1, 2, 3], 'returns the whole array if n > length');
     var result = (function(){ return _(arguments).last(); }(1, 2, 3, 4));
     assert.equal(result, 4, 'works on an arguments object');
     result = _.map([[1, 2, 3], [1, 2, 3]], _.last);
     assert.deepEqual(result, [3, 3], 'works well with _.map');
-
-    assert.equal(_.last(null), void 0, 'handles nulls');
-    assert.strictEqual(_.last([1, 2, 3], -1).length, 0);
+    assert.equal(_.last(null), void 0, 'returns undefined when called on null');
   });
 
   test('compact', function(assert) {
