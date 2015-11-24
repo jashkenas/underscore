@@ -45,13 +45,13 @@
   });
 
   test('initial', function(assert) {
-    assert.deepEqual(_.initial([1, 2, 3, 4, 5]), [1, 2, 3, 4], 'working initial()');
-    assert.deepEqual(_.initial([1, 2, 3, 4], 2), [1, 2], 'initial can take an index');
-    assert.deepEqual(_.initial([1, 2, 3, 4], 6), [], 'initial can take a large index');
+    assert.deepEqual(_.initial([1, 2, 3, 4, 5]), [1, 2, 3, 4], 'returns all but the last element');
+    assert.deepEqual(_.initial([1, 2, 3, 4], 2), [1, 2], 'returns all but the last n elements');
+    assert.deepEqual(_.initial([1, 2, 3, 4], 6), [], 'returns an empty array when n > length');
     var result = (function(){ return _(arguments).initial(); }(1, 2, 3, 4));
-    assert.deepEqual(result, [1, 2, 3], 'initial works on arguments object');
+    assert.deepEqual(result, [1, 2, 3], 'works on an arguments object');
     result = _.map([[1, 2, 3], [1, 2, 3]], _.initial);
-    assert.deepEqual(_.flatten(result), [1, 2, 1, 2], 'initial works with _.map');
+    assert.deepEqual(_.flatten(result), [1, 2, 1, 2], 'works well with _.map');
   });
 
   test('last', function(assert) {
