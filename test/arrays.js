@@ -13,8 +13,6 @@
     assert.equal(result, 4, 'works on an arguments object.');
     result = _.map([[1, 2, 3], [1, 2, 3]], _.first);
     assert.deepEqual(result, [1, 1], 'works well with _.map');
-    result = (function() { return _.first([1, 2, 3], 2); }());
-    assert.deepEqual(result, [1, 2]);
 
     assert.equal(_.first(null), void 0, 'handles nulls');
     assert.strictEqual(_.first([1, 2, 3], -1).length, 0);
