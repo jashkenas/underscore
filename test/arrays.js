@@ -18,11 +18,11 @@
   });
 
   test('head', function(assert) {
-    assert.strictEqual(_.first, _.head, 'alias for first');
+    assert.strictEqual(_.head, _.first, 'is an alias for first');
   });
 
   test('take', function(assert) {
-    assert.strictEqual(_.first, _.take, 'alias for first');
+    assert.strictEqual(_.take, _.first, 'is an alias for first');
   });
 
   test('rest', function(assert) {
@@ -39,11 +39,11 @@
   });
 
   test('tail', function(assert) {
-    assert.strictEqual(_.rest, _.tail, 'alias for rest');
+    assert.strictEqual(_.tail, _.rest, 'is an alias for rest');
   });
 
   test('drop', function(assert) {
-    assert.strictEqual(_.rest, _.drop, 'alias for rest');
+    assert.strictEqual(_.drop, _.rest, 'is an alias for rest');
   });
 
   test('initial', function(assert) {
@@ -192,7 +192,7 @@
   });
 
   test('unique', function(assert) {
-    assert.strictEqual(_.uniq, _.unique, 'alias for uniq');
+    assert.strictEqual(_.unique, _.uniq, 'is an alias for uniq');
   });
 
   test('intersection', function(assert) {

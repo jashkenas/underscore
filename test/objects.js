@@ -102,7 +102,7 @@
   });
 
   test('methods', function(assert) {
-    assert.strictEqual(_.functions, _.methods, 'alias for functions');
+    assert.strictEqual(_.methods, _.functions, 'is an alias for functions');
   });
 
   test('extend', function(assert) {
@@ -138,32 +138,36 @@
 
   test('extendOwn', function(assert) {
     var result;
-    assert.equal(_.extendOwn({}, {a: 'b'}).a, 'b', 'can assign an object with the attributes of another');
+    assert.equal(_.extendOwn({}, {a: 'b'}).a, 'b', 'can extend an object with the attributes of another');
     assert.equal(_.extendOwn({a: 'x'}, {a: 'b'}).a, 'b', 'properties in source override destination');
     assert.equal(_.extendOwn({x: 'x'}, {a: 'b'}).x, 'x', "properties not in source don't get overriden");
     result = _.extendOwn({x: 'x'}, {a: 'a'}, {b: 'b'});
-    assert.deepEqual(result, {x: 'x', a: 'a', b: 'b'}, 'can assign from multiple source objects');
-    result = _.assign({x: 'x'}, {a: 'a', x: 2}, {a: 'b'});
-    assert.deepEqual(result, {x: 2, a: 'b'}, 'assigning from multiple source objects last property trumps');
-    assert.deepEqual(_.extendOwn({}, {a: void 0, b: null}), {a: void 0, b: null}, 'assign copies undefined values');
+    assert.deepEqual(result, {x: 'x', a: 'a', b: 'b'}, 'can extend from multiple source objects');
+    result = _.extendOwn({x: 'x'}, {a: 'a', x: 2}, {a: 'b'});
+    assert.deepEqual(result, {x: 2, a: 'b'}, 'extending from multiple source objects last property trumps');
+    assert.deepEqual(_.extendOwn({}, {a: void 0, b: null}), {a: void 0, b: null}, 'copies undefined values');
 
     var F = function() {};
     F.prototype = {a: 'b'};
     var subObj = new F();
     subObj.c = 'd';
-    assert.deepEqual(_.extendOwn({}, subObj), {c: 'd'}, 'assign copies own properties from source');
+    assert.deepEqual(_.extendOwn({}, subObj), {c: 'd'}, 'copies own properties from source');
 
     result = {};
-    assert.deepEqual(_.assign(result, null, void 0, {a: 1}), {a: 1}, 'should not error on `null` or `undefined` sources');
+    assert.deepEqual(_.extendOwn(result, null, void 0, {a: 1}), {a: 1}, 'should not error on `null` or `undefined` sources');
 
     _.each(['a', 5, null, false], function(val) {
-      assert.strictEqual(_.assign(val, {a: 1}), val, 'assigning non-objects results in returning the non-object value');
+      assert.strictEqual(_.extendOwn(val, {a: 1}), val, 'extending non-objects results in returning the non-object value');
     });
 
-    assert.strictEqual(_.extendOwn(void 0, {a: 1}), void 0, 'assigning undefined results in undefined');
+    assert.strictEqual(_.extendOwn(void 0, {a: 1}), void 0, 'extending undefined results in undefined');
 
     result = _.extendOwn({a: 1, 0: 2, 1: '5', length: 6}, {0: 1, 1: 2, length: 2});
-    assert.deepEqual(result, {a: 1, 0: 1, 1: 2, length: 2}, 'assign should treat array-like objects like normal objects');
+    assert.deepEqual(result, {a: 1, 0: 1, 1: 2, length: 2}, 'should treat array-like objects like normal objects');
+  });
+
+  test('assign', function(assert) {
+    assert.strictEqual(_.assign, _.extendOwn, 'is an alias for extendOwn');
   });
 
   test('pick', function(assert) {
@@ -877,6 +881,10 @@
     //null edge cases
     var oCon = _.matcher({constructor: Object});
     assert.deepEqual(_.map([null, void 0, 5, {}], oCon), [false, false, false, true], 'doesnt falsey match constructor on undefined/null');
+  });
+
+  test('matches', function(assert) {
+    assert.strictEqual(_.matches, _.matcher, 'is an alias for matcher');
   });
 
   test('findKey', function(assert) {
