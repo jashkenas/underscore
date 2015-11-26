@@ -6,7 +6,8 @@
   test('first', function(assert) {
     assert.equal(_.first([1, 2, 3]), 1, 'can pull out the first element of an array');
     assert.equal(_([1, 2, 3]).first(), 1, 'can perform OO-style "first()"');
-    assert.deepEqual(_.first([1, 2, 3], 0), [], 'can fetch the first 0 elements');
+    assert.deepEqual(_.first([1, 2, 3], 0), [], 'returns an empty array when n <= 0 (0 case)');
+    assert.deepEqual(_.first([1, 2, 3], -1), [], 'returns an empty array when n <= 0 (negative case)');
     assert.deepEqual(_.first([1, 2, 3], 2), [1, 2], 'can fetch the first n elements');
     assert.deepEqual(_.first([1, 2, 3], 5), [1, 2, 3], 'returns the whole array if n > length');
     var result = (function(){ return _.first(arguments); }(4, 3, 2, 1));
@@ -14,7 +15,6 @@
     result = _.map([[1, 2, 3], [1, 2, 3]], _.first);
     assert.deepEqual(result, [1, 1], 'works well with _.map');
     assert.equal(_.first(null), void 0, 'returns undefined when called on null');
-    assert.deepEqual(_.first([1, 2, 3], -1), [], 'returns an empty array when asked for -n elements');
   });
 
   test('head', function(assert) {
