@@ -102,13 +102,13 @@
 
   test('without', function(assert) {
     var list = [1, 2, 1, 0, 3, 1, 4];
-    assert.deepEqual(_.without(list, 0, 1), [2, 3, 4], 'can remove all instances of an object');
+    assert.deepEqual(_.without(list, 0, 1), [2, 3, 4], 'removes all instances of the given values');
     var result = (function(){ return _.without(arguments, 0, 1); }(1, 2, 1, 0, 3, 1, 4));
     assert.deepEqual(result, [2, 3, 4], 'works on an arguments object');
 
     list = [{one: 1}, {two: 2}];
-    assert.equal(_.without(list, {one: 1}).length, 2, 'uses real object identity for comparisons.');
-    assert.equal(_.without(list, list[0]).length, 1, 'ditto.');
+    assert.deepEqual(_.without(list, {one: 1}), list, 'compares objects by reference (value case)');
+    assert.deepEqual(_.without(list, list[0]), [{two: 2}], 'compares objects by reference (reference case)');
   });
 
   test('sortedIndex', function(assert) {
