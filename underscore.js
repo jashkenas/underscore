@@ -278,6 +278,15 @@
     return _.indexOf(obj, item, fromIndex) >= 0;
   };
 
+  _.containsWith = _.includesWith = _.includeWith = function(array, item, predicate) {
+    predicate = _.isFunction(predicate) ? predicate : _.isEqual;
+    for (var i = 0, length = getLength(array); i < length; i++) {
+      if (predicate(array[i], item))
+        return true;
+    }
+    return false;
+  };
+
   // Invoke a method (with arguments) on every item in a collection.
   _.invoke = restArgs(function(obj, method, args) {
     var isFunc = _.isFunction(method);
@@ -556,6 +565,20 @@
       } else if (!_.contains(result, value)) {
         result.push(value);
       }
+    }
+    return result;
+  };
+
+  // Produce a duplicate-free version of the array using the passed function for comparison rather than ===
+  // comparator defaults to _.isEqual for comparison if omitted
+  _.uniqueWith = _.uniqWith = function(array, predicate) {
+    var result = [], item;
+    predicate = _.isFunction(predicate) ? predicate : _.isEqual;
+
+    for (var i = 0, length = getLength(array); i < length; i++) {
+      item = array[i];
+      if (!_.containsWith(result, item, predicate))
+        result.push(item);
     }
     return result;
   };

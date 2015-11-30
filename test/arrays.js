@@ -193,6 +193,35 @@
     assert.strictEqual(_.unique, _.uniq, 'is an alias for uniq');
   });
 
+  test('uniqueWithAlias', function (assert) {
+    assert.strictEqual(_.uniqueWith, _.uniqWith, 'is an alias for uniqWith');
+  });
+
+  test('uniqWith', function(assert) {
+    var list = [1, 2, 1, 3, 1, 4],
+      kittens = [
+        {kitten: 'Celery', cuteness: 8},
+        {kitten: 'Juniper', cuteness: 10},
+        {kitten: 'Juniper', cuteness: 10},
+        {kitten: 'Spottis', cuteness: 10},
+        {kitten: 'Stripes', cuteness: 11}
+      ],
+      uniqeKittens = [
+        {kitten: 'Celery', cuteness: 8},
+        {kitten: 'Juniper', cuteness: 10},
+        {kitten: 'Spottis', cuteness: 10},
+        {kitten: 'Stripes', cuteness: 11}
+      ],
+      byCuteness = function (a, b) {
+        return a.cuteness === b.cuteness;
+      }
+
+    assert.deepEqual(_.uniqWith(list), [1, 2, 3, 4], 'can find the unique values from a non object array');
+    assert.deepEqual(_.uniqWith(kittens, _.isEqual), uniqeKittens, 'finds unique objects using _.isEqual');
+    assert.deepEqual(_.uniqWith(kittens), uniqeKittens, 'defaults to _.isEqual if nothing passed');
+    assert.deepEqual(_.pluck(_.uniqWith(kittens, byCuteness), 'cuteness'), [8, 10, 11], 'returns all, if comparator only looks at name');
+  });
+
   test('intersection', function(assert) {
     var stooges = ['moe', 'curly', 'larry'], leaders = ['moe', 'groucho'];
     assert.deepEqual(_.intersection(stooges, leaders), ['moe'], 'can take the set intersection of two arrays');

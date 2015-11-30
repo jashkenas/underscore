@@ -430,6 +430,31 @@
     assert.ok(_.every([1, 2, 3], _.partial(_.includes, numbers)), 'fromIndex is guarded');
   });
 
+  test('includeWithAlias', function(assert) {
+    assert.strictEqual(_.includeWith, _.includesWith, 'is an alias for containsWith');
+    assert.strictEqual(_.includeWith, _.containsWith, 'is an alias for includeWith');
+  });
+
+  test('includeWith', function(assert) {
+
+    var list = [1, 2, 1, 3, 1, 4];
+    var kittens = [
+      {kitten: 'Celery', cuteness: 8},
+      {kitten: 'Juniper', cuteness: 10},
+      {kitten: 'Spottis', cuteness: 10}
+    ];
+
+    var checkCute = function(a, b) {
+      return a.cuteness == 8;
+    }
+
+    assert.strictEqual(_.includeWith(list, 4), true, 'should find the item in the list');
+    assert.strictEqual(_.includeWith(kittens, {cuteness: 8}, checkCute), true, 'should use the method passed for comparison');
+    assert.strictEqual(_.includeWith(kittens, {kitten: 'Juniper', cuteness: 8}, _.isEqual), false, 'should not find as cuteness does not match');
+    assert.strictEqual(_.includeWith(kittens, {kitten: 'Juniper', cuteness: 10}, _.isEqual), true, 'should find the obj as cuteness matches');
+    assert.strictEqual(_.includeWith(kittens, {kitten: 'Juniper', cuteness: 10}), true, 'should use _.isEqual by default');
+  });
+
   test('include', function(assert) {
     assert.strictEqual(_.include, _.includes, 'is an alias for includes');
   });
