@@ -28,8 +28,8 @@
   test('rest', function(assert) {
     var numbers = [1, 2, 3, 4];
     assert.deepEqual(_.rest(numbers), [2, 3, 4], 'fetches all but the first element');
-    assert.deepEqual(_.rest(numbers, 0), [1, 2, 3, 4], 'returns the whole array when n is 0');
-    assert.deepEqual(_.rest(numbers, 2), [3, 4], 'returns all but the first n elements');
+    assert.deepEqual(_.rest(numbers, 0), [1, 2, 3, 4], 'returns the whole array when index is 0');
+    assert.deepEqual(_.rest(numbers, 2), [3, 4], 'returns elements starting at the given index');
     var result = (function(){ return _(arguments).rest(); }(1, 2, 3, 4));
     assert.deepEqual(result, [2, 3, 4], 'works on an arguments object');
     result = _.map([[1, 2, 3], [1, 2, 3]], _.rest);
