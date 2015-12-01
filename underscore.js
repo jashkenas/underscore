@@ -538,13 +538,13 @@
       context = iteratee;
       iteratee = isSorted;
       isSorted = false;
-      predicate = _.isNull(predicate) ? context : predicate;
+      predicate = _.isNull(predicate) && _.isFunction(context) ? context : predicate;
     }
     // cannot use sort with predicate matcher
     if (_.isFunction(predicate)) {
       isSorted = false;
       iteratee = null;
-      predicate = _.bind(predicate, context);
+      predicate = optimizeCb(predicate, context);
     }
 
     if (iteratee != null) iteratee = cb(iteratee, context);
