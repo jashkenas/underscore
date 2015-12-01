@@ -187,39 +187,25 @@
 
     assert.deepEqual(_.uniq([{a: 1, b: 1}, {a: 1, b: 2}, {a: 1, b: 3}, {a: 2, b: 1}], 'a'), [{a: 1, b: 1}, {a: 2, b: 1}], 'can use pluck like iterator');
     assert.deepEqual(_.uniq([{0: 1, b: 1}, {0: 1, b: 2}, {0: 1, b: 3}, {0: 2, b: 1}], 0), [{0: 1, b: 1}, {0: 2, b: 1}], 'can use falsey pluck like iterator');
+
+    var col = [{a: 1, b: 2}, {a: 1, b: 2}, {a: 1, b: 2, c: 3}],
+      customMatcher = function(item1, item2) {
+        return _.isEqual(item1.keys, item2.keys);
+      };
+
+    assert.deepEqual(_.uniq(col, false, null, null, _.isEqual), [{a: 1, b: 2}, {a: 1, b: 2, c: 3}], 'can use a predicate matcher');
+    assert.deepEqual(_.uniq(col, false, null, null, customMatcher), [{a: 1, b: 2}], 'can use a custom matcher function');
+    assert.deepEqual(_.uniq(col, true, null, null, _.isEqual), [{a: 1, b: 2}, {a: 1, b: 2, c: 3}], 'ignores sort parameter if predicate function');
+    assert.deepEqual(_.uniq(col, null, null, null, _.isEqual), [{a: 1, b: 2}, {a: 1, b: 2, c: 3}], 'works with null passed for all params but predicate');
+
+    _.uniq(col, false, null, context, function(item1, item2) {
+      assert.strictEqual(this, context, 'passes the context to the predicate');
+      return _.isEqual(item1, item2);
+    });
   });
 
   test('unique', function(assert) {
     assert.strictEqual(_.unique, _.uniq, 'is an alias for uniq');
-  });
-
-  test('uniqueWithAlias', function (assert) {
-    assert.strictEqual(_.uniqueWith, _.uniqWith, 'is an alias for uniqWith');
-  });
-
-  test('uniqWith', function(assert) {
-    var list = [1, 2, 1, 3, 1, 4],
-      kittens = [
-        {kitten: 'Celery', cuteness: 8},
-        {kitten: 'Juniper', cuteness: 10},
-        {kitten: 'Juniper', cuteness: 10},
-        {kitten: 'Spottis', cuteness: 10},
-        {kitten: 'Stripes', cuteness: 11}
-      ],
-      uniqeKittens = [
-        {kitten: 'Celery', cuteness: 8},
-        {kitten: 'Juniper', cuteness: 10},
-        {kitten: 'Spottis', cuteness: 10},
-        {kitten: 'Stripes', cuteness: 11}
-      ],
-      byCuteness = function (a, b) {
-        return a.cuteness === b.cuteness;
-      }
-
-    assert.deepEqual(_.uniqWith(list), [1, 2, 3, 4], 'can find the unique values from a non object array');
-    assert.deepEqual(_.uniqWith(kittens, _.isEqual), uniqeKittens, 'finds unique objects using _.isEqual');
-    assert.deepEqual(_.uniqWith(kittens), uniqeKittens, 'defaults to _.isEqual if nothing passed');
-    assert.deepEqual(_.pluck(_.uniqWith(kittens, byCuteness), 'cuteness'), [8, 10, 11], 'returns all, if comparator only looks at name');
   });
 
   test('intersection', function(assert) {
