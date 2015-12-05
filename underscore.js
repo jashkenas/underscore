@@ -304,7 +304,8 @@
   // Deep filter an array or object by a truth test. The truth test aka
   // predicate aka callback takes the current value, current path,
   // and current parent object.
-  _.deepFilter = function(value, predicate, path) {
+  // Aliased as `deepSelect`.
+  _.deepFilter = _.deepSelect = function(value, predicate, path) {
     if (typeof path === 'undefined') {
       path = '';
     }

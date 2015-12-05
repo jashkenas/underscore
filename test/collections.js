@@ -323,6 +323,10 @@
     assert.deepEqual(_(list).filter({}), list, 'OO-filter');
   });
 
+  test('select', function(assert) {
+    assert.strictEqual(_.select, _.filter, 'is an alias for filter');
+  });
+
   test('deepFilter', function(assert) {
     var object = {
       stay: {
@@ -395,8 +399,8 @@
     ]);
   });
 
-  test('select', function(assert) {
-    assert.strictEqual(_.select, _.filter, 'is an alias for filter');
+  test('deepSelect', function(assert) {
+    assert.strictEqual(_.deepSelect, _.deepFilter, 'is an alias for deepFilter');
   });
 
   test('reject', function(assert) {
