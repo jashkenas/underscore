@@ -323,6 +323,78 @@
     assert.deepEqual(_(list).filter({}), list, 'OO-filter');
   });
 
+  test('deepFilter', function(assert) {
+    var object = {
+      stay: {
+        // Values that should stay
+        '0': true,
+        '1': 1,
+        '2': 'foo',
+        '3': {
+          foo: 'bar',
+          array: [
+            1,
+            {partOf: 'array'}
+          ]
+        }
+      },
+      remove: {
+        // Values that will be removed
+        '4': false,
+        '5': 0,
+        '6': null,
+        '7': {
+          nested: {
+            value: null
+          }
+        },
+        '8': [0, null, false, '']
+      }
+    };
+
+    var paths = [];
+
+    var result = _.deepFilter(object, function(value, path) {
+      paths.push(path);
+
+      return !!value;
+    });
+
+    assert.deepEqual(result.remove, {
+      '7': {
+        nested: {}
+      },
+      '8': []
+    });
+
+    assert.deepEqual(result.stay, object.stay);
+
+    assert.deepEqual(paths, [
+      'stay.0',
+      'stay.1',
+      'stay.2',
+      'stay.3.foo',
+      'stay.3.array[0]',
+      'stay.3.array[1].partOf',
+      'stay.3.array[1]',
+      'stay.3.array',
+      'stay.3',
+      'stay',
+      'remove.4',
+      'remove.5',
+      'remove.6',
+      'remove.7.nested.value',
+      'remove.7.nested',
+      'remove.7',
+      'remove.8[0]',
+      'remove.8[1]',
+      'remove.8[2]',
+      'remove.8[3]',
+      'remove.8',
+      'remove'
+    ]);
+  });
+
   test('select', function(assert) {
     assert.strictEqual(_.select, _.filter, 'is an alias for filter');
   });
