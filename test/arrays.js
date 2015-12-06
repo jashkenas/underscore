@@ -251,7 +251,7 @@
     var stooges = _.zip(['moe', 30, 'stooge 1'], ['larry', 40, 'stooge 2'], ['curly', 50, 'stooge 3']);
     assert.deepEqual(stooges, [['moe', 'larry', 'curly'], [30, 40, 50], ['stooge 1', 'stooge 2', 'stooge 3']], 'zipped pairs');
 
-    //In the case of different lengths of the tuples, undefined values
+    // In the case of different lengths of the tuples, undefined values
     // should be used as placeholder
     stooges = _.zip(['moe', 30], ['larry', 40], ['curly', 50, 'extra data']);
     assert.deepEqual(stooges, [['moe', 'larry', 'curly'], [30, 40, 50], [void 0, void 0, 'extra data']], 'zipped pairs with empties');
