@@ -202,6 +202,7 @@
       <li>- <a href="#reduceRight">reduceRight</a></li>
       <li>- <a href="#find">find</a></li>
       <li>- <a href="#filter">filter</a></li>
+      <li>- <a href="#deepFilter">deepFilter</a></li>
       <li>- <a href="#where">where</a></li>
       <li>- <a href="#findWhere">findWhere</a></li>
       <li>- <a href="#reject">reject</a></li>
@@ -551,6 +552,48 @@ var even = _.find([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
 var evens = _.filter([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
 =&gt; [2, 4, 6]
 </pre>
+
+    <p id="deepFilter">
+      <b class="header">deepFilter</b><code>_.deepFilter(list, predicate, [context])</code>
+      <span class="alias">Alias: <b>deepSelect</b></span>
+      <br />
+      Performs a deep check through <b>list</b>, which can be an array or an
+      object, and returns a new array or object with only the values that pass
+      a truth test (<b>predicate</b>).
+    </p>
+    <pre>
+_.deepFilter([false, 1, [0, true, '']], function(value) {
+  return !!value;
+});
+=&gt; [1, [true]]
+
+_.deepFilter({ foo: 'bar', removed: 0, nested: { foo: 'bar', bar: 0 }, array: [0, 1, 2] }, function(value) {
+  return !!value
+});
+=&gt; { foo: 'bar', nested: { foo: 'bar' }, array: [1, 2] }
+</pre>
+
+    <p>
+      In addition to the current value, the <b>predicate</b> is also passed the
+      current path and the current parent array/object, also known as
+      <b>subject</b>.
+    </p>
+
+    <p>
+      The path can be used to find the current value's location in <b>list</b>.
+    </p>
+
+    <pre>
+_.deepfilter({ first: 'foo', second: 'foo', third: { nested: true, array: [1] } }, function(value, path, subject) {
+  // path will be 'first', 'second', 'third.nested', 'third.nested.array[0]',
+  // 'third.nested.array', and 'third' in each iteration respectively
+});
+</pre>
+
+    <p>
+      As can be seen in the paths' order, the <b>list</b> is traversed depth-
+      first.
+    </p>
 
       <p id="where">
         <b class="header">where</b><code>_.where(list, properties)</code>

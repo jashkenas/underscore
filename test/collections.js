@@ -327,6 +327,82 @@
     assert.strictEqual(_.select, _.filter, 'is an alias for filter');
   });
 
+  test('deepFilter', function(assert) {
+    var object = {
+      stay: {
+        // Values that should stay
+        '0': true,
+        '1': 1,
+        '2': 'foo',
+        '3': {
+          foo: 'bar',
+          array: [
+            1,
+            {partOf: 'array'}
+          ]
+        }
+      },
+      remove: {
+        // Values that will be removed
+        '4': false,
+        '5': 0,
+        '6': null,
+        '7': {
+          nested: {
+            value: null
+          }
+        },
+        '8': [0, null, false, '']
+      }
+    };
+
+    var paths = [];
+
+    var result = _.deepFilter(object, function(value, path) {
+      paths.push(path);
+
+      return !!value;
+    });
+
+    assert.deepEqual(result.remove, {
+      '7': {
+        nested: {}
+      },
+      '8': []
+    });
+
+    assert.deepEqual(result.stay, object.stay);
+
+    assert.deepEqual(paths, [
+      'stay.0',
+      'stay.1',
+      'stay.2',
+      'stay.3.foo',
+      'stay.3.array[0]',
+      'stay.3.array[1].partOf',
+      'stay.3.array[1]',
+      'stay.3.array',
+      'stay.3',
+      'stay',
+      'remove.4',
+      'remove.5',
+      'remove.6',
+      'remove.7.nested.value',
+      'remove.7.nested',
+      'remove.7',
+      'remove.8[0]',
+      'remove.8[1]',
+      'remove.8[2]',
+      'remove.8[3]',
+      'remove.8',
+      'remove'
+    ]);
+  });
+
+  test('deepSelect', function(assert) {
+    assert.strictEqual(_.deepSelect, _.deepFilter, 'is an alias for deepFilter');
+  });
+
   test('reject', function(assert) {
     var odds = _.reject([1, 2, 3, 4, 5, 6], function(num){ return num % 2 === 0; });
     assert.deepEqual(odds, [1, 3, 5], 'rejected each even number');

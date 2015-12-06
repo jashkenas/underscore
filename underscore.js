@@ -239,6 +239,86 @@
     return results;
   };
 
+  // Private functions for #deepFilter
+  var isCollection = function(value) {
+    return _.isArray(value) || (_.isObject(value) && !_.isFunction(value));
+  };
+
+  var filterObject = function(obj, predicate, path) {
+    var newObj = {};
+    var key;
+    var value;
+
+    for (key in obj) {
+      if (obj.hasOwnProperty(key)) {
+        var originalPath = path;
+
+        if (path) {
+          path += '.';
+        }
+
+        path += key;
+
+        value = _.deepFilter(obj[key], predicate, path);
+
+        if (predicate.call(obj, value, path, obj)) {
+          if (value !== obj[key] && !isCollection(value)) {
+            value = obj[key];
+          }
+
+          newObj[key] = value;
+        }
+
+        // Break out of nested path
+        path = originalPath;
+      }
+    }
+
+    return newObj;
+  };
+
+  var filterArray = function(array, predicate, path) {
+    var filtered = [];
+
+    array.forEach(function(value, index, thisArray) {
+      var originalPath = path;
+
+      path += ('[' + index + ']');
+      value = _.deepFilter(value, predicate, path);
+
+      if (predicate.call(thisArray, value, path, thisArray)) {
+        if (value !== thisArray[index] && !isCollection(value)) {
+          value = thisArray[index];
+        }
+
+        filtered.push(value);
+      }
+
+      // Break out of nested path
+      path = originalPath;
+    });
+
+    return filtered;
+  };
+
+  // Deep filter an array or object by a truth test. The truth test aka
+  // predicate aka callback takes the current value, current path,
+  // and current parent object.
+  // Aliased as `deepSelect`.
+  _.deepFilter = _.deepSelect = function(value, predicate, path) {
+    if (typeof path === 'undefined') {
+      path = '';
+    }
+
+    if (_.isArray(value)) {
+      return filterArray(value, predicate, path);
+    } else if (_.isObject(value) && !_.isFunction(value)) {
+      return filterObject(value, predicate, path);
+    }
+
+    return value;
+  };
+
   // Return all the elements for which a truth test fails.
   _.reject = function(obj, predicate, context) {
     return _.filter(obj, _.negate(cb(predicate)), context);
