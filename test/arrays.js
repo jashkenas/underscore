@@ -114,29 +114,30 @@
   });
 
   test('sortedIndex', function(assert) {
-    var numbers = [10, 20, 30, 40, 50], num = 35;
-    var indexForNum = _.sortedIndex(numbers, num);
-    assert.equal(indexForNum, 3, '35 should be inserted at index 3');
-
+    var numbers = [10, 20, 30, 40, 50];
+    var indexFor35 = _.sortedIndex(numbers, 35);
+    assert.equal(indexFor35, 3, 'finds the index at which a value should be inserted to retain order');
     var indexFor30 = _.sortedIndex(numbers, 30);
-    assert.equal(indexFor30, 2, '30 should be inserted at index 2');
+    assert.equal(indexFor30, 2, 'finds the smallest index at which a value could be inserted to retain order');
 
     var objects = [{x: 10}, {x: 20}, {x: 30}, {x: 40}];
     var iterator = function(obj){ return obj.x; };
-    assert.strictEqual(_.sortedIndex(objects, {x: 25}, iterator), 2);
-    assert.strictEqual(_.sortedIndex(objects, {x: 35}, 'x'), 3);
+    assert.strictEqual(_.sortedIndex(objects, {x: 25}, iterator), 2, 'uses the result of `iterator` for order comparisons');
+    assert.strictEqual(_.sortedIndex(objects, {x: 35}, 'x'), 3, 'when `iterator` is a string, uses that key for order comparisons');
 
     var context = {1: 2, 2: 3, 3: 4};
     iterator = function(obj){ return this[obj]; };
-    assert.strictEqual(_.sortedIndex([1, 3], 2, iterator, context), 1);
+    assert.strictEqual(_.sortedIndex([1, 3], 2, iterator, context), 1, 'can execute its iterator in the given context');
 
-    var values = [0, 1, 3, 7, 15, 31, 63, 127, 255, 511, 1023, 2047, 4095, 8191, 16383, 32767, 65535, 131071, 262143, 524287, 1048575, 2097151, 4194303, 8388607, 16777215, 33554431, 67108863, 134217727, 268435455, 536870911, 1073741823, 2147483647];
-    var array = Array(Math.pow(2, 32) - 1);
+    var values = [0, 1, 3, 7, 15, 31, 63, 127, 255, 511, 1023, 2047, 4095, 8191, 16383, 32767, 65535, 131071, 262143, 524287,
+        1048575, 2097151, 4194303, 8388607, 16777215, 33554431, 67108863, 134217727, 268435455, 536870911, 1073741823, 2147483647];
+    var largeArray = Array(Math.pow(2, 32) - 1);
     var length = values.length;
+    // Sparsely populate `array`
     while (length--) {
-      array[values[length]] = values[length];
+      largeArray[values[length]] = values[length];
     }
-    assert.equal(_.sortedIndex(array, 2147483648), 2147483648, 'should work with large indexes');
+    assert.equal(_.sortedIndex(largeArray, 2147483648), 2147483648, 'works with large indexes');
   });
 
   test('uniq', function(assert) {
