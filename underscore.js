@@ -839,7 +839,7 @@
       return result;
     };
 
-    throttled.clear = function() {
+    throttled.cancel = function() {
       clearTimeout(timeout);
       previous = 0;
       timeout = context = args = null;
@@ -873,7 +873,7 @@
       return result;
     });
 
-    debounced.clear = function() {
+    debounced.cancel = function() {
       clearTimeout(timeout);
       timeout = null;
     };

@@ -395,12 +395,12 @@
     }, 100);
   });
 
-  asyncTest('throttle cleared', function(assert) {
+  asyncTest('throttle cancel', function(assert) {
     var counter = 0;
     var incr = function(){ counter++; };
     var throttledIncr = _.throttle(incr, 32);
     throttledIncr();
-    throttledIncr.clear();
+    throttledIncr.cancel();
     throttledIncr();
     throttledIncr();
 
@@ -408,12 +408,12 @@
     _.delay(function(){ assert.equal(counter, 3, 'incr was throttled'); start(); }, 64);
   });
 
-  asyncTest('throttle cleared with leading: false', function(assert) {
+  asyncTest('throttle cancel with leading: false', function(assert) {
     var counter = 0;
     var incr = function(){ counter++; };
     var throttledIncr = _.throttle(incr, 32, {leading: false});
     throttledIncr();
-    throttledIncr.clear();
+    throttledIncr.cancel();
 
     assert.equal(counter, 0, 'incr was throttled');
     _.delay(function(){ assert.equal(counter, 0, 'incr was throttled'); start(); }, 64);
@@ -428,12 +428,12 @@
     _.delay(function(){ assert.equal(counter, 1, 'incr was debounced'); start(); }, 96);
   });
 
-  asyncTest('debounce cleared', 1, function(assert) {
+  asyncTest('debounce cancel', 1, function(assert) {
     var counter = 0;
     var incr = function(){ counter++; };
     var debouncedIncr = _.debounce(incr, 32);
     debouncedIncr();
-    debouncedIncr.clear();
+    debouncedIncr.cancel();
     _.delay(function(){ assert.equal(counter, 0, 'incr was not called'); start(); }, 96);
   });
 
@@ -453,13 +453,13 @@
     _.delay(function(){ assert.equal(counter, 1, 'incr was debounced'); start(); }, 128);
   });
 
-  asyncTest('debounce asap cleared', 4, function(assert) {
+  asyncTest('debounce asap cancel', 4, function(assert) {
     var a, b;
     var counter = 0;
     var incr = function(){ return ++counter; };
     var debouncedIncr = _.debounce(incr, 64, true);
     a = debouncedIncr();
-    debouncedIncr.clear();
+    debouncedIncr.cancel();
     b = debouncedIncr();
     assert.equal(a, 1);
     assert.equal(b, 2);
