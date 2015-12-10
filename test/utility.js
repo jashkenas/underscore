@@ -323,11 +323,11 @@
   });
 
   test('resultAll calls functions and returns new object', function(assert) {
-    var obj = {u: { v: function() { return 'u' } }, w: '', x: 'x', y: function(){ return this.x; }};
+    var obj = {u: { v: function() { return 'v' } }, w: '', x: 'x', y: function(){ return this.x; }};
     var objDeep = _.resultAll(obj);
     var objShallow = _.resultAll(obj, true);
     assert.strictEqual(_.isObject(objDeep), true);
-    assert.strictEqual(objDeep.u, 'v');
+    assert.strictEqual(objDeep.u.v, 'v');
     assert.strictEqual(objDeep.w, '');
     assert.strictEqual(objDeep.x, 'x');
     assert.strictEqual(objDeep.y, 'x');
