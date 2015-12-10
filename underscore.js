@@ -1444,6 +1444,20 @@
     return _.isFunction(value) ? value.call(object) : value;
   };
 
+  // Invokes all methods inside of `object` and returns a new object
+  // `shallow` is false by default.
+  _.resultAll = function(object, shallow) {
+    if(_.isUndefined(shallow)) shallow = false;
+
+    return _.mapObject(object, function(val, key) {
+      if(!shallow && _.isObject(val) && !_.isFunction(val)) {
+        return _.resultAll(val);
+      } else {
+        return _.result(object, key);
+      }
+    });
+  };
+
   // Generate a unique integer id (unique within the entire client session).
   // Useful for temporary DOM ids.
   var idCounter = 0;
