@@ -3,19 +3,6 @@
     "browser": true
   },
   "globals": {
-    "test": false,
-    "ok": false,
-    "is": false,
-    "equal": false,
-    "deepEqual": false,
-    "strictEqual": false,
-    "notStrictEqual": false,
-    "notEqual": false,
-    "notDeepEqual": false,
-    "throws": false,
-    "asyncTest": false,
-    "start": false,
-    "expect": false,
     "QUnit": false
   },
   "rules": {
