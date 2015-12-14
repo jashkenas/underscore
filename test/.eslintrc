@@ -3,7 +3,6 @@
     "browser": true
   },
   "globals": {
-    "_": false,
     "test": false,
     "ok": false,
     "is": false,
