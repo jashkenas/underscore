@@ -28,7 +28,8 @@
   }
 
   if (typeof require == 'function') {
-    QUnit.test('noConflict (node vm)', 2, function(assert) {
+    QUnit.test('noConflict (node vm)', function(assert) {
+      assert.expect(2);
       var done = assert.async();
       var fs = require('fs');
       var vm = require('vm');
@@ -48,7 +49,8 @@
     });
   }
 
-  QUnit.test('#750 - Return _ instance.', 2, function(assert) {
+  QUnit.test('#750 - Return _ instance.', function(assert) {
+    assert.expect(2);
     var instance = _([]);
     assert.ok(_(instance) === instance);
     assert.ok(new _(instance) === instance);
@@ -391,7 +393,8 @@
     assert.strictEqual(templateWithPropertyEscaped({x: {}}), '');
   });
 
-  QUnit.test('interpolate evaluates code only once.', 2, function(assert) {
+  QUnit.test('interpolate evaluates code only once.', function(assert) {
+    assert.expect(2);
     var count = 0;
     var template = _.template('<%= f() %>');
     template({f: function(){ assert.ok(!count++); }});
@@ -401,13 +404,15 @@
     templateEscaped({f: function(){ assert.ok(!countEscaped++); }});
   });
 
-  QUnit.test('#746 - _.template settings are not modified.', 1, function(assert) {
+  QUnit.test('#746 - _.template settings are not modified.', function(assert) {
+    assert.expect(1);
     var settings = {};
     _.template('', null, settings);
     assert.deepEqual(settings, {});
   });
 
-  QUnit.test('#779 - delimeters are applied to unescaped text.', 1, function(assert) {
+  QUnit.test('#779 - delimeters are applied to unescaped text.', function(assert) {
+    assert.expect(1);
     var template = _.template('<<\nx\n>>', null, {evaluate: /<<(.*?)>>/g});
     assert.strictEqual(template(), '<<\nx\n>>');
   });

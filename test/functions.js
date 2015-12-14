@@ -174,7 +174,8 @@
     assert.strictEqual(myObj.value, 'a', 'object is not modified if second argument used as key');
   });
 
-  QUnit.test('delay', 2, function(assert) {
+  QUnit.test('delay', function(assert) {
+    assert.expect(2);
     var done = assert.async();
     var delayed = false;
     _.delay(function(){ delayed = true; }, 100);
@@ -182,14 +183,16 @@
     setTimeout(function(){ assert.ok(delayed, 'delayed the function'); done(); }, 150);
   });
 
-  QUnit.test('defer', 1, function(assert) {
+  QUnit.test('defer', function(assert) {
+    assert.expect(1);
     var done = assert.async();
     var deferred = false;
     _.defer(function(bool){ deferred = bool; }, true);
     _.delay(function(){ assert.ok(deferred, 'deferred the function'); done(); }, 50);
   });
 
-  QUnit.test('throttle', 2, function(assert) {
+  QUnit.test('throttle', function(assert) {
+    assert.expect(2);
     var done = assert.async();
     var counter = 0;
     var incr = function(){ counter++; };
@@ -200,7 +203,8 @@
     _.delay(function(){ assert.equal(counter, 2, 'incr was throttled'); done(); }, 64);
   });
 
-  QUnit.test('throttle arguments', 2, function(assert) {
+  QUnit.test('throttle arguments', function(assert) {
+    assert.expect(2);
     var done = assert.async();
     var value = 0;
     var update = function(val){ value = val; };
@@ -211,7 +215,8 @@
     _.delay(function(){ assert.equal(value, 3, 'updated to latest value'); done(); }, 96);
   });
 
-  QUnit.test('throttle once', 2, function(assert) {
+  QUnit.test('throttle once', function(assert) {
+    assert.expect(2);
     var done = assert.async();
     var counter = 0;
     var incr = function(){ return ++counter; };
@@ -223,7 +228,8 @@
     }, 64);
   });
 
-  QUnit.test('throttle twice', 1, function(assert) {
+  QUnit.test('throttle twice', function(assert) {
+    assert.expect(1);
     var done = assert.async();
     var counter = 0;
     var incr = function(){ counter++; };
@@ -232,7 +238,8 @@
     _.delay(function(){ assert.equal(counter, 2, 'incr was called twice'); done(); }, 64);
   });
 
-  QUnit.test('more throttling', 3, function(assert) {
+  QUnit.test('more throttling', function(assert) {
+    assert.expect(3);
     var done = assert.async();
     var counter = 0;
     var incr = function(){ counter++; };
@@ -247,7 +254,8 @@
     }, 85);
   });
 
-  QUnit.test('throttle repeatedly with results', 6, function(assert) {
+  QUnit.test('throttle repeatedly with results', function(assert) {
+    assert.expect(6);
     var done = assert.async();
     var counter = 0;
     var incr = function(){ return ++counter; };
@@ -270,7 +278,8 @@
     }, 300);
   });
 
-  QUnit.test('throttle triggers trailing call when invoked repeatedly', 2, function(assert) {
+  QUnit.test('throttle triggers trailing call when invoked repeatedly', function(assert) {
+    assert.expect(2);
     var done = assert.async();
     var counter = 0;
     var limit = 48;
@@ -290,7 +299,8 @@
     }, 96);
   });
 
-  QUnit.test('throttle does not trigger leading call when leading is set to false', 2, function(assert) {
+  QUnit.test('throttle does not trigger leading call when leading is set to false', function(assert) {
+    assert.expect(2);
     var done = assert.async();
     var counter = 0;
     var incr = function(){ counter++; };
@@ -305,7 +315,8 @@
     }, 96);
   });
 
-  QUnit.test('more throttle does not trigger leading call when leading is set to false', 3, function(assert) {
+  QUnit.test('more throttle does not trigger leading call when leading is set to false', function(assert) {
+    assert.expect(3);
     var done = assert.async();
     var counter = 0;
     var incr = function(){ counter++; };
@@ -327,7 +338,8 @@
     }, 350);
   });
 
-  QUnit.test('one more throttle with leading: false test', 2, function(assert) {
+  QUnit.test('one more throttle with leading: false test', function(assert) {
+    assert.expect(2);
     var done = assert.async();
     var counter = 0;
     var incr = function(){ counter++; };
@@ -343,7 +355,8 @@
     }, 200);
   });
 
-  QUnit.test('throttle does not trigger trailing call when trailing is set to false', 4, function(assert) {
+  QUnit.test('throttle does not trigger trailing call when trailing is set to false', function(assert) {
+    assert.expect(4);
     var done = assert.async();
     var counter = 0;
     var incr = function(){ counter++; };
@@ -365,7 +378,8 @@
     }, 96);
   });
 
-  QUnit.test('throttle continues to function after system time is set backwards', 2, function(assert) {
+  QUnit.test('throttle continues to function after system time is set backwards', function(assert) {
+    assert.expect(2);
     var done = assert.async();
     var counter = 0;
     var incr = function(){ counter++; };
@@ -386,7 +400,8 @@
     }, 200);
   });
 
-  QUnit.test('throttle re-entrant', 2, function(assert) {
+  QUnit.test('throttle re-entrant', function(assert) {
+    assert.expect(2);
     var done = assert.async();
     var sequence = [
       ['b1', 'b2'],
@@ -436,7 +451,8 @@
     _.delay(function(){ assert.equal(counter, 0, 'incr was throttled'); done(); }, 64);
   });
 
-  QUnit.test('debounce', 1, function(assert) {
+  QUnit.test('debounce', function(assert) {
+    assert.expect(1);
     var done = assert.async();
     var counter = 0;
     var incr = function(){ counter++; };
@@ -446,7 +462,8 @@
     _.delay(function(){ assert.equal(counter, 1, 'incr was debounced'); done(); }, 96);
   });
 
-  QUnit.test('debounce cancel', 1, function(assert) {
+  QUnit.test('debounce cancel', function(assert) {
+    assert.expect(1);
     var done = assert.async();
     var counter = 0;
     var incr = function(){ counter++; };
@@ -456,7 +473,8 @@
     _.delay(function(){ assert.equal(counter, 0, 'incr was not called'); done(); }, 96);
   });
 
-  QUnit.test('debounce asap', 4, function(assert) {
+  QUnit.test('debounce asap', function(assert) {
+    assert.expect(4);
     var done = assert.async();
     var a, b;
     var counter = 0;
@@ -473,7 +491,8 @@
     _.delay(function(){ assert.equal(counter, 1, 'incr was debounced'); done(); }, 128);
   });
 
-  QUnit.test('debounce asap cancel', 4, function(assert) {
+  QUnit.test('debounce asap cancel', function(assert) {
+    assert.expect(4);
     var done = assert.async();
     var a, b;
     var counter = 0;
@@ -491,7 +510,8 @@
     _.delay(function(){ assert.equal(counter, 2, 'incr was debounced'); done(); }, 128);
   });
 
-  QUnit.test('debounce asap recursively', 2, function(assert) {
+  QUnit.test('debounce asap recursively', function(assert) {
+    assert.expect(2);
     var done = assert.async();
     var counter = 0;
     var debouncedIncr = _.debounce(function(){
@@ -503,7 +523,8 @@
     _.delay(function(){ assert.equal(counter, 1, 'incr was debounced'); done(); }, 96);
   });
 
-  QUnit.test('debounce after system time is set backwards', 2, function(assert) {
+  QUnit.test('debounce after system time is set backwards', function(assert) {
+    assert.expect(2);
     var done = assert.async();
     var counter = 0;
     var origNowFunc = _.now;
@@ -526,7 +547,8 @@
     }, 200);
   });
 
-  QUnit.test('debounce re-entrant', 2, function(assert) {
+  QUnit.test('debounce re-entrant', function(assert) {
+    assert.expect(2);
     var done = assert.async();
     var sequence = [
       ['b1', 'b2']
@@ -559,7 +581,8 @@
     assert.equal(increment(), 1, 'stores a memo to the last value');
   });
 
-  QUnit.test('Recursive onced function.', 1, function(assert) {
+  QUnit.test('Recursive onced function.', function(assert) {
+    assert.expect(1);
     var f = _.once(function(){
       assert.ok(true);
       f();
@@ -666,7 +689,8 @@
 
   });
 
-  QUnit.test('restArgs', 10, function(assert) {
+  QUnit.test('restArgs', function(assert) {
+    assert.expect(10);
     _.restArgs(function(a, args) {
       assert.strictEqual(a, 1);
       assert.deepEqual(args, [2, 3], 'collects rest arguments into an array');

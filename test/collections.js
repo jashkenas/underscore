@@ -453,7 +453,8 @@
   });
 
 
-  QUnit.test('invoke', 5, function(assert) {
+  QUnit.test('invoke', function(assert) {
+    assert.expect(5);
     var list = [[5, 1, 7], [3, 2, 1]];
     var result = _.invoke(list, 'sort');
     assert.deepEqual(result[0], [1, 5, 7], 'first array sorted');
