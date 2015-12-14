@@ -14,7 +14,6 @@
     "throws": false,
     "asyncTest": false,
     "start": false,
-    "expect": false,
     "QUnit": false
   },
   "rules": {
