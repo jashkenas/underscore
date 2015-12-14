@@ -44,7 +44,7 @@
     assert.equal(boundf().hello, 'moe curly', "When called without the new operator, it's OK to be bound to the context");
     assert.ok(newBoundf instanceof F, 'a bound instance is an instance of the original function');
 
-    assert.throws(function() { _.bind('notafunction'); }, TypeError, 'throws an error when binding to a non-function');
+    assert.raises(function() { _.bind('notafunction'); }, TypeError, 'throws an error when binding to a non-function');
   });
 
   test('partial', function(assert) {
@@ -109,9 +109,9 @@
       sayLast: function() { return this.sayHi(_.last(arguments)); }
     };
 
-    assert.throws(function() { _.bindAll(moe); }, Error, 'throws an error for bindAll with no functions named');
-    assert.throws(function() { _.bindAll(moe, 'sayBye'); }, TypeError, 'throws an error for bindAll if the given key is undefined');
-    assert.throws(function() { _.bindAll(moe, 'name'); }, TypeError, 'throws an error for bindAll if the given key is not a function');
+    assert.raises(function() { _.bindAll(moe); }, Error, 'throws an error for bindAll with no functions named');
+    assert.raises(function() { _.bindAll(moe, 'sayBye'); }, TypeError, 'throws an error for bindAll if the given key is undefined');
+    assert.raises(function() { _.bindAll(moe, 'name'); }, TypeError, 'throws an error for bindAll if the given key is not a function');
 
     _.bindAll(moe, 'sayHi', 'sayLast');
     curly.sayHi = moe.sayHi;
