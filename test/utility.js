@@ -4,11 +4,11 @@
 
   QUnit.module('Utility', {
 
-    setup: function() {
+    beforeEach: function() {
       templateSettings = _.clone(_.templateSettings);
     },
 
-    teardown: function() {
+    afterEach: function() {
       _.templateSettings = templateSettings;
     }
 
