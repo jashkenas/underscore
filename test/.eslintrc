@@ -3,8 +3,6 @@
     "browser": true
   },
   "globals": {
-    "asyncTest": false,
-    "start": false,
     "QUnit": false
   },
   "rules": {

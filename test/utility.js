@@ -28,7 +28,8 @@
   }
 
   if (typeof require == 'function') {
-    asyncTest('noConflict (node vm)', 2, function(assert) {
+    QUnit.test('noConflict (node vm)', 2, function(assert) {
+      var done = assert.async();
       var fs = require('fs');
       var vm = require('vm');
       var filename = __dirname + '/../underscore.js';
@@ -42,7 +43,7 @@
         assert.equal(context._, 'oldvalue');
         assert.equal(context.underscore.VERSION, _.VERSION);
 
-        start();
+        done();
       });
     });
   }
