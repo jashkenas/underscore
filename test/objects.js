@@ -128,7 +128,7 @@
     try {
       result = {};
       _.extend(result, null, void 0, {a: 1});
-    } catch(e) { /* ignored */ }
+    } catch (e) { /* ignored */ }
 
     assert.equal(result.a, 1, 'should not error on `null` or `undefined` sources');
 
@@ -262,7 +262,7 @@
     try {
       options = {};
       _.defaults(options, null, void 0, {a: 1});
-    } catch(e) { /* ignored */ }
+    } catch (e) { /* ignored */ }
 
     assert.equal(options.a, 1, 'should not error on `null` or `undefined` sources');
 
