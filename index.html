@@ -331,6 +331,7 @@
       <li>- <a href="#result">result</a></li>
       <li>- <a href="#now">now</a></li>
       <li>- <a href="#template">template</a></li>
+      <li>- <a href="#orElse">orElse</a></li>
     </ul>
 
     <a class="toc_title" href="#chaining">
@@ -339,6 +340,8 @@
     <ul class="toc_section">
       <li>- <a href="#chain">chain</a></li>
       <li>- <a href="#value">value</a></li>
+      <li>- <a href="#lift">lift</a></li>
+      <li>- <a href="#unlift">unlift</a></li>
     </ul>
 
     <a class="toc_title" href="#links">
@@ -1964,6 +1967,19 @@ _.now();
 =&gt; 1392066795351
 </pre>
 
+      <p id="orElse">
+        <b class="header">orElse</b><code>_.orElse(arr, func)</code>
+        <br />
+        Returns the result of calling the function <code>func</code> in an array, if the
+        array argument is empty, otherwise it returns the array argument.
+      </p>
+
+      <pre>
+var arr = [1,2,3,4,5];
+var large = _.filter(arr, function(x){ return x > 5; });
+_.orElse(large, function(x){ return 100; });
+=&gt; 100</pre>
+
       <p id="template">
         <b class="header">template</b><code>_.template(templateString, [settings])</code>
         <br />
@@ -2114,6 +2130,31 @@ var youngest = _.chain(stooges)
       <pre>
 _([1, 2, 3]).value();
 =&gt; [1, 2, 3]
+</pre>
+
+      <p id="lift">
+        <b class="header">lift</b><code>_.lift(obj)</code>
+        <br />
+        Lifts a value into a wrapped array object. Calling methods on this object will continue
+        to return wrapped array objects until <tt>unlift</tt> is called.
+      </p>
+      <pre>
+var stooge = {name: 'curly', age: 25};
+_.lift(stooge.age)
+  .filter(function(age){ return age > 18})
+  .map(function(age){ return "adult"; })
+  .orElse(function(){ return "child";})
+  .unlift()
+=&gt; "adult"</pre>
+
+      <p id="unlift">
+        <b class="header">unlift</b><code>_(obj).unlift()</code>
+        <br />
+        Extracts the value of a wrapped array object.
+      </p>
+      <pre>
+_.lift(4).unlift();
+=&gt; 4
 </pre>
 
       <h2 id="links">Links &amp; Suggested Reading</h2>

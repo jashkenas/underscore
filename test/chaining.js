@@ -23,6 +23,21 @@
     assert.equal(counts.e, 10, 'counted all the letters in the song');
   });
 
+  QUnit.test('filter/map/orElse', function(assert) {
+    var lyrics = [
+      'I\'m a lumberjack and I\'m okay',
+      'I sleep all night and I work all day',
+      'He\'s a lumberjack and he\'s okay',
+      'He sleeps all night and he works all day'
+    ];
+    var songKind = _.lift(lyrics.length)
+      .filter(function(length){ return length > 3; })
+      .map(function() { return 'long song'; })
+      .orElse(function() { return 'short song'; })
+      .unlift();
+    assert.equal(songKind, 'long song', 'correctly classified song');
+  });
+
   QUnit.test('select/reject/sortBy', function(assert) {
     var numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
     numbers = _(numbers).chain().select(function(n) {
