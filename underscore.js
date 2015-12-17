@@ -184,6 +184,17 @@
     return results;
   };
 
+  _.orElse = function(obj, iteratee, context) {
+    var results;
+    iteratee = cb(iteratee, context);
+    if (_.isEmpty(obj)) {
+      results = [iteratee()];
+    } else {
+      results = obj;
+    }
+    return results;
+  };
+
   // Create a reducing function iterating left or right.
   var createReduce = function(dir) {
     // Wrap code that reassigns argument variables in a separate function than
@@ -1548,6 +1559,14 @@
     return instance;
   };
 
+  // Lifts an object into an Array, starting a chain that can be used with map/orElse.
+  _.lift = function(obj) {
+    var arr = [];
+    if (!_.isEmpty(obj) || _.isNumber(obj)) {
+      arr = [obj];
+    }
+    return _.chain(arr);
+  };
   // OOP
   // ---------------
   // If Underscore is called as a function, it returns a wrapped object that
@@ -1596,6 +1615,11 @@
   // Extracts the result from a wrapped and chained object.
   _.prototype.value = function() {
     return this._wrapped;
+  };
+
+  // Extracts a lifted value from a lifted object.
+  _.prototype.unlift = function() {
+    return _.first(this.value());
   };
 
   // Provide unwrapping proxy for some methods used in engine operations
