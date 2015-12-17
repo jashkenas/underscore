@@ -186,16 +186,12 @@
 
   _.orElse = function(obj, iteratee, context) {
     var results;
-    console.log("CHECKING OR ELSE...");
-    console.log(obj);
     iteratee = cb(iteratee, context);
     if (_.isEmpty(obj)) {
       results = [iteratee()];
     } else {
       results = obj;
     }
-    console.log("DONE ");
-    console.log(results);
     return results;
   };
 
