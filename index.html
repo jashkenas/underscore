@@ -308,6 +308,7 @@
       <li>- <a href="#isDate">isDate</a></li>
       <li>- <a href="#isRegExp">isRegExp</a></li>
       <li>- <a href="#isError">isError</a></li>
+      <li>- <a href="#isSymbol">isSymbol</a></li>
       <li>- <a href="#isNaN">isNaN</a></li>
       <li>- <a href="#isNull">isNull</a></li>
       <li>- <a href="#isUndefined">isUndefined</a></li>
@@ -1755,6 +1756,16 @@ try {
 } catch (o_O) {
   _.isError(o_O);
 }
+=&gt; true
+</pre>
+
+      <p id="isSymbol">
+        <b class="header">isSymbol</b><code>_.isSymbol(object)</code>
+        <br />
+        Returns <i>true</i> if <b>object</b> is a Symbol.
+      </p>
+      <pre>
+_.isSymbol(Symbol());
 =&gt; true
 </pre>
 
