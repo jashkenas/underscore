@@ -190,6 +190,21 @@
 
     assert.deepEqual(_.uniq([{a: 1, b: 1}, {a: 1, b: 2}, {a: 1, b: 3}, {a: 2, b: 1}], 'a'), [{a: 1, b: 1}, {a: 2, b: 1}], 'can use pluck like iterator');
     assert.deepEqual(_.uniq([{0: 1, b: 1}, {0: 1, b: 2}, {0: 1, b: 3}, {0: 2, b: 1}], 0), [{0: 1, b: 1}, {0: 2, b: 1}], 'can use falsey pluck like iterator');
+
+    var col = [{a: 1, b: 2}, {a: 1, b: 2}, {a: 1, b: 2, c: 3}],
+      customMatcher = function(item1, item2) {
+        return _.isEqual(item1.keys, item2.keys);
+      };
+
+    assert.deepEqual(_.uniq(col, false, null, null, _.isEqual), [{a: 1, b: 2}, {a: 1, b: 2, c: 3}], 'can use a predicate matcher');
+    assert.deepEqual(_.uniq(col, false, null, null, customMatcher), [{a: 1, b: 2}], 'can use a custom matcher function');
+    assert.deepEqual(_.uniq(col, true, null, null, _.isEqual), [{a: 1, b: 2}, {a: 1, b: 2, c: 3}], 'ignores sort parameter if predicate function');
+    assert.deepEqual(_.uniq(col, null, null, null, _.isEqual), [{a: 1, b: 2}, {a: 1, b: 2, c: 3}], 'works with null passed for all params but predicate');
+
+    _.uniq(col, false, null, context, function(item1, item2) {
+      assert.strictEqual(this, context, 'passes the context to the predicate');
+      return _.isEqual(item1, item2);
+    });
   });
 
   QUnit.test('unique', function(assert) {

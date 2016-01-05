@@ -532,12 +532,20 @@
   // Produce a duplicate-free version of the array. If the array has already
   // been sorted, you have the option of using a faster algorithm.
   // Aliased as `unique`.
-  _.uniq = _.unique = function(array, isSorted, iteratee, context) {
+  _.uniq = _.unique = function(array, isSorted, iteratee, context, predicate) {
     if (!_.isBoolean(isSorted)) {
       context = iteratee;
       iteratee = isSorted;
       isSorted = false;
+      predicate = _.isNull(predicate) && _.isFunction(context) ? context : predicate;
     }
+    // cannot use sort with predicate matcher
+    if (_.isFunction(predicate)) {
+      isSorted = false;
+      iteratee = null;
+      predicate = optimizeCb(predicate, context);
+    }
+
     if (iteratee != null) iteratee = cb(iteratee, context);
     var result = [];
     var seen = [];
@@ -552,8 +560,13 @@
           seen.push(computed);
           result.push(value);
         }
-      } else if (!_.contains(result, value)) {
-        result.push(value);
+      } else {
+        var match = predicate ? _.find(result, function(item) {
+          return predicate(item, value);
+        }) : _.contains(result, value);
+
+        if (!match)
+          result.push(value);
       }
     }
     return result;
