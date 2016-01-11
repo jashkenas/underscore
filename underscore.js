@@ -531,8 +531,8 @@
 
   // Produce a duplicate-free version of the array. If the array has already
   // been sorted, you have the option of using a faster algorithm.
-  // Aliased as `unique`.
-  _.uniq = _.unique = function(array, isSorted, iteratee, context) {
+  // Aliased as `uniq`.
+  _.unique = _.uniq = function(array, isSorted, iteratee, context) {
     if (!_.isBoolean(isSorted)) {
       context = iteratee;
       iteratee = isSorted;
@@ -562,7 +562,7 @@
   // Produce an array that contains the union: each distinct element from all of
   // the passed-in arrays.
   _.union = restArgs(function(arrays) {
-    return _.uniq(flatten(arrays, true, true));
+    return _.unique(flatten(arrays, true, true));
   });
 
   // Produce an array that contains every item shared between all the
