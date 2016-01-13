@@ -117,7 +117,7 @@
   QUnit.test('uniqueId', function(assert) {
     var ids = [], i = 0;
     while (i++ < 100) ids.push(_.uniqueId());
-    assert.equal(_.uniq(ids).length, ids.length, 'can generate a globally-unique stream of ids');
+    assert.equal(_.unique(ids).length, ids.length, 'can generate a globally-unique stream of ids');
   });
 
   QUnit.test('times', function(assert) {
