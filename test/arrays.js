@@ -202,18 +202,21 @@
 
   QUnit.test('union', function(assert) {
     var result = _.union([1, 2, 3], [2, 30, 1], [1, 40]);
-    assert.deepEqual(result, [1, 2, 3, 30, 40], 'takes the union of a list of arrays');
+    assert.deepEqual(result, [1, 2, 3, 30, 40], 'can find the union of a list of arrays');
+
+    result = _([1, 2, 3]).union([2, 30, 1], [1, 40]);
+    assert.deepEqual(result, [1, 2, 3, 30, 40], 'can perform an OO-style union');
 
     result = _.union([1, 2, 3], [2, 30, 1], [1, 40, [1]]);
-    assert.deepEqual(result, [1, 2, 3, 30, 40, [1]], 'takes the union of a list of nested arrays');
+    assert.deepEqual(result, [1, 2, 3, 30, 40, [1]], 'can find the union of a list of nested arrays');
 
-    var args = null;
-    (function(){ args = arguments; }(1, 2, 3));
-    result = _.union(args, [2, 30, 1], [1, 40]);
-    assert.deepEqual(result, [1, 2, 3, 30, 40], 'takes the union of a list of arrays');
+    result = _.union([10, 20], [1, 30, 10], [0, 40]);
+    assert.deepEqual(result, [10, 20, 1, 30, 0, 40], 'orders values by their first encounter');
 
-    result = _.union([1, 2, 3], 4);
-    assert.deepEqual(result, [1, 2, 3], 'restrict the union to arrays only');
+    result = (function(){ return _.union(arguments, [2, 30, 1], [1, 40]); }(1, 2, 3));
+    assert.deepEqual(result, [1, 2, 3, 30, 40], 'works on an arguments object');
+
+    assert.deepEqual(_.union([1, 2, 3], 4), [1, 2, 3], 'restricts the union to arrays only');
   });
 
   QUnit.test('difference', function(assert) {
