@@ -186,20 +186,18 @@
 
   QUnit.test('intersection', function(assert) {
     var stooges = ['moe', 'curly', 'larry'], leaders = ['moe', 'groucho'];
-    assert.deepEqual(_.intersection(stooges, leaders), ['moe'], 'can take the set intersection of two arrays');
+    assert.deepEqual(_.intersection(stooges, leaders), ['moe'], 'can find the set intersection of two arrays');
     assert.deepEqual(_(stooges).intersection(leaders), ['moe'], 'can perform an OO-style intersection');
     var result = (function(){ return _.intersection(arguments, leaders); }('moe', 'curly', 'larry'));
     assert.deepEqual(result, ['moe'], 'works on an arguments object');
     var theSixStooges = ['moe', 'moe', 'curly', 'curly', 'larry', 'larry'];
     assert.deepEqual(_.intersection(theSixStooges, leaders), ['moe'], 'returns a duplicate-free array');
     result = _.intersection([2, 4, 3, 1], [1, 2, 3]);
-    assert.deepEqual(result, [2, 3, 1], 'preserves order of first array');
+    assert.deepEqual(result, [2, 3, 1], 'preserves the order of the first array');
     result = _.intersection(null, [1, 2, 3]);
-    assert.equal(Object.prototype.toString.call(result), '[object Array]', 'returns an empty array when passed null as first argument');
-    assert.equal(result.length, 0, 'returns an empty array when passed null as first argument');
+    assert.deepEqual(result, [], 'returns an empty array when passed null as the first argument');
     result = _.intersection([1, 2, 3], null);
-    assert.equal(Object.prototype.toString.call(result), '[object Array]', 'returns an empty array when passed null as argument beyond the first');
-    assert.equal(result.length, 0, 'returns an empty array when passed null as argument beyond the first');
+    assert.deepEqual(result, [], 'returns an empty array when passed null as an argument beyond the first');
   });
 
   QUnit.test('union', function(assert) {
