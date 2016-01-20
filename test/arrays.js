@@ -221,10 +221,19 @@
 
   QUnit.test('difference', function(assert) {
     var result = _.difference([1, 2, 3], [2, 30, 40]);
-    assert.deepEqual(result, [1, 3], 'takes the difference of two arrays');
+    assert.deepEqual(result, [1, 3], 'can find the difference of two arrays');
+
+    result = _([1, 2, 3]).difference([2, 30, 40]);
+    assert.deepEqual(result, [1, 3], 'can perform an OO-style difference');
 
     result = _.difference([1, 2, 3, 4], [2, 30, 40], [1, 11, 111]);
-    assert.deepEqual(result, [3, 4], 'takes the difference of three arrays');
+    assert.deepEqual(result, [3, 4], 'can find the difference of three arrays');
+
+    result = _.difference([8, 9, 3, 1], [3, 8]);
+    assert.deepEqual(result, [9, 1], 'preserves the order of the first array');
+
+    result = (function(){ return _.difference(arguments, [2, 30, 40]); }(1, 2, 3));
+    assert.deepEqual(result, [1, 3], 'works on an arguments object');
 
     result = _.difference([1, 2, 3], 1);
     assert.deepEqual(result, [1, 2, 3], 'restrict the difference to arrays only');
