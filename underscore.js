@@ -152,37 +152,27 @@
   // Collection Functions
   // --------------------
 
+  // Generator function to create the each or map functions
+  var iterateCollection = function(results) {
+    return function(obj, iteratee, context) {
+      iteratee = cb(iteratee, context);
+      var keys = !isArrayLike(obj) && _.keys(obj),
+          length = (keys || obj).length;
+      for (var index = 0; index < length; index++) {
+        var currentKey = keys ? keys[index] : index;
+        results && results.push(iteratee(obj[currentKey], currentKey, obj));
+      }
+      return results || obj;
+    };
+  };
+
   // The cornerstone, an `each` implementation, aka `forEach`.
   // Handles raw objects in addition to array-likes. Treats all
   // sparse array-likes as if they were dense.
-  _.each = _.forEach = function(obj, iteratee, context) {
-    iteratee = optimizeCb(iteratee, context);
-    var i, length;
-    if (isArrayLike(obj)) {
-      for (i = 0, length = obj.length; i < length; i++) {
-        iteratee(obj[i], i, obj);
-      }
-    } else {
-      var keys = _.keys(obj);
-      for (i = 0, length = keys.length; i < length; i++) {
-        iteratee(obj[keys[i]], keys[i], obj);
-      }
-    }
-    return obj;
-  };
+  _.each = _.forEach = iterateCollection(void 0);
 
   // Return the results of applying the iteratee to each element.
-  _.map = _.collect = function(obj, iteratee, context) {
-    iteratee = cb(iteratee, context);
-    var keys = !isArrayLike(obj) && _.keys(obj),
-        length = (keys || obj).length,
-        results = Array(length);
-    for (var index = 0; index < length; index++) {
-      var currentKey = keys ? keys[index] : index;
-      results[index] = iteratee(obj[currentKey], currentKey, obj);
-    }
-    return results;
-  };
+  _.map = _.collect = iterateCollection([]);
 
   // Create a reducing function iterating left or right.
   var createReduce = function(dir) {
