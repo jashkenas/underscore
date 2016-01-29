@@ -12,6 +12,11 @@ Underscore.js is a utility-belt library for JavaScript that provides
 support for the usual functional suspects (each, map, reduce, filter...)
 without extending any core JavaScript objects.
 
+###What is Underscore.js in layman's term?
+Say you want to change channel on your TV. You can either get off the couch and walk over to the TV or you can effortlessly press a button using a little device called the TV remote.
+
+Underscore.js is similar to a TV remote. The remote has many functions that you can use at a press of a button, such as change to specific channel, increase or decrease volume, find the last channel or channel surf in descending or ascending order. Like a remote, Underscore.js has all types of functions to help with sorting, selecting, inserting and deleting data that are sitting on the sideline waiting to be used by your application. 
+
 For Docs, License, Tests, and pre-packed downloads, see:
 http://underscorejs.org
 
