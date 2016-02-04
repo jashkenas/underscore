@@ -1507,8 +1507,7 @@
     // This is used to substitute undefined variables with the pre-existing tags.
     if(settings.ignore_missing_template_variables) {
       var template_begin_results = find_template_begin_tag.exec(settings.interpolate.toString()) || [];
-      var template_begin_tag = template_begin_results[1] || null;
-      alert(template_begin_results);
+      var template_begin_tag = template_begin_results[1] || null;      
       if(!template_begin_tag) throw new Error('Could not find template begin tag from: ' + settings.interpolate);
 
       var template_end_results = find_template_end_tag.exec(settings.interpolate.toString()) || [];
