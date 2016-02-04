@@ -428,6 +428,6 @@
     assert.expect(1);
     var settings = {'ignore_missing_template_variables': true};
     var template = _.template('<%=foo%><%=bar%>', settings);
-    assert.deepEqual(template({"foo": "Handle"}), 'Handle<%=bar%>');
+    assert.deepEqual(template({'foo': 'Handle'}), 'Handle<%=bar%>');
   });
 }());
