@@ -1525,7 +1525,7 @@
       } else if (interpolate) {
         source +=
           settings.ignore_missing_template_variables
-            ? '\'+\n(__t=(typeof(\'' + interpolate + '\') === \'undefined\') ? \'' + templateBeginTag + '\' + ' + interpolate + ' + \'' + templateEndTag + '\' : ' + interpolate + ')+\n\''
+            ? '\'+\n(__t=(typeof(' + interpolate + ') === \'undefined\') ? \'' + templateBeginTag + '\' + \'' + interpolate + '\' + \'' + templateEndTag + '\' : ' + interpolate + ')+\n\''
             : '\'+\n((__t=(' + interpolate + '))==null ? \'\':__t)+\n\'';
       } else if (evaluate) {
         source += "';\n" + evaluate + "\n__p+='";
