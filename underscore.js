@@ -1506,7 +1506,7 @@
     if (settings.ignore_missing_template_variables) {
       var templateBeginResults = findTemplateBeginTag.exec(settings.interpolate.toString()) || [];
       var templateBeginTag = templateBeginResults[1] || null;
-      if(!templateBeginTag) throw new Error('Could not find template begin tag from: ' + settings.interpolate);
+      if (!templateBeginTag) throw new Error('Could not find template begin tag from: ' + settings.interpolate);
 
       var templateEndResults = findTemplateEndTag.exec(settings.interpolate.toString()) || [];
       var templateEndTag = templateEndResults[1] || null;
@@ -1525,8 +1525,8 @@
       } else if (interpolate) {
         source +=
           settings.ignore_missing_template_variables
-            ? "'+\n(__t=(typeof(" + interpolate + ") === \"undefined\") ? \"" + templateBeginTag + "\" + '" + interpolate + "' + \"" + templateEndTag + "\" : " + interpolate + ")+\n'"
-            : "'+\n((__t=(" + interpolate + "))==null?'':__t)+\n'";
+            ? '\'+\n(__t=(typeof(\'' + interpolate + '\') === \'undefined\') ? \'' + templateBeginTag + '\' + ' + interpolate + ' + \'' + templateEndTag + '\' : ' + interpolate + ')+\n\''
+            : '\'+\n((__t=(' + interpolate + '))==null ? \'\':__t)+\n\'';
       } else if (evaluate) {
         source += "';\n" + evaluate + "\n__p+='";
       }
