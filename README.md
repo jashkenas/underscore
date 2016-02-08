@@ -15,7 +15,7 @@ without extending any core JavaScript objects.
 ###  What to Use underscore.js for and When to Use It
 * Since not all new JavaScript functionality is available in all browsers, underscore.js will make your code work across all browsers.
 * Keep performance as optimal as possible.
-* Avoid repetiting yourself in complex code.
+* Avoid repeating yourself when writing routine functionality.
 
 For Docs, License, Tests, and pre-packed downloads, see:
 http://underscorejs.org
