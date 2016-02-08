@@ -13,9 +13,9 @@ support for the usual functional suspects (each, map, reduce, filter...)
 without extending any core JavaScript objects.
 
 ###  What to Use underscore.js for and When to Use It
-* Since not all new JavaScript functionality is available in all browsers, underscore.js will make your code work across all browsers.
-* Keep performance as optimal as possible.
-* Avoid repeating yourself when writing routine functionality.
+* When you want more than just DOM manipulations and animations provided by jQuery, beyond the browser. Underscore can be used both in the browser and on the server.
+* Since not all new JavaScript functionality is available in all browsers, underscore.js will provide JavaScript funcionality that works across all browsers.
+* Write less code and avoid repeating yourself when writing routine functionality on Collections, Objects, Arrays, Function, Utilities and Templates.
 
 For Docs, License, Tests, and pre-packed downloads, see:
 http://underscorejs.org
