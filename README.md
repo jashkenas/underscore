@@ -12,8 +12,10 @@ Underscore.js is a utility-belt library for JavaScript that provides
 support for the usual functional suspects (each, map, reduce, filter...)
 without extending any core JavaScript objects.
 
-## For the Non-developer
-Underscore is a lightweight Javascript utility library, that provides more than 100 helpful functions to simplify routine tasks of a programmer. It makes possible writing performant readable code easier than you could with what Javascript natively provides.
+###  What to Use underscore.js for and When to Use It
+* Since not all new JavaScript functionality is available in all browsers, underscore.js will make your code work across all browsers.
+* Keep performance as optimal as possible.
+* Avoid repetiting yourself in complex code.
 
 For Docs, License, Tests, and pre-packed downloads, see:
 http://underscorejs.org
