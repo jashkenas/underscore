@@ -8,8 +8,7 @@
                                                                                   \ \____/
                                                                                    \/___/
 
-Underscore is a lightweight Javascript utility library, that provides a broad set of functions to simplify daily routine tasks of a programmer.
-More than 100 helper functions will make it possible to write performant readable code easier than you could with what Javascript natively provides.
+Underscore is a lightweight Javascript utility library, that provides more than 100 helpful functions to simplify routine tasks of a programmer. It makes possible writing performant readable code easier than you could with what Javascript natively provides.
 
 For Docs, License, Tests, and pre-packed downloads, see:
 http://underscorejs.org
