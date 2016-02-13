@@ -442,7 +442,7 @@
       // Keep surrogate pair characters together
       return obj.match(reStrSymbol);
     }
-    if (isArrayLike(obj)) return _.map(obj, _.identity);
+    if (isArrayLike(obj)) return _.map(obj);
     return _.values(obj);
   };
 
@@ -494,7 +494,7 @@
 
   // Trim out all falsy values from an array.
   _.compact = function(array) {
-    return _.filter(array, _.identity);
+    return _.filter(array);
   };
 
   // Internal implementation of a recursive `flatten` function.
