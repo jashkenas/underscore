@@ -565,6 +565,14 @@
     assert.equal(_.isEqual({a: 0}, {a: -0}), false);
     assert.equal(_.isEqual([NaN], [NaN]), true);
     assert.equal(_.isEqual({a: NaN}, {a: NaN}), true);
+
+    if (typeof Symbol !== 'undefined') {
+      var symbol = Symbol('x');
+      assert.strictEqual(_.isEqual(symbol, symbol), true, 'A symbol is equal to itself');
+      assert.strictEqual(_.isEqual(symbol, Object(symbol)), true, 'Even when wrapped in Object()');
+      assert.strictEqual(_.isEqual(symbol, null), false, 'Different types are not equal');
+    }
+
   });
 
   QUnit.test('isEmpty', function(assert) {
