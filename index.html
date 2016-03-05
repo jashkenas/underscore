@@ -334,6 +334,9 @@
       <li>- <a href="#template">template</a></li>
     </ul>
 
+    <a class="toc_title" href="#oop">
+      OOP Style
+    </a>
     <a class="toc_title" href="#chaining">
       Chaining
     </a>
@@ -1861,7 +1864,7 @@ obj.initialize = _.noop;
         <b>iteratee</b> is called with an <tt>index</tt> argument. Produces an
         array of the returned values.
         <br />
-        <i>Note: this example uses the <a href="#chaining">chaining syntax</a></i>.
+        <i>Note: this example uses the <a href="#oop">object-oriented syntax</a></i>.
       </p>
       <pre>
 _(3).times(function(n){ genie.grantWishNumber(n); });</pre>
@@ -2055,7 +2058,7 @@ _.template("Using 'with': <%= data.answer %>", {variable: 'data'})({answer: 'no'
 &lt;/script&gt;</pre>
 
 
-      <h2 id="chaining">Chaining</h2>
+      <h2 id="oop">Object-Oriented Style</h2>
 
       <p>
         You can use Underscore in either an object-oriented or a functional style,
@@ -2066,6 +2069,8 @@ _.template("Using 'with': <%= data.answer %>", {variable: 'data'})({answer: 'no'
     <pre>
 _.map([1, 2, 3], function(n){ return n * 2; });
 _([1, 2, 3]).map(function(n){ return n * 2; });</pre>
+
+      <h2 id="chaining">Chaining</h2>
 
       <p>
         Calling <tt>chain</tt> will cause all future method calls to return
@@ -2119,13 +2124,13 @@ var youngest = _.chain(stooges)
 </pre>
 
       <p id="value">
-        <b class="header">value</b><code>_(obj).value()</code>
+        <b class="header">value</b><code>_.chain(obj).value()</code>
         <br />
         Extracts the value of a wrapped object.
       </p>
       <pre>
-_([1, 2, 3]).value();
-=&gt; [1, 2, 3]
+_.chain([1, 2, 3]).reverse().value();
+=&gt; [3, 2, 1]
 </pre>
 
       <h2 id="links">Links &amp; Suggested Reading</h2>
