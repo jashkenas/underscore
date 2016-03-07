@@ -92,6 +92,8 @@
     assert.deepEqual(_.flatten(list, true), [1, 2, 3, [4]], 'can shallowly flatten arrays containing only other arrays');
     list = [1, [2], [[3]], [[[4]]]];
     assert.deepEqual(_.flatten(list, 2), [1, 2, 3, [4]], 'can flatten arrays to a given depth');
+    assert.deepEqual(_.flatten(list, 0), list, 'can flatten arrays to depth of 0');
+    assert.deepEqual(_.flatten(list, -1), list, 'can flatten arrays to depth of -1');
 
     assert.equal(_.flatten([_.range(10), _.range(10), 5, 1, 3], true).length, 23, 'can flatten medium length arrays');
     assert.equal(_.flatten([_.range(10), _.range(10), 5, 1, 3]).length, 23, 'can shallowly flatten medium length arrays');

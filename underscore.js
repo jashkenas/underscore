@@ -522,7 +522,11 @@
 
   // Flatten out an array, either recursively (by default), or just one level.
   _.flatten = function(array, depth) {
-    if (!depth) depth = Infinity;
+    if (!depth && depth !== 0) {
+      depth = Infinity;
+    } else if (depth <= 0) {
+      return _.clone(array);
+    }
     return flatten(array, depth, false);
   };
 
