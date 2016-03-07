@@ -779,13 +779,20 @@
 
   // Memoize an expensive function by storing its results.
   _.memoize = function(func, hasher) {
+    function getCache() {
+      if (Object.create) {
+        return Object.create(null);
+      }
+      return {};
+    }
+
     var memoize = function(key) {
       var cache = memoize.cache;
       var address = '' + (hasher ? hasher.apply(this, arguments) : key);
-      if (!_.has(cache, address)) cache[address] = func.apply(this, arguments);
+      if (typeof cache[address] === 'undefined') cache[address] = func.apply(this, arguments);
       return cache[address];
     };
-    memoize.cache = {};
+    memoize.cache = getCache();
     return memoize;
   };
 
