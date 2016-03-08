@@ -173,6 +173,16 @@
     assert.notStrictEqual(myObj, void 0, 'object is created if second argument used as key');
     assert.strictEqual(myObj, myObjAlias, 'object is cached if second argument used as key');
     assert.strictEqual(myObj.value, 'a', 'object is not modified if second argument used as key');
+
+    // `undefined` return values should be memoized.
+    var execCount = 0;
+    var returnUndef = _.memoize(function() {
+      execCount++;
+      return;
+    });
+    returnUndef(1);
+    returnUndef(1);
+    assert.deepEqual(execCount, 1);
   });
 
   QUnit.test('delay', function(assert) {
