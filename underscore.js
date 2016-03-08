@@ -786,10 +786,20 @@
       return {};
     }
 
+    function hasKey(cache, address) {
+      // Objects created with `Object.create(null)` don't have a constructor
+      // property.
+      if (cache.constructor === Object) {
+        return _.has(cache, address);
+      } else {
+        return (typeof cache[address] !== 'undefined');
+      }
+    }
+
     var memoize = function(key) {
       var cache = memoize.cache;
       var address = '' + (hasher ? hasher.apply(this, arguments) : key);
-      if (typeof cache[address] === 'undefined') cache[address] = func.apply(this, arguments);
+      if (!hasKey(cache, address)) cache[address] = func.apply(this, arguments);
       return cache[address];
     };
     memoize.cache = getCache();
