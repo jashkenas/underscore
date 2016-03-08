@@ -59,11 +59,30 @@ reported by contacting the project team at jashkenas@gmail.com. The project team
 will review and investigate all complaints, and will respond in a way that it deems
 appropriate to the circumstances. The project team is obligated to maintain
 confidentiality with regard to the reporter of an incident.
-Further details of specific enforcement policies may be posted separately.
-
 Project maintainers who do not follow or enforce the Code of Conduct in good
 faith may face temporary or permanent repercussions as determined by other
 members of the project's leadership.
+
+## Moderation
+
+Edits of another user's comment must be clearly marked with "**edit**", the
+moderator's username, and a timestamp for each occurrence. The only acceptable
+reasons for editing another user's comment are:
+
+1. to edit out violations of Our Pledge. These edits must include a rationale.
+2. to direct future readers to a relevant point later in the conversation
+   (usually the resolution). These edits must be append-only.
+
+Deletion of another user's comment is only acceptable when the comment includes
+no original value, such as "+1", ":+1:", or "me too".
+
+## Self-Moderation
+
+Edits of your own comment after someone has responded must be append-only and
+clearly marked with "**edit**". Typographical and formatting fixes to your own
+comment which do not affect its meaning are exempt from this requirement.
+Deletion of your own comment is only acceptable before any later comments have
+been posted.
 
 ## Attribution
 
