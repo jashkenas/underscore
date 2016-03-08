@@ -12,6 +12,8 @@ Underscore.js is a utility-belt library for JavaScript that provides
 support for the usual functional suspects (each, map, reduce, filter...)
 without extending any core JavaScript objects.
 
+This project adheres to a [code of conduct](CODE_OF_CONDUCT.md). By participating, you are expected to uphold this code.
+
 For Docs, License, Tests, and pre-packed downloads, see:
 http://underscorejs.org
 
