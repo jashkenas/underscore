@@ -681,6 +681,22 @@
     assert.ok(_.isBoolean(false), 'and so is false');
   });
 
+  QUnit.test('isMap', function(assert) {
+    var keyString = 'a string', keyObj = {}, keyFunc = function() {};
+    var obj = new Map([[keyString, 'value one'], [keyObj, 'value two'],
+      [keyFunc, 'value three']]);
+
+    assert.ok(!_.isMap('string'), 'a string is not a map');
+    assert.ok(!_.isMap(2), 'a number is not a map');
+    assert.ok(!_.isMap({}), 'an object is not a map');
+    assert.ok(!_.isMap(false), 'a boolean is not a map');
+    assert.ok(!_.isMap(void 0), 'undefined is not a map');
+    assert.ok(!_.isMap([1, 2, 3]), 'an array is not a map');
+    assert.ok(!_.isMap(new Set([['key', 'value']])), 'a set is not a map');
+    assert.ok(!_.isMap(new WeakMap([[{x: 1}, 'value']])), 'a weak map is not a map');
+    assert.ok(_.isMap(obj), 'but a map is');
+  });
+
   QUnit.test('isFunction', function(assert) {
     assert.ok(!_.isFunction(void 0), 'undefined vars are not functions');
     assert.ok(!_.isFunction([1, 2, 3]), 'arrays are not functions');
