@@ -681,6 +681,100 @@
     assert.ok(_.isBoolean(false), 'and so is false');
   });
 
+  QUnit.test('isMap', function(assert) {
+    assert.ok(!_.isMap('string'), 'a string is not a map');
+    assert.ok(!_.isMap(2), 'a number is not a map');
+    assert.ok(!_.isMap({}), 'an object is not a map');
+    assert.ok(!_.isMap(false), 'a boolean is not a map');
+    assert.ok(!_.isMap(void 0), 'undefined is not a map');
+    assert.ok(!_.isMap([1, 2, 3]), 'an array is not a map');
+    if (typeof Set === 'function') {
+      assert.ok(!_.isMap(new Set()), 'a set is not a map');
+    }
+    if (typeof WeakSet === 'function') {
+      assert.ok(!_.isMap(new WeakSet()), 'a weakset is not a map');
+    }
+    if (typeof WeakMap === 'function') {
+      assert.ok(!_.isMap(new WeakMap()), 'a weakmap is not a map');
+    }
+    if (typeof Map === 'function') {
+      var keyString = 'a string';
+      var obj = new Map();
+      obj.set(keyString, 'value');
+      assert.ok(_.isMap(obj), 'but a map is');
+    }
+  });
+
+  QUnit.test('isWeakMap', function(assert) {
+    assert.ok(!_.isWeakMap('string'), 'a string is not a weakmap');
+    assert.ok(!_.isWeakMap(2), 'a number is not a weakmap');
+    assert.ok(!_.isWeakMap({}), 'an object is not a weakmap');
+    assert.ok(!_.isWeakMap(false), 'a boolean is not a weakmap');
+    assert.ok(!_.isWeakMap(void 0), 'undefined is not a weakmap');
+    assert.ok(!_.isWeakMap([1, 2, 3]), 'an array is not a weakmap');
+    if (typeof Set === 'function') {
+      assert.ok(!_.isWeakMap(new Set()), 'a set is not a weakmap');
+    }
+    if (typeof WeakSet === 'function') {
+      assert.ok(!_.isWeakMap(new WeakSet()), 'a weakset is not a weakmap');
+    }
+    if (typeof Map === 'function') {
+      assert.ok(!_.isWeakMap(new Map()), 'a map is not a weakmap');
+    }
+    if (typeof WeakMap === 'function') {
+      var keyObj = {}, obj = new WeakMap();
+      obj.set(keyObj, 'value');
+      assert.ok(_.isWeakMap(obj), 'but a weakmap is');
+    }
+  });
+
+  QUnit.test('isSet', function(assert) {
+    assert.ok(!_.isSet('string'), 'a string is not a set');
+    assert.ok(!_.isSet(2), 'a number is not a set');
+    assert.ok(!_.isSet({}), 'an object is not a set');
+    assert.ok(!_.isSet(false), 'a boolean is not a set');
+    assert.ok(!_.isSet(void 0), 'undefined is not a set');
+    assert.ok(!_.isSet([1, 2, 3]), 'an array is not a set');
+    if (typeof Map === 'function') {
+      assert.ok(!_.isSet(new Map()), 'a map is not a set');
+    }
+    if (typeof WeakMap === 'function') {
+      assert.ok(!_.isSet(new WeakMap()), 'a weakmap is not a set');
+    }
+    if (typeof WeakSet === 'function') {
+      assert.ok(!_.isSet(new WeakSet()), 'a weakset is not a set');
+    }
+    if (typeof Set === 'function') {
+      var obj = new Set();
+      obj.add(1).add('string').add(false).add({});
+      assert.ok(_.isSet(obj), 'but a set is');
+    }
+  });
+
+  QUnit.test('isWeakSet', function(assert) {
+
+    assert.ok(!_.isWeakSet('string'), 'a string is not a weakset');
+    assert.ok(!_.isWeakSet(2), 'a number is not a weakset');
+    assert.ok(!_.isWeakSet({}), 'an object is not a weakset');
+    assert.ok(!_.isWeakSet(false), 'a boolean is not a weakset');
+    assert.ok(!_.isWeakSet(void 0), 'undefined is not a weakset');
+    assert.ok(!_.isWeakSet([1, 2, 3]), 'an array is not a weakset');
+    if (typeof Map === 'function') {
+      assert.ok(!_.isWeakSet(new Map()), 'a map is not a weakset');
+    }
+    if (typeof WeakMap === 'function') {
+      assert.ok(!_.isWeakSet(new WeakMap()), 'a weakmap is not a weakset');
+    }
+    if (typeof Set === 'function') {
+      assert.ok(!_.isWeakSet(new Set()), 'a set is not a weakset');
+    }
+    if (typeof WeakSet === 'function') {
+      var obj = new WeakSet();
+      obj.add({x: 1}, {y: 'string'}).add({y: 'string'}).add({z: [1, 2, 3]});
+      assert.ok(_.isWeakSet(obj), 'but a weakset is');
+    }
+  });
+
   QUnit.test('isFunction', function(assert) {
     assert.ok(!_.isFunction(void 0), 'undefined vars are not functions');
     assert.ok(!_.isFunction([1, 2, 3]), 'arrays are not functions');
