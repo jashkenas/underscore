@@ -712,6 +712,21 @@
     assert.ok(_.isWeakMap(obj), 'but a weakmap is');
   });
 
+  QUnit.test('isSet', function(assert) {
+    var obj = new Set([1, 'string', false, {}]);
+
+    assert.ok(!_.isSet('string'), 'a string is not a set');
+    assert.ok(!_.isSet(2), 'a number is not a set');
+    assert.ok(!_.isSet({}), 'an object is not a set');
+    assert.ok(!_.isSet(false), 'a boolean is not a set');
+    assert.ok(!_.isSet(void 0), 'undefined is not a set');
+    assert.ok(!_.isSet([1, 2, 3]), 'an array is not a set');
+    assert.ok(!_.isSet(new Map([['key', 'value']])), 'a map is not a set');
+    assert.ok(!_.isSet(new WeakMap([[{x: 1}, 'value']])), 'a weakmap is not a set');
+    assert.ok(!_.isSet(new WeakSet([{x: 1}, {y: 2}])), 'a weakset is not a set');
+    assert.ok(_.isSet(obj), 'but a set is');
+  });
+
   QUnit.test('isFunction', function(assert) {
     assert.ok(!_.isFunction(void 0), 'undefined vars are not functions');
     assert.ok(!_.isFunction([1, 2, 3]), 'arrays are not functions');
