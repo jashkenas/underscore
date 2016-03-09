@@ -693,8 +693,23 @@
     assert.ok(!_.isMap(void 0), 'undefined is not a map');
     assert.ok(!_.isMap([1, 2, 3]), 'an array is not a map');
     assert.ok(!_.isMap(new Set([['key', 'value']])), 'a set is not a map');
-    assert.ok(!_.isMap(new WeakMap([[{x: 1}, 'value']])), 'a weak map is not a map');
+    assert.ok(!_.isMap(new WeakMap([[{x: 1}, 'value']])), 'a weakmap is not a map');
     assert.ok(_.isMap(obj), 'but a map is');
+  });
+
+  QUnit.test('isWeakMap', function(assert) {
+    var keyObj = {};
+    var obj = new WeakMap([[keyObj, 'value']]);
+
+    assert.ok(!_.isWeakMap('string'), 'a string is not a weakmap');
+    assert.ok(!_.isWeakMap(2), 'a number is not a weakmap');
+    assert.ok(!_.isWeakMap({}), 'an object is not a weakmap');
+    assert.ok(!_.isWeakMap(false), 'a boolean is not a weakmap');
+    assert.ok(!_.isWeakMap(void 0), 'undefined is not a weakmap');
+    assert.ok(!_.isWeakMap([1, 2, 3]), 'an array is not a weakmap');
+    assert.ok(!_.isWeakMap(new Set([['key', 'value']])), 'a set is not a weakmap');
+    assert.ok(!_.isWeakMap(new Map([[{x: 1}, 'value']])), 'a map is not a weakmap');
+    assert.ok(_.isWeakMap(obj), 'but a weakmap is');
   });
 
   QUnit.test('isFunction', function(assert) {
