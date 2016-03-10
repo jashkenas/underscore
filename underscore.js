@@ -1101,6 +1101,10 @@
    // Return a copy of the object without the blacklisted properties.
   _.omit = restArgs(function(obj, keys) {
     var iteratee = keys[0], context;
+    console.log(obj, iteratee, keys, keys[0]);
+    // if (typeof iteratee == 'symbol'){
+    //   iteratee.
+    // }
     if (_.isFunction(iteratee)) {
       iteratee = _.negate(iteratee);
       if (keys.length > 1) context = keys[1];
