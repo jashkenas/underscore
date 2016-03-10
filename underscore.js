@@ -1288,10 +1288,23 @@
     return type === 'function' || type === 'object' && !!obj;
   };
 
-  // Add some isType methods: isArguments, isFunction, isString, isNumber, isDate, isRegExp, isError, isMap, isWeakMap, isSet, isWeakSet.
-  _.each(['Arguments', 'Function', 'String', 'Number', 'Date', 'RegExp', 'Error', 'Symbol', 'Map', 'WeakMap', 'Set', 'WeakSet'], function(name) {
+  // Add some isType methods: isArguments, isFunction, isString, isNumber, isDate, isRegExp, isError, isWeakSet.
+  _.each(['Arguments', 'Function', 'String', 'Number', 'Date', 'RegExp', 'Error', 'Symbol', 'WeakSet'], function(name) {
     _['is' + name] = function(obj) {
       return toString.call(obj) === '[object ' + name + ']';
+    };
+  });
+
+  // Work around IE11 bug (Object.Prototype.toString with Map, Set and WeakMap doesn't return '[object Map]' etc.)
+  // Add isType methods for isMap, isWeakMap and isSet.
+  _.each(['Map', 'Set', 'WeakMap'], function(name) {
+    _['is' + name] = function(obj) {
+      if (!obj) {
+        return false;
+      }
+      var objCtor = obj.constructor,
+          objCtorString = Function.prototype.toString.call(objCtor);
+      return objCtorString === 'function ' + name + '() { [native code] }';
     };
   });
 
