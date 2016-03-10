@@ -746,7 +746,6 @@
     }
     if (typeof Set === 'function') {
       var obj = new Set();
-      obj.add(1).add('string').add(false).add({});
       assert.ok(_.isSet(obj), 'but a set is');
     }
   });
@@ -770,7 +769,6 @@
     }
     if (typeof WeakSet === 'function') {
       var obj = new WeakSet();
-      obj.add({x: 1}, {y: 'string'}).add({y: 'string'}).add({z: [1, 2, 3]});
       assert.ok(_.isWeakSet(obj), 'but a weakset is');
     }
   });
