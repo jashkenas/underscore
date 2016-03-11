@@ -1100,13 +1100,9 @@
 
    // Return a copy of the object without the blacklisted properties.
   _.omit = restArgs(function(obj, keys) {
-    if(Object.getOwnPropertySymbols(obj) != null){
+    if(obj != null && Object.getOwnPropertySymbols(obj) != null){
       var syms = Object.getOwnPropertySymbols(obj);
-      for(var value of syms){
-        console.log(value.toString(), keys);
-        if(obj[value].toString() === keys){
-          console.log('hello'+ obj[value]);
-        }}}
+    }
     var iteratee = keys[0], context;
     if (_.isFunction(iteratee)) {
       iteratee = _.negate(iteratee);
