@@ -1303,9 +1303,9 @@
         objCtorString = typeof objCtor === 'function' ? Function.prototype.toString.call(objCtor) : '';
 
     if (objCtorString) {
-      var mapCtorString = typeof Map === 'function' ? Function.prototype.toString(Map) : '',
-          weakMapCtorString = typeof WeakMap === 'function' ? Function.prototype.toString(WeakMap) : '',
-          setCtorString = typeof Set === 'function' ? Function.prototype.toString(Set) : '';
+      var mapCtorString = typeof Map === 'function' ? Function.prototype.toString.call(Map) : '',
+          weakMapCtorString = typeof WeakMap === 'function' ? Function.prototype.toString.call(WeakMap) : '',
+          setCtorString = typeof Set === 'function' ? Function.prototype.toString.call(Set) : '';
 
       switch (objCtorString) {
         case mapCtorString : return '[object Map]';
