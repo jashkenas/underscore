@@ -1288,25 +1288,39 @@
     return type === 'function' || type === 'object' && !!obj;
   };
 
-  // Add some isType methods: isArguments, isFunction, isString, isNumber, isDate, isRegExp, isError, isWeakSet.
-  _.each(['Arguments', 'Function', 'String', 'Number', 'Date', 'RegExp', 'Error', 'Symbol', 'WeakSet'], function(name) {
+
+  /**
+  Helper function for returning the object tag (e.g. [object Object]); implemented
+  to work around IE11 bug (Object.Prototype.toString with Map, Set and WeakMap
+  doesn't return '[object Map]' etc.)
+  **/
+  var returnTag = function(obj) {
+    var objectTag = Object.prototype.toString.call(obj),
+        objCtor = objectTag === '[object Object]' ? obj.constructor : null,
+        objCtorString = typeof objCtor === 'function' ? Function.prototype.toString.call(objCtor) : '';
+
+    if (objCtorString) {
+
+      var mapCtorString = Function.prototype.toString(Map),
+          weakMapCtorString = Function.prototype.toString(WeakMap),
+          setCtorString = Function.prototype.toString(Set);
+
+      switch (objCtorString) {
+        case mapCtorString : return '[object Map]';
+        case weakMapCtorString : return '[object WeakMap]';
+        case setCtorString : return '[object Set]';
+      }
+    }
+    return objectTag;
+  };
+
+  // Add some isType methods: isArguments, isFunction, isString, isNumber, isDate, isRegExp, isError, isSymbol, isMap, isSet, isWeakMap, isWeakSet.
+  _.each(['Arguments', 'Function', 'String', 'Number', 'Date', 'RegExp', 'Error', 'Symbol', 'Map', 'Set', 'WeakMap', 'WeakSet'], function(name) {
     _['is' + name] = function(obj) {
-      return toString.call(obj) === '[object ' + name + ']';
+      return returnTag(obj) === '[object ' + name + ']';
     };
   });
 
-  // Work around IE11 bug (Object.Prototype.toString with Map, Set and WeakMap doesn't return '[object Map]' etc.)
-  // Add isType methods for isMap, isWeakMap and isSet.
-  _.each(['Map', 'Set', 'WeakMap'], function(name) {
-    _['is' + name] = function(obj) {
-      if (!obj) {
-        return false;
-      }
-      var objCtor = obj.constructor,
-          objCtorString = Function.prototype.toString.call(objCtor);
-      return objCtorString === 'function ' + name + '() { [native code] }';
-    };
-  });
 
   // Define a fallback version of the method in browsers (ahem, IE < 9), where
   // there isn't any inspectable "Arguments" type.
