@@ -1295,15 +1295,17 @@
   doesn't return '[object Map]' etc.)
   **/
   var returnTag = function(obj) {
+    // If toString returns [object Object] and its constructor is a function,
+    // proceed with comparing the constrcutor's Function.prototype.toString with
+    // Map, WeakMap and WeakSet tags.
     var objectTag = Object.prototype.toString.call(obj),
         objCtor = objectTag === '[object Object]' ? obj.constructor : null,
         objCtorString = typeof objCtor === 'function' ? Function.prototype.toString.call(objCtor) : '';
 
     if (objCtorString) {
-
-      var mapCtorString = Function.prototype.toString(Map),
-          weakMapCtorString = Function.prototype.toString(WeakMap),
-          setCtorString = Function.prototype.toString(Set);
+      var mapCtorString = typeof Map === 'function' ? Function.prototype.toString(Map) : '',
+          weakMapCtorString = typeof WeakMap === 'function' ? Function.prototype.toString(WeakMap) : '',
+          setCtorString = typeof Set === 'function' ? Function.prototype.toString(Set) : '';
 
       switch (objCtorString) {
         case mapCtorString : return '[object Map]';
