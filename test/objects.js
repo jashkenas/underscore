@@ -247,12 +247,14 @@
     var Foo = function(){
       this.a = 0;
       this[symbol1] = 1;
+      this[symbol3] = 3;
     }
-    var symbol1 = Symbol('a');
-    var symbol2 = Symbol('b');
+    var symbol1 = Symbol('sym1');
+    var symbol2 = Symbol('sym2');
+    var symbol3 = Symbol('sym3');
     Foo.prototype[symbol2] = 2;
     var foo = new Foo();
-    result = _.omit(foo, 'a');
+    result = _.omit(foo, 'Symbol(sym1)');
     console.log('foo.a:   ' + foo.a);
     console.log('result.a:   ' + result.a);
     console.log('foo symbol1:   ' + foo[symbol1]);
