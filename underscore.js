@@ -441,6 +441,7 @@
   // Return the number of elements in an object.
   _.size = function(obj) {
     if (obj == null) return 0;
+    if (obj instanceof Set || obj instanceof Map) return obj.size;
     return isArrayLike(obj) ? obj.length : _.keys(obj).length;
   };
 
