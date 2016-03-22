@@ -444,8 +444,7 @@
   // Return the number of elements in an object.
   _.size = function(obj) {
     if (obj == null) return 0;
-    if (supportToSetAndMap && (obj instanceof Set || obj instanceof Map)) return obj.size;
-    return isArrayLike(obj) ? obj.length : _.keys(obj).length;
+    return (property("size")(obj)) ? obj.size : isArrayLike(obj) ? obj.length : _.keys(obj).length;
   };
 
   // Split a collection into two arrays: one whose elements all satisfy the given
