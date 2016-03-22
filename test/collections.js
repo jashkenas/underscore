@@ -826,6 +826,8 @@
     assert.equal(_.size({one: 1, two: 2, three: 3}), 3, 'can compute the size of an object');
     assert.equal(_.size([1, 2, 3]), 3, 'can compute the size of an array');
     assert.equal(_.size({length: 3, 0: 0, 1: 0, 2: 0}), 3, 'can compute the size of Array-likes');
+    assert.equal(_.size(new Set([1, 22, 55, 12])), 4, 'can compute the size of an Set');
+    assert.equal(_.size(new Map([ [1,5], [3,4], [22,33] ])), 3, 'can compute the size of an Map');
 
     var func = function() {
       return _.size(arguments);
