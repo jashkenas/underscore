@@ -19,9 +19,6 @@
   // Save bytes in the minified (but not gzipped) version:
   var ArrayProto = Array.prototype, ObjProto = Object.prototype;
 
-  // There is support for using 'Set' and 'Map'.
-  var supportToSetAndMap = (typeof Set === "function" && typeof Map === "function" && Set.name == "Set" && Map.name == "Map");
-
   // Create quick reference variables for speed access to core prototypes.
   var
     push = ArrayProto.push,
