@@ -804,6 +804,9 @@
 
     equal(_.size(null), 0, 'handles nulls');
     equal(_.size(0), 0, 'handles numbers');
+
+    equal(_.size(new Set([1,2,3,4,5])), 5, 'can compute the size of a Set');
+    equal(_.size(new Map([[1,2],[2,3]])), 2, 'can compute the size of a Map');
   });
 
   test('partition', function() {
