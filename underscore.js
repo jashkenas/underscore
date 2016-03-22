@@ -449,17 +449,13 @@
 
   // Return the number of elements in an object.
   _.size = function(obj) {
-    var typeObj = toString.call(obj);
     if (obj == null) return 0;
     if (isArrayLike(obj)) {
       return obj.length;
+    } else if (_.isMap(obj) || _.isSet(obj)) {
+      return obj.size;
     } else {
-      switch (typeObj) {
-        case '[object Set]':
-        case '[object Map]':
-          return obj.size; break;
-        default: return _.keys(obj).length;
-      }
+      return _.keys(obj).length;
     }
   };
 
