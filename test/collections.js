@@ -317,6 +317,10 @@
     assert.deepEqual(_.filter(list, {b: 2}), [{a: 1, b: 2}, {a: 2, b: 2}]);
     assert.deepEqual(_.filter(list, {}), list, 'Empty object accepts all items');
     assert.deepEqual(_(list).filter({}), list, 'OO-filter');
+
+    // Works with RegExps
+    var stringArray = ['cat', 'dog', 'catdog'];
+    assert.deepEqual(_.filter(stringArray, /cat/), ['cat', 'catdog']);
   });
 
   QUnit.test('select', function(assert) {
