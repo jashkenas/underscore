@@ -165,6 +165,14 @@
     // Passing a property name like _.pluck.
     var people = [{name: 'moe', age: 30}, {name: 'curly', age: 50}];
     assert.deepEqual(_.map(people, 'name'), ['moe', 'curly'], 'predicate string map to object properties');
+
+    var iteratee = _.iteratee;
+    _.iteratee = function(n) { return function(value) { return value * n; }; };
+
+    assert.deepEqual(_.map([1, 2, 3], 2), [2, 4, 6], 'will use a user-defined _.iteratee function');
+
+    // Replace the built-in iteratee so as to not break other tests
+    _.iteratee = iteratee;
   });
 
   QUnit.test('collect', function(assert) {

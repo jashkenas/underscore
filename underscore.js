@@ -84,18 +84,23 @@
     };
   };
 
+  var builtinIteratee;
+
   // An internal function to generate callbacks that can be applied to each
   // element in a collection, returning the desired result — either `identity`,
   // an arbitrary callback, a property matcher, or a property accessor.
   var cb = function(value, context, argCount) {
+    if (_.iteratee !== builtinIteratee) return _.iteratee(value, context);
     if (value == null) return _.identity;
     if (_.isFunction(value)) return optimizeCb(value, context, argCount);
     if (_.isObject(value)) return _.matcher(value);
     return _.property(value);
   };
 
-  // An external wrapper for the internal callback generator.
-  _.iteratee = function(value, context) {
+  // External wrapper for our callback generator. Users may customize
+  // `_.iteratee` if they want additional predicate/iteratee shorthand styles.
+  // This abstraction hides the internal-only argCount argument.
+  _.iteratee = builtinIteratee = function(value, context) {
     return cb(value, context, Infinity);
   };
 
@@ -443,7 +448,7 @@
       // Keep surrogate pair characters together
       return obj.match(reStrSymbol);
     }
-    if (isArrayLike(obj)) return _.map(obj);
+    if (isArrayLike(obj)) return _.map(obj, _.identity);
     return _.values(obj);
   };
 
@@ -495,7 +500,7 @@
 
   // Trim out all falsy values from an array.
   _.compact = function(array) {
-    return _.filter(array);
+    return _.filter(array, Boolean);
   };
 
   // Internal implementation of a recursive `flatten` function.
