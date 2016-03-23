@@ -856,7 +856,7 @@
 
     var later = function(context, args) {
       timeout = null;
-      if (args) result = func.apply(context, args);
+      if (!immediate) result = func.apply(context, args);
     };
 
     var debounced = restArgs(function(args) {
@@ -865,7 +865,7 @@
       if (callNow) {
         timeout = setTimeout(later, wait);
         result = func.apply(this, args);
-      } else if (!immediate) {
+      } else {
         timeout = _.delay(later, wait, this, args);
       }
 
