@@ -74,7 +74,7 @@
     "no-unreachable": 2,
     "no-unused-expressions": 2,
     "no-unused-vars": 2,
-    "no-use-before-define": [2, "nofunc"],
+    "no-use-before-define": [1, "nofunc"],
     "no-with": 2,
     "object-curly-spacing": [2, "never"],
     "quote-props": [1, "as-needed"],
