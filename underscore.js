@@ -93,6 +93,7 @@
     if (_.iteratee !== builtinIteratee) return _.iteratee(value, context);
     if (value == null) return _.identity;
     if (_.isFunction(value)) return optimizeCb(value, context, argCount);
+    if (_.isRegExp(value)) return function(obj) { return !!value.exec(obj) };
     if (_.isObject(value)) return _.matcher(value);
     return _.property(value);
   };
