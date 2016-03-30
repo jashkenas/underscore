@@ -75,6 +75,12 @@
     assert.equal(_.property('name')(stooge), 'moe', 'should return the property with the given name');
     assert.equal(_.property('name')(null), void 0, 'should return undefined for null values');
     assert.equal(_.property('name')(void 0), void 0, 'should return undefined for undefined values');
+    assert.equal(_.property(null)('foo'), void 0, 'should return undefined for null object');
+
+    // Deep property access
+    assert.strictEqual(_.property('a')({a: 1}), 1, 'can get a direct property');
+    assert.strictEqual(_.property(['a', 'b'])({a: {b: 2}}), 2, 'can get a nested property');
+    assert.strictEqual(_.property(['a'])({a: false}), false, 'can fetch falsey values');
   });
 
   QUnit.test('propertyOf', function(assert) {
@@ -358,6 +364,16 @@
     assert.strictEqual(_.result(obj, 'b', function() {
       return this.a;
     }), obj.a, 'called with context');
+  });
+
+  QUnit.test('get', function(assert) {
+    assert.strictEqual(_.get({a: 1}, 'a'), 1, 'can get a direct property');
+    assert.strictEqual(_.get({a: {b: 2}}, ['a', 'b']), 2, 'can get a nested property');
+    assert.strictEqual(_.get({a: 1}, 'b', 2), 2, 'uses the fallback value when property is missing');
+    assert.strictEqual(_.get({a: 1}, ['b', 'c'], 2), 2, 'uses the fallback value when any property is missing');
+    assert.strictEqual(_.get({a: void 0}, ['a'], 1), 1, 'uses the fallback when value is undefined');
+    assert.strictEqual(_.get({a: null}, ['a'], 1), 1, 'uses the fallback when value is null');
+    assert.strictEqual(_.get({a: false}, ['a'], 'foo'), false, 'can fetch falsey values');
   });
 
   QUnit.test('_.templateSettings.variable', function(assert) {

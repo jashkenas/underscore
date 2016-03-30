@@ -93,7 +93,7 @@
     if (_.iteratee !== builtinIteratee) return _.iteratee(value, context);
     if (value == null) return _.identity;
     if (_.isFunction(value)) return optimizeCb(value, context, argCount);
-    if (_.isObject(value)) return _.matcher(value);
+    if (_.isObject(value) && !_.isArray(value)) return _.matcher(value);
     return _.property(value);
   };
 
@@ -138,9 +138,18 @@
     return result;
   };
 
-  var property = function(key) {
+  var isArray = nativeIsArray || function(obj) {
+    return toString.call(obj) === '[object Array]';
+  };
+
+  var property = function(path) {
+    if (!isArray(path)) path = [path];
     return function(obj) {
-      return obj == null ? void 0 : obj[key];
+      var index = 0, length = path.length;
+      while (obj != null && index < length) {
+        obj = obj[path[index++]];
+      }
+      return obj == null ? void 0 : obj;
     };
   };
 
@@ -1279,9 +1288,7 @@
 
   // Is a given value an array?
   // Delegates to ECMA5's native Array.isArray
-  _.isArray = nativeIsArray || function(obj) {
-    return toString.call(obj) === '[object Array]';
-  };
+  _.isArray = isArray;
 
   // Is a given variable an object?
   _.isObject = function(obj) {
@@ -1372,8 +1379,8 @@
 
   // Generates a function for a given object that returns a given property.
   _.propertyOf = function(obj) {
-    return obj == null ? function(){} : function(key) {
-      return obj[key];
+    return function(key) {
+      return property(key)(obj);
     };
   };
 
@@ -1444,6 +1451,13 @@
       value = fallback;
     }
     return _.isFunction(value) ? value.call(object) : value;
+  };
+
+  // Returns the, possibly deeply nested, value at `path` if defined.
+  // Otherwise, returns `fallback`.
+  _.get = function(object, path, fallback) {
+    var value = property(path)(object);
+    return value === void 0 ? fallback : value;
   };
 
   // Generate a unique integer id (unique within the entire client session).
