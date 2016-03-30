@@ -93,7 +93,7 @@
     if (_.iteratee !== builtinIteratee) return _.iteratee(value, context);
     if (value == null) return _.identity;
     if (_.isFunction(value)) return optimizeCb(value, context, argCount);
-    if (_.isObject(value)) return _.matcher(value);
+    if (_.isObject(value) && !_.isArray(value)) return _.matcher(value);
     return _.property(value);
   };
 
@@ -139,9 +139,18 @@
     return result;
   };
 
-  var property = function(key) {
-    return function(obj) {
-      return obj == null ? void 0 : obj[key];
+  var isArray = nativeIsArray || function(obj) {
+    return toString.call(obj) === '[object Array]';
+  };
+
+  var property = function(path) {
+    if (!isArray(path)) path = [path];
+    var length = path.length;
+    return function(object) {
+      for (var i = 0; object != null && i < length; i++) {
+        object = object[path[i]];
+      }
+      return object == null ? void 0 : object;
     };
   };
 
@@ -1281,9 +1290,7 @@
 
   // Is a given value an array?
   // Delegates to ECMA5's native Array.isArray
-  _.isArray = nativeIsArray || function(obj) {
-    return toString.call(obj) === '[object Array]';
-  };
+  _.isArray = isArray;
 
   // Is a given variable an object?
   _.isObject = function(obj) {
@@ -1342,8 +1349,16 @@
 
   // Shortcut function for checking if an object has a given property directly
   // on itself (in other words, not on a prototype).
-  _.has = function(obj, key) {
-    return obj != null && hasOwnProperty.call(obj, key);
+  _.has = function(object, path) {
+    if (!_.isArray(path)) path = [path];
+    for (var i = 0, length = path.length; i < length; i++) {
+      var key = path[i];
+      if (object == null || !hasOwnProperty.call(object, key)) {
+        return false;
+      }
+      object = object[key];
+    }
+    return true;
   };
 
   // Utility Functions
@@ -1374,8 +1389,8 @@
 
   // Generates a function for a given object that returns a given property.
   _.propertyOf = function(obj) {
-    return obj == null ? function(){} : function(key) {
-      return obj[key];
+    return function(key) {
+      return property(key)(obj);
     };
   };
 
@@ -1438,14 +1453,25 @@
   _.escape = createEscaper(escapeMap);
   _.unescape = createEscaper(unescapeMap);
 
-  // If the value of the named `property` is a function then invoke it with the
-  // `object` as context; otherwise, return it.
-  _.result = function(object, prop, fallback) {
-    var value = object == null ? void 0 : object[prop];
-    if (value === void 0) {
-      value = fallback;
+  // If the value at the named `path` is a function then invoke it with its
+  // parent object as context; otherwise, return it.
+  _.result = function(object, path, fallback) {
+    if (!isArray(path)) path = [path];
+    var length = path.length;
+    // If path is `[]`, step through the loop once so `fallback` gets used.
+    if (!length) {
+      length = 1;
+      object = void 0;
     }
-    return _.isFunction(value) ? value.call(object) : value;
+    for (var i = 0; i < length; i++) {
+      var prop = object == null ? void 0 : object[path[i]];
+      if (prop === void 0) {
+        prop = fallback;
+        i = length; // Ensure we don't continue iterating.
+      }
+      object = _.isFunction(prop) ? prop.call(object) : prop;
+    }
+    return object;
   };
 
   // Generate a unique integer id (unique within the entire client session).
