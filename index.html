@@ -1932,6 +1932,17 @@ _.iteratee('firstName');
         <tt>sortedIndex</tt>, and <tt>uniq</tt>
       </p>
 
+      <p>
+        You may overwrite <tt>_.iteratee</tt> with your own custom function,
+        if you want additional or different shorthand syntaxes:
+      </p>
+      <pre>
+// Support `RegExp` predicate shorthand.
+var builtinIteratee = _.iteratee;
+_.iteratee = function(value, context) {
+  if (_.isRegExp(value)) return function(obj) { return value.test(obj) };
+  return builtinIteratee(value, context);
+};</pre>
       <p id="uniqueId">
         <b class="header">uniqueId</b><code>_.uniqueId([prefix])</code>
         <br />
