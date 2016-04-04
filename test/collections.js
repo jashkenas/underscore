@@ -188,7 +188,7 @@
     var prod = _.reduce([1, 2, 3, 4], function(memo, num){ return memo * num; });
     assert.equal(prod, 24, 'can reduce via multiplication');
 
-    assert.ok(_.reduce(null, _.noop, 138) === 138, 'handles a null (with initial value) properly');
+    assert.strictEqual(_.reduce(null, _.noop, 138), 138, 'handles a null (with initial value) properly');
     assert.equal(_.reduce([], _.noop, void 0), void 0, 'undefined can be passed as a special case');
     assert.equal(_.reduce([_], _.noop), _, 'collection of length one with no initial value returns the first item');
     assert.equal(_.reduce([], _.noop), void 0, 'returns undefined when collection is empty and no initial value');
@@ -212,7 +212,7 @@
     var sum = _.reduceRight({a: 1, b: 2, c: 3}, function(memo, num){ return memo + num; });
     assert.equal(sum, 6, 'default initial value on object');
 
-    assert.ok(_.reduceRight(null, _.noop, 138) === 138, 'handles a null (with initial value) properly');
+    assert.strictEqual(_.reduceRight(null, _.noop, 138), 138, 'handles a null (with initial value) properly');
     assert.equal(_.reduceRight([_], _.noop), _, 'collection of length one with no initial value returns the first item');
 
     assert.equal(_.reduceRight([], _.noop, void 0), void 0, 'undefined can be passed as a special case');
@@ -351,8 +351,8 @@
     assert.ok(!_.every([true, false, true], _.identity), 'one false value');
     assert.ok(_.every([0, 10, 28], function(num){ return num % 2 === 0; }), 'even numbers');
     assert.ok(!_.every([0, 11, 28], function(num){ return num % 2 === 0; }), 'an odd number');
-    assert.ok(_.every([1], _.identity) === true, 'cast to boolean - true');
-    assert.ok(_.every([0], _.identity) === false, 'cast to boolean - false');
+    assert.strictEqual(_.every([1], _.identity), true, 'cast to boolean - true');
+    assert.strictEqual(_.every([0], _.identity), false, 'cast to boolean - false');
     assert.ok(!_.every([void 0, void 0, void 0], _.identity), 'works with arrays of undefined');
 
     var list = [{a: 1, b: 2}, {a: 2, b: 2}, {a: 1, b: 3}, {a: 1, b: 4}];
@@ -381,8 +381,8 @@
     assert.ok(!_.some([null, 0, '', false]), 'falsy values');
     assert.ok(!_.some([1, 11, 29], function(num){ return num % 2 === 0; }), 'all odd numbers');
     assert.ok(_.some([1, 10, 29], function(num){ return num % 2 === 0; }), 'an even number');
-    assert.ok(_.some([1], _.identity) === true, 'cast to boolean - true');
-    assert.ok(_.some([0], _.identity) === false, 'cast to boolean - false');
+    assert.strictEqual(_.some([1], _.identity), true, 'cast to boolean - true');
+    assert.strictEqual(_.some([0], _.identity), false, 'cast to boolean - false');
     assert.ok(_.some([false, false, true]));
 
     var list = [{a: 1, b: 2}, {a: 2, b: 2}, {a: 1, b: 3}, {a: 1, b: 4}];
@@ -412,7 +412,7 @@
 
     assert.strictEqual(_.includes([5, 4, 3, 2, 1], 5, true), true, 'doesn\'t delegate to binary search');
 
-    assert.ok(_.includes({moe: 1, larry: 3, curly: 9}, 3) === true, '_.includes on objects checks their values');
+    assert.strictEqual(_.includes({moe: 1, larry: 3, curly: 9}, 3), true, '_.includes on objects checks their values');
     assert.ok(_([1, 2, 3]).includes(2), 'OO-style includes');
 
     var numbers = [1, 2, 3, 1, 2, 3, 1, 2, 3];
@@ -692,7 +692,7 @@
     assert.deepEqual(grouped['5'], ['three', 'seven', 'eight']);
 
     var context = {};
-    _.groupBy([{}], function(){ assert.ok(this === context); }, context);
+    _.groupBy([{}], function(){ assert.strictEqual(this, context); }, context);
 
     grouped = _.groupBy([4.2, 6.1, 6.4], function(num) {
       return Math.floor(num) > 4 ? 'hasOwnProperty' : 'constructor';
@@ -701,7 +701,7 @@
     assert.equal(grouped.hasOwnProperty.length, 2);
 
     var array = [{}];
-    _.groupBy(array, function(value, index, obj){ assert.ok(obj === array); });
+    _.groupBy(array, function(value, index, obj){ assert.strictEqual(obj, array); });
 
     array = [1, 2, 1, 2, 3];
     grouped = _.groupBy(array);
@@ -747,7 +747,7 @@
     assert.equal(grouped['5'], 3);
 
     var context = {};
-    _.countBy([{}], function(){ assert.ok(this === context); }, context);
+    _.countBy([{}], function(){ assert.strictEqual(this, context); }, context);
 
     grouped = _.countBy([4.2, 6.1, 6.4], function(num) {
       return Math.floor(num) > 4 ? 'hasOwnProperty' : 'constructor';
@@ -756,7 +756,7 @@
     assert.equal(grouped.hasOwnProperty, 2);
 
     var array = [{}];
-    _.countBy(array, function(value, index, obj){ assert.ok(obj === array); });
+    _.countBy(array, function(value, index, obj){ assert.strictEqual(obj, array); });
 
     array = [1, 2, 1, 2, 3];
     grouped = _.countBy(array);
@@ -800,7 +800,7 @@
     assert.ok(!_.isArray(arguments), 'arguments object is not an array');
     assert.ok(_.isArray(_.toArray(arguments)), 'arguments object converted into array');
     var a = [1, 2, 3];
-    assert.ok(_.toArray(a) !== a, 'array is cloned');
+    assert.notStrictEqual(_.toArray(a), a, 'array is cloned');
     assert.deepEqual(_.toArray(a), [1, 2, 3], 'cloned array contains same elements');
 
     var numbers = _.toArray({one: 1, two: 2, three: 3});

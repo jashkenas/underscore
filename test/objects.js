@@ -958,8 +958,8 @@
     assert.equal(_.matcher({})(null), true, 'Empty spec called with null object returns true');
     assert.equal(_.matcher({a: 1})(null), false, 'Non-empty spec called with null object returns false');
 
-    assert.ok(_.find(stooges, _.matcher({hair: false})) === curly, 'returns a predicate that can be used by finding functions.');
-    assert.ok(_.find(stooges, _.matcher(moe)) === moe, 'can be used to locate an object exists in a collection.');
+    assert.strictEqual(_.find(stooges, _.matcher({hair: false})), curly, 'returns a predicate that can be used by finding functions.');
+    assert.strictEqual(_.find(stooges, _.matcher(moe)), moe, 'can be used to locate an object exists in a collection.');
     assert.deepEqual(_.filter([null, void 0], _.matcher({a: 1})), [], 'Do not throw on null values.');
 
     assert.deepEqual(_.filter([null, void 0], _.matcher(null)), [null, void 0], 'null matches null');
