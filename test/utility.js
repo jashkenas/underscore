@@ -52,8 +52,8 @@
   QUnit.test('#750 - Return _ instance.', function(assert) {
     assert.expect(2);
     var instance = _([]);
-    assert.ok(_(instance) === instance);
-    assert.ok(new _(instance) === instance);
+    assert.strictEqual(_(instance), instance);
+    assert.strictEqual(new _(instance), instance);
   });
 
   QUnit.test('identity', function(assert) {
@@ -188,7 +188,7 @@
     var str = 'some string & another string & yet another';
     var escaped = _.escape(str);
 
-    assert.ok(escaped.indexOf('&') !== -1, 'handles & aka &amp;');
+    assert.notStrictEqual(escaped.indexOf('&'), -1, 'handles & aka &amp;');
     assert.equal(_.unescape(str), str, 'can unescape &amp;');
   });
 
