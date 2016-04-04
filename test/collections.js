@@ -549,7 +549,7 @@
     assert.equal(-Infinity, _.max(void 0), 'can handle null/undefined');
     assert.equal(-Infinity, _.max(null, _.identity), 'can handle null/undefined');
 
-    assert.equal(3, _.max([1, 2, 3]), 'can perform a regular Math.max');
+    assert.equal(_.max([1, 2, 3]), 3, 'can perform a regular Math.max');
 
     var neg = _.max([1, 2, 3], function(num){ return -num; });
     assert.equal(neg, 1, 'can perform a computation-based max');
@@ -558,24 +558,24 @@
     assert.equal(-Infinity, _.max([]), 'Maximum value of an empty array');
     assert.equal(_.max({a: 'a'}), -Infinity, 'Maximum value of a non-numeric collection');
 
-    assert.equal(299999, _.max(_.range(1, 300000)), 'Maximum value of a too-big array');
+    assert.equal(_.max(_.range(1, 300000)), 299999, 'Maximum value of a too-big array');
 
-    assert.equal(3, _.max([1, 2, 3, 'test']), 'Finds correct max in array starting with num and containing a NaN');
-    assert.equal(3, _.max(['test', 1, 2, 3]), 'Finds correct max in array starting with NaN');
+    assert.equal(_.max([1, 2, 3, 'test']), 3, 'Finds correct max in array starting with num and containing a NaN');
+    assert.equal(_.max(['test', 1, 2, 3]), 3, 'Finds correct max in array starting with NaN');
 
-    assert.equal(3, _.max([1, 2, 3, null]), 'Finds correct max in array starting with num and containing a `null`');
-    assert.equal(3, _.max([null, 1, 2, 3]), 'Finds correct max in array starting with a `null`');
+    assert.equal(_.max([1, 2, 3, null]), 3, 'Finds correct max in array starting with num and containing a `null`');
+    assert.equal(_.max([null, 1, 2, 3]), 3, 'Finds correct max in array starting with a `null`');
 
-    assert.equal(3, _.max([1, 2, 3, '']), 'Finds correct max in array starting with num and containing an empty string');
-    assert.equal(3, _.max(['', 1, 2, 3]), 'Finds correct max in array starting with an empty string');
+    assert.equal(_.max([1, 2, 3, '']), 3, 'Finds correct max in array starting with num and containing an empty string');
+    assert.equal(_.max(['', 1, 2, 3]), 3, 'Finds correct max in array starting with an empty string');
 
-    assert.equal(3, _.max([1, 2, 3, false]), 'Finds correct max in array starting with num and containing a false');
-    assert.equal(3, _.max([false, 1, 2, 3]), 'Finds correct max in array starting with a false');
+    assert.equal(_.max([1, 2, 3, false]), 3, 'Finds correct max in array starting with num and containing a false');
+    assert.equal(_.max([false, 1, 2, 3]), 3, 'Finds correct max in array starting with a false');
 
-    assert.equal(4, _.max([0, 1, 2, 3, 4]), 'Finds correct max in array containing a zero');
-    assert.equal(0, _.max([-3, -2, -1, 0]), 'Finds correct max in array containing negative numbers');
+    assert.equal(_.max([0, 1, 2, 3, 4]), 4, 'Finds correct max in array containing a zero');
+    assert.equal(_.max([-3, -2, -1, 0]), 0, 'Finds correct max in array containing negative numbers');
 
-    assert.deepEqual([3, 6], _.map([[1, 2, 3], [4, 5, 6]], _.max), 'Finds correct max in array when mapping through multiple arrays');
+    assert.deepEqual(_.map([[1, 2, 3], [4, 5, 6]], _.max), [3, 6], 'Finds correct max in array when mapping through multiple arrays');
 
     var a = {x: -Infinity};
     var b = {x: -Infinity};
@@ -590,35 +590,35 @@
   });
 
   QUnit.test('min', function(assert) {
-    assert.equal(Infinity, _.min(null), 'can handle null/undefined');
-    assert.equal(Infinity, _.min(void 0), 'can handle null/undefined');
-    assert.equal(Infinity, _.min(null, _.identity), 'can handle null/undefined');
+    assert.equal(_.min(null), Infinity, 'can handle null/undefined');
+    assert.equal(_.min(void 0), Infinity, 'can handle null/undefined');
+    assert.equal(_.min(null, _.identity), Infinity, 'can handle null/undefined');
 
-    assert.equal(1, _.min([1, 2, 3]), 'can perform a regular Math.min');
+    assert.equal(_.min([1, 2, 3]), 1, 'can perform a regular Math.min');
 
     var neg = _.min([1, 2, 3], function(num){ return -num; });
     assert.equal(neg, 3, 'can perform a computation-based min');
 
-    assert.equal(Infinity, _.min({}), 'Minimum value of an empty object');
-    assert.equal(Infinity, _.min([]), 'Minimum value of an empty array');
+    assert.equal(_.min({}), Infinity, 'Minimum value of an empty object');
+    assert.equal(_.min([]), Infinity, 'Minimum value of an empty array');
     assert.equal(_.min({a: 'a'}), Infinity, 'Minimum value of a non-numeric collection');
 
-    assert.deepEqual([1, 4], _.map([[1, 2, 3], [4, 5, 6]], _.min), 'Finds correct min in array when mapping through multiple arrays');
+    assert.deepEqual(_.map([[1, 2, 3], [4, 5, 6]], _.min), [1, 4], 'Finds correct min in array when mapping through multiple arrays');
 
     var now = new Date(9999999999);
     var then = new Date(0);
     assert.equal(_.min([now, then]), then);
 
-    assert.equal(1, _.min(_.range(1, 300000)), 'Minimum value of a too-big array');
+    assert.equal(_.min(_.range(1, 300000)), 1, 'Minimum value of a too-big array');
 
-    assert.equal(1, _.min([1, 2, 3, 'test']), 'Finds correct min in array starting with num and containing a NaN');
-    assert.equal(1, _.min(['test', 1, 2, 3]), 'Finds correct min in array starting with NaN');
+    assert.equal(_.min([1, 2, 3, 'test']), 1, 'Finds correct min in array starting with num and containing a NaN');
+    assert.equal(_.min(['test', 1, 2, 3]), 1, 'Finds correct min in array starting with NaN');
 
-    assert.equal(1, _.min([1, 2, 3, null]), 'Finds correct min in array starting with num and containing a `null`');
-    assert.equal(1, _.min([null, 1, 2, 3]), 'Finds correct min in array starting with a `null`');
+    assert.equal(_.min([1, 2, 3, null]), 1, 'Finds correct min in array starting with num and containing a `null`');
+    assert.equal(_.min([null, 1, 2, 3]), 1, 'Finds correct min in array starting with a `null`');
 
-    assert.equal(0, _.min([0, 1, 2, 3, 4]), 'Finds correct min in array containing a zero');
-    assert.equal(-3, _.min([-3, -2, -1, 0]), 'Finds correct min in array containing negative numbers');
+    assert.equal(_.min([0, 1, 2, 3, 4]), 0, 'Finds correct min in array containing a zero');
+    assert.equal(_.min([-3, -2, -1, 0]), -3, 'Finds correct min in array containing negative numbers');
 
     var a = {x: Infinity};
     var b = {x: Infinity};
