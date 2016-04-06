@@ -694,6 +694,9 @@
       assert.deepEqual(_.toArray(cb(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)), _.range(1, 11));
     });
 
+    var deepProperty = _.iteratee(['a', 'b']);
+    assert.equal(deepProperty({a: {b: 2}}), 2, 'treats an array as a deep property accessor');
+
     // Test custom iteratee
     var builtinIteratee = _.iteratee;
     _.iteratee = function(value) {
