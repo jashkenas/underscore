@@ -363,6 +363,18 @@
     assert.strictEqual(_.result(obj, ['b', 'c']), childObj, 'uses the parent as context when accessing deep methods');
 
     assert.strictEqual(_.result({}, [], 'a'), 'a', 'returns the default when prop is empty');
+
+    if (typeof Symbol !== 'undefined') {
+      var x = Symbol('x');
+      var symbolObject = {};
+      symbolObject[x] = 'foo';
+      assert.strictEqual(_.result(symbolObject, x), 'foo', 'can use symbols as keys');
+
+      var y = Symbol('y');
+      symbolObject[y] = {};
+      symbolObject[y][x] = 'bar';
+      assert.strictEqual(_.result(symbolObject, [y, x]), 'bar', 'can use symbols as keys for deep matching');
+    }
   });
 
   QUnit.test('_.templateSettings.variable', function(assert) {
