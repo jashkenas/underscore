@@ -1316,7 +1316,7 @@
 
   // Is the given value `NaN`?
   _.isNaN = function(obj) {
-    return _.isNumber(obj) && isNaN(obj);
+    return isNaN(obj) && _.isNumber(obj);
   };
 
   // Is a given value a boolean?
