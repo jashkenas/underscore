@@ -505,7 +505,7 @@
     var idx = output.length;
     for (var i = 0, length = getLength(input); i < length; i++) {
       var value = input[i];
-      if (isArrayLike(value) && (_.isArray(value) || _.isArguments(value))) {
+      if ((_.isArray(value) || _.isArguments(value)) && isArrayLike(value)) {
         // Flatten current level of array or arguments object.
         if (shallow) {
           var j = 0, len = value.length;
