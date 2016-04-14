@@ -1360,9 +1360,9 @@
   };
 
   // Simple wrapper for _.identity, for an alternate symantic meaning.
-  _.echo = function(value){
+  _.echo = function(value) {
     return _.identity(value);
-  }
+  };
 
   // Predicate-generating functions. Often useful outside of Underscore.
   _.constant = function(value) {
