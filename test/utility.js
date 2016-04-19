@@ -137,11 +137,12 @@
   });
 
   QUnit.test('mixin', function(assert) {
-    _.mixin({
+    var ret = _.mixin({
       myReverse: function(string) {
         return string.split('').reverse().join('');
       }
     });
+    assert.equal(ret, _, 'returns the _ object to facilitate chaining');
     assert.equal(_.myReverse('panacea'), 'aecanap', 'mixed in a function to _');
     assert.equal(_('champ').myReverse(), 'pmahc', 'mixed in a function to the OOP wrapper');
   });
