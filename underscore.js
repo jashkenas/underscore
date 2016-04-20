@@ -1264,6 +1264,13 @@
     return eq(a, b);
   };
 
+  // Performs a SameValueZero comparison (http://ecma-international.org/ecma-262/6.0/#sec-samevaluezero)
+  // to check for equality between two values.
+  // Differs from _.isEqual() in that 0 and -0 are considered equal by _.eq().
+  _.isEq = function(a, b) {
+    return a === b || (a !== a && b !== b);
+  };
+
   // Is a given array, string, or object empty?
   // An "empty" object has no enumerable own-properties.
   _.isEmpty = function(obj) {
