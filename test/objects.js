@@ -559,12 +559,20 @@
     var other = {a: 1};
     assert.strictEqual(_.isEqual(new Foo, other), false, 'Objects from different constructors are not equal');
 
-
     // Tricky object cases val comparisions
-    assert.equal(_.isEqual([0], [-0]), false);
-    assert.equal(_.isEqual({a: 0}, {a: -0}), false);
-    assert.equal(_.isEqual([NaN], [NaN]), true);
-    assert.equal(_.isEqual({a: NaN}, {a: NaN}), true);
+    assert.equal(_.isEqual([0], [-0]), false, '0 and -0 are not equal as array values');
+    assert.equal(_.isEqual({a: 0}, {a: -0}), false, '0 and -0 are not equal as object values');
+    assert.equal(_.isEqual([NaN], [NaN]), true, 'NaN and NaN are equal as array values');
+    assert.equal(_.isEqual({a: NaN}, {a: NaN}), true, 'NaN and NaN are equal as object values');
+
+    // SameValueZero tests for isEq function used for sets and maps
+    var set0 = new Set().add(0);
+    var setNeg0 = new Set().add(-0);
+    var map0 = new Map().set(0, 0);
+    var mapNeg0 = new Map().set(-0, 0);
+    assert.equal(_.isEqual(set0, setNeg0), true, 'In sets 0 and -0 are equal');
+    assert.equal(_.isEqual(map0, mapNeg0), true, 'In maps keys of 0 and -0 are equal');
+
 
     if (typeof Symbol !== 'undefined') {
       var symbol = Symbol('x');
