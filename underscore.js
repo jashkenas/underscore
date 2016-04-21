@@ -1154,7 +1154,7 @@
 
 
   // Internal recursive comparison function for `isEqual`.
-  var eq, deepEq;
+  var eq, isEq, deepEq;
   eq = function(a, b, aStack, bStack) {
     // Identical objects are equal. `0 === -0`, but they aren't identical.
     // See the [Harmony `egal` proposal](http://wiki.ecmascript.org/doku.php?id=harmony:egal).
@@ -1164,6 +1164,20 @@
     // `NaN`s are equivalent, but non-reflexive.
     if (a !== a) return b !== b;
     // Exhaust primitive checks
+    var type = typeof a;
+    if (type !== 'function' && type !== 'object' && typeof b != 'object') return false;
+    return deepEq(a, b, aStack, bStack);
+  };
+
+  // Internal recursive comparison function for `isEqual`.
+  isEq = function(a, b, aStack, bStack) {
+    // Performs a SameValueZero comparison to check for equality between two values.
+    // http://ecma-international.org/ecma-262/6.0/#sec-samevaluezero
+    // Differs from eq in that 0 and -0 will be considered equal by isEq.
+    // Used in deepEq for testing Map and Set equality.
+    if (a === b) return a === b || (a !== a && b !== b);
+    if (a == null || b == null) return a === b;
+    if (a !== a) return b !== b;
     var type = typeof a;
     if (type !== 'function' && type !== 'object' && typeof b != 'object') return false;
     return deepEq(a, b, aStack, bStack);
@@ -1205,8 +1219,8 @@
     if (!areArrays) {
       if (typeof a != 'object' || typeof b != 'object') return false;
 
-      // Objects with different constructors are not equivalent, but `Object`s or `Array`s
-      // from different frames are.
+      // Objects with different constructors are not equivalent, but `Object`s, `Array`s,
+      // `Map`s, or `Set`s from different frames are.
       var aCtor = a.constructor, bCtor = b.constructor;
       if (aCtor !== bCtor && !(_.isFunction(aCtor) && aCtor instanceof aCtor &&
                                _.isFunction(bCtor) && bCtor instanceof bCtor)
@@ -1218,7 +1232,7 @@
     // structures is adapted from ES 5.1 section 15.12.3, abstract operation `JO`.
 
     // Initializing stack of traversed objects.
-    // It's done here since we only need them for objects and arrays comparison.
+    // It's done here since we only need them for objects, arrays, maps, and sets comparison.
     aStack = aStack || [];
     bStack = bStack || [];
     var length = aStack.length;
@@ -1232,7 +1246,7 @@
     aStack.push(a);
     bStack.push(b);
 
-    // Recursively compare objects and arrays.
+    // Recursively compare objects, arrays, maps and sets.
     if (areArrays) {
       // Compare array lengths to determine if a deep comparison is necessary.
       length = a.length;
@@ -1241,7 +1255,7 @@
       while (length--) {
         if (!eq(a[length], b[length], aStack, bStack)) return false;
       }
-    } else {
+    } else if (className === '[object Object]') {
       // Deep compare objects.
       var keys = _.keys(a), key;
       length = keys.length;
@@ -1252,7 +1266,21 @@
         key = keys[length];
         if (!(_.has(b, key) && eq(a[key], b[key], aStack, bStack))) return false;
       }
+    } else {
+      // Deep compare sets and maps.
+      var size = a.size;
+      // Ensure that both objects are of the same size before comparing deep equality.
+      if (b.size !== size) return false;
+      while (size--) {
+        // Deep compare the keys of each member, using SameValueZero (isEq) for the keys
+        if (!(isEq(a.keys().next().value, b.keys().next().value, aStack, bStack))) return false;
+        // If the objects are maps deep compare the values. Value equality does not use SameValueZero.
+        if (className === '[object Map]') {
+          if (!(eq(a.values().next().value, b.values().next().value, aStack, bStack))) return false;
+        }
+      }
     }
+
     // Remove the first object from the stack of traversed objects.
     aStack.pop();
     bStack.pop();
@@ -1262,13 +1290,6 @@
   // Perform a deep comparison to check if two objects are equal.
   _.isEqual = function(a, b) {
     return eq(a, b);
-  };
-
-  // Performs a SameValueZero comparison (http://ecma-international.org/ecma-262/6.0/#sec-samevaluezero)
-  // to check for equality between two values.
-  // Differs from _.isEqual() in that 0 and -0 are considered equal by _.eq().
-  _.isEq = function(a, b) {
-    return a === b || (a !== a && b !== b);
   };
 
   // Is a given array, string, or object empty?
