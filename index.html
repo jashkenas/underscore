@@ -64,6 +64,9 @@
           .toc_section li a:hover {
             text-decoration: underline;
           }
+    input#function_filter {
+        width: 80%;
+    }
     div.container {
       width: 550px;
       margin: 40px 0 50px 260px;
@@ -188,169 +191,192 @@
       <li>&raquo; <a href="http://documentcloud.github.io/underscore-contrib/">Underscore-contrib</a></li>
     </ul>
 
-    <a class="toc_title" href="#">
-      Introduction
-    </a>
+    <input id="function_filter" placeholder="Filter" type="text" autofocus />
 
-    <a class="toc_title" href="#collections">
-      Collections
-    </a>
-    <ul class="toc_section">
-      <li>- <a href="#each">each</a></li>
-      <li>- <a href="#map">map</a></li>
-      <li>- <a href="#reduce">reduce</a></li>
-      <li>- <a href="#reduceRight">reduceRight</a></li>
-      <li>- <a href="#find">find</a></li>
-      <li>- <a href="#filter">filter</a></li>
-      <li>- <a href="#where">where</a></li>
-      <li>- <a href="#findWhere">findWhere</a></li>
-      <li>- <a href="#reject">reject</a></li>
-      <li>- <a href="#every">every</a></li>
-      <li>- <a href="#some">some</a></li>
-      <li>- <a href="#contains">contains</a></li>
-      <li>- <a href="#invoke">invoke</a></li>
-      <li>- <a href="#pluck">pluck</a></li>
-      <li>- <a href="#max">max</a></li>
-      <li>- <a href="#min">min</a></li>
-      <li>- <a href="#sortBy">sortBy</a></li>
-      <li>- <a href="#groupBy">groupBy</a></li>
-      <li>- <a href="#indexBy">indexBy</a></li>
-      <li>- <a href="#countBy">countBy</a></li>
-      <li>- <a href="#shuffle">shuffle</a></li>
-      <li>- <a href="#sample">sample</a></li>
-      <li>- <a href="#toArray">toArray</a></li>
-      <li>- <a href="#size">size</a></li>
-      <li>- <a href="#partition">partition</a></li>
-    </ul>
+    <div class="searchable_section">
+      <a class="toc_title" href="#">
+        Introduction
+      </a>
+    </div>
 
-    <a class="toc_title" href="#arrays">
-      Arrays
-    </a>
-    <ul class="toc_section">
-      <li>- <a href="#first">first</a></li>
-      <li>- <a href="#initial">initial</a></li>
-      <li>- <a href="#last">last</a></li>
-      <li>- <a href="#rest">rest</a></li>
-      <li>- <a href="#compact">compact</a></li>
-      <li>- <a href="#flatten">flatten</a></li>
-      <li>- <a href="#without">without</a></li>
-      <li>- <a href="#union">union</a></li>
-      <li>- <a href="#intersection">intersection</a></li>
-      <li>- <a href="#difference">difference</a></li>
-      <li>- <a href="#uniq">uniq</a></li>
-      <li>- <a href="#zip">zip</a></li>
-      <li>- <a href="#unzip">unzip</a></li>
-      <li>- <a href="#object">object</a></li>
-      <li>- <a href="#indexOf">indexOf</a></li>
-      <li>- <a href="#lastIndexOf">lastIndexOf</a></li>
-      <li>- <a href="#sortedIndex">sortedIndex</a></li>
-      <li>- <a href="#findIndex">findIndex</a></li>
-      <li>- <a href="#findLastIndex">findLastIndex</a></li>
-      <li>- <a href="#range">range</a></li>
-    </ul>
+    <div class="searchable_section">
+      <a class="toc_title" href="#collections">
+        Collections
+      </a>
+      <ul class="toc_section">
+        <li data-name="each" data-aliases="forEach">- <a href="#each">each</a></li>
+        <li data-name="map" data-aliases="collect">- <a href="#map">map</a></li>
+        <li data-name="reduce" data-aliases="inject foldl">- <a href="#reduce">reduce</a></li>
+        <li data-name="reduceRight" data-aliases="foldr">- <a href="#reduceRight">reduceRight</a></li>
+        <li data-name="find" data-aliases="detect">- <a href="#find">find</a></li>
+        <li data-name="filter" data-aliases="select">- <a href="#filter">filter</a></li>
+        <li data-name="where">- <a href="#where">where</a></li>
+        <li data-name="findWhere">- <a href="#findWhere">findWhere</a></li>
+        <li data-name="reject">- <a href="#reject">reject</a></li>
+        <li data-name="every" data-aliases="all">- <a href="#every">every</a></li>
+        <li data-name="some" data-aliases="any">- <a href="#some">some</a></li>
+        <li data-name="contains" data-aliases="includes">- <a href="#contains">contains</a></li>
+        <li data-name="invoke">- <a href="#invoke">invoke</a></li>
+        <li data-name="pluck">- <a href="#pluck">pluck</a></li>
+        <li data-name="max">- <a href="#max">max</a></li>
+        <li data-name="min">- <a href="#min">min</a></li>
+        <li data-name="sortBy">- <a href="#sortBy">sortBy</a></li>
+        <li data-name="groupBy">- <a href="#groupBy">groupBy</a></li>
+        <li data-name="indexBy">- <a href="#indexBy">indexBy</a></li>
+        <li data-name="countBy">- <a href="#countBy">countBy</a></li>
+        <li data-name="shuffle">- <a href="#shuffle">shuffle</a></li>
+        <li data-name="sample">- <a href="#sample">sample</a></li>
+        <li data-name="toArray">- <a href="#toArray">toArray</a></li>
+        <li data-name="size">- <a href="#size">size</a></li>
+        <li data-name="partition">- <a href="#partition">partition</a></li>
+      </ul>
+    </div>
 
-    <a class="toc_title" href="#functions">
-      Functions
-    </a>
-    <ul class="toc_section">
-      <li>- <a href="#bind">bind</a></li>
-      <li>- <a href="#bindAll">bindAll</a></li>
-      <li>- <a href="#partial">partial</a></li>
-      <li>- <a href="#memoize">memoize</a></li>
-      <li>- <a href="#delay">delay</a></li>
-      <li>- <a href="#defer">defer</a></li>
-      <li>- <a href="#throttle">throttle</a></li>
-      <li>- <a href="#debounce">debounce</a></li>
-      <li>- <a href="#once">once</a></li>
-      <li>- <a href="#after">after</a></li>
-      <li>- <a href="#before">before</a></li>
-      <li>- <a href="#wrap">wrap</a></li>
-      <li>- <a href="#negate">negate</a></li>
-      <li>- <a href="#compose">compose</a></li>
-    </ul>
+    <div class="searchable_section">
+      <a class="toc_title" href="#arrays">
+        Arrays
+      </a>
+      <ul class="toc_section">
+        <li data-name="first" data-aliases="head take">- <a href="#first">first</a></li>
+        <li data-name="initial">- <a href="#initial">initial</a></li>
+        <li data-name="last">- <a href="#last">last</a></li>
+        <li data-name="rest" data-aliases="tail drop">- <a href="#rest">rest</a></li>
+        <li data-name="compact">- <a href="#compact">compact</a></li>
+        <li data-name="flatten">- <a href="#flatten">flatten</a></li>
+        <li data-name="without">- <a href="#without">without</a></li>
+        <li data-name="union">- <a href="#union">union</a></li>
+        <li data-name="intersection">- <a href="#intersection">intersection</a></li>
+        <li data-name="difference">- <a href="#difference">difference</a></li>
+        <li data-name="uniq" data-aliases="unique">- <a href="#uniq">uniq</a></li>
+        <li data-name="zip">- <a href="#zip">zip</a></li>
+        <li data-name="unzip">- <a href="#unzip">unzip</a></li>
+        <li data-name="object">- <a href="#object">object</a></li>
+        <li data-name="indexOf">- <a href="#indexOf">indexOf</a></li>
+        <li data-name="lastIndexOf">- <a href="#lastIndexOf">lastIndexOf</a></li>
+        <li data-name="sortedIndex">- <a href="#sortedIndex">sortedIndex</a></li>
+        <li data-name="findIndex">- <a href="#findIndex">findIndex</a></li>
+        <li data-name="findLastIndex">- <a href="#findLastIndex">findLastIndex</a></li>
+        <li data-name="range">- <a href="#range">range</a></li>
+      </ul>
+    </div>
 
-    <a class="toc_title" href="#objects">
-      Objects
-    </a>
-    <ul class="toc_section">
-      <li>- <a href="#keys">keys</a></li>
-      <li>- <a href="#allKeys">allKeys</a></li>
-      <li>- <a href="#values">values</a></li>
-      <li>- <a href="#mapObject">mapObject</a></li>
-      <li>- <a href="#pairs">pairs</a></li>
-      <li>- <a href="#invert">invert</a></li>
-      <li>- <a href="#create">create</a></li>
-      <li>- <a href="#object-functions">functions</a></li>
-      <li>- <a href="#findKey">findKey</a></li>
-      <li>- <a href="#extend">extend</a></li>
-      <li>- <a href="#extendOwn">extendOwn</a></li>
-      <li>- <a href="#pick">pick</a></li>
-      <li>- <a href="#omit">omit</a></li>
-      <li>- <a href="#defaults">defaults</a></li>
-      <li>- <a href="#clone">clone</a></li>
-      <li>- <a href="#tap">tap</a></li>
-      <li>- <a href="#has">has</a></li>
-      <li>- <a href="#matcher">matcher</a></li>
-      <li>- <a href="#property">property</a></li>
-      <li>- <a href="#propertyOf">propertyOf</a></li>
-      <li>- <a href="#isEqual">isEqual</a></li>
-      <li>- <a href="#isMatch">isMatch</a></li>
-      <li>- <a href="#isEmpty">isEmpty</a></li>
-      <li>- <a href="#isElement">isElement</a></li>
-      <li>- <a href="#isArray">isArray</a></li>
-      <li>- <a href="#isObject">isObject</a></li>
-      <li>- <a href="#isArguments">isArguments</a></li>
-      <li>- <a href="#isFunction">isFunction</a></li>
-      <li>- <a href="#isString">isString</a></li>
-      <li>- <a href="#isNumber">isNumber</a></li>
-      <li>- <a href="#isFinite">isFinite</a></li>
-      <li>- <a href="#isBoolean">isBoolean</a></li>
-      <li>- <a href="#isDate">isDate</a></li>
-      <li>- <a href="#isRegExp">isRegExp</a></li>
-      <li>- <a href="#isError">isError</a></li>
-      <li>- <a href="#isNaN">isNaN</a></li>
-      <li>- <a href="#isNull">isNull</a></li>
-      <li>- <a href="#isUndefined">isUndefined</a></li>
-    </ul>
+    <div class="searchable_section">
+      <a class="toc_title" href="#functions">
+        Functions
+      </a>
+      <ul class="toc_section">
+        <li data-name="bind">- <a href="#bind">bind</a></li>
+        <li data-name="bindAll">- <a href="#bindAll">bindAll</a></li>
+        <li data-name="partial">- <a href="#partial">partial</a></li>
+        <li data-name="memoize">- <a href="#memoize">memoize</a></li>
+        <li data-name="delay">- <a href="#delay">delay</a></li>
+        <li data-name="defer">- <a href="#defer">defer</a></li>
+        <li data-name="throttle">- <a href="#throttle">throttle</a></li>
+        <li data-name="debounce">- <a href="#debounce">debounce</a></li>
+        <li data-name="once">- <a href="#once">once</a></li>
+        <li data-name="after">- <a href="#after">after</a></li>
+        <li data-name="before">- <a href="#before">before</a></li>
+        <li data-name="wrap">- <a href="#wrap">wrap</a></li>
+        <li data-name="negate">- <a href="#negate">negate</a></li>
+        <li data-name="compose">- <a href="#compose">compose</a></li>
+      </ul>
+    </div>
 
-    <a class="toc_title" href="#utility">
-      Utility
-    </a>
-    <ul class="toc_section">
-      <li>- <a href="#noConflict">noConflict</a></li>
-      <li>- <a href="#identity">identity</a></li>
-      <li>- <a href="#constant">constant</a></li>
-      <li>- <a href="#noop">noop</a></li>
-      <li>- <a href="#times">times</a></li>
-      <li>- <a href="#random">random</a></li>
-      <li>- <a href="#mixin">mixin</a></li>
-      <li>- <a href="#iteratee">iteratee</a></li>
-      <li>- <a href="#uniqueId">uniqueId</a></li>
-      <li>- <a href="#escape">escape</a></li>
-      <li>- <a href="#unescape">unescape</a></li>
-      <li>- <a href="#result">result</a></li>
-      <li>- <a href="#now">now</a></li>
-      <li>- <a href="#template">template</a></li>
-    </ul>
+    <div class="searchable_section">
+      <a class="toc_title" href="#objects">
+        Objects
+      </a>
+      <ul class="toc_section">
+        <li data-name="keys">- <a href="#keys">keys</a></li>
+        <li data-name="allKeys">- <a href="#allKeys">allKeys</a></li>
+        <li data-name="values">- <a href="#values">values</a></li>
+        <li data-name="mapObject">- <a href="#mapObject">mapObject</a></li>
+        <li data-name="pairs">- <a href="#pairs">pairs</a></li>
+        <li data-name="invert">- <a href="#invert">invert</a></li>
+        <li data-name="create">- <a href="#create">create</a></li>
+        <li data-name="functions" data-aliases="methods">- <a href="#object-functions">functions</a></li>
+        <li data-name="findKey">- <a href="#findKey">findKey</a></li>
+        <li data-name="extend">- <a href="#extend">extend</a></li>
+        <li data-name="extendOwn" data-aliases="assign">- <a href="#extendOwn">extendOwn</a></li>
+        <li data-name="pick">- <a href="#pick">pick</a></li>
+        <li data-name="omit">- <a href="#omit">omit</a></li>
+        <li data-name="defaults">- <a href="#defaults">defaults</a></li>
+        <li data-name="clone">- <a href="#clone">clone</a></li>
+        <li data-name="tap">- <a href="#tap">tap</a></li>
+        <li data-name="has">- <a href="#has">has</a></li>
+        <li data-name="matcher">- <a href="#matcher">matcher</a></li>
+        <li data-name="property">- <a href="#property">property</a></li>
+        <li data-name="propertyOf">- <a href="#propertyOf">propertyOf</a></li>
+        <li data-name="isEqual">- <a href="#isEqual">isEqual</a></li>
+        <li data-name="isMatch">- <a href="#isMatch">isMatch</a></li>
+        <li data-name="isEmpty">- <a href="#isEmpty">isEmpty</a></li>
+        <li data-name="isElement">- <a href="#isElement">isElement</a></li>
+        <li data-name="isArray">- <a href="#isArray">isArray</a></li>
+        <li data-name="isObject">- <a href="#isObject">isObject</a></li>
+        <li data-name="isArguments">- <a href="#isArguments">isArguments</a></li>
+        <li data-name="isFunction">- <a href="#isFunction">isFunction</a></li>
+        <li data-name="isString">- <a href="#isString">isString</a></li>
+        <li data-name="isNumber">- <a href="#isNumber">isNumber</a></li>
+        <li data-name="isFinite">- <a href="#isFinite">isFinite</a></li>
+        <li data-name="isBoolean">- <a href="#isBoolean">isBoolean</a></li>
+        <li data-name="isDate">- <a href="#isDate">isDate</a></li>
+        <li data-name="isRegExp">- <a href="#isRegExp">isRegExp</a></li>
+        <li data-name="isError">- <a href="#isError">isError</a></li>
+        <li data-name="isNaN">- <a href="#isNaN">isNaN</a></li>
+        <li data-name="isNull">- <a href="#isNull">isNull</a></li>
+        <li data-name="isUndefined">- <a href="#isUndefined">isUndefined</a></li>
+      </ul>
+    </div>
 
-    <a class="toc_title" href="#oop">
-      OOP Style
-    </a>
-    <a class="toc_title" href="#chaining">
-      Chaining
-    </a>
-    <ul class="toc_section">
-      <li>- <a href="#chain">chain</a></li>
-      <li>- <a href="#value">value</a></li>
-    </ul>
+    <div class="searchable_section">
+      <a class="toc_title" href="#utility">
+        Utility
+      </a>
+      <ul class="toc_section">
+        <li data-name="noConflict">- <a href="#noConflict">noConflict</a></li>
+        <li data-name="identity">- <a href="#identity">identity</a></li>
+        <li data-name="constant">- <a href="#constant">constant</a></li>
+        <li data-name="noop">- <a href="#noop">noop</a></li>
+        <li data-name="times">- <a href="#times">times</a></li>
+        <li data-name="random">- <a href="#random">random</a></li>
+        <li data-name="mixin">- <a href="#mixin">mixin</a></li>
+        <li data-name="iteratee">- <a href="#iteratee">iteratee</a></li>
+        <li data-name="uniqueId">- <a href="#uniqueId">uniqueId</a></li>
+        <li data-name="escape">- <a href="#escape">escape</a></li>
+        <li data-name="unescape">- <a href="#unescape">unescape</a></li>
+        <li data-name="result">- <a href="#result">result</a></li>
+        <li data-name="now">- <a href="#now">now</a></li>
+        <li data-name="template">- <a href="#template">template</a></li>
+      </ul>
+    </div>
 
-    <a class="toc_title" href="#links">
-      Links
-    </a>
+    <div class="searchable_section">
+      <a class="toc_title" href="#oop">
+        OOP Style
+      </a>
+    </div>
 
-    <a class="toc_title" href="#changelog">
-      Change Log
-    </a>
+    <div class="searchable_section">
+      <a class="toc_title" href="#chaining">
+        Chaining
+      </a>
+      <ul class="toc_section">
+        <li data-name="chain">- <a href="#chain">chain</a></li>
+        <li data-name="value">- <a href="#value">value</a></li>
+      </ul>
+    </div>
+
+    <div class="searchable_section">
+      <a class="toc_title" href="#links">
+        Links
+      </a>
+    </div>
+
+    <div class="searchable_section">
+      <a class="toc_title" href="#changelog">
+        Change Log
+      </a>
+    </div>
 
   </div>
 
@@ -3201,6 +3227,7 @@ _.chain([1, 2, 3]).reverse().value();
 
   <!-- Include Underscore, so you can play with it in the console. -->
   <script type="text/javascript" src="underscore.js"></script>
+  <script type="text/javascript" src="docs/main.js"></script>
 
 </body>
 </html>
