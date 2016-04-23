@@ -1488,7 +1488,7 @@
   // Underscore templating handles arbitrary delimiters, preserves whitespace,
   // and correctly escapes quotes within interpolated code.
   // NB: `oldSettings` only exists for backwards compatibility.
-  _.template = function(text, settings, oldSettings) {
+  _.template = function(text, settings, oldSettings, defaultData) {
     if (!settings && oldSettings) settings = oldSettings;
     settings = _.defaults({}, settings, _.templateSettings);
 
@@ -1534,9 +1534,18 @@
       throw e;
     }
 
-    var template = function(data) {
-      return render.call(this, data, _);
-    };
+    var template;
+    if(!defaultData) {
+      template = function(data) {
+        return render.call(this, data, _);
+      };
+    } else {
+      template = function(data) {
+        var merged = _.clone(defaultData);
+        _.extend(merged, data);
+        return render.call(this, merged, _);
+      };
+    }
 
     // Provide the compiled source as a convenience for precompilation.
     var argument = settings.variable || 'obj';
