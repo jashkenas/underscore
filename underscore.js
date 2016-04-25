@@ -313,7 +313,7 @@
       obj = isArrayLike(obj) ? obj : _.values(obj);
       for (var i = 0, length = obj.length; i < length; i++) {
         value = obj[i];
-        if (value != null && value > result) {
+        if (value != null && !_.isSymbol(value) && value > result) {
           result = value;
         }
       }
@@ -338,7 +338,7 @@
       obj = isArrayLike(obj) ? obj : _.values(obj);
       for (var i = 0, length = obj.length; i < length; i++) {
         value = obj[i];
-        if (value != null && value < result) {
+        if (value != null && !_.isSymbol(value) && value < result) {
           result = value;
         }
       }
@@ -395,7 +395,7 @@
     }).sort(function(left, right) {
       var a = left.criteria;
       var b = right.criteria;
-      if (a !== b) {
+      if (a !== b && !_.isSymbol(a) && !_.isSymbol(b)) {
         if (a > b || a === void 0) return 1;
         if (a < b || b === void 0) return -1;
       }

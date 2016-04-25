@@ -587,6 +587,11 @@
     assert.deepEqual(_.max([0, 2], function(c){ return c * this.x; }, {x: 1}), 2, 'Iterator context');
     assert.deepEqual(_.max([[1], [2, 3], [-1, 4], [5]], 0), [5], 'Lookup falsy iterator');
     assert.deepEqual(_.max([{0: 1}, {0: 2}, {0: -1}, {a: 1}], 0), {0: 2}, 'Lookup falsy iterator');
+
+    if (typeof Symbol !== 'undefined') {
+      assert.equal(_.min([1, 2, 3, Symbol()]), 1, 'Finds correct min in array starting with num and containing a Symbol');
+      assert.equal(_.min([Symbol(), 1, 2, 3]), 1, 'Finds correct min in array starting with Symbol');
+    }
   });
 
   QUnit.test('min', function(assert) {
@@ -630,6 +635,11 @@
     assert.deepEqual(_.min([0, 2], function(c){ return c * this.x; }, {x: -1}), 2, 'Iterator context');
     assert.deepEqual(_.min([[1], [2, 3], [-1, 4], [5]], 0), [-1, 4], 'Lookup falsy iterator');
     assert.deepEqual(_.min([{0: 1}, {0: 2}, {0: -1}, {a: 1}], 0), {0: -1}, 'Lookup falsy iterator');
+
+    if (typeof Symbol !== 'undefined') {
+      assert.equal(_.min([1, 2, 3, Symbol()]), 1, 'Finds correct min in array starting with num and containing a Symbol');
+      assert.equal(_.min([Symbol(), 1, 2, 3]), 1, 'Finds correct min in array starting with Symbol');
+    }
   });
 
   QUnit.test('sortBy', function(assert) {
@@ -678,6 +688,11 @@
 
     list = ['q', 'w', 'e', 'r', 't', 'y'];
     assert.deepEqual(_.sortBy(list), ['e', 'q', 'r', 't', 'w', 'y'], 'uses _.identity if iterator is not specified');
+
+    if (typeof Symbol !== 'undefined') {
+      var sym = Symbol();
+      assert.deepEqual(_.sortBy([8, 6, sym, 4, 23]), [6, 8, sym, 4, 23], 'sortBy should work even containing a Symbol');
+    }
   });
 
   QUnit.test('groupBy', function(assert) {
