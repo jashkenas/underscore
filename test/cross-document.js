@@ -113,7 +113,7 @@
 
   QUnit.test('isSymbol', function(assert) {
     if (typeof Symbol !== 'undefined') {
-      assert.ok(_.isError(iSymbol), 'even from another frame');
+      assert.ok(_.isSymbol(iSymbol), 'even from another frame');
     }
   });
 
