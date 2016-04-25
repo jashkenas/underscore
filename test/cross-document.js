@@ -4,7 +4,7 @@
   var _ = typeof require == 'function' ? require('..') : window._;
 
   QUnit.module('Cross Document');
-  /* global iObject, iElement, iArguments, iFunction, iArray, iError, iString, iNumber, iBoolean, iDate, iRegExp, iNaN, iNull, iUndefined, ActiveXObject */
+  /* global iObject, iElement, iArguments, iFunction, iArray, iError, iString, iNumber, iBoolean, iDate, iRegExp, iNaN, iNull, iUndefined, iSymbol, ActiveXObject */
 
   // Setup remote variables for iFrame tests.
   var iframe = document.createElement('iframe');
@@ -108,6 +108,12 @@
 
   QUnit.test('isError', function(assert) {
     assert.ok(_.isError(iError), 'even from another frame');
+  });
+
+  QUnit.test('isSymbol', function(assert) {
+    if (typeof Symbol !== 'undefined') {
+      assert.ok(_.isError(iSymbol), 'even from another frame');
+    }
   });
 
   if (typeof ActiveXObject != 'undefined') {
