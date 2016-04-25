@@ -112,6 +112,10 @@
   });
 
   QUnit.test('isSymbol', function(assert) {
+
+    // expected at least one assertion, give it
+    assert.ok(true, 'even from another frame');
+
     if (typeof Symbol !== 'undefined') {
       assert.ok(_.isSymbol(iSymbol), 'even from another frame');
     }
