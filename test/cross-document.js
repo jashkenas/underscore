@@ -26,7 +26,7 @@
       'parent.iNull = null;',
       'parent.iBoolean = new Boolean(false);',
       'parent.iUndefined = undefined;',
-      'parent.iSymbol = Symbol && Symbol();',
+      'parent.iSymbol = typeof Symbol !== "undefined" && Symbol();',
       'parent.iObject = {};',
       'parent.iError = new Error();',
       '</script>'
