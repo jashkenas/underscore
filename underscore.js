@@ -861,13 +861,14 @@
     };
 
     var debounced = restArgs(function(args) {
+      var waitTime = _.isFunction(wait) ? wait() : wait;
       if (timeout) clearTimeout(timeout);
       if (immediate) {
         var callNow = !timeout;
-        timeout = setTimeout(later, wait);
+        timeout = setTimeout(later, waitTime);
         if (callNow) result = func.apply(this, args);
       } else {
-        timeout = _.delay(later, wait, this, args);
+        timeout = _.delay(later, waitTime, this, args);
       }
 
       return result;
