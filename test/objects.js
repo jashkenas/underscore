@@ -844,6 +844,9 @@
     assert.notOk(_.isNaN(new Number(0)), 'wrapped 0 is not NaN');
     assert.ok(_.isNaN(NaN), 'but NaN is');
     assert.ok(_.isNaN(new Number(NaN)), 'wrapped NaN is still NaN');
+    if (typeof Symbol !== 'undefined'){
+      assert.notOk(_.isNaN(Symbol()), 'symbol is not NaN');
+    }
   });
 
   QUnit.test('isNull', function(assert) {
