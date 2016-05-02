@@ -271,7 +271,7 @@
 
   // Determine if at least one element in the object matches a truth test.
   // Aliased as `any`.
-  _.some = _.any = fcreateDetermine(false);
+  _.some = _.any = createDetermine(false);
 
   // Determine if the array or object contains a given item (using `===`).
   // Aliased as `includes` and `include`.
