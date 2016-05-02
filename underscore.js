@@ -1009,12 +1009,21 @@
 
   // Convert an object into a list of `[key, value]` pairs.
   _.pairs = function(obj) {
-    if (_.isMap(obj)) return Array.from(obj.entries());
-    var keys = _.keys(obj);
-    var length = keys.length;
-    var pairs = Array(length);
-    for (var i = 0; i < length; i++) {
-      pairs[i] = [keys[i], obj[keys[i]]];
+    var pairs, i, length;
+    if (_.isMap(obj)) {
+      var entries = obj.entries();
+      length = obj.size;
+      pairs = Array(length);
+      for (i = 0; i < length; i++) {
+        pairs[i] = entries.next().value;
+      }
+    } else {
+      var keys = _.keys(obj);
+      length = keys.length;
+      pairs = Array(length);
+      for (i = 0; i < length; i++) {
+        pairs[i] = [keys[i], obj[keys[i]]];
+      }
     }
     return pairs;
   };
