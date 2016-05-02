@@ -1009,6 +1009,7 @@
 
   // Convert an object into a list of `[key, value]` pairs.
   _.pairs = function(obj) {
+    if (_.isMap(obj)) return Array.from(obj.entries());
     var keys = _.keys(obj);
     var length = keys.length;
     var pairs = Array(length);
