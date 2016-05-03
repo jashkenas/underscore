@@ -435,6 +435,15 @@
     if (_.has(result, key)) result[key]++; else result[key] = 1;
   });
 
+  var mapToArray = function(map) {
+    var index = -1;
+    var result = Array(map.size);
+    map.forEach(function(value, key) {
+      result[++index] = [key, value];
+    });
+    return result;
+  };
+
   var reStrSymbol = /[^\ud800-\udfff]|[\ud800-\udbff][\udc00-\udfff]|[\ud800-\udfff]/g;
   // Safely create a real, live array from anything iterable.
   _.toArray = function(obj) {
@@ -1009,21 +1018,12 @@
 
   // Convert an object into a list of `[key, value]` pairs.
   _.pairs = function(obj) {
-    var pairs, i, length;
-    if (_.isMap(obj)) {
-      var entries = obj.entries();
-      length = obj.size;
-      pairs = Array(length);
-      for (i = 0; i < length; i++) {
-        pairs[i] = entries.next().value;
-      }
-    } else {
-      var keys = _.keys(obj);
-      length = keys.length;
-      pairs = Array(length);
-      for (i = 0; i < length; i++) {
-        pairs[i] = [keys[i], obj[keys[i]]];
-      }
+    if (_.isMap(obj)) return mapToArray(obj);
+    var keys = _.keys(obj);
+    var length = keys.length;
+    var pairs = Array(length);
+    for (var i = 0; i < length; i++) {
+      pairs[i] = [keys[i], obj[keys[i]]];
     }
     return pairs;
   };

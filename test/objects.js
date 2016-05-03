@@ -82,7 +82,10 @@
     assert.deepEqual(_.pairs({one: 1, two: 2}), [['one', 1], ['two', 2]], 'can convert an object into pairs');
     assert.deepEqual(_.pairs({one: 1, two: 2, length: 3}), [['one', 1], ['two', 2], ['length', 3]], '... even when one of them is "length"');
     if (typeof Map === 'function') {
-      assert.deepEqual(_.pairs(new Map([['one', 1], ['two', 2]])), [['one', 1], ['two', 2]], '... or when object is a Map');
+      var mapObj = new Map();
+      mapObj.set('one', 1);
+      mapObj.set('two', 2);
+      assert.deepEqual(_.pairs(mapObj), [['one', 1], ['two', 2]], '... or when object is a Map');
     }
   });
 
