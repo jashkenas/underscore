@@ -173,6 +173,13 @@
     assert.notStrictEqual(myObj, void 0, 'object is created if second argument used as key');
     assert.strictEqual(myObj, myObjAlias, 'object is cached if second argument used as key');
     assert.strictEqual(myObj.value, 'a', 'object is not modified if second argument used as key');
+
+    // test symbol
+    if (typeof Symbol !== 'undefined') {
+      var itSelf = _.memoize(function(self){return self;});
+      var sym = Symbol();
+      assert.strictEqual(sym, itSelf(sym), 'symbol can be memoized, too');
+    }
   });
 
   QUnit.test('delay', function(assert) {

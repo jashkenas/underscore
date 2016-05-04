@@ -782,7 +782,7 @@
   _.memoize = function(func, hasher) {
     var memoize = function(key) {
       var cache = memoize.cache;
-      var address = '' + (hasher ? hasher.apply(this, arguments) : key);
+      var address = _(hasher ? hasher.apply(this, arguments) : key).toString();
       if (!_.has(cache, address)) cache[address] = func.apply(this, arguments);
       return cache[address];
     };
