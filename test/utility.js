@@ -95,6 +95,18 @@
     assert.equal(undefPropertyOf('curly'), void 0, 'should return undefined when obj is undefined');
   });
 
+  QUnit.test('method', function(assert) {
+    var stooge = {name: function() { return 'moe'; }, sum: function(a, b, c) { return a + b + c; }};
+    assert.equal(_.method('name')(stooge), 'moe', 'should return the results of calling the method with the given name');
+    assert.equal(_.method('sum')(stooge, 1, 2, 3), 6, 'should pass rest of arguments to named method for evaluation');
+    assert.equal(_.method(function() { return this.name(); })(stooge), 'moe', 'should apply a function literal passed.');
+    assert.equal(_.method(function(a, b, c) { return this.sum(a, b, c); })(stooge, 1, 2, 3), 6, 'should pass arguments when applying a function literal.');
+    assert.equal(_.method('macerena')(stooge), void 0, 'should return undefined for non-existant method name on defined object');
+    assert.equal(_.method('name')(null), void 0, 'should return undefined for null object');
+    assert.equal(_.method()(stooge), void 0, 'should return undefined for undefined method name on existing object');
+    assert.equal(_.method()(void 0), void 0, 'should return undefined for undefined method name on undefined object');
+  });
+
   QUnit.test('random', function(assert) {
     var array = _.range(1000);
     var min = Math.pow(2, 31);
