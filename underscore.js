@@ -1608,7 +1608,7 @@
   _.prototype.valueOf = _.prototype.toJSON = _.prototype.value;
 
   _.prototype.toString = function() {
-    return String(this._wrapped);
+    return (this._wrapped).toString();
   };
 
   // AMD registration happens at the end for compatibility with AMD loaders
