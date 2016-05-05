@@ -864,6 +864,18 @@
     assert.ok(_.isUndefined(void 0), 'undefined is undefined');
   });
 
+  QUnit.test('isSafeInteger', function(assert) {
+    assert.notOk(_.isSafeInteger('1'), 'strings are not safe integers');
+    assert.notOk(_.isSafeInteger(null), 'null is not a safe integer');
+    assert.notOk(_.isSafeInteger(false), 'false is not a safe integer');
+    assert.notOk(_.isSafeInteger(NaN), 'NaN is not a safe integer');
+    assert.notOk(_.isSafeInteger(void 0), 'undefined is not a safe integer');
+    assert.notOk(_.isSafeInteger(10.01), 'floats are not safe integers');
+    assert.notOk(_.isSafeInteger(), 'nothing is not safe integers');
+    assert.ok(_.isSafeInteger(1), 'numbers are safe integers');
+    assert.ok(_.isSafeInteger(-10), 'integers are safe integers');
+  });
+
   QUnit.test('isError', function(assert) {
     assert.notOk(_.isError(1), 'numbers are not Errors');
     assert.notOk(_.isError(null), 'null is not an Error');

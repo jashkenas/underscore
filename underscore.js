@@ -1344,6 +1344,10 @@
     return obj != null && hasOwnProperty.call(obj, key);
   };
 
+  _.isSafeInteger = function(obj) {
+    return _.isNumber(obj) && _.isFinite(obj) && toString.call(parseInt(obj, 10)) === '[object Number]' && Math.floor(obj) === obj;
+  };
+
   // Utility Functions
   // -----------------
 
