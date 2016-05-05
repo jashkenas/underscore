@@ -76,6 +76,11 @@
   QUnit.test('values', function(assert) {
     assert.deepEqual(_.values({one: 1, two: 2}), [1, 2], 'can extract the values from an object');
     assert.deepEqual(_.values({one: 1, two: 2, length: 3}), [1, 2, 3], '... even when one of them is "length"');
+    assert.deepEqual(_.values({foo: 1, bar: 2, baz: 3}, 'foo', 'baz'), [1, 3], 'limits results when passed a list of "pick" keys');
+    assert.deepEqual(_.values({foo: 1, bar: 2, baz: 3}, 'foo', 'bart'), [1, void 0], 'returns undefined when asked for an unknown key');
+    assert.deepEqual(_.values({foo: 1, bar: 2, baz: 3}, 'foo', 'bart', 'bunk', 'champion', 'dograces'), [1, void 0, void 0, void 0, void 0], '...even when requesting more keys than exist in the obj');
+    assert.deepEqual(_.values(void 0), [], 'returns empty array when expected obj argument is actually undefined');
+    assert.deepEqual(_.values('Knock Knock'), [], 'returns empty array when expected obj argument is actually a String');
   });
 
   QUnit.test('pairs', function(assert) {

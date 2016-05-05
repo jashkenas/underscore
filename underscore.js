@@ -983,10 +983,14 @@
   };
 
   // Retrieve the values of an object's properties.
+  // If a single argument is passed, return values for each of the obj's properties.
+  // If additional arguments are passed, treat them as a list of keys to return values for.
   _.values = function(obj) {
-    var keys = _.keys(obj);
+    var maybePickKeys = arguments.length > 1 ? _.rest(arguments) : void 0;
+    var keys = maybePickKeys || _.keys(obj);
     var length = keys.length;
     var values = Array(length);
+
     for (var i = 0; i < length; i++) {
       values[i] = obj[keys[i]];
     }
