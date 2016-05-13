@@ -543,7 +543,7 @@
     }
     if (iteratee != null) iteratee = cb(iteratee, context);
     var result = [];
-    var seen =  hasMapSupported ? new Map() : [];
+    var seen = hasMapSupported ? new Map() : [];
     for (var i = 0, length = getLength(array); i < length; i++) {
       var value = array[i],
           computed = iteratee ? iteratee(value, i, array) : value;
@@ -552,7 +552,11 @@
         seen = computed;
       } else if (iteratee) {
         if (hasMapSupported ? !seen.has(computed) : !_.contains(seen, computed)) {
-          hasMapSupported ? seen.set(computed) : seen.push(computed);
+          if (hasMapSupported) {
+            seen.set(computed);
+          } else {
+            seen.push(computed);
+          }
           result.push(value);
         }
       } else if (hasMapSupported ? !seen.has(value) : !_.contains(result, value)) {
