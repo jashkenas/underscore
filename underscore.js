@@ -535,6 +535,7 @@
   // been sorted, you have the option of using a faster algorithm.
   // Aliased as `unique`.
   _.uniq = _.unique = function(array, isSorted, iteratee, context) {
+    var hasMapSupported = typeof Map !== 'undefined';
     if (!_.isBoolean(isSorted)) {
       context = iteratee;
       iteratee = isSorted;
@@ -542,7 +543,7 @@
     }
     if (iteratee != null) iteratee = cb(iteratee, context);
     var result = [];
-    var seen = [];
+    var seen =  hasMapSupported ? new Map() : [];
     for (var i = 0, length = getLength(array); i < length; i++) {
       var value = array[i],
           computed = iteratee ? iteratee(value, i, array) : value;
@@ -550,11 +551,14 @@
         if (!i || seen !== computed) result.push(value);
         seen = computed;
       } else if (iteratee) {
-        if (!_.contains(seen, computed)) {
-          seen.push(computed);
+        if (hasMapSupported ? !seen.has(computed) : !_.contains(seen, computed)) {
+          hasMapSupported ? seen.set(computed) : seen.push(computed);
           result.push(value);
         }
-      } else if (!_.contains(result, value)) {
+      } else if (hasMapSupported ? !seen.has(value) : !_.contains(result, value)) {
+        if (hasMapSupported) {
+          seen.set(value);
+        }
         result.push(value);
       }
     }
