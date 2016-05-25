@@ -708,6 +708,27 @@
     return range;
   };
 
+  // Generate `n` evenly spaced points between `start` and `stop`.  A port of
+  // MatLab and NumPy's `linspace()` function.
+  _.linspace = function(from, to, n) {
+    if (to == null) {
+      var to = from;
+      var from = 0;
+      var n = 50;
+    }
+    if (n == null) {
+      var n = 50;
+    }
+    var num = Array(n);
+    var stepsize = (to - from) / (n - 1);
+    for (var i = 0; i < n; i++) {
+      num[i] = from + i*stepsize;
+    }
+    // Special case the last element to be exactly `to`.
+    num[n - 1] = to;
+    return num
+  }
+
   // Split an **array** into several arrays containing **count** or less elements
   // of initial array.
   _.chunk = function(array, count) {

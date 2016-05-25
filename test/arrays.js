@@ -545,6 +545,19 @@
     assert.deepEqual(_.range(-3), [0, -1, -2], 'negative range generates descending array');
   });
 
+  QUnit.test('linspace', function(assert) {
+    var zeros = _.linspace(0);
+    var expected = [];
+    for (var i = 0; i < 50; i++) {
+      expected.push(0);
+    }
+    assert.deepEqual(zeros, expected, 'linspace called with 0 generates 50 zeros');
+    assert.deepEqual(_.linspace(1, 5, 5), [1, 2, 3, 4, 5], 'linspace generating the numbers 1 through 5');
+    assert.deepEqual(_.linspace(5, 1, 5), [5, 4, 3, 2, 1], 'linspace generating the numbers 1 through 5 backwards');
+    assert.deepEqual(_.linspace(49), _.range(50), 'linspace generating 0 through 49 given only one arg');
+    assert.deepEqual(_.linspace(1, 50), _.range(1, 51), 'linspace generating 1 through 50 given two args');
+  });
+
   QUnit.test('chunk', function(assert) {
     assert.deepEqual(_.chunk([], 2), [], 'chunk for empty array returns an empty array');
 
