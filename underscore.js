@@ -240,6 +240,19 @@
     return results;
   };
 
+  // merge two object at deep level.
+  _.deepMerge = function(hash1, hash2){
+    var hash = hash1;
+    _.each(hash2, function(value, key){
+      if ( value instanceof Object  && hash[key] instanceof Object) {
+        hash[key] = _.deepMerge(hash[key], value);
+      } else {
+        hash[key] = value;
+      }
+    });
+    return hash;
+  };
+
   // Return all the elements for which a truth test fails.
   _.reject = function(obj, predicate, context) {
     return _.filter(obj, _.negate(cb(predicate)), context);
@@ -359,6 +372,8 @@
   _.shuffle = function(obj) {
     return _.sample(obj, Infinity);
   };
+
+
 
   // Sample **n** random values from a collection using the modern version of the
   // [Fisher-Yates shuffle](http://en.wikipedia.org/wiki/Fisher–Yates_shuffle).

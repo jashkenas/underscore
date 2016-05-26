@@ -171,6 +171,10 @@
     assert.strictEqual(_.collect, _.map, 'is an alias for map');
   });
 
+  QUnit.test('deep Merge', function(assert){
+    assert.deepEqual(_.deepMerge({a: {b: 1, c: 3}}, {a: {b: 2, d: 3}}).a, {b: 2, c: 3, d: 3}, 'deep Merge nexted hash.' );
+  });
+
   QUnit.test('reduce', function(assert) {
     var sum = _.reduce([1, 2, 3], function(memo, num){ return memo + num; }, 0);
     assert.equal(sum, 6, 'can sum up an array');
