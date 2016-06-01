@@ -240,19 +240,6 @@
     return results;
   };
 
-  // merge two object at deep level.
-  _.deepMerge = function(hash1, hash2){
-    var hash = hash1;
-    _.each(hash2, function(value, key){
-      if ( value instanceof Object  && hash[key] instanceof Object) {
-        hash[key] = _.deepMerge(hash[key], value);
-      } else {
-        hash[key] = value;
-      }
-    });
-    return hash;
-  };
-
   // Return all the elements for which a truth test fails.
   _.reject = function(obj, predicate, context) {
     return _.filter(obj, _.negate(cb(predicate)), context);
@@ -1056,6 +1043,12 @@
   // An internal function for creating assigner functions.
   var createAssigner = function(keysFunc, defaults) {
     return function(obj) {
+      var deepMerge = false;
+      arguments = _.reject(arguments, function(x){
+        if (x === 'deepMerge') deepMerge = true ;
+        return (x === 'deepMerge');
+      });
+
       var length = arguments.length;
       if (defaults) obj = Object(obj);
       if (length < 2 || obj == null) return obj;
@@ -1065,7 +1058,11 @@
             l = keys.length;
         for (var i = 0; i < l; i++) {
           var key = keys[i];
-          if (!defaults || obj[key] === void 0) obj[key] = source[key];
+          if (deepMerge && obj[key] instanceof Object && source[key] instanceof Object){
+            obj[key] = _.extend(obj[key], source[key], 'deepMerge');
+          } else if (!defaults || obj[key] === void 0){
+            obj[key] = source[key];
+          }
         }
       }
       return obj;
