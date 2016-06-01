@@ -360,6 +360,8 @@
     return _.sample(obj, Infinity);
   };
 
+
+
   // Sample **n** random values from a collection using the modern version of the
   // [Fisher-Yates shuffle](http://en.wikipedia.org/wiki/Fisher–Yates_shuffle).
   // If **n** is not specified, returns a single random element.
@@ -1041,6 +1043,12 @@
   // An internal function for creating assigner functions.
   var createAssigner = function(keysFunc, defaults) {
     return function(obj) {
+      var deepMerge = false;
+      arguments = _.reject(arguments, function(x){
+        if (x === 'deepMerge') deepMerge = true ;
+        return (x === 'deepMerge');
+      });
+
       var length = arguments.length;
       if (defaults) obj = Object(obj);
       if (length < 2 || obj == null) return obj;
@@ -1050,7 +1058,11 @@
             l = keys.length;
         for (var i = 0; i < l; i++) {
           var key = keys[i];
-          if (!defaults || obj[key] === void 0) obj[key] = source[key];
+          if (deepMerge && obj[key] instanceof Object && source[key] instanceof Object){
+            obj[key] = _.extend(obj[key], source[key], 'deepMerge');
+          } else if (!defaults || obj[key] === void 0){
+            obj[key] = source[key];
+          }
         }
       }
       return obj;

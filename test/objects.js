@@ -110,7 +110,10 @@
     assert.equal(_.extend({}, {a: 'b'}).a, 'b', 'can extend an object with the attributes of another');
     assert.equal(_.extend({a: 'x'}, {a: 'b'}).a, 'b', 'properties in source override destination');
     assert.equal(_.extend({x: 'x'}, {a: 'b'}).x, 'x', "properties not in source don't get overriden");
+    assert.deepEqual(_.extend({a: {b: 1, c: 3}}, {a: {b: 2, d: 3}}, 'deepMerge').a, {b: 2, c: 3, d: 3}, 'Deep Merge nested hash.');
+
     result = _.extend({x: 'x'}, {a: 'a'}, {b: 'b'});
+
     assert.deepEqual(result, {x: 'x', a: 'a', b: 'b'}, 'can extend from multiple source objects');
     result = _.extend({x: 'x'}, {a: 'a', x: 2}, {a: 'b'});
     assert.deepEqual(result, {x: 2, a: 'b'}, 'extending from multiple source objects last property trumps');
