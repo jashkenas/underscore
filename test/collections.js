@@ -344,7 +344,7 @@
     assert.deepEqual(_.reject(list, {}), [], 'Returns empty list given empty object');
     assert.deepEqual(_.reject(list, []), [], 'Returns empty list given empty array');
   });
-
+//Returns true if all of the values in the list pass the predicate truth test
   QUnit.test('every', function(assert) {
     assert.ok(_.every([], _.identity), 'the empty set');
     assert.ok(_.every([true, true, true], _.identity), 'every true values');
