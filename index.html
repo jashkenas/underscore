@@ -1658,11 +1658,19 @@ _.isEmpty({});
       <p id="isElement">
         <b class="header">isElement</b><code>_.isElement(object)</code>
         <br />
-        Returns <i>true</i> if <b>object</b> is a DOM element.
+        Returns <i>true</i> if <b>object</b> is a DOM element. A precision can be done
+        with a given element type's name (egg: <i>HTMLLink, HTMLDiv, SVGEllipse, ...</i>).
       </p>
       <pre>
 _.isElement(jQuery('body')[0]);
 =&gt; true
+_.isElement(document.head, 'html');
+=&gt; true
+_.isElement(document.createElement('a'), 'html-anchor');
+=&gt; true
+// given type precision can also be in camelCase following DOM naming's spec.
+_.isElement(document.body, 'HTMLScript');
+=&gt; false
 </pre>
 
       <p id="isArray">
