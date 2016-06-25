@@ -1273,7 +1273,16 @@
   };
 
   // Is a given value a DOM element?
-  _.isElement = function(obj) {
+  _.isElement = function(obj, eltName) {
+    if (_.isString(eltName)) {
+      if (_.indexOf(eltName, '-') !== -1) {
+        // nomalize the element's name according to the DOM's naming spec (egg: 'HTMLHeadElement')
+        eltName = eltName.toUpperCase().split('-') ;
+        eltName = eltName[0] + (eltName[1][0] ? eltName[1][0] + eltName[1].substring(1).toLowerCase() : '');
+      }
+      var eltnUp = eltName.toUpperCase();
+      return _.indexOf(['HTML', 'SVG'], eltnUp) !== -1 ? obj instanceof root[eltnUp + 'Element'] : toString.call(obj) === '[object ' + eltName + 'Element]' ;
+    }
     return !!(obj && obj.nodeType === 1);
   };
 
