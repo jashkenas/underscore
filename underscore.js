@@ -109,9 +109,10 @@
   var restArgs = function(func, startIndex) {
     startIndex = startIndex == null ? func.length - 1 : +startIndex;
     return function() {
-      var length = Math.max(arguments.length - startIndex, 0);
-      var rest = Array(length);
-      for (var index = 0; index < length; index++) {
+      var length = Math.max(arguments.length - startIndex, 0),
+          rest = Array(length),
+          index = 0;
+      for (index = 0; index < length; index++) {
         rest[index] = arguments[index + startIndex];
       }
       switch (startIndex) {
