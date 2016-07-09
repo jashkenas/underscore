@@ -693,7 +693,7 @@ _.pluck(stooges, 'name');
         function is provided, it will be used on each value to generate the
         criterion by which the value is ranked. <i>-Infinity</i> is returned
         if <b>list</b> is empty, so an <a href="#isEmpty">isEmpty</a> guard
-        may be required.
+        may be required. Non-numerical values in <b>list</b> will be ignored.
       </p>
       <pre>
 var stooges = [{name: 'moe', age: 40}, {name: 'larry', age: 50}, {name: 'curly', age: 60}];
@@ -708,7 +708,7 @@ _.max(stooges, function(stooge){ return stooge.age; });
         function is provided, it will be used on each value to generate the
         criterion by which the value is ranked. <i>Infinity</i> is returned
         if <b>list</b> is empty, so an <a href="#isEmpty">isEmpty</a> guard
-        may be required.
+        may be required. Non-numerical values in <b>list</b> will be ignored.  
       </p>
       <pre>
 var numbers = [10, 5, 100, 2, 1000];
