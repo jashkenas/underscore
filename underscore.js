@@ -112,7 +112,7 @@
       var length = Math.max(arguments.length - startIndex, 0),
           rest = Array(length),
           index = 0;
-      for (index = 0; index < length; index++) {
+      for (; index < length; index++) {
         rest[index] = arguments[index + startIndex];
       }
       switch (startIndex) {
