@@ -505,7 +505,7 @@ _.each({one: 1, two: 2, three: 3}, alert);
       </p>
 
       <p id="map">
-        <b class="header">map</b><code>_.map(list, iteratee, [context])</code>
+        <b class="header">map</b><code>_.map(list, <a href="#iteratee">iteratee</a>, [context])</code>
         <span class="alias">Alias: <b>collect</b></span>
         <br />
         Produces a new array of values by mapping each value in <b>list</b>
@@ -556,7 +556,7 @@ var flat = _.reduceRight(list, function(a, b) { return a.concat(b); }, []);
 </pre>
 
       <p id="find">
-        <b class="header">find</b><code>_.find(list, predicate, [context])</code>
+        <b class="header">find</b><code>_.find(list, <a href="#iteratee">predicate</a>, [context])</code>
         <span class="alias">Alias: <b>detect</b></span>
         <br />
         Looks through each value in the <b>list</b>, returning the first one that
@@ -571,7 +571,7 @@ var even = _.find([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
 </pre>
 
       <p id="filter">
-        <b class="header">filter</b><code>_.filter(list, predicate, [context])</code>
+        <b class="header">filter</b><code>_.filter(list, <a href="#iteratee">predicate</a>, [context])</code>
         <span class="alias">Alias: <b>select</b></span>
         <br />
         Looks through each value in the <b>list</b>, returning an array of all
@@ -586,7 +586,7 @@ var evens = _.filter([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
         <b class="header">where</b><code>_.where(list, properties)</code>
         <br />
         Looks through each value in the <b>list</b>, returning an array of all
-        the values that contain all of the key-value pairs listed in <b>properties</b>.
+        the values that <a href="#matches">matches</a> the key-value pairs listed in <b>properties</b>.
       </p>
       <pre>
 _.where(listOfPlays, {author: "Shakespeare", year: 1611});
@@ -597,7 +597,7 @@ _.where(listOfPlays, {author: "Shakespeare", year: 1611});
       <p id="findWhere">
         <b class="header">findWhere</b><code>_.findWhere(list, properties)</code>
         <br />
-        Looks through the <b>list</b> and returns the <i>first</i> value that matches
+        Looks through the <b>list</b> and returns the <i>first</i> value that <a href="#matches">matches</a>
         all of the key-value pairs listed in <b>properties</b>.
       </p>
       <p>
@@ -613,7 +613,7 @@ _.findWhere(publicServicePulitzers, {newsroom: "The New York Times"});
 </pre>
 
       <p id="reject">
-        <b class="header">reject</b><code>_.reject(list, predicate, [context])</code>
+        <b class="header">reject</b><code>_.reject(list, <a href="#iteratee">predicate</a>, [context])</code>
         <br />
         Returns the values in <b>list</b> without the elements that the truth
         test (<b>predicate</b>) passes. The opposite of <b>filter</b>.
@@ -624,7 +624,7 @@ var odds = _.reject([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
 </pre>
 
       <p id="every">
-        <b class="header">every</b><code>_.every(list, [predicate], [context])</code>
+        <b class="header">every</b><code>_.every(list, [<a href="#iteratee">predicate</a>], [context])</code>
         <span class="alias">Alias: <b>all</b></span>
         <br />
         Returns <i>true</i> if all of the values in the <b>list</b> pass the
@@ -637,7 +637,7 @@ _.every([2, 4, 5], function(num) { return num % 2 == 0; });
 </pre>
 
       <p id="some">
-        <b class="header">some</b><code>_.some(list, [predicate], [context])</code>
+        <b class="header">some</b><code>_.some(list, [<a href="#iteratee">predicate</a>], [context])</code>
         <span class="alias">Alias: <b>any</b></span>
         <br />
         Returns <i>true</i> if any of the values in the <b>list</b> pass the
@@ -678,7 +678,7 @@ _.invoke([[5, 1, 7], [3, 2, 1]], 'sort');
         <b class="header">pluck</b><code>_.pluck(list, propertyName)</code>
         <br />
         A convenient version of what is perhaps the most common use-case for
-        <b>map</b>: extracting a list of property values.
+        <b>map</b>: extracting a list of <a href="#property">property</a> values.
       </p>
       <pre>
 var stooges = [{name: 'moe', age: 40}, {name: 'larry', age: 50}, {name: 'curly', age: 60}];
@@ -687,7 +687,7 @@ _.pluck(stooges, 'name');
 </pre>
 
       <p id="max">
-        <b class="header">max</b><code>_.max(list, [iteratee], [context])</code>
+        <b class="header">max</b><code>_.max(list, [<a href="#iteratee">iteratee</a>], [context])</code>
         <br />
         Returns the maximum value in <b>list</b>. If an <b>iteratee</b>
         function is provided, it will be used on each value to generate the
@@ -702,7 +702,7 @@ _.max(stooges, function(stooge){ return stooge.age; });
 </pre>
 
       <p id="min">
-        <b class="header">min</b><code>_.min(list, [iteratee], [context])</code>
+        <b class="header">min</b><code>_.min(list, [<a href="#iteratee">iteratee</a>], [context])</code>
         <br />
         Returns the minimum value in <b>list</b>. If an <b>iteratee</b>
         function is provided, it will be used on each value to generate the
@@ -717,7 +717,7 @@ _.min(numbers);
 </pre>
 
       <p id="sortBy">
-        <b class="header">sortBy</b><code>_.sortBy(list, iteratee, [context])</code>
+        <b class="header">sortBy</b><code>_.sortBy(list, <a href="#iteratee">iteratee</a>, [context])</code>
         <br />
         Returns a (stably) sorted copy of <b>list</b>, ranked in ascending
         order by the results of running each value through <b>iteratee</b>.
@@ -733,7 +733,7 @@ _.sortBy(stooges, 'name');
 =&gt; [{name: 'curly', age: 60}, {name: 'larry', age: 50}, {name: 'moe', age: 40}];
 </pre>
       <p id="groupBy">
-        <b class="header">groupBy</b><code>_.groupBy(list, iteratee, [context])</code>
+        <b class="header">groupBy</b><code>_.groupBy(list, <a href="#iteratee">iteratee</a>, [context])</code>
         <br />
         Splits a collection into sets, grouped by the result of running each
         value through <b>iteratee</b>. If <b>iteratee</b> is a string instead of
@@ -749,7 +749,7 @@ _.groupBy(['one', 'two', 'three'], 'length');
 </pre>
 
       <p id="indexBy">
-        <b class="header">indexBy</b><code>_.indexBy(list, iteratee, [context])</code>
+        <b class="header">indexBy</b><code>_.indexBy(list, <a href="#iteratee">iteratee</a>, [context])</code>
         <br />
         Given a <b>list</b>, and an <b>iteratee</b> function that returns a
         key for each element in the list (or a property name),
@@ -768,7 +768,7 @@ _.indexBy(stooges, 'age');
 </pre>
 
       <p id="countBy">
-        <b class="header">countBy</b><code>_.countBy(list, iteratee, [context])</code>
+        <b class="header">countBy</b><code>_.countBy(list, <a href="#iteratee">iteratee</a>, [context])</code>
         <br />
         Sorts a list into groups and returns a count for the number of objects
         in each group.
@@ -830,7 +830,7 @@ _.size({one: 1, two: 2, three: 3});
 </pre>
 
       <p id="partition">
-        <b class="header">partition</b><code>_.partition(array, predicate)</code>
+        <b class="header">partition</b><code>_.partition(array, <a href="#iteratee">predicate</a>)</code>
         <br />
         Split <b>array</b> into two arrays: one whose elements all satisfy
         <b>predicate</b> and one whose elements all do not satisfy <b>predicate</b>.
@@ -967,7 +967,7 @@ _.difference([1, 2, 3, 4, 5], [5, 2, 10]);
 </pre>
 
       <p id="uniq">
-        <b class="header">uniq</b><code>_.uniq(array, [isSorted], [iteratee])</code>
+        <b class="header">uniq</b><code>_.uniq(array, [isSorted], [<a href="#iteratee">iteratee</a>], [context])</code>
         <span class="alias">Alias: <b>unique</b></span>
         <br />
         Produces a duplicate-free version of the <b>array</b>, using <i>===</i> to test
@@ -1054,7 +1054,7 @@ _.lastIndexOf([1, 2, 3, 1, 2, 3], 2);
 </pre>
 
       <p id="sortedIndex">
-        <b class="header">sortedIndex</b><code>_.sortedIndex(list, value, [iteratee], [context])</code>
+        <b class="header">sortedIndex</b><code>_.sortedIndex(list, value, [<a href="#iteratee">iteratee</a>], [context])</code>
         <br />
         Uses a binary search to determine the index at which the <b>value</b>
         <i>should</i> be inserted into the <b>list</b> in order to maintain the <b>list</b>'s
@@ -1496,7 +1496,7 @@ _.extend({name: 'moe'}, {age: 50});
       </p>
 
       <p id="pick">
-        <b class="header">pick</b><code>_.pick(object, *keys)</code>
+        <b class="header">pick</b><code>_.pick(object, (<a href="#iteratee">iteratee</a>, [context])|*keys</code>
         <br />
         Return a copy of the <b>object</b>, filtered to only have values for
         the whitelisted <b>keys</b> (or array of valid keys).  Alternatively
@@ -1512,7 +1512,7 @@ _.pick({name: 'moe', age: 50, userid: 'moe1'}, function(value, key, object) {
 </pre>
 
       <p id="omit">
-        <b class="header">omit</b><code>_.omit(object, *keys)</code>
+        <b class="header">omit</b><code>_.omit(object, (<a href="#iteratee">iteratee</a>, [context])|*keys)</code>
         <br />
         Return a copy of the <b>object</b>, filtered to omit the blacklisted
         <b>keys</b> (or array of keys).  Alternatively accepts a predicate
