@@ -571,16 +571,32 @@
   // Produce an array that contains every item shared between all the
   // passed-in arrays.
   _.intersection = function(array) {
+    if (array == null) return [];
     var result = [];
+    var sortedList = _.sortBy(array);
     var argsLength = arguments.length;
-    for (var i = 0, length = getLength(array); i < length; i++) {
-      var item = array[i];
-      if (_.contains(result, item)) continue;
+    var i, length;
+    for (i = 1; i < argsLength; i++) {
+      if (arguments[i] == null) return [];
+      var inputList = arguments[i];
+      var tempList = [];
       var j;
-      for (j = 1; j < argsLength; j++) {
-        if (!_.contains(arguments[j], item)) break;
+      for (j = 0, length = inputList.length; j < length; j++) {
+        if (_.indexOf(sortedList, inputList[j], true) >= 0) {
+          tempList.push(inputList[j]);
+        }
       }
-      if (j === argsLength) result.push(item);
+      sortedList = tempList;
+    }
+    // preserves the order of the first array
+    // and get a duplicate-free array
+    var occurMap = [];
+    for (i = 0, length = array.length; i < length; i++) {
+      var index = _.indexOf(sortedList, array[i], true);
+      if (index >= 0 && _.isUndefined(occurMap[index])) {
+        result.push(array[i]);
+        occurMap[index] = true;
+      }
     }
     return result;
   };
