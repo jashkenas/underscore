@@ -206,6 +206,8 @@
     assert.deepEqual(result, [], 'returns an empty array when passed null as the first argument');
     result = _.intersection([1, 2, 3], null);
     assert.deepEqual(result, [], 'returns an empty array when passed null as an argument beyond the first');
+    result = _.intersection([2, 4, 3, 1], [1, 3, 2], [3, 2]);
+    assert.deepEqual(result, [2, 3], 'can intersect more than 3 arrays');
   });
 
   QUnit.test('union', function(assert) {

@@ -570,35 +570,30 @@
 
   // Produce an array that contains every item shared between all the
   // passed-in arrays.
-  _.intersection = function(array) {
-    if (array == null) return [];
-    var result = [];
-    var sortedList = _.sortBy(array);
+  _.intersection = function() {
     var argsLength = arguments.length;
     var i, length;
-    for (i = 1; i < argsLength; i++) {
+    for (i = 0; i < argsLength; i++) {
       if (arguments[i] == null) return [];
+    }
+    var intersectionList = _.sortBy(arguments[argsLength - 1]);
+    for (i = argsLength - 2; i >= 0; i--) {
       var inputList = arguments[i];
       var tempList = [];
       var j;
       for (j = 0, length = inputList.length; j < length; j++) {
-        if (_.indexOf(sortedList, inputList[j], true) >= 0) {
+        if (_.indexOf(intersectionList, inputList[j], true) >= 0) {
           tempList.push(inputList[j]);
         }
       }
-      sortedList = tempList;
-    }
-    // preserves the order of the first array
-    // and get a duplicate-free array
-    var occurMap = [];
-    for (i = 0, length = array.length; i < length; i++) {
-      var index = _.indexOf(sortedList, array[i], true);
-      if (index >= 0 && _.isUndefined(occurMap[index])) {
-        result.push(array[i]);
-        occurMap[index] = true;
+      if (i === 0) {
+        // preserves the order of the first array
+        intersectionList = tempList;
+      } else {
+        intersectionList = _.sortBy(tempList);
       }
     }
-    return result;
+    return _.uniq(intersectionList);
   };
 
   // Take the difference between one array and a number of other arrays.
