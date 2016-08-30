@@ -1339,6 +1339,11 @@
     return obj === void 0;
   };
 
+  // Is the variable a non undefined, non null and non NaN value ?
+  _.is = function(obj) {
+    return !(_.isNull(obj) || _.isUndefined(obj) || _.isNaN(obj));
+  };
+
   // Shortcut function for checking if an object has a given property directly
   // on itself (in other words, not on a prototype).
   _.has = function(obj, key) {
