@@ -1015,7 +1015,8 @@ _.unzip([["moe", 30, true], ["larry", 40, false], ["curly", 50, false]]);
         <b class="header">object</b><code>_.object(list, [values])</code>
         <br />
         Converts arrays into objects. Pass either a single list of
-        <tt>[key, value]</tt> pairs, or a list of keys, and a list of values.
+        <tt>[key, value]</tt> pairs, or a list of keys, and a list of values. The former
+        usage is invertible through <code>_.pairs</code>.
         If duplicate keys exist, the last value wins.
       </p>
       <pre>
@@ -1424,7 +1425,8 @@ _.mapObject({start: 5, end: 12}, function(val, key) {
       <p id="pairs">
         <b class="header">pairs</b><code>_.pairs(object)</code>
         <br />
-        Convert an object into a list of <tt>[key, value]</tt> pairs.
+        Convert an object into a list of <tt>[key, value]</tt> pairs. Inverse of first
+        usage of <code>_.object</code>. 
       </p>
       <pre>
 _.pairs({one: 1, two: 2, three: 3});
