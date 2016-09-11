@@ -19,7 +19,7 @@
     "key-spacing": 1,
     "linebreak-style": 2,
     "max-depth": [1, 4],
-    "max-params": [1, 5],
+    "max-params": [1, 6],
     "new-cap": 2,
     "no-alert": 2,
     "no-caller": 2,

@@ -536,6 +536,16 @@
     assert.deepEqual(_.range(3, 10, 3), [3, 6, 9], 'range with three arguments a &amp; b &amp; c, c &lt; b-a, a &lt; b generates an array of elements a,a+c,a+2c,...,b - (multiplier of a) &lt; c');
     assert.deepEqual(_.range(3, 10, 15), [3], 'range with three arguments a &amp; b &amp; c, c &gt; b-a, a &lt; b generates an array with a single element, equal to a');
     assert.deepEqual(_.range(12, 7, -2), [12, 10, 8], 'range with three arguments a &amp; b &amp; c, a &gt; b, c &lt; 0 generates an array of elements a,a-c,a-2c and ends with the number not less than b');
+
+    assert.deepEqual(_.range( 1, 5, 1, Math.pow, Math, [2]), [1, 4, 9, 16], 'range with the squares of one to four');
+    assert.deepEqual(_.range( 4, 10, 2, Math.pow, Math, [4]), [256, 1296, 4096], 'range with every second number from 4 to 10 put to the power of four');
+
+    var factorial = function(n) {
+      if ( n === 0 || n === 1 ) { return 1; }
+      return n * factorial(n - 1);
+    };
+    assert.deepEqual(_.range( 1, 6, 1, factorial, null, [2]), [1, 2, 6, 24, 120], 'range with the factorials from 1 to 6');
+
     assert.deepEqual(_.range(0, -10, -1), [0, -1, -2, -3, -4, -5, -6, -7, -8, -9], 'final example in the Python docs');
     assert.strictEqual(1 / _.range(-0, 1)[0], -Infinity, 'should preserve -0');
   });

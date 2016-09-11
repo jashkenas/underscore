@@ -105,8 +105,8 @@
     startIndex = startIndex == null ? func.length - 1 : +startIndex;
     return function() {
       var length = Math.max(arguments.length - startIndex, 0);
-      var rest = Array(length);
-      for (var index = 0; index < length; index++) {
+      var rest = Array(length), index;
+      for (index = 0; index < length; index++) {
         rest[index] = arguments[index + startIndex];
       }
       switch (startIndex) {
@@ -688,18 +688,29 @@
   // Generate an integer Array containing an arithmetic progression. A port of
   // the native Python `range()` function. See
   // [the Python documentation](http://docs.python.org/library/functions.html#range).
-  _.range = function(start, stop, step) {
+  _.range = function(start, stop, step, iteratee, toBind, providedArgs) {
     if (stop == null) {
       stop = start || 0;
       start = 0;
     }
+
     step = step || 1;
 
-    var length = Math.max(Math.ceil((stop - start) / step), 0);
+    var isFunc;
+    if ( _.isFunction( iteratee ) ) {
+      isFunc = true;
+    }
+    var length = Math.max(Math.ceil((stop - start) / step ), 0);
     var range = Array(length);
 
-    for (var idx = 0; idx < length; idx++, start += step) {
-      range[idx] = start;
+    var increment = function(index) {
+      var args = providedArgs.slice(0);
+      args.unshift( index );
+      return iteratee.apply( toBind, args );
+    };
+
+    for (var idx = 0; idx < length; start += step, idx++ ) {
+      range[idx] = isFunc ? increment(start) : start;
     }
 
     return range;

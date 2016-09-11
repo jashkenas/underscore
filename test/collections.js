@@ -465,7 +465,7 @@
 
     assert.deepEqual(_.invoke([{a: null}, {}, {a: _.constant(1)}], 'a'), [null, void 0, 1], 'handles null & undefined');
 
-    assert.throws(function() {
+    assert['throws'](function() {
       _.invoke([{a: 1}], 'a');
     }, TypeError, 'throws for non-functions');
   });
