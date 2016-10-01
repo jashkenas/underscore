@@ -916,11 +916,15 @@
     assert.strictEqual(_.property('name')(null), void 0, 'should return undefined for null values');
     assert.strictEqual(_.property('name')(void 0), void 0, 'should return undefined for undefined values');
     assert.strictEqual(_.property(null)('foo'), void 0, 'should return undefined for null object');
+    assert.strictEqual(_.property('x')({x: null}), null, 'can fetch null values');
+    assert.strictEqual(_.property('length')(null), void 0, 'does not crash on property access of non-objects');
 
     // Deep property access
     assert.strictEqual(_.property('a')({a: 1}), 1, 'can get a direct property');
     assert.strictEqual(_.property(['a', 'b'])({a: {b: 2}}), 2, 'can get a nested property');
     assert.strictEqual(_.property(['a'])({a: false}), false, 'can fetch falsey values');
+    assert.strictEqual(_.property(['x', 'y'])({x: {y: null}}), null, 'can fetch null values deeply');
+    assert.strictEqual(_.property(['x', 'y'])({x: null}), void 0, 'does not crash on property access of nested non-objects');
   });
 
   QUnit.test('propertyOf', function(assert) {

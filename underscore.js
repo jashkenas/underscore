@@ -147,10 +147,11 @@
     if (!isArray(path)) path = [path];
     var length = path.length;
     return function(object) {
-      for (var i = 0; object != null && i < length; i++) {
+      for (var i = 0; i < length; i++) {
+        if (object == null) return void 0;
         object = object[path[i]];
       }
-      return object == null ? void 0 : object;
+      return object;
     };
   };
 
