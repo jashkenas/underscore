@@ -19,7 +19,7 @@
   "devDependencies": {
     "coveralls": "^2.11.2",
     "docco": "*",
-    "eslint": "1.10.x",
+    "eslint": "^3.7.0",
     "gzip-size-cli": "^1.0.0",
     "karma": "^0.13.13",
     "karma-qunit": "~0.1.4",
