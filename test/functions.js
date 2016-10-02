@@ -29,10 +29,12 @@
     func = _.bind(func, this, 'hello', 'moe', 'curly');
     assert.equal(func(), 'hello: moe curly', 'the function was partially applied in advance and can accept multiple arguments');
 
-    func = function(ctx, message) { assert.equal(this, ctx, message); };
-    _.bind(func, 0, 0, 'can bind a function to `0`')();
-    _.bind(func, '', '', 'can bind a function to an empty string')();
-    _.bind(func, false, false, 'can bind a function to `false`')();
+    func = function() { return this; };
+    assert.strictEqual(typeof _.bind(func, 0)(), 'object', 'binding a primitive to `this` returns a wrapped primitive');
+
+    assert.strictEqual(_.bind(func, 0)().valueOf(), 0, 'can bind a function to `0`');
+    assert.strictEqual(_.bind(func, '')().valueOf(), '', 'can bind a function to an empty string');
+    assert.strictEqual(_.bind(func, false)().valueOf(), false, 'can bind a function to `false`');
 
     // These tests are only meaningful when using a browser without a native bind function
     // To test this with a modern browser, set underscore's nativeBind to undefined
