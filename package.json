@@ -36,7 +36,7 @@
     "lint": "eslint underscore.js test/*.js",
     "test-node": "qunit-cli test/*.js",
     "test-browser": "npm i karma-phantomjs-launcher && karma start",
-    "minify":  "uglifyjs underscore.js -c \"evaluate=false\" --comments \"/    .*/\" -m",
+    "minify": "uglifyjs underscore.js -c \"evaluate=false\" --comments \"/    .*/\" -m",
     "build": "npm run minify -- --source-map underscore-min.map --source-map-url \" \" -o underscore-min.js",
     "doc": "docco underscore.js",
     "weight": "npm run minify | gzip-size | pretty-bytes"
