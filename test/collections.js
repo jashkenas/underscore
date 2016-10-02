@@ -52,7 +52,9 @@
   QUnit.test('lookupIterator with contexts', function(assert) {
     _.each([true, false, 'yes', '', 0, 1, {}], function(context) {
       _.each([1], function() {
-        assert.equal(this, context);
+        assert.strictEqual(typeof this, 'object', 'context is a wrapped primitive');
+        assert.strictEqual(this.valueOf(), context, 'the unwrapped context is the specified primitive');
+        assert.equal(this, context, 'context can be coerced to the specified primitive');
       }, context);
     });
   });
