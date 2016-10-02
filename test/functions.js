@@ -697,7 +697,7 @@
     });
 
     var deepProperty = _.iteratee(['a', 'b']);
-    assert.equal(deepProperty({a: {b: 2}}), 2, 'treats an array as a deep property accessor');
+    assert.strictEqual(deepProperty({a: {b: 2}}), 2, 'treats an array as a deep property accessor');
 
     // Test custom iteratee
     var builtinIteratee = _.iteratee;
