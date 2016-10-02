@@ -712,7 +712,7 @@
     assert.deepEqual(_.filter(collection, /b/g), ['bar', 'bbiz']);
     assert.equal(_.find(collection, /b/g), 'bar');
     assert.equal(_.findIndex(collection, /b/g), 1);
-    assert.equal(_.findKey(collection, /b/g), 1);
+    assert.strictEqual(_.findKey(collection, /b/g), '1');
     assert.equal(_.findLastIndex(collection, /b/g), 2);
     assert.deepEqual(_.groupBy(collection, /b/g), {0: ['foo'], 1: ['bar'], 2: ['bbiz']});
     assert.deepEqual(_.indexBy(collection, /b/g), {0: 'foo', 1: 'bar', 2: 'bbiz'});
