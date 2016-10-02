@@ -144,7 +144,12 @@
   };
 
   var property = function(path) {
-    if (!isArray(path)) path = [path];
+    if (!isArray(path)) {
+      // Optimized case for shallow property access.
+      return function(obj) {
+        return obj == null ? void 0 : obj[path];
+      };
+    }
     var length = path.length;
     return function(object) {
       for (var i = 0; i < length; i++) {
@@ -1351,7 +1356,9 @@
   // Shortcut function for checking if an object has a given property directly
   // on itself (in other words, not on a prototype).
   _.has = function(object, path) {
-    if (!_.isArray(path)) path = [path];
+    if (!_.isArray(path)) {
+      return object != null && hasOwnProperty.call(object, path);
+    }
     for (var i = 0, length = path.length; i < length; i++) {
       var key = path[i];
       if (object == null || !hasOwnProperty.call(object, key)) {
@@ -1390,6 +1397,9 @@
 
   // Generates a function for a given object that returns a given property.
   _.propertyOf = function(obj) {
+    if (obj == null) {
+      return function(){};
+    }
     return function(key) {
       return property(key)(obj);
     };
