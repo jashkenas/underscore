@@ -17,9 +17,9 @@
   if (typeof this == 'object') {
     QUnit.test('noConflict', function(assert) {
       var underscore = _.noConflict();
-      assert.equal(underscore.identity(1), 1);
+      assert.strictEqual(underscore.identity(1), 1);
       if (typeof require != 'function') {
-        assert.equal(this._, void 0, 'global underscore is removed');
+        assert.strictEqual(this._, void 0, 'global underscore is removed');
         this._ = underscore;
       } else if (typeof global !== 'undefined') {
         delete global._;
@@ -41,8 +41,8 @@
         );
         var context = {_: 'oldvalue'};
         sandbox.runInNewContext(context);
-        assert.equal(context._, 'oldvalue');
-        assert.equal(context.underscore.VERSION, _.VERSION);
+        assert.strictEqual(context._, 'oldvalue');
+        assert.strictEqual(context.underscore.VERSION, _.VERSION);
 
         done();
       });
@@ -58,12 +58,12 @@
 
   QUnit.test('identity', function(assert) {
     var stooge = {name: 'moe'};
-    assert.equal(_.identity(stooge), stooge, 'stooge is the same as his identity');
+    assert.strictEqual(_.identity(stooge), stooge, 'stooge is the same as his identity');
   });
 
   QUnit.test('constant', function(assert) {
     var stooge = {name: 'moe'};
-    assert.equal(_.constant(stooge)(), stooge, 'should create a function that returns stooge');
+    assert.strictEqual(_.constant(stooge)(), stooge, 'should create a function that returns stooge');
   });
 
   QUnit.test('noop', function(assert) {
@@ -72,27 +72,27 @@
 
   QUnit.test('property', function(assert) {
     var stooge = {name: 'moe'};
-    assert.equal(_.property('name')(stooge), 'moe', 'should return the property with the given name');
-    assert.equal(_.property('name')(null), void 0, 'should return undefined for null values');
-    assert.equal(_.property('name')(void 0), void 0, 'should return undefined for undefined values');
+    assert.strictEqual(_.property('name')(stooge), 'moe', 'should return the property with the given name');
+    assert.strictEqual(_.property('name')(null), void 0, 'should return undefined for null values');
+    assert.strictEqual(_.property('name')(void 0), void 0, 'should return undefined for undefined values');
   });
 
   QUnit.test('propertyOf', function(assert) {
     var stoogeRanks = _.propertyOf({curly: 2, moe: 1, larry: 3});
-    assert.equal(stoogeRanks('curly'), 2, 'should return the property with the given name');
-    assert.equal(stoogeRanks(null), void 0, 'should return undefined for null values');
-    assert.equal(stoogeRanks(void 0), void 0, 'should return undefined for undefined values');
+    assert.strictEqual(stoogeRanks('curly'), 2, 'should return the property with the given name');
+    assert.strictEqual(stoogeRanks(null), void 0, 'should return undefined for null values');
+    assert.strictEqual(stoogeRanks(void 0), void 0, 'should return undefined for undefined values');
 
     function MoreStooges() { this.shemp = 87; }
     MoreStooges.prototype = {curly: 2, moe: 1, larry: 3};
     var moreStoogeRanks = _.propertyOf(new MoreStooges());
-    assert.equal(moreStoogeRanks('curly'), 2, 'should return properties from further up the prototype chain');
+    assert.strictEqual(moreStoogeRanks('curly'), 2, 'should return properties from further up the prototype chain');
 
     var nullPropertyOf = _.propertyOf(null);
-    assert.equal(nullPropertyOf('curly'), void 0, 'should return undefined when obj is null');
+    assert.strictEqual(nullPropertyOf('curly'), void 0, 'should return undefined when obj is null');
 
     var undefPropertyOf = _.propertyOf(void 0);
-    assert.equal(undefPropertyOf('curly'), void 0, 'should return undefined when obj is undefined');
+    assert.strictEqual(undefPropertyOf('curly'), void 0, 'should return undefined when obj is undefined');
   });
 
   QUnit.test('random', function(assert) {
@@ -117,7 +117,7 @@
   QUnit.test('uniqueId', function(assert) {
     var ids = [], i = 0;
     while (i++ < 100) ids.push(_.uniqueId());
-    assert.equal(_.uniq(ids).length, ids.length, 'can generate a globally-unique stream of ids');
+    assert.strictEqual(_.uniq(ids).length, ids.length, 'can generate a globally-unique stream of ids');
   });
 
   QUnit.test('times', function(assert) {
@@ -142,20 +142,20 @@
         return string.split('').reverse().join('');
       }
     });
-    assert.equal(ret, _, 'returns the _ object to facilitate chaining');
-    assert.equal(_.myReverse('panacea'), 'aecanap', 'mixed in a function to _');
-    assert.equal(_('champ').myReverse(), 'pmahc', 'mixed in a function to the OOP wrapper');
+    assert.strictEqual(ret, _, 'returns the _ object to facilitate chaining');
+    assert.strictEqual(_.myReverse('panacea'), 'aecanap', 'mixed in a function to _');
+    assert.strictEqual(_('champ').myReverse(), 'pmahc', 'mixed in a function to the OOP wrapper');
   });
 
   QUnit.test('_.escape', function(assert) {
-    assert.equal(_.escape(null), '');
+    assert.strictEqual(_.escape(null), '');
   });
 
   QUnit.test('_.unescape', function(assert) {
     var string = 'Curly & Moe';
-    assert.equal(_.unescape(null), '');
-    assert.equal(_.unescape(_.escape(string)), string);
-    assert.equal(_.unescape(string), string, 'don\'t unescape unnecessarily');
+    assert.strictEqual(_.unescape(null), '');
+    assert.strictEqual(_.unescape(_.escape(string)), string);
+    assert.strictEqual(_.unescape(string), string, 'don\'t unescape unnecessarily');
   });
 
   // Don't care what they escape them to just that they're escaped and can be unescaped
@@ -167,13 +167,13 @@
       var s = 'a ' + escapeChar + ' string escaped';
       var e = _.escape(s);
       assert.notEqual(s, e, escapeChar + ' is escaped');
-      assert.equal(s, _.unescape(e), escapeChar + ' can be unescaped');
+      assert.strictEqual(s, _.unescape(e), escapeChar + ' can be unescaped');
 
       s = 'a ' + escapeChar + escapeChar + escapeChar + 'some more string' + escapeChar;
       e = _.escape(s);
 
-      assert.equal(e.indexOf(escapeChar), -1, 'can escape multiple occurances of ' + escapeChar);
-      assert.equal(_.unescape(e), s, 'multiple occurrences of ' + escapeChar + ' can be unescaped');
+      assert.strictEqual(e.indexOf(escapeChar), -1, 'can escape multiple occurances of ' + escapeChar);
+      assert.strictEqual(_.unescape(e), s, 'multiple occurrences of ' + escapeChar + ' can be unescaped');
     });
 
     // handles multiple escape characters at once
@@ -190,32 +190,32 @@
     var escaped = _.escape(str);
 
     assert.notStrictEqual(escaped.indexOf('&'), -1, 'handles & aka &amp;');
-    assert.equal(_.unescape(str), str, 'can unescape &amp;');
+    assert.strictEqual(_.unescape(str), str, 'can unescape &amp;');
   });
 
   QUnit.test('template', function(assert) {
     var basicTemplate = _.template("<%= thing %> is gettin' on my noives!");
     var result = basicTemplate({thing: 'This'});
-    assert.equal(result, "This is gettin' on my noives!", 'can do basic attribute interpolation');
+    assert.strictEqual(result, "This is gettin' on my noives!", 'can do basic attribute interpolation');
 
     var sansSemicolonTemplate = _.template('A <% this %> B');
-    assert.equal(sansSemicolonTemplate(), 'A  B');
+    assert.strictEqual(sansSemicolonTemplate(), 'A  B');
 
     var backslashTemplate = _.template('<%= thing %> is \\ridanculous');
-    assert.equal(backslashTemplate({thing: 'This'}), 'This is \\ridanculous');
+    assert.strictEqual(backslashTemplate({thing: 'This'}), 'This is \\ridanculous');
 
     var escapeTemplate = _.template('<%= a ? "checked=\\"checked\\"" : "" %>');
-    assert.equal(escapeTemplate({a: true}), 'checked="checked"', 'can handle slash escapes in interpolations.');
+    assert.strictEqual(escapeTemplate({a: true}), 'checked="checked"', 'can handle slash escapes in interpolations.');
 
     var fancyTemplate = _.template('<ul><% ' +
     '  for (var key in people) { ' +
     '%><li><%= people[key] %></li><% } %></ul>');
     result = fancyTemplate({people: {moe: 'Moe', larry: 'Larry', curly: 'Curly'}});
-    assert.equal(result, '<ul><li>Moe</li><li>Larry</li><li>Curly</li></ul>', 'can run arbitrary javascript in templates');
+    assert.strictEqual(result, '<ul><li>Moe</li><li>Larry</li><li>Curly</li></ul>', 'can run arbitrary javascript in templates');
 
     var escapedCharsInJavascriptTemplate = _.template('<ul><% _.each(numbers.split("\\n"), function(item) { %><li><%= item %></li><% }) %></ul>');
     result = escapedCharsInJavascriptTemplate({numbers: 'one\ntwo\nthree\nfour'});
-    assert.equal(result, '<ul><li>one</li><li>two</li><li>three</li><li>four</li></ul>', 'Can use escaped characters (e.g. \\n) in JavaScript');
+    assert.strictEqual(result, '<ul><li>one</li><li>two</li><li>three</li><li>four</li></ul>', 'Can use escaped characters (e.g. \\n) in JavaScript');
 
     var namespaceCollisionTemplate = _.template('<%= pageCount %> <%= thumbnails[pageCount] %> <% _.each(thumbnails, function(p) { %><div class="thumbnail" rel="<%= p %>"></div><% }); %>');
     result = namespaceCollisionTemplate({
@@ -226,32 +226,32 @@
         3: 'p3-thumbnail.gif'
       }
     });
-    assert.equal(result, '3 p3-thumbnail.gif <div class="thumbnail" rel="p1-thumbnail.gif"></div><div class="thumbnail" rel="p2-thumbnail.gif"></div><div class="thumbnail" rel="p3-thumbnail.gif"></div>');
+    assert.strictEqual(result, '3 p3-thumbnail.gif <div class="thumbnail" rel="p1-thumbnail.gif"></div><div class="thumbnail" rel="p2-thumbnail.gif"></div><div class="thumbnail" rel="p3-thumbnail.gif"></div>');
 
     var noInterpolateTemplate = _.template('<div><p>Just some text. Hey, I know this is silly but it aids consistency.</p></div>');
     result = noInterpolateTemplate();
-    assert.equal(result, '<div><p>Just some text. Hey, I know this is silly but it aids consistency.</p></div>');
+    assert.strictEqual(result, '<div><p>Just some text. Hey, I know this is silly but it aids consistency.</p></div>');
 
     var quoteTemplate = _.template("It's its, not it's");
-    assert.equal(quoteTemplate({}), "It's its, not it's");
+    assert.strictEqual(quoteTemplate({}), "It's its, not it's");
 
     var quoteInStatementAndBody = _.template('<% ' +
     "  if(foo == 'bar'){ " +
     "%>Statement quotes and 'quotes'.<% } %>");
-    assert.equal(quoteInStatementAndBody({foo: 'bar'}), "Statement quotes and 'quotes'.");
+    assert.strictEqual(quoteInStatementAndBody({foo: 'bar'}), "Statement quotes and 'quotes'.");
 
     var withNewlinesAndTabs = _.template('This\n\t\tis: <%= x %>.\n\tok.\nend.');
-    assert.equal(withNewlinesAndTabs({x: 'that'}), 'This\n\t\tis: that.\n\tok.\nend.');
+    assert.strictEqual(withNewlinesAndTabs({x: 'that'}), 'This\n\t\tis: that.\n\tok.\nend.');
 
     var template = _.template('<i><%- value %></i>');
     result = template({value: '<script>'});
-    assert.equal(result, '<i>&lt;script&gt;</i>');
+    assert.strictEqual(result, '<i>&lt;script&gt;</i>');
 
     var stooge = {
       name: 'Moe',
       template: _.template("I'm <%= this.name %>")
     };
-    assert.equal(stooge.template(), "I'm Moe");
+    assert.strictEqual(stooge.template(), "I'm Moe");
 
     template = _.template('\n ' +
     '  <%\n ' +
@@ -259,7 +259,7 @@
     '  if (data) { data += 12345; }; %>\n ' +
     '  <li><%= data %></li>\n '
     );
-    assert.equal(template({data: 12345}).replace(/\s/g, ''), '<li>24690</li>');
+    assert.strictEqual(template({data: 12345}).replace(/\s/g, ''), '<li>24690</li>');
 
     _.templateSettings = {
       evaluate: /\{\{([\s\S]+?)\}\}/g,
@@ -268,13 +268,13 @@
 
     var custom = _.template('<ul>{{ for (var key in people) { }}<li>{{= people[key] }}</li>{{ } }}</ul>');
     result = custom({people: {moe: 'Moe', larry: 'Larry', curly: 'Curly'}});
-    assert.equal(result, '<ul><li>Moe</li><li>Larry</li><li>Curly</li></ul>', 'can run arbitrary javascript in templates');
+    assert.strictEqual(result, '<ul><li>Moe</li><li>Larry</li><li>Curly</li></ul>', 'can run arbitrary javascript in templates');
 
     var customQuote = _.template("It's its, not it's");
-    assert.equal(customQuote({}), "It's its, not it's");
+    assert.strictEqual(customQuote({}), "It's its, not it's");
 
     quoteInStatementAndBody = _.template("{{ if(foo == 'bar'){ }}Statement quotes and 'quotes'.{{ } }}");
-    assert.equal(quoteInStatementAndBody({foo: 'bar'}), "Statement quotes and 'quotes'.");
+    assert.strictEqual(quoteInStatementAndBody({foo: 'bar'}), "Statement quotes and 'quotes'.");
 
     _.templateSettings = {
       evaluate: /<\?([\s\S]+?)\?>/g,
@@ -283,23 +283,23 @@
 
     var customWithSpecialChars = _.template('<ul><? for (var key in people) { ?><li><?= people[key] ?></li><? } ?></ul>');
     result = customWithSpecialChars({people: {moe: 'Moe', larry: 'Larry', curly: 'Curly'}});
-    assert.equal(result, '<ul><li>Moe</li><li>Larry</li><li>Curly</li></ul>', 'can run arbitrary javascript in templates');
+    assert.strictEqual(result, '<ul><li>Moe</li><li>Larry</li><li>Curly</li></ul>', 'can run arbitrary javascript in templates');
 
     var customWithSpecialCharsQuote = _.template("It's its, not it's");
-    assert.equal(customWithSpecialCharsQuote({}), "It's its, not it's");
+    assert.strictEqual(customWithSpecialCharsQuote({}), "It's its, not it's");
 
     quoteInStatementAndBody = _.template("<? if(foo == 'bar'){ ?>Statement quotes and 'quotes'.<? } ?>");
-    assert.equal(quoteInStatementAndBody({foo: 'bar'}), "Statement quotes and 'quotes'.");
+    assert.strictEqual(quoteInStatementAndBody({foo: 'bar'}), "Statement quotes and 'quotes'.");
 
     _.templateSettings = {
       interpolate: /\{\{(.+?)\}\}/g
     };
 
     var mustache = _.template('Hello {{planet}}!');
-    assert.equal(mustache({planet: 'World'}), 'Hello World!', 'can mimic mustache.js');
+    assert.strictEqual(mustache({planet: 'World'}), 'Hello World!', 'can mimic mustache.js');
 
     var templateWithNull = _.template('a null undefined {{planet}}');
-    assert.equal(templateWithNull({planet: 'world'}), 'a null undefined world', 'can handle missing escape and evaluate settings');
+    assert.strictEqual(templateWithNull({planet: 'world'}), 'a null undefined world', 'can handle missing escape and evaluate settings');
   });
 
   QUnit.test('_.template provides the generated function source, when a SyntaxError occurs', function(assert) {
