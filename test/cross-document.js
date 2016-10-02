@@ -132,9 +132,9 @@
         _.isFunction(fn);
       }
 
-      assert.equal(_.isFunction(xml), false);
-      assert.equal(_.isFunction(div), false);
-      assert.equal(_.isFunction(fn), true);
+      assert.strictEqual(_.isFunction(xml), false);
+      assert.strictEqual(_.isFunction(div), false);
+      assert.strictEqual(_.isFunction(fn), true);
     });
   }
 

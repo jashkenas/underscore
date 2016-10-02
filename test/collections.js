@@ -5,7 +5,7 @@
 
   QUnit.test('each', function(assert) {
     _.each([1, 2, 3], function(num, i) {
-      assert.equal(num, i + 1, 'each iterators provide value and iteration count');
+      assert.strictEqual(num, i + 1, 'each iterators provide value and iteration count');
     });
 
     var answers = [];
@@ -28,7 +28,7 @@
     var count = 0;
     obj = {1: 'foo', 2: 'bar', 3: 'baz'};
     _.each(obj, function(){ count++; });
-    assert.equal(count, 3, 'the fun should be called only 3 times');
+    assert.strictEqual(count, 3, 'the fun should be called only 3 times');
 
     var answer = null;
     _.each([1, 2, 3], function(num, index, arr){ if (_.include(arr, num)) answer = true; });
@@ -36,7 +36,7 @@
 
     answers = 0;
     _.each(null, function(){ ++answers; });
-    assert.equal(answers, 0, 'handles a null properly');
+    assert.strictEqual(answers, 0, 'handles a null properly');
 
     _.each(false, function(){});
 
@@ -122,14 +122,14 @@
         ++answers;
         return method === 'every' ? true : null;
       }, {});
-      assert.equal(answers, 100, method + ' enumerates [0, length)');
+      assert.strictEqual(answers, 100, method + ' enumerates [0, length)');
 
       var growingCollection = [1, 2, 3], count = 0;
       _[method](growingCollection, function() {
         if (count < 10) growingCollection.push(count++);
         return method === 'every' ? true : null;
       }, {});
-      assert.equal(count, 3, method + ' is resistant to length changes');
+      assert.strictEqual(count, 3, method + ' is resistant to length changes');
     });
 
     _.each(collection.concat(object), function(method) {
@@ -139,7 +139,7 @@
         return method === 'every' ? true : null;
       }, {});
 
-      assert.equal(count, 2, method + ' is resistant to property changes');
+      assert.strictEqual(count, 2, method + ' is resistant to property changes');
     });
   });
 
@@ -175,25 +175,25 @@
 
   QUnit.test('reduce', function(assert) {
     var sum = _.reduce([1, 2, 3], function(memo, num){ return memo + num; }, 0);
-    assert.equal(sum, 6, 'can sum up an array');
+    assert.strictEqual(sum, 6, 'can sum up an array');
 
     var context = {multiplier: 3};
     sum = _.reduce([1, 2, 3], function(memo, num){ return memo + num * this.multiplier; }, 0, context);
-    assert.equal(sum, 18, 'can reduce with a context object');
+    assert.strictEqual(sum, 18, 'can reduce with a context object');
 
     sum = _([1, 2, 3]).reduce(function(memo, num){ return memo + num; }, 0);
-    assert.equal(sum, 6, 'OO-style reduce');
+    assert.strictEqual(sum, 6, 'OO-style reduce');
 
     sum = _.reduce([1, 2, 3], function(memo, num){ return memo + num; });
-    assert.equal(sum, 6, 'default initial value');
+    assert.strictEqual(sum, 6, 'default initial value');
 
     var prod = _.reduce([1, 2, 3, 4], function(memo, num){ return memo * num; });
-    assert.equal(prod, 24, 'can reduce via multiplication');
+    assert.strictEqual(prod, 24, 'can reduce via multiplication');
 
     assert.strictEqual(_.reduce(null, _.noop, 138), 138, 'handles a null (with initial value) properly');
-    assert.equal(_.reduce([], _.noop, void 0), void 0, 'undefined can be passed as a special case');
-    assert.equal(_.reduce([_], _.noop), _, 'collection of length one with no initial value returns the first item');
-    assert.equal(_.reduce([], _.noop), void 0, 'returns undefined when collection is empty and no initial value');
+    assert.strictEqual(_.reduce([], _.noop, void 0), void 0, 'undefined can be passed as a special case');
+    assert.strictEqual(_.reduce([_], _.noop), _, 'collection of length one with no initial value returns the first item');
+    assert.strictEqual(_.reduce([], _.noop), void 0, 'returns undefined when collection is empty and no initial value');
   });
 
   QUnit.test('foldl', function(assert) {
@@ -206,19 +206,19 @@
 
   QUnit.test('reduceRight', function(assert) {
     var list = _.reduceRight(['foo', 'bar', 'baz'], function(memo, str){ return memo + str; }, '');
-    assert.equal(list, 'bazbarfoo', 'can perform right folds');
+    assert.strictEqual(list, 'bazbarfoo', 'can perform right folds');
 
     list = _.reduceRight(['foo', 'bar', 'baz'], function(memo, str){ return memo + str; });
-    assert.equal(list, 'bazbarfoo', 'default initial value');
+    assert.strictEqual(list, 'bazbarfoo', 'default initial value');
 
     var sum = _.reduceRight({a: 1, b: 2, c: 3}, function(memo, num){ return memo + num; });
-    assert.equal(sum, 6, 'default initial value on object');
+    assert.strictEqual(sum, 6, 'default initial value on object');
 
     assert.strictEqual(_.reduceRight(null, _.noop, 138), 138, 'handles a null (with initial value) properly');
-    assert.equal(_.reduceRight([_], _.noop), _, 'collection of length one with no initial value returns the first item');
+    assert.strictEqual(_.reduceRight([_], _.noop), _, 'collection of length one with no initial value returns the first item');
 
-    assert.equal(_.reduceRight([], _.noop, void 0), void 0, 'undefined can be passed as a special case');
-    assert.equal(_.reduceRight([], _.noop), void 0, 'returns undefined when collection is empty and no initial value');
+    assert.strictEqual(_.reduceRight([], _.noop, void 0), void 0, 'undefined can be passed as a special case');
+    assert.strictEqual(_.reduceRight([], _.noop), void 0, 'returns undefined when collection is empty and no initial value');
 
     // Assert that the correct arguments are being passed.
 
@@ -274,7 +274,7 @@
     assert.notOk(_.find([], {c: 1}), 'undefined when searching empty list');
 
     var result = _.find([1, 2, 3], function(num){ return num * 2 === 4; });
-    assert.equal(result, 2, 'found the first "2" and broke the loop');
+    assert.strictEqual(result, 2, 'found the first "2" and broke the loop');
 
     var obj = {
       a: {x: 1, z: 3},
@@ -290,7 +290,7 @@
     }), {x: 4, z: 1});
 
     _.findIndex([{a: 1}], function(a, key, o) {
-      assert.equal(key, 0);
+      assert.strictEqual(key, 0);
       assert.deepEqual(o, [{a: 1}]);
       assert.strictEqual(this, _, 'called with context');
     }, _);
@@ -310,7 +310,7 @@
     assert.deepEqual(_.filter([{}, evenObject, []], 'two'), [evenObject], 'predicate string map to object properties');
 
     _.filter([1], function() {
-      assert.equal(this, evenObject, 'given context');
+      assert.strictEqual(this, evenObject, 'given context');
     }, evenObject);
 
     // Can be used like _.where.
@@ -332,7 +332,7 @@
     var context = 'obj';
 
     var evens = _.reject([1, 2, 3, 4, 5, 6], function(num){
-      assert.equal(context, 'obj');
+      assert.strictEqual(context, 'obj');
       return num % 2 !== 0;
     }, context);
     assert.deepEqual(evens, [2, 4, 6], 'rejected each odd number');
@@ -489,12 +489,12 @@
     };
     var list = [[5, 1, 7], [3, 2, 1]];
     var s = 'foo';
-    assert.equal(s.call(), 42, 'call function exists');
+    assert.strictEqual(s.call(), 42, 'call function exists');
     var result = _.invoke(list, 'sort');
     assert.deepEqual(result[0], [1, 5, 7], 'first array sorted');
     assert.deepEqual(result[1], [1, 2, 3], 'second array sorted');
     delete String.prototype.call;
-    assert.equal(s.call, void 0, 'call function removed');
+    assert.strictEqual(s.call, void 0, 'call function removed');
   });
 
   QUnit.test('pluck', function(assert) {
@@ -508,13 +508,13 @@
   QUnit.test('where', function(assert) {
     var list = [{a: 1, b: 2}, {a: 2, b: 2}, {a: 1, b: 3}, {a: 1, b: 4}];
     var result = _.where(list, {a: 1});
-    assert.equal(result.length, 3);
-    assert.equal(result[result.length - 1].b, 4);
+    assert.strictEqual(result.length, 3);
+    assert.strictEqual(result[result.length - 1].b, 4);
     result = _.where(list, {b: 2});
-    assert.equal(result.length, 2);
-    assert.equal(result[0].a, 1);
+    assert.strictEqual(result.length, 2);
+    assert.strictEqual(result[0].a, 1);
     result = _.where(list, {});
-    assert.equal(result.length, list.length);
+    assert.strictEqual(result.length, list.length);
 
     function test() {}
     test.map = _.map;
@@ -536,7 +536,7 @@
 
     function test() {}
     test.map = _.map;
-    assert.equal(_.findWhere([_, {a: 1, b: 2}, _], test), _, 'checks properties given function');
+    assert.strictEqual(_.findWhere([_, {a: 1, b: 2}, _], test), _, 'checks properties given function');
 
     function TestClass() {
       this.y = 5;
@@ -547,42 +547,42 @@
   });
 
   QUnit.test('max', function(assert) {
-    assert.equal(-Infinity, _.max(null), 'can handle null/undefined');
-    assert.equal(-Infinity, _.max(void 0), 'can handle null/undefined');
-    assert.equal(-Infinity, _.max(null, _.identity), 'can handle null/undefined');
+    assert.strictEqual(-Infinity, _.max(null), 'can handle null/undefined');
+    assert.strictEqual(-Infinity, _.max(void 0), 'can handle null/undefined');
+    assert.strictEqual(-Infinity, _.max(null, _.identity), 'can handle null/undefined');
 
-    assert.equal(_.max([1, 2, 3]), 3, 'can perform a regular Math.max');
+    assert.strictEqual(_.max([1, 2, 3]), 3, 'can perform a regular Math.max');
 
     var neg = _.max([1, 2, 3], function(num){ return -num; });
-    assert.equal(neg, 1, 'can perform a computation-based max');
+    assert.strictEqual(neg, 1, 'can perform a computation-based max');
 
-    assert.equal(-Infinity, _.max({}), 'Maximum value of an empty object');
-    assert.equal(-Infinity, _.max([]), 'Maximum value of an empty array');
-    assert.equal(_.max({a: 'a'}), -Infinity, 'Maximum value of a non-numeric collection');
+    assert.strictEqual(-Infinity, _.max({}), 'Maximum value of an empty object');
+    assert.strictEqual(-Infinity, _.max([]), 'Maximum value of an empty array');
+    assert.strictEqual(_.max({a: 'a'}), -Infinity, 'Maximum value of a non-numeric collection');
 
-    assert.equal(_.max(_.range(1, 300000)), 299999, 'Maximum value of a too-big array');
+    assert.strictEqual(_.max(_.range(1, 300000)), 299999, 'Maximum value of a too-big array');
 
-    assert.equal(_.max([1, 2, 3, 'test']), 3, 'Finds correct max in array starting with num and containing a NaN');
-    assert.equal(_.max(['test', 1, 2, 3]), 3, 'Finds correct max in array starting with NaN');
+    assert.strictEqual(_.max([1, 2, 3, 'test']), 3, 'Finds correct max in array starting with num and containing a NaN');
+    assert.strictEqual(_.max(['test', 1, 2, 3]), 3, 'Finds correct max in array starting with NaN');
 
-    assert.equal(_.max([1, 2, 3, null]), 3, 'Finds correct max in array starting with num and containing a `null`');
-    assert.equal(_.max([null, 1, 2, 3]), 3, 'Finds correct max in array starting with a `null`');
+    assert.strictEqual(_.max([1, 2, 3, null]), 3, 'Finds correct max in array starting with num and containing a `null`');
+    assert.strictEqual(_.max([null, 1, 2, 3]), 3, 'Finds correct max in array starting with a `null`');
 
-    assert.equal(_.max([1, 2, 3, '']), 3, 'Finds correct max in array starting with num and containing an empty string');
-    assert.equal(_.max(['', 1, 2, 3]), 3, 'Finds correct max in array starting with an empty string');
+    assert.strictEqual(_.max([1, 2, 3, '']), 3, 'Finds correct max in array starting with num and containing an empty string');
+    assert.strictEqual(_.max(['', 1, 2, 3]), 3, 'Finds correct max in array starting with an empty string');
 
-    assert.equal(_.max([1, 2, 3, false]), 3, 'Finds correct max in array starting with num and containing a false');
-    assert.equal(_.max([false, 1, 2, 3]), 3, 'Finds correct max in array starting with a false');
+    assert.strictEqual(_.max([1, 2, 3, false]), 3, 'Finds correct max in array starting with num and containing a false');
+    assert.strictEqual(_.max([false, 1, 2, 3]), 3, 'Finds correct max in array starting with a false');
 
-    assert.equal(_.max([0, 1, 2, 3, 4]), 4, 'Finds correct max in array containing a zero');
-    assert.equal(_.max([-3, -2, -1, 0]), 0, 'Finds correct max in array containing negative numbers');
+    assert.strictEqual(_.max([0, 1, 2, 3, 4]), 4, 'Finds correct max in array containing a zero');
+    assert.strictEqual(_.max([-3, -2, -1, 0]), 0, 'Finds correct max in array containing negative numbers');
 
     assert.deepEqual(_.map([[1, 2, 3], [4, 5, 6]], _.max), [3, 6], 'Finds correct max in array when mapping through multiple arrays');
 
     var a = {x: -Infinity};
     var b = {x: -Infinity};
     var iterator = function(o){ return o.x; };
-    assert.equal(_.max([a, b], iterator), a, 'Respects iterator return value of -Infinity');
+    assert.strictEqual(_.max([a, b], iterator), a, 'Respects iterator return value of -Infinity');
 
     assert.deepEqual(_.max([{a: 1}, {a: 0, b: 3}, {a: 4}, {a: 2}], 'a'), {a: 4}, 'String keys use property iterator');
 
@@ -592,40 +592,40 @@
   });
 
   QUnit.test('min', function(assert) {
-    assert.equal(_.min(null), Infinity, 'can handle null/undefined');
-    assert.equal(_.min(void 0), Infinity, 'can handle null/undefined');
-    assert.equal(_.min(null, _.identity), Infinity, 'can handle null/undefined');
+    assert.strictEqual(_.min(null), Infinity, 'can handle null/undefined');
+    assert.strictEqual(_.min(void 0), Infinity, 'can handle null/undefined');
+    assert.strictEqual(_.min(null, _.identity), Infinity, 'can handle null/undefined');
 
-    assert.equal(_.min([1, 2, 3]), 1, 'can perform a regular Math.min');
+    assert.strictEqual(_.min([1, 2, 3]), 1, 'can perform a regular Math.min');
 
     var neg = _.min([1, 2, 3], function(num){ return -num; });
-    assert.equal(neg, 3, 'can perform a computation-based min');
+    assert.strictEqual(neg, 3, 'can perform a computation-based min');
 
-    assert.equal(_.min({}), Infinity, 'Minimum value of an empty object');
-    assert.equal(_.min([]), Infinity, 'Minimum value of an empty array');
-    assert.equal(_.min({a: 'a'}), Infinity, 'Minimum value of a non-numeric collection');
+    assert.strictEqual(_.min({}), Infinity, 'Minimum value of an empty object');
+    assert.strictEqual(_.min([]), Infinity, 'Minimum value of an empty array');
+    assert.strictEqual(_.min({a: 'a'}), Infinity, 'Minimum value of a non-numeric collection');
 
     assert.deepEqual(_.map([[1, 2, 3], [4, 5, 6]], _.min), [1, 4], 'Finds correct min in array when mapping through multiple arrays');
 
     var now = new Date(9999999999);
     var then = new Date(0);
-    assert.equal(_.min([now, then]), then);
+    assert.strictEqual(_.min([now, then]), then);
 
-    assert.equal(_.min(_.range(1, 300000)), 1, 'Minimum value of a too-big array');
+    assert.strictEqual(_.min(_.range(1, 300000)), 1, 'Minimum value of a too-big array');
 
-    assert.equal(_.min([1, 2, 3, 'test']), 1, 'Finds correct min in array starting with num and containing a NaN');
-    assert.equal(_.min(['test', 1, 2, 3]), 1, 'Finds correct min in array starting with NaN');
+    assert.strictEqual(_.min([1, 2, 3, 'test']), 1, 'Finds correct min in array starting with num and containing a NaN');
+    assert.strictEqual(_.min(['test', 1, 2, 3]), 1, 'Finds correct min in array starting with NaN');
 
-    assert.equal(_.min([1, 2, 3, null]), 1, 'Finds correct min in array starting with num and containing a `null`');
-    assert.equal(_.min([null, 1, 2, 3]), 1, 'Finds correct min in array starting with a `null`');
+    assert.strictEqual(_.min([1, 2, 3, null]), 1, 'Finds correct min in array starting with num and containing a `null`');
+    assert.strictEqual(_.min([null, 1, 2, 3]), 1, 'Finds correct min in array starting with a `null`');
 
-    assert.equal(_.min([0, 1, 2, 3, 4]), 0, 'Finds correct min in array containing a zero');
-    assert.equal(_.min([-3, -2, -1, 0]), -3, 'Finds correct min in array containing negative numbers');
+    assert.strictEqual(_.min([0, 1, 2, 3, 4]), 0, 'Finds correct min in array containing a zero');
+    assert.strictEqual(_.min([-3, -2, -1, 0]), -3, 'Finds correct min in array containing negative numbers');
 
     var a = {x: Infinity};
     var b = {x: Infinity};
     var iterator = function(o){ return o.x; };
-    assert.equal(_.min([a, b], iterator), a, 'Respects iterator return value of Infinity');
+    assert.strictEqual(_.min([a, b], iterator), a, 'Respects iterator return value of Infinity');
 
     assert.deepEqual(_.min([{a: 1}, {a: 0, b: 3}, {a: 4}, {a: 2}], 'a'), {a: 0, b: 3}, 'String keys use property iterator');
 
@@ -699,16 +699,16 @@
     grouped = _.groupBy([4.2, 6.1, 6.4], function(num) {
       return Math.floor(num) > 4 ? 'hasOwnProperty' : 'constructor';
     });
-    assert.equal(grouped.constructor.length, 1);
-    assert.equal(grouped.hasOwnProperty.length, 2);
+    assert.strictEqual(grouped.constructor.length, 1);
+    assert.strictEqual(grouped.hasOwnProperty.length, 2);
 
     var array = [{}];
     _.groupBy(array, function(value, index, obj){ assert.strictEqual(obj, array); });
 
     array = [1, 2, 1, 2, 3];
     grouped = _.groupBy(array);
-    assert.equal(grouped['1'].length, 2);
-    assert.equal(grouped['3'].length, 1);
+    assert.strictEqual(grouped['1'].length, 2);
+    assert.strictEqual(grouped['3'].length, 1);
 
     var matrix = [
       [1, 2],
@@ -721,32 +721,32 @@
 
   QUnit.test('indexBy', function(assert) {
     var parity = _.indexBy([1, 2, 3, 4, 5], function(num){ return num % 2 === 0; });
-    assert.equal(parity['true'], 4);
-    assert.equal(parity['false'], 5);
+    assert.strictEqual(parity['true'], 4);
+    assert.strictEqual(parity['false'], 5);
 
     var list = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten'];
     var grouped = _.indexBy(list, 'length');
-    assert.equal(grouped['3'], 'ten');
-    assert.equal(grouped['4'], 'nine');
-    assert.equal(grouped['5'], 'eight');
+    assert.strictEqual(grouped['3'], 'ten');
+    assert.strictEqual(grouped['4'], 'nine');
+    assert.strictEqual(grouped['5'], 'eight');
 
     var array = [1, 2, 1, 2, 3];
     grouped = _.indexBy(array);
-    assert.equal(grouped['1'], 1);
-    assert.equal(grouped['2'], 2);
-    assert.equal(grouped['3'], 3);
+    assert.strictEqual(grouped['1'], 1);
+    assert.strictEqual(grouped['2'], 2);
+    assert.strictEqual(grouped['3'], 3);
   });
 
   QUnit.test('countBy', function(assert) {
     var parity = _.countBy([1, 2, 3, 4, 5], function(num){ return num % 2 === 0; });
-    assert.equal(parity['true'], 2);
-    assert.equal(parity['false'], 3);
+    assert.strictEqual(parity['true'], 2);
+    assert.strictEqual(parity['false'], 3);
 
     var list = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten'];
     var grouped = _.countBy(list, 'length');
-    assert.equal(grouped['3'], 4);
-    assert.equal(grouped['4'], 3);
-    assert.equal(grouped['5'], 3);
+    assert.strictEqual(grouped['3'], 4);
+    assert.strictEqual(grouped['4'], 3);
+    assert.strictEqual(grouped['5'], 3);
 
     var context = {};
     _.countBy([{}], function(){ assert.strictEqual(this, context); }, context);
@@ -754,16 +754,16 @@
     grouped = _.countBy([4.2, 6.1, 6.4], function(num) {
       return Math.floor(num) > 4 ? 'hasOwnProperty' : 'constructor';
     });
-    assert.equal(grouped.constructor, 1);
-    assert.equal(grouped.hasOwnProperty, 2);
+    assert.strictEqual(grouped.constructor, 1);
+    assert.strictEqual(grouped.hasOwnProperty, 2);
 
     var array = [{}];
     _.countBy(array, function(value, index, obj){ assert.strictEqual(obj, array); });
 
     array = [1, 2, 1, 2, 3];
     grouped = _.countBy(array);
-    assert.equal(grouped['1'], 2);
-    assert.equal(grouped['3'], 1);
+    assert.strictEqual(grouped['1'], 2);
+    assert.strictEqual(grouped['3'], 1);
   });
 
   QUnit.test('shuffle', function(assert) {
@@ -775,7 +775,7 @@
     assert.deepEqual(numbers, _.sortBy(shuffled), 'contains the same members before and after shuffle');
 
     shuffled = _.shuffle({a: 1, b: 2, c: 3, d: 4});
-    assert.equal(shuffled.length, 4);
+    assert.strictEqual(shuffled.length, 4);
     assert.deepEqual(shuffled.sort(), [1, 2, 3, 4], 'works on objects');
   });
 
@@ -825,21 +825,21 @@
   });
 
   QUnit.test('size', function(assert) {
-    assert.equal(_.size({one: 1, two: 2, three: 3}), 3, 'can compute the size of an object');
-    assert.equal(_.size([1, 2, 3]), 3, 'can compute the size of an array');
-    assert.equal(_.size({length: 3, 0: 0, 1: 0, 2: 0}), 3, 'can compute the size of Array-likes');
+    assert.strictEqual(_.size({one: 1, two: 2, three: 3}), 3, 'can compute the size of an object');
+    assert.strictEqual(_.size([1, 2, 3]), 3, 'can compute the size of an array');
+    assert.strictEqual(_.size({length: 3, 0: 0, 1: 0, 2: 0}), 3, 'can compute the size of Array-likes');
 
     var func = function() {
       return _.size(arguments);
     };
 
-    assert.equal(func(1, 2, 3, 4), 4, 'can test the size of the arguments object');
+    assert.strictEqual(func(1, 2, 3, 4), 4, 'can test the size of the arguments object');
 
-    assert.equal(_.size('hello'), 5, 'can compute the size of a string literal');
-    assert.equal(_.size(new String('hello')), 5, 'can compute the size of string object');
+    assert.strictEqual(_.size('hello'), 5, 'can compute the size of a string literal');
+    assert.strictEqual(_.size(new String('hello')), 5, 'can compute the size of string object');
 
-    assert.equal(_.size(null), 0, 'handles nulls');
-    assert.equal(_.size(0), 0, 'handles numbers');
+    assert.strictEqual(_.size(null), 0, 'handles nulls');
+    assert.strictEqual(_.size(0), 0, 'handles numbers');
   });
 
   QUnit.test('partition', function(assert) {
@@ -866,10 +866,10 @@
 
     var object = {a: 1};
     _.partition(object, function(val, key, obj) {
-      assert.equal(val, 1);
-      assert.equal(key, 'a');
-      assert.equal(obj, object);
-      assert.equal(this, predicate);
+      assert.strictEqual(val, 1);
+      assert.strictEqual(key, 'a');
+      assert.strictEqual(obj, object);
+      assert.strictEqual(this, predicate);
     }, predicate);
   });
 
@@ -879,7 +879,7 @@
       parent.innerHTML = '<span id=id1></span>textnode<span id=id2></span>';
 
       var elementChildren = _.filter(parent.childNodes, _.isElement);
-      assert.equal(elementChildren.length, 2);
+      assert.strictEqual(elementChildren.length, 2);
 
       assert.deepEqual(_.map(elementChildren, 'id'), ['id1', 'id2']);
       assert.deepEqual(_.map(parent.childNodes, 'nodeType'), [1, 3, 1]);
@@ -890,8 +890,8 @@
       function compareNode(node) {
         return _.isElement(node) ? node.id.charAt(2) : void 0;
       }
-      assert.equal(_.max(parent.childNodes, compareNode), _.last(parent.childNodes));
-      assert.equal(_.min(parent.childNodes, compareNode), _.first(parent.childNodes));
+      assert.strictEqual(_.max(parent.childNodes, compareNode), _.last(parent.childNodes));
+      assert.strictEqual(_.min(parent.childNodes, compareNode), _.first(parent.childNodes));
     });
   }
 

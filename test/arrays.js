@@ -4,20 +4,20 @@
   QUnit.module('Arrays');
 
   QUnit.test('first', function(assert) {
-    assert.equal(_.first([1, 2, 3]), 1, 'can pull out the first element of an array');
-    assert.equal(_([1, 2, 3]).first(), 1, 'can perform OO-style "first()"');
+    assert.strictEqual(_.first([1, 2, 3]), 1, 'can pull out the first element of an array');
+    assert.strictEqual(_([1, 2, 3]).first(), 1, 'can perform OO-style "first()"');
     assert.deepEqual(_.first([1, 2, 3], 0), [], 'returns an empty array when n <= 0 (0 case)');
     assert.deepEqual(_.first([1, 2, 3], -1), [], 'returns an empty array when n <= 0 (negative case)');
     assert.deepEqual(_.first([1, 2, 3], 2), [1, 2], 'can fetch the first n elements');
     assert.deepEqual(_.first([1, 2, 3], 5), [1, 2, 3], 'returns the whole array if n > length');
     var result = (function(){ return _.first(arguments); }(4, 3, 2, 1));
-    assert.equal(result, 4, 'works on an arguments object');
+    assert.strictEqual(result, 4, 'works on an arguments object');
     result = _.map([[1, 2, 3], [1, 2, 3]], _.first);
     assert.deepEqual(result, [1, 1], 'works well with _.map');
-    assert.equal(_.first(null), void 0, 'returns undefined when called on null');
+    assert.strictEqual(_.first(null), void 0, 'returns undefined when called on null');
 
     Array.prototype[0] = 'boo';
-    assert.equal(_.first([]), void 0, 'return undefined when called on a empty array');
+    assert.strictEqual(_.first([]), void 0, 'return undefined when called on a empty array');
     delete Array.prototype[0];
   });
 
@@ -59,21 +59,21 @@
   });
 
   QUnit.test('last', function(assert) {
-    assert.equal(_.last([1, 2, 3]), 3, 'can pull out the last element of an array');
-    assert.equal(_([1, 2, 3]).last(), 3, 'can perform OO-style "last()"');
+    assert.strictEqual(_.last([1, 2, 3]), 3, 'can pull out the last element of an array');
+    assert.strictEqual(_([1, 2, 3]).last(), 3, 'can perform OO-style "last()"');
     assert.deepEqual(_.last([1, 2, 3], 0), [], 'returns an empty array when n <= 0 (0 case)');
     assert.deepEqual(_.last([1, 2, 3], -1), [], 'returns an empty array when n <= 0 (negative case)');
     assert.deepEqual(_.last([1, 2, 3], 2), [2, 3], 'can fetch the last n elements');
     assert.deepEqual(_.last([1, 2, 3], 5), [1, 2, 3], 'returns the whole array if n > length');
     var result = (function(){ return _(arguments).last(); }(1, 2, 3, 4));
-    assert.equal(result, 4, 'works on an arguments object');
+    assert.strictEqual(result, 4, 'works on an arguments object');
     result = _.map([[1, 2, 3], [1, 2, 3]], _.last);
     assert.deepEqual(result, [3, 3], 'works well with _.map');
-    assert.equal(_.last(null), void 0, 'returns undefined when called on null');
+    assert.strictEqual(_.last(null), void 0, 'returns undefined when called on null');
 
     var arr = [];
     arr[-1] = 'boo';
-    assert.equal(_.last(arr), void 0, 'return undefined when called on a empty array');
+    assert.strictEqual(_.last(arr), void 0, 'return undefined when called on a empty array');
   });
 
   QUnit.test('compact', function(assert) {
@@ -99,10 +99,10 @@
     list = [[1], [2], [3], [[4]]];
     assert.deepEqual(_.flatten(list, true), [1, 2, 3, [4]], 'can shallowly flatten arrays containing only other arrays');
 
-    assert.equal(_.flatten([_.range(10), _.range(10), 5, 1, 3], true).length, 23, 'can flatten medium length arrays');
-    assert.equal(_.flatten([_.range(10), _.range(10), 5, 1, 3]).length, 23, 'can shallowly flatten medium length arrays');
-    assert.equal(_.flatten([new Array(1000000), _.range(56000), 5, 1, 3]).length, 1056003, 'can handle massive arrays');
-    assert.equal(_.flatten([new Array(1000000), _.range(56000), 5, 1, 3], true).length, 1056003, 'can handle massive arrays in shallow mode');
+    assert.strictEqual(_.flatten([_.range(10), _.range(10), 5, 1, 3], true).length, 23, 'can flatten medium length arrays');
+    assert.strictEqual(_.flatten([_.range(10), _.range(10), 5, 1, 3]).length, 23, 'can shallowly flatten medium length arrays');
+    assert.strictEqual(_.flatten([new Array(1000000), _.range(56000), 5, 1, 3]).length, 1056003, 'can handle massive arrays');
+    assert.strictEqual(_.flatten([new Array(1000000), _.range(56000), 5, 1, 3], true).length, 1056003, 'can handle massive arrays in shallow mode');
 
     var x = _.range(100000);
     for (var i = 0; i < 1000; i++) x = [x];
@@ -124,9 +124,9 @@
   QUnit.test('sortedIndex', function(assert) {
     var numbers = [10, 20, 30, 40, 50];
     var indexFor35 = _.sortedIndex(numbers, 35);
-    assert.equal(indexFor35, 3, 'finds the index at which a value should be inserted to retain order');
+    assert.strictEqual(indexFor35, 3, 'finds the index at which a value should be inserted to retain order');
     var indexFor30 = _.sortedIndex(numbers, 30);
-    assert.equal(indexFor30, 2, 'finds the smallest index at which a value could be inserted to retain order');
+    assert.strictEqual(indexFor30, 2, 'finds the smallest index at which a value could be inserted to retain order');
 
     var objects = [{x: 10}, {x: 20}, {x: 30}, {x: 40}];
     var iterator = function(obj){ return obj.x; };
@@ -145,7 +145,7 @@
     while (length--) {
       largeArray[values[length]] = values[length];
     }
-    assert.equal(_.sortedIndex(largeArray, 2147483648), 2147483648, 'works with large indexes');
+    assert.strictEqual(_.sortedIndex(largeArray, 2147483648), 2147483648, 'works with large indexes');
   });
 
   QUnit.test('uniq', function(assert) {
@@ -300,41 +300,41 @@
 
   QUnit.test('indexOf', function(assert) {
     var numbers = [1, 2, 3];
-    assert.equal(_.indexOf(numbers, 2), 1, 'can compute indexOf');
+    assert.strictEqual(_.indexOf(numbers, 2), 1, 'can compute indexOf');
     var result = (function(){ return _.indexOf(arguments, 2); }(1, 2, 3));
-    assert.equal(result, 1, 'works on an arguments object');
+    assert.strictEqual(result, 1, 'works on an arguments object');
 
     _.each([null, void 0, [], false], function(val) {
       var msg = 'Handles: ' + (_.isArray(val) ? '[]' : val);
-      assert.equal(_.indexOf(val, 2), -1, msg);
-      assert.equal(_.indexOf(val, 2, -1), -1, msg);
-      assert.equal(_.indexOf(val, 2, -20), -1, msg);
-      assert.equal(_.indexOf(val, 2, 15), -1, msg);
+      assert.strictEqual(_.indexOf(val, 2), -1, msg);
+      assert.strictEqual(_.indexOf(val, 2, -1), -1, msg);
+      assert.strictEqual(_.indexOf(val, 2, -20), -1, msg);
+      assert.strictEqual(_.indexOf(val, 2, 15), -1, msg);
     });
 
     var num = 35;
     numbers = [10, 20, 30, 40, 50];
     var index = _.indexOf(numbers, num, true);
-    assert.equal(index, -1, '35 is not in the list');
+    assert.strictEqual(index, -1, '35 is not in the list');
 
     numbers = [10, 20, 30, 40, 50]; num = 40;
     index = _.indexOf(numbers, num, true);
-    assert.equal(index, 3, '40 is in the list');
+    assert.strictEqual(index, 3, '40 is in the list');
 
     numbers = [1, 40, 40, 40, 40, 40, 40, 40, 50, 60, 70]; num = 40;
-    assert.equal(_.indexOf(numbers, num, true), 1, '40 is in the list');
-    assert.equal(_.indexOf(numbers, 6, true), -1, '6 isnt in the list');
-    assert.equal(_.indexOf([1, 2, 5, 4, 6, 7], 5, true), -1, 'sorted indexOf doesn\'t uses binary search');
+    assert.strictEqual(_.indexOf(numbers, num, true), 1, '40 is in the list');
+    assert.strictEqual(_.indexOf(numbers, 6, true), -1, '6 isnt in the list');
+    assert.strictEqual(_.indexOf([1, 2, 5, 4, 6, 7], 5, true), -1, 'sorted indexOf doesn\'t uses binary search');
     assert.ok(_.every(['1', [], {}, null], function() {
       return _.indexOf(numbers, num, {}) === 1;
     }), 'non-nums as fromIndex make indexOf assume sorted');
 
     numbers = [1, 2, 3, 1, 2, 3, 1, 2, 3];
     index = _.indexOf(numbers, 2, 5);
-    assert.equal(index, 7, 'supports the fromIndex argument');
+    assert.strictEqual(index, 7, 'supports the fromIndex argument');
 
     index = _.indexOf([,,, 0], void 0);
-    assert.equal(index, 0, 'treats sparse arrays as if they were dense');
+    assert.strictEqual(index, 0, 'treats sparse arrays as if they were dense');
 
     var array = [1, 2, 3, 1, 2, 3];
     assert.strictEqual(_.indexOf(array, 1, -3), 3, 'neg `fromIndex` starts at the right index');
@@ -346,7 +346,7 @@
     assert.strictEqual(_.indexOf([1, 2, 3], 1, true), 0);
 
     index = _.indexOf([], void 0, true);
-    assert.equal(index, -1, 'empty array with truthy `isSorted` returns -1');
+    assert.strictEqual(index, -1, 'empty array with truthy `isSorted` returns -1');
   });
 
   QUnit.test('indexOf with NaN', function(assert) {
@@ -371,26 +371,26 @@
   QUnit.test('lastIndexOf', function(assert) {
     var numbers = [1, 0, 1];
     var falsey = [void 0, '', 0, false, NaN, null, void 0];
-    assert.equal(_.lastIndexOf(numbers, 1), 2);
+    assert.strictEqual(_.lastIndexOf(numbers, 1), 2);
 
     numbers = [1, 0, 1, 0, 0, 1, 0, 0, 0];
     numbers.lastIndexOf = null;
-    assert.equal(_.lastIndexOf(numbers, 1), 5, 'can compute lastIndexOf, even without the native function');
-    assert.equal(_.lastIndexOf(numbers, 0), 8, 'lastIndexOf the other element');
+    assert.strictEqual(_.lastIndexOf(numbers, 1), 5, 'can compute lastIndexOf, even without the native function');
+    assert.strictEqual(_.lastIndexOf(numbers, 0), 8, 'lastIndexOf the other element');
     var result = (function(){ return _.lastIndexOf(arguments, 1); }(1, 0, 1, 0, 0, 1, 0, 0, 0));
-    assert.equal(result, 5, 'works on an arguments object');
+    assert.strictEqual(result, 5, 'works on an arguments object');
 
     _.each([null, void 0, [], false], function(val) {
       var msg = 'Handles: ' + (_.isArray(val) ? '[]' : val);
-      assert.equal(_.lastIndexOf(val, 2), -1, msg);
-      assert.equal(_.lastIndexOf(val, 2, -1), -1, msg);
-      assert.equal(_.lastIndexOf(val, 2, -20), -1, msg);
-      assert.equal(_.lastIndexOf(val, 2, 15), -1, msg);
+      assert.strictEqual(_.lastIndexOf(val, 2), -1, msg);
+      assert.strictEqual(_.lastIndexOf(val, 2, -1), -1, msg);
+      assert.strictEqual(_.lastIndexOf(val, 2, -20), -1, msg);
+      assert.strictEqual(_.lastIndexOf(val, 2, 15), -1, msg);
     });
 
     numbers = [1, 2, 3, 1, 2, 3, 1, 2, 3];
     var index = _.lastIndexOf(numbers, 2, 2);
-    assert.equal(index, 1, 'supports the fromIndex argument');
+    assert.strictEqual(index, 1, 'supports the fromIndex argument');
 
     var array = [1, 2, 3, 1, 2, 3];
 
@@ -454,33 +454,33 @@
       {a: 0, b: 0}
     ];
 
-    assert.equal(_.findIndex(objects, function(obj) {
+    assert.strictEqual(_.findIndex(objects, function(obj) {
       return obj.a === 0;
     }), 0);
 
-    assert.equal(_.findIndex(objects, function(obj) {
+    assert.strictEqual(_.findIndex(objects, function(obj) {
       return obj.b * obj.a === 4;
     }), 2);
 
-    assert.equal(_.findIndex(objects, 'a'), 1, 'Uses lookupIterator');
+    assert.strictEqual(_.findIndex(objects, 'a'), 1, 'Uses lookupIterator');
 
-    assert.equal(_.findIndex(objects, function(obj) {
+    assert.strictEqual(_.findIndex(objects, function(obj) {
       return obj.b * obj.a === 5;
     }), -1);
 
-    assert.equal(_.findIndex(null, _.noop), -1);
+    assert.strictEqual(_.findIndex(null, _.noop), -1);
     assert.strictEqual(_.findIndex(objects, function(a) {
       return a.foo === null;
     }), -1);
     _.findIndex([{a: 1}], function(a, key, obj) {
-      assert.equal(key, 0);
+      assert.strictEqual(key, 0);
       assert.deepEqual(obj, [{a: 1}]);
       assert.strictEqual(this, objects, 'called with context');
     }, objects);
 
     var sparse = [];
     sparse[20] = {a: 2, b: 2};
-    assert.equal(_.findIndex(sparse, function(obj) {
+    assert.strictEqual(_.findIndex(sparse, function(obj) {
       return obj && obj.b * obj.a === 4;
     }), 20, 'Works with sparse arrays');
 
@@ -497,33 +497,33 @@
       {a: 0, b: 0}
     ];
 
-    assert.equal(_.findLastIndex(objects, function(obj) {
+    assert.strictEqual(_.findLastIndex(objects, function(obj) {
       return obj.a === 0;
     }), 3);
 
-    assert.equal(_.findLastIndex(objects, function(obj) {
+    assert.strictEqual(_.findLastIndex(objects, function(obj) {
       return obj.b * obj.a === 4;
     }), 2);
 
-    assert.equal(_.findLastIndex(objects, 'a'), 2, 'Uses lookupIterator');
+    assert.strictEqual(_.findLastIndex(objects, 'a'), 2, 'Uses lookupIterator');
 
-    assert.equal(_.findLastIndex(objects, function(obj) {
+    assert.strictEqual(_.findLastIndex(objects, function(obj) {
       return obj.b * obj.a === 5;
     }), -1);
 
-    assert.equal(_.findLastIndex(null, _.noop), -1);
+    assert.strictEqual(_.findLastIndex(null, _.noop), -1);
     assert.strictEqual(_.findLastIndex(objects, function(a) {
       return a.foo === null;
     }), -1);
     _.findLastIndex([{a: 1}], function(a, key, obj) {
-      assert.equal(key, 0);
+      assert.strictEqual(key, 0);
       assert.deepEqual(obj, [{a: 1}]);
       assert.strictEqual(this, objects, 'called with context');
     }, objects);
 
     var sparse = [];
     sparse[20] = {a: 2, b: 2};
-    assert.equal(_.findLastIndex(sparse, function(obj) {
+    assert.strictEqual(_.findLastIndex(sparse, function(obj) {
       return obj && obj.b * obj.a === 4;
     }), 20, 'Works with sparse arrays');
 

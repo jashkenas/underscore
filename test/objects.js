@@ -89,7 +89,7 @@
     assert.deepEqual(_.invert(_.invert(obj)), obj, 'two inverts gets you back where you started');
 
     obj = {length: 3};
-    assert.equal(_.invert(obj)['3'], 'length', 'can invert an object with "length"');
+    assert.strictEqual(_.invert(obj)['3'], 'length', 'can invert an object with "length"');
   });
 
   QUnit.test('functions', function(assert) {
@@ -107,9 +107,9 @@
 
   QUnit.test('extend', function(assert) {
     var result;
-    assert.equal(_.extend({}, {a: 'b'}).a, 'b', 'can extend an object with the attributes of another');
-    assert.equal(_.extend({a: 'x'}, {a: 'b'}).a, 'b', 'properties in source override destination');
-    assert.equal(_.extend({x: 'x'}, {a: 'b'}).x, 'x', "properties not in source don't get overriden");
+    assert.strictEqual(_.extend({}, {a: 'b'}).a, 'b', 'can extend an object with the attributes of another');
+    assert.strictEqual(_.extend({a: 'x'}, {a: 'b'}).a, 'b', 'properties in source override destination');
+    assert.strictEqual(_.extend({x: 'x'}, {a: 'b'}).x, 'x', "properties not in source don't get overriden");
     result = _.extend({x: 'x'}, {a: 'a'}, {b: 'b'});
     assert.deepEqual(result, {x: 'x', a: 'a', b: 'b'}, 'can extend from multiple source objects');
     result = _.extend({x: 'x'}, {a: 'a', x: 2}, {a: 'b'});
@@ -130,7 +130,7 @@
       _.extend(result, null, void 0, {a: 1});
     } catch (e) { /* ignored */ }
 
-    assert.equal(result.a, 1, 'should not error on `null` or `undefined` sources');
+    assert.strictEqual(result.a, 1, 'should not error on `null` or `undefined` sources');
 
     assert.strictEqual(_.extend(null, {a: 1}), null, 'extending null results in null');
     assert.strictEqual(_.extend(void 0, {a: 1}), void 0, 'extending undefined results in undefined');
@@ -138,9 +138,9 @@
 
   QUnit.test('extendOwn', function(assert) {
     var result;
-    assert.equal(_.extendOwn({}, {a: 'b'}).a, 'b', 'can extend an object with the attributes of another');
-    assert.equal(_.extendOwn({a: 'x'}, {a: 'b'}).a, 'b', 'properties in source override destination');
-    assert.equal(_.extendOwn({x: 'x'}, {a: 'b'}).x, 'x', "properties not in source don't get overriden");
+    assert.strictEqual(_.extendOwn({}, {a: 'b'}).a, 'b', 'can extend an object with the attributes of another');
+    assert.strictEqual(_.extendOwn({a: 'x'}, {a: 'b'}).a, 'b', 'properties in source override destination');
+    assert.strictEqual(_.extendOwn({x: 'x'}, {a: 'b'}).x, 'x', "properties not in source don't get overriden");
     result = _.extendOwn({x: 'x'}, {a: 'a'}, {b: 'b'});
     assert.deepEqual(result, {x: 'x', a: 'a', b: 'b'}, 'can extend from multiple source objects');
     result = _.extendOwn({x: 'x'}, {a: 'a', x: 2}, {a: 'b'});
@@ -207,7 +207,7 @@
 
     assert.notOk(_.has(_.pick({}, 'foo'), 'foo'), 'does not set own property if property not in object');
     _.pick(data, function(value, key, obj) {
-      assert.equal(obj, data, 'passes same object as third parameter of iteratee');
+      assert.strictEqual(obj, data, 'passes same object as third parameter of iteratee');
     });
   });
 
@@ -249,22 +249,22 @@
     var options = {zero: 0, one: 1, empty: '', nan: NaN, nothing: null};
 
     _.defaults(options, {zero: 1, one: 10, twenty: 20, nothing: 'str'});
-    assert.equal(options.zero, 0, 'value exists');
-    assert.equal(options.one, 1, 'value exists');
-    assert.equal(options.twenty, 20, 'default applied');
-    assert.equal(options.nothing, null, "null isn't overridden");
+    assert.strictEqual(options.zero, 0, 'value exists');
+    assert.strictEqual(options.one, 1, 'value exists');
+    assert.strictEqual(options.twenty, 20, 'default applied');
+    assert.strictEqual(options.nothing, null, "null isn't overridden");
 
     _.defaults(options, {empty: 'full'}, {nan: 'nan'}, {word: 'word'}, {word: 'dog'});
-    assert.equal(options.empty, '', 'value exists');
+    assert.strictEqual(options.empty, '', 'value exists');
     assert.ok(_.isNaN(options.nan), "NaN isn't overridden");
-    assert.equal(options.word, 'word', 'new value is added, first one wins');
+    assert.strictEqual(options.word, 'word', 'new value is added, first one wins');
 
     try {
       options = {};
       _.defaults(options, null, void 0, {a: 1});
     } catch (e) { /* ignored */ }
 
-    assert.equal(options.a, 1, 'should not error on `null` or `undefined` sources');
+    assert.strictEqual(options.a, 1, 'should not error on `null` or `undefined` sources');
 
     assert.deepEqual(_.defaults(null, {a: 1}), {a: 1}, 'defaults skips nulls');
     assert.deepEqual(_.defaults(void 0, {a: 1}), {a: 1}, 'defaults skips undefined');
@@ -273,17 +273,17 @@
   QUnit.test('clone', function(assert) {
     var moe = {name: 'moe', lucky: [13, 27, 34]};
     var clone = _.clone(moe);
-    assert.equal(clone.name, 'moe', 'the clone as the attributes of the original');
+    assert.strictEqual(clone.name, 'moe', 'the clone as the attributes of the original');
 
     clone.name = 'curly';
     assert.ok(clone.name === 'curly' && moe.name === 'moe', 'clones can change shallow attributes without affecting the original');
 
     clone.lucky.push(101);
-    assert.equal(_.last(moe.lucky), 101, 'changes to deep attributes are shared with the original');
+    assert.strictEqual(_.last(moe.lucky), 101, 'changes to deep attributes are shared with the original');
 
-    assert.equal(_.clone(void 0), void 0, 'non objects should not be changed by clone');
-    assert.equal(_.clone(1), 1, 'non objects should not be changed by clone');
-    assert.equal(_.clone(null), null, 'non objects should not be changed by clone');
+    assert.strictEqual(_.clone(void 0), void 0, 'non objects should not be changed by clone');
+    assert.strictEqual(_.clone(1), 1, 'non objects should not be changed by clone');
+    assert.strictEqual(_.clone(null), null, 'non objects should not be changed by clone');
   });
 
   QUnit.test('create', function(assert) {
@@ -544,7 +544,7 @@
 
     a = _({x: 1, y: 2}).chain();
     b = _({x: 1, y: 2}).chain();
-    assert.equal(_.isEqual(a.isEqual(b), _(true)), true, '`isEqual` can be chained');
+    assert.strictEqual(_.isEqual(a.isEqual(b), _(true)), true, '`isEqual` can be chained');
 
     // Objects without a `constructor` property
     if (Object.create) {
@@ -561,10 +561,10 @@
 
 
     // Tricky object cases val comparisions
-    assert.equal(_.isEqual([0], [-0]), false);
-    assert.equal(_.isEqual({a: 0}, {a: -0}), false);
-    assert.equal(_.isEqual([NaN], [NaN]), true);
-    assert.equal(_.isEqual({a: NaN}, {a: NaN}), true);
+    assert.strictEqual(_.isEqual([0], [-0]), false);
+    assert.strictEqual(_.isEqual({a: 0}, {a: -0}), false);
+    assert.strictEqual(_.isEqual([NaN], [NaN]), true);
+    assert.strictEqual(_.isEqual({a: NaN}, {a: NaN}), true);
 
     if (typeof Symbol !== 'undefined') {
       var symbol = Symbol('x');
@@ -881,16 +881,16 @@
     var intercepted = null;
     var interceptor = function(obj) { intercepted = obj; };
     var returned = _.tap(1, interceptor);
-    assert.equal(intercepted, 1, 'passes tapped object to interceptor');
-    assert.equal(returned, 1, 'returns tapped object');
+    assert.strictEqual(intercepted, 1, 'passes tapped object to interceptor');
+    assert.strictEqual(returned, 1, 'returns tapped object');
 
     returned = _([1, 2, 3]).chain().
       map(function(n){ return n * 2; }).
       max().
       tap(interceptor).
       value();
-    assert.equal(returned, 6, 'can use tapped objects in a chain');
-    assert.equal(intercepted, returned, 'can use tapped objects in a chain');
+    assert.strictEqual(returned, 6, 'can use tapped objects in a chain');
+    assert.strictEqual(intercepted, returned, 'can use tapped objects in a chain');
   });
 
   QUnit.test('has', function(assert) {
@@ -911,14 +911,14 @@
     var moe = {name: 'Moe Howard', hair: true};
     var curly = {name: 'Curly Howard', hair: false};
 
-    assert.equal(_.isMatch(moe, {hair: true}), true, 'Returns a boolean');
-    assert.equal(_.isMatch(curly, {hair: true}), false, 'Returns a boolean');
+    assert.strictEqual(_.isMatch(moe, {hair: true}), true, 'Returns a boolean');
+    assert.strictEqual(_.isMatch(curly, {hair: true}), false, 'Returns a boolean');
 
-    assert.equal(_.isMatch(5, {__x__: void 0}), false, 'can match undefined props on primitives');
-    assert.equal(_.isMatch({__x__: void 0}, {__x__: void 0}), true, 'can match undefined props');
+    assert.strictEqual(_.isMatch(5, {__x__: void 0}), false, 'can match undefined props on primitives');
+    assert.strictEqual(_.isMatch({__x__: void 0}, {__x__: void 0}), true, 'can match undefined props');
 
-    assert.equal(_.isMatch(null, {}), true, 'Empty spec called with null object returns true');
-    assert.equal(_.isMatch(null, {a: 1}), false, 'Non-empty spec called with null object returns false');
+    assert.strictEqual(_.isMatch(null, {}), true, 'Empty spec called with null object returns true');
+    assert.strictEqual(_.isMatch(null, {a: 1}), false, 'Non-empty spec called with null object returns false');
 
     _.each([null, void 0], function(item) { assert.strictEqual(_.isMatch(item, null), true, 'null matches null'); });
     _.each([null, void 0], function(item) { assert.strictEqual(_.isMatch(item, null), true, 'null matches {}'); });
@@ -931,11 +931,11 @@
     function Prototest() {}
     Prototest.prototype.x = 1;
     var specObj = new Prototest;
-    assert.equal(_.isMatch({x: 2}, specObj), true, 'spec is restricted to own properties');
+    assert.strictEqual(_.isMatch({x: 2}, specObj), true, 'spec is restricted to own properties');
 
     specObj.y = 5;
-    assert.equal(_.isMatch({x: 1, y: 5}, specObj), true);
-    assert.equal(_.isMatch({x: 1, y: 4}, specObj), false);
+    assert.strictEqual(_.isMatch({x: 1, y: 5}, specObj), true);
+    assert.strictEqual(_.isMatch({x: 1, y: 4}, specObj), false);
 
     assert.ok(_.isMatch(specObj, {x: 1, y: 5}), 'inherited and own properties are checked on the test object');
 
@@ -952,14 +952,14 @@
     var curly = {name: 'Curly Howard', hair: false};
     var stooges = [moe, curly];
 
-    assert.equal(_.matcher({hair: true})(moe), true, 'Returns a boolean');
-    assert.equal(_.matcher({hair: true})(curly), false, 'Returns a boolean');
+    assert.strictEqual(_.matcher({hair: true})(moe), true, 'Returns a boolean');
+    assert.strictEqual(_.matcher({hair: true})(curly), false, 'Returns a boolean');
 
-    assert.equal(_.matcher({__x__: void 0})(5), false, 'can match undefined props on primitives');
-    assert.equal(_.matcher({__x__: void 0})({__x__: void 0}), true, 'can match undefined props');
+    assert.strictEqual(_.matcher({__x__: void 0})(5), false, 'can match undefined props on primitives');
+    assert.strictEqual(_.matcher({__x__: void 0})({__x__: void 0}), true, 'can match undefined props');
 
-    assert.equal(_.matcher({})(null), true, 'Empty spec called with null object returns true');
-    assert.equal(_.matcher({a: 1})(null), false, 'Non-empty spec called with null object returns false');
+    assert.strictEqual(_.matcher({})(null), true, 'Empty spec called with null object returns true');
+    assert.strictEqual(_.matcher({a: 1})(null), false, 'Non-empty spec called with null object returns false');
 
     assert.strictEqual(_.find(stooges, _.matcher({hair: false})), curly, 'returns a predicate that can be used by finding functions.');
     assert.strictEqual(_.find(stooges, _.matcher(moe)), moe, 'can be used to locate an object exists in a collection.');
@@ -970,19 +970,19 @@
     assert.deepEqual(_.filter([{b: 1}], _.matcher({a: void 0})), [], 'handles undefined values (1683)');
 
     _.each([true, 5, NaN, null, void 0], function(item) {
-      assert.equal(_.matcher(item)({a: 1}), true, 'treats primitives as empty');
+      assert.strictEqual(_.matcher(item)({a: 1}), true, 'treats primitives as empty');
     });
 
     function Prototest() {}
     Prototest.prototype.x = 1;
     var specObj = new Prototest;
     var protospec = _.matcher(specObj);
-    assert.equal(protospec({x: 2}), true, 'spec is restricted to own properties');
+    assert.strictEqual(protospec({x: 2}), true, 'spec is restricted to own properties');
 
     specObj.y = 5;
     protospec = _.matcher(specObj);
-    assert.equal(protospec({x: 1, y: 5}), true);
-    assert.equal(protospec({x: 1, y: 4}), false);
+    assert.strictEqual(protospec({x: 1, y: 5}), true);
+    assert.strictEqual(protospec({x: 1, y: 4}), false);
 
     assert.ok(_.matcher({x: 1, y: 5})(specObj), 'inherited and own properties are checked on the test object');
 
@@ -993,10 +993,10 @@
     var o = {b: 1};
     var m = _.matcher(o);
 
-    assert.equal(m({b: 1}), true);
+    assert.strictEqual(m({b: 1}), true);
     o.b = 2;
     o.a = 1;
-    assert.equal(m({b: 1}), true, 'changing spec object doesnt change matches result');
+    assert.strictEqual(m({b: 1}), true, 'changing spec object doesnt change matches result');
 
 
     //null edge cases
@@ -1015,17 +1015,17 @@
       c: {a: 2, b: 2}
     };
 
-    assert.equal(_.findKey(objects, function(obj) {
+    assert.strictEqual(_.findKey(objects, function(obj) {
       return obj.a === 0;
     }), 'a');
 
-    assert.equal(_.findKey(objects, function(obj) {
+    assert.strictEqual(_.findKey(objects, function(obj) {
       return obj.b * obj.a === 4;
     }), 'c');
 
-    assert.equal(_.findKey(objects, 'a'), 'b', 'Uses lookupIterator');
+    assert.strictEqual(_.findKey(objects, 'a'), 'b', 'Uses lookupIterator');
 
-    assert.equal(_.findKey(objects, function(obj) {
+    assert.strictEqual(_.findKey(objects, function(obj) {
       return obj.b * obj.a === 5;
     }), void 0);
 
@@ -1038,7 +1038,7 @@
     }), void 0);
 
     _.findKey({a: {a: 1}}, function(a, key, obj) {
-      assert.equal(key, 'a');
+      assert.strictEqual(key, 'a');
       assert.deepEqual(obj, {a: {a: 1}});
       assert.strictEqual(this, objects, 'called with context');
     }, objects);

@@ -19,8 +19,8 @@
         return hash;
       }, {})
       .value();
-    assert.equal(counts.a, 16, 'counted all the letters in the song');
-    assert.equal(counts.e, 10, 'counted all the letters in the song');
+    assert.strictEqual(counts.a, 16, 'counted all the letters in the song');
+    assert.strictEqual(counts.e, 10, 'counted all the letters in the song');
   });
 
   QUnit.test('select/reject/sortBy', function(assert) {
