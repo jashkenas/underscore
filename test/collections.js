@@ -344,7 +344,6 @@
     assert.deepEqual(_.reject(list, {a: 1}), [{a: 2, b: 2}]);
     assert.deepEqual(_.reject(list, {b: 2}), [{a: 1, b: 3}, {a: 1, b: 4}]);
     assert.deepEqual(_.reject(list, {}), [], 'Returns empty list given empty object');
-    assert.deepEqual(_.reject(list, []), [], 'Returns empty list given empty array');
   });
 
   QUnit.test('every', function(assert) {
