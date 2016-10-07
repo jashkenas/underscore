@@ -10,7 +10,8 @@
   var iframe = document.createElement('iframe');
   iframe.frameBorder = iframe.height = iframe.width = 0;
   document.body.appendChild(iframe);
-  var iDoc = (iDoc = iframe.contentDocument || iframe.contentWindow).document || iDoc;
+  var iframeContent = iframe.contentDocument || iframe.contentWindow;
+  var iDoc = iframeContent.document || iframeContent;
   iDoc.write(
     [
       '<script>',
