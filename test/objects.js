@@ -895,16 +895,16 @@
 
   QUnit.test('has', function(assert) {
     var obj = {foo: 'bar', func: function(){}};
-    assert.ok(_.has(obj, 'foo'), 'has() checks that the object has a property.');
-    assert.notOk(_.has(obj, 'baz'), "has() returns false if the object doesn't have the property.");
-    assert.ok(_.has(obj, 'func'), 'has() works for functions too.');
+    assert.ok(_.has(obj, 'foo'), 'checks that the object has a property.');
+    assert.notOk(_.has(obj, 'baz'), "returns false if the object doesn't have the property.");
+    assert.ok(_.has(obj, 'func'), 'works for functions too.');
     obj.hasOwnProperty = null;
-    assert.ok(_.has(obj, 'foo'), 'has() works even when the hasOwnProperty method is deleted.');
+    assert.ok(_.has(obj, 'foo'), 'works even when the hasOwnProperty method is deleted.');
     var child = {};
     child.prototype = obj;
-    assert.notOk(_.has(child, 'foo'), 'has() does not check the prototype chain for a property.');
-    assert.strictEqual(_.has(null, 'foo'), false, 'has() returns false for null');
-    assert.strictEqual(_.has(void 0, 'foo'), false, 'has() returns false for undefined');
+    assert.notOk(_.has(child, 'foo'), 'does not check the prototype chain for a property.');
+    assert.strictEqual(_.has(null, 'foo'), false, 'returns false for null');
+    assert.strictEqual(_.has(void 0, 'foo'), false, 'returns false for undefined');
   });
 
   QUnit.test('property', function(assert) {
