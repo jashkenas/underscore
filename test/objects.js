@@ -925,6 +925,7 @@
     assert.strictEqual(_.property(['a'])({a: false}), false, 'can fetch falsey values');
     assert.strictEqual(_.property(['x', 'y'])({x: {y: null}}), null, 'can fetch null values deeply');
     assert.strictEqual(_.property(['x', 'y'])({x: null}), void 0, 'does not crash on property access of nested non-objects');
+    assert.strictEqual(_.property([])({x: 'y'}), void 0, 'returns `undefined` for a path that is an empty array');
   });
 
   QUnit.test('propertyOf', function(assert) {

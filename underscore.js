@@ -1354,7 +1354,7 @@
       }
       obj = obj[key];
     }
-    return true;
+    return !!length;
   };
 
   // Utility Functions
@@ -1391,7 +1391,7 @@
         if (obj == null) return void 0;
         obj = obj[path[i]];
       }
-      return obj;
+      return length ? obj : void 0;
     };
   };
 
