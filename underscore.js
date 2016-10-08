@@ -139,24 +139,9 @@
     return result;
   };
 
-  var isArray = nativeIsArray || function(obj) {
-    return toString.call(obj) === '[object Array]';
-  };
-
-  var property = function(path) {
-    if (!isArray(path)) {
-      // Optimized case for shallow property access.
-      return function(obj) {
-        return obj == null ? void 0 : obj[path];
-      };
-    }
-    var length = path.length;
-    return function(object) {
-      for (var i = 0; i < length; i++) {
-        if (object == null) return void 0;
-        object = object[path[i]];
-      }
-      return object;
+  var shallowProperty = function(key) {
+    return function(obj) {
+      return obj == null ? void 0 : obj[key];
     };
   };
 
@@ -165,7 +150,7 @@
   // Related: http://people.mozilla.org/~jorendorff/es6-draft.html#sec-tolength
   // Avoids a very nasty iOS 8 JIT bug on ARM-64. #2094
   var MAX_ARRAY_INDEX = Math.pow(2, 53) - 1;
-  var getLength = property('length');
+  var getLength = shallowProperty('length');
   var isArrayLike = function(collection) {
     var length = getLength(collection);
     return typeof length == 'number' && length >= 0 && length <= MAX_ARRAY_INDEX;
@@ -1296,7 +1281,9 @@
 
   // Is a given value an array?
   // Delegates to ECMA5's native Array.isArray
-  _.isArray = isArray;
+  _.isArray = nativeIsArray || function(obj) {
+    return toString.call(obj) === '[object Array]';
+  };
 
   // Is a given variable an object?
   _.isObject = function(obj) {
@@ -1393,7 +1380,19 @@
 
   _.noop = function(){};
 
-  _.property = property;
+  _.property = function(path) {
+    if (!_.isArray(path)) {
+      return shallowProperty(path);
+    }
+    var length = path.length;
+    return function(object) {
+      for (var i = 0; i < length; i++) {
+        if (object == null) return void 0;
+        object = object[path[i]];
+      }
+      return object;
+    };
+  };
 
   // Generates a function for a given object that returns a given property.
   _.propertyOf = function(obj) {
@@ -1401,7 +1400,7 @@
       return function(){};
     }
     return function(key) {
-      return property(key)(obj);
+      return _.property(key)(obj);
     };
   };
 
@@ -1467,7 +1466,7 @@
   // If the value at the named `path` is a function then invoke it with its
   // parent object as context; otherwise, return it.
   _.result = function(object, path, fallback) {
-    if (!isArray(path)) path = [path];
+    if (!_.isArray(path)) path = [path];
     var length = path.length;
     // If path is `[]`, step through the loop once so `fallback` gets used.
     if (!length) {
