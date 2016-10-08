@@ -1385,8 +1385,8 @@
     if (!_.isArray(path)) {
       return shallowProperty(path);
     }
-    var length = path.length;
     return function(obj) {
+      var length = path.length;
       for (var i = 0; i < length; i++) {
         if (obj == null) return void 0;
         obj = obj[path[i]];
