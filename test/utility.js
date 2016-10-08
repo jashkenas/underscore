@@ -365,6 +365,20 @@
     assert.strictEqual(_.result({}, [], 'a'), 'a', 'returns the default when prop is empty');
     assert.strictEqual(_.result(obj, [], context), obj, 'uses the object as context when path is empty');
 
+    var nested = {
+      d: function() {
+        return {
+          e: function() {
+            return obj;
+          },
+          f: context
+        };
+      }
+    };
+    assert.strictEqual(_.result(nested, ['d', 'e']), obj, 'can unpack nested function calls');
+    assert.strictEqual(_.result(nested, ['d', 'f']).e(), obj, 'uses parent as context for nested function calls');
+    assert.strictEqual(_.result(nested, ['d', 'x'], context).e(), obj, 'uses last valid child as context for fallback');
+
     if (typeof Symbol !== 'undefined') {
       var x = Symbol('x');
       var symbolObject = {};
