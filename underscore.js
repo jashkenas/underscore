@@ -1342,16 +1342,17 @@
 
   // Shortcut function for checking if an object has a given property directly
   // on itself (in other words, not on a prototype).
-  _.has = function(object, path) {
+  _.has = function(obj, path) {
     if (!_.isArray(path)) {
-      return object != null && hasOwnProperty.call(object, path);
+      return obj != null && hasOwnProperty.call(obj, path);
     }
-    for (var i = 0, length = path.length; i < length; i++) {
+    var length = path.length;
+    for (var i = 0; i < length; i++) {
       var key = path[i];
-      if (object == null || !hasOwnProperty.call(object, key)) {
+      if (obj == null || !hasOwnProperty.call(obj, key)) {
         return false;
       }
-      object = object[key];
+      obj = obj[key];
     }
     return true;
   };
@@ -1385,12 +1386,12 @@
       return shallowProperty(path);
     }
     var length = path.length;
-    return function(object) {
+    return function(obj) {
       for (var i = 0; i < length; i++) {
-        if (object == null) return void 0;
-        object = object[path[i]];
+        if (obj == null) return void 0;
+        obj = obj[path[i]];
       }
-      return object;
+      return obj;
     };
   };
 
@@ -1463,25 +1464,26 @@
   _.escape = createEscaper(escapeMap);
   _.unescape = createEscaper(unescapeMap);
 
-  // If the value at the named `path` is a function then invoke it with its
-  // parent object as context; otherwise, return it.
-  _.result = function(object, path, fallback) {
+  // Traverses the children of `obj` along `path`. If a child is a function, it
+  // is invoked with its parent as context. Returns the value of the final
+  // child, or `fallback` if any child is undefined.
+  _.result = function(obj, path, fallback) {
     if (!_.isArray(path)) path = [path];
     var length = path.length;
     // If path is `[]`, step through the loop once so `fallback` gets used.
     if (!length) {
       length = 1;
-      object = void 0;
+      obj = void 0;
     }
     for (var i = 0; i < length; i++) {
-      var prop = object == null ? void 0 : object[path[i]];
+      var prop = obj == null ? void 0 : obj[path[i]];
       if (prop === void 0) {
         prop = fallback;
         i = length; // Ensure we don't continue iterating.
       }
-      object = _.isFunction(prop) ? prop.call(object) : prop;
+      obj = _.isFunction(prop) ? prop.call(obj) : prop;
     }
-    return object;
+    return obj;
   };
 
   // Generate a unique integer id (unique within the entire client session).
