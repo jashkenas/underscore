@@ -70,31 +70,6 @@
     assert.strictEqual(_.noop('curly', 'larry', 'moe'), void 0, 'should always return undefined');
   });
 
-  QUnit.test('property', function(assert) {
-    var stooge = {name: 'moe'};
-    assert.strictEqual(_.property('name')(stooge), 'moe', 'should return the property with the given name');
-    assert.strictEqual(_.property('name')(null), void 0, 'should return undefined for null values');
-    assert.strictEqual(_.property('name')(void 0), void 0, 'should return undefined for undefined values');
-  });
-
-  QUnit.test('propertyOf', function(assert) {
-    var stoogeRanks = _.propertyOf({curly: 2, moe: 1, larry: 3});
-    assert.strictEqual(stoogeRanks('curly'), 2, 'should return the property with the given name');
-    assert.strictEqual(stoogeRanks(null), void 0, 'should return undefined for null values');
-    assert.strictEqual(stoogeRanks(void 0), void 0, 'should return undefined for undefined values');
-
-    function MoreStooges() { this.shemp = 87; }
-    MoreStooges.prototype = {curly: 2, moe: 1, larry: 3};
-    var moreStoogeRanks = _.propertyOf(new MoreStooges());
-    assert.strictEqual(moreStoogeRanks('curly'), 2, 'should return properties from further up the prototype chain');
-
-    var nullPropertyOf = _.propertyOf(null);
-    assert.strictEqual(nullPropertyOf('curly'), void 0, 'should return undefined when obj is null');
-
-    var undefPropertyOf = _.propertyOf(void 0);
-    assert.strictEqual(undefPropertyOf('curly'), void 0, 'should return undefined when obj is undefined');
-  });
-
   QUnit.test('random', function(assert) {
     var array = _.range(1000);
     var min = Math.pow(2, 31);
