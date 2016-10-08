@@ -363,6 +363,7 @@
     assert.strictEqual(_.result(obj, ['b', 'c']), childObj, 'uses the parent as context when accessing deep methods');
 
     assert.strictEqual(_.result({}, [], 'a'), 'a', 'returns the default when prop is empty');
+    assert.strictEqual(_.result(obj, [], context), obj, 'uses the object as context when path is empty');
 
     if (typeof Symbol !== 'undefined') {
       var x = Symbol('x');

@@ -1472,8 +1472,7 @@
     var length = path.length;
     // If path is `[]`, step through the loop once so `fallback` gets used.
     if (!length) {
-      length = 1;
-      obj = void 0;
+      return _.isFunction(fallback) ? fallback.call(obj) : fallback;
     }
     for (var i = 0; i < length; i++) {
       var prop = obj == null ? void 0 : obj[path[i]];
