@@ -1381,17 +1381,21 @@
 
   _.noop = function(){};
 
+  var deepGet = function(obj, path) {
+    var length = path.length;
+    for (var i = 0; i < length; i++) {
+      if (obj == null) return void 0;
+      obj = obj[path[i]];
+    }
+    return length ? obj : void 0;
+  };
+
   _.property = function(path) {
     if (!_.isArray(path)) {
       return shallowProperty(path);
     }
     return function(obj) {
-      var length = path.length;
-      for (var i = 0; i < length; i++) {
-        if (obj == null) return void 0;
-        obj = obj[path[i]];
-      }
-      return length ? obj : void 0;
+      return deepGet(obj, path);
     };
   };
 
@@ -1400,8 +1404,8 @@
     if (obj == null) {
       return function(){};
     }
-    return function(key) {
-      return _.property(key)(obj);
+    return function(path) {
+      return !_.isArray(path) ? obj[path] : deepGet(obj, path);
     };
   };
 
