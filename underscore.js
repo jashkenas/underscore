@@ -1474,7 +1474,6 @@
   _.result = function(obj, path, fallback) {
     if (!_.isArray(path)) path = [path];
     var length = path.length;
-    // If path is `[]`, step through the loop once so `fallback` gets used.
     if (!length) {
       return _.isFunction(fallback) ? fallback.call(obj) : fallback;
     }
