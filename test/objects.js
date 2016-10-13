@@ -905,6 +905,9 @@
     assert.notOk(_.has(child, 'foo'), 'does not check the prototype chain for a property.');
     assert.strictEqual(_.has(null, 'foo'), false, 'returns false for null');
     assert.strictEqual(_.has(void 0, 'foo'), false, 'returns false for undefined');
+
+    assert.ok(_.has({a: {b: 'foo'}}, ['a', 'b']), 'can check for nested properties.');
+    assert.notOk(_.has({a: child}, ['a', 'foo']), 'does not check the prototype of nested props.');
   });
 
   QUnit.test('property', function(assert) {
@@ -912,6 +915,17 @@
     assert.strictEqual(_.property('name')(stooge), 'moe', 'should return the property with the given name');
     assert.strictEqual(_.property('name')(null), void 0, 'should return undefined for null values');
     assert.strictEqual(_.property('name')(void 0), void 0, 'should return undefined for undefined values');
+    assert.strictEqual(_.property(null)('foo'), void 0, 'should return undefined for null object');
+    assert.strictEqual(_.property('x')({x: null}), null, 'can fetch null values');
+    assert.strictEqual(_.property('length')(null), void 0, 'does not crash on property access of non-objects');
+
+    // Deep property access
+    assert.strictEqual(_.property('a')({a: 1}), 1, 'can get a direct property');
+    assert.strictEqual(_.property(['a', 'b'])({a: {b: 2}}), 2, 'can get a nested property');
+    assert.strictEqual(_.property(['a'])({a: false}), false, 'can fetch falsey values');
+    assert.strictEqual(_.property(['x', 'y'])({x: {y: null}}), null, 'can fetch null values deeply');
+    assert.strictEqual(_.property(['x', 'y'])({x: null}), void 0, 'does not crash on property access of nested non-objects');
+    assert.strictEqual(_.property([])({x: 'y'}), void 0, 'returns `undefined` for a path that is an empty array');
   });
 
   QUnit.test('propertyOf', function(assert) {
@@ -930,8 +944,10 @@
 
     var undefPropertyOf = _.propertyOf(void 0);
     assert.strictEqual(undefPropertyOf('curly'), void 0, 'should return undefined when obj is undefined');
-  });
 
+    var deepPropertyOf = _.propertyOf({curly: {number: 2}});
+    assert.equal(deepPropertyOf(['curly', 'number']), 2, 'can fetch nested properties of obj');
+  });
 
   QUnit.test('isMatch', function(assert) {
     var moe = {name: 'Moe Howard', hair: true};

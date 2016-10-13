@@ -336,6 +336,62 @@
     }), obj.a, 'called with context');
   });
 
+  QUnit.test('result can accept an array of properties for deep access', function(assert) {
+    var func = function() { return 'f'; };
+    var context = function() { return this; };
+
+    assert.strictEqual(_.result({a: 1}, 'a'), 1, 'can get a direct property');
+    assert.strictEqual(_.result({a: {b: 2}}, ['a', 'b']), 2, 'can get a nested property');
+    assert.strictEqual(_.result({a: 1}, 'b', 2), 2, 'uses the fallback value when property is missing');
+    assert.strictEqual(_.result({a: 1}, ['b', 'c'], 2), 2, 'uses the fallback value when any property is missing');
+    assert.strictEqual(_.result({a: void 0}, ['a'], 1), 1, 'uses the fallback when value is undefined');
+    assert.strictEqual(_.result({a: false}, ['a'], 'foo'), false, 'can fetch falsey values');
+
+    assert.strictEqual(_.result({a: func}, 'a'), 'f', 'can get a direct method');
+    assert.strictEqual(_.result({a: {b: func}}, ['a', 'b']), 'f', 'can get a nested method');
+    assert.strictEqual(_.result(), void 0, 'returns udefined if obj is not passed');
+    assert.strictEqual(_.result(void 1, 'a', 2), 2, 'returns default if obj is not passed');
+    assert.strictEqual(_.result(void 1, 'a', func), 'f', 'executes default if obj is not passed');
+    assert.strictEqual(_.result({}, void 0, 2), 2, 'returns default if prop is not passed');
+    assert.strictEqual(_.result({}, void 0, func), 'f', 'executes default if prop is not passed');
+
+    var childObj = {c: context};
+    var obj = {a: context, b: childObj};
+    assert.strictEqual(_.result(obj, 'a'), obj, 'uses the parent object as context');
+    assert.strictEqual(_.result(obj, 'e', context), obj, 'uses the object as context when executing the fallback');
+    assert.strictEqual(_.result(obj, ['a', 'x'], context), obj, 'uses the object as context when executing the fallback');
+    assert.strictEqual(_.result(obj, ['b', 'c']), childObj, 'uses the parent as context when accessing deep methods');
+
+    assert.strictEqual(_.result({}, [], 'a'), 'a', 'returns the default when prop is empty');
+    assert.strictEqual(_.result(obj, [], context), obj, 'uses the object as context when path is empty');
+
+    var nested = {
+      d: function() {
+        return {
+          e: function() {
+            return obj;
+          },
+          f: context
+        };
+      }
+    };
+    assert.strictEqual(_.result(nested, ['d', 'e']), obj, 'can unpack nested function calls');
+    assert.strictEqual(_.result(nested, ['d', 'f']).e(), obj, 'uses parent as context for nested function calls');
+    assert.strictEqual(_.result(nested, ['d', 'x'], context).e(), obj, 'uses last valid child as context for fallback');
+
+    if (typeof Symbol !== 'undefined') {
+      var x = Symbol('x');
+      var symbolObject = {};
+      symbolObject[x] = 'foo';
+      assert.strictEqual(_.result(symbolObject, x), 'foo', 'can use symbols as keys');
+
+      var y = Symbol('y');
+      symbolObject[y] = {};
+      symbolObject[y][x] = 'bar';
+      assert.strictEqual(_.result(symbolObject, [y, x]), 'bar', 'can use symbols as keys for deep matching');
+    }
+  });
+
   QUnit.test('_.templateSettings.variable', function(assert) {
     var s = '<%=data.x%>';
     var data = {x: 'x'};
