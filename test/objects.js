@@ -933,6 +933,7 @@
     assert.strictEqual(stoogeRanks('curly'), 2, 'should return the property with the given name');
     assert.strictEqual(stoogeRanks(null), void 0, 'should return undefined for null values');
     assert.strictEqual(stoogeRanks(void 0), void 0, 'should return undefined for undefined values');
+    assert.strictEqual(_.propertyOf({a: null})('a'), null, 'can fetch null values');
 
     function MoreStooges() { this.shemp = 87; }
     MoreStooges.prototype = {curly: 2, moe: 1, larry: 3};
@@ -945,8 +946,9 @@
     var undefPropertyOf = _.propertyOf(void 0);
     assert.strictEqual(undefPropertyOf('curly'), void 0, 'should return undefined when obj is undefined');
 
-    var deepPropertyOf = _.propertyOf({curly: {number: 2}});
-    assert.equal(deepPropertyOf(['curly', 'number']), 2, 'can fetch nested properties of obj');
+    var deepPropertyOf = _.propertyOf({curly: {number: 2}, joe: {number: null}});
+    assert.strictEqual(deepPropertyOf(['curly', 'number']), 2, 'can fetch nested properties of obj');
+    assert.strictEqual(deepPropertyOf(['joe', 'number']), null, 'can fetch nested null properties of obj');
   });
 
   QUnit.test('isMatch', function(assert) {

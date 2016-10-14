@@ -716,6 +716,16 @@
     ];
     assert.deepEqual(_.groupBy(matrix, 0), {1: [[1, 2], [1, 3]], 2: [[2, 3]]});
     assert.deepEqual(_.groupBy(matrix, 1), {2: [[1, 2]], 3: [[1, 3], [2, 3]]});
+
+    var liz = {name: 'Liz', stats: {power: 10}};
+    var chelsea = {name: 'Chelsea', stats: {power: 10}};
+    var jordan = {name: 'Jordan', stats: {power: 6}};
+    var collection = [liz, chelsea, jordan];
+    var expected = {
+      10: [liz, chelsea],
+      6: [jordan]
+    };
+    assert.deepEqual(_.groupBy(collection, ['stats', 'power']), expected, 'can group by deep properties');
   });
 
   QUnit.test('indexBy', function(assert) {
