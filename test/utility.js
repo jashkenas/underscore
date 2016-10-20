@@ -443,7 +443,7 @@
     assert.deepEqual(settings, {});
   });
 
-  QUnit.test('#779 - delimeters are applied to unescaped text.', function(assert) {
+  QUnit.test('#779 - delimiters are applied to unescaped text.', function(assert) {
     assert.expect(1);
     var template = _.template('<<\nx\n>>', null, {evaluate: /<<(.*?)>>/g});
     assert.strictEqual(template(), '<<\nx\n>>');
