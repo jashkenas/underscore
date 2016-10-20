@@ -167,7 +167,7 @@
     assert.deepEqual(_.uniq(list, true, iterator), expected, 'uses the result of `iterator` for uniqueness comparisons (sorted case)');
     assert.deepEqual(_.uniq(list, true, 'score'), expected, 'when `iterator` is a string, uses that key for comparisons (sorted case)');
 
-    assert.deepEqual(_.uniq([{0: 1}, {0: 1}, {0: 1}, {0: 2}], 0), [{0: 1}, {0: 2}], 'can use falsey pluck like iterator');
+    assert.deepEqual(_.uniq([{0: 1}, {0: 1}, {0: 1}, {0: 2}], 0), [{0: 1}, {0: 2}], 'can use falsy pluck like iterator');
 
     var result = (function(){ return _.uniq(arguments); }(1, 2, 1, 3, 1, 4));
     assert.deepEqual(result, [1, 2, 3, 4], 'works on an arguments object');
@@ -370,7 +370,7 @@
 
   QUnit.test('lastIndexOf', function(assert) {
     var numbers = [1, 0, 1];
-    var falsey = [void 0, '', 0, false, NaN, null, void 0];
+    var falsy = [void 0, '', 0, false, NaN, null, void 0];
     assert.strictEqual(_.lastIndexOf(numbers, 1), 2);
 
     numbers = [1, 0, 1, 0, 0, 1, 0, 0, 0];
@@ -406,15 +406,15 @@
       assert.strictEqual(_.lastIndexOf(array, '', fromIndex), -1);
     });
 
-    var expected = _.map(falsey, function(value) {
+    var expected = _.map(falsy, function(value) {
       return typeof value == 'number' ? -1 : 5;
     });
 
-    var actual = _.map(falsey, function(fromIndex) {
+    var actual = _.map(falsy, function(fromIndex) {
       return _.lastIndexOf(array, 3, fromIndex);
     });
 
-    assert.deepEqual(actual, expected, 'should treat falsey `fromIndex` values, except `0` and `NaN`, as `array.length`');
+    assert.deepEqual(actual, expected, 'should treat falsy `fromIndex` values, except `0` and `NaN`, as `array.length`');
     assert.strictEqual(_.lastIndexOf(array, 3, '1'), 5, 'should treat non-number `fromIndex` values as `array.length`');
     assert.strictEqual(_.lastIndexOf(array, 3, true), 5, 'should treat non-number `fromIndex` values as `array.length`');
 

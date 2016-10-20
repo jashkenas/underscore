@@ -135,7 +135,7 @@
 
   // Don't care what they escape them to just that they're escaped and can be unescaped
   QUnit.test('_.escape & unescape', function(assert) {
-    // test & (&amp;) seperately obviously
+    // test & (&amp;) separately obviously
     var escapeCharacters = ['<', '>', '"', '\'', '`'];
 
     _.each(escapeCharacters, function(escapeChar) {
@@ -147,7 +147,7 @@
       s = 'a ' + escapeChar + escapeChar + escapeChar + 'some more string' + escapeChar;
       e = _.escape(s);
 
-      assert.strictEqual(e.indexOf(escapeChar), -1, 'can escape multiple occurances of ' + escapeChar);
+      assert.strictEqual(e.indexOf(escapeChar), -1, 'can escape multiple occurrences of ' + escapeChar);
       assert.strictEqual(_.unescape(e), s, 'multiple occurrences of ' + escapeChar + ' can be unescaped');
     });
 
@@ -188,8 +188,8 @@
     result = fancyTemplate({people: {moe: 'Moe', larry: 'Larry', curly: 'Curly'}});
     assert.strictEqual(result, '<ul><li>Moe</li><li>Larry</li><li>Curly</li></ul>', 'can run arbitrary javascript in templates');
 
-    var escapedCharsInJavascriptTemplate = _.template('<ul><% _.each(numbers.split("\\n"), function(item) { %><li><%= item %></li><% }) %></ul>');
-    result = escapedCharsInJavascriptTemplate({numbers: 'one\ntwo\nthree\nfour'});
+    var escapedCharsInJavaScriptTemplate = _.template('<ul><% _.each(numbers.split("\\n"), function(item) { %><li><%= item %></li><% }) %></ul>');
+    result = escapedCharsInJavaScriptTemplate({numbers: 'one\ntwo\nthree\nfour'});
     assert.strictEqual(result, '<ul><li>one</li><li>two</li><li>three</li><li>four</li></ul>', 'Can use escaped characters (e.g. \\n) in JavaScript');
 
     var namespaceCollisionTemplate = _.template('<%= pageCount %> <%= thumbnails[pageCount] %> <% _.each(thumbnails, function(p) { %><div class="thumbnail" rel="<%= p %>"></div><% }); %>');
@@ -345,11 +345,11 @@
     assert.strictEqual(_.result({a: 1}, 'b', 2), 2, 'uses the fallback value when property is missing');
     assert.strictEqual(_.result({a: 1}, ['b', 'c'], 2), 2, 'uses the fallback value when any property is missing');
     assert.strictEqual(_.result({a: void 0}, ['a'], 1), 1, 'uses the fallback when value is undefined');
-    assert.strictEqual(_.result({a: false}, ['a'], 'foo'), false, 'can fetch falsey values');
+    assert.strictEqual(_.result({a: false}, ['a'], 'foo'), false, 'can fetch falsy values');
 
     assert.strictEqual(_.result({a: func}, 'a'), 'f', 'can get a direct method');
     assert.strictEqual(_.result({a: {b: func}}, ['a', 'b']), 'f', 'can get a nested method');
-    assert.strictEqual(_.result(), void 0, 'returns udefined if obj is not passed');
+    assert.strictEqual(_.result(), void 0, 'returns undefined if obj is not passed');
     assert.strictEqual(_.result(void 1, 'a', 2), 2, 'returns default if obj is not passed');
     assert.strictEqual(_.result(void 1, 'a', func), 'f', 'executes default if obj is not passed');
     assert.strictEqual(_.result({}, void 0, 2), 2, 'returns default if prop is not passed');
@@ -443,7 +443,7 @@
     assert.deepEqual(settings, {});
   });
 
-  QUnit.test('#779 - delimeters are applied to unescaped text.', function(assert) {
+  QUnit.test('#779 - delimiters are applied to unescaped text.', function(assert) {
     assert.expect(1);
     var template = _.template('<<\nx\n>>', null, {evaluate: /<<(.*?)>>/g});
     assert.strictEqual(template(), '<<\nx\n>>');

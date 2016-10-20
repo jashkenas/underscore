@@ -109,7 +109,7 @@
     var result;
     assert.strictEqual(_.extend({}, {a: 'b'}).a, 'b', 'can extend an object with the attributes of another');
     assert.strictEqual(_.extend({a: 'x'}, {a: 'b'}).a, 'b', 'properties in source override destination');
-    assert.strictEqual(_.extend({x: 'x'}, {a: 'b'}).x, 'x', "properties not in source don't get overriden");
+    assert.strictEqual(_.extend({x: 'x'}, {a: 'b'}).x, 'x', "properties not in source don't get overridden");
     result = _.extend({x: 'x'}, {a: 'a'}, {b: 'b'});
     assert.deepEqual(result, {x: 'x', a: 'a', b: 'b'}, 'can extend from multiple source objects');
     result = _.extend({x: 'x'}, {a: 'a', x: 2}, {a: 'b'});
@@ -140,7 +140,7 @@
     var result;
     assert.strictEqual(_.extendOwn({}, {a: 'b'}).a, 'b', 'can extend an object with the attributes of another');
     assert.strictEqual(_.extendOwn({a: 'x'}, {a: 'b'}).a, 'b', 'properties in source override destination');
-    assert.strictEqual(_.extendOwn({x: 'x'}, {a: 'b'}).x, 'x', "properties not in source don't get overriden");
+    assert.strictEqual(_.extendOwn({x: 'x'}, {a: 'b'}).x, 'x', "properties not in source don't get overridden");
     result = _.extendOwn({x: 'x'}, {a: 'a'}, {b: 'b'});
     assert.deepEqual(result, {x: 'x', a: 'a', b: 'b'}, 'can extend from multiple source objects');
     result = _.extendOwn({x: 'x'}, {a: 'a', x: 2}, {a: 'b'});
@@ -560,7 +560,7 @@
     assert.strictEqual(_.isEqual(new Foo, other), false, 'Objects from different constructors are not equal');
 
 
-    // Tricky object cases val comparisions
+    // Tricky object cases val comparisons
     assert.strictEqual(_.isEqual([0], [-0]), false);
     assert.strictEqual(_.isEqual({a: 0}, {a: -0}), false);
     assert.strictEqual(_.isEqual([NaN], [NaN]), true);
@@ -922,7 +922,7 @@
     // Deep property access
     assert.strictEqual(_.property('a')({a: 1}), 1, 'can get a direct property');
     assert.strictEqual(_.property(['a', 'b'])({a: {b: 2}}), 2, 'can get a nested property');
-    assert.strictEqual(_.property(['a'])({a: false}), false, 'can fetch falsey values');
+    assert.strictEqual(_.property(['a'])({a: false}), false, 'can fetch falsy values');
     assert.strictEqual(_.property(['x', 'y'])({x: {y: null}}), null, 'can fetch null values deeply');
     assert.strictEqual(_.property(['x', 'y'])({x: null}), void 0, 'does not crash on property access of nested non-objects');
     assert.strictEqual(_.property([])({x: 'y'}), void 0, 'returns `undefined` for a path that is an empty array');
@@ -988,7 +988,7 @@
 
     //null edge cases
     var oCon = {constructor: Object};
-    assert.deepEqual(_.map([null, void 0, 5, {}], _.partial(_.isMatch, _, oCon)), [false, false, false, true], 'doesnt falsey match constructor on undefined/null');
+    assert.deepEqual(_.map([null, void 0, 5, {}], _.partial(_.isMatch, _, oCon)), [false, false, false, true], 'doesnt falsy match constructor on undefined/null');
   });
 
   QUnit.test('matcher', function(assert) {
@@ -1045,7 +1045,7 @@
 
     //null edge cases
     var oCon = _.matcher({constructor: Object});
-    assert.deepEqual(_.map([null, void 0, 5, {}], oCon), [false, false, false, true], 'doesnt falsey match constructor on undefined/null');
+    assert.deepEqual(_.map([null, void 0, 5, {}], oCon), [false, false, false, true], 'doesnt falsy match constructor on undefined/null');
   });
 
   QUnit.test('matches', function(assert) {
