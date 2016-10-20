@@ -349,7 +349,7 @@
 
     assert.strictEqual(_.result({a: func}, 'a'), 'f', 'can get a direct method');
     assert.strictEqual(_.result({a: {b: func}}, ['a', 'b']), 'f', 'can get a nested method');
-    assert.strictEqual(_.result(), void 0, 'returns udefined if obj is not passed');
+    assert.strictEqual(_.result(), void 0, 'returns undefined if obj is not passed');
     assert.strictEqual(_.result(void 1, 'a', 2), 2, 'returns default if obj is not passed');
     assert.strictEqual(_.result(void 1, 'a', func), 'f', 'executes default if obj is not passed');
     assert.strictEqual(_.result({}, void 0, 2), 2, 'returns default if prop is not passed');
