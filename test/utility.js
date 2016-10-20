@@ -188,8 +188,8 @@
     result = fancyTemplate({people: {moe: 'Moe', larry: 'Larry', curly: 'Curly'}});
     assert.strictEqual(result, '<ul><li>Moe</li><li>Larry</li><li>Curly</li></ul>', 'can run arbitrary javascript in templates');
 
-    var escapedCharsInJavascriptTemplate = _.template('<ul><% _.each(numbers.split("\\n"), function(item) { %><li><%= item %></li><% }) %></ul>');
-    result = escapedCharsInJavascriptTemplate({numbers: 'one\ntwo\nthree\nfour'});
+    var escapedCharsInJavaScriptTemplate = _.template('<ul><% _.each(numbers.split("\\n"), function(item) { %><li><%= item %></li><% }) %></ul>');
+    result = escapedCharsInJavaScriptTemplate({numbers: 'one\ntwo\nthree\nfour'});
     assert.strictEqual(result, '<ul><li>one</li><li>two</li><li>three</li><li>four</li></ul>', 'Can use escaped characters (e.g. \\n) in JavaScript');
 
     var namespaceCollisionTemplate = _.template('<%= pageCount %> <%= thumbnails[pageCount] %> <% _.each(thumbnails, function(p) { %><div class="thumbnail" rel="<%= p %>"></div><% }); %>');
