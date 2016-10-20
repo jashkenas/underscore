@@ -560,7 +560,7 @@
     assert.strictEqual(_.isEqual(new Foo, other), false, 'Objects from different constructors are not equal');
 
 
-    // Tricky object cases val comparisions
+    // Tricky object cases val comparisons
     assert.strictEqual(_.isEqual([0], [-0]), false);
     assert.strictEqual(_.isEqual({a: 0}, {a: -0}), false);
     assert.strictEqual(_.isEqual([NaN], [NaN]), true);
