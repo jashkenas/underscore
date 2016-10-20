@@ -922,7 +922,7 @@
     // Deep property access
     assert.strictEqual(_.property('a')({a: 1}), 1, 'can get a direct property');
     assert.strictEqual(_.property(['a', 'b'])({a: {b: 2}}), 2, 'can get a nested property');
-    assert.strictEqual(_.property(['a'])({a: false}), false, 'can fetch falsey values');
+    assert.strictEqual(_.property(['a'])({a: false}), false, 'can fetch falsy values');
     assert.strictEqual(_.property(['x', 'y'])({x: {y: null}}), null, 'can fetch null values deeply');
     assert.strictEqual(_.property(['x', 'y'])({x: null}), void 0, 'does not crash on property access of nested non-objects');
     assert.strictEqual(_.property([])({x: 'y'}), void 0, 'returns `undefined` for a path that is an empty array');
@@ -988,7 +988,7 @@
 
     //null edge cases
     var oCon = {constructor: Object};
-    assert.deepEqual(_.map([null, void 0, 5, {}], _.partial(_.isMatch, _, oCon)), [false, false, false, true], 'doesnt falsey match constructor on undefined/null');
+    assert.deepEqual(_.map([null, void 0, 5, {}], _.partial(_.isMatch, _, oCon)), [false, false, false, true], 'doesnt falsy match constructor on undefined/null');
   });
 
   QUnit.test('matcher', function(assert) {
@@ -1045,7 +1045,7 @@
 
     //null edge cases
     var oCon = _.matcher({constructor: Object});
-    assert.deepEqual(_.map([null, void 0, 5, {}], oCon), [false, false, false, true], 'doesnt falsey match constructor on undefined/null');
+    assert.deepEqual(_.map([null, void 0, 5, {}], oCon), [false, false, false, true], 'doesnt falsy match constructor on undefined/null');
   });
 
   QUnit.test('matches', function(assert) {

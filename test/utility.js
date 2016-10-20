@@ -345,7 +345,7 @@
     assert.strictEqual(_.result({a: 1}, 'b', 2), 2, 'uses the fallback value when property is missing');
     assert.strictEqual(_.result({a: 1}, ['b', 'c'], 2), 2, 'uses the fallback value when any property is missing');
     assert.strictEqual(_.result({a: void 0}, ['a'], 1), 1, 'uses the fallback when value is undefined');
-    assert.strictEqual(_.result({a: false}, ['a'], 'foo'), false, 'can fetch falsey values');
+    assert.strictEqual(_.result({a: false}, ['a'], 'foo'), false, 'can fetch falsy values');
 
     assert.strictEqual(_.result({a: func}, 'a'), 'f', 'can get a direct method');
     assert.strictEqual(_.result({a: {b: func}}, ['a', 'b']), 'f', 'can get a nested method');
