@@ -135,7 +135,7 @@
 
   // Don't care what they escape them to just that they're escaped and can be unescaped
   QUnit.test('_.escape & unescape', function(assert) {
-    // test & (&amp;) seperately obviously
+    // test & (&amp;) separately obviously
     var escapeCharacters = ['<', '>', '"', '\'', '`'];
 
     _.each(escapeCharacters, function(escapeChar) {
