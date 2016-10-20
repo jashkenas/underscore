@@ -147,7 +147,7 @@
       s = 'a ' + escapeChar + escapeChar + escapeChar + 'some more string' + escapeChar;
       e = _.escape(s);
 
-      assert.strictEqual(e.indexOf(escapeChar), -1, 'can escape multiple occurances of ' + escapeChar);
+      assert.strictEqual(e.indexOf(escapeChar), -1, 'can escape multiple occurrences of ' + escapeChar);
       assert.strictEqual(_.unescape(e), s, 'multiple occurrences of ' + escapeChar + ' can be unescaped');
     });
 
