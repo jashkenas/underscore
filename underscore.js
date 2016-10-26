@@ -66,12 +66,13 @@
   // functions.
   var optimizeCb = function(func, context, argCount) {
     if (context === void 0) return func;
-    switch (argCount == null ? 3 : argCount) {
+    switch (argCount) {
       case 1: return function(value) {
         return func.call(context, value);
       };
       // The 2-parameter case has been omitted only because no current consumers
       // made use of it.
+      case null:
       case 3: return function(value, index, collection) {
         return func.call(context, value, index, collection);
       };
