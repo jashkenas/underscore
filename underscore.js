@@ -855,29 +855,58 @@
   // N milliseconds. If `immediate` is passed, trigger the function on the
   // leading edge, instead of the trailing.
   _.debounce = function(func, wait, immediate) {
-    var timeout, result;
+    var timeout, result, context, args;
+    var last = -Infinity;
 
-    var later = function(context, args) {
+    // Only called in the trailing case through setTimeout. Just a wrapper to
+    // pass the context and arguments to the exec function.
+    var later = function() {
       timeout = null;
-      if (args) result = func.apply(context, args);
+      exec(context, args);
+      if (!timeout) context = args = null;
+    };
+    // Actually invokes the user's func.
+    var exec = function(context, args) {
+      var now = _.now();
+      var delta = now - last;
+      // The leading function cannot atomically update the last call, since it
+      // is needed to calculate the delta. But we need to prevent recursive
+      // calls, so i tmust be updated here. The trailing function has no such
+      // problems.
+      if (immediate) last = now;
+
+      // If we need to wait longer (or the clock has not advanced) since the
+      // last call.
+      if (delta < wait && delta >= 0) {
+        if (!immediate) timeout = setTimeout(later, wait - delta);
+      } else {
+        result = func.apply(context, args);
+      }
     };
 
-    var debounced = restArgs(function(args) {
-      if (timeout) clearTimeout(timeout);
-      if (immediate) {
-        var callNow = !timeout;
-        timeout = setTimeout(later, wait);
-        if (callNow) result = func.apply(this, args);
-      } else {
-        timeout = _.delay(later, wait, this, args);
-      }
-
+    // The leading case. This executes the user's func on the first call, then
+    // debounces until wait ms have elapsed since being called. The _next_ call
+    // will again execute.
+    var leading = function(params) {
+      exec(this, params);
       return result;
-    });
+    };
 
+    // The trailing case. This executes the user's func after wait ms have
+    // elapsed since the last call.
+    var trailing = function(params) {
+      last = _.now();
+      context = this;
+      args = params;
+      if (!timeout) timeout = setTimeout(later, wait);
+      return result;
+    };
+
+    var debounced = restArgs(immediate ? leading : trailing);
     debounced.cancel = function() {
       clearTimeout(timeout);
-      timeout = null;
+      timeout = args = context = null;
+      last = -Infinity;
     };
 
     return debounced;
