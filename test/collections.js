@@ -451,7 +451,7 @@
 
 
   QUnit.test('invoke', function(assert) {
-    assert.expect(12);
+    assert.expect(13);
     var list = [[5, 1, 7], [3, 2, 1]];
     var result = _.invoke(list, 'sort');
     assert.deepEqual(result[0], [1, 5, 7], 'first array sorted');
@@ -493,6 +493,13 @@
     assert.deepEqual(_.invoke(arr, ['e']), ['foo'], 'handles path arrays of length one');
     assert.deepEqual(_.invoke(arr, ['f']), [item], 'correct uses parent context with shallow array syntax');
     assert.deepEqual(_.invoke(arr, ['g', 'h']), [void 0], 'does not execute intermediate functions');
+
+    arr = [{
+      a: function() { return 'foo'; }
+    }, {
+      a: function() { return 'bar'; }
+    }];
+    assert.deepEqual(_.invoke(arr, 'a'), ['foo', 'bar'], 'can handle different methods on subsequent objects');
   });
 
   QUnit.test('invoke w/ function reference', function(assert) {

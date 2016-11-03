@@ -300,12 +300,13 @@
       path = path[path.length - 1];
     }
     return _.map(obj, function(context) {
-      if (!func) {
+      var method = func;
+      if (!method) {
         if (contextPath.length) context = deepGet(context, contextPath);
         if (context == null) return void 0;
-        func = context[path];
+        method = context[path];
       }
-      return func == null ? func : func.apply(context, args);
+      return method == null ? method : method.apply(context, args);
     });
   });
 
