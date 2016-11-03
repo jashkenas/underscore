@@ -292,7 +292,7 @@
 
   // Invoke a method (with arguments) on every item in a collection.
   _.invoke = restArgs(function(obj, path, args) {
-    var contextPath = [], func;
+    var contextPath, func;
     if (_.isFunction(path)) {
       func = path;
     } else if (_.isArray(path)) {
@@ -302,7 +302,9 @@
     return _.map(obj, function(context) {
       var method = func;
       if (!method) {
-        if (contextPath.length) context = deepGet(context, contextPath);
+        if (contextPath && contextPath.length) {
+          context = deepGet(context, contextPath);
+        }
         if (context == null) return void 0;
         method = context[path];
       }
