@@ -451,7 +451,7 @@
 
 
   QUnit.test('invoke', function(assert) {
-    assert.expect(5);
+    assert.expect(13);
     var list = [[5, 1, 7], [3, 2, 1]];
     var result = _.invoke(list, 'sort');
     assert.deepEqual(result[0], [1, 5, 7], 'first array sorted');
@@ -468,6 +468,38 @@
     assert.raises(function() {
       _.invoke([{a: 1}], 'a');
     }, TypeError, 'throws for non-functions');
+
+    var getFoo = _.constant('foo');
+    var getThis = function() { return this; };
+    var item = {
+      a: {
+        b: getFoo,
+        c: getThis,
+        d: null
+      },
+      e: getFoo,
+      f: getThis,
+      g: function() {
+        return {
+          h: getFoo
+        };
+      }
+    };
+    var arr = [item];
+    assert.deepEqual(_.invoke(arr, ['a', 'b']), ['foo'], 'supports deep method access via an array syntax');
+    assert.deepEqual(_.invoke(arr, ['a', 'c']), [item.a], 'executes deep methods on their direct parent');
+    assert.deepEqual(_.invoke(arr, ['a', 'd', 'z']), [void 0], 'does not try to access attributes of non-objects');
+    assert.deepEqual(_.invoke(arr, ['a', 'd']), [null], 'handles deep null values');
+    assert.deepEqual(_.invoke(arr, ['e']), ['foo'], 'handles path arrays of length one');
+    assert.deepEqual(_.invoke(arr, ['f']), [item], 'correct uses parent context with shallow array syntax');
+    assert.deepEqual(_.invoke(arr, ['g', 'h']), [void 0], 'does not execute intermediate functions');
+
+    arr = [{
+      a: function() { return 'foo'; }
+    }, {
+      a: function() { return 'bar'; }
+    }];
+    assert.deepEqual(_.invoke(arr, 'a'), ['foo', 'bar'], 'can handle different methods on subsequent objects');
   });
 
   QUnit.test('invoke w/ function reference', function(assert) {
