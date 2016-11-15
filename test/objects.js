@@ -907,9 +907,39 @@
     assert.strictEqual(_.has(void 0, 'foo'), false, 'returns false for undefined');
 
     assert.ok(_.has({a: {b: 'foo'}}, ['a', 'b']), 'can check for nested properties.');
+    assert.ok(_.has({a: {b: 'foo'}}, 'a.b'), 'can check for nested properties using a dot syntax.');
     assert.notOk(_.has({a: child}, ['a', 'foo']), 'does not check the prototype of nested props.');
+    assert.notOk(_.has({a: child}, void 0), 'returns false when checking for undefined');
   });
 
+  QUnit.test('get', function(assert) {
+    var post = {
+      title: 'Underscore And You',
+      meta: {
+        isLive: true
+      },
+      'fancy.key': true,
+      comments: [{
+        text: 'Nice!',
+        author: {
+          name: 'Jeremy',
+          isAdmin: true
+        }
+      }]
+    };
+    assert.strictEqual(_.get(post, 'title'), 'Underscore And You', 'can get shallow properties');
+    assert.strictEqual(_.get(post, 'absent'), void 0, 'returns undefined for missing properties');
+    assert.strictEqual(_.get(post, 'absent', 404), 404, 'returns fallback for missing properties');
+    assert.strictEqual(_.get(post, 'meta.isLive'), true, 'can get deep properties via dot notation');
+    assert.strictEqual(_.get(post, 'meta.absent.isLive'), void 0, 'returns undefined for missing parents');
+    assert.strictEqual(_.get(post, ['meta', 'absent', 'isLive']), void 0, 'returns undefined for missing parents');
+    assert.strictEqual(_.get(post, 'meta.absent.isLive', 'wat'), 'wat', 'returns fallback for missing parents');
+    assert.strictEqual(_.get(post, ['meta', 'isLive']), true, 'can get deep properties via array notation');
+    assert.strictEqual(_.get(post, 'comments.0.text'), 'Nice!', 'can access array indexes via dot notation');
+    assert.strictEqual(_.get(post, ['comments', 0, 'text']), 'Nice!', 'can access array indexes via array notation');
+    assert.strictEqual(_.get(post, ['fancy.key']), true, 'can access keys with dots via array notation');
+    assert.strictEqual(_.get(['a', 'b', 'c'], 1), 'b', 'can access array via integer index');
+  });
   QUnit.test('property', function(assert) {
     var stooge = {name: 'moe'};
     assert.strictEqual(_.property('name')(stooge), 'moe', 'should return the property with the given name');
@@ -922,6 +952,7 @@
     // Deep property access
     assert.strictEqual(_.property('a')({a: 1}), 1, 'can get a direct property');
     assert.strictEqual(_.property(['a', 'b'])({a: {b: 2}}), 2, 'can get a nested property');
+    assert.strictEqual(_.property('a.b')({a: {b: 2}}), 2, 'can get a nested property using dot notation');
     assert.strictEqual(_.property(['a'])({a: false}), false, 'can fetch falsy values');
     assert.strictEqual(_.property(['x', 'y'])({x: {y: null}}), null, 'can fetch null values deeply');
     assert.strictEqual(_.property(['x', 'y'])({x: null}), void 0, 'does not crash on property access of nested non-objects');
@@ -948,6 +979,7 @@
 
     var deepPropertyOf = _.propertyOf({curly: {number: 2}, joe: {number: null}});
     assert.strictEqual(deepPropertyOf(['curly', 'number']), 2, 'can fetch nested properties of obj');
+    assert.strictEqual(deepPropertyOf('curly.number'), 2, 'can fetch nested properties of obj using dot notation');
     assert.strictEqual(deepPropertyOf(['joe', 'number']), null, 'can fetch nested null properties of obj');
   });
 
@@ -989,6 +1021,24 @@
     //null edge cases
     var oCon = {constructor: Object};
     assert.deepEqual(_.map([null, void 0, 5, {}], _.partial(_.isMatch, _, oCon)), [false, false, false, true], 'doesnt falsy match constructor on undefined/null');
+
+    // Deep matching
+    var post = {
+      title: 'Underscore And You',
+      meta: {
+        isLive: true
+      },
+      'fancy.key': true,
+      comments: [{
+        text: 'Nice!'
+      }]
+    };
+    assert.strictEqual(_.isMatch(post, {'meta.isLive': true}), true, 'can match deep properties');
+    assert.strictEqual(_.isMatch(post, {'comments.0.text': 'Nice!'}), true, 'can match deep array properties');
+    var matcher = {title: 'Underscore And You', 'meta.isLive': true};
+    assert.strictEqual(_.isMatch(post, matcher), true, 'can mix deep and shallow matching');
+    assert.strictEqual(_.isMatch(post, {'a.deep.missing.key': true}), false, 'handles property access errors');
+    assert.strictEqual(_.isMatch(post, {'fancy.key': true}), false, 'cannot match keys with periods');
   });
 
   QUnit.test('matcher', function(assert) {

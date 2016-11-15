@@ -451,7 +451,7 @@
 
 
   QUnit.test('invoke', function(assert) {
-    assert.expect(13);
+    assert.expect(14);
     var list = [[5, 1, 7], [3, 2, 1]];
     var result = _.invoke(list, 'sort');
     assert.deepEqual(result[0], [1, 5, 7], 'first array sorted');
@@ -487,6 +487,7 @@
     };
     var arr = [item];
     assert.deepEqual(_.invoke(arr, ['a', 'b']), ['foo'], 'supports deep method access via an array syntax');
+    assert.deepEqual(_.invoke(arr, 'a.b'), ['foo'], 'supports deep method access via a string dot syntax');
     assert.deepEqual(_.invoke(arr, ['a', 'c']), [item.a], 'executes deep methods on their direct parent');
     assert.deepEqual(_.invoke(arr, ['a', 'd', 'z']), [void 0], 'does not try to access attributes of non-objects');
     assert.deepEqual(_.invoke(arr, ['a', 'd']), [null], 'handles deep null values');
@@ -532,6 +533,10 @@
     var people = [{name: 'moe', age: 30}, {name: 'curly', age: 50}];
     assert.deepEqual(_.pluck(people, 'name'), ['moe', 'curly'], 'pulls names out of objects');
     assert.deepEqual(_.pluck(people, 'address'), [void 0, void 0], 'missing properties are returned as undefined');
+
+    var posts = [{author: {name: 'moe', age: 30}}, {author: {name: 'curly', age: 50}}];
+    assert.deepEqual(_.pluck(posts, ['author', 'name']), ['moe', 'curly'], 'pulls nested names out of objects');
+    assert.deepEqual(_.pluck(posts, 'author.name'), ['moe', 'curly'], 'pulls nested names using dot notation');
     //compat: most flexible handling of edge cases
     assert.deepEqual(_.pluck([{'[object Object]': 1}], {}), [1]);
   });

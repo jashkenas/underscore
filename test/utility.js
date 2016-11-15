@@ -342,6 +342,7 @@
 
     assert.strictEqual(_.result({a: 1}, 'a'), 1, 'can get a direct property');
     assert.strictEqual(_.result({a: {b: 2}}, ['a', 'b']), 2, 'can get a nested property');
+    assert.strictEqual(_.result({a: {b: 2}}, 'a.b'), 2, 'can get a nested property using dot notation');
     assert.strictEqual(_.result({a: 1}, 'b', 2), 2, 'uses the fallback value when property is missing');
     assert.strictEqual(_.result({a: 1}, ['b', 'c'], 2), 2, 'uses the fallback value when any property is missing');
     assert.strictEqual(_.result({a: void 0}, ['a'], 1), 1, 'uses the fallback when value is undefined');
