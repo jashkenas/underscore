@@ -621,8 +621,8 @@
   // each array's elements on shared indices.
   _.unzip = function(array) {
     var length = array && _.max(array, getLength).length || 0;
-    return _.times(length, function(index) { 
-        return _.pluck(array, index);
+    return _.times(length, function(index) {
+      return _.pluck(array, index);
     });
   };
 
