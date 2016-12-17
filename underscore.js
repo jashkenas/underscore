@@ -1310,8 +1310,7 @@
 
   // Is a given variable an object?
   _.isObject = function(obj) {
-    var type = typeof obj;
-    return type === 'function' || type === 'object' && !!obj;
+    return obj !== null && (typeof obj === 'function' || typeof obj === 'object');
   };
 
   // Add some isType methods: isArguments, isFunction, isString, isNumber, isDate, isRegExp, isError, isMap, isWeakMap, isSet, isWeakSet.
