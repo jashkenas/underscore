@@ -864,6 +864,16 @@
     assert.ok(_.isUndefined(void 0), 'undefined is undefined');
   });
 
+  QUnit.test('isJson', function(assert) {
+    assert.notOk(_.isJson(''), 'empty strings are not valid json');
+    assert.notOk(_.isJson('abc'), 'string is not valid json');
+    assert.notOk(_.isJson('{"test"}'), 'string with only key is not valid json');
+    assert.ok(_.isJson(1), 'numbers are valid json');
+    assert.ok(_.isJson(1234567890), 'numbers are valid json');
+    assert.ok(_.isJson('{}'), 'empty braces are valid json');
+    assert.ok(_.isJson('{"test":1}'), 'string with json structure are valid json');
+  });
+
   QUnit.test('isError', function(assert) {
     assert.notOk(_.isError(1), 'numbers are not Errors');
     assert.notOk(_.isError(null), 'null is not an Error');

@@ -1363,6 +1363,16 @@
     return obj === void 0;
   };
 
+  _.isJson = function(str) {
+    try {
+      JSON.parse(str);
+    } catch (e) {
+      return false;
+    }
+
+    return true;
+  };
+
   // Shortcut function for checking if an object has a given property directly
   // on itself (in other words, not on a prototype).
   _.has = function(obj, path) {
