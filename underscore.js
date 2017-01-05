@@ -146,7 +146,7 @@
     };
   };
 
-  var parsePath = function(path) {
+  _.toPath = function(path) {
     if (_.isArray(path)) return path;
     if (_.isString(path)) return path.split('.');
     return [path];
@@ -302,7 +302,7 @@
     if (_.isFunction(path)) {
       func = path;
     } else {
-      path = parsePath(path);
+      path = _.toPath(path);
       contextPath = path.slice(0, -1);
       path = path[path.length - 1];
     }
@@ -1179,7 +1179,7 @@
     var obj = Object(object);
     for (var i = 0; i < length; i++) {
       var pathString = keys[i];
-      var path = parsePath(pathString);
+      var path = _.toPath(pathString);
       var key = path.pop();
       var parent = path.length ? deepGet(obj, path) : obj;
       if (parent == null || attrs[pathString] !== parent[key] || !(key in parent)) return false;
@@ -1376,7 +1376,7 @@
   // Shortcut function for checking if an object has a given property directly
   // on itself (in other words, not on a prototype).
   _.has = function(obj, path) {
-    path = parsePath(path);
+    path = _.toPath(path);
     if (path.length === 1) {
       return obj != null && hasOwnProperty.call(obj, path[0]);
     }
@@ -1416,11 +1416,11 @@
   _.noop = function(){};
 
   _.get = function(obj, path, fallback) {
-    return deepGet(obj, parsePath(path), fallback);
+    return deepGet(obj, _.toPath(path), fallback);
   };
 
   _.property = function(path) {
-    path = parsePath(path);
+    path = _.toPath(path);
     if (path.length === 1) {
       return shallowProperty(path[0]);
     }
@@ -1435,7 +1435,7 @@
       return function(){};
     }
     return function(path) {
-      path = parsePath(path);
+      path = _.toPath(path);
       return path.length === 1 ? obj[path[0]] : deepGet(obj, path);
     };
   };
@@ -1503,7 +1503,7 @@
   // is invoked with its parent as context. Returns the value of the final
   // child, or `fallback` if any child is undefined.
   _.result = function(obj, path, fallback) {
-    path = parsePath(path);
+    path = _.toPath(path);
     var length = path.length;
     if (!length) {
       return _.isFunction(fallback) ? fallback.call(obj) : fallback;

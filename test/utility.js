@@ -122,6 +122,18 @@
     assert.strictEqual(_('champ').myReverse(), 'pmahc', 'mixed in a function to the OOP wrapper');
   });
 
+  QUnit.test('_.toPath', function(assert) {
+    var path = ['a', 'b', 'c'];
+    assert.deepEqual(_.toPath(path), path, 'passes arrays through directly');
+    assert.deepEqual(_.toPath('a.b.c'), path, 'can parse simple dot-separated strings');
+    assert.deepEqual(_.toPath('a'), ['a'], 'can parse simple keys');
+
+    var originalToPath = _.toPath;
+    _.toPath = function(str) { return [str]; };
+    assert.deepEqual(_.pluck([{'a.b.c': true}], 'a.b.c'), [true], 'can be replaced with a custom function');
+    _.toPath = originalToPath;
+  });
+
   QUnit.test('_.escape', function(assert) {
     assert.strictEqual(_.escape(null), '');
   });
