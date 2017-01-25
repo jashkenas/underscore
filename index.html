@@ -841,9 +841,9 @@ _.size({one: 1, two: 2, three: 3});
 </pre>
 
       <p id="partition">
-        <b class="header">partition</b><code>_.partition(array, predicate)</code>
+        <b class="header">partition</b><code>_.partition(list, predicate)</code>
         <br />
-        Split <b>array</b> into two arrays: one whose elements all satisfy
+        Split <b>list</b> into two arrays: one whose elements all satisfy
         <b>predicate</b> and one whose elements all do not satisfy <b>predicate</b>.
         <b>predicate</b> is transformed through <a href="#iteratee"><b>iteratee</b></a>
         to facilitate shorthand syntaxes.
@@ -1068,10 +1068,10 @@ _.lastIndexOf([1, 2, 3, 1, 2, 3], 2);
 </pre>
 
       <p id="sortedIndex">
-        <b class="header">sortedIndex</b><code>_.sortedIndex(list, value, [iteratee], [context])</code>
+        <b class="header">sortedIndex</b><code>_.sortedIndex(array, value, [iteratee], [context])</code>
         <br />
         Uses a binary search to determine the index at which the <b>value</b>
-        <i>should</i> be inserted into the <b>list</b> in order to maintain the <b>list</b>'s
+        <i>should</i> be inserted into the <b>array</b> in order to maintain the <b>array</b>'s
         sorted order. If an <a href="#iteratee"><b>iteratee</b></a> function is provided,
         it will be used to compute the sort ranking of each value, including the <b>value</b> you pass.
         The iteratee may also be the string name of the property to sort by (eg. <tt>length</tt>).
