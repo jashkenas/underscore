@@ -23,6 +23,16 @@
     assert.deepEqual(answers, ['one', 'two', 'three'], 'iterating over objects works, and ignores the object prototype.');
     delete obj.constructor.prototype.four;
 
+    answers = [];
+    var s = new Set([1, 2, 3, 1]);
+    _.each(s, function(value) { answers.push(value); });
+    assert.deepEqual(answers, [1, 2, 3], 'can iterate a simple set');
+
+    answers = [];
+    var m = new Map([['one', 1], ['two', 2], ['one', 1.0]]);
+    _.each(m, function(value, key) { answers.push(value, key); });
+    assert.deepEqual(answers, [1.0, 'one', 2, 'two'], 'can iterate a simple map');
+
     // ensure the each function is JITed
     _(1000).times(function() { _.each([], function(){}); });
     var count = 0;
@@ -869,6 +879,8 @@
     assert.strictEqual(_.size({one: 1, two: 2, three: 3}), 3, 'can compute the size of an object');
     assert.strictEqual(_.size([1, 2, 3]), 3, 'can compute the size of an array');
     assert.strictEqual(_.size({length: 3, 0: 0, 1: 0, 2: 0}), 3, 'can compute the size of Array-likes');
+    assert.strictEqual(_.size(new Set([1, 2, 1])), 2, 'can compute set size');
+    assert.strictEqual(_.size(new Map([['one', 1], ['two', 2], ['one', '1_']])), 2, 'can compute map size');
 
     var func = function() {
       return _.size(arguments);
