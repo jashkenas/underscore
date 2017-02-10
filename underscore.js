@@ -168,8 +168,7 @@
   };
 
   function is(obj, type) {
-    return obj instanceof type;
-    // return toString.call(obj) === '[object ' + type + ']';
+    return toString.call(obj) === '[object ' + type + ']';
   }
 
   // Collection Functions
@@ -181,7 +180,7 @@
   _.each = _.forEach = function(obj, iteratee, context) {
     iteratee = optimizeCb(iteratee, context);
     var i, length;
-    if (is(obj, Set) || is(obj, Map)) {
+    if (is(obj, 'Set') || is(obj, 'Map')) {
       obj.forEach(iteratee);
     } else if (isArrayLike(obj)) {
       for (i = 0, length = obj.length; i < length; i++) {
@@ -483,7 +482,7 @@
   // Return the number of elements in an object.
   _.size = function(obj) {
     if (obj == null) return 0;
-    if (is(obj, Set) || is(obj, Map)) return obj.size;
+    if (is(obj, 'Set') || is(obj, 'Map')) return obj.size;
     return isArrayLike(obj) ? obj.length : _.keys(obj).length;
   };
 
@@ -1302,7 +1301,7 @@
   // An "empty" object has no enumerable own-properties.
   _.isEmpty = function(obj) {
     if (obj == null) return true;
-    if (is(obj, Set) || is(obj, Map)) return obj.size === 0;
+    if (is(obj, 'Set') || is(obj, 'Map')) return obj.size === 0;
     if (isArrayLike(obj) && (_.isArray(obj) || _.isString(obj) || _.isArguments(obj))) return obj.length === 0;
     return _.keys(obj).length === 0;
   };
