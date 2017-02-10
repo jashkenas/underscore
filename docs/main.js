@@ -3,6 +3,10 @@
   var sections = document.querySelectorAll('.searchable_section');
   var searchInput = document.getElementById('function_filter');
 
+  function searchValue() {
+    return searchInput.value.trim().replace(/^_\./, '');
+  }
+
   function strIn(a, b) {
     a = a.toLowerCase();
     b = b.toLowerCase();
@@ -12,7 +16,8 @@
   function doesMatch(element) {
     var name = element.getAttribute('data-name');
     var aliases = element.getAttribute('data-aliases') || '';
-    return strIn(searchInput.value, name) || strIn(searchInput.value, aliases);
+    var value = searchValue();
+    return strIn(value, name) || strIn(value, aliases);
   }
 
   function filterElement(element) {
@@ -22,7 +27,7 @@
   function filterToc() {
     _.each(functions, filterElement);
 
-    var emptySearch = searchInput.value === '';
+    var emptySearch = searchValue() === '';
 
     // Hide the titles of empty sections
     _.each(sections, function(section) {
@@ -34,7 +39,7 @@
 
   function gotoFirst() {
     var firstFunction = _.find(functions, doesMatch);
-    if(firstFunction) {
+    if (firstFunction) {
       window.location.hash = firstFunction.getAttribute('data-name');
       searchInput.focus();
     }
