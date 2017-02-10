@@ -482,7 +482,7 @@
   // Return the number of elements in an object.
   _.size = function(obj) {
     if (obj == null) return 0;
-    if (is(obj, 'Set') || is(obj, 'Map')) return obj.size;
+    if (_.isSet(obj) || _.isMap(obj)) return obj.size;
     return isArrayLike(obj) ? obj.length : _.keys(obj).length;
   };
 
@@ -1301,7 +1301,7 @@
   // An "empty" object has no enumerable own-properties.
   _.isEmpty = function(obj) {
     if (obj == null) return true;
-    if (is(obj, 'Set') || is(obj, 'Map')) return obj.size === 0;
+    if (_.isSet(obj) || _.isMap(obj)) return obj.size === 0;
     if (isArrayLike(obj) && (_.isArray(obj) || _.isString(obj) || _.isArguments(obj))) return obj.length === 0;
     return _.keys(obj).length === 0;
   };

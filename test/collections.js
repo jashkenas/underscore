@@ -23,16 +23,6 @@
     assert.deepEqual(answers, ['one', 'two', 'three'], 'iterating over objects works, and ignores the object prototype.');
     delete obj.constructor.prototype.four;
 
-    answers = [];
-    var s = new Set([1, 2, 3, 1]);
-    _.each(s, function(value) { answers.push(value); });
-    assert.deepEqual(answers, [1, 2, 3], 'can iterate a simple set');
-
-    answers = [];
-    var m = new Map([['one', 1], ['two', 2], ['one', 1.0]]);
-    _.each(m, function(value, key) { answers.push(value, key); });
-    assert.deepEqual(answers, [1.0, 'one', 2, 'two'], 'can iterate a simple map');
-
     // ensure the each function is JITed
     _(1000).times(function() { _.each([], function(){}); });
     var count = 0;

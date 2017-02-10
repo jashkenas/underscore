@@ -586,8 +586,8 @@
     assert.ok(_.isEmpty(''), 'the empty string is empty');
     assert.notOk(_.isEmpty('moe'), 'but other strings are not');
     assert.ok(_.isEmpty(new Set()), 'the empty set is empty');
-    assert.notOk(_.isEmpty(new Set([1])), 'the empty set is empty');
-    assert.ok(_.isEmpty(new Map()), "the not empty map isn't empty");
+    assert.notOk(_.isEmpty(new Set([1])), "the not empty set isn't empty");
+    assert.ok(_.isEmpty(new Map()), 'empty map is empty');
     assert.notOk(_.isEmpty(new Map([['one', 1]])), "the not empty map isn't empty");
 
     var obj = {one: 1};
