@@ -1462,7 +1462,8 @@
     '>': '&gt;',
     '"': '&quot;',
     "'": '&#x27;',
-    '`': '&#x60;'
+    '`': '&#x60;',
+    '/': '&#x2F;'
   };
   var unescapeMap = _.invert(escapeMap);
 
