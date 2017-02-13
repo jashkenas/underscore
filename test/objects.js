@@ -599,6 +599,32 @@
     assert.notOk(_.isEmpty(nonEnumProp), 'non-enumerable property is not empty');
   });
 
+  QUnit.test('isEmptyDeep', function(assert) {
+    assert.notOk(_([1]).isEmptyDeep(), '[1] is not empty');
+    assert.ok(_.isEmptyDeep([]), '[] is empty');
+    assert.notOk(_.isEmptyDeep({one: 1}), '{one: 1} is not empty');
+    assert.ok(_.isEmptyDeep({}), '{} is empty');
+    assert.ok(_.isEmptyDeep(new RegExp('')), 'objects with prototype properties are empty');
+    assert.ok(_.isEmptyDeep(null), 'null is empty');
+    assert.ok(_.isEmptyDeep(), 'undefined is empty');
+    assert.ok(_.isEmptyDeep(''), 'the empty string is empty');
+    assert.notOk(_.isEmptyDeep('moe'), 'but other strings are not');
+    assert.ok(_.isEmptyDeep({foo: [{}, {}]}), 'children of the object are empty');
+    assert.notOk(_.isEmptyDeep({foo: [{}, 1]}), 'one of the children of the object is empty');
+
+    var obj = {one: 1};
+    delete obj.one;
+    assert.ok(_.isEmptyDeep(obj), 'deleting all the keys from an object empties it');
+
+    var args = function(){ return arguments; };
+    assert.ok(_.isEmptyDeep(args()), 'empty arguments object is empty');
+    assert.ok(_.isEmptyDeep(args('')), 'non-empty arguments object is empty');
+
+    // covers collecting non-enumerable properties in IE < 9
+    var nonEnumProp = {toString: 5};
+    assert.notOk(_.isEmptyDeep(nonEnumProp), 'non-enumerable property is not empty');
+  });
+
   if (typeof document === 'object') {
     QUnit.test('isElement', function(assert) {
       assert.notOk(_.isElement('div'), 'strings are not dom elements');
