@@ -1042,9 +1042,27 @@ predicate, and one whose elements all do not satisfy the predicate.</p>
   };</pre></div></div>
             
         </li>
-        
-        
+
+
         <li id="section-49">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-55">&#182;</a>
+              </div>
+              <p>Trim out all falsy values from an object.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  _.compact = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(obj)</span> </span>{
+    <span class="hljs-keyword">return</span> _.filter(obj, _.identity);
+  };</pre></div></div>
+            
+        </li>
+        
+
+        
+        <li id="section-50">
             <div class="annotation">
               
               <div class="pilwrap ">
@@ -1057,7 +1075,7 @@ predicate, and one whose elements all do not satisfy the predicate.</p>
         </li>
         
         
-        <li id="section-50">
+        <li id="section-51">
             <div class="annotation">
               
               <div class="pilwrap ">
@@ -1069,7 +1087,7 @@ predicate, and one whose elements all do not satisfy the predicate.</p>
         </li>
         
         
-        <li id="section-51">
+        <li id="section-52">
             <div class="annotation">
               
               <div class="pilwrap ">
@@ -1090,7 +1108,7 @@ allows it to work with <code>_.map</code>.</p>
         </li>
         
         
-        <li id="section-52">
+        <li id="section-53">
             <div class="annotation">
               
               <div class="pilwrap ">
@@ -1109,7 +1127,7 @@ the array, excluding the last N.</p>
         </li>
         
         
-        <li id="section-53">
+        <li id="section-54">
             <div class="annotation">
               
               <div class="pilwrap ">
@@ -1129,7 +1147,7 @@ values in the array.</p>
         </li>
         
         
-        <li id="section-54">
+        <li id="section-55">
             <div class="annotation">
               
               <div class="pilwrap ">
@@ -1145,24 +1163,7 @@ the rest N values in the array.</p>
     <span class="hljs-keyword">return</span> slice.call(array, n == <span class="hljs-literal">null</span> || guard ? <span class="hljs-number">1</span> : n);
   };</pre></div></div>
             
-        </li>
-        
-        
-        <li id="section-55">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-55">&#182;</a>
-              </div>
-              <p>Trim out all falsy values from an array.</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>  _.compact = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(array)</span> </span>{
-    <span class="hljs-keyword">return</span> _.filter(array, _.identity);
-  };</pre></div></div>
-            
-        </li>
+        </li>          
         
         
         <li id="section-56">

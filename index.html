@@ -228,6 +228,7 @@
         <li data-name="toArray">- <a href="#toArray">toArray</a></li>
         <li data-name="size">- <a href="#size">size</a></li>
         <li data-name="partition">- <a href="#partition">partition</a></li>
+        <li data-name="compact">- <a href="#compact">compact</a></li>
       </ul>
     </div>
 
@@ -239,8 +240,7 @@
         <li data-name="first" data-aliases="head take">- <a href="#first">first</a></li>
         <li data-name="initial">- <a href="#initial">initial</a></li>
         <li data-name="last">- <a href="#last">last</a></li>
-        <li data-name="rest" data-aliases="tail drop">- <a href="#rest">rest</a></li>
-        <li data-name="compact">- <a href="#compact">compact</a></li>
+        <li data-name="rest" data-aliases="tail drop">- <a href="#rest">rest</a></li>        
         <li data-name="flatten">- <a href="#flatten">flatten</a></li>
         <li data-name="without">- <a href="#without">without</a></li>
         <li data-name="union">- <a href="#union">union</a></li>
@@ -853,6 +853,18 @@ _.partition([0, 1, 2, 3, 4, 5], isOdd);
 =&gt; [[1, 3, 5], [0, 2, 4]]
 </pre>
 
+      <p id="compact">
+        <b class="header">compact</b><code>_.compact(list)</code>
+        <br />
+        Returns a copy of the <b>list</b> with all falsy values removed.
+        In JavaScript, <i>false</i>, <i>null</i>, <i>0</i>, <i>""</i>,
+        <i>undefined</i> and <i>NaN</i> are all falsy.
+      </p>
+      <pre>
+_.compact([0, 1, false, 2, '', 3]);
+=&gt; [1, 2, 3]
+</pre>
+
       <h2 id="arrays">Array Functions</h2>
 
       <p>
@@ -907,18 +919,6 @@ _.last([5, 4, 3, 2, 1]);
       <pre>
 _.rest([5, 4, 3, 2, 1]);
 =&gt; [4, 3, 2, 1]
-</pre>
-
-      <p id="compact">
-        <b class="header">compact</b><code>_.compact(array)</code>
-        <br />
-        Returns a copy of the <b>array</b> with all falsy values removed.
-        In JavaScript, <i>false</i>, <i>null</i>, <i>0</i>, <i>""</i>,
-        <i>undefined</i> and <i>NaN</i> are all falsy.
-      </p>
-      <pre>
-_.compact([0, 1, false, 2, '', 3]);
-=&gt; [1, 2, 3]
 </pre>
 
       <p id="flatten">
