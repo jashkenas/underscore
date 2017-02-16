@@ -571,8 +571,13 @@
       assert.strictEqual(_.isEqual(symbol, symbol), true, 'A symbol is equal to itself');
       assert.strictEqual(_.isEqual(symbol, Object(symbol)), true, 'Even when wrapped in Object()');
       assert.strictEqual(_.isEqual(symbol, null), false, 'Different types are not equal');
-    }
 
+      var symbolY = Symbol('y');
+      assert.strictEqual(_.isEqual(symbol, symbolY), false, 'Different symbols are not equal');
+
+      var sameStringSymbol = Symbol('x');
+      assert.strictEqual(_.isEqual(symbol, sameStringSymbol), false, 'Different symbols of same string are not equal');
+    }
   });
 
   QUnit.test('isEmpty', function(assert) {
