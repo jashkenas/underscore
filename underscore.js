@@ -569,20 +569,20 @@
     if (!distanceBetweenConsequentValues) {
       distanceBetweenConsequentValues = 1;
     }
-    if (typeof distanceBetweenConsequentValues != "number" || distanceBetweenConsequentValues<=0) {
-      throw new TypeError("distance_between_consequent_values must be positive number");
+    if (typeof distanceBetweenConsequentValues != 'number' || distanceBetweenConsequentValues <= 0) {
+      throw new TypeError('distance_between_consequent_values must be positive number');
     }
     if (!_.isNumericArray(array)) {
-      throw new TypeError("segmentize is applicable on numeric arrays only");
+      throw new TypeError('segmentize is applicable on numeric arrays only');
     }
     var segments = [];
-    var i=0;
+    var i = 0;
     var arrayLength = getLength(array);
     var prevValue;
-    while (i<arrayLength) {
+    while (i < arrayLength) {
         prevValue = array[i];
         var segment = [];
-        while ((i<arrayLength)&&(array[i]-prevValue<1.5*distanceBetweenConsequentValues)) {
+        while ((i < arrayLength) && (array[i]-prevValue < 1.5 * distanceBetweenConsequentValues)) {
             segment.push(array[i]);
             prevValue = array[i];
             i++;
