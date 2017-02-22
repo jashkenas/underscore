@@ -86,7 +86,7 @@
 
   QUnit.test('segmentize', function(assert) {
     var array = [1,2,3,4,5,10,11,12,20,30,31,40,41,42];
-    var segments = _.segmentize(array,1);
+    var segments = _.segmentize(array, 1);
     //should be equal to [ [1,2,3,4,5], [10,11,12], [20], [30,31], [40,41,42] ]
     assert.strictEqual(segments.length==5, true, "can segmentize");
   });
