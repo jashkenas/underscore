@@ -84,6 +84,13 @@
     assert.deepEqual(result, [[1], [3]], 'works well with _.map');
   });
 
+  QUnit.test('segmentize', function(assert) {
+    var array = [1,2,3,4,5,10,11,12,20,30,31,40,41,42];
+    var segments = _.segmentize(array,1);
+    //should be equal to [ [1,2,3,4,5], [10,11,12], [20], [30,31], [40,41,42] ]
+    assert.strictEqual(segments.length==5, true, "can segmentize");
+  });
+
   QUnit.test('flatten', function(assert) {
     assert.deepEqual(_.flatten(null), [], 'supports null');
     assert.deepEqual(_.flatten(void 0), [], 'supports undefined');
