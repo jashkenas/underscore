@@ -4,7 +4,7 @@
   var searchInput = document.getElementById('function_filter');
 
   function searchValue() {
-    return searchInput.value.trim().replace(/^_\./, '');
+    return searchInput.value.trim().replace(/^_\.?/, '');
   }
 
   function strIn(a, b) {
