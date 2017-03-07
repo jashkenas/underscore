@@ -2121,6 +2121,8 @@ _.template("Using 'with': <%= data.answer %>", {variable: 'data'})({answer: 'no'
         a stack trace, something that is not possible when compiling templates on the client.
         The <b>source</b> property is available on the compiled template
         function for easy precompilation.
+        For example, using a pre-compiler with ERB-style delimiters,
+        the source can be made to populate a script tag:
       </p>
 
       <pre>&lt;script&gt;
