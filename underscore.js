@@ -518,6 +518,21 @@
   _.rest = _.tail = _.drop = function(array, n, guard) {
     return slice.call(array, n == null || guard ? 1 : n);
   };
+  
+  // Returns a copy of the reversed array. Aliased as `flip`.
+  // Passing an **n** will return a copy of array with the first N entries reversed.
+  _.reverse = _.flip = function(array, n, guard) {
+	  if (array == null) return void 0;
+	  var revarray = [];
+	  if (n == null || guard) {
+		  while ( (i = array.shift()) != undefined ) { revarray.unshift(i); };
+		  return revarray;
+	  }
+	  else {
+		  _.times(n, function() { revarray.unshift(array.shift()) } );
+		  return revarray.concat(array);
+	  }
+  };
 
   // Trim out all falsy values from an array.
   _.compact = function(array) {
