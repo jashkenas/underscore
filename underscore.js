@@ -188,6 +188,23 @@
     }
     return obj;
   };
+  
+  //similar to each, but introduces interval between each execution
+  //helps in avoiding browser freezing when running heavy process
+  var chunk = _.chunk = function(obj, iterator, context, interval){
+      if(obj==null) return;
+      if(interval === undefined) interval = 100;
+      if(obj.length === +obj.length){
+          obj = obj.concat();
+          setTimeout(function(){
+              var item = obj.shift();
+              iterator.call(context, item);
+              if(obj.length > 0){
+                  setTimeout(arguments.callee, interval);
+              }
+          }, interval)
+      }
+  };
 
   // Return the results of applying the iteratee to each element.
   _.map = _.collect = function(obj, iteratee, context) {
