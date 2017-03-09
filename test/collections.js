@@ -713,6 +713,10 @@
     assert.deepEqual(_.sortBy(list), ['e', 'q', 'r', 't', 'w', 'y'], 'uses _.identity if iterator is not specified');
   });
 
+  QUnit.test('sort', function(assert) {
+    assert.strictEqual(_.sort, _.sortBy, 'is an alias for sortBy');
+  });
+
   QUnit.test('groupBy', function(assert) {
     var parity = _.groupBy([1, 2, 3, 4, 5, 6], function(num){ return num % 2; });
     assert.ok('0' in parity && '1' in parity, 'created a group for each value');
