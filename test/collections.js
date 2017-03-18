@@ -914,6 +914,14 @@
     }, predicate);
   });
 
+  test('partitionInto', function() {
+    // Breaks a list into a set of smaller lists
+    deepEqual(_.partitionInto({a: 1, b: 2}, 3), [], 'for non-array objects it returns an empty array');
+    deepEqual(_.partitionInto([0, 1, 2, 3], 3), [[0, 1, 2], [3]], 'partitionInto takes a number argument and breaks the list into sub-lists containing the number passed in');
+    deepEqual(_.partitionInto([0, 1, 2, 3], -1), [], 'partitionInto returns an empty array for negative number arguments');
+  });
+
+
   if (typeof document != 'undefined') {
     QUnit.test('Can use various collection methods on NodeLists', function(assert) {
       var parent = document.createElement('div');
