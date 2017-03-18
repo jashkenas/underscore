@@ -1044,6 +1044,19 @@
     return pairs;
   };
 
+  // Make an object's level one
+  _.simple = function(obj, target) {
+    var result = target || {};
+    for (var key in obj) {
+      if (typeof obj[key] == 'object') {
+        _.simple(obj[key], result);
+      } else {
+        result[key] = obj[key];
+      }
+    }
+    return result;
+  };
+
   // Invert the keys and values of an object. The values must be serializable.
   _.invert = function(obj) {
     var result = {};
