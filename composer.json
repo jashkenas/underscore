@@ -1,0 +1,25 @@
+{
+  "name": "jashkenas/underscore",
+  "description": "JavaScript's functional programming helper library.",
+  "homepage": "http://underscorejs.org",
+  "keywords": [
+    "util",
+    "functional",
+    "server",
+    "client",
+    "browser"
+  ],
+  "license": "MIT",
+  "type": "component",
+  "extra": {
+    "component": {
+      "scripts": [
+        "underscore.js"
+      ],
+      "files": [
+        "underscore-min.js",
+        "underscore-min.map"
+      ]
+    }
+  }
+}
