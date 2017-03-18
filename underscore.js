@@ -1306,7 +1306,7 @@
   // Is a given value an array?
   // Delegates to ECMA5's native Array.isArray
   _.isArray = nativeIsArray || function(obj) {
-    return toString.call(obj) === '[object Array]';
+    return Object.prototype.toString.call(obj) === '[object Array]';
   };
 
   // Is a given variable an object?
