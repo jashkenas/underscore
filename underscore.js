@@ -673,7 +673,7 @@
     var value = iteratee(obj);
     var low = 0, high = getLength(array);
     while (low < high) {
-      var mid = Math.floor((low + high) / 2);
+      var mid = low + high >>> 1;
       if (iteratee(array[mid]) < value) low = mid + 1; else high = mid;
     }
     return low;
