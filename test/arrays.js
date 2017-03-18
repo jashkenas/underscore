@@ -560,4 +560,26 @@
     assert.deepEqual(_.chunk([10, 20, 30, 40, 50, 60, 70], 2), [[10, 20], [30, 40], [50, 60], [70]], 'chunk into parts of less then current array length elements');
     assert.deepEqual(_.chunk([10, 20, 30, 40, 50, 60, 70], 3), [[10, 20, 30], [40, 50, 60], [70]], 'chunk into parts of less then current array length elements');
   });
+
+  test('perform', function() {
+    // 0 args
+    deepEqual(_.perform(), [], 'perform with no args returns an empty array');
+
+    // 1 arg
+    deepEqual(_.perform([1]), [1], 'perform with no function returns the original array');
+
+    // 2 arg
+    var arr = [{name: 'James'}, {name: 'Chloe'}];
+    var nameMe = function() {
+      return this.name;
+    };
+    deepEqual(_.perform(arr, nameMe), ['James', 'Chloe'], 'make each obj perform the function nameMe (should return their names)');
+
+    // 2+ args
+    var nameMeAdvanced = function(emotion) {
+      return this.name + ' is ' + (emotion || 'neutral');
+    };
+    deepEqual(_.perform(arr, nameMeAdvanced, 'happy'), ['James is happy', 'Chloe is happy'], 'any arguments after the fn are passed to fn');
+    deepEqual(_.perform(arr, nameMeAdvanced, null, null, null), ['James is neutral', 'Chloe is neutral'], 'any arguments after the fn are passed to fn');
+  });
 }());
