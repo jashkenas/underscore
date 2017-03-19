@@ -1502,6 +1502,24 @@
     }
     return obj;
   };
+  
+  _.format = function(number, dec, dsep, tsep) {
+	if (isNaN(number)) return "";
+	number = number.toFixed(dec || 0);	
+	var pindex = number.indexOf('.'), fnums, decimals, parts = [];
+	if (pindex > -1) {
+		fnums = number.substring(0, pindex).split('');
+		decimals = (dsep || '.') + number.substr(pindex+1);
+	}
+	else {
+		fnums = number.split('');
+		decimals = '';
+	}
+	do {
+		parts.unshift(fnums.splice(-3, 3).join(''));
+	} while (fnums.length);
+	return parts.join(tsep || ',') + decimals;
+  };
 
   // Generate a unique integer id (unique within the entire client session).
   // Useful for temporary DOM ids.

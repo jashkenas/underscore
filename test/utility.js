@@ -448,5 +448,19 @@
     var template = _.template('<<\nx\n>>', null, {evaluate: /<<(.*?)>>/g});
     assert.strictEqual(template(), '<<\nx\n>>');
   });
+  
+  test("utility: _.format", function() {
+	equal(_.format(9000), "9,000");
+	equal(_.format(9000, 0), "9,000");
+	equal(_.format(90000, 2), "90,000.00");
+	equal(_.format(1000.754), "1,001");
+	equal(_.format(1000.754, 2), "1,000.75");
+	equal(_.format(1000.754, 0, ',', '.'), "1.001");
+	equal(_.format(1000.754, 2, ',', '.'), "1.000,75");
+	equal(_.format(1000000.754, 2, ',', '.'), "1.000.000,75");
+	equal(_.format(1000000000), "1,000,000,000");
+	equal(_.format("not number"), "");
+	equal(_.format(new Number(5000)), "5,000");
+  });
 
 }());
