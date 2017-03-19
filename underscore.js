@@ -1363,6 +1363,22 @@
   _.isUndefined = function(obj) {
     return obj === void 0;
   };
+  
+  // Creates namespaces to be used for scoping variables and classes so 
+  // that they are not global. 
+  _.ns: function(namespace) {
+    ns = namespace.split('.');
+    currentNs = window[ns[0]];
+    if (currentNs === undefined) {
+      currentNs = window[ns[0]] = {};
+    }
+    sub = ns.slice(1);
+    for(i = 0; i < sub.length; i++) {
+      currentNs = currentNs[sub[i]] = currentNs[sub[i]] || {};
+    }
+
+    return currentNs;
+  }
 
   // Shortcut function for checking if an object has a given property directly
   // on itself (in other words, not on a prototype).
