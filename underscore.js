@@ -420,6 +420,11 @@
     }).sort(function(left, right) {
       var a = left.criteria;
       var b = right.criteria;
+      
+      if (_.isString(a) && _.isString(b)) {
+          return a.localeCompare(b);
+      }
+      
       if (a !== b) {
         if (a > b || a === void 0) return 1;
         if (a < b || b === void 0) return -1;
