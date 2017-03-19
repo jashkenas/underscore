@@ -257,6 +257,17 @@
     return _.filter(obj, _.negate(cb(predicate)), context);
   };
 
+	// Remove all elements that pass a truth test.
+	_.remove = function(obj, iterator) {
+		var toRemove = [];
+		for (var i = 0; i < obj.length; i++) {
+			if (iterator(obj[i])) { toRemove.push(i); }
+		}
+		for (var i = 0; i < toRemove.length; i++) {
+			obj.splice(toRemove[i], 1);
+		}
+	};
+
   // Determine whether all of the elements match a truth test.
   // Aliased as `all`.
   _.every = _.all = function(obj, predicate, context) {
