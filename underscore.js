@@ -1006,6 +1006,14 @@
     if (hasEnumBug) collectNonEnumProps(obj, keys);
     return keys;
   };
+  
+  // Retrieve all the names of an object's properties, including `non-enumerable` ones.
+  _.allKeys = function(obj) {
+    if (obj !== Object(obj)) throw new TypeError('Invalid object');
+    var keys = [];
+    for (var key in obj) keys.push(key);
+    return keys;
+  };
 
   // Retrieve the values of an object's properties.
   _.values = function(obj) {
