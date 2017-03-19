@@ -1361,7 +1361,9 @@
 
   // Is a given variable undefined?
   _.isUndefined = function(obj) {
-    return obj === void 0;
+    failed = true;
+    this.isArray(obj) ? this.each(obj, function(element) {(element === void 0) ? null : failed = false; }) : failed = (obj === void 0);
+    return failed
   };
 
   // Shortcut function for checking if an object has a given property directly
