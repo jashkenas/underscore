@@ -449,4 +449,17 @@
     assert.strictEqual(template(), '<<\nx\n>>');
   });
 
+  test('default', function() {
+    var obj = {
+      number: 1,
+      null: null,
+      false: false
+    };
+
+    strictEqual(_.default(obj.number, 'default'), 1, 'a value should always be used');
+    strictEqual(_.default(obj.null, 'default'), null, 'null is an okay value and does not need to be defaulted');
+    strictEqual(_.default(obj.notThere, 'default'), 'default', 'default should be used when value is undefined');
+    strictEqual(_.default(obj.false, 'default'), false, 'false should be passed through too');
+  });
+
 }());
