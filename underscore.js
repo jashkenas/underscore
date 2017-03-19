@@ -648,6 +648,29 @@
     }
     return result;
   };
+  
+  // Unzip an array of tuples into separate arrays. This is the counterpart
+  // to _.zip(). e.g.
+  //
+  //     var array = [{name: 'Mark', age: 30}, {name: 'Sven', age: 67}];
+  //     _.unzip(array, ['name', 'age']);
+  //
+  // Which would yield:
+  //
+  //     {'name': ['Mark', 'Sven'], 'age': [30, 67]}
+  //
+  _.unzip = function(array, properties) {
+    var unzipped = [];
+    _.each(properties, function(p) {
+      unzipped[p] = [];
+    });
+    _.each(array, function(tuple) {
+      _.each(properties, function(p) {
+        unzipped[p].push(tuple[p]);
+      });
+    });
+    return unzipped;
+  }
 
   // Generator function to create the findIndex and findLastIndex functions.
   var createPredicateIndexFinder = function(dir) {
