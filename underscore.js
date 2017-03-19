@@ -1403,7 +1403,7 @@
     };
   };
 
-  _.noop = function(){};
+  _.noop = _.nop = function(){};
 
   _.property = function(path) {
     if (!_.isArray(path)) {
