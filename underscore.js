@@ -1381,6 +1381,12 @@
     return !!length;
   };
 
+  // Shortcut function for getting the value of a property in an object.
+  _.get = function(obj, key) {
+    if(obj && _.has(obj, key)) return obj[key];
+    return void 0;
+  };
+
   // Utility Functions
   // -----------------
 
