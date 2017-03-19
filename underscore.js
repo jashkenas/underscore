@@ -941,6 +941,17 @@
       }
     };
   };
+  
+  // Returns a function that will be executed every time when function was called interval times.
+  _.interval = function(interval, func) {
+    var called = interval;
+    return function() {
+      if (--called == 0) {
+        called = interval;
+        return func.apply(this, arguments);
+      }
+    };
+  };
 
   // Returns a function that will only be executed up to (but not including) the Nth call.
   _.before = function(times, func) {
