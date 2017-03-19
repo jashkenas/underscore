@@ -634,6 +634,32 @@
   // an index go together.
   _.zip = restArgs(_.unzip);
 
+  // Produce an array that contains a join of the passed-in arrays.
+  // Last argument is a comparator function to compare keys
+  _.join = function() {
+    var cmp = arguments[arguments.length-1];
+    var join = [];
+    _.each(arguments, function(array) {
+      if(typeof array === "function") return;
+      _.each(array, function(newObj) {
+        var isMerged = false;
+        _.each(join, function(joinObj, joinIndex) {
+          if(cmp(newObj, joinObj)) {
+            _.each(joinObj, function(value, key) {
+              newObj[key] = value;
+            });
+            join[joinIndex] = newObj;
+            isMerged = true;
+          }
+        });
+        if(!isMerged) {
+          join.push(newObj);
+        }
+      });
+    });
+    return join;
+  };
+
   // Converts lists into objects. Pass either a single array of `[key, value]`
   // pairs, or two parallel arrays of the same length -- one of keys, and one of
   // the corresponding values. Passing by pairs is the reverse of _.pairs.
