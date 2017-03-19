@@ -2138,7 +2138,7 @@ _.template("Using 'with': <%= data.answer %>", {variable: 'data'})({answer: 'no'
 
     <pre>
 _.map([1, 2, 3], function(n){ return n * 2; });
-_([1, 2, 3]).map(function(n){ return n * 2; });</pre>
+_.chain([1, 2, 3]).map(function(n){ return n * 2; }).value();</pre>
 
       <h2 id="chaining">Chaining</h2>
 
