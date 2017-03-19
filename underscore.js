@@ -1441,13 +1441,14 @@
     return accum;
   };
 
-  // Return a random integer between min and max (inclusive).
-  _.random = function(min, max) {
+  // Return a random integer or decimal between min and max (inclusive)
+  _.random = function(min, max, fixed) {
+    var fixed = fixed || 0;
     if (max == null) {
       max = min;
       min = 0;
     }
-    return min + Math.floor(Math.random() * (max - min + 1));
+    return +(min + Math.random() * (max - min)).toFixed(fixed);
   };
 
   // A (possibly faster) way to get the current timestamp as an integer.
