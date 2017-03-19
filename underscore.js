@@ -1059,7 +1059,9 @@
   _.functions = _.methods = function(obj) {
     var names = [];
     for (var key in obj) {
-      if (_.isFunction(obj[key])) names.push(key);
+      try {
+        if (_.isFunction(obj[key])) names.push(key);
+      } catch (e) {};
     }
     return names.sort();
   };
