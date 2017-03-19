@@ -723,6 +723,8 @@
       step = stop < start ? -1 : 1;
     }
 
+    (start > stop) && (step > 0) && (step = -step);
+
     var length = Math.max(Math.ceil((stop - start) / step), 0);
     var range = Array(length);
 
