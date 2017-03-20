@@ -38,6 +38,10 @@
   // Naked function reference for surrogate-prototype-swapping.
   var Ctor = function(){};
 
+
+  // add an IE8 shim for isArray
+  Array.isArray || (Array.isArray= function(a) {return{}.toString.call(a)=='[object Array]'});
+
   // Create a safe reference to the Underscore object for use below.
   var _ = function(obj) {
     if (obj instanceof _) return obj;
