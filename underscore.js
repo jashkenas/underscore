@@ -111,10 +111,7 @@
         case 1: return func.call(this, arguments[0], rest);
         case 2: return func.call(this, arguments[0], arguments[1], rest);
       }
-      var args = Array(startIndex + 1);
-      for (index = 0; index < startIndex; index++) {
-        args[index] = arguments[index];
-      }
+      var args = ArrayProto.slice.call(arguments, 0, startIndex);
       args[startIndex] = rest;
       return func.apply(this, args);
     };
@@ -561,13 +558,14 @@
   // passed-in arrays.
   _.intersection = function(array) {
     var result = [];
-    var argsLength = arguments.length;
+    var args = ArrayProto.slice.call(arguments);
+    var argsLength = args.length;
     for (var i = 0, length = getLength(array); i < length; i++) {
       var item = array[i];
       if (_.contains(result, item)) continue;
       var j;
       for (j = 1; j < argsLength; j++) {
-        if (!_.contains(arguments[j], item)) break;
+        if (!_.contains(args[j], item)) break;
       }
       if (j === argsLength) result.push(item);
     }
@@ -728,11 +726,12 @@
     var placeholder = _.partial.placeholder;
     var bound = function() {
       var position = 0, length = boundArgs.length;
+      var funcargs = ArrayProto.slice.call(arguments);
       var args = Array(length);
       for (var i = 0; i < length; i++) {
-        args[i] = boundArgs[i] === placeholder ? arguments[position++] : boundArgs[i];
+        args[i] = boundArgs[i] === placeholder ? funcargs[position++] : boundArgs[i];
       }
-      while (position < arguments.length) args.push(arguments[position++]);
+      while (position < funcargs.length) args.push(funcargs[position++]);
       return executeBound(func, bound, this, this, args);
     };
     return bound;
@@ -981,7 +980,7 @@
     var keys = _.keys(obj);
     var length = keys.length;
     var pairs = Array(length);
-    for (var i = 0; i < length; i++) {
+    for (var i = length; i--; i) {
       pairs[i] = [keys[i], obj[keys[i]]];
     }
     return pairs;
@@ -1012,8 +1011,9 @@
     return function(obj) {
       var length = arguments.length;
       if (length < 2 || obj == null) return obj;
+      var args = ArrayProto.slice.call(arguments);
       for (var index = 1; index < length; index++) {
-        var source = arguments[index],
+        var source = args[index],
             keys = keysFunc(source),
             l = keys.length;
         for (var i = 0; i < l; i++) {
@@ -1113,7 +1113,7 @@
     var keys = _.keys(attrs), length = keys.length;
     if (object == null) return !length;
     var obj = Object(object);
-    for (var i = 0; i < length; i++) {
+    for (var i = length; i--;) {
       var key = keys[i];
       if (attrs[key] !== obj[key] || !(key in obj)) return false;
     }
