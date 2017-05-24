@@ -1243,6 +1243,11 @@
     // Assume equality for cyclic structures. The algorithm for detecting cyclic
     // structures is adapted from ES 5.1 section 15.12.3, abstract operation `JO`.
 
+    // Compare array lengths to determine if a deep comparison is necessary.
+    if (areArrays && a.length !== b.length) {
+      return false;
+    }
+    
     // Initializing stack of traversed objects.
     // It's done here since we only need them for objects and arrays comparison.
     aStack = aStack || [];
@@ -1260,10 +1265,8 @@
 
     // Recursively compare objects and arrays.
     if (areArrays) {
-      // Compare array lengths to determine if a deep comparison is necessary.
-      length = a.length;
-      if (length !== b.length) return false;
       // Deep compare the contents, ignoring non-numeric properties.
+      length = a.length;
       while (length--) {
         if (!eq(a[length], b[length], aStack, bStack)) return false;
       }
