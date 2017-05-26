@@ -5,3 +5,4 @@ node_modules
 *.swp
 nyc_output
 coverage
+scratchpad

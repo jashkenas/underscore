@@ -551,6 +551,47 @@
     return flatten(array, shallow, false);
   };
 
+  // Checks whether numeric array is given
+  _.isNumericArray = function(array) {
+    if (!isArrayLike(array)) {
+      return false;
+    }
+    for (var i = 0, length = getLength(array); i < length; i++) {
+      if (typeof array[i] != 'number')
+        return false;
+    }
+    return true;
+  };
+
+  // Split a numeric array into segments of consequent numbers
+  // i.e. [1,2,3,4,5,10,11,12,20,30,31,40,41,42] => [ [1,2,3,4,5], [10,11,12], [20], [30,31], [40,41,42] ]
+  _.segmentize = function(array, distanceBetweenConsequentValues) {
+    if (!distanceBetweenConsequentValues) {
+      distanceBetweenConsequentValues = 1;
+    }
+    if (typeof distanceBetweenConsequentValues != 'number' || distanceBetweenConsequentValues <= 0) {
+      throw new TypeError('distance_between_consequent_values must be positive number');
+    }
+    if (!_.isNumericArray(array)) {
+      throw new TypeError('segmentize is applicable on numeric arrays only');
+    }
+    var segments = [];
+    var i = 0;
+    var arrayLength = getLength(array);
+    var prevValue;
+    while (i < arrayLength) {
+        prevValue = array[i];
+        var segment = [];
+        while ((i < arrayLength) && (array[i]-prevValue < 1.5 * distanceBetweenConsequentValues)) {
+            segment.push(array[i]);
+            prevValue = array[i];
+            i++;
+        }
+        segments.push(segment);
+    }
+    return segments;
+  };
+
   // Return a version of the array that does not contain the specified value(s).
   _.without = restArgs(function(array, otherArrays) {
     return _.difference(array, otherArrays);
