@@ -1298,6 +1298,25 @@
     return _.keys(obj).length === 0;
   };
 
+  // Is a given object, array or string deeply empty?
+  // An "empty" deeply object has no enumerable own-properties at any level
+  _.isEmptyDeep = function(obj) {
+    var isAnEnnumerableObject = _.isArray(obj) || _.isObject(obj) || _.isString(obj),
+        isAnEmptyEnnumerableObject = isAnEnnumerableObject && _.isEmpty(obj),
+        children;
+
+    if (_.isNull(obj) || _.isUndefined(obj)) return true;
+    else if (isAnEmptyEnnumerableObject) return true;
+    else if (!isAnEnnumerableObject) return false;
+    else if (_.isString(obj)) return obj.length === 0;
+    else {
+      children = _.values(obj);
+      return _.every(children, function(child) {
+        return _.isEmptyDeep(child);
+      });
+    }
+  };
+
   // Is a given value a DOM element?
   _.isElement = function(obj) {
     return !!(obj && obj.nodeType === 1);
