@@ -775,6 +775,9 @@
   // as a placeholder by default, allowing any combination of arguments to be
   // pre-filled. Set `_.partial.placeholder` for a custom placeholder argument.
   _.partial = restArgs(function(func, boundArgs) {
+    if (typeof func !== 'function') {
+      throw new Error('partial must be passed a function');
+    }
     var placeholder = _.partial.placeholder;
     var bound = function() {
       var position = 0, length = boundArgs.length;
