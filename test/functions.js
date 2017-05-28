@@ -767,4 +767,32 @@
     }, 0)(1, 2, 3, 4);
   });
 
+  test('nMap', function() {
+    var arr1 = [1, 2, 3];
+    var arr2 = [2, 4, 6];
+
+    var func1 = function(a) {
+      return a + 1;
+    };
+
+    var func2 = function(a, b) {
+      return a * b;
+    };
+
+    var func3 = function(a, b) {
+      return a + b;
+    };
+
+    var result1 = _.nMap([func1], arr1);
+    var result2 = _.nMap([func2], arr1, arr2);
+    var result3 = _.nMap([func2, func3], arr1, arr2);
+    var expected3 = [2, 4, 6, 4, 8, 12, 6, 12, 18, 3, 4, 5, 5, 6, 7, 7, 8, 9];
+
+    deepEqual(result1, [2, 3, 4], 'should act like map when given an array of values and a single function with arity 1');
+
+    deepEqual(result2, [2, 4, 6, 4, 8, 12, 6, 12, 18], 'should return an array of non-deterministic values when given multiple options for arguments');
+
+    deepEqual(result3.sort(), expected3.sort(), 'should be really non-deterministic when given multiple options and functions');
+  });
+
 }());
