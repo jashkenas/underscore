@@ -1541,11 +1541,17 @@
     return '\\' + escapes[match];
   };
 
+  // When customizing `templateSettings`, it is important to know how the
+  // template begin and end tags are defined. This way, we can ignore template variables
+  // that are not defined.
+
   // JavaScript micro-templating, similar to John Resig's implementation.
   // Underscore templating handles arbitrary delimiters, preserves whitespace,
   // and correctly escapes quotes within interpolated code.
   // NB: `oldSettings` only exists for backwards compatibility.
   _.template = function(text, settings, oldSettings) {
+    var findTemplateBeginTag = /\/(.+)(?=\(\[)/g;
+    var findTemplateEndTag = /\?\)(.*)(?=\/g)/g;
     if (!settings && oldSettings) settings = oldSettings;
     settings = _.defaults({}, settings, _.templateSettings);
 
@@ -1555,6 +1561,18 @@
       (settings.interpolate || noMatch).source,
       (settings.evaluate || noMatch).source
     ].join('|') + '|$', 'g');
+
+    // Find the template tags for the defined interpolation settings.
+    // This is used to substitute undefined variables with the pre-existing tags.
+    if (settings.ignore_missing_template_variables) {
+      var templateBeginResults = findTemplateBeginTag.exec(settings.interpolate.toString()) || [];
+      var templateBeginTag = templateBeginResults[1] || null;
+      if (!templateBeginTag) throw new Error('Could not find template begin tag from: ' + settings.interpolate);
+
+      var templateEndResults = findTemplateEndTag.exec(settings.interpolate.toString()) || [];
+      var templateEndTag = templateEndResults[1] || null;
+      if (!templateEndTag) throw new Error('Could not find template end tag from: ' + settings.interpolate);
+    }
 
     // Compile the template source, escaping string literals appropriately.
     var index = 0;
@@ -1566,7 +1584,10 @@
       if (escape) {
         source += "'+\n((__t=(" + escape + "))==null?'':_.escape(__t))+\n'";
       } else if (interpolate) {
-        source += "'+\n((__t=(" + interpolate + "))==null?'':__t)+\n'";
+        source +=
+          settings.ignore_missing_template_variables
+            ? '\'+\n(__t=(typeof(' + interpolate + ') === \'undefined\') ? \'' + templateBeginTag + '\' + \'' + interpolate + '\' + \'' + templateEndTag + '\' : ' + interpolate + ')+\n\''
+            : '\'+\n((__t=(' + interpolate + '))==null ? \'\':__t)+\n\'';
       } else if (evaluate) {
         source += "';\n" + evaluate + "\n__p+='";
       }

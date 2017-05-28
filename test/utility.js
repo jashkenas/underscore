@@ -449,4 +449,17 @@
     assert.strictEqual(template(), '<<\nx\n>>');
   });
 
+  QUnit.test('template returns cleanly and unchanged if template variables are missing.', function(assert) {
+    assert.expect(1);
+    var settings = {'ignore_missing_template_variables': true};
+    var template = _.template('<%=foo%>', settings);
+    assert.deepEqual(template({}), '<%=foo%>');
+  });
+
+  QUnit.test('template interpolates values and ignores missing template variables.', function(assert) {
+    assert.expect(1);
+    var settings = {'ignore_missing_template_variables': true};
+    var template = _.template('<%=foo%><%=bar%>', settings);
+    assert.deepEqual(template({'foo': 'Handle'}), 'Handle<%=bar%>');
+  });
 }());
