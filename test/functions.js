@@ -767,4 +767,8 @@
     }, 0)(1, 2, 3, 4);
   });
 
+  test('restParam', function() {
+    strictEqual(_.restParam, _.restArgs, 'Should be aliased');
+  });
+
 }());
