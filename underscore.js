@@ -1133,7 +1133,7 @@
       if (keys.length > 1) context = keys[1];
     } else {
       keys = _.map(flatten(keys, false, false), String);
-      iteratee = function(value, key) {
+      iteratee = function(value, key, obj) {
         return !_.contains(keys, key);
       };
     }
