@@ -295,6 +295,12 @@
       assert.strictEqual(this, _, 'called with context');
     }, _);
   });
+  
+  test('findIndex', function() {
+    var array = [1, 2, 3, 4];
+    strictEqual(_.findIndex(array, function(n) { return n > 2; }), 2, 'should return index of first found `value`');
+    strictEqual(_.findIndex(array, function() { return false; }), void 0, 'should return `undefined` if `value` is not found');
+  });
 
   QUnit.test('detect', function(assert) {
     assert.strictEqual(_.detect, _.find, 'is an alias for find');

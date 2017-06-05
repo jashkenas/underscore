@@ -241,6 +241,18 @@
     if (key !== void 0 && key !== -1) return obj[key];
   };
 
+  // Return the index of the first value which passes a truth test.
+  _.findIndex = function(obj, predicate, context) {
+    var result;
+    _.some(obj, function(value, index, list) {
+      if (predicate.call(context, value, index, list)) {
+        result = index;
+        return true;
+      }
+    });
+    return result;
+  };
+
   // Return all the elements that pass a truth test.
   // Aliased as `select`.
   _.filter = _.select = function(obj, predicate, context) {
