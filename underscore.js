@@ -338,7 +338,7 @@
       obj = isArrayLike(obj) ? obj : _.values(obj);
       for (var i = 0, length = obj.length; i < length; i++) {
         value = obj[i];
-        if (value != null && value > result) {
+        if (value != null && !_.isSymbol(value) && value > result) {
           result = value;
         }
       }
@@ -363,7 +363,7 @@
       obj = isArrayLike(obj) ? obj : _.values(obj);
       for (var i = 0, length = obj.length; i < length; i++) {
         value = obj[i];
-        if (value != null && value < result) {
+        if (value != null && !_.isSymbol(value) && value < result) {
           result = value;
         }
       }
@@ -420,7 +420,7 @@
     }).sort(function(left, right) {
       var a = left.criteria;
       var b = right.criteria;
-      if (a !== b) {
+      if (a !== b && !_.isSymbol(a) && !_.isSymbol(b)) {
         if (a > b || a === void 0) return 1;
         if (a < b || b === void 0) return -1;
       }
@@ -1313,6 +1313,11 @@
   _.isObject = function(obj) {
     var type = typeof obj;
     return type === 'function' || type === 'object' && !!obj;
+  };
+
+  // Is a given value a Symbol?
+  _.isSymbol = function(obj) {
+    return typeof obj === 'symbol';
   };
 
   // Add some isType methods: isArguments, isFunction, isString, isNumber, isDate, isRegExp, isError, isMap, isWeakMap, isSet, isWeakSet.
