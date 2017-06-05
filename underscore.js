@@ -257,31 +257,33 @@
     return _.filter(obj, _.negate(cb(predicate)), context);
   };
 
+  // Generator function to create the some (all) and some(any) functions
+  var createDetermine = function(dir) {
+    var determiner = function(obj, predicate) {
+      var keys = !isArrayLike(obj) && _.keys(obj),
+      length = (keys || obj).length;
+      if (!dir) {
+        predicate = _.negate(cb(predicate));
+      }
+      for (var index = 0; index < length; index++) {
+        var currentKey = keys ? keys[index] : index;
+        if (!predicate(obj[currentKey], currentKey, obj)) return !dir;
+      }
+      return dir;
+    };
+
+    return function(obj, predicate, context) {
+      return determiner(obj, cb(predicate, context));
+    };
+  };
+
   // Determine whether all of the elements match a truth test.
   // Aliased as `all`.
-  _.every = _.all = function(obj, predicate, context) {
-    predicate = cb(predicate, context);
-    var keys = !isArrayLike(obj) && _.keys(obj),
-        length = (keys || obj).length;
-    for (var index = 0; index < length; index++) {
-      var currentKey = keys ? keys[index] : index;
-      if (!predicate(obj[currentKey], currentKey, obj)) return false;
-    }
-    return true;
-  };
+  _.every = _.all = createDetermine(true);
 
   // Determine if at least one element in the object matches a truth test.
   // Aliased as `any`.
-  _.some = _.any = function(obj, predicate, context) {
-    predicate = cb(predicate, context);
-    var keys = !isArrayLike(obj) && _.keys(obj),
-        length = (keys || obj).length;
-    for (var index = 0; index < length; index++) {
-      var currentKey = keys ? keys[index] : index;
-      if (predicate(obj[currentKey], currentKey, obj)) return true;
-    }
-    return false;
-  };
+  _.some = _.any = fcreateDetermine(false);
 
   // Determine if the array or object contains a given item (using `===`).
   // Aliased as `includes` and `include`.
