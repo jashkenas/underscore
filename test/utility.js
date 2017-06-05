@@ -449,4 +449,8 @@
     assert.strictEqual(template(), '<<\nx\n>>');
   });
 
+  test('#2253 - default export for ES6 imports', 1, function() {
+    strictEqual(_, _['default']);
+  });
+
 }());

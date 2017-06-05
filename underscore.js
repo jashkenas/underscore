@@ -45,6 +45,9 @@
     this._wrapped = obj;
   };
 
+  // Add a "default" field for ES2015 module system compatibility
+  _['default'] = _;
+
   // Export the Underscore object for **Node.js**, with
   // backwards-compatibility for their old module API. If we're in
   // the browser, add `_` as a global object.
