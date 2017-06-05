@@ -669,9 +669,16 @@
     var people = [{name: 'curly', age: 50}, {name: 'moe', age: 30}];
     people = _.sortBy(people, function(person){ return person.age; });
     assert.deepEqual(_.pluck(people, 'name'), ['moe', 'curly'], 'stooges sorted by age');
+    people = _.sortBy(people, function(person){ return person.age; }, true);
+    assert.deepEqual(_.pluck(people, 'name'), ['curly', 'moe'], 'stooges sorted by age in descending order');
 
     var list = [void 0, 4, 1, void 0, 3, 2];
     assert.deepEqual(_.sortBy(list, _.identity), [1, 2, 3, 4, void 0, void 0], 'sortBy with undefined values');
+    list = [void 0, 4, 1, void 0, 3, 2];
+    assert.deepEqual(_.sortBy(list, _.identity), [1, 2, 3, 4, void 0, void 0],
+        'sortBy with undefined values and explicitly ascending order');
+    assert.deepEqual(_.sortBy(list, _.identity, true), [void 0, void 0, 4, 3, 2, 1],
+        'reversed sortBy with undefined values and explicitly descending order');
 
     list = ['one', 'two', 'three', 'four', 'five'];
     var sorted = _.sortBy(list, 'length');
