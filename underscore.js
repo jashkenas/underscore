@@ -824,8 +824,20 @@
   });
 
   // Defers a function, scheduling it to run after the current call stack has
-  // cleared.
-  _.defer = _.partial(_.delay, _, 1);
+  // cleared. Use native promise if available.
+  _.defer = (function() {
+    if (typeof Promise !== 'function') {
+      return _.partial(_.delay, _, 1);
+    }
+    var _promise = new Promise(function(resolve) {
+      resolve();
+    });
+    return restArgs(function(func, args) {
+      _promise.then(function() {
+        func.apply(null, args);
+      });
+    });
+  })();
 
   // Returns a function, that, when invoked, will only be triggered at most once
   // during a given window of time. Normally, the throttled function will run
