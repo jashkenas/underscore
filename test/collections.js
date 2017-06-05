@@ -536,6 +536,7 @@
     assert.deepEqual(_.pluck([{'[object Object]': 1}], {}), [1]);
   });
 
+  //Looks through each value in the list, returning an array of all the values that contain all of the key-value pairs listed in properties.
   QUnit.test('where', function(assert) {
     var list = [{a: 1, b: 2}, {a: 2, b: 2}, {a: 1, b: 3}, {a: 1, b: 4}];
     var result = _.where(list, {a: 1});
