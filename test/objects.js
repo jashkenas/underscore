@@ -869,6 +869,22 @@
     assert.ok(_.isUndefined(void 0), 'undefined is undefined');
   });
 
+  QUnit.test('is', function(assert) {
+    assert.ok(_.is(1), 'positive numbers exist');
+    assert.ok(_.is(-1), 'negative numbers exist');
+    assert.ok(_.is(0), 'number 0 exists');
+    assert.ok(_.is('0'), 'string 0 exists');
+    assert.ok(_.is('foo'), 'strings exist');
+    assert.ok(_.is(true), 'booleans exist');
+    assert.ok(_.is(false), 'false exists');
+    assert.ok(_.is(''), 'empty strings exist');
+    assert.ok(_.is({}), 'empty objects exist');
+    assert.notOk(_.is(null), 'null does not exist');
+    assert.notOk(_.is(NaN), 'NaN does not exist');
+    assert.notOk(_.is(), 'nothing does not exist');
+    assert.notOk(_.is(void 0), 'undefined does not exist');
+  });
+
   QUnit.test('isError', function(assert) {
     assert.notOk(_.isError(1), 'numbers are not Errors');
     assert.notOk(_.isError(null), 'null is not an Error');
