@@ -256,6 +256,7 @@
         <li data-name="findIndex">- <a href="#findIndex">findIndex</a></li>
         <li data-name="findLastIndex">- <a href="#findLastIndex">findLastIndex</a></li>
         <li data-name="range">- <a href="#range">range</a></li>
+        <li data-name="linspace">- <a href="#linspace">linspace</a></li>
       </ul>
     </div>
 
@@ -1138,6 +1139,20 @@ _.range(0, -10, -1);
 =&gt; [0, -1, -2, -3, -4, -5, -6, -7, -8, -9]
 _.range(0);
 =&gt; []
+</pre>
+
+      <p id="linspace">
+        <b class="header">linspace</b><code>_.linspace([start], stop, [n])</code>
+        <br />
+        A function to create evenly-spaced values between <b>start</b> and
+        <b>stop</b>, inclusive. <b>start</b>, if omitted, defaults to <i>0</i>;
+        <b>n</b> defaults to <i>50</i>.
+      </p>
+      <pre>
+_.linspace(49);
+=&gt; [0, 1, 2, 3, ..., 47, 48, 49]
+_.linspace(-Math.PI, Math.PI);
+=&gt; [-3.141593, -3.013364, -2.885136, ..., 2.885136, 3.013364, 3.141593]
 </pre>
 
       <h2 id="functions">Function (uh, ahem) Functions</h2>
