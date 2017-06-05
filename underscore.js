@@ -257,31 +257,28 @@
     return _.filter(obj, _.negate(cb(predicate)), context);
   };
 
+  // Generator function to create the some and every functions. `breakValue` is
+  // the boolean predicate response that should cause an early return.
+  var createSomeOrEvery = function(breakValue) {
+    return function(obj, predicate, context) {
+      predicate = cb(predicate, context);
+      var keys = !isArrayLike(obj) && _.keys(obj),
+          length = (keys || obj).length;
+      for (var index = 0; index < length; index++) {
+        var key = keys ? keys[index] : index;
+        if (!!predicate(obj[key], key, obj) === breakValue) return breakValue;
+      }
+      return !breakValue;
+    };
+  };
+
   // Determine whether all of the elements match a truth test.
   // Aliased as `all`.
-  _.every = _.all = function(obj, predicate, context) {
-    predicate = cb(predicate, context);
-    var keys = !isArrayLike(obj) && _.keys(obj),
-        length = (keys || obj).length;
-    for (var index = 0; index < length; index++) {
-      var currentKey = keys ? keys[index] : index;
-      if (!predicate(obj[currentKey], currentKey, obj)) return false;
-    }
-    return true;
-  };
+  _.every = _.all = createSomeOrEvery(false);
 
   // Determine if at least one element in the object matches a truth test.
   // Aliased as `any`.
-  _.some = _.any = function(obj, predicate, context) {
-    predicate = cb(predicate, context);
-    var keys = !isArrayLike(obj) && _.keys(obj),
-        length = (keys || obj).length;
-    for (var index = 0; index < length; index++) {
-      var currentKey = keys ? keys[index] : index;
-      if (predicate(obj[currentKey], currentKey, obj)) return true;
-    }
-    return false;
-  };
+  _.some = _.any = createSomeOrEvery(true);
 
   // Determine if the array or object contains a given item (using `===`).
   // Aliased as `includes` and `include`.
