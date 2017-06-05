@@ -180,6 +180,8 @@
       for (i = 0, length = obj.length; i < length; i++) {
         iteratee(obj[i], i, obj);
       }
+    } else if (obj != null && obj.forEach) {
+      obj.forEach(iteratee);
     } else {
       var keys = _.keys(obj);
       for (i = 0, length = keys.length; i < length; i++) {
