@@ -464,6 +464,7 @@
   // Safely create a real, live array from anything iterable.
   _.toArray = function(obj) {
     if (!obj) return [];
+    if(_.isString(obj)) return Array.from(obj);
     if (_.isArray(obj)) return slice.call(obj);
     if (_.isString(obj)) {
       // Keep surrogate pair characters together
