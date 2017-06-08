@@ -598,6 +598,19 @@
     });
     f();
   });
+  
+  asyncTest("functions: paced", 1, function() {
+    var counter = 0;
+    var incr = function(){ counter++; };
+    var pacedIncr = _.paced(incr, 100);
+    pacedIncr(); pacedIncr(); pacedIncr();
+    setTimeout(pacedIncr, 30);
+    setTimeout(pacedIncr, 60);
+    setTimeout(pacedIncr, 90);
+    setTimeout(pacedIncr, 120);
+    setTimeout(pacedIncr, 150);
+    _.delay(function(){ ok(counter == 2, "incr was paced"); start(); }, 250);
+  });
 
   QUnit.test('wrap', function(assert) {
     var greet = function(name){ return 'hi: ' + name; };
