@@ -882,7 +882,7 @@
 
     var later = function(context, args) {
       timeout = null;
-      if (args) result = func.apply(context, args);
+      if (args) func.apply(context, args);
     };
 
     var debounced = restArgs(function(args) {
