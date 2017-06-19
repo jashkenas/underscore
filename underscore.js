@@ -1100,6 +1100,16 @@
     }
   };
 
+  // Returns an array of all keys on an object that pass a predicate test.
+  _.findKeys = function(obj, predicate, context) {
+    predicate = cb(predicate, context);
+    var allKeys = _.keys(obj), res = [];
+    _.each(allKeys, function(key) {
+      if (predicate(obj[key], key, obj)) res.push(key);
+    });
+    return res;
+  };
+
   // Internal pick helper function to determine if `obj` has key `key`.
   var keyInObj = function(value, key, obj) {
     return key in obj;
