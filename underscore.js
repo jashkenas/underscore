@@ -739,28 +739,28 @@
     var resArray = [];
     var secondEle = elementOne;
     if (!_.isObject(objectArrayOne) || !_.isObject(objectArrayTwo) || !_.isString(elementOne)) {
-        return resArray;
+      return resArray;
     }
-
+    
     if (elementTwo) {
-        if (!_.isString(elementTwo)) {
-            return resArray;
-        }
-        secondEle = elementTwo;
+      if (!_.isString(elementTwo)) {
+        return resArray;
+      }
+      secondEle = elementTwo;
     }
 
     objectArrayOne.forEach(function(eleOne) {
-        objectArrayTwo.forEach(function(eleTwo) {
-            if (eleOne[elementOne] === eleTwo[secondEle] && eleOne[elementOne] !== undefined) {
-                var combinedObject = JSON.parse(JSON.stringify(eleOne));
-                for (var e2 in eleTwo) {
-                    combinedObject[e2] = eleTwo[e2];
-                }
-                if (resArray.indexOf(combinedObject) === -1) {
-                    resArray.push(combinedObject);
-                }
-            }
-        });
+      objectArrayTwo.forEach(function(eleTwo) {
+        if (eleOne[elementOne] === eleTwo[secondEle] && eleOne[elementOne] !== undefined) {
+          var combinedObject = JSON.parse(JSON.stringify(eleOne));
+          for (var e2 in eleTwo) {
+            combinedObject[e2] = eleTwo[e2];
+          }
+          if (resArray.indexOf(combinedObject) === -1) {
+            resArray.push(combinedObject);
+          }
+        }
+      });
     });
     return resArray;
 };
