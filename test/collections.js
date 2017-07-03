@@ -914,7 +914,7 @@
     }, predicate);
   });
 
-  QUnit.test('mergeBy', function (assert) {
+  QUnit.test('mergeBy', function(assert) {
 
     var ageList = [{name: 'Jack', age: 18}, {name: 'Rose', age: 20}, {name: 'Kate', age: 17}];
     var sexList = [{name: 'Rose', sex: 'female'}, {name: 'Jack', sex: 'male'}];
