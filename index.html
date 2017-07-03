@@ -229,6 +229,7 @@
         <li data-name="size">- <a href="#size">size</a></li>
         <li data-name="partition">- <a href="#partition">partition</a></li>
         <li data-name="compact">- <a href="#compact">compact</a></li>
+        <li data-name="mergeBy">- <a href="#mergeBy">mergeBy</a></li>
       </ul>
     </div>
 
@@ -865,6 +866,18 @@ _.compact([0, 1, false, 2, '', 3]);
 =&gt; [1, 2, 3]
 </pre>
 
+      <p id="mergeBy">
+        <b class="header">mergeBy</b><code>_.mergeBy(list,list, propertyName,propertyName)</code>
+        <br /> Return a new object array for
+        <b>map</b>: combining two objects through the same property value.
+      </p>
+      <pre>
+var ageList = [{ name: 'Jack', age: 18 }, { name: 'Rose', age: 20 }, { name: 'Kate', age: 17 }];
+var sexList = [{ name: 'Rose', sex: 'female' }, { name: 'Jack', sex: 'male' }];
+_.mergeBy(ageList, sexList, 'name');
+=&gt; [ { name: 'Jack', age: 18, sex: 'male' },{ name: 'Rose', age: 20, sex: 'female' } ]
+</pre>
+      
       <h2 id="arrays">Array Functions</h2>
 
       <p>

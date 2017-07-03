@@ -733,6 +733,40 @@
     return range;
   };
 
+  // Generate an Array containing some properties from two objects
+  // through elementOne in ObjectArrayOne and elementTwo in objectArrayTwo .
+_.mergeBy = function (objectArrayOne, objectArrayTwo, elementOne, elementTwo) {
+
+    var resArray = [];
+    var secondEle = elementOne;
+    if (!_.isObject(objectArrayOne) || !_.isObject(objectArrayTwo) || !_.isString(elementOne)) {
+        return resArray;
+    }
+
+
+    if (elementTwo) {
+        if (!_.isString(elementTwo)) {
+            return resArray;
+        }
+        secondEle = elementTwo;
+    }
+
+    objectArrayOne.forEach(function(eleOne){
+        objectArrayTwo.forEach(function(eleTwo){
+            if (eleOne[elementOne] === eleTwo[secondEle] && eleOne[elementOne] !== undefined) {
+                var combinedObject = JSON.parse(JSON.stringify(eleOne));
+                for(var e2 in eleTwo){
+                    combinedObject[e2] = eleTwo[e2]
+                }
+                if (!resArray.includes(combinedObject)) {
+                    resArray.push(combinedObject);
+                }
+            }
+        });
+    });
+    return resArray;
+};
+  
   // Split an **array** into several arrays containing **count** or less elements
   // of initial array.
   _.chunk = function(array, count) {
