@@ -741,7 +741,6 @@
     if (!_.isObject(objectArrayOne) || !_.isObject(objectArrayTwo) || !_.isString(elementOne)) {
       return resArray;
     }
-    
     if (elementTwo) {
       if (!_.isString(elementTwo)) {
         return resArray;
@@ -764,7 +763,6 @@
     });
     return resArray;
 };
-  
   // Split an **array** into several arrays containing **count** or less elements
   // of initial array.
   _.chunk = function(array, count) {
