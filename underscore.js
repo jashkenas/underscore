@@ -751,8 +751,8 @@ _.mergeBy = function (objectArrayOne, objectArrayTwo, elementOne, elementTwo) {
         secondEle = elementTwo;
     }
 
-    objectArrayOne.forEach((eleOne) => {
-        objectArrayTwo.forEach((eleTwo) => {
+    objectArrayOne.forEach(function(eleOne){
+        objectArrayTwo.forEach(function(eleTwo){
             if (eleOne[elementOne] === eleTwo[secondEle] && eleOne[elementOne] !== undefined) {
                 Object.assign(eleOne, eleTwo);
                 if (!resArray.includes(eleOne)) {
