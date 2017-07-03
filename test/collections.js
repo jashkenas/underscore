@@ -931,7 +931,6 @@
       [{name: 'Jack', age: 18, nickname: 'Jack', sex: 'male'}, {name: 'Rose', age: 20, nickname: 'Rose', sex: 'female'}],
       'return a new object combined with two objects through two properties');
   });
-  
   if (typeof document != 'undefined') {
     QUnit.test('Can use various collection methods on NodeLists', function(assert) {
       var parent = document.createElement('div');
