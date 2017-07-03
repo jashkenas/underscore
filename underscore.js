@@ -754,9 +754,12 @@ _.mergeBy = function (objectArrayOne, objectArrayTwo, elementOne, elementTwo) {
     objectArrayOne.forEach(function(eleOne){
         objectArrayTwo.forEach(function(eleTwo){
             if (eleOne[elementOne] === eleTwo[secondEle] && eleOne[elementOne] !== undefined) {
-                Object.assign(eleOne, eleTwo);
-                if (!resArray.includes(eleOne)) {
-                    resArray.push(eleOne);
+                var combinedObject = JSON.parse(JSON.stringify(eleOne));
+                for(var e2 in eleTwo){
+                    combinedObject[e2] = eleTwo[e2]
+                }
+                if (!resArray.includes(combinedObject)) {
+                    resArray.push(combinedObject);
                 }
             }
         });
