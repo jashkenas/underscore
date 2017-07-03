@@ -735,14 +735,12 @@
 
   // Generate an Array containing some properties from two objects
   // through elementOne in ObjectArrayOne and elementTwo in objectArrayTwo .
-_.mergeBy = function (objectArrayOne, objectArrayTwo, elementOne, elementTwo) {
-
+  _.mergeBy = function(objectArrayOne, objectArrayTwo, elementOne, elementTwo) {
     var resArray = [];
     var secondEle = elementOne;
     if (!_.isObject(objectArrayOne) || !_.isObject(objectArrayTwo) || !_.isString(elementOne)) {
         return resArray;
     }
-
 
     if (elementTwo) {
         if (!_.isString(elementTwo)) {
