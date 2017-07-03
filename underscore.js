@@ -733,41 +733,36 @@
     return range;
   };
 
-  // Generate an Array containing some properties from two objects.
-  // through the elementOne in ObjectArrayOne and elementTwo in objectArrayTwo 
-  // just like this:
-  // var ageList = [{name:'Jack',age:18},{name:'Rose',age:20},{name:'Kate',age:17}];
-  // var sexList = [{name:'Rose',sex:'female'},{name:'Jack',sex:'male'}];
-  // we use the function _.mergeBy(ageList,sexList,'name');
-  // we can get [ { name: 'Jack', age: 18, sex: 'male' },{ name: 'Rose', age: 20, sex: 'female' } ]
+  // Generate an Array containing some properties from two objects
+  // through elementOne in ObjectArrayOne and elementTwo in objectArrayTwo .
 _.mergeBy = function (objectArrayOne, objectArrayTwo, elementOne, elementTwo) {
+
     var resArray = [];
-    if (!elementTwo) {
-        objectArrayOne.forEach((eleOne) => {
-            objectArrayTwo.forEach((eleTwo) => {
-                if (eleOne[elementOne] === eleTwo[elementOne]) {
-                    Object.assign(eleOne, eleTwo);
-                    if (!resArray.includes(eleOne)) {
-                        resArray.push(eleOne);
-                    }
-                }
-            });
-        });
+    var secondEle = elementOne;
+    if (!_.isObject(objectArrayOne) || !_.isObject(objectArrayTwo) || !_.isString(elementOne)) {
+        return resArray;
     }
-    else {
-        objectArrayOne.forEach((eleOne) => {
-            objectArrayTwo.forEach((eleTwo) => {
-                if (eleOne[elementOne] === eleTwo[elementTwo]) {
-                    Object.assign(eleOne, eleTwo);
-                    if (!resArray.includes(eleOne)) {
-                        resArray.push(eleOne);
-                    }
-                }
-            });
-        });
+
+
+    if (elementTwo) {
+        if (!_.isString(elementTwo)) {
+            return resArray;
+        }
+        secondEle = elementTwo;
     }
+
+    objectArrayOne.forEach((eleOne) => {
+        objectArrayTwo.forEach((eleTwo) => {
+            if (eleOne[elementOne] === eleTwo[secondEle] && eleOne[elementOne] !== undefined) {
+                Object.assign(eleOne, eleTwo);
+                if (!resArray.includes(eleOne)) {
+                    resArray.push(eleOne);
+                }
+            }
+        });
+    });
     return resArray;
-}
+};
   
   // Split an **array** into several arrays containing **count** or less elements
   // of initial array.
