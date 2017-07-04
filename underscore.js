@@ -750,15 +750,13 @@
 
     objectArrayOne.forEach(function(eleOne) {
       objectArrayTwo.forEach(function(eleTwo) {
-        if (eleOne[elementOne] === eleTwo[secondEle]) {
-          if (eleOne[elementOne]){
-            var combinedObject = JSON.parse(JSON.stringify(eleOne));
-            for (var e2 in eleTwo) {
-              combinedObject[e2] = eleTwo[e2];
-            }
-            if (resArray.indexOf(combinedObject) === -1) {
-              resArray.push(combinedObject);
-            }
+        if (eleOne[elementOne] && eleOne[elementOne] === eleTwo[secondEle]) {
+          var combinedObject = JSON.parse(JSON.stringify(eleOne));
+          for (var e2 in eleTwo) {
+            combinedObject[e2] = eleTwo[e2];
+          }
+          if (resArray.indexOf(combinedObject) === -1) {
+            resArray.push(combinedObject);
           }
         }
       });
