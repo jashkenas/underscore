@@ -334,7 +334,7 @@
   _.max = function(obj, iteratee, context) {
     var result = -Infinity, lastComputed = -Infinity,
         value, computed;
-    if (iteratee == null || (typeof iteratee == 'number' && typeof obj[0] != 'object') && obj != null) {
+    if (iteratee == null || typeof iteratee == 'number' && typeof obj[0] != 'object' && obj != null) {
       obj = isArrayLike(obj) ? obj : _.values(obj);
       for (var i = 0, length = obj.length; i < length; i++) {
         value = obj[i];
@@ -359,7 +359,7 @@
   _.min = function(obj, iteratee, context) {
     var result = Infinity, lastComputed = Infinity,
         value, computed;
-    if (iteratee == null || (typeof iteratee == 'number' && typeof obj[0] != 'object') && obj != null) {
+    if (iteratee == null || typeof iteratee == 'number' && typeof obj[0] != 'object' && obj != null) {
       obj = isArrayLike(obj) ? obj : _.values(obj);
       for (var i = 0, length = obj.length; i < length; i++) {
         value = obj[i];
@@ -750,7 +750,7 @@
 
     objectArrayOne.forEach(function(eleOne) {
       objectArrayTwo.forEach(function(eleTwo) {
-        if (eleOne[elementOne] === eleTwo[secondEle] && eleOne[elementOne] !== undefined) {
+        if ((eleOne[elementOne] === eleTwo[secondEle]) && (eleOne[elementOne] !== undefined)) {
           var combinedObject = JSON.parse(JSON.stringify(eleOne));
           for (var e2 in eleTwo) {
             combinedObject[e2] = eleTwo[e2];
