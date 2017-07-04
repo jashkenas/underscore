@@ -932,7 +932,6 @@
       [{name: 'Jack', age: 18, nickname: 'Jack', sex: 'male'}, {name: 'Rose', age: 20, nickname: 'Rose', sex: 'female'}],
       'return a new object combined with two objects through two properties');
     assert.deepEqual(_.mergeBy(ageList, sexList, 'name', {}), [], 'return [] when the element is not string');
-    
   });
   if (typeof document != 'undefined') {
     QUnit.test('Can use various collection methods on NodeLists', function(assert) {
