@@ -914,6 +914,25 @@
     }, predicate);
   });
 
+  QUnit.test('mergeBy', function(assert) {
+
+    var ageList = [{name: 'Jack', age: 18}, {name: 'Rose', age: 20}, {name: 'Kate', age: 17}];
+    var sexList = [{name: 'Rose', sex: 'female'}, {name: 'Jack', sex: 'male'}];
+
+    assert.deepEqual(_.mergeBy(ageList, sexList, 'name'),
+      [{name: 'Jack', age: 18, sex: 'male'}, {name: 'Rose', age: 20, sex: 'female'}],
+      'return a new object combined with two objects through the same property');
+
+    assert.deepEqual(_.mergeBy('fun', sexList, 'names'), [], 'return [] when the list is not an object');
+    assert.deepEqual(_.mergeBy(ageList, sexList, 'names'), [], 'return [] when the object has no such property');
+
+    sexList = [{nickname: 'Rose', sex: 'female'}, {nickname: 'Jack', sex: 'male'}];
+
+    assert.deepEqual(_.mergeBy(ageList, sexList, 'name', 'nickname'),
+      [{name: 'Jack', age: 18, nickname: 'Jack', sex: 'male'}, {name: 'Rose', age: 20, nickname: 'Rose', sex: 'female'}],
+      'return a new object combined with two objects through two properties');
+    assert.deepEqual(_.mergeBy(ageList, sexList, 'name', {}), [], 'return [] when the element is not string');
+  });
   if (typeof document != 'undefined') {
     QUnit.test('Can use various collection methods on NodeLists', function(assert) {
       var parent = document.createElement('div');
