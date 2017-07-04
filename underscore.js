@@ -750,7 +750,7 @@
 
     objectArrayOne.forEach(function(eleOne) {
       objectArrayTwo.forEach(function(eleTwo) {
-        if ((eleOne[elementOne] === eleTwo[secondEle]) && (eleOne[elementOne] !== undefined)) {
+        if (eleOne[elementOne] === eleTwo[secondEle] && eleOne[elementOne] !== undefined) {
           var combinedObject = JSON.parse(JSON.stringify(eleOne));
           for (var e2 in eleTwo) {
             combinedObject[e2] = eleTwo[e2];
