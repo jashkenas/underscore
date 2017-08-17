@@ -1200,10 +1200,32 @@
     // Unwrap any wrapped objects.
     if (a instanceof _) a = a._wrapped;
     if (b instanceof _) b = b._wrapped;
+    // typed arrays are compared by byte content, try to get a DataView
     // Compare `[[Class]]` names.
     var className = toString.call(a);
     if (className !== toString.call(b)) return false;
+
+    // If a and b are of the same typed array, we compare them as DataView
+    try {
+      a = new DataView(a.buffer)
+      b = new DataView(b.buffer)
+    } catch(err) {
+    }
+
     switch (className) {
+      // DataView we check by value
+      case '[object ArrayBuffer]':
+        return deepEq(new DataView(a), new DataView(b), aStack, bStack)
+      case '[object DataView]':
+        if(a.byteLength !== b.byteLength) {
+          return false
+        }
+        for(var i = 0; i < a.byteLength; i++) {
+          if(a.getUint8(i) != b.getUint8(i)) {
+            return false
+          }
+        }
+        return true;
       // Strings, numbers, regular expressions, dates, and booleans are compared by value.
       case '[object RegExp]':
       // RegExps are coerced to strings for comparison (Note: '' + /a/i === '/a/i')
