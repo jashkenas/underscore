@@ -585,7 +585,6 @@
     var i8 = new Int8Array([1,2]);
     var u16 = new Uint16Array([1,2]);
     var u16one = new Uint16Array([3]);
-    b = new Uint8Array([5,6,10]);
     
     assert.ok(_.isEqual(u8, u8b), 'Identical typed array data are equal');
     assert.ok(_.isEqual(u8.buffer, u8b.buffer), 'Identical ArrayBuffers are equal');
