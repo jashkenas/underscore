@@ -1200,10 +1200,29 @@
     // Unwrap any wrapped objects.
     if (a instanceof _) a = a._wrapped;
     if (b instanceof _) b = b._wrapped;
+    // typed arrays are compared by byte content, try to get a DataView
+    try {
+      a = new DataView(a.buffer)
+    } catch(ee) {
+    }
+    try {
+      b = new DataView(b.buffer)
+    } catch(err) {
+    }
     // Compare `[[Class]]` names.
     var className = toString.call(a);
     if (className !== toString.call(b)) return false;
     switch (className) {
+      // typed arrays we check by value
+      case '[object DataView]':
+        if(a.byteLength !== b.byteLength) {
+          return false
+        }
+        for(var i = 0; i < a.byteLength; i++) {
+          if(a.getUint8(i) != b.getUint8(i)) {
+            return false
+          }
+        }
       // Strings, numbers, regular expressions, dates, and booleans are compared by value.
       case '[object RegExp]':
       // RegExps are coerced to strings for comparison (Note: '' + /a/i === '/a/i')
