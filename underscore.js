@@ -1225,6 +1225,7 @@
             return false
           }
         }
+        return true;
       // Strings, numbers, regular expressions, dates, and booleans are compared by value.
       case '[object RegExp]':
       // RegExps are coerced to strings for comparison (Note: '' + /a/i === '/a/i')
