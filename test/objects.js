@@ -588,13 +588,18 @@
     b = new Uint8Array([5,6,10]);
     
     assert.ok(_.isEqual(u8, u8b), 'Identical typed array data are equal');
+    assert.ok(_.isEqual(u8.buffer, u8b.buffer), 'Identical ArrayBuffers are equal');
     assert.ok(_.isEqual(new DataView(u8.buffer), new DataView(u8b.buffer)), 'Identical DataViews are equal');
-    assert.ok(_.isEqual(u8, i8), 'Different types of typed arrays with the same byte data are equal');
-    // same values, but different byte values
+    assert.ok(_.isEqual(new DataView(u8.buffer), new DataView(i8.buffer)), 'Identical DataViews of different typed arrays are equal');
+    assert.ok(_.isEqual(u8.buffer, i8.buffer), 'Identical ArrayBuffers of different typed arrays are equal');
+
+    assert.notOk(_.isEqual(u8, i8), 'Different types of typed arrays with the same byte data are not equal');
     assert.notOk(_.isEqual(u8, u16), 'Typed arrays with different types and different byte length are not equal');
     assert.notOk(_.isEqual(u8, u16one), 'Typed arrays with different types, same byte length but different byte data are not equal');
     assert.notOk(_.isEqual(new DataView(u8.buffer), new DataView(u16.buffer)), 'Different DataViews with different length are not equal');
     assert.notOk(_.isEqual(new DataView(u8.buffer), new DataView(u16one.buffer)), 'Different DataViews with different byte data are not equal');
+    assert.notOk(_.isEqual(u8.buffer, u16.buffer), 'Different ArrayBuffers with different length are not equal');
+    assert.notOk(_.isEqual(u8.buffer, u16one.buffer), 'Different ArrayBuffers with different byte data are not equal');
 
 
     //assert.ok(_.isEqual(new DataView(u8.buffer)), new DataView(u8b.buffer))

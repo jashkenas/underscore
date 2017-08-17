@@ -1201,19 +1201,21 @@
     if (a instanceof _) a = a._wrapped;
     if (b instanceof _) b = b._wrapped;
     // typed arrays are compared by byte content, try to get a DataView
-    try {
-      a = new DataView(a.buffer)
-    } catch(ee) {
-    }
-    try {
-      b = new DataView(b.buffer)
-    } catch(err) {
-    }
     // Compare `[[Class]]` names.
     var className = toString.call(a);
     if (className !== toString.call(b)) return false;
+
+    // If a and b are of the same typed array, we compare them as DataView
+    try {
+      a = new DataView(a.buffer)
+      b = new DataView(b.buffer)
+    } catch(err) {
+    }
+
     switch (className) {
-      // typed arrays we check by value
+      // DataView we check by value
+      case '[object ArrayBuffer]':
+        return deepEq(new DataView(a), new DataView(b), aStack, bStack)
       case '[object DataView]':
         if(a.byteLength !== b.byteLength) {
           return false
