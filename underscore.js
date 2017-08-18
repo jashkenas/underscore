@@ -19,9 +19,6 @@
   // Save the previous value of the `_` variable.
   var previousUnderscore = root._;
 
-  // not every runtime supports ArrayBuffer
-  var supportsArrayBuffer = typeof ArrayBuffer !== 'undefined';
-
   // Save bytes in the minified (but not gzipped) version:
   var ArrayProto = Array.prototype, ObjProto = Object.prototype;
   var SymbolProto = typeof Symbol !== 'undefined' ? Symbol.prototype : null;
@@ -46,6 +43,27 @@
     if (obj instanceof _) return obj;
     if (!(this instanceof _)) return new _(obj);
     this._wrapped = obj;
+  };
+
+  // not every runtime supports ArrayBuffer
+  var supportsArrayBuffer = typeof ArrayBuffer !== 'undefined';
+  // list from https://developer.mozilla.org/en-US/docs/Web/JavaScript/Typed_arrays
+  var typedArrayNames = [
+    '[object Int8Array]',
+    '[object Int16Array]',
+    '[object Int32Array]',
+    '[object Uint8Array]',
+    '[object Uint8ClampedArray]',
+    '[object Uint16Array]',
+    '[object Uint32Array]',
+    '[object Float32Array]',
+    '[object Float64Array]'
+  ];
+  var isTypedArray = function(a) {
+    // second check is from the above whitelist, but the first check is more future proof
+    // since new typed arrays may arrive
+    return (supportsArrayBuffer && ArrayBuffer.isView && ArrayBuffer.isView(a) && !(a instanceof DataView))
+      || _.contains(typedArrayNames, toString.call(a));
   };
 
   // Export the Underscore object for **Node.js**, with
@@ -1208,7 +1226,7 @@
     if (className !== toString.call(b)) return false;
 
     // isView returns true when it's a typed array or DataView
-    if (supportsArrayBuffer && ArrayBuffer.isView(a) && !(a instanceof DataView)) {
+    if (isTypedArray(a)) {
       // If a and b are of the same typed array, we compare them as DataView
       return deepEq(new DataView(a.buffer), new DataView(b.buffer), aStack, bStack);
     }
