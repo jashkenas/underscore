@@ -19,6 +19,9 @@
   // Save the previous value of the `_` variable.
   var previousUnderscore = root._;
 
+  // not every runtime supports ArrayBuffer
+  var supportsArrayBuffer = typeof ArrayBuffer !== "undefined"
+
   // Save bytes in the minified (but not gzipped) version:
   var ArrayProto = Array.prototype, ObjProto = Object.prototype;
   var SymbolProto = typeof Symbol !== 'undefined' ? Symbol.prototype : null;
@@ -1205,7 +1208,7 @@
     if (className !== toString.call(b)) return false;
 
     // isView returns true when it's a typed array or DataView
-    if(ArrayBuffer.isView(a) && !(a instanceof DataView)) {
+    if(supportsArrayBuffer && ArrayBuffer.isView(a) && !(a instanceof DataView)) {
         // If a and b are of the same typed array, we compare them as DataView
         return deepEq(new DataView(a.buffer), new DataView(b.buffer), aStack, bStack)
     }
