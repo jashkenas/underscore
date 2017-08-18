@@ -1200,12 +1200,11 @@
     // Unwrap any wrapped objects.
     if (a instanceof _) a = a._wrapped;
     if (b instanceof _) b = b._wrapped;
-    // typed arrays are compared by byte content, try to get a DataView
     // Compare `[[Class]]` names.
     var className = toString.call(a);
     if (className !== toString.call(b)) return false;
 
-    // isView returns true when it's a typedarray or DataView
+    // isView returns true when it's a typed array or DataView
     if(ArrayBuffer.isView(a) && !(a instanceof DataView)) {
         // If a and b are of the same typed array, we compare them as DataView
         return deepEq(new DataView(a.buffer), new DataView(b.buffer), aStack, bStack)
