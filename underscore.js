@@ -1205,11 +1205,10 @@
     var className = toString.call(a);
     if (className !== toString.call(b)) return false;
 
-    // If a and b are of the same typed array, we compare them as DataView
-    try {
-      a = new DataView(a.buffer)
-      b = new DataView(b.buffer)
-    } catch(err) {
+    // isView returns true when it's a typedarray or DataView
+    if(ArrayBuffer.isView(a) && !(a instanceof DataView)) {
+        // If a and b are of the same typed array, we compare them as DataView
+        return deepEq(new DataView(a.buffer), new DataView(b.buffer), aStack, bStack)
     }
 
     switch (className) {
