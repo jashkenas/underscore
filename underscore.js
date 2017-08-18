@@ -20,7 +20,7 @@
   var previousUnderscore = root._;
 
   // not every runtime supports ArrayBuffer
-  var supportsArrayBuffer = typeof ArrayBuffer !== "undefined"
+  var supportsArrayBuffer = typeof ArrayBuffer !== 'undefined';
 
   // Save bytes in the minified (but not gzipped) version:
   var ArrayProto = Array.prototype, ObjProto = Object.prototype;
@@ -1208,22 +1208,22 @@
     if (className !== toString.call(b)) return false;
 
     // isView returns true when it's a typed array or DataView
-    if(supportsArrayBuffer && ArrayBuffer.isView(a) && !(a instanceof DataView)) {
-        // If a and b are of the same typed array, we compare them as DataView
-        return deepEq(new DataView(a.buffer), new DataView(b.buffer), aStack, bStack)
+    if (supportsArrayBuffer && ArrayBuffer.isView(a) && !(a instanceof DataView)) {
+      // If a and b are of the same typed array, we compare them as DataView
+      return deepEq(new DataView(a.buffer), new DataView(b.buffer), aStack, bStack);
     }
 
     switch (className) {
       // DataView we check by value
       case '[object ArrayBuffer]':
-        return deepEq(new DataView(a), new DataView(b), aStack, bStack)
+        return deepEq(new DataView(a), new DataView(b), aStack, bStack);
       case '[object DataView]':
-        if(a.byteLength !== b.byteLength) {
-          return false
+        if (a.byteLength !== b.byteLength) {
+          return false;
         }
-        for(var i = 0; i < a.byteLength; i++) {
-          if(a.getUint8(i) != b.getUint8(i)) {
-            return false
+        for (var i = 0; i < a.byteLength; i++) {
+          if (a.getUint8(i) !== b.getUint8(i)) {
+            return false;
           }
         }
         return true;
