@@ -592,6 +592,8 @@
     assert.ok(_.isEqual(new DataView(u8.buffer), new DataView(i8.buffer)), 'Identical DataViews of different typed arrays are equal');
     assert.ok(_.isEqual(u8.buffer, i8.buffer), 'Identical ArrayBuffers of different typed arrays are equal');
 
+    assert.notOk(_.isEqual({a:1, 'buffer':u8.buffer}, {'a':2, buffer:u8b.buffer}), 'Unequal objects with similar buffer properties are not equals');
+
     assert.notOk(_.isEqual(u8, i8), 'Different types of typed arrays with the same byte data are not equal');
     assert.notOk(_.isEqual(u8, u16), 'Typed arrays with different types and different byte length are not equal');
     assert.notOk(_.isEqual(u8, u16one), 'Typed arrays with different types, same byte length but different byte data are not equal');
