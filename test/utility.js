@@ -74,6 +74,7 @@
     var array = _.range(1000);
     var min = Math.pow(2, 31);
     var max = Math.pow(2, 62);
+    var nonIntegerMin = min + 0.1;
 
     assert.ok(_.every(array, function() {
       return _.random(min, max) >= min;
@@ -82,6 +83,11 @@
     assert.ok(_.some(array, function() {
       return _.random(Number.MAX_VALUE) > 0;
     }), 'should produce a random number when passed `Number.MAX_VALUE`');
+
+    assert.ok(_.every(array, function() {
+      var randomValue = _.random(nonIntegerMin, max);
+      return randomValue === parseInt(randomValue, 10);
+    }), 'should produce only Integer values');
   });
 
   QUnit.test('now', function(assert) {
