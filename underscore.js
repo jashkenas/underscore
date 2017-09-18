@@ -11,18 +11,22 @@
   // Establish the root object, `window` (`self`) in the browser, `global`
   // on the server, or `this` in some virtual machines. We use `self`
   // instead of `window` for `WebWorker` support.
+  // root代表不同环境下的全局变量
   var root = typeof self == 'object' && self.self === self && self ||
             typeof global == 'object' && global.global === global && global ||
             this;
-
+ 
   // Save the previous value of the `_` variable.
+  // 将之前环境中存在的"_"变量赋值给previousUnderscore
   var previousUnderscore = root._;
 
   // Save bytes in the minified (but not gzipped) version:
+  // 代理局部变量引用，防止多次搜索原型链造成性能开销以及方便后期压缩优化
   var ArrayProto = Array.prototype, ObjProto = Object.prototype;
   var SymbolProto = typeof Symbol !== 'undefined' ? Symbol.prototype : null;
 
   // Create quick reference variables for speed access to core prototypes.
+  // 常用原型防范局部变量代理
   var push = ArrayProto.push,
       slice = ArrayProto.slice,
       toString = ObjProto.toString,
@@ -30,17 +34,30 @@
 
   // All **ECMAScript 5** native function implementations that we hope to use
   // are declared here.
+  // ES5中原生方法，如果支持优先使用
   var nativeIsArray = Array.isArray,
       nativeKeys = Object.keys,
       nativeCreate = Object.create;
 
   // Naked function reference for surrogate-prototype-swapping.
+  // 代理原型的包装函数
   var Ctor = function(){};
 
   // Create a safe reference to the Underscore object for use below.
+  // "_"是一个函数，支持通过构造函数直接调用
+  // 平时作为对象使用时此处不会使用
+  // 该处是模拟OOP的编程思想设计的无new构造函数模型，然后通过内部_wrapped变量获取传递的参数
+  // each 等方法都在该构造函数的原型链上
+  // _([1, 2, 3]).each()相当于无new构造了一个新的对象
+  // 调用了该对象的each方法，该方法在该对象构造函数的原型链上
   var _ = function(obj) {
+    // 如果参数是_的实例，直接返回，相当于容错机制
     if (obj instanceof _) return obj;
+    
+    // 否则返回实例new _(obj), 继续调用该函数，下一次进来之后直接保存下一步的变量
     if (!(this instanceof _)) return new _(obj);
+    
+    // 实例对象_wrapped属性中存储了接受的参数
     this._wrapped = obj;
   };
 
