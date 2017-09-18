@@ -51,10 +51,10 @@
   // _([1, 2, 3]).each()相当于无new构造了一个新的对象
   // 调用了该对象的each方法，该方法在该对象构造函数的原型链上
   var _ = function(obj) {
-    // 如果参数是_的实例，直接返回，相当于容错机制
+    // 如果参数是"_"的实例，直接返回，相当于容错机制
     if (obj instanceof _) return obj;
     
-    // 否则返回实例new _(obj), 继续调用该函数，下一次进来之后直接保存下一步的变量
+    // 否则返回实例new _(obj), 继续调用该函数，下一次进来之后直接保存下一步的变量_wrapped
     if (!(this instanceof _)) return new _(obj);
     
     // 实例对象_wrapped属性中存储了接受的参数
@@ -66,6 +66,7 @@
   // the browser, add `_` as a global object.
   // (`nodeType` is checked to ensure that `module`
   // and `exports` are not HTML elements.)
+  // "_"赋值给全局对象的属性
   if (typeof exports != 'undefined' && !exports.nodeType) {
     if (typeof module != 'undefined' && !module.nodeType && module.exports) {
       exports = module.exports = _;
@@ -76,12 +77,16 @@
   }
 
   // Current version.
+  // 当前版本号
   _.VERSION = '1.8.3';
 
   // Internal function that returns an efficient (for current engines) version
   // of the passed-in callback, to be repeatedly applied in other Underscore
   // functions.
+  // 内部优化方法，参数：函数，执行上下文，参数个数
+  // 返回根据传入函数在不同执行上下文，不同参数个数的情况下执行的函数
   var optimizeCb = function(func, context, argCount) {
+    // 如果没有指定执行上下文，返回该函数
     if (context === void 0) return func;
     switch (argCount == null ? 3 : argCount) {
       case 1: return function(value) {
@@ -89,13 +94,21 @@
       };
       // The 2-parameter case has been omitted only because no current consumers
       // made use of it.
+      // 在执行上下文中，没有参数个数，执行下面
+      // _.each(), _.map()
       case 3: return function(value, index, collection) {
         return func.call(context, value, index, collection);
       };
+      // _.reduce(), _.reduceRight()
       case 4: return function(accumulator, value, index, collection) {
         return func.call(context, accumulator, value, index, collection);
       };
     }
+    
+    // 其实不用上面的 switch-case 语句
+    // 直接执行下面的 return 函数就行了
+    // 不这样做的原因是 call 比 apply 快很多
+    // .apply 在运行前要对作为参数的数组进行一系列检验和深拷贝，.call 则没有这些步骤
     return function() {
       return func.apply(context, arguments);
     };
