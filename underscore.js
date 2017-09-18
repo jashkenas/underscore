@@ -108,7 +108,6 @@
     // 其实不用上面的 switch-case 语句
     // 直接执行下面的 return 函数就行了
     // 不这样做的原因是 call 比 apply 快很多
-    // .apply 在运行前要对作为参数的数组进行一系列检验和深拷贝，.call 则没有这些步骤
     return function() {
       return func.apply(context, arguments);
     };
@@ -119,6 +118,7 @@
   // An internal function to generate callbacks that can be applied to each
   // element in a collection, returning the desired result — either `identity`,
   // an arbitrary callback, a property matcher, or a property accessor.
+  // 
   var cb = function(value, context, argCount) {
     if (_.iteratee !== builtinIteratee) return _.iteratee(value, context);
     if (value == null) return _.identity;
@@ -136,21 +136,26 @@
 
   // Similar to ES6's rest param (http://ariya.ofilabs.com/2013/03/es6-and-rest-parameter.html)
   // This accumulates the arguments passed into an array, after a given index.
+  // 和ES6的rest参数一样的原理，指定长度参数之后所有参数以数组形式返回
   var restArgs = function(func, startIndex) {
     startIndex = startIndex == null ? func.length - 1 : +startIndex;
     return function() {
       var length = Math.max(arguments.length - startIndex, 0),
           rest = Array(length),
           index = 0;
+      
+      // 构建startIndex之后的所有元素组成的数组
       for (; index < length; index++) {
         rest[index] = arguments[index + startIndex];
       }
+      // call性能加速处理常用0, 1, 2三种情况，剩余情况apply处理
       switch (startIndex) {
         case 0: return func.call(this, rest);
         case 1: return func.call(this, arguments[0], rest);
         case 2: return func.call(this, arguments[0], arguments[1], rest);
       }
       var args = Array(startIndex + 1);
+      // 构建args数组，结构：[1, 3, 4, [2, 3, 5]]
       for (index = 0; index < startIndex; index++) {
         args[index] = arguments[index];
       }
@@ -160,12 +165,20 @@
   };
 
   // An internal function for creating a new object that inherits from another.
+  // 创建继承对象
   var baseCreate = function(prototype) {
+    // 如果prototype不是对象，返回空对象{}
     if (!_.isObject(prototype)) return {};
+    // 如果支持原生继承方法
     if (nativeCreate) return nativeCreate(prototype);
+    // 通过代理空函数Ctor处理原型链继承
     Ctor.prototype = prototype;
+    // 实例化对象
     var result = new Ctor;
+    // 还原Ctor代理空函数
+    // 该赋值和返回新对象的先后没有必然联系，因为new操作已经把实例对象的原型链构建成功，该操作只是解除空函数Ctor和原型之间的关联
     Ctor.prototype = null;
+    // 返回新建对象
     return result;
   };
 
