@@ -505,6 +505,9 @@
      });
   });
 
+  // Alias for _.omitIndex().
+  _.withoutIndex = _.omitIndex;
+
   // Returns an array with all the possible permutations of the elements.
   _.permute = function (input) {
      var result = _.map(input, function (item, index) {
