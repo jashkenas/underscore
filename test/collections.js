@@ -105,7 +105,8 @@
       'each', 'map', 'filter', 'find',
       'some', 'every', 'max', 'min', 'reject',
       'groupBy', 'countBy', 'partition', 'indexBy',
-      'reduce', 'reduceRight'
+      'reduce', 'reduceRight',
+      'pickIndex', 'omitIndex', 'permute'
     ];
     var array = [
       'findIndex', 'findLastIndex'
@@ -914,6 +915,26 @@
     }, predicate);
   });
 
+  QUnit.test('pickIndex', function (assert) {
+      var list = [1, 456, 234, 2356, 2, 1, 15, 2354];
+      assert.deepEqual(_.pickIndex(list, 1, 2, 3), [456, 234, 2356], 'handles ordered indexes');
+      assert.deepEqual(_.pickIndex(list, 3, 1, 2), [456, 234, 2356], 'handles unordered indexes');
+      assert.deepEqual(_.pickIndex(list, [3, 1, 2]), [456, 234, 2356], 'handles an array of indexes');
+      assert.deepEqual(_.pickIndex(list, 3, 1, 'hello'), [1, 456, 234, 2356, 2, 1, 15, 2354], 'handles non-integer indexes');
+      assert.deepEqual(_.pickIndex(list, 134, 18, 1, 2), [456, 234], 'handles index values higher than array length');
+      assert.deepEqual(_.pickIndex(list, -2), [1, 456, 234, 2356, 2, 1, 15, 2354], 'handles negative index values');
+  });
+
+  QUnit.test('omitIndex', function (assert) {
+      var list = [1, 456, 234, 2356, 2, 1, 15, 2354];
+      assert.deepEqual(_.pickIndex(list, 1, 2, 3), [1, 2, 1, 15, 2354], 'handles ordered indexes');
+      assert.deepEqual(_.pickIndex(list, 3, 1, 2), [1, 2, 1, 15, 2354], 'handles unordered indexes');
+      assert.deepEqual(_.pickIndex(list, [3, 1, 2]), [1, 2, 1, 15, 2354], 'handles an array of indexes');
+      assert.deepEqual(_.pickIndex(list, 3, 1, 'hello'), [1, 456, 234, 2356, 2, 1, 15, 2354], 'handles non-integer indexes');
+      assert.deepEqual(_.pickIndex(list, 134, 18, 1, 2), [1, 2, 1, 15, 2354], 'handles index values higher than array length');
+      assert.deepEqual(_.pickIndex(list, -2), [1, 456, 234, 2356, 2, 1, 15, 2354], 'handles negative index values');
+  });
+  
   if (typeof document != 'undefined') {
     QUnit.test('Can use various collection methods on NodeLists', function(assert) {
       var parent = document.createElement('div');
