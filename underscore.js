@@ -489,7 +489,7 @@
   // Opposite to _.omitIndex().
   _.pickIndex = restArgs(function(input, indexes) {
      indexes = _.flatten(indexes);
-     if(!_.isArray(input) || _.isEmpty(indexes) || !_.every(indexes, _.isNumber)) return input;
+     if(!_.isArray(input) || _.isEmpty(indexes)) return input;
      return _.filter(input, function (item, i) {
         return _.contains(indexes, i);
      });
@@ -499,7 +499,7 @@
   // Opposite to _.pickIndex().
   _.omitIndex = restArgs(function(input, indexes) {
      indexes = _.flatten(indexes);
-     if(!_.isArray(input) || _.isEmpty(indexes) || !_.every(indexes, _.isNumber)) return input;
+     if(!_.isArray(input) || _.isEmpty(indexes)) return input;
      return _.reject(input, function (item, i) {
         return _.contains(indexes, i);
      });
