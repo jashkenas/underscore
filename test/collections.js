@@ -930,8 +930,8 @@
       assert.deepEqual(_.omitIndex(list, 3, 1, 2), [1, 2, 1, 15, 2354], 'handles unordered indexes');
       assert.deepEqual(_.omitIndex(list, [3, 1, 2]), [1, 2, 1, 15, 2354], 'handles an array of indexes');
       assert.deepEqual(_.omitIndex(list, 3, 1, 'hello'), [1, 234, 2, 1, 15, 2354], 'handles non-integer indexes');
-      assert.deepEqual(_.omitIndex(list, 134, 18, 1, 2), [1, 2, 1, 15, 2354], 'handles index values higher than array length');
-      assert.deepEqual(_.omitIndex(list, -2), [], 'handles negative index values');
+      assert.deepEqual(_.omitIndex(list, 134, 18, 1, 2), [1, 2356, 2, 1, 15, 2354], 'handles index values higher than array length');
+      assert.deepEqual(_.omitIndex(list, [1, 456, 234, 2356, 2, 1, 15, 2354]), [], 'handles negative index values');
   });
   
   if (typeof document != 'undefined') {
