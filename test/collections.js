@@ -105,8 +105,7 @@
       'each', 'map', 'filter', 'find',
       'some', 'every', 'max', 'min', 'reject',
       'groupBy', 'countBy', 'partition', 'indexBy',
-      'reduce', 'reduceRight',
-      'pickIndex', 'omitIndex', 'permute'
+      'reduce', 'reduceRight'
     ];
     var array = [
       'findIndex', 'findLastIndex'
