@@ -1361,7 +1361,7 @@
 
   // Is a given variable undefined?
   _.isUndefined = function(obj) {
-    return obj === void 0;
+    return typeof obj === 'undefined';
   };
 
   // Shortcut function for checking if an object has a given property directly
