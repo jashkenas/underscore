@@ -905,8 +905,9 @@
     assert.ok(_.has(obj, 'func'), 'works for functions too.');
     obj.hasOwnProperty = null;
     assert.ok(_.has(obj, 'foo'), 'works even when the hasOwnProperty method is deleted.');
-    var child = {};
-    child.prototype = obj;
+    function Child () {};
+    Child.prototype = obj;
+    var child = new Child();
     assert.notOk(_.has(child, 'foo'), 'does not check the prototype chain for a property.');
     assert.strictEqual(_.has(null, 'foo'), false, 'returns false for null');
     assert.strictEqual(_.has(void 0, 'foo'), false, 'returns false for undefined');
