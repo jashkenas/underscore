@@ -1447,7 +1447,7 @@
       max = min;
       min = 0;
     }
-    return min + Math.floor(Math.random() * (max - min + 1));
+    return Math.round(min) + Math.floor(Math.random() * (max - min + 1));
   };
 
   // A (possibly faster) way to get the current timestamp as an integer.
