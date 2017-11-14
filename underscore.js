@@ -167,6 +167,10 @@
     return typeof length == 'number' && length >= 0 && length <= MAX_ARRAY_INDEX;
   };
 
+  function is(obj, type) {
+    return toString.call(obj) === '[object ' + type + ']';
+  }
+
   // Collection Functions
   // --------------------
 
@@ -176,7 +180,9 @@
   _.each = _.forEach = function(obj, iteratee, context) {
     iteratee = optimizeCb(iteratee, context);
     var i, length;
-    if (isArrayLike(obj)) {
+    if (is(obj, 'Set') || is(obj, 'Map')) {
+      obj.forEach(iteratee);
+    } else if (isArrayLike(obj)) {
       for (i = 0, length = obj.length; i < length; i++) {
         iteratee(obj[i], i, obj);
       }
@@ -476,6 +482,7 @@
   // Return the number of elements in an object.
   _.size = function(obj) {
     if (obj == null) return 0;
+    if (_.isSet(obj) || _.isMap(obj)) return obj.size;
     return isArrayLike(obj) ? obj.length : _.keys(obj).length;
   };
 
@@ -1290,10 +1297,11 @@
     return eq(a, b);
   };
 
-  // Is a given array, string, or object empty?
+  // Is a given array, map, set, string, or object empty?
   // An "empty" object has no enumerable own-properties.
   _.isEmpty = function(obj) {
     if (obj == null) return true;
+    if (_.isSet(obj) || _.isMap(obj)) return obj.size === 0;
     if (isArrayLike(obj) && (_.isArray(obj) || _.isString(obj) || _.isArguments(obj))) return obj.length === 0;
     return _.keys(obj).length === 0;
   };

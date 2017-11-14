@@ -869,6 +869,8 @@
     assert.strictEqual(_.size({one: 1, two: 2, three: 3}), 3, 'can compute the size of an object');
     assert.strictEqual(_.size([1, 2, 3]), 3, 'can compute the size of an array');
     assert.strictEqual(_.size({length: 3, 0: 0, 1: 0, 2: 0}), 3, 'can compute the size of Array-likes');
+    assert.strictEqual(_.size(new Set([1, 2, 1])), 2, 'can compute set size');
+    assert.strictEqual(_.size(new Map([['one', 1], ['two', 2], ['one', '1_']])), 2, 'can compute map size');
 
     var func = function() {
       return _.size(arguments);
