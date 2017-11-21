@@ -1364,6 +1364,12 @@
     return obj === void 0;
   };
 
+  // Is a given variable numeric?
+  _.isNumeric = function(obj) {
+    var floatedObj = parseFloat(obj);
+    return !isNaN(floatedObj) && floatedObj.toString() === obj.toString();
+  };
+
   // Shortcut function for checking if an object has a given property directly
   // on itself (in other words, not on a prototype).
   _.has = function(obj, path) {
