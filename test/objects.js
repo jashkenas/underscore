@@ -673,6 +673,16 @@
     assert.notOk(_.isNumber('1'), 'numeric strings are not numbers');
   });
 
+  QUnit.test('isNumeric', function(assert) {
+    assert.notOk(_.isNumeric('string'), 'a string is not numeric');
+    assert.notOk(_.isNumeric(arguments), 'the arguments object is not numeric');
+    assert.notOk(_.isNumeric(void 0), 'undefined is not numeric');
+    assert.notOk(_.isNumeric(NaN), 'NaN is not numeric');
+    assert.ok(_.isNumeric(3 * 4 - 7 / 10), 'but numbers are');
+    assert.ok(_.isNumeric(Infinity), 'Infinity is numeric');
+    assert.ok(_.isNumeric('1'), 'numeric strings are numeric.');
+  });
+
   QUnit.test('isBoolean', function(assert) {
     assert.notOk(_.isBoolean(2), 'a number is not a boolean');
     assert.notOk(_.isBoolean('string'), 'a string is not a boolean');
