@@ -160,7 +160,7 @@
   // should be iterated as an array or as an object.
   // Related: http://people.mozilla.org/~jorendorff/es6-draft.html#sec-tolength
   // Avoids a very nasty iOS 8 JIT bug on ARM-64. #2094
-  var MAX_ARRAY_INDEX = Math.pow(2, 53) - 1;
+  var MAX_ARRAY_INDEX = Math.pow(2, 32) - 1;
   var getLength = shallowProperty('length');
   var isArrayLike = function(collection) {
     var length = getLength(collection);
