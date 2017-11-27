@@ -485,6 +485,42 @@
     result[pass ? 0 : 1].push(value);
   }, true);
 
+  // Returns an array with the specified indexes of the given array.
+  // Opposite to _.omitIndex().
+  _.pickIndex = restArgs(function(input, indexes) {
+    indexes = _.flatten(indexes);
+    if (!_.isArray(input) || _.isEmpty(indexes)) return input;
+    return _.filter(input, function(item, i) {
+      return _.contains(indexes, i);
+    });
+  });
+
+  // Returns an array without the specified indexes of the given array.
+  // Opposite to _.pickIndex().
+  _.omitIndex = restArgs(function(input, indexes) {
+    indexes = _.flatten(indexes);
+    if (!_.isArray(input) || _.isEmpty(indexes)) return input;
+    return _.reject(input, function(item, i) {
+      return _.contains(indexes, i);
+    });
+  });
+
+  // Alias for _.omitIndex().
+  _.withoutIndex = _.omitIndex;
+
+  // Returns an array with all the possible permutations of the elements.
+  _.permute = function(input) {
+    var result = _.map(input, function(item, index) {
+      var subarray = _.omitIndex(input, index);
+      var rest = _.permute(subarray);
+      return _.isEmpty(rest) ?
+          item :
+          _.map(rest, function(item2) {
+            return _.flatten([item].concat(item2));
+          });
+    });
+    return _.flatten(result, true);
+  };
   // Array Functions
   // ---------------
 

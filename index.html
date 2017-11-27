@@ -229,6 +229,9 @@
         <li data-name="size">- <a href="#size">size</a></li>
         <li data-name="partition">- <a href="#partition">partition</a></li>
         <li data-name="compact">- <a href="#compact">compact</a></li>
+        <li data-name="pickIndex">- <a href="#pickIndex">pickIndex</a></li>
+        <li data-name="omitIndex">- <a href="#omitIndex">omitIndex</a></li>
+        <li data-name="permute">- <a href="#permute">permute</a></li>
       </ul>
     </div>
 
@@ -865,6 +868,40 @@ _.compact([0, 1, false, 2, '', 3]);
 =&gt; [1, 2, 3]
 </pre>
 
+      <p id="pickIndex">
+        <b class="header">pickIndex</b><code>_.pickIndex(collection, *values)</code>
+        <br />
+        Returns a copy of a given <b>collection</b> with the elements of the specified indexes.
+        Values higher than the length of the collection are ignored.
+      </p>
+      <pre>
+_.pickIndex([123, 321, {a: 1}, 'hello', 'bye'], 1, 3, 8);
+=&gt; [321, 'hello']
+</pre>
+      
+      <p id="omitIndex">
+        <b class="header">omitIndex</b><code>_.omitIndex(collection, *values)</code>
+        <span class="alias">Alias: <b>withoutIndex</b></span>
+        <br />
+        Returns a copy of a given <b>collection</b> without the elements of the specified indexes.
+        Values higher than the length of the collection are ignored.
+        Opposite to <b>_.pickIndex</b>.
+      </p>
+      <pre>
+_.omitIndex([123, 321, {a: 1}, 'hello', 'bye'], 1, 3, 8);
+=&gt; [123, {a: 1}, 'bye']
+</pre>
+      
+      <p id="permute">
+        <b class="header">permute</b><code>_.permute(collection)</code>
+        <br />
+        Returns a <b>collection</b> with all possible permutations of the elements of a given collection.
+      </p>
+      <pre>
+_.permute([1, 2, 3]);
+=&gt; [[1, 2, 3], [1, 3, 2], [2, 1, 3], [2, 3, 1], [3, 1, 2], [3, 2, 1]]
+</pre>
+      
       <h2 id="arrays">Array Functions</h2>
 
       <p>
