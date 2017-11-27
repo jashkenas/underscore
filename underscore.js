@@ -558,6 +558,9 @@
 
   // Produce a duplicate-free version of the array. If the array has already
   // been sorted, you have the option of using a faster algorithm.
+  // The faster algorithm will not work with an iteratee if the iteratee
+  // is not a one-to-one function, so providing an iteratee will disable
+  // the faster algorithm.
   // Aliased as `unique`.
   _.uniq = _.unique = function(array, isSorted, iteratee, context) {
     if (!_.isBoolean(isSorted)) {
@@ -571,7 +574,7 @@
     for (var i = 0, length = getLength(array); i < length; i++) {
       var value = array[i],
           computed = iteratee ? iteratee(value, i, array) : value;
-      if (isSorted) {
+      if (isSorted && !iteratee) {
         if (!i || seen !== computed) result.push(value);
         seen = computed;
       } else if (iteratee) {

@@ -154,6 +154,10 @@
     list = [1, 1, 1, 2, 2, 3];
     assert.deepEqual(_.uniq(list, true), [1, 2, 3], 'can find the unique values of a sorted array faster');
 
+    list = [-2, -1, 0, 1, 2];
+    var notInjective = function(x) {return x * x;};
+    assert.deepEqual(_.uniq(list, true, notInjective), [-2, -1, 0], 'can find values of sorted array which map to unique values through a non one-to-one function by switching to slower algorithm even when isSorted=true');
+
     list = [{name: 'Moe'}, {name: 'Curly'}, {name: 'Larry'}, {name: 'Curly'}];
     var expected = [{name: 'Moe'}, {name: 'Curly'}, {name: 'Larry'}];
     var iterator = function(stooge) { return stooge.name; };
