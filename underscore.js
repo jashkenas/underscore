@@ -1158,6 +1158,37 @@
     return _.isArray(obj) ? obj.slice() : _.extend({}, obj);
   };
 
+  // Create a (deep-cloned) duplicate of an object.
+  var cloneDeep = function(obj, stack) {
+    if (!_.isObject(obj)) {
+      return obj;
+    }
+    var keys = !isArrayLike(obj) && _.allKeys(obj),
+        length = (keys || obj).length,
+        result = keys ? {} : [];
+
+    if (!stack) {
+      stack = [[], []];
+    }
+    var stacked = _.indexOf(stack[0], obj);
+    if (stacked > -1) {
+      return stack[1][stacked];
+    }
+    stack[0].push(obj);
+    stack[1].push(result);
+
+    for (var i = 0; i < length; i++) {
+      var key = keys ? keys[i] : i;
+      result[key] = cloneDeep(obj[key], stack);
+    }
+
+    return result;
+  };
+
+  _.cloneDeep = function(obj) {
+    return cloneDeep(obj);
+  };
+
   // Invokes interceptor with the obj, and then returns obj.
   // The primary purpose of this method is to "tap into" a method chain, in
   // order to perform operations on intermediate results within the chain.

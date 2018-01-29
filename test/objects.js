@@ -286,6 +286,41 @@
     assert.strictEqual(_.clone(null), null, 'non objects should not be changed by clone');
   });
 
+  QUnit.test('cloneDeep', function(assert) {
+    var source = {
+      str: 'str',
+      num: 1,
+      bool: false,
+      list: [1, 2, 3],
+      obj: {a: 'a', b: 'b'},
+      nu: null,
+      und: void 0
+    };
+    var clone = _.cloneDeep(source);
+    assert.strictEqual(clone.str, 'str', 'can clone string value from source');
+    assert.strictEqual(clone.num, 1, 'can clone number value from source');
+    assert.strictEqual(clone.bool, false, 'can clone boolean value from source');
+    assert.deepEqual(clone.list, [1, 2, 3], 'can clone array from source');
+    assert.deepEqual(clone.obj, {a: 'a', b: 'b'}, 'can clone object from source');
+    assert.deepEqual(clone.nu, null, 'can clone null value from source');
+    assert.deepEqual(clone.und, void 0, 'can clone undefined value from source');
+
+    assert.notStrictEqual(clone.list, source.list, 'refers to a copy of the original array');
+    assert.notStrictEqual(clone.obj, source.obj, 'refers to a copy of the original object');
+
+    function F() {}
+    F.prototype = {a: 'a'};
+    var subObj = new F();
+    subObj.b = 'b';
+    clone = _.cloneDeep(subObj);
+    assert.deepEqual(clone, {a: 'a', b: 'b'}, 'copies all properties from source');
+
+    source = {a: 'a'};
+    source.obj = source;
+    clone = _.cloneDeep(source);
+    assert.deepEqual(clone.obj.a, 'a', 'can deal with circular references cases');
+  });
+
   QUnit.test('create', function(assert) {
     var Parent = function() {};
     Parent.prototype = {foo: function() {}, bar: 2};
