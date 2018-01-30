@@ -343,10 +343,11 @@
         }
       }
     } else {
+      result = null;
       iteratee = cb(iteratee, context);
       _.each(obj, function(v, index, list) {
         computed = iteratee(v, index, list);
-        if (computed > lastComputed || computed === -Infinity && result === -Infinity) {
+        if (computed > lastComputed || result === null) {
           result = v;
           lastComputed = computed;
         }
@@ -368,10 +369,11 @@
         }
       }
     } else {
+      result = null;
       iteratee = cb(iteratee, context);
       _.each(obj, function(v, index, list) {
         computed = iteratee(v, index, list);
-        if (computed < lastComputed || computed === Infinity && result === Infinity) {
+        if (computed < lastComputed || result === null) {
           result = v;
           lastComputed = computed;
         }
