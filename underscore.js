@@ -460,6 +460,27 @@
     if (_.has(result, key)) result[key]++; else result[key] = 1;
   });
 
+  // Produce a duplicate-free version of the array of objects.
+  // Aliased as `uniqueBy`.
+  _.uniqBy = _.uniqueBy = function(array, key) {
+    var result = [];
+    var seen = [];
+    var length = getLength(array);
+    for (var i = 0; i < length; i++) {
+      var object = array[i];
+      if (_.has(object, key)) {
+        var value = object[key];
+        if (!_.contains(seen, value)) {
+          result.push(object);
+          seen.push(value);
+        }
+      } else {
+        result.push(object);
+      }
+    }
+    return result;
+  };
+
   var reStrSymbol = /[^\ud800-\udfff]|[\ud800-\udbff][\udc00-\udfff]|[\ud800-\udfff]/g;
   // Safely create a real, live array from anything iterable.
   _.toArray = function(obj) {
