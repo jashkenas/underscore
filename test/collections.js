@@ -807,6 +807,22 @@
     assert.strictEqual(grouped['3'], 1);
   });
 
+  QUnit.test('uniqBy', function(assert) {
+    var list = [{a: '1', b: 'x'}, {a: '2', b: 'y'}, {a: '3', b: 'z'}];
+    assert.deepEqual(_.uniqBy(list, 'b'), list);
+    assert.deepEqual(_.uniqBy(list, 'c'), list);
+
+    list = [{a: '1', b: 'x'}, {a: '2', b: 'y'}, {a: '3', b: 'z'}, {a: '4', b: 'x'}];
+    assert.deepEqual(_.uniqBy(list, 'b'), [{a: '1', b: 'x'}, {a: '2', b: 'y'}, {a: '3', b: 'z'}]);
+
+    list = [{a: '1', b: 'z'}, {a: '2', b: 'y'}, {a: '3', b: 'z'}, {a: '4', b: 'x'}];
+    assert.deepEqual(_.uniqBy(list, 'b'), [{a: '1', b: 'z'}, {a: '2', b: 'y'}, {a: '4', b: 'x'}]);
+  });
+
+  QUnit.test('uniqueBy', function(assert) {
+    assert.strictEqual(_.uniqueBy, _.uniqBy, 'is an alias for uniqBy');
+  });
+
   QUnit.test('shuffle', function(assert) {
     assert.deepEqual(_.shuffle([1]), [1], 'behaves correctly on size 1 arrays');
     var numbers = _.range(20);
