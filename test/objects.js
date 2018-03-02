@@ -500,6 +500,35 @@
     b = ['everything is checked but', ['this', 'array'], 'is not'];
     assert.notOk(_.isEqual(a, b), 'Comparison of circular references with non-circular references are not equal');
 
+    //Sets from the same array.
+    a = new Set([1,2,3,4]);
+    b = new Set([1,2,3,4]);
+    assert.ok(_.isEqual(a, b), 'Sets from the same array are equal.');
+    //Sets from different arrays but with the same length.
+    b = new Set([1,2,4,3]);
+    assert.ok(_.isEqual(a, b), 'Sets with the same elements are equal.');
+    //Sets from different arrays with different length.
+    b = new Set([1,2,3,4,5]);
+    assert.notOk(_.isEqual(a, b), 'Sets with different elements are not equal.');
+
+    //Maps from the same array.
+    a = new Map([['name', 'Demon'], ['age', 22]]);
+    b = new Map([['name', 'Demon'], ['age', 22]]);
+    assert.ok(_.isEqual(a, b), 'Maps from the same array are equal.');
+    //Maps from different arrays.
+    b = new Map([['name', 'Demon'], ['age', 22], ['gender', 'male']]);
+    assert.notOk(_.isEqual(a, b), 'Maps from different arrays are not equal.');
+    b = new Map([['age', 22], ['name', 'Demon']]);
+    assert.ok(_.isEqual(a, b), 'Maps with the same elements are equal.');
+    //Set items with Map.prototype.set.
+    a = new Map();
+    b = new Map();
+    a.set('name', 'Demon');
+    b.set('name', 'Demon');
+    assert.ok(_.isEqual(a, b), 'Maps with the same items set by Map.prototype.set are equal.');
+    b.set('age', 22);
+    assert.notOk(_.isEqual(a, b), 'Maps with different items are not equal.')
+
     // Circular Objects.
     a = {abc: null};
     b = {abc: null};
