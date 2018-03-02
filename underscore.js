@@ -1231,6 +1231,25 @@
     }
 
     var areArrays = className === '[object Array]';
+
+    if(className === '[object Set]') {
+      if(a.size !== b.size) return false;
+      //Every element of Set are unique, if a.size === b.size,
+      //we just need to check one direction.
+      for(var item of a){
+        if(!b.has(item)) return false;
+      }
+      return true;
+    }
+
+    if(className === '[object Map]') {
+      if(a.size !== b.size) return false;
+      for(var [key, value] of a){
+        if(value !== b.get(key)) return false;
+      }
+      return true;
+    }
+
     if (!areArrays) {
       if (typeof a != 'object' || typeof b != 'object') return false;
 
