@@ -210,6 +210,12 @@
     assert.deepEqual(result, [], 'returns an empty array when passed null as the first argument');
     result = _.intersection([1, 2, 3], null);
     assert.deepEqual(result, [], 'returns an empty array when passed null as an argument beyond the first');
+    result = _.intersection([1, 2, 3], {foo: 1});
+    assert.deepEqual(result, [], 'ignores non-array values');
+    result = _.intersection([1, 2, 3], 1);
+    assert.deepEqual(result, [], 'ignores primitives ints');
+    result = _.intersection([1, 2, 3], "2");
+    assert.deepEqual(result, [], 'ignores primitives strings');
   });
 
   QUnit.test('union', function(assert) {

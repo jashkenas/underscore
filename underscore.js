@@ -605,6 +605,9 @@
       if (_.contains(result, item)) continue;
       var j;
       for (j = 1; j < argsLength; j++) {
+        if (!Array.isArray(arguments[j])) {
+          return [];
+        }
         if (!_.contains(arguments[j], item)) break;
       }
       if (j === argsLength) result.push(item);
