@@ -214,7 +214,7 @@
     assert.deepEqual(result, [], 'ignores non-array values');
     result = _.intersection([1, 2, 3], 1);
     assert.deepEqual(result, [], 'ignores primitives ints');
-    result = _.intersection([1, 2, 3], "2");
+    result = _.intersection([1, 2, 3], '2');
     assert.deepEqual(result, [], 'ignores primitives strings');
   });
 
