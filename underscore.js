@@ -73,7 +73,7 @@
       };
       // The 2-parameter case has been omitted only because no current consumers
       // made use of it.
-      case null:
+      case undefined:
       case 3: return function(value, index, collection) {
         return func.call(context, value, index, collection);
       };
