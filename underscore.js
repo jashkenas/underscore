@@ -11,8 +11,8 @@
   // Establish the root object, `window` (`self`) in the browser, `global`
   // on the server, or `this` in some virtual machines. We use `self`
   // instead of `window` for `WebWorker` support.
-  var root = typeof self == 'object' && self.self === self && self ||
-            typeof global == 'object' && global.global === global && global ||
+  var root = typeof self === 'object' && self.self === self && self ||
+            typeof global === 'object' && global.global === global && global ||
             this ||
             {};
 
@@ -163,7 +163,7 @@
   var getLength = shallowProperty('length');
   var isArrayLike = function(collection) {
     var length = getLength(collection);
-    return typeof length == 'number' && length >= 0 && length <= MAX_ARRAY_INDEX;
+    return typeof length === 'number' && length >= 0 && length <= MAX_ARRAY_INDEX;
   };
 
   // Collection Functions
@@ -286,7 +286,7 @@
   // Aliased as `includes` and `include`.
   _.contains = _.includes = _.include = function(obj, item, fromIndex, guard) {
     if (!isArrayLike(obj)) obj = _.values(obj);
-    if (typeof fromIndex != 'number' || guard) fromIndex = 0;
+    if (typeof fromIndex !== 'number' || guard) fromIndex = 0;
     return _.indexOf(obj, item, fromIndex) >= 0;
   };
 
@@ -333,7 +333,7 @@
   _.max = function(obj, iteratee, context) {
     var result = -Infinity, lastComputed = -Infinity,
         value, computed;
-    if (iteratee == null || typeof iteratee == 'number' && typeof obj[0] != 'object' && obj != null) {
+    if (iteratee == null || typeof iteratee === 'number' && typeof obj[0] != 'object' && obj != null) {
       obj = isArrayLike(obj) ? obj : _.values(obj);
       for (var i = 0, length = obj.length; i < length; i++) {
         value = obj[i];
@@ -358,7 +358,7 @@
   _.min = function(obj, iteratee, context) {
     var result = Infinity, lastComputed = Infinity,
         value, computed;
-    if (iteratee == null || typeof iteratee == 'number' && typeof obj[0] != 'object' && obj != null) {
+    if (iteratee == null || typeof iteratee === 'number' && typeof obj[0] !== 'object' && obj != null) {
       obj = isArrayLike(obj) ? obj : _.values(obj);
       for (var i = 0, length = obj.length; i < length; i++) {
         value = obj[i];
@@ -562,6 +562,7 @@
   // the faster algorithm.
   // Aliased as `unique`.
   _.uniq = _.unique = function(array, isSorted, iteratee, context) {
+    var hasMapSupported = typeof Map !== 'undefined';
     if (!_.isBoolean(isSorted)) {
       context = iteratee;
       iteratee = isSorted;
@@ -569,19 +570,26 @@
     }
     if (iteratee != null) iteratee = cb(iteratee, context);
     var result = [];
-    var seen = [];
+    var seen = hasMapSupported ? new Map() : [];
     for (var i = 0, length = getLength(array); i < length; i++) {
       var value = array[i],
           computed = iteratee ? iteratee(value, i, array) : value;
-      if (isSorted && !iteratee) {
+      if (isSorted) {
         if (!i || seen !== computed) result.push(value);
         seen = computed;
       } else if (iteratee) {
-        if (!_.contains(seen, computed)) {
-          seen.push(computed);
+        if (hasMapSupported ? !seen.has(computed) : !_.contains(seen, computed)) {
+          if (hasMapSupported) {
+            seen.set(computed);
+          } else {
+            seen.push(computed);
+          }
           result.push(value);
         }
-      } else if (!_.contains(result, value)) {
+      } else if (hasMapSupported ? !seen.has(value) : !_.contains(result, value)) {
+        if (hasMapSupported) {
+          seen.set(value);
+        }
         result.push(value);
       }
     }
@@ -596,19 +604,31 @@
 
   // Produce an array that contains every item shared between all the
   // passed-in arrays.
-  _.intersection = function(array) {
-    var result = [];
+
+  _.intersection = function() {
     var argsLength = arguments.length;
-    for (var i = 0, length = getLength(array); i < length; i++) {
-      var item = array[i];
-      if (_.contains(result, item)) continue;
-      var j;
-      for (j = 1; j < argsLength; j++) {
-        if (!_.contains(arguments[j], item)) break;
-      }
-      if (j === argsLength) result.push(item);
+    var i, length;
+    for (i = 0; i < argsLength; i++) {
+      if (arguments[i] == null) return [];
     }
-    return result;
+    var intersectionList = _.sortBy(arguments[argsLength - 1]);
+    for (i = argsLength - 2; i >= 0; i--) {
+      var inputList = arguments[i];
+      var tempList = [];
+      var j;
+      for (j = 0, length = inputList.length; j < length; j++) {
+        if (_.indexOf(intersectionList, inputList[j], true) >= 0) {
+          tempList.push(inputList[j]);
+        }
+      }
+      if (i === 0) {
+        // preserves the order of the first array
+        intersectionList = tempList;
+      } else {
+        intersectionList = _.sortBy(tempList);
+      }
+    }
+    return _.uniq(intersectionList);
   };
 
   // Take the difference between one array and a number of other arrays.
@@ -685,7 +705,7 @@
   var createIndexFinder = function(dir, predicateFind, sortedIndex) {
     return function(array, item, idx) {
       var i = 0, length = getLength(array);
-      if (typeof idx == 'number') {
+      if (typeof idx === 'number') {
         if (dir > 0) {
           i = idx >= 0 ? idx : Math.max(idx + length, i);
         } else {
@@ -1046,6 +1066,27 @@
     return pairs;
   };
 
+  // Produce a duplicate-free version of the array of objects.
+  // Aliased as `uniqueBy`.
+  _.uniqBy = _.uniqueBy = function(array, key) {
+    var result = [];
+    var seen = [];
+    var length = getLength(array);
+    for (var i = 0; i < length; i++) {
+      var object = array[i];
+      if (_.has(object, key)) {
+        var value = object[key];
+        if (!_.contains(seen, value)) {
+          result.push(object);
+          seen.push(value);
+        }
+      } else {
+        result.push(object);
+      }
+    }
+    return result;
+  };
+
   // Invert the keys and values of an object. The values must be serializable.
   _.invert = function(obj) {
     var result = {};
@@ -1158,6 +1199,37 @@
   _.clone = function(obj) {
     if (!_.isObject(obj)) return obj;
     return _.isArray(obj) ? obj.slice() : _.extend({}, obj);
+  };
+
+  // Create a (deep-cloned) duplicate of an object.
+  var deepClone = function (obj, stack) {
+    if (!_.isObject(obj)) {
+      return obj;
+    }
+    var keys = !isArrayLike(obj) && _.allKeys(obj),
+      length = (keys || obj).length,
+      result = keys ? {} : [];
+
+    if (!stack) {
+      stack = [[], []];
+    }
+    var stacked = _.indexOf(stack[0], obj);
+    if (stacked > -1) {
+      return stack[1][stacked];
+    }
+    stack[0].push(obj);
+    stack[1].push(result);
+
+    for (var i = 0; i < length; i++) {
+      var key = keys ? keys[i] : i;
+      result[key] = deepClone(obj[key], stack);
+    }
+
+    return result;
+  };
+
+  _.deepClone = function (obj) {
+    return deepClone(obj);
   };
 
   // Invokes interceptor with the obj, and then returns obj.
@@ -1317,8 +1389,8 @@
     return type === 'function' || type === 'object' && !!obj;
   };
 
-  // Add some isType methods: isArguments, isFunction, isString, isNumber, isDate, isRegExp, isError, isMap, isWeakMap, isSet, isWeakSet.
-  _.each(['Arguments', 'Function', 'String', 'Number', 'Date', 'RegExp', 'Error', 'Symbol', 'Map', 'WeakMap', 'Set', 'WeakSet'], function(name) {
+  // Add some isType methods: isArguments, isFunction, isString, isNumber, isDate, isRegExp, isError, isMap, isWeakMap, isSet, isWeakSet, isPromise, isGenerator..
+  _.each(['Arguments', 'Function', 'String', 'Number', 'Date', 'RegExp', 'Error', 'Symbol', 'Map', 'WeakMap', 'Set', 'WeakSet', 'Promise' ,'Generator'], function(name) {
     _['is' + name] = function(obj) {
       return toString.call(obj) === '[object ' + name + ']';
     };
@@ -1337,7 +1409,7 @@
   var nodelist = root.document && root.document.childNodes;
   if (typeof /./ != 'function' && typeof Int8Array != 'object' && typeof nodelist != 'function') {
     _.isFunction = function(obj) {
-      return typeof obj == 'function' || false;
+      return typeof obj === 'function' || false;
     };
   }
 
@@ -1677,7 +1749,7 @@
   // popular enough to be bundled in a third party lib, but not be part of
   // an AMD load request. Those cases could generate an error when an
   // anonymous define() is called outside of a loader request.
-  if (typeof define == 'function' && define.amd) {
+  if (typeof define === 'function' && define.amd) {
     define('underscore', [], function() {
       return _;
     });
