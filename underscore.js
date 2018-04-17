@@ -347,7 +347,7 @@
       iteratee = cb(iteratee, context);
       _.each(obj, function(v, index, list) {
         computed = iteratee(v, index, list);
-        if (computed > lastComputed || result === null && computed != null) {
+        if (computed > lastComputed || result === null && computed !== null) {
           result = v;
           lastComputed = computed;
         }
@@ -373,7 +373,7 @@
       iteratee = cb(iteratee, context);
       _.each(obj, function(v, index, list) {
         computed = iteratee(v, index, list);
-        if (computed < lastComputed || result === null && computed != null) {
+        if (computed < lastComputed || result === null && computed !== null) {
           result = v;
           lastComputed = computed;
         }
