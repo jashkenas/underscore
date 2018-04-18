@@ -71,8 +71,7 @@
       case 1: return function(value) {
         return func.call(context, value);
       };
-      // The 2-parameter case has been omitted only because no current consumers
-      // made use of it.
+      // The 2-argument case is omitted because we’re not using it.
       case 3: return function(value, index, collection) {
         return func.call(context, value, index, collection);
       };
