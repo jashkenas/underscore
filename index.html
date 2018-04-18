@@ -46,8 +46,8 @@
         font-weight: normal;
       }
     ul.toc_section {
-      font-size: 14px;
-      line-height: 16px;
+      font-size: 11px;
+      line-height: 14px;
       margin: 5px 0 0 0;
       padding-left: 0px;
       list-style-type: none;
@@ -182,7 +182,7 @@
   <div id="sidebar" class="interface">
 
     <a class="toc_title" href="#">
-      Underscore.js <span class="version">(1.8.3)</span>
+      Underscore.js <span class="version">(1.9.0)</span>
     </a>
     <ul class="toc_section">
       <li>&raquo; <a href="https://github.com/jashkenas/underscore">GitHub Repository</a></li>
@@ -240,7 +240,7 @@
         <li data-name="first" data-aliases="head take">- <a href="#first">first</a></li>
         <li data-name="initial">- <a href="#initial">initial</a></li>
         <li data-name="last">- <a href="#last">last</a></li>
-        <li data-name="rest" data-aliases="tail drop">- <a href="#rest">rest</a></li>        
+        <li data-name="rest" data-aliases="tail drop">- <a href="#rest">rest</a></li>
         <li data-name="flatten">- <a href="#flatten">flatten</a></li>
         <li data-name="without">- <a href="#without">without</a></li>
         <li data-name="union">- <a href="#union">union</a></li>
@@ -250,6 +250,7 @@
         <li data-name="zip">- <a href="#zip">zip</a></li>
         <li data-name="unzip">- <a href="#unzip">unzip</a></li>
         <li data-name="object">- <a href="#object">object</a></li>
+        <li data-name="chunk">- <a href="#chunk">chunk</a></li>
         <li data-name="indexOf">- <a href="#indexOf">indexOf</a></li>
         <li data-name="lastIndexOf">- <a href="#lastIndexOf">lastIndexOf</a></li>
         <li data-name="sortedIndex">- <a href="#sortedIndex">sortedIndex</a></li>
@@ -278,6 +279,7 @@
         <li data-name="wrap">- <a href="#wrap">wrap</a></li>
         <li data-name="negate">- <a href="#negate">negate</a></li>
         <li data-name="compose">- <a href="#compose">compose</a></li>
+        <li data-name="restArguments">- <a href="#restArguments">restArguments</a></li>
       </ul>
     </div>
 
@@ -322,6 +324,10 @@
         <li data-name="isRegExp">- <a href="#isRegExp">isRegExp</a></li>
         <li data-name="isError">- <a href="#isError">isError</a></li>
         <li data-name="isSymbol">- <a href="#isSymbol">isSymbol</a></li>
+        <li data-name="isMap">- <a href="#isMap">isMap</a></li>
+        <li data-name="isWeakMap">- <a href="#isWeakMap">isWeakMap</a></li>
+        <li data-name="isSet">- <a href="#isSet">isSet</a></li>
+        <li data-name="isWeakSet">- <a href="#isWeakSet">isWeakSet</a></li>
         <li data-name="isNaN">- <a href="#isNaN">isNaN</a></li>
         <li data-name="isNull">- <a href="#isNull">isNull</a></li>
         <li data-name="isUndefined">- <a href="#isUndefined">isUndefined</a></li>
@@ -434,14 +440,14 @@
 
     <table>
       <tr>
-        <td><a href="underscore.js">Development Version (1.8.3)</a></td>
-        <td><i>52kb, Uncompressed with Plentiful Comments</i></td>
+        <td><a href="underscore.js">Development Version (1.9.0)</a></td>
+        <td><i>60kb, Uncompressed with Plentiful Comments</i></td>
       </tr>
       <tr>
-        <td><a href="underscore-min.js">Production Version (1.8.3)</a></td>
+        <td><a href="underscore-min.js">Production Version (1.9.0)</a></td>
         <td>
-          <i>5.7kb, Minified and Gzipped</i>
-          &nbsp;<small>(<a href="underscore-min.map">Source Map</a>)</small>
+          <i>6.5kb, Minified and Gzipped</i>
+          &nbsp;<small>(<a href="underscore-min.js.map">Source Map</a>)</small>
         </td>
       </tr>
       <tr>
@@ -449,7 +455,7 @@
       </tr>
       <tr>
         <td><a href="https://raw.github.com/jashkenas/underscore/master/underscore.js">Edge Version</a></td>
-        <td><i>Unreleased, current <tt>master</tt>, use at your own risk</i></td>
+        <td><i>Unreleased, current <tt>master</tt>, use by your own judgement and at your own risk</i></td>
       </tr>
     </table>
 
@@ -1040,6 +1046,17 @@ _.object([['moe', 30], ['larry', 40], ['curly', 50]]);
 =&gt; {moe: 30, larry: 40, curly: 50}
 </pre>
 
+      <p id="chunk">
+        <b class="header">chunk</b><code>_.chunk(array, length)</code>
+        <br />
+        Chunks an <b>array</b> into multiple arrays, each containing <b>length</b>
+        or fewer items.
+      </p>
+      <pre>
+var partners = _.chunk(_.shuffle(kindergarten), 2);
+=&gt; [["Tyrone", "Elie"], ["Aidan", "Sam"], ["Katrina", "Billie"], ["Little Timmy"]]
+</pre>
+
       <p id="indexOf">
         <b class="header">indexOf</b><code>_.indexOf(array, value, [isSorted])</code>
         <br />
@@ -1264,6 +1281,10 @@ _.defer(function(){ alert('deferred'); });
 var throttled = _.throttle(updatePosition, 100);
 $(window).scroll(throttled);
 </pre>
+      <p>
+        If you need to cancel a scheduled throttle, you can call <tt>.cancel()</tt>
+        on the throttled function.
+      </p>
 
       <p id="debounce">
         <b class="header">debounce</b><code>_.debounce(function, wait, [immediate])</code>
@@ -1276,13 +1297,11 @@ $(window).scroll(throttled);
         preview of a Markdown comment, recalculating a layout after the window
         has stopped being resized, and so on.
       </p>
-
       <p>
         At the end of the <b>wait</b> interval, the function will be called
         with the arguments that were passed <i>most recently</i> to the
         debounced function.
       </p>
-
       <p>
         Pass <tt>true</tt> for the <b>immediate</b> argument to cause
         <b>debounce</b> to trigger the function on the leading instead of the
@@ -1290,11 +1309,14 @@ $(window).scroll(throttled);
         preventing accidental double-clicks on a "submit" button from firing a
         second time.
       </p>
-
       <pre>
 var lazyLayout = _.debounce(calculateLayout, 300);
 $(window).resize(lazyLayout);
 </pre>
+      <p>
+        If you need to cancel a scheduled debounce, you can call <tt>.cancel()</tt>
+        on the debounced function.
+      </p>
 
       <p id="once">
         <b class="header">once</b><code>_.once(function)</code>
@@ -1384,6 +1406,24 @@ var exclaim  = function(statement){ return statement.toUpperCase() + "!"; };
 var welcome = _.compose(greet, exclaim);
 welcome('moe');
 =&gt; 'hi: MOE!'
+</pre>
+
+      <p id="restArguments">
+        <b class="header">restArguments</b><code>_.restArguments(function, [startIndex])</code>
+        <br />
+        Returns a version of the <b>function</b> that, when called, receives all
+        arguments from and beyond <b>startIndex</b> collected into a single array.
+        If you don’t pass an explicit <b>startIndex</b>, it will be determined by
+        looking at the number of arguments to the <b>function</b> itself. Similar
+        to ES6’s <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/rest_parameters">rest
+        parameters syntax</a>.
+      </p>
+      <pre>
+var raceResults = _.restArguments(function(gold, silver, bronze, everyoneElse) {
+  _.each(everyoneElse, sendConsolations);
+});
+
+raceResults("Dopey", "Grumpy", "Happy", "Sneezy", "Bashful", "Sleepy", "Doc");
 </pre>
 
       <h2 id="objects">Object Functions</h2>
@@ -1590,7 +1630,7 @@ _.chain([1,2,3,200])
         Does the object contain the given key? Identical to
         <tt>object.hasOwnProperty(key)</tt>, but uses a safe reference to the
         <tt>hasOwnProperty</tt> function, in case it's been
-		
+
         <a href="http://www.pixelstech.net/article/1326986170-An-Object-is-not-a-Hash">overridden accidentally</a>.
       </p>
       <pre>
@@ -1599,15 +1639,21 @@ _.has({a: 1, b: 2, c: 3}, "b");
 </pre>
 
       <p id="property">
-        <b class="header">property</b><code>_.property(key)</code>
+        <b class="header">property</b><code>_.property(path)</code>
         <br />
-        Returns a function that will return the <tt>key</tt>
-        property of any passed-in object.
+        Returns a function that will return the specified property of any
+        passed-in object. <tt>path</tt> may be specified as a simple key, or
+        as an array of object keys or array indexes, for deep property fetching.
       </p>
       <pre>
 var stooge = {name: 'moe'};
 'moe' === _.property('name')(stooge);
 =&gt; true
+
+var stooges = {moe: {fears: {worst: 'Spiders'}}, curly: {fears: {worst: 'Moe'}}};
+var curlysWorstFear = _.property(['curly', 'fears', 'worst']);
+curlysWorstFear(stooges);
+=&gt; 'Moe'
 </pre>
 
       <p id="propertyOf">
@@ -1810,10 +1856,50 @@ try {
       <p id="isSymbol">
         <b class="header">isSymbol</b><code>_.isSymbol(object)</code>
         <br />
-        Returns <i>true</i> if <b>object</b> is a Symbol.
+        Returns <i>true</i> if <b>object</b> is a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol">Symbol</a>.
       </p>
       <pre>
 _.isSymbol(Symbol());
+=&gt; true
+</pre>
+
+      <p id="isMap">
+        <b class="header">isMap</b><code>_.isMap(object)</code>
+        <br />
+        Returns <i>true</i> if <b>object</b> is a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map">Map</a>.
+      </p>
+      <pre>
+_.isMap(new Map());
+=&gt; true
+</pre>
+
+      <p id="isWeakMap">
+        <b class="header">isWeakMap</b><code>_.isWeakMap(object)</code>
+        <br />
+        Returns <i>true</i> if <b>object</b> is a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakMap">WeakMap</a>.
+      </p>
+      <pre>
+_.isWeakMap(new WeakMap());
+=&gt; true
+</pre>
+
+      <p id="isSet">
+        <b class="header">isSet</b><code>_.isSet(object)</code>
+        <br />
+        Returns <i>true</i> if <b>object</b> is a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set">Set</a>.
+      </p>
+      <pre>
+_.isSet(new Set());
+=&gt; true
+</pre>
+
+      <p id="isWeakSet">
+        <b class="header">isWeakSet</b><code>_.isWeakSet(object)</code>
+        <br />
+        Returns <i>true</i> if <b>object</b> is a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakSet">WeakSet</a>.
+      </p>
+      <pre>
+_.isWeakSet(WeakSet());
 =&gt; true
 </pre>
 
@@ -2303,6 +2389,50 @@ _.chain([1, 2, 3]).reverse().value();
       </p>
 
       <h2 id="changelog">Change Log</h2>
+
+      <p id="1.9.0">
+        <b class="header">1.9.0</b> &mdash; <small><i>April 18, 2018</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.8.3...1.9.0">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/underscore/1.9.0/index.html">Docs</a><br />
+        <ul>
+          <li>
+            Adds the <tt>_.restArguments</tt> function for variadic function
+            handling.
+          </li>
+          <li>
+            Adds the <tt>_.chunk</tt> function for chunking up an array.
+          </li>
+          <li>
+            Adds a <tt>_.isSymbol</tt>, <tt>_.isMap</tt>, <tt>_.isWeakMap</tt>,
+            <tt>_.isSet</tt> and <tt>_.isWeakSet</tt> functions.
+          </li>
+          <li>
+            <tt>_.throttle</tt> and <tt>_.debounce</tt> return functions that now
+            have a <tt>.cancel()</tt> method, which can be used to cancel any
+            scheduled calls.
+          </li>
+          <li>
+            <tt>_.property</tt> now accepts arrays of keys and indexes as path
+            specifiers, for looking up a deep properties of a value.
+          </li>
+          <li>
+            <tt>_.range</tt> now accepts negative ranges to generate descending
+            arrays.
+          </li>
+          <li>
+            Adds support for several environments including: WebWorkers,
+            browserify and ES6 imports.
+          </li>
+          <li>
+            The placeholder used for partial is now configurable by setting
+            <code>_.partial.placeholder</code>.
+          </li>
+          <li>
+            <code>_.bindAll</code> now accepts arrays or arguments for keys.
+          </li>
+          <li>
+            Three years of performance improvements.
+          </li>
+        </ul>
+      </p>
 
       <p id="1.8.3">
         <b class="header">1.8.3</b> &mdash; <small><i>April 2, 2015</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.8.2...1.8.3">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/underscore/1.8.3/index.html">Docs</a><br />

@@ -1,6 +1,6 @@
-//     Underscore.js 1.8.3
+//     Underscore.js 1.9.0
 //     http://underscorejs.org
-//     (c) 2009-2017 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+//     (c) 2009-2018 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 //     Underscore may be freely distributed under the MIT license.
 
 (function() {
@@ -60,7 +60,7 @@
   }
 
   // Current version.
-  _.VERSION = '1.8.3';
+  _.VERSION = '1.9.0';
 
   // Internal function that returns an efficient (for current engines) version
   // of the passed-in callback, to be repeatedly applied in other Underscore
@@ -737,11 +737,10 @@
     return range;
   };
 
-  // Split an **array** into several arrays containing **count** or less elements
-  // of initial array.
+  // Chunk a single array into multiple arrays, each containing `count` or fewer
+  // items.
   _.chunk = function(array, count) {
     if (count == null || count < 1) return [];
-
     var result = [];
     var i = 0, length = array.length;
     while (i < length) {
@@ -1409,6 +1408,8 @@
 
   _.noop = function(){};
 
+  // Creates a function that, when passed an object, will traverse that object’s
+  // properties down the given `path`, specified as an array of keys or indexes.
   _.property = function(path) {
     if (!_.isArray(path)) {
       return shallowProperty(path);

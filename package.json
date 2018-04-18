@@ -15,7 +15,7 @@
     "url": "git://github.com/jashkenas/underscore.git"
   },
   "main": "underscore.js",
-  "version": "1.8.3",
+  "version": "1.9.0",
   "devDependencies": {
     "coveralls": "^2.11.2",
     "docco": "*",
@@ -37,7 +37,7 @@
     "test-node": "qunit-cli test/*.js",
     "test-browser": "npm i karma-phantomjs-launcher && karma start",
     "minify": "uglifyjs underscore.js -c \"evaluate=false\" --comments \"/    .*/\" -m",
-    "build": "npm run minify -- --source-map \"filename='underscore-min.map'\" --source-map-url \" \" -o underscore-min.js",
+    "build": "npm run minify -- --source-map --source-map-url \" \" -o underscore-min.js",
     "doc": "docco underscore.js",
     "weight": "npm run minify | gzip-size | pretty-bytes"
   },
@@ -45,6 +45,6 @@
   "files": [
     "underscore.js",
     "underscore-min.js",
-    "underscore-min.map"
+    "underscore-min.js.map"
   ]
 }
