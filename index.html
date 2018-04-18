@@ -183,7 +183,7 @@
   <div id="sidebar" class="interface">
 
     <a class="toc_title" href="#">
-      Underscore.js <span class="version">(1.8.3)</span>
+      Underscore.js <span class="version">(1.9.0)</span>
     </a>
     <ul class="toc_section">
       <li>&raquo; <a href="https://github.com/jashkenas/underscore">GitHub Repository</a></li>
@@ -215,7 +215,7 @@
         <li data-name="reject">- <a href="#reject">reject</a></li>
         <li data-name="every" data-aliases="all">- <a href="#every">every</a></li>
         <li data-name="some" data-aliases="any">- <a href="#some">some</a></li>
-        <li data-name="contains" data-aliases="includes">- <a href="#contains">contains</a></li>
+        <li data-name="contains" data-aliases="include includes">- <a href="#contains">contains</a></li>
         <li data-name="invoke">- <a href="#invoke">invoke</a></li>
         <li data-name="pluck">- <a href="#pluck">pluck</a></li>
         <li data-name="max">- <a href="#max">max</a></li>
@@ -251,6 +251,7 @@
         <li data-name="zip">- <a href="#zip">zip</a></li>
         <li data-name="unzip">- <a href="#unzip">unzip</a></li>
         <li data-name="object">- <a href="#object">object</a></li>
+        <li data-name="chunk">- <a href="#chunk">chunk</a></li>
         <li data-name="indexOf">- <a href="#indexOf">indexOf</a></li>
         <li data-name="lastIndexOf">- <a href="#lastIndexOf">lastIndexOf</a></li>
         <li data-name="sortedIndex">- <a href="#sortedIndex">sortedIndex</a></li>
@@ -279,6 +280,7 @@
         <li data-name="wrap">- <a href="#wrap">wrap</a></li>
         <li data-name="negate">- <a href="#negate">negate</a></li>
         <li data-name="compose">- <a href="#compose">compose</a></li>
+        <li data-name="restArguments">- <a href="#restArguments">restArguments</a></li>
       </ul>
     </div>
 
@@ -304,9 +306,9 @@
         <li data-name="clone">- <a href="#clone">clone</a></li>
         <li data-name="tap">- <a href="#tap">tap</a></li>
         <li data-name="has">- <a href="#has">has</a></li>
-        <li data-name="matcher">- <a href="#matcher">matcher</a></li>
         <li data-name="property">- <a href="#property">property</a></li>
         <li data-name="propertyOf">- <a href="#propertyOf">propertyOf</a></li>
+        <li data-name="matcher">- <a href="#matcher">matcher</a></li>
         <li data-name="isEqual">- <a href="#isEqual">isEqual</a></li>
         <li data-name="isMatch">- <a href="#isMatch">isMatch</a></li>
         <li data-name="isEmpty">- <a href="#isEmpty">isEmpty</a></li>
@@ -322,6 +324,11 @@
         <li data-name="isDate">- <a href="#isDate">isDate</a></li>
         <li data-name="isRegExp">- <a href="#isRegExp">isRegExp</a></li>
         <li data-name="isError">- <a href="#isError">isError</a></li>
+        <li data-name="isSymbol">- <a href="#isSymbol">isSymbol</a></li>
+        <li data-name="isMap">- <a href="#isMap">isMap</a></li>
+        <li data-name="isWeakMap">- <a href="#isWeakMap">isWeakMap</a></li>
+        <li data-name="isSet">- <a href="#isSet">isSet</a></li>
+        <li data-name="isWeakSet">- <a href="#isWeakSet">isWeakSet</a></li>
         <li data-name="isNaN">- <a href="#isNaN">isNaN</a></li>
         <li data-name="isNull">- <a href="#isNull">isNull</a></li>
         <li data-name="isUndefined">- <a href="#isUndefined">isUndefined</a></li>
@@ -434,14 +441,14 @@
 
     <table>
       <tr>
-        <td><a href="underscore.js">Development Version (1.8.3)</a></td>
-        <td><i>52kb, Uncompressed with Plentiful Comments</i></td>
+        <td><a href="underscore.js">Development Version (1.9.0)</a></td>
+        <td><i>60kb, Uncompressed with Plentiful Comments</i></td>
       </tr>
       <tr>
-        <td><a href="underscore-min.js">Production Version (1.8.3)</a></td>
+        <td><a href="underscore-min.js">Production Version (1.9.0)</a></td>
         <td>
-          <i>5.7kb, Minified and Gzipped</i>
-          &nbsp;<small>(<a href="underscore-min.map">Source Map</a>)</small>
+          <i>6.5kb, Minified and Gzipped</i>
+          &nbsp;<small>(<a href="underscore-min.js.map">Source Map</a>)</small>
         </td>
       </tr>
       <tr>
@@ -449,7 +456,7 @@
       </tr>
       <tr>
         <td><a href="https://raw.github.com/jashkenas/underscore/master/underscore.js">Edge Version</a></td>
-        <td><i>Unreleased, current <tt>master</tt>, use at your own risk</i></td>
+        <td><i>Unreleased, current <tt>master</tt>, use by your own judgement and at your own risk</i></td>
       </tr>
     </table>
 
@@ -481,8 +488,9 @@
         <b class="header">each</b><code>_.each(list, iteratee, [context])</code>
         <span class="alias">Alias: <b>forEach</b></span>
         <br />
-        Iterates over a <b>list</b> of elements, yielding each in turn to an <b>iteratee</b>
-        function. The <b>iteratee</b> is bound to the <b>context</b> object, if one is
+        Iterates over a <b>list</b> of elements, yielding each in turn to an
+        <b>iteratee</b> function.
+        The <b>iteratee</b> is bound to the <b>context</b> object, if one is
         passed. Each invocation of <b>iteratee</b> is called with three arguments:
         <tt>(element, index, list)</tt>. If <b>list</b> is a JavaScript object, <b>iteratee</b>'s
         arguments will be <tt>(value, key, list)</tt>. Returns the <b>list</b> for chaining.
@@ -509,10 +517,10 @@ _.each({one: 1, two: 2, three: 3}, alert);
         <span class="alias">Alias: <b>collect</b></span>
         <br />
         Produces a new array of values by mapping each value in <b>list</b>
-        through a transformation function (<b>iteratee</b>). The <tt>iteratee</tt>
-        is passed three arguments: the <tt>value</tt>, then the <tt>index</tt>
-        (or <tt>key</tt>) of the iteration, and finally a reference to the entire
-        <tt>list</tt>.
+        through a transformation function (<a href="#iteratee"><b>iteratee</b></a>).
+        The iteratee is passed three arguments: the <tt>value</tt>,
+        then the <tt>index</tt> (or <tt>key</tt>) of the iteration,
+        and finally a reference to the entire <tt>list</tt>.
       </p>
       <pre>
 _.map([1, 2, 3], function(num){ return num * 3; });
@@ -564,6 +572,8 @@ var flat = _.reduceRight(list, function(a, b) { return a.concat(b); }, []);
         passes the test. The function returns as
         soon as it finds an acceptable element, and doesn't traverse the
         entire list.
+        <b>predicate</b> is transformed through <a href="#iteratee"><b>iteratee</b></a>
+        to facilitate shorthand syntaxes.
       </p>
       <pre>
 var even = _.find([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
@@ -576,28 +586,18 @@ var even = _.find([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
         <br />
         Looks through each value in the <b>list</b>, returning an array of all
         the values that pass a truth test (<b>predicate</b>).
+        <b>predicate</b> is transformed through <a href="#iteratee"><b>iteratee</b></a>
+        to facilitate shorthand syntaxes.
       </p>
       <pre>
 var evens = _.filter([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
 =&gt; [2, 4, 6]
 </pre>
 
-      <p id="where">
-        <b class="header">where</b><code>_.where(list, properties)</code>
-        <br />
-        Looks through each value in the <b>list</b>, returning an array of all
-        the values that contain all of the key-value pairs listed in <b>properties</b>.
-      </p>
-      <pre>
-_.where(listOfPlays, {author: "Shakespeare", year: 1611});
-=&gt; [{title: "Cymbeline", author: "Shakespeare", year: 1611},
-    {title: "The Tempest", author: "Shakespeare", year: 1611}]
-</pre>
-
       <p id="findWhere">
         <b class="header">findWhere</b><code>_.findWhere(list, properties)</code>
         <br />
-        Looks through the <b>list</b> and returns the <i>first</i> value that matches
+        Looks through the <b>list</b> and returns the <i>first</i> value that <a href="#matches">matches</a>
         all of the key-value pairs listed in <b>properties</b>.
       </p>
       <p>
@@ -612,11 +612,25 @@ _.findWhere(publicServicePulitzers, {newsroom: "The New York Times"});
   conduct of the war."}
 </pre>
 
+      <p id="where">
+        <b class="header">where</b><code>_.where(list, properties)</code>
+        <br />
+        Looks through each value in the <b>list</b>, returning an array of all
+        the values that <a href="#matches">matches</a> the key-value pairs listed in <b>properties</b>.
+      </p>
+      <pre>
+_.where(listOfPlays, {author: "Shakespeare", year: 1611});
+=&gt; [{title: "Cymbeline", author: "Shakespeare", year: 1611},
+    {title: "The Tempest", author: "Shakespeare", year: 1611}]
+</pre>
+
       <p id="reject">
         <b class="header">reject</b><code>_.reject(list, predicate, [context])</code>
         <br />
         Returns the values in <b>list</b> without the elements that the truth
         test (<b>predicate</b>) passes. The opposite of <b>filter</b>.
+        <b>predicate</b> is transformed through <a href="#iteratee"><b>iteratee</b></a>
+        to facilitate shorthand syntaxes.
       </p>
       <pre>
 var odds = _.reject([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
@@ -630,6 +644,8 @@ var odds = _.reject([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
         Returns <i>true</i> if all of the values in the <b>list</b> pass the
         <b>predicate</b> truth test. Short-circuits and stops traversing the list
         if a false element is found.
+        <b>predicate</b> is transformed through <a href="#iteratee"><b>iteratee</b></a>
+        to facilitate shorthand syntaxes.
       </p>
       <pre>
 _.every([2, 4, 5], function(num) { return num % 2 == 0; });
@@ -643,6 +659,8 @@ _.every([2, 4, 5], function(num) { return num % 2 == 0; });
         Returns <i>true</i> if any of the values in the <b>list</b> pass the
         <b>predicate</b> truth test. Short-circuits and stops traversing the list
         if a true element is found.
+        <b>predicate</b> is transformed through <a href="#iteratee"><b>iteratee</b></a>
+        to facilitate shorthand syntaxes.
       </p>
       <pre>
 _.some([null, 0, 'yes', false]);
@@ -651,7 +669,7 @@ _.some([null, 0, 'yes', false]);
 
       <p id="contains">
         <b class="header">contains</b><code>_.contains(list, value, [fromIndex])</code>
-        <span class="alias">Alias: <b>includes</b></span>
+        <span class="alias">Aliases: <b>include</b>, <b>includes</b></span>
         <br />
         Returns <i>true</i> if the <b>value</b> is present in the <b>list</b>.
         Uses <b>indexOf</b> internally, if <b>list</b> is an Array.
@@ -689,7 +707,7 @@ _.pluck(stooges, 'name');
       <p id="max">
         <b class="header">max</b><code>_.max(list, [iteratee], [context])</code>
         <br />
-        Returns the maximum value in <b>list</b>. If an <b>iteratee</b>
+        Returns the maximum value in <b>list</b>. If an <a href="#iteratee"><b>iteratee</b></a>
         function is provided, it will be used on each value to generate the
         criterion by which the value is ranked. <i>-Infinity</i> is returned
         if <b>list</b> is empty, so an <a href="#isEmpty">isEmpty</a> guard
@@ -704,7 +722,7 @@ _.max(stooges, function(stooge){ return stooge.age; });
       <p id="min">
         <b class="header">min</b><code>_.min(list, [iteratee], [context])</code>
         <br />
-        Returns the minimum value in <b>list</b>. If an <b>iteratee</b>
+        Returns the minimum value in <b>list</b>. If an <a href="#iteratee"><b>iteratee</b></a>
         function is provided, it will be used on each value to generate the
         criterion by which the value is ranked. <i>Infinity</i> is returned
         if <b>list</b> is empty, so an <a href="#isEmpty">isEmpty</a> guard
@@ -720,7 +738,7 @@ _.min(numbers);
         <b class="header">sortBy</b><code>_.sortBy(list, iteratee, [context])</code>
         <br />
         Returns a (stably) sorted copy of <b>list</b>, ranked in ascending
-        order by the results of running each value through <b>iteratee</b>.
+        order by the results of running each value through <a href="#iteratee"><b>iteratee</b></a>.
         iteratee may also be the string name of the property to sort by (eg.
         <tt>length</tt>).
       </p>
@@ -751,8 +769,8 @@ _.groupBy(['one', 'two', 'three'], 'length');
       <p id="indexBy">
         <b class="header">indexBy</b><code>_.indexBy(list, iteratee, [context])</code>
         <br />
-        Given a <b>list</b>, and an <b>iteratee</b> function that returns a
-        key for each element in the list (or a property name),
+        Given a <b>list</b>, and an <a href="#iteratee"><b>iteratee</b></a> function
+        that returns a key for each element in the list (or a property name),
         returns an object with an index of each item.
         Just like <a href="#groupBy">groupBy</a>, but for when you know your
         keys are unique.
@@ -830,14 +848,28 @@ _.size({one: 1, two: 2, three: 3});
 </pre>
 
       <p id="partition">
-        <b class="header">partition</b><code>_.partition(array, predicate)</code>
+        <b class="header">partition</b><code>_.partition(list, predicate)</code>
         <br />
-        Split <b>array</b> into two arrays: one whose elements all satisfy
+        Split <b>list</b> into two arrays: one whose elements all satisfy
         <b>predicate</b> and one whose elements all do not satisfy <b>predicate</b>.
+        <b>predicate</b> is transformed through <a href="#iteratee"><b>iteratee</b></a>
+        to facilitate shorthand syntaxes.
       </p>
       <pre>
 _.partition([0, 1, 2, 3, 4, 5], isOdd);
 =&gt; [[1, 3, 5], [0, 2, 4]]
+</pre>
+
+      <p id="compact">
+        <b class="header">compact</b><code>_.compact(list)</code>
+        <br />
+        Returns a copy of the <b>list</b> with all falsy values removed.
+        In JavaScript, <i>false</i>, <i>null</i>, <i>0</i>, <i>""</i>,
+        <i>undefined</i> and <i>NaN</i> are all falsy.
+      </p>
+      <pre>
+_.compact([0, 1, false, 2, '', 3]);
+=&gt; [1, 2, 3]
 </pre>
 
       <h2 id="arrays">Array Functions</h2>
@@ -894,18 +926,6 @@ _.last([5, 4, 3, 2, 1]);
       <pre>
 _.rest([5, 4, 3, 2, 1]);
 =&gt; [4, 3, 2, 1]
-</pre>
-
-      <p id="compact">
-        <b class="header">compact</b><code>_.compact(array)</code>
-        <br />
-        Returns a copy of the <b>array</b> with all falsy values removed.
-        In JavaScript, <i>false</i>, <i>null</i>, <i>0</i>, <i>""</i>,
-        <i>undefined</i> and <i>NaN</i> are all falsy.
-      </p>
-      <pre>
-_.compact([0, 1, false, 2, '', 3]);
-=&gt; [1, 2, 3]
 </pre>
 
       <p id="flatten">
@@ -975,7 +995,7 @@ _.difference([1, 2, 3, 4, 5], [5, 2, 10]);
         If you know in advance that the <b>array</b> is sorted,
         passing <i>true</i> for <b>isSorted</b> will run a much faster algorithm.
         If you want to compute unique items based on a transformation, pass an
-        <b>iteratee</b> function.
+        <a href="#iteratee"><b>iteratee</b></a> function.
       </p>
       <pre>
 _.uniq([1, 2, 1, 4, 1, 3]);
@@ -1015,8 +1035,9 @@ _.unzip([["moe", 30, true], ["larry", 40, false], ["curly", 50, false]]);
         <b class="header">object</b><code>_.object(list, [values])</code>
         <br />
         Converts arrays into objects. Pass either a single list of
-        <tt>[key, value]</tt> pairs, or a list of keys, and a list of values.
-        If duplicate keys exist, the last value wins.
+        <tt>[key, value]</tt> pairs, or a list of keys, and a list of values. Passing
+        by pairs is the reverse of <a href="#pairs">pairs</a>. If duplicate keys exist,
+        the last value wins.
       </p>
       <pre>
 _.object(['moe', 'larry', 'curly'], [30, 40, 50]);
@@ -1024,6 +1045,17 @@ _.object(['moe', 'larry', 'curly'], [30, 40, 50]);
 
 _.object([['moe', 30], ['larry', 40], ['curly', 50]]);
 =&gt; {moe: 30, larry: 40, curly: 50}
+</pre>
+
+      <p id="chunk">
+        <b class="header">chunk</b><code>_.chunk(array, length)</code>
+        <br />
+        Chunks an <b>array</b> into multiple arrays, each containing <b>length</b>
+        or fewer items.
+      </p>
+      <pre>
+var partners = _.chunk(_.shuffle(kindergarten), 2);
+=&gt; [["Tyrone", "Elie"], ["Aidan", "Sam"], ["Katrina", "Billie"], ["Little Timmy"]]
 </pre>
 
       <p id="indexOf">
@@ -1054,12 +1086,12 @@ _.lastIndexOf([1, 2, 3, 1, 2, 3], 2);
 </pre>
 
       <p id="sortedIndex">
-        <b class="header">sortedIndex</b><code>_.sortedIndex(list, value, [iteratee], [context])</code>
+        <b class="header">sortedIndex</b><code>_.sortedIndex(array, value, [iteratee], [context])</code>
         <br />
         Uses a binary search to determine the index at which the <b>value</b>
-        <i>should</i> be inserted into the <b>list</b> in order to maintain the <b>list</b>'s
-        sorted order. If an <b>iteratee</b> function is provided, it will be used to compute
-        the sort ranking of each value, including the <b>value</b> you pass.
+        <i>should</i> be inserted into the <b>array</b> in order to maintain the <b>array</b>'s
+        sorted order. If an <a href="#iteratee"><b>iteratee</b></a> function is provided,
+        it will be used to compute the sort ranking of each value, including the <b>value</b> you pass.
         The iteratee may also be the string name of the property to sort by (eg. <tt>length</tt>).
       </p>
       <pre>
@@ -1250,6 +1282,10 @@ _.defer(function(){ alert('deferred'); });
 var throttled = _.throttle(updatePosition, 100);
 $(window).scroll(throttled);
 </pre>
+      <p>
+        If you need to cancel a scheduled throttle, you can call <tt>.cancel()</tt>
+        on the throttled function.
+      </p>
 
       <p id="debounce">
         <b class="header">debounce</b><code>_.debounce(function, wait, [immediate])</code>
@@ -1262,13 +1298,11 @@ $(window).scroll(throttled);
         preview of a Markdown comment, recalculating a layout after the window
         has stopped being resized, and so on.
       </p>
-
       <p>
         At the end of the <b>wait</b> interval, the function will be called
         with the arguments that were passed <i>most recently</i> to the
         debounced function.
       </p>
-
       <p>
         Pass <tt>true</tt> for the <b>immediate</b> argument to cause
         <b>debounce</b> to trigger the function on the leading instead of the
@@ -1276,11 +1310,14 @@ $(window).scroll(throttled);
         preventing accidental double-clicks on a "submit" button from firing a
         second time.
       </p>
-
       <pre>
 var lazyLayout = _.debounce(calculateLayout, 300);
 $(window).resize(lazyLayout);
 </pre>
+      <p>
+        If you need to cancel a scheduled debounce, you can call <tt>.cancel()</tt>
+        on the debounced function.
+      </p>
 
       <p id="once">
         <b class="header">once</b><code>_.once(function)</code>
@@ -1348,7 +1385,7 @@ hello();
       <p id="negate">
         <b class="header">negate</b><code>_.negate(predicate)</code>
         <br />
-        Returns a new negated version of the <b>predicate</b> function.
+        Returns a new negated version of the <a href="#iteratee"><b>predicate</b></a> function.
       </p>
       <pre>
 var isFalsy = _.negate(Boolean);
@@ -1370,6 +1407,24 @@ var exclaim  = function(statement){ return statement.toUpperCase() + "!"; };
 var welcome = _.compose(greet, exclaim);
 welcome('moe');
 =&gt; 'hi: MOE!'
+</pre>
+
+      <p id="restArguments">
+        <b class="header">restArguments</b><code>_.restArguments(function, [startIndex])</code>
+        <br />
+        Returns a version of the <b>function</b> that, when called, receives all
+        arguments from and beyond <b>startIndex</b> collected into a single array.
+        If you don’t pass an explicit <b>startIndex</b>, it will be determined by
+        looking at the number of arguments to the <b>function</b> itself. Similar
+        to ES6’s <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/rest_parameters">rest
+        parameters syntax</a>.
+      </p>
+      <pre>
+var raceResults = _.restArguments(function(gold, silver, bronze, everyoneElse) {
+  _.each(everyoneElse, sendConsolations);
+});
+
+raceResults("Dopey", "Grumpy", "Happy", "Sneezy", "Bashful", "Sleepy", "Doc");
 </pre>
 
       <h2 id="objects">Object Functions</h2>
@@ -1424,7 +1479,8 @@ _.mapObject({start: 5, end: 12}, function(val, key) {
       <p id="pairs">
         <b class="header">pairs</b><code>_.pairs(object)</code>
         <br />
-        Convert an object into a list of <tt>[key, value]</tt> pairs.
+        Convert an object into a list of <tt>[key, value]</tt> pairs. The opposite
+        of <a href="#object">object</a>.
       </p>
       <pre>
 _.pairs({one: 1, two: 2, three: 3});
@@ -1472,6 +1528,8 @@ _.functions(_);
         Similar to <a href="#findIndex"><tt>_.findIndex</tt></a> but for keys in objects.
         Returns the <i>key</i> where the <b>predicate</b> truth test
         passes or <i>undefined</i>.
+        <b>predicate</b> is transformed through <a href="#iteratee"><b>iteratee</b></a>
+        to facilitate shorthand syntaxes.
       </p>
 
       <p id="extend">
@@ -1531,8 +1589,8 @@ _.omit({name: 'moe', age: 50, userid: 'moe1'}, function(value, key, object) {
       <p id="defaults">
         <b class="header">defaults</b><code>_.defaults(object, *defaults)</code>
         <br />
-        Fill in <tt>undefined</tt> properties in <b>object</b> with the first
-        value present in the following list of <b>defaults</b> objects.
+        Returns <b>object</b> after filling in its <tt>undefined</tt> properties
+        with the first value present in the following list of <b>defaults</b> objects.
       </p>
       <pre>
 var iceCream = {flavor: "chocolate"};
@@ -1573,7 +1631,8 @@ _.chain([1,2,3,200])
         Does the object contain the given key? Identical to
         <tt>object.hasOwnProperty(key)</tt>, but uses a safe reference to the
         <tt>hasOwnProperty</tt> function, in case it's been
-        <a href="http://www.devthought.com/2012/01/18/an-object-is-not-a-hash/">overridden accidentally</a>.
+
+        <a href="http://www.pixelstech.net/article/1326986170-An-Object-is-not-a-Hash">overridden accidentally</a>.
       </p>
       <pre>
 _.has({a: 1, b: 2, c: 3}, "b");
@@ -1581,15 +1640,21 @@ _.has({a: 1, b: 2, c: 3}, "b");
 </pre>
 
       <p id="property">
-        <b class="header">property</b><code>_.property(key)</code>
+        <b class="header">property</b><code>_.property(path)</code>
         <br />
-        Returns a function that will itself return the <tt>key</tt>
-        property of any passed-in object.
+        Returns a function that will return the specified property of any
+        passed-in object. <tt>path</tt> may be specified as a simple key, or
+        as an array of object keys or array indexes, for deep property fetching.
       </p>
       <pre>
 var stooge = {name: 'moe'};
 'moe' === _.property('name')(stooge);
 =&gt; true
+
+var stooges = {moe: {fears: {worst: 'Spiders'}}, curly: {fears: {worst: 'Moe'}}};
+var curlysWorstFear = _.property(['curly', 'fears', 'worst']);
+curlysWorstFear(stooges);
+=&gt; 'Moe'
 </pre>
 
       <p id="propertyOf">
@@ -1789,6 +1854,56 @@ try {
 =&gt; true
 </pre>
 
+      <p id="isSymbol">
+        <b class="header">isSymbol</b><code>_.isSymbol(object)</code>
+        <br />
+        Returns <i>true</i> if <b>object</b> is a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol">Symbol</a>.
+      </p>
+      <pre>
+_.isSymbol(Symbol());
+=&gt; true
+</pre>
+
+      <p id="isMap">
+        <b class="header">isMap</b><code>_.isMap(object)</code>
+        <br />
+        Returns <i>true</i> if <b>object</b> is a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map">Map</a>.
+      </p>
+      <pre>
+_.isMap(new Map());
+=&gt; true
+</pre>
+
+      <p id="isWeakMap">
+        <b class="header">isWeakMap</b><code>_.isWeakMap(object)</code>
+        <br />
+        Returns <i>true</i> if <b>object</b> is a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakMap">WeakMap</a>.
+      </p>
+      <pre>
+_.isWeakMap(new WeakMap());
+=&gt; true
+</pre>
+
+      <p id="isSet">
+        <b class="header">isSet</b><code>_.isSet(object)</code>
+        <br />
+        Returns <i>true</i> if <b>object</b> is a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set">Set</a>.
+      </p>
+      <pre>
+_.isSet(new Set());
+=&gt; true
+</pre>
+
+      <p id="isWeakSet">
+        <b class="header">isWeakSet</b><code>_.isWeakSet(object)</code>
+        <br />
+        Returns <i>true</i> if <b>object</b> is a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakSet">WeakSet</a>.
+      </p>
+      <pre>
+_.isWeakSet(WeakSet());
+=&gt; true
+</pre>
+
       <p id="isNaN">
         <b class="header">isNaN</b><code>_.isNaN(object)</code>
         <br />
@@ -1878,13 +1993,13 @@ obj.initialize = _.noop;
         <b class="header">times</b><code>_.times(n, iteratee, [context])</code>
         <br />
         Invokes the given iteratee function <b>n</b> times. Each invocation of
-        <b>iteratee</b> is called with an <tt>index</tt> argument. Produces an
-        array of the returned values.
+        <a href="#iteratee"><b>iteratee</b></a> is called with an <tt>index</tt> argument.
+        Produces an array of the returned values.
         <br />
         <i>Note: this example uses the <a href="#oop">object-oriented syntax</a></i>.
       </p>
       <pre>
-_(3).times(function(n){ genie.grantWishNumber(n); });</pre>
+_.times(3, function(n){ genie.grantWishNumber(n); });</pre>
 
       <p id="random">
         <b class="header">random</b><code>_.random(min, max)</code>
@@ -1902,8 +2017,8 @@ _.random(0, 100);
         <br />
         Allows you to extend Underscore with your own utility functions. Pass
         a hash of <tt>{name: function}</tt> definitions to have your functions
-        added to the Underscore object, as well as the OOP wrapper.
-      </p>
+        added to the Underscore object, as well as the OOP wrapper. Returns the
+        Underscore object to facilitate chaining.</p>
       <pre>
 _.mixin({
   capitalize: function(string) {
@@ -1949,6 +2064,17 @@ _.iteratee('firstName');
         <tt>sortedIndex</tt>, and <tt>uniq</tt>
       </p>
 
+      <p>
+        You may overwrite <tt>_.iteratee</tt> with your own custom function,
+        if you want additional or different shorthand syntaxes:
+      </p>
+      <pre>
+// Support `RegExp` predicate shorthand.
+var builtinIteratee = _.iteratee;
+_.iteratee = function(value, context) {
+  if (_.isRegExp(value)) return function(obj) { return value.test(obj) };
+  return builtinIteratee(value, context);
+};</pre>
       <p id="uniqueId">
         <b class="header">uniqueId</b><code>_.uniqueId([prefix])</code>
         <br />
@@ -2168,11 +2294,6 @@ _.chain([1, 2, 3]).reverse().value();
       <h2 id="links">Links &amp; Suggested Reading</h2>
 
       <p>
-        The Underscore documentation is also available in
-        <a href="http://learning.github.io/underscore/">Simplified Chinese</a>.
-      </p>
-
-      <p>
         <a href="http://mirven.github.io/underscore.lua/">Underscore.lua</a>,
         a Lua port of the functions that are applicable in both languages.
         Includes OOP-wrapping and chaining.
@@ -2269,6 +2390,50 @@ _.chain([1, 2, 3]).reverse().value();
       </p>
 
       <h2 id="changelog">Change Log</h2>
+
+      <p id="1.9.0">
+        <b class="header">1.9.0</b> &mdash; <small><i>April 18, 2018</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.8.3...1.9.0">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/underscore/1.9.0/index.html">Docs</a><br />
+        <ul>
+          <li>
+            Adds the <tt>_.restArguments</tt> function for variadic function
+            handling.
+          </li>
+          <li>
+            Adds the <tt>_.chunk</tt> function for chunking up an array.
+          </li>
+          <li>
+            Adds a <tt>_.isSymbol</tt>, <tt>_.isMap</tt>, <tt>_.isWeakMap</tt>,
+            <tt>_.isSet</tt> and <tt>_.isWeakSet</tt> functions.
+          </li>
+          <li>
+            <tt>_.throttle</tt> and <tt>_.debounce</tt> return functions that now
+            have a <tt>.cancel()</tt> method, which can be used to cancel any
+            scheduled calls.
+          </li>
+          <li>
+            <tt>_.property</tt> now accepts arrays of keys and indexes as path
+            specifiers, for looking up a deep properties of a value.
+          </li>
+          <li>
+            <tt>_.range</tt> now accepts negative ranges to generate descending
+            arrays.
+          </li>
+          <li>
+            Adds support for several environments including: WebWorkers,
+            browserify and ES6 imports.
+          </li>
+          <li>
+            The placeholder used for partial is now configurable by setting
+            <code>_.partial.placeholder</code>.
+          </li>
+          <li>
+            <code>_.bindAll</code> now accepts arrays or arguments for keys.
+          </li>
+          <li>
+            Three years of performance improvements.
+          </li>
+        </ul>
+      </p>
 
       <p id="1.8.3">
         <b class="header">1.8.3</b> &mdash; <small><i>April 2, 2015</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.8.2...1.8.3">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/underscore/1.8.3/index.html">Docs</a><br />
@@ -2410,7 +2575,7 @@ _.chain([1, 2, 3]).reverse().value();
             <tt>_.extend</tt> only iterates over the object's own properties.
           </li>
           <li>
-            Falsey guards are no longer needed in <tt>_.extend</tt> and
+            Falsy guards are no longer needed in <tt>_.extend</tt> and
             <tt>_.defaults</tt>&mdash;if the passed in argument isn't a JavaScript
             object it's just returned.
           </li>

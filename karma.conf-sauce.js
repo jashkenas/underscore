@@ -4,34 +4,43 @@ var _ = require('./');
 var sauceBrowsers = _.reduce([
   ['firefox', '35'],
   ['firefox', '30'],
-  ['firefox', '20'],
+  ['firefox', '21'],
   ['firefox', '11'],
   ['firefox', '4'],
 
   ['chrome', '40'],
-  ['chrome', '35'],
-  ['chrome', '28'],
+  ['chrome', '39'],
+  ['chrome', '31'],
+  ['chrome', '26'],
 
-  ['internet explorer', '11', 'Windows 8.1'],
+  ['microsoftedge', '20.10240', 'Windows 10'],
+  ['internet explorer', '11', 'Windows 10'],
   ['internet explorer', '10', 'Windows 8'],
   ['internet explorer', '9', 'Windows 7'],
-  // Currently do not work with Karma.
-  // ['internet explorer', '8', 'Windows 7'],
-  // ['internet explorer', '7', 'Windows XP'],
-  // ['internet explorer', '6', 'Windows XP'],
+  // Currently disabled due to karma-sauce issues
+  // ['internet explorer', '8'],
+  // ['internet explorer', '7'],
+  // ['internet explorer', '6'],
 
   ['opera', '12'],
   ['opera', '11'],
 
+  ['android', '5'],
+  ['android', '4.4'],
   ['android', '4.3'],
   ['android', '4.0'],
 
-  ['safari', '8'],
-  ['safari', '6'],
+  ['safari', '8.0', 'OS X 10.10'],
   ['safari', '7'],
+  ['safari', '6'],
   ['safari', '5']
 ], function(memo, platform) {
-  var label = (platform[0] + '_v' + platform[1]).replace(' ', '_').toUpperCase();
+  // internet explorer -> ie
+  var label = platform[0].split(' ');
+  if (label.length > 1) {
+    label = _.invoke(label, 'charAt', 0)
+  }
+  label = (label.join("") + '_v' + platform[1]).replace(' ', '_').toUpperCase();
   memo[label] = _.pick({
     'base': 'SauceLabs',
     'browserName': platform[0],
@@ -55,9 +64,14 @@ module.exports = function(config) {
     // list of files / patterns to load in the browser
     files: [
       'test/vendor/qunit-extras.js',
+      'test/qunit-setup.js',
       'underscore.js',
       'test/*.js'
     ],
+
+    // Number of sauce tests to start in parallel
+    concurrency: 9,
+
     // test results reporter to use
     reporters: ['dots', 'saucelabs'],
     port: 9876,
@@ -69,14 +83,11 @@ module.exports = function(config) {
       tunnelIdentifier: process.env.TRAVIS_JOB_NUMBER
     },
 
-    // TODO(vojta): remove once SauceLabs supports websockets.
-    // This speeds up the capturing a bit, as browsers don't even try to use websocket.
-    transports: ['xhr-polling'],
     captureTimeout: 120000,
-    customLaunchers: sauceBrowsers
+    customLaunchers: sauceBrowsers,
 
     // Browsers to launch, commented out to prevent karma from starting
     // too many concurrent browsers and timing sauce out.
-    // browsers: _.keys(sauceBrowsers)
+    browsers: _.keys(sauceBrowsers)
   });
 };

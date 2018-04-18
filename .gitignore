@@ -3,3 +3,5 @@ node_modules
 *.log
 *.idea
 *.swp
+nyc_output
+coverage
