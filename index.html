@@ -295,6 +295,7 @@
         <li data-name="create">- <a href="#create">create</a></li>
         <li data-name="object-functions" data-aliases="methods">- <a href="#object-functions">functions</a></li>
         <li data-name="findKey">- <a href="#findKey">findKey</a></li>
+        <li data-name="findKeys">- <a href="#findKeys">findKeys</a></li>
         <li data-name="extend">- <a href="#extend">extend</a></li>
         <li data-name="extendOwn" data-aliases="assign">- <a href="#extendOwn">extendOwn</a></li>
         <li data-name="pick">- <a href="#pick">pick</a></li>
@@ -1491,6 +1492,22 @@ _.functions(_);
         to facilitate shorthand syntaxes.
       </p>
 
+      <p id="findKeys">
+        <b class="header">findKeys</b><code>_.findKeys(object, predicate, [context])</code>
+        <br />
+        Similar to <a href="#findKey"><tt>_.findKey</tt></a> but find all keys matching predicate in object.
+        Returns a new array containing all <i>keys</i> where the <b>predicate</b> truth test
+        passes.
+        <b>predicate</b> is transformed through <a href="#iteratee"><b>iteratee</b></a>
+        to facilitate shorthand syntaxes.
+      </p>
+      <pre>
+_.findKeys({moe: 39.1, larry: 23.3, curly: 35.2}, function(value, key, object) {
+  return value > 30;
+});
+=&gt; ["moe", "curly"]
+</pre>
+
       <p id="extend">
         <b class="header">extend</b><code>_.extend(destination, *sources)</code>
         <br />
@@ -1971,7 +1988,7 @@ _.iteratee('firstName');
         The following Underscore methods transform their predicates through
         <tt>_.iteratee</tt>: <tt>countBy</tt>, <tt>every</tt>,
         <tt>filter</tt>, <tt>find</tt>, <tt>findIndex</tt>, <tt>findKey</tt>,
-        <tt>findLastIndex</tt>, <tt>groupBy</tt>, <tt>indexBy</tt>,
+        <tt>findKeys</tt>, <tt>findLastIndex</tt>, <tt>groupBy</tt>, <tt>indexBy</tt>,
         <tt>map</tt>, <tt>mapObject</tt>, <tt>max</tt>, <tt>min</tt>,
         <tt>partition</tt>, <tt>reject</tt>, <tt>some</tt>, <tt>sortBy</tt>,
         <tt>sortedIndex</tt>, and <tt>uniq</tt>

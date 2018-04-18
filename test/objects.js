@@ -1098,6 +1098,47 @@
     assert.strictEqual(_.findKey(array, function(x) { return x === 55; }), 'match', 'matches array-likes keys');
   });
 
+  QUnit.test('findKeys', function(assert) {
+    var objects = {
+      a: {a: 0, b: 0},
+      b: {a: 1, b: 1},
+      c: {a: 2, b: 2},
+      d: {a: 1, b: 4}
+    };
+
+    assert.deepEqual(_.findKeys(objects, function(obj) {
+      return obj.a === 0;
+    }), ['a']);
+
+    assert.deepEqual(_.findKeys(objects, function(obj) {
+      return obj.b * obj.a === 4;
+    }), ['c', 'd']);
+
+    assert.deepEqual(_.findKeys(objects, 'a'), ['b', 'c', 'd'], 'Uses lookupIterator');
+
+    assert.deepEqual(_.findKeys(objects, function(obj) {
+      return obj.b * obj.a === 5;
+    }), []);
+
+    assert.deepEqual(_.findKeys([1, 2, 3, 4, 5, 6], function(obj) {
+      return obj === 3;
+    }), ['2'], 'Keys are strings');
+
+    assert.deepEqual(_.findKeys(objects, function(a) {
+      return a.foo === null;
+    }), []);
+
+    _.findKeys({a: {a: 1}}, function(a, key, obj) {
+      assert.strictEqual(key, 'a');
+      assert.deepEqual(obj, {a: {a: 1}});
+      assert.strictEqual(this, objects, 'called with context');
+    }, objects);
+
+    var array = [1, 2, 3, 4];
+    array.match = 55;
+    assert.deepEqual(_.findKeys(array, function(x) { return x === 55; }), ['match'], 'matches array-likes keys');
+  });
+
 
   QUnit.test('mapObject', function(assert) {
     var obj = {a: 1, b: 2};
