@@ -738,29 +738,29 @@
     _.iteratee = builtinIteratee;
   });
 
-  QUnit.test('restArgs', function(assert) {
+  QUnit.test('restArguments', function(assert) {
     assert.expect(10);
-    _.restArgs(function(a, args) {
+    _.restArguments(function(a, args) {
       assert.strictEqual(a, 1);
       assert.deepEqual(args, [2, 3], 'collects rest arguments into an array');
     })(1, 2, 3);
 
-    _.restArgs(function(a, args) {
+    _.restArguments(function(a, args) {
       assert.strictEqual(a, void 0);
       assert.deepEqual(args, [], 'passes empty array if there are not enough arguments');
     })();
 
-    _.restArgs(function(a, b, c, args) {
+    _.restArguments(function(a, b, c, args) {
       assert.strictEqual(arguments.length, 4);
       assert.deepEqual(args, [4, 5], 'works on functions with many named parameters');
     })(1, 2, 3, 4, 5);
 
     var obj = {};
-    _.restArgs(function() {
+    _.restArguments(function() {
       assert.strictEqual(this, obj, 'invokes function with this context');
     }).call(obj);
 
-    _.restArgs(function(array, iteratee, context) {
+    _.restArguments(function(array, iteratee, context) {
       assert.deepEqual(array, [1, 2, 3, 4], 'startIndex can be used manually specify index of rest parameter');
       assert.strictEqual(iteratee, void 0);
       assert.strictEqual(context, void 0);

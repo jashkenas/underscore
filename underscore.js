@@ -105,9 +105,12 @@
     return cb(value, context, Infinity);
   };
 
-  // Similar to ES6's rest param (http://ariya.ofilabs.com/2013/03/es6-and-rest-parameter.html)
-  // This accumulates the arguments passed into an array, after a given index.
-  var restArgs = function(func, startIndex) {
+  // Some functions take a variable number of arguments, or a few expected
+  // arguments at the beginning and then a variable number of values to operate
+  // on. This helper accumulates all remaining arguments past the function’s
+  // argument length (or an explicit `startIndex`), into an array that becomes
+  // the last argument. Similar to ES6’s "rest parameter".
+  var restArguments = function(func, startIndex) {
     startIndex = startIndex == null ? func.length - 1 : +startIndex;
     return function() {
       var length = Math.max(arguments.length - startIndex, 0),
@@ -291,7 +294,7 @@
   };
 
   // Invoke a method (with arguments) on every item in a collection.
-  _.invoke = restArgs(function(obj, path, args) {
+  _.invoke = restArguments(function(obj, path, args) {
     var contextPath, func;
     if (_.isFunction(path)) {
       func = path;
@@ -551,7 +554,7 @@
   };
 
   // Return a version of the array that does not contain the specified value(s).
-  _.without = restArgs(function(array, otherArrays) {
+  _.without = restArguments(function(array, otherArrays) {
     return _.difference(array, otherArrays);
   });
 
@@ -590,7 +593,7 @@
 
   // Produce an array that contains the union: each distinct element from all of
   // the passed-in arrays.
-  _.union = restArgs(function(arrays) {
+  _.union = restArguments(function(arrays) {
     return _.uniq(flatten(arrays, true, true));
   });
 
@@ -613,7 +616,7 @@
 
   // Take the difference between one array and a number of other arrays.
   // Only the elements present in just the first array will remain.
-  _.difference = restArgs(function(array, rest) {
+  _.difference = restArguments(function(array, rest) {
     rest = flatten(rest, true, true);
     return _.filter(array, function(value){
       return !_.contains(rest, value);
@@ -634,7 +637,7 @@
 
   // Zip together multiple lists into a single array -- elements that share
   // an index go together.
-  _.zip = restArgs(_.unzip);
+  _.zip = restArguments(_.unzip);
 
   // Converts lists into objects. Pass either a single array of `[key, value]`
   // pairs, or two parallel arrays of the same length -- one of keys, and one of
@@ -764,9 +767,9 @@
   // Create a function bound to a given object (assigning `this`, and arguments,
   // optionally). Delegates to **ECMAScript 5**'s native `Function.bind` if
   // available.
-  _.bind = restArgs(function(func, context, args) {
+  _.bind = restArguments(function(func, context, args) {
     if (!_.isFunction(func)) throw new TypeError('Bind must be called on a function');
-    var bound = restArgs(function(callArgs) {
+    var bound = restArguments(function(callArgs) {
       return executeBound(func, bound, context, this, args.concat(callArgs));
     });
     return bound;
@@ -776,7 +779,7 @@
   // arguments pre-filled, without changing its dynamic `this` context. _ acts
   // as a placeholder by default, allowing any combination of arguments to be
   // pre-filled. Set `_.partial.placeholder` for a custom placeholder argument.
-  _.partial = restArgs(function(func, boundArgs) {
+  _.partial = restArguments(function(func, boundArgs) {
     var placeholder = _.partial.placeholder;
     var bound = function() {
       var position = 0, length = boundArgs.length;
@@ -795,7 +798,7 @@
   // Bind a number of an object's methods to that object. Remaining arguments
   // are the method names to be bound. Useful for ensuring that all callbacks
   // defined on an object belong to it.
-  _.bindAll = restArgs(function(obj, keys) {
+  _.bindAll = restArguments(function(obj, keys) {
     keys = flatten(keys, false, false);
     var index = keys.length;
     if (index < 1) throw new Error('bindAll must be passed function names');
@@ -819,7 +822,7 @@
 
   // Delays a function for the given number of milliseconds, and then calls
   // it with the arguments supplied.
-  _.delay = restArgs(function(func, wait, args) {
+  _.delay = restArguments(function(func, wait, args) {
     return setTimeout(function() {
       return func.apply(null, args);
     }, wait);
@@ -887,7 +890,7 @@
       if (args) result = func.apply(context, args);
     };
 
-    var debounced = restArgs(function(args) {
+    var debounced = restArguments(function(args) {
       if (timeout) clearTimeout(timeout);
       if (immediate) {
         var callNow = !timeout;
@@ -960,7 +963,7 @@
   // often you call it. Useful for lazy initialization.
   _.once = _.partial(_.before, 2);
 
-  _.restArgs = restArgs;
+  _.restArguments = restArguments;
 
   // Object Functions
   // ----------------
@@ -1108,7 +1111,7 @@
   };
 
   // Return a copy of the object only containing the whitelisted properties.
-  _.pick = restArgs(function(obj, keys) {
+  _.pick = restArguments(function(obj, keys) {
     var result = {}, iteratee = keys[0];
     if (obj == null) return result;
     if (_.isFunction(iteratee)) {
@@ -1128,7 +1131,7 @@
   });
 
   // Return a copy of the object without the blacklisted properties.
-  _.omit = restArgs(function(obj, keys) {
+  _.omit = restArguments(function(obj, keys) {
     var iteratee = keys[0], context;
     if (_.isFunction(iteratee)) {
       iteratee = _.negate(iteratee);
