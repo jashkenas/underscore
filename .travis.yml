@@ -10,12 +10,12 @@ node_js:
 #     - node_js: "4.0"
 #       env: BROWSER=true
 before_install:
-  - npm install -g npm@2.6
+  # - npm install -g npm@2.6
   # - npm install -g karma-cli
 before_script:
   # - npm install karma-sauce-launcher
-  - export DISPLAY=:99.0
-  - sh -e /etc/init.d/xvfb start
+  # - export DISPLAY=:99.0
+  # - sh -e /etc/init.d/xvfb start
 script:
   - npm test
   # - "[ $BROWSER == false ] || npm run test-browser"
@@ -27,5 +27,5 @@ env:
   - NPM_CONFIG_PROGRESS="false"
   - secure: bDZSBQfqr21hCayjcZ20IxrV6+XGhxQPFIfwWqEKLrF93Gu8LLVjZRxXE/mE8I8N4Z5WtDNb4ZHrm/TTzmcPa5MuHgIxEdknQCncobH8oimwc83SHwEPk6okeNKl39VlCjvvnmoe/V/KpnknuYn3Rqghtl/Uv9KLpCwskwjTtcw=
   - secure: SRECgXuwcZTcD3GVxTS2bYNgRyye4vq6BLrV2PH9FyNenowsKQR2EwlC/dppc1Q8NWMgv79J/R96q9JOFh+mEH9L5dlBb2yhnGH8amVeM/ChAJHT/F8YktKM453uVpz5fR00QcCQDDUOx6Pvx374ID0OKNpWKAkQBWA9mPTsLnE=
-  matrix: BROWSER=false
+  # matrix: BROWSER=false
 after_success: npm run coveralls
