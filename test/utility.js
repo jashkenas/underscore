@@ -402,9 +402,9 @@
   });
 
   QUnit.test('#547 - _.templateSettings is unchanged by custom settings.', function(assert) {
-    assert.notOk(_.templateSettings.variable);
+    assert.ok(!_.templateSettings.variable);
     _.template('', {}, {variable: 'x'});
-    assert.notOk(_.templateSettings.variable);
+    assert.ok(!_.templateSettings.variable);
   });
 
   QUnit.test('#556 - undefined template variables.', function(assert) {
@@ -429,11 +429,11 @@
     assert.expect(2);
     var count = 0;
     var template = _.template('<%= f() %>');
-    template({f: function(){ assert.notOk(count++); }});
+    template({f: function(){ assert.ok(!count++); }});
 
     var countEscaped = 0;
     var templateEscaped = _.template('<%- f() %>');
-    templateEscaped({f: function(){ assert.notOk(countEscaped++); }});
+    templateEscaped({f: function(){ assert.ok(!countEscaped++); }});
   });
 
   QUnit.test('#746 - _.template settings are not modified.', function(assert) {

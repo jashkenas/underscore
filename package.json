@@ -15,19 +15,19 @@
     "url": "git://github.com/jashkenas/underscore.git"
   },
   "main": "underscore.js",
-  "version": "1.8.3",
+  "version": "1.9.0",
   "devDependencies": {
     "coveralls": "^2.11.2",
     "docco": "*",
     "eslint": "1.10.x",
     "gzip-size-cli": "^1.0.0",
     "karma": "^0.13.13",
-    "karma-qunit": "~0.1.4",
+    "karma-qunit": "~2.0.1",
     "nyc": "^2.1.3",
     "pretty-bytes-cli": "^1.0.0",
     "qunit-cli": "~0.2.0",
-    "qunitjs": "^1.18.0",
-    "uglify-js": "2.4.x"
+    "qunit": "^2.6.0",
+    "uglify-js": "3.3.21"
   },
   "scripts": {
     "test": "npm run test-node && npm run lint",
@@ -37,7 +37,7 @@
     "test-node": "qunit-cli test/*.js",
     "test-browser": "npm i karma-phantomjs-launcher && karma start",
     "minify": "uglifyjs underscore.js -c \"evaluate=false\" --comments \"/    .*/\" -m",
-    "build": "npm run minify -- --source-map underscore-min.map --source-map-url \" \" -o underscore-min.js",
+    "build": "npm run minify -- --source-map --source-map-url \" \" -o underscore-min.js",
     "doc": "docco underscore.js",
     "weight": "npm run minify | gzip-size | pretty-bytes"
   },
@@ -45,6 +45,6 @@
   "files": [
     "underscore.js",
     "underscore-min.js",
-    "underscore-min.map"
+    "underscore-min.js.map"
   ]
 }
