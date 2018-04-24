@@ -728,6 +728,11 @@
     }
 
     var length = Math.max(Math.ceil((stop - start) / step), 0);
+
+    if (length === 0 || !_.isFinite(length)) {
+      return [];
+    }
+
     var range = Array(length);
 
     for (var idx = 0; idx < length; idx++, start += step) {
