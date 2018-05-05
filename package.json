@@ -15,7 +15,7 @@
     "url": "git://github.com/jashkenas/underscore.git"
   },
   "main": "underscore.js",
-  "version": "1.9.1",
+  "version": "1.9.0",
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-minify": "^0.4.1",
@@ -46,7 +46,7 @@
     "coverage": "nyc npm run test-node && nyc report",
     "coveralls": "nyc npm run test-node && nyc report --reporter=text-lcov | coveralls",
     "lint": "eslint underscore.js test/*.js",
-    "test-node": "qunit-cli test/*.js",
+    "test-node": "qunit-cli test/qunit-tests.js",
     "test-browser": "npm i karma-phantomjs-launcher && karma start",
     "build": "babel underscore.js -o underscore-min.js -s true --source-map-target underscore-min.js.map --compact auto --minified",
     "doc": "docco underscore.js"

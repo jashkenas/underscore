@@ -1,10 +1,10 @@
 /*
-Underscore.js 1.9.1
+Underscore.js 1.9.0
 http://underscorejs.org
 (c) 2009-2018 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 Underscore may be freely distributed under the MIT license.
 
-Formatting mostly in line with https://standardjs.com/ as of 1.9.1
+Formatting mostly in line with https://standardjs.com/ as of 1.9.0
 */
 
 (function () {
@@ -63,7 +63,7 @@ Formatting mostly in line with https://standardjs.com/ as of 1.9.1
   }
 
   // Current version.
-  _.VERSION = '1.9.1';
+  _.VERSION = '1.9.0';
 
   // Internal function that returns an efficient (for current engines) version
   // of the passed-in callback, to be repeatedly applied in other Underscore
