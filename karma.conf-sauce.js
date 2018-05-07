@@ -2,37 +2,44 @@ var _ = require('./');
 
 // Browsers to run on Sauce Labs platforms
 var sauceBrowsers = _.reduce([
-  ['firefox', '35'],
-  ['firefox', '30'],
-  ['firefox', '21'],
-  ['firefox', '11'],
-  ['firefox', '4'],
+  // Match last 4 ESR version numbers
+  ['firefox', '52'],
+  ['firefox', '45'],
+  ['firefox', '38'],
+  ['firefox', '24'],
 
-  ['chrome', '40'],
-  ['chrome', '39'],
-  ['chrome', '31'],
+  // Match significant Chrome versions
+  ['chrome', '66'],
+  ['chrome', '51'],
+  ['chrome', '49'],
   ['chrome', '26'],
 
+  // Edge
+  ['microsoftedge', '42.17134', 'Windows 10'],
+  ['microsoftedge', '41.16299', 'Windows 10'],
+  ['microsoftedge', '40.15063', 'Windows 10'],
+  ['microsoftedge', '38.14393', 'Windows 10'],
   ['microsoftedge', '20.10240', 'Windows 10'],
+
+  // IE
   ['internet explorer', '11', 'Windows 10'],
-  ['internet explorer', '10', 'Windows 8'],
-  ['internet explorer', '9', 'Windows 7'],
-  // Currently disabled due to karma-sauce issues
-  // ['internet explorer', '8'],
-  // ['internet explorer', '7'],
-  // ['internet explorer', '6'],
+  ['internet explorer', '11', 'Windows 8'],
+  ['internet explorer', '11', 'Windows 7'],
 
+  // Opera
+  ['opera', '52'],
+  ['opera', '36'],
   ['opera', '12'],
-  ['opera', '11'],
 
+  // Android
+  ['android', '8'],
+  ['android', '7'],
+  ['android', '6'],
   ['android', '5'],
   ['android', '4.4'],
-  ['android', '4.3'],
-  ['android', '4.0'],
 
-  ['safari', '8.0', 'OS X 10.10'],
-  ['safari', '7'],
-  ['safari', '6'],
+  // Latest Safari + last one for old OSX
+  ['safari', '11.1'],
   ['safari', '5']
 ], function(memo, platform) {
   // internet explorer -> ie

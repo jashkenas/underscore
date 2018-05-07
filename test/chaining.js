@@ -54,7 +54,7 @@
       .concat([5, 5, 5])
       .unshift(17)
       .pop()
-      .map(function(n){ return n * 2; })
+      .map(function(n) { return n * 2; })
       .value();
     assert.deepEqual(numbers, [34, 10, 8, 6, 4, 2, 10, 10], 'can chain together array functions.');
   });
@@ -95,5 +95,4 @@
     assert.strictEqual(wrapped.toString(), '512');
     assert.strictEqual('' + wrapped, '512');
   });
-
-}());
+})();

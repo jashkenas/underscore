@@ -35,7 +35,6 @@
   iDoc.close();
 
   QUnit.test('isEqual', function(assert) {
-
     assert.ok(!_.isEqual(iNumber, 101));
     assert.ok(_.isEqual(iNumber, 100));
 
@@ -138,5 +137,4 @@
       assert.strictEqual(_.isFunction(fn), true);
     });
   }
-
-}());
+})();

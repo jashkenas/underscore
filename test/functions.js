@@ -155,7 +155,7 @@
     assert.strictEqual(upper('bar'), 'FOO');
 
     var hashed = _.memoize(function(key) {
-      //https://github.com/jashkenas/underscore/pull/1679#discussion_r13736209
+      // https://github.com/jashkenas/underscore/pull/1679#discussion_r13736209
       assert.ok(/[a-z]+/.test(key), 'hasher doesn\'t change keys');
       return key;
     }, function(key) {
@@ -181,51 +181,51 @@
     assert.expect(2);
     var done = assert.async();
     var delayed = false;
-    _.delay(function(){ delayed = true; }, 100);
-    setTimeout(function(){ assert.ok(!delayed, "didn't delay the function quite yet"); }, 50);
-    setTimeout(function(){ assert.ok(delayed, 'delayed the function'); done(); }, 150);
+    _.delay(function() { delayed = true; }, 100);
+    setTimeout(function() { assert.ok(!delayed, "didn't delay the function quite yet"); }, 50);
+    setTimeout(function() { assert.ok(delayed, 'delayed the function'); done(); }, 150);
   });
 
   QUnit.test('defer', function(assert) {
     assert.expect(1);
     var done = assert.async();
     var deferred = false;
-    _.defer(function(bool){ deferred = bool; }, true);
-    _.delay(function(){ assert.ok(deferred, 'deferred the function'); done(); }, 50);
+    _.defer(function(bool) { deferred = bool; }, true);
+    _.delay(function() { assert.ok(deferred, 'deferred the function'); done(); }, 50);
   });
 
   QUnit.test('throttle', function(assert) {
     assert.expect(2);
     var done = assert.async();
     var counter = 0;
-    var incr = function(){ counter++; };
+    var incr = function() { counter++; };
     var throttledIncr = _.throttle(incr, 32);
     throttledIncr(); throttledIncr();
 
     assert.strictEqual(counter, 1, 'incr was called immediately');
-    _.delay(function(){ assert.strictEqual(counter, 2, 'incr was throttled'); done(); }, 64);
+    _.delay(function() { assert.strictEqual(counter, 2, 'incr was throttled'); done(); }, 64);
   });
 
   QUnit.test('throttle arguments', function(assert) {
     assert.expect(2);
     var done = assert.async();
     var value = 0;
-    var update = function(val){ value = val; };
+    var update = function(val) { value = val; };
     var throttledUpdate = _.throttle(update, 32);
     throttledUpdate(1); throttledUpdate(2);
-    _.delay(function(){ throttledUpdate(3); }, 64);
+    _.delay(function() { throttledUpdate(3); }, 64);
     assert.strictEqual(value, 1, 'updated to latest value');
-    _.delay(function(){ assert.strictEqual(value, 3, 'updated to latest value'); done(); }, 96);
+    _.delay(function() { assert.strictEqual(value, 3, 'updated to latest value'); done(); }, 96);
   });
 
   QUnit.test('throttle once', function(assert) {
     assert.expect(2);
     var done = assert.async();
     var counter = 0;
-    var incr = function(){ return ++counter; };
+    var incr = function() { return ++counter; };
     var throttledIncr = _.throttle(incr, 32);
     var result = throttledIncr();
-    _.delay(function(){
+    _.delay(function() {
       assert.strictEqual(result, 1, 'throttled functions return their value');
       assert.strictEqual(counter, 1, 'incr was called once'); done();
     }, 64);
@@ -235,21 +235,21 @@
     assert.expect(1);
     var done = assert.async();
     var counter = 0;
-    var incr = function(){ counter++; };
+    var incr = function() { counter++; };
     var throttledIncr = _.throttle(incr, 32);
     throttledIncr(); throttledIncr();
-    _.delay(function(){ assert.strictEqual(counter, 2, 'incr was called twice'); done(); }, 64);
+    _.delay(function() { assert.strictEqual(counter, 2, 'incr was called twice'); done(); }, 64);
   });
 
   QUnit.test('more throttling', function(assert) {
     assert.expect(3);
     var done = assert.async();
     var counter = 0;
-    var incr = function(){ counter++; };
+    var incr = function() { counter++; };
     var throttledIncr = _.throttle(incr, 30);
     throttledIncr(); throttledIncr();
     assert.strictEqual(counter, 1);
-    _.delay(function(){
+    _.delay(function() {
       assert.strictEqual(counter, 2);
       throttledIncr();
       assert.strictEqual(counter, 3);
@@ -261,7 +261,7 @@
     assert.expect(6);
     var done = assert.async();
     var counter = 0;
-    var incr = function(){ return ++counter; };
+    var incr = function() { return ++counter; };
     var throttledIncr = _.throttle(incr, 100);
     var results = [];
     var saveResult = function() { results.push(throttledIncr()); };
@@ -286,11 +286,11 @@
     var done = assert.async();
     var counter = 0;
     var limit = 48;
-    var incr = function(){ counter++; };
+    var incr = function() { counter++; };
     var throttledIncr = _.throttle(incr, 32);
 
-    var stamp = new Date;
-    while (new Date - stamp < limit) {
+    var stamp = new Date();
+    while (new Date() - stamp < limit) {
       throttledIncr();
     }
     var lastCount = counter;
@@ -306,7 +306,7 @@
     assert.expect(2);
     var done = assert.async();
     var counter = 0;
-    var incr = function(){ counter++; };
+    var incr = function() { counter++; };
     var throttledIncr = _.throttle(incr, 60, {leading: false});
 
     throttledIncr(); throttledIncr();
@@ -322,7 +322,7 @@
     assert.expect(3);
     var done = assert.async();
     var counter = 0;
-    var incr = function(){ counter++; };
+    var incr = function() { counter++; };
     var throttledIncr = _.throttle(incr, 100, {leading: false});
 
     throttledIncr();
@@ -345,11 +345,11 @@
     assert.expect(2);
     var done = assert.async();
     var counter = 0;
-    var incr = function(){ counter++; };
+    var incr = function() { counter++; };
     var throttledIncr = _.throttle(incr, 100, {leading: false});
 
-    var time = new Date;
-    while (new Date - time < 350) throttledIncr();
+    var time = new Date();
+    while (new Date() - time < 350) throttledIncr();
     assert.ok(counter <= 3);
 
     _.delay(function() {
@@ -362,7 +362,7 @@
     assert.expect(4);
     var done = assert.async();
     var counter = 0;
-    var incr = function(){ counter++; };
+    var incr = function() { counter++; };
     var throttledIncr = _.throttle(incr, 60, {trailing: false});
 
     throttledIncr(); throttledIncr(); throttledIncr();
@@ -385,7 +385,7 @@
     assert.expect(2);
     var done = assert.async();
     var counter = 0;
-    var incr = function(){ counter++; };
+    var incr = function() { counter++; };
     var throttledIncr = _.throttle(incr, 100);
     var origNowFunc = _.now;
 
@@ -412,7 +412,7 @@
     ];
     var value = '';
     var throttledAppend;
-    var append = function(arg){
+    var append = function(arg) {
       value += this + arg;
       var args = sequence.pop();
       if (args) {
@@ -422,7 +422,7 @@
     throttledAppend = _.throttle(append, 32);
     throttledAppend.call('a1', 'a2');
     assert.strictEqual(value, 'a1a2');
-    _.delay(function(){
+    _.delay(function() {
       assert.strictEqual(value, 'a1a2c1c2b1b2', 'append was throttled successfully');
       done();
     }, 100);
@@ -431,7 +431,7 @@
   QUnit.test('throttle cancel', function(assert) {
     var done = assert.async();
     var counter = 0;
-    var incr = function(){ counter++; };
+    var incr = function() { counter++; };
     var throttledIncr = _.throttle(incr, 32);
     throttledIncr();
     throttledIncr.cancel();
@@ -439,41 +439,41 @@
     throttledIncr();
 
     assert.strictEqual(counter, 2, 'incr was called immediately');
-    _.delay(function(){ assert.strictEqual(counter, 3, 'incr was throttled'); done(); }, 64);
+    _.delay(function() { assert.strictEqual(counter, 3, 'incr was throttled'); done(); }, 64);
   });
 
   QUnit.test('throttle cancel with leading: false', function(assert) {
     var done = assert.async();
     var counter = 0;
-    var incr = function(){ counter++; };
+    var incr = function() { counter++; };
     var throttledIncr = _.throttle(incr, 32, {leading: false});
     throttledIncr();
     throttledIncr.cancel();
 
     assert.strictEqual(counter, 0, 'incr was throttled');
-    _.delay(function(){ assert.strictEqual(counter, 0, 'incr was throttled'); done(); }, 64);
+    _.delay(function() { assert.strictEqual(counter, 0, 'incr was throttled'); done(); }, 64);
   });
 
   QUnit.test('debounce', function(assert) {
     assert.expect(1);
     var done = assert.async();
     var counter = 0;
-    var incr = function(){ counter++; };
+    var incr = function() { counter++; };
     var debouncedIncr = _.debounce(incr, 32);
     debouncedIncr(); debouncedIncr();
     _.delay(debouncedIncr, 16);
-    _.delay(function(){ assert.strictEqual(counter, 1, 'incr was debounced'); done(); }, 96);
+    _.delay(function() { assert.strictEqual(counter, 1, 'incr was debounced'); done(); }, 96);
   });
 
   QUnit.test('debounce cancel', function(assert) {
     assert.expect(1);
     var done = assert.async();
     var counter = 0;
-    var incr = function(){ counter++; };
+    var incr = function() { counter++; };
     var debouncedIncr = _.debounce(incr, 32);
     debouncedIncr();
     debouncedIncr.cancel();
-    _.delay(function(){ assert.strictEqual(counter, 0, 'incr was not called'); done(); }, 96);
+    _.delay(function() { assert.strictEqual(counter, 0, 'incr was not called'); done(); }, 96);
   });
 
   QUnit.test('debounce asap', function(assert) {
@@ -481,7 +481,7 @@
     var done = assert.async();
     var a, b, c;
     var counter = 0;
-    var incr = function(){ return ++counter; };
+    var incr = function() { return ++counter; };
     var debouncedIncr = _.debounce(incr, 64, true);
     a = debouncedIncr();
     b = debouncedIncr();
@@ -491,7 +491,7 @@
     _.delay(debouncedIncr, 16);
     _.delay(debouncedIncr, 32);
     _.delay(debouncedIncr, 48);
-    _.delay(function(){
+    _.delay(function() {
       assert.strictEqual(counter, 1, 'incr was debounced');
       c = debouncedIncr();
       assert.strictEqual(c, 2);
@@ -505,7 +505,7 @@
     var done = assert.async();
     var a, b;
     var counter = 0;
-    var incr = function(){ return ++counter; };
+    var incr = function() { return ++counter; };
     var debouncedIncr = _.debounce(incr, 64, true);
     a = debouncedIncr();
     debouncedIncr.cancel();
@@ -516,20 +516,20 @@
     _.delay(debouncedIncr, 16);
     _.delay(debouncedIncr, 32);
     _.delay(debouncedIncr, 48);
-    _.delay(function(){ assert.strictEqual(counter, 2, 'incr was debounced'); done(); }, 128);
+    _.delay(function() { assert.strictEqual(counter, 2, 'incr was debounced'); done(); }, 128);
   });
 
   QUnit.test('debounce asap recursively', function(assert) {
     assert.expect(2);
     var done = assert.async();
     var counter = 0;
-    var debouncedIncr = _.debounce(function(){
+    var debouncedIncr = _.debounce(function() {
       counter++;
       if (counter < 10) debouncedIncr();
     }, 32, true);
     debouncedIncr();
     assert.strictEqual(counter, 1, 'incr was called immediately');
-    _.delay(function(){ assert.strictEqual(counter, 1, 'incr was debounced'); done(); }, 96);
+    _.delay(function() { assert.strictEqual(counter, 1, 'incr was debounced'); done(); }, 96);
   });
 
   QUnit.test('debounce after system time is set backwards', function(assert) {
@@ -537,7 +537,7 @@
     var done = assert.async();
     var counter = 0;
     var origNowFunc = _.now;
-    var debouncedIncr = _.debounce(function(){
+    var debouncedIncr = _.debounce(function() {
       counter++;
     }, 100, true);
 
@@ -564,7 +564,7 @@
     ];
     var value = '';
     var debouncedAppend;
-    var append = function(arg){
+    var append = function(arg) {
       value += this + arg;
       var args = sequence.pop();
       if (args) {
@@ -574,7 +574,7 @@
     debouncedAppend = _.debounce(append, 32);
     debouncedAppend.call('a1', 'a2');
     assert.strictEqual(value, '');
-    _.delay(function(){
+    _.delay(function() {
       assert.strictEqual(value, 'a1a2b1b2', 'append was debounced successfully');
       done();
     }, 100);
@@ -582,7 +582,7 @@
 
   QUnit.test('once', function(assert) {
     var num = 0;
-    var increment = _.once(function(){ return ++num; });
+    var increment = _.once(function() { return ++num; });
     increment();
     increment();
     assert.strictEqual(num, 1);
@@ -592,7 +592,7 @@
 
   QUnit.test('Recursive onced function.', function(assert) {
     assert.expect(1);
-    var f = _.once(function(){
+    var f = _.once(function() {
       assert.ok(true);
       f();
     });
@@ -600,30 +600,30 @@
   });
 
   QUnit.test('wrap', function(assert) {
-    var greet = function(name){ return 'hi: ' + name; };
-    var backwards = _.wrap(greet, function(func, name){ return func(name) + ' ' + name.split('').reverse().join(''); });
+    var greet = function(name) { return 'hi: ' + name; };
+    var backwards = _.wrap(greet, function(func, name) { return func(name) + ' ' + name.split('').reverse().join(''); });
     assert.strictEqual(backwards('moe'), 'hi: moe eom', 'wrapped the salutation function');
 
-    var inner = function(){ return 'Hello '; };
+    var inner = function() { return 'Hello '; };
     var obj = {name: 'Moe'};
-    obj.hi = _.wrap(inner, function(fn){ return fn() + this.name; });
+    obj.hi = _.wrap(inner, function(fn) { return fn() + this.name; });
     assert.strictEqual(obj.hi(), 'Hello Moe');
 
-    var noop = function(){};
-    var wrapped = _.wrap(noop, function(){ return Array.prototype.slice.call(arguments, 0); });
+    var noop = function() {};
+    var wrapped = _.wrap(noop, function() { return Array.prototype.slice.call(arguments, 0); });
     var ret = wrapped(['whats', 'your'], 'vector', 'victor');
     assert.deepEqual(ret, [noop, ['whats', 'your'], 'vector', 'victor']);
   });
 
   QUnit.test('negate', function(assert) {
-    var isOdd = function(n){ return n & 1; };
+    var isOdd = function(n) { return n & 1; };
     assert.strictEqual(_.negate(isOdd)(2), true, 'should return the complement of the given function');
     assert.strictEqual(_.negate(isOdd)(3), false, 'should return the complement of the given function');
   });
 
   QUnit.test('compose', function(assert) {
-    var greet = function(name){ return 'hi: ' + name; };
-    var exclaim = function(sentence){ return sentence + '!'; };
+    var greet = function(name) { return 'hi: ' + name; };
+    var exclaim = function(sentence) { return sentence + '!'; };
     var composed = _.compose(exclaim, greet);
     assert.strictEqual(composed('moe'), 'hi: moe!', 'can compose a function that takes another');
 
@@ -677,7 +677,7 @@
     assert.strictEqual(testBefore(0, 1), 0, 'before(0) should not fire when first invoked');
 
     var context = {num: 0};
-    var increment = _.before(3, function(){ return ++this.num; });
+    var increment = _.before(3, function() { return ++this.num; });
     _.times(10, increment, context);
     assert.strictEqual(increment(), 2, 'stores a memo to the last value');
     assert.strictEqual(context.num, 2, 'provides context');
@@ -692,6 +692,8 @@
     }
     _.each([_.iteratee(fn), _.iteratee(fn, {})], function(cb) {
       assert.strictEqual(cb().length, 0);
+      // May 2018: no-callback-literal rule may be removed soon; so this should be fine.
+      // https://github.com/standard/eslint-plugin-standard/issues/12#issuecomment-298227852
       assert.deepEqual(_.toArray(cb(1, 2, 3)), _.range(1, 4));
       assert.deepEqual(_.toArray(cb(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)), _.range(1, 11));
     });
@@ -703,9 +705,11 @@
     var builtinIteratee = _.iteratee;
     _.iteratee = function(value) {
       // RegEx values return a function that returns the number of matches
-      if (_.isRegExp(value)) return function(obj) {
-        return (obj.match(value) || []).length;
-      };
+      if (_.isRegExp(value)) {
+        return function(obj) {
+          return (obj.match(value) || []).length;
+        };
+      }
       return value;
     };
 
@@ -766,5 +770,4 @@
       assert.strictEqual(context, void 0);
     }, 0)(1, 2, 3, 4);
   });
-
-}());
+})();

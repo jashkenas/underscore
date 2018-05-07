@@ -1,5 +1,5 @@
 (function() {
-  var _ = typeof require == 'function' ? require('..') : window._;
+  var _ = typeof require === 'function' ? require('..') : window._;
   var templateSettings;
 
   QUnit.module('Utility', {
@@ -14,11 +14,11 @@
 
   });
 
-  if (typeof this == 'object') {
+  if (typeof this === 'object') {
     QUnit.test('noConflict', function(assert) {
       var underscore = _.noConflict();
       assert.strictEqual(underscore.identity(1), 1);
-      if (typeof require != 'function') {
+      if (typeof require !== 'function') {
         assert.strictEqual(this._, void 0, 'global underscore is removed');
         this._ = underscore;
       } else if (typeof global !== 'undefined') {
@@ -27,14 +27,16 @@
     });
   }
 
-  if (typeof require == 'function') {
+  if (typeof require === 'function') {
     QUnit.test('noConflict (node vm)', function(assert) {
       assert.expect(2);
       var done = assert.async();
       var fs = require('fs');
       var vm = require('vm');
-      var filename = __dirname + '/../underscore.js';
-      fs.readFile(filename, function(err, content){
+      var path = require('path');
+      var filename = path.join(__dirname, '/../underscore.js');
+      fs.readFile(filename, function(err, content) {
+        if (err) console.log(err.stack); // TODO: should handle this better
         var sandbox = vm.createScript(
           content + 'this.underscore = this._.noConflict();',
           filename
@@ -43,7 +45,6 @@
         sandbox.runInNewContext(context);
         assert.strictEqual(context._, 'oldvalue');
         assert.strictEqual(context.underscore.VERSION, _.VERSION);
-
         done();
       });
     });
@@ -86,11 +87,12 @@
 
   QUnit.test('now', function(assert) {
     var diff = _.now() - new Date().getTime();
-    assert.ok(diff <= 0 && diff > -5, 'Produces the correct time in milliseconds');//within 5ms
+    assert.ok(diff <= 0 && diff > -5, 'Produces the correct time in milliseconds');// within 5ms
   });
 
   QUnit.test('uniqueId', function(assert) {
-    var ids = [], i = 0;
+    var ids = [];
+    var i = 0;
     while (i++ < 100) ids.push(_.uniqueId());
     assert.strictEqual(_.uniq(ids).length, ids.length, 'can generate a globally-unique stream of ids');
   });
@@ -169,9 +171,9 @@
   });
 
   QUnit.test('template', function(assert) {
-    var basicTemplate = _.template("<%= thing %> is gettin' on my noives!");
+    var basicTemplate = _.template('<%= thing %> is gettin\' on my noives!');
     var result = basicTemplate({thing: 'This'});
-    assert.strictEqual(result, "This is gettin' on my noives!", 'can do basic attribute interpolation');
+    assert.strictEqual(result, 'This is gettin\' on my noives!', 'can do basic attribute interpolation');
 
     var sansSemicolonTemplate = _.template('A <% this %> B');
     assert.strictEqual(sansSemicolonTemplate(), 'A  B');
@@ -207,13 +209,13 @@
     result = noInterpolateTemplate();
     assert.strictEqual(result, '<div><p>Just some text. Hey, I know this is silly but it aids consistency.</p></div>');
 
-    var quoteTemplate = _.template("It's its, not it's");
-    assert.strictEqual(quoteTemplate({}), "It's its, not it's");
+    var quoteTemplate = _.template('It\'s its, not it\'s');
+    assert.strictEqual(quoteTemplate({}), 'It\'s its, not it\'s');
 
     var quoteInStatementAndBody = _.template('<% ' +
-    "  if(foo == 'bar'){ " +
-    "%>Statement quotes and 'quotes'.<% } %>");
-    assert.strictEqual(quoteInStatementAndBody({foo: 'bar'}), "Statement quotes and 'quotes'.");
+    '  if(foo == \'bar\'){ ' +
+    '%>Statement quotes and \'quotes\'.<% } %>');
+    assert.strictEqual(quoteInStatementAndBody({foo: 'bar'}), 'Statement quotes and \'quotes\'.');
 
     var withNewlinesAndTabs = _.template('This\n\t\tis: <%= x %>.\n\tok.\nend.');
     assert.strictEqual(withNewlinesAndTabs({x: 'that'}), 'This\n\t\tis: that.\n\tok.\nend.');
@@ -224,9 +226,9 @@
 
     var stooge = {
       name: 'Moe',
-      template: _.template("I'm <%= this.name %>")
+      template: _.template('I\'m <%= this.name %>')
     };
-    assert.strictEqual(stooge.template(), "I'm Moe");
+    assert.strictEqual(stooge.template(), 'I\'m Moe');
 
     template = _.template('\n ' +
     '  <%\n ' +
@@ -245,11 +247,11 @@
     result = custom({people: {moe: 'Moe', larry: 'Larry', curly: 'Curly'}});
     assert.strictEqual(result, '<ul><li>Moe</li><li>Larry</li><li>Curly</li></ul>', 'can run arbitrary javascript in templates');
 
-    var customQuote = _.template("It's its, not it's");
-    assert.strictEqual(customQuote({}), "It's its, not it's");
+    var customQuote = _.template('It\'s its, not it\'s');
+    assert.strictEqual(customQuote({}), 'It\'s its, not it\'s');
 
-    quoteInStatementAndBody = _.template("{{ if(foo == 'bar'){ }}Statement quotes and 'quotes'.{{ } }}");
-    assert.strictEqual(quoteInStatementAndBody({foo: 'bar'}), "Statement quotes and 'quotes'.");
+    quoteInStatementAndBody = _.template('{{ if(foo == \'bar\'){ }}Statement quotes and \'quotes\'.{{ } }}');
+    assert.strictEqual(quoteInStatementAndBody({foo: 'bar'}), 'Statement quotes and \'quotes\'.');
 
     _.templateSettings = {
       evaluate: /<\?([\s\S]+?)\?>/g,
@@ -260,11 +262,11 @@
     result = customWithSpecialChars({people: {moe: 'Moe', larry: 'Larry', curly: 'Curly'}});
     assert.strictEqual(result, '<ul><li>Moe</li><li>Larry</li><li>Curly</li></ul>', 'can run arbitrary javascript in templates');
 
-    var customWithSpecialCharsQuote = _.template("It's its, not it's");
-    assert.strictEqual(customWithSpecialCharsQuote({}), "It's its, not it's");
+    var customWithSpecialCharsQuote = _.template('It\'s its, not it\'s');
+    assert.strictEqual(customWithSpecialCharsQuote({}), 'It\'s its, not it\'s');
 
-    quoteInStatementAndBody = _.template("<? if(foo == 'bar'){ ?>Statement quotes and 'quotes'.<? } ?>");
-    assert.strictEqual(quoteInStatementAndBody({foo: 'bar'}), "Statement quotes and 'quotes'.");
+    quoteInStatementAndBody = _.template('<? if(foo == \'bar\'){ ?>Statement quotes and \'quotes\'.<? } ?>');
+    assert.strictEqual(quoteInStatementAndBody({foo: 'bar'}), 'Statement quotes and \'quotes\'.');
 
     _.templateSettings = {
       interpolate: /\{\{(.+?)\}\}/g
@@ -293,7 +295,7 @@
   });
 
   QUnit.test('result calls functions and returns primitives', function(assert) {
-    var obj = {w: '', x: 'x', y: function(){ return this.x; }};
+    var obj = {w: '', x: 'x', y: function() { return this.x; }};
     assert.strictEqual(_.result(obj, 'w'), '');
     assert.strictEqual(_.result(obj, 'x'), 'x');
     assert.strictEqual(_.result(obj, 'y'), 'x');
@@ -318,9 +320,9 @@
   });
 
   QUnit.test('result does not return the default if the property of an object is found in the prototype', function(assert) {
-    var Foo = function(){};
+    var Foo = function() {};
     Foo.prototype.bar = 1;
-    assert.strictEqual(_.result(new Foo, 'bar', 2), 1);
+    assert.strictEqual(_.result(new Foo(), 'bar', 2), 1);
   });
 
   QUnit.test('result does use the fallback when the result of invoking the property is undefined', function(assert) {
@@ -429,11 +431,11 @@
     assert.expect(2);
     var count = 0;
     var template = _.template('<%= f() %>');
-    template({f: function(){ assert.ok(!count++); }});
+    template({f: function() { assert.ok(!count++); }});
 
     var countEscaped = 0;
     var templateEscaped = _.template('<%- f() %>');
-    templateEscaped({f: function(){ assert.ok(!countEscaped++); }});
+    templateEscaped({f: function() { assert.ok(!countEscaped++); }});
   });
 
   QUnit.test('#746 - _.template settings are not modified.', function(assert) {
@@ -448,5 +450,4 @@
     var template = _.template('<<\nx\n>>', null, {evaluate: /<<(.*?)>>/g});
     assert.strictEqual(template(), '<<\nx\n>>');
   });
-
-}());
+})();

@@ -2,6 +2,30 @@
   "env": {
     "browser": true,
     "node": true,
-    "amd": true
+    "amd": true,
+    "es6": true
+  },
+  "globals": {
+    "attachEvent": false,
+    "detachEvent": false
+  },
+  "extends": ["eslint:recommended", "standard"],
+  "rules": {
+    "indent": [
+      "error",
+      2
+    ],
+    "linebreak-style": [
+      "error",
+      "windows"
+    ],
+    "quotes": [
+      "error",
+      "single"
+    ],
+    "semi": [
+      "error",
+      "always"
+    ]
   }
 }
