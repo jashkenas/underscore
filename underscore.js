@@ -4,7 +4,7 @@ http://underscorejs.org
 (c) 2009-2018 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 Underscore may be freely distributed under the MIT license.
 
-Formatting mostly in line with https://standardjs.com/ as of 1.9.0
+Using modified https://standardjs.com/ rules
 */
 
 (function () {
