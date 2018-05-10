@@ -758,6 +758,9 @@
       6: [jordan]
     };
     assert.deepEqual(_.groupBy(collection, ['stats', 'power']), expected, 'can group by deep properties');
+
+    var foos = [{foo: [1, 2]}, {foo: [1, 2]}]
+    assert.deepEqual(_.groupBy(foos, 'foo'), {"1,2": foos}, 'will coerce arrays to string keys');
   });
 
   QUnit.test('indexBy', function(assert) {
@@ -805,6 +808,9 @@
     grouped = _.countBy(array);
     assert.strictEqual(grouped['1'], 2);
     assert.strictEqual(grouped['3'], 1);
+
+    var foos = [{foo: [1, 2]}, {foo: [1, 2]}]
+    assert.deepEqual(_.countBy(foos, 'foo'), {'1,2': 2}, 'will coerce arrays to string keys');
   });
 
   QUnit.test('shuffle', function(assert) {
