@@ -17,7 +17,8 @@
     assert.strictEqual(_.first(null), void 0, 'returns undefined when called on null');
 
     Array.prototype[0] = 'boo';
-    assert.strictEqual(_.first([]), void 0, 'return undefined when called on a empty array');
+    var arr = [];
+    assert.strictEqual(_.first(arr), arr, 'return the same array when called on a empty array');
     delete Array.prototype[0];
   });
 
@@ -73,7 +74,7 @@
 
     var arr = [];
     arr[-1] = 'boo';
-    assert.strictEqual(_.last(arr), void 0, 'return undefined when called on a empty array');
+    assert.strictEqual(_.last(arr), arr, 'return the same array when called on a empty array');
   });
 
   QUnit.test('compact', function(assert) {
