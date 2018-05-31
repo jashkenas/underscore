@@ -15,6 +15,9 @@
     result = _.map([[1, 2, 3], [1, 2, 3]], _.first);
     assert.deepEqual(result, [1, 1], 'works well with _.map');
     assert.strictEqual(_.first(null), void 0, 'returns undefined when called on null');
+    assert.deepEqual(_.first([], 10), [], 'returns an empty array when called with an explicit number of elements to return');
+    assert.deepEqual(_.first([], 1), [], 'returns an empty array when called with an explicit number of elements to return');
+    assert.deepEqual(_.first(null, 5), [], 'returns an empty array when called with an explicit number of elements to return');
 
     Array.prototype[0] = 'boo';
     assert.strictEqual(_.first([]), void 0, 'return undefined when called on a empty array');
@@ -70,6 +73,10 @@
     result = _.map([[1, 2, 3], [1, 2, 3]], _.last);
     assert.deepEqual(result, [3, 3], 'works well with _.map');
     assert.strictEqual(_.last(null), void 0, 'returns undefined when called on null');
+
+    assert.deepEqual(_.last([], 10), [], 'returns an empty array when called with an explicit number of elements to return');
+    assert.deepEqual(_.last([], 1), [], 'returns an empty array when called with an explicit number of elements to return');
+    assert.deepEqual(_.last(null, 5), [], 'returns an empty array when called with an explicit number of elements to return');
 
     var arr = [];
     arr[-1] = 'boo';
