@@ -15,6 +15,9 @@
     result = _.map([[1, 2, 3], [1, 2, 3]], _.first);
     assert.deepEqual(result, [1, 1], 'works well with _.map');
     assert.strictEqual(_.first(null), void 0, 'returns undefined when called on null');
+    assert.deepEqual(_.first([], 10), [], 'returns an empty array when called with an explicit number of elements to return');
+    assert.deepEqual(_.first([], 1), [], 'returns an empty array when called with an explicit number of elements to return');
+    assert.deepEqual(_.first(null, 5), [], 'returns an empty array when called with an explicit number of elements to return');
 
     Array.prototype[0] = 'boo';
     assert.strictEqual(_.first([]), void 0, 'return undefined when called on a empty array');
@@ -71,6 +74,10 @@
     assert.deepEqual(result, [3, 3], 'works well with _.map');
     assert.strictEqual(_.last(null), void 0, 'returns undefined when called on null');
 
+    assert.deepEqual(_.last([], 10), [], 'returns an empty array when called with an explicit number of elements to return');
+    assert.deepEqual(_.last([], 1), [], 'returns an empty array when called with an explicit number of elements to return');
+    assert.deepEqual(_.last(null, 5), [], 'returns an empty array when called with an explicit number of elements to return');
+
     var arr = [];
     arr[-1] = 'boo';
     assert.strictEqual(_.last(arr), void 0, 'return undefined when called on a empty array');
@@ -101,6 +108,7 @@
 
     assert.strictEqual(_.flatten([_.range(10), _.range(10), 5, 1, 3], true).length, 23, 'can flatten medium length arrays');
     assert.strictEqual(_.flatten([_.range(10), _.range(10), 5, 1, 3]).length, 23, 'can shallowly flatten medium length arrays');
+    assert.strictEqual(_.flatten([new Array(10)]).length, 10, 'can flatten array with nulls of size n');
     assert.strictEqual(_.flatten([new Array(1000000), _.range(56000), 5, 1, 3]).length, 1056003, 'can handle massive arrays');
     assert.strictEqual(_.flatten([new Array(1000000), _.range(56000), 5, 1, 3], true).length, 1056003, 'can handle massive arrays in shallow mode');
 
@@ -355,7 +363,7 @@
 
   QUnit.test('indexOf with NaN', function(assert) {
     assert.strictEqual(_.indexOf([1, 2, NaN, NaN], NaN), 2, 'Expected [1, 2, NaN] to contain NaN');
-    assert.strictEqual(_.indexOf([1, 2, Infinity], NaN), -1, 'Expected [1, 2, NaN] to contain NaN');
+    assert.strictEqual(_.indexOf([1, 2, Infinity], NaN), -1, 'Expected [1, 2, Infinity] to NOT contain NaN');
 
     assert.strictEqual(_.indexOf([1, 2, NaN, NaN], NaN, 1), 2, 'startIndex does not affect result');
     assert.strictEqual(_.indexOf([1, 2, NaN, NaN], NaN, -2), 2, 'startIndex does not affect result');

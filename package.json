@@ -15,7 +15,7 @@
     "url": "git://github.com/jashkenas/underscore.git"
   },
   "main": "underscore.js",
-  "version": "1.9.0",
+  "version": "1.9.1",
   "devDependencies": {
     "coveralls": "^2.11.2",
     "docco": "*",
@@ -30,7 +30,7 @@
     "uglify-js": "3.3.21"
   },
   "scripts": {
-    "test": "npm run test-node && npm run lint",
+    "test": "npm run lint && npm run test-node",
     "coverage": "nyc npm run test-node && nyc report",
     "coveralls": "nyc npm run test-node && nyc report --reporter=text-lcov | coveralls",
     "lint": "eslint underscore.js test/*.js",

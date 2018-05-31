@@ -183,7 +183,7 @@
   <div id="sidebar" class="interface">
 
     <a class="toc_title" href="#">
-      Underscore.js <span class="version">(1.9.0)</span>
+      Underscore.js <span class="version">(1.9.1)</span>
     </a>
     <ul class="toc_section">
       <li>&raquo; <a href="https://github.com/jashkenas/underscore">GitHub Repository</a></li>
@@ -441,11 +441,11 @@
 
     <table>
       <tr>
-        <td><a href="underscore.js">Development Version (1.9.0)</a></td>
+        <td><a href="underscore.js">Development Version (1.9.1)</a></td>
         <td><i>60kb, Uncompressed with Plentiful Comments</i></td>
       </tr>
       <tr>
-        <td><a href="underscore-min.js">Production Version (1.9.0)</a></td>
+        <td><a href="underscore-min.js">Production Version (1.9.1)</a></td>
         <td>
           <i>6.5kb, Minified and Gzipped</i>
           &nbsp;<small>(<a href="underscore-min.js.map">Source Map</a>)</small>
@@ -843,6 +843,9 @@ _.sample([1, 2, 3, 4, 5, 6], 3);
         Return the number of values in the <b>list</b>.
       </p>
       <pre>
+_.size([1, 2, 3, 4, 5]);
+=&gt; 5
+
 _.size({one: 1, two: 2, three: 3});
 =&gt; 3
 </pre>
@@ -991,7 +994,7 @@ _.difference([1, 2, 3, 4, 5], [5, 2, 10]);
         <span class="alias">Alias: <b>unique</b></span>
         <br />
         Produces a duplicate-free version of the <b>array</b>, using <i>===</i> to test
-        object equality. In particular only the first occurence of each value is kept.
+        object equality. In particular only the first occurrence of each value is kept.
         If you know in advance that the <b>array</b> is sorted,
         passing <i>true</i> for <b>isSorted</b> will run a much faster algorithm.
         If you want to compute unique items based on a transformation, pass an
@@ -1995,8 +1998,6 @@ obj.initialize = _.noop;
         Invokes the given iteratee function <b>n</b> times. Each invocation of
         <a href="#iteratee"><b>iteratee</b></a> is called with an <tt>index</tt> argument.
         Produces an array of the returned values.
-        <br />
-        <i>Note: this example uses the <a href="#oop">object-oriented syntax</a></i>.
       </p>
       <pre>
 _.times(3, function(n){ genie.grantWishNumber(n); });</pre>
@@ -2390,6 +2391,17 @@ _.chain([1, 2, 3]).reverse().value();
       </p>
 
       <h2 id="changelog">Change Log</h2>
+
+      <p id="1.9.1">
+        <b class="header">1.9.1</b> &mdash; <small><i>May 31, 2018</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.9.0...1.9.1">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/underscore/1.9.1/index.html">Docs</a><br />
+        <ul>
+          <li>
+            Fixes edge-case regressions from 1.9.0, including certain forms
+            of calling <tt>_.first</tt> and <tt>_.last</tt> on an empty array,
+            and passing arrays as keys to <tt>_.countBy</tt> and <tt>_.groupBy</tt>.
+          </li>
+        </ul>
+      </p>
 
       <p id="1.9.0">
         <b class="header">1.9.0</b> &mdash; <small><i>April 18, 2018</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.8.3...1.9.0">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/underscore/1.9.0/index.html">Docs</a><br />
