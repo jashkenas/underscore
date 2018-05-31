@@ -27,7 +27,7 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-1">&#182;</a>
               </div>
-              <pre><code>Underscore.js <span class="hljs-number">1.9</span><span class="hljs-number">.0</span>
+              <pre><code>Underscore.js <span class="hljs-number">1.9</span><span class="hljs-number">.1</span>
 http:<span class="hljs-comment">//underscorejs.org</span>
 (c) <span class="hljs-number">2009</span><span class="hljs-number">-2018</span> Jeremy Ashkenas, DocumentCloud and Investigative Reporters &amp; Editors
 Underscore may be freely distributed under the MIT license.
@@ -222,7 +222,7 @@ and <code>exports</code> are not HTML elements.)</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  _.VERSION = <span class="hljs-string">'1.9.0'</span>;</pre></div></div>
+            <div class="content"><div class='highlight'><pre>  _.VERSION = <span class="hljs-string">'1.9.1'</span>;</pre></div></div>
             
         </li>
         
@@ -382,6 +382,10 @@ the last argument. Similar to ES6’s “rest parameter”.</p>
       <span class="hljs-keyword">return</span> obj == <span class="hljs-literal">null</span> ? <span class="hljs-keyword">void</span> <span class="hljs-number">0</span> : obj[key];
     };
   };
+
+  <span class="hljs-keyword">var</span> has = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">obj, path</span>) </span>{
+    <span class="hljs-keyword">return</span> obj != <span class="hljs-literal">null</span> &amp;&amp; hasOwnProperty.call(obj, path);
+  }
 
   <span class="hljs-keyword">var</span> deepGet = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">obj, path</span>) </span>{
     <span class="hljs-keyword">var</span> length = path.length;
@@ -991,7 +995,7 @@ to group by, or a function that returns the criterion.</p>
             </div>
             
             <div class="content"><div class='highlight'><pre>  _.groupBy = group(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">result, value, key</span>) </span>{
-    <span class="hljs-keyword">if</span> (_.has(result, key)) result[key].push(value); <span class="hljs-keyword">else</span> result[key] = [value];
+    <span class="hljs-keyword">if</span> (has(result, key)) result[key].push(value); <span class="hljs-keyword">else</span> result[key] = [value];
   });</pre></div></div>
             
         </li>
@@ -1028,7 +1032,7 @@ criterion.</p>
             </div>
             
             <div class="content"><div class='highlight'><pre>  _.countBy = group(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">result, value, key</span>) </span>{
-    <span class="hljs-keyword">if</span> (_.has(result, key)) result[key]++; <span class="hljs-keyword">else</span> result[key] = <span class="hljs-number">1</span>;
+    <span class="hljs-keyword">if</span> (has(result, key)) result[key]++; <span class="hljs-keyword">else</span> result[key] = <span class="hljs-number">1</span>;
   });
 
   <span class="hljs-keyword">var</span> reStrSymbol = <span class="hljs-regexp">/[^\ud800-\udfff]|[\ud800-\udbff][\udc00-\udfff]|[\ud800-\udfff]/g</span>;</pre></div></div>
@@ -1147,7 +1151,7 @@ allows it to work with <code>_.map</code>.</p>
             </div>
             
             <div class="content"><div class='highlight'><pre>  _.first = _.head = _.take = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">array, n, guard</span>) </span>{
-    <span class="hljs-keyword">if</span> (array == <span class="hljs-literal">null</span> || array.length &lt; <span class="hljs-number">1</span>) <span class="hljs-keyword">return</span> <span class="hljs-keyword">void</span> <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">if</span> (array == <span class="hljs-literal">null</span> || array.length &lt; <span class="hljs-number">1</span>) <span class="hljs-keyword">return</span> n == <span class="hljs-literal">null</span> ? <span class="hljs-keyword">void</span> <span class="hljs-number">0</span> : [];
     <span class="hljs-keyword">if</span> (n == <span class="hljs-literal">null</span> || guard) <span class="hljs-keyword">return</span> array[<span class="hljs-number">0</span>];
     <span class="hljs-keyword">return</span> _.initial(array, array.length - n);
   };</pre></div></div>
@@ -1186,7 +1190,7 @@ values in the array.</p>
             </div>
             
             <div class="content"><div class='highlight'><pre>  _.last = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">array, n, guard</span>) </span>{
-    <span class="hljs-keyword">if</span> (array == <span class="hljs-literal">null</span> || array.length &lt; <span class="hljs-number">1</span>) <span class="hljs-keyword">return</span> <span class="hljs-keyword">void</span> <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">if</span> (array == <span class="hljs-literal">null</span> || array.length &lt; <span class="hljs-number">1</span>) <span class="hljs-keyword">return</span> n == <span class="hljs-literal">null</span> ? <span class="hljs-keyword">void</span> <span class="hljs-number">0</span> : [];
     <span class="hljs-keyword">if</span> (n == <span class="hljs-literal">null</span> || guard) <span class="hljs-keyword">return</span> array[array.length - <span class="hljs-number">1</span>];
     <span class="hljs-keyword">return</span> _.rest(array, <span class="hljs-built_in">Math</span>.max(<span class="hljs-number">0</span>, array.length - n));
   };</pre></div></div>
@@ -1812,7 +1816,7 @@ defined on an object belong to it.</p>
     <span class="hljs-keyword">var</span> memoize = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">key</span>) </span>{
       <span class="hljs-keyword">var</span> cache = memoize.cache;
       <span class="hljs-keyword">var</span> address = <span class="hljs-string">''</span> + (hasher ? hasher.apply(<span class="hljs-keyword">this</span>, <span class="hljs-built_in">arguments</span>) : key);
-      <span class="hljs-keyword">if</span> (!_.has(cache, address)) cache[address] = func.apply(<span class="hljs-keyword">this</span>, <span class="hljs-built_in">arguments</span>);
+      <span class="hljs-keyword">if</span> (!has(cache, address)) cache[address] = func.apply(<span class="hljs-keyword">this</span>, <span class="hljs-built_in">arguments</span>);
       <span class="hljs-keyword">return</span> cache[address];
     };
     memoize.cache = {};
@@ -2145,7 +2149,7 @@ often you call it. Useful for lazy initialization.</p>
             </div>
             
             <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">var</span> prop = <span class="hljs-string">'constructor'</span>;
-    <span class="hljs-keyword">if</span> (_.has(obj, prop) &amp;&amp; !_.contains(keys, prop)) keys.push(prop);
+    <span class="hljs-keyword">if</span> (has(obj, prop) &amp;&amp; !_.contains(keys, prop)) keys.push(prop);
 
     <span class="hljs-keyword">while</span> (nonEnumIdx--) {
       prop = nonEnumerableProps[nonEnumIdx];
@@ -2173,7 +2177,7 @@ Delegates to <strong>ECMAScript 5</strong>‘s native <code>Object.keys</code>.<
     <span class="hljs-keyword">if</span> (!_.isObject(obj)) <span class="hljs-keyword">return</span> [];
     <span class="hljs-keyword">if</span> (nativeKeys) <span class="hljs-keyword">return</span> nativeKeys(obj);
     <span class="hljs-keyword">var</span> keys = [];
-    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> key <span class="hljs-keyword">in</span> obj) <span class="hljs-keyword">if</span> (_.has(obj, key)) keys.push(key);</pre></div></div>
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> key <span class="hljs-keyword">in</span> obj) <span class="hljs-keyword">if</span> (has(obj, key)) keys.push(key);</pre></div></div>
             
         </li>
         
@@ -3017,7 +3021,7 @@ unique nested structures.</p>
             </div>
             
             <div class="content"><div class='highlight'><pre>        key = keys[length];
-        <span class="hljs-keyword">if</span> (!(_.has(b, key) &amp;&amp; eq(a[key], b[key], aStack, bStack))) <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+        <span class="hljs-keyword">if</span> (!(has(b, key) &amp;&amp; eq(a[key], b[key], aStack, bStack))) <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
       }
     }</pre></div></div>
             
@@ -3164,7 +3168,7 @@ there isn’t any inspectable “Arguments” type.</p>
             
             <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">if</span> (!_.isArguments(<span class="hljs-built_in">arguments</span>)) {
     _.isArguments = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">obj</span>) </span>{
-      <span class="hljs-keyword">return</span> _.has(obj, <span class="hljs-string">'callee'</span>);
+      <span class="hljs-keyword">return</span> has(obj, <span class="hljs-string">'callee'</span>);
     };
   }</pre></div></div>
             
@@ -3290,7 +3294,7 @@ on itself (in other words, not on a prototype).</p>
             
             <div class="content"><div class='highlight'><pre>  _.has = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">obj, path</span>) </span>{
     <span class="hljs-keyword">if</span> (!_.isArray(path)) {
-      <span class="hljs-keyword">return</span> obj != <span class="hljs-literal">null</span> &amp;&amp; hasOwnProperty.call(obj, path);
+      <span class="hljs-keyword">return</span> has(obj, path);
     }
     <span class="hljs-keyword">var</span> length = path.length;
     <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; length; i++) {
