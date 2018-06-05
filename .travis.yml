@@ -5,21 +5,21 @@ node_js:
   - "6.14.1"
   - "8.11.1"
   - "9.11.1"
-# matrix:
-#   include:
-#     - node_js: "4.0"
-#       env: BROWSER=true
+ matrix:
+   include:
+     - node_js: "4.0"
+       env: BROWSER=true
 before_install:
-  # - npm install -g npm@2.6
-  # - npm install -g karma-cli
+  - npm install -g npm@2.6
+  - npm install -g karma-cli
 before_script:
-  # - npm install karma-sauce-launcher
-  # - export DISPLAY=:99.0
-  # - sh -e /etc/init.d/xvfb start
+  - npm install karma-sauce-launcher
+  - export DISPLAY=:99.0
+  - sh -e /etc/init.d/xvfb start
 script:
   - npm test
-  # - "[ $BROWSER == false ] || npm run test-browser"
-  # - "[ $BROWSER == false ] || karma start karma.conf-sauce.js"
+  - "[ $BROWSER == false ] || npm run test-browser"
+  - "[ $BROWSER == false ] || karma start karma.conf-sauce.js"
 notifications:
   email: false
 env:
