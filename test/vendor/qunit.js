@@ -4187,7 +4187,7 @@
   	// Listen for unhandled rejections, and call QUnit.onUnhandledRejection
   	window.addEventListener("unhandledrejection", function (event) {
   		QUnit.onUnhandledRejection(event.reason);
-  	});
+  	},false);
   })();
 
   /*

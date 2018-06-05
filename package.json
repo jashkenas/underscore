@@ -46,5 +46,8 @@
     "underscore.js",
     "underscore-min.js",
     "underscore-min.js.map"
-  ]
+  ],
+  "dependencies": {
+    "karma-sauce-launcher": "^1.2.0"
+  }
 }
