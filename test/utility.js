@@ -89,12 +89,6 @@
     assert.ok(diff <= 0 && diff > -5, 'Produces the correct time in milliseconds');//within 5ms
   });
 
-  QUnit.test('uniqueId', function(assert) {
-    var ids = [], i = 0;
-    while (i++ < 100) ids.push(_.uniqueId());
-    assert.strictEqual(_.uniq(ids).length, ids.length, 'can generate a globally-unique stream of ids');
-  });
-
   QUnit.test('times', function(assert) {
     var vals = [];
     _.times(3, function(i) { vals.push(i); });
