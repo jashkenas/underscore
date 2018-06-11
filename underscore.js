@@ -1512,11 +1512,10 @@
     return obj;
   };
 
-  // Generate a unique integer id (unique within the entire client session).
+  // Generate a unique integer id (unique within the entire client session, based on timestamp).
   // Useful for temporary DOM ids.
-  var idCounter = 0;
   _.uniqueId = function(prefix) {
-    var id = ++idCounter + '';
+	var id = Date.now();
     return prefix ? prefix + id : id;
   };
 
