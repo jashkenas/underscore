@@ -1618,6 +1618,46 @@
     return instance;
   };
 
+  // A `safeInterval` is the replacer for `setInterval` because
+  // we cannot guaruntee each time's execution time MUST BE less than the interval one.
+  //
+  // Consider this example following:
+  // ```
+  // setInterval(()=>
+  // {
+  //   // Suppose this takes 2 seconds
+  // },1000);   //The interval time is 1 second
+  // ```
+  // Because the body of the execution function takes 2 seconds, which is larger than interval time (1 second). 
+  // Sometimes this is a serious problem because the first loop hasn't been totally executed, and the next comes.
+  // So we need a SAFE interval that will execute the customized func, and when the function
+  // is finished and it will wait for `interval time` and execute in a loop again.
+  _.safeInterval = function (exeFunc, intervalTime) {
+
+    // If the `intervalTime` isn't a number or less than or equal to 0, execute ONLY ONCE
+    if (!_.isNumber(intervalTime) || intervalTime <= 0) {
+      exeFunc(null);
+    }
+    else {
+
+      var _intervalTime = intervalTime;
+
+      setTimeout(function _innerCallBack () {
+
+        try {
+          // Execute the customized function, with a callback for the outer's `setTimeout` function to be executed.
+          exeFunc(function () {
+            // Create another anoymous function with `_intervalTime`
+            setTimeout(_innerCallBack, _intervalTime);
+          });
+        } catch (e) {
+          // Ignore the error, we don't need any other loop execution.
+          // So this loop is stopped.
+        }
+      }, 0);
+    }
+  };
+
   // OOP
   // ---------------
   // If Underscore is called as a function, it returns a wrapped object that

@@ -449,4 +449,65 @@
     assert.strictEqual(template(), '<<\nx\n>>');
   });
 
+  QUnit.test('safeInterval executes only once when time is invalid.', function (assert) {
+
+    var invalidTimes = [null, undefined, -1, 0];
+
+    for (var i = 0; i < invalidTimes.length; ++i) {
+
+      // For time is valid, this isn't actually an async function but a sync function
+      // So we don't need `assert.async()`.
+      _.safeInterval(function (callback) {
+        assert.ok(callback === null, 'safeInterval without callback is OK.');
+      }, invalidTimes[i]);
+    }
+
+  });
+
+  QUnit.test('safeInterval makes your function is executed completely.', function (assert) {
+
+    var asyncCallback = null;
+    var prevTime = Date.now();
+    var times = 1;
+    // Every 5 seconds to execute
+    var intervalTime = 1500;
+
+    // Because QUnit MUST need a test or there'll be an error thrown out saying
+    // `There's no unit test case called.` So `expect(0)` is firstly called.
+    assert.expect(0);
+
+    // We need this because this is a async function.
+    var asyncCallback = assert.async();
+
+    _.safeInterval(function (callback) {
+
+      if (times > 5) return;
+      // Ignore this, because 1st the customized function will be executed immediately
+      else if (times === 1) {
+        times++;
+        asyncCallback();
+        callback();
+      }
+      else {
+        asyncCallback = assert.async();
+
+        // Generate a random number for waiting, larger than `intervalTime`
+        var randomTimeWait = (Math.random() * 10 + intervalTime + 10) | 0;
+
+        // Moke a function whose delay time is larger than intervaltime
+        _.delay(function () {
+          var currentTime = Date.now();
+          var diff = currentTime - prevTime;
+          // Make sure diff time MUST BE larger than `intervalTime` milliSeconds.
+          assert.ok(diff >= intervalTime, 'Test is OK.');
+          prevTime = currentTime;
+          times++;
+          asyncCallback();
+          callback();
+        }, randomTimeWait);
+      }
+    }, intervalTime);
+
+  });
+  
 }());
