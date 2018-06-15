@@ -705,7 +705,7 @@
     if (typeof Map === 'function') {
       var keyString = 'a string';
       var obj = new Map();
-      obj.set(keyString, 'value');
+      obj.set(keyString, "value associated with 'a string'");
       assert.ok(_.isMap(obj), 'but a map is');
     }
   });
@@ -750,8 +750,7 @@
       assert.ok(!_.isSet(new WeakSet()), 'a weakset is not a set');
     }
     if (typeof Set === 'function') {
-      var obj = new Set();
-      obj.add(1).add('string').add(false).add({});
+      var obj = new Set([1, 2, 3, 4, 5]);
       assert.ok(_.isSet(obj), 'but a set is');
     }
   });
