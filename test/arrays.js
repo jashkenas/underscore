@@ -572,4 +572,10 @@
     assert.deepEqual(_.chunk([10, 20, 30, 40, 50, 60, 70], 2), [[10, 20], [30, 40], [50, 60], [70]], 'chunk into parts of less then current array length elements');
     assert.deepEqual(_.chunk([10, 20, 30, 40, 50, 60, 70], 3), [[10, 20, 30], [40, 50, 60], [70]], 'chunk into parts of less then current array length elements');
   });
+
+  QUnit.test('eachElementCount', function(assert) {
+    assert.deepEqual(_.eachElementCount([]), {}, 'eachElementCount for empty array returns an empty object');
+    assert.deepEqual(_.eachElementCount([1, 2, 3,3,3,1,3]), { '1': 2, '2': 1, '3': 4 }, 'eachElement count returns an object of elements occurrence count');
+    assert.deepEqual(_.eachElementCount(['abi', 'aru', 'hampi', 'abi']), { abi: 2, aru: 1, hampi: 1 }, 'eachElement count returns an object of elements occurrence count for strings');
+  });
 }());
