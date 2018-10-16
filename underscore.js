@@ -753,6 +753,19 @@
     return result;
   };
 
+  //EachElementCount returns a object with arrays each elements number of occurrence.
+    _.eachElementCount = function (array) {
+      var elementCount = {};
+      array.forEach(function (element) {
+        var count = 0;
+        array.forEach(function (ele) {
+          ele == element && count++;
+        });
+        (typeof(element) == 'object') ? elementCount[JSON.stringify(element)] = count : elementCount[element] = count;
+      });
+      return elementCount;
+    };
+
   // Function (ahem) Functions
   // ------------------
 
