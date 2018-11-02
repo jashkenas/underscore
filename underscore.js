@@ -40,9 +40,9 @@
 
   // Create a safe reference to the Underscore object for use below.
   var _ = function(obj) {
-    if (obj instanceof _) return obj;
+    if ('__wrapped__' in obj && '_wrapped' in obj) return obj;
     if (!(this instanceof _)) return new _(obj);
-    this._wrapped = obj;
+    this._wrapped = this.__wrapped__ = obj;
   };
 
   // Export the Underscore object for **Node.js**, with
