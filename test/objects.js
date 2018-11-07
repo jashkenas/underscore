@@ -71,6 +71,11 @@
     function y() {}
     y.x = 'z';
     assert.deepEqual(_.allKeys(y), ['x'], 'should get keys from constructor');
+
+    var symbolsHash = {a: 10, 'hello': 'world'};
+    var symbol1 = Symbol(1);
+    symbolsHash[symbol1] = 100;
+    assert.deepEqual(_.allKeys(symbolsHash), ['a', 'hello', symbol1], 'should get all keys including symbol');
   });
 
   QUnit.test('values', function(assert) {
