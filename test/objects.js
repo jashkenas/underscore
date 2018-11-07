@@ -221,6 +221,13 @@
     result = _.omit({a: 1, b: 2, c: 3}, 'b');
     assert.deepEqual(result, {a: 1, c: 3}, 'can omit a single named property');
 
+    result = _.omit({a: 1, b: 2, c: 3}, 'a', 'c');
+    assert.deepEqual(result, {b: 2}, 'can omit several named properties');
+    result = _.omit({a: 1, b: 2, c: 3}, ['b', 'c']);
+    assert.deepEqual(result, {a: 1}, 'can omit properties named in an array');
+    result = _.omit(['a', 'b'], 0);
+    assert.deepEqual(result, {1: 'b'}, 'can omit numeric properties');
+
     var symbolA = Symbol('A');
     var symbolB = Symbol('B');
     var symbolsHash = {};

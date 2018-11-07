@@ -1140,7 +1140,10 @@
       iteratee = _.negate(iteratee);
       if (keys.length > 1) context = keys[1];
     } else {
-      keys = flatten(keys, false, false);
+      keys = _.map(flatten(keys, false, false), function (key) {
+          if((typeof key) === 'symbol') return key;
+          return String(key);
+      });
       iteratee = function(value, key) {
         return !_.contains(keys, key);
       };
