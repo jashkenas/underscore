@@ -215,12 +215,21 @@
     var result;
     result = _.omit({a: 1, b: 2, c: 3}, 'b');
     assert.deepEqual(result, {a: 1, c: 3}, 'can omit a single named property');
-    result = _.omit({a: 1, b: 2, c: 3}, 'a', 'c');
-    assert.deepEqual(result, {b: 2}, 'can omit several named properties');
-    result = _.omit({a: 1, b: 2, c: 3}, ['b', 'c']);
-    assert.deepEqual(result, {a: 1}, 'can omit properties named in an array');
-    result = _.omit(['a', 'b'], 0);
-    assert.deepEqual(result, {1: 'b'}, 'can omit numeric properties');
+
+    var symbolA = Symbol('A');
+    var symbolB = Symbol('B');
+    var symbolsHash = {};
+    symbolsHash[symbolA] = 10;
+    symbolsHash[symbolB] = 20;
+    result = _.omit(symbolsHash, symbolB);
+    assert.deepEqual(result[symbolA], 10, 'can retrieve existing hash value');
+    assert.deepEqual(result[symbolB], undefined, 'non existing key returns undefined after omitting a key');
+
+    var hybridHash = { a: 99, 'hello': 'world' };
+    hybridHash[symbolB] = 30;
+    result = _.omit(hybridHash, 'hello');
+    assert.deepEqual(result[symbolB], 30, 'can retrieve existing hash symbol value');
+    assert.deepEqual(result.a, 99, 'can retrieve existing non symbol symbol value');
 
     assert.deepEqual(_.omit(null, 'a', 'b'), {}, 'non objects return empty object');
     assert.deepEqual(_.omit(void 0, 'toString'), {}, 'null/undefined return empty object');

@@ -1009,6 +1009,7 @@
     if (!_.isObject(obj)) return [];
     var keys = [];
     for (var key in obj) keys.push(key);
+    keys = keys.concat(Object.getOwnPropertySymbols(obj));
     // Ahem, IE < 9.
     if (hasEnumBug) collectNonEnumProps(obj, keys);
     return keys;
@@ -1139,7 +1140,7 @@
       iteratee = _.negate(iteratee);
       if (keys.length > 1) context = keys[1];
     } else {
-      keys = _.map(flatten(keys, false, false), String);
+      keys = flatten(keys, false, false);
       iteratee = function(value, key) {
         return !_.contains(keys, key);
       };
