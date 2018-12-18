@@ -245,6 +245,14 @@
     var key = keyFinder(obj, predicate, context);
     if (key !== void 0 && key !== -1) return obj[key];
   };
+  
+  // Similar to `find`, but returns the first item to pass the predicate
+  // test only if a single item passes; otherwise returns undefined.
+  _.single = function(obj, predicate, context) {
+    var filter = _.filter(obj, predicate, context);
+    if (filter.length === 1) return filter[0];
+    return undefined;
+  };
 
   // Return all the elements that pass a truth test.
   // Aliased as `select`.
