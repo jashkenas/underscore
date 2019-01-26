@@ -42,7 +42,7 @@
     "doc": "docco underscore.js",
     "weight": "npm run minify | gzip-size | pretty-bytes"
   },
-  "license": "MIT",
+  "license": "Expat",
   "files": [
     "underscore.js",
     "underscore-min.js",
