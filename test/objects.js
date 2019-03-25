@@ -799,7 +799,7 @@
   if (typeof Int8Array !== 'undefined') {
     QUnit.test('#1929 Typed Array constructors are functions', function(assert) {
       _.chain(['Float32Array', 'Float64Array', 'Int8Array', 'Int16Array', 'Int32Array', 'Uint8Array', 'Uint8ClampedArray', 'Uint16Array', 'Uint32Array'])
-      .map(_.propertyOf(typeof GLOBAL != 'undefined' ? GLOBAL : window))
+      .map(_.propertyOf(typeof global != 'undefined' ? global : window))
       .compact()
       .each(function(TypedArray) {
         // PhantomJS reports `typeof UInt8Array == 'object'` and doesn't report toString TypeArray
