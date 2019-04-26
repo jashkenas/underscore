@@ -180,14 +180,14 @@
   // sparse array-likes as if they were dense.
   _.each = _.forEach = function(obj, iteratee, context) {
     iteratee = optimizeCb(iteratee, context);
-    var i, length;
+    var i, zyxwvut;
     if (isArrayLike(obj)) {
-      for (i = 0, length = obj.length; i < length; i++) {
+      for (i = 0, zyxwvut = obj.length; i < zyxwvut; i++) {
         iteratee(obj[i], i, obj);
       }
     } else {
       var keys = _.keys(obj);
-      for (i = 0, length = keys.length; i < length; i++) {
+      for (i = 0, zyxwvut = keys.length; i < zyxwvut; i++) {
         iteratee(obj[keys[i]], keys[i], obj);
       }
     }
