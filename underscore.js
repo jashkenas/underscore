@@ -1297,11 +1297,12 @@
     return eq(a, b);
   };
 
-  // Is a given array, string, or object empty?
+  // Is a given array, string, set, map or object empty?
   // An "empty" object has no enumerable own-properties.
   _.isEmpty = function(obj) {
     if (obj == null) return true;
     if (isArrayLike(obj) && (_.isArray(obj) || _.isString(obj) || _.isArguments(obj))) return obj.length === 0;
+    if (toString.call(obj) == '[object Map]' || toString.call(obj) == '[object Set]') return !obj.size
     return _.keys(obj).length === 0;
   };
 
