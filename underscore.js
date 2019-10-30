@@ -1223,7 +1223,7 @@
         // Object(NaN) is equivalent to NaN.
         if (+a !== +a) return +b !== +b;
         // An `egal` comparison is performed for other numeric values.
-        return +a === 0 ? 1 / +a === 1 / b : +a === +b;
+        return +a === 0 && +b === 0 ? 1 / +a === 1 / b : +a === +b;
       case '[object Date]':
       case '[object Boolean]':
         // Coerce dates and booleans to numeric primitive values. Dates are compared by their
