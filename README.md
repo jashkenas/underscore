@@ -13,11 +13,11 @@ support for the usual functional suspects (each, map, reduce, filter...)
 without extending any core JavaScript objects.
 
 For Docs, License, Tests, and pre-packed downloads, see:
-http://underscorejs.org
+https://underscorejs.org
 
 For support and questions, please use
 [the gitter channel](https://gitter.im/jashkenas/underscore)
-or [stackoverflow](http://stackoverflow.com/search?q=underscore.js)
+or [stackoverflow](https://stackoverflow.com/search?q=underscore.js)
 
 Underscore is an open-sourced component of DocumentCloud:
 https://github.com/documentcloud

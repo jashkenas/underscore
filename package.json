@@ -1,7 +1,7 @@
 {
   "name": "underscore",
   "description": "JavaScript's functional programming helper library.",
-  "homepage": "http://underscorejs.org",
+  "homepage": "https://underscorejs.org",
   "keywords": [
     "util",
     "functional",

@@ -667,7 +667,7 @@
   config.modules.push(config.currentModule);
 
   // Based on jsDump by Ariel Flesler
-  // http://flesler.blogspot.com/2008/05/jsdump-pretty-dump-of-any-javascript.html
+  // https://flesler.blogspot.com/2008/05/jsdump-pretty-dump-of-any-javascript.html
   var dump = (function () {
   	function quote(str) {
   		return "\"" + str.toString().replace(/\\/g, "\\\\").replace(/"/g, "\\\"") + "\"";
@@ -1199,7 +1199,7 @@
   function unitSamplerGenerator(seed) {
 
   	// 32-bit xorshift, requires only a nonzero seed
-  	// http://excamera.com/sphinx/article-xorshift.html
+  	// https://excamera.com/sphinx/article-xorshift.html
   	var sample = parseInt(generateHash(seed), 16) || -1;
   	return function () {
   		sample ^= sample << 13;
