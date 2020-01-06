@@ -15,7 +15,7 @@
     "url": "git://github.com/jashkenas/underscore.git"
   },
   "main": "underscore.js",
-  "version": "1.9.1",
+  "version": "1.9.2",
   "devDependencies": {
     "coveralls": "^2.11.2",
     "docco": "*",

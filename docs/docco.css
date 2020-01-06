@@ -131,7 +131,7 @@ ul.sections {
   Force border-box so that % widths fit the parent
   container without overlap because of margin/padding.
 
-  More Info : https://www.quirksmode.org/css/box.html
+  More Info : http://www.quirksmode.org/css/box.html
 */
 ul.sections > li > div {
   -moz-box-sizing: border-box;    /* firefox */
