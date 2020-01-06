@@ -846,6 +846,7 @@
 
     var later = function() {
       previous = options.leading === false ? 0 : _.now();
+      clearTimeout(timeout);
       timeout = null;
       result = func.apply(context, args);
       if (!timeout) context = args = null;
@@ -858,10 +859,6 @@
       context = this;
       args = arguments;
       if (remaining <= 0 || remaining > wait) {
-        if (timeout) {
-          clearTimeout(timeout);
-          timeout = null;
-        }
         previous = now;
         result = func.apply(context, args);
         if (!timeout) context = args = null;
