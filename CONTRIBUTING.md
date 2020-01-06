@@ -6,7 +6,7 @@
 
 * If you're proposing a new feature, make sure it isn't already implemented in [Underscore-Contrib](https://github.com/documentcloud/underscore-contrib).
 
-* Before sending a pull request for a feature, be sure to have [tests](http://underscorejs.org/test/).
+* Before sending a pull request for a feature, be sure to have [tests](https://underscorejs.org/test/).
 
 * Use the same coding style as the rest of the [codebase](https://github.com/jashkenas/underscore/blob/master/underscore.js).
 
