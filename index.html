@@ -1826,7 +1826,7 @@ _.isBoolean(null);
       <p id="isDate">
         <b class="header">isDate</b><code>_.isDate(object)</code>
         <br />
-        Returns <i>true</i> if <b>object</b> is a Date.
+        Returns <i>true</i> if <b>object</b> is a Date. Doesn't verify if it is a valid date, for example <tt>new Date("invalid date")</tt> will still return true.
       </p>
       <pre>
 _.isDate(new Date());
