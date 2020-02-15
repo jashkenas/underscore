@@ -288,6 +288,24 @@
     return false;
   };
 
+  var createDetermine = function(result) {
+    return function(obj, predicate, context) {
+      predicate = cb(predicate, context);
+      var keys = !isArrayLike(obj) && _.keys(obj),
+        length = (keys || obj).length;
+      for (var index = 0; index < length; index++) {
+        var currentKey = keys ? keys[index] : index;
+        if (predicate(obj[currentKey], currentKey, obj) == result) return result;
+      }
+      return !result;
+    };
+  };
+
+  // any false return false else return true.
+  _.every = _.all = createDetermine(false);
+  // any true return true else return false.
+  _.some = _.any = createDetermine(true);
+
   // Determine if the array or object contains a given item (using `===`).
   // Aliased as `includes` and `include`.
   _.contains = _.includes = _.include = function(obj, item, fromIndex, guard) {
