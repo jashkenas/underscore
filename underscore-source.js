@@ -18,9 +18,6 @@
             this ||
             {};
 
-  // Save the previous value of the `_` variable.
-  var previousUnderscore = root._;
-
   // Save bytes in the minified (but not gzipped) version:
   var ArrayProto = Array.prototype, ObjProto = Object.prototype;
   var SymbolProto = typeof Symbol !== 'undefined' ? Symbol.prototype : null;
@@ -1405,13 +1402,6 @@
 
   // Utility Functions
   // -----------------
-
-  // Run Underscore.js in *noConflict* mode, returning the `_` variable to its
-  // previous owner. Returns a reference to the Underscore object.
-  export function noConflict() {
-    root._ = previousUnderscore;
-    return this;
-  }
 
   // Keep the identity function around for default iteratees.
   export function identity(value) {
