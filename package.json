@@ -36,15 +36,16 @@
     "test": "npm run lint && npm run test-node",
     "coverage": "nyc npm run test-node && nyc report",
     "coveralls": "nyc npm run test-node && nyc report --reporter=text-lcov | coveralls",
-    "lint": "eslint underscore.js test/*.js",
-    "test-node": "qunit-cli test/*.js",
-    "test-browser": "npm i karma-phantomjs-launcher && karma start",
+    "lint": "eslint underscore-{source,module,umd}.js test/*.js",
+    "test-node": "npm run prepare-tests && qunit-cli test/*.js",
+    "test-browser": "npm run prepare-tests && npm i karma-phantomjs-launcher && karma start",
     "bundle": "rollup --config",
     "bundle-treeshake": "cd test-treeshake && npx rollup@latest --config",
+    "prepare-tests": "npm run bundle && npm run bundle-treeshake",
     "minify": "uglifyjs underscore.js -c \"evaluate=false\" --comments \"/    .*/\" -m",
-    "build": "npm run minify -- --source-map --source-map-url \" \" -o underscore-min.js",
-    "doc": "docco underscore.js",
-    "weight": "npm run minify | gzip-size | pretty-bytes"
+    "build": "npm run bundle && npm run minify -- --source-map content=underscore.js.map --source-map-url \" \" -o underscore-min.js",
+    "doc": "npm run bundle && docco underscore-source.js underscore-module.js",
+    "weight": "npm run bundle && npm run minify | gzip-size | pretty-bytes"
   },
   "license": "MIT",
   "files": [
