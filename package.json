@@ -40,6 +40,7 @@
     "test-node": "qunit-cli test/*.js",
     "test-browser": "npm i karma-phantomjs-launcher && karma start",
     "bundle": "rollup --config",
+    "bundle-treeshake": "cd test-treeshake && npx rollup@latest --config",
     "minify": "uglifyjs underscore.js -c \"evaluate=false\" --comments \"/    .*/\" -m",
     "build": "npm run minify -- --source-map --source-map-url \" \" -o underscore-min.js",
     "doc": "docco underscore.js",
