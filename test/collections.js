@@ -578,17 +578,17 @@
   });
 
   QUnit.test('max', function(assert) {
-    assert.strictEqual(-Infinity, _.max(null), 'can handle null/undefined');
-    assert.strictEqual(-Infinity, _.max(void 0), 'can handle null/undefined');
-    assert.strictEqual(-Infinity, _.max(null, _.identity), 'can handle null/undefined');
+    assert.strictEqual(_.max(null), -Infinity, 'can handle null/undefined');
+    assert.strictEqual(_.max(void 0), -Infinity, 'can handle null/undefined');
+    assert.strictEqual(_.max(null, _.identity), -Infinity, 'can handle null/undefined');
 
     assert.strictEqual(_.max([1, 2, 3]), 3, 'can perform a regular Math.max');
 
     var neg = _.max([1, 2, 3], function(num){ return -num; });
     assert.strictEqual(neg, 1, 'can perform a computation-based max');
 
-    assert.strictEqual(-Infinity, _.max({}), 'Maximum value of an empty object');
-    assert.strictEqual(-Infinity, _.max([]), 'Maximum value of an empty array');
+    assert.strictEqual(_.max({}), -Infinity, 'Maximum value of an empty object');
+    assert.strictEqual(_.max([]), -Infinity, 'Maximum value of an empty array');
     assert.strictEqual(_.max({a: 'a'}), -Infinity, 'Maximum value of a non-numeric collection');
 
     assert.strictEqual(_.max(_.range(1, 300000)), 299999, 'Maximum value of a too-big array');
