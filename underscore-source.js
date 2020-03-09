@@ -1308,7 +1308,7 @@
   }
 
   // Internal function for creating a toString-based type tester.
-  function typeTester(name) {
+  function tagTester(name) {
     return function(obj) {
       return toString.call(obj) === '[object ' + name + ']';
     };
@@ -1316,7 +1316,7 @@
 
   // Is a given value an array?
   // Delegates to ECMA5's native Array.isArray
-  export var isArray = nativeIsArray || typeTester('Array');
+  export var isArray = nativeIsArray || tagTester('Array');
 
   // Is a given variable an object?
   export function isObject(obj) {
@@ -1325,18 +1325,18 @@
   }
 
   // Add some isType methods: isArguments, isFunction, isString, isNumber, isDate, isRegExp, isError, isMap, isWeakMap, isSet, isWeakSet.
-  export var isArguments = typeTester('Arguments');
-  export var isFunction = typeTester('Function');
-  export var isString = typeTester('String');
-  export var isNumber = typeTester('Number');
-  export var isDate = typeTester('Date');
-  export var isRegExp = typeTester('RegExp');
-  export var isError = typeTester('Error');
-  export var isSymbol = typeTester('Symbol');
-  export var isMap = typeTester('Map');
-  export var isWeakMap = typeTester('WeakMap');
-  export var isSet = typeTester('Set');
-  export var isWeakSet = typeTester('WeakSet');
+  export var isArguments = tagTester('Arguments');
+  export var isFunction = tagTester('Function');
+  export var isString = tagTester('String');
+  export var isNumber = tagTester('Number');
+  export var isDate = tagTester('Date');
+  export var isRegExp = tagTester('RegExp');
+  export var isError = tagTester('Error');
+  export var isSymbol = tagTester('Symbol');
+  export var isMap = tagTester('Map');
+  export var isWeakMap = tagTester('WeakMap');
+  export var isSet = tagTester('Set');
+  export var isWeakSet = tagTester('WeakSet');
 
   // Define a fallback version of the method in browsers (ahem, IE < 9), where
   // there isn't any inspectable "Arguments" type.
