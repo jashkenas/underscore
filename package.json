@@ -15,7 +15,7 @@
     "url": "git://github.com/jashkenas/underscore.git"
   },
   "main": "underscore.js",
-  "module": "underscore-module.js",
+  "module": "modules/index-all.js",
   "version": "1.9.2",
   "devDependencies": {
     "coveralls": "^2.11.2",
@@ -52,6 +52,7 @@
   "files": [
     "underscore.js",
     "underscore-min.js",
-    "underscore-min.js.map"
+    "underscore-min.js.map",
+    "modules/"
   ]
 }
