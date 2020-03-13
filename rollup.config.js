@@ -1,5 +1,5 @@
 module.exports = {
-  input: 'underscore-umd.js',
+  input: 'modules/index-default.js',
   treeshake: false,
   context: 'this',
   output: {

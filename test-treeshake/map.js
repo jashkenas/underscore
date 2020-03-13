@@ -1,1 +1,1 @@
-export { map } from '../underscore-source';
+export { map } from '../modules/index';

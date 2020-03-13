@@ -38,7 +38,7 @@ var _isNaN = root.isNaN,
 var Ctor = function(){};
 
 // The Underscore object. All exported functions below are added to it in the
-// underscore-module.js using the mixin function.
+// modules/index-all.js using the mixin function.
 export default function _(obj) {
   if (obj instanceof _) return obj;
   if (!(this instanceof _)) return new _(obj);

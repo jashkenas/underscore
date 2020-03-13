@@ -37,7 +37,7 @@
     "test": "npm run lint && npm run test-node",
     "coverage": "nyc npm run test-node && nyc report",
     "coveralls": "nyc npm run test-node && nyc report --reporter=text-lcov | coveralls",
-    "lint": "eslint underscore-{source,module,umd}.js test/*.js",
+    "lint": "eslint modules/*.js test/*.js",
     "test-node": "npm run prepare-tests && qunit-cli test/*.js",
     "test-browser": "npm run prepare-tests && npm i karma-phantomjs-launcher && karma start",
     "bundle": "rollup --config",

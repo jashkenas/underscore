@@ -1,1 +1,1 @@
-export { template } from '../underscore-module';
+export { template } from '../modules/index-all';
