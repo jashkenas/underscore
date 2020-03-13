@@ -169,7 +169,6 @@ function isArrayLike(collection) {
 // The cornerstone, an `each` implementation, aka `forEach`.
 // Handles raw objects in addition to array-likes. Treats all
 // sparse array-likes as if they were dense.
-export { each as forEach };
 export function each(obj, iteratee, context) {
   iteratee = optimizeCb(iteratee, context);
   var i, length;
@@ -185,9 +184,9 @@ export function each(obj, iteratee, context) {
   }
   return obj;
 }
+export { each as forEach };
 
 // Return the results of applying the iteratee to each element.
-export { map as collect };
 export function map(obj, iteratee, context) {
   iteratee = cb(iteratee, context);
   var _keys = !isArrayLike(obj) && keys(obj),
@@ -199,6 +198,7 @@ export function map(obj, iteratee, context) {
   }
   return results;
 }
+export { map as collect };
 
 // Create a reducing function iterating left or right.
 function createReduce(dir) {
@@ -235,15 +235,14 @@ export var reduceRight = createReduce(-1);
 export { reduceRight as foldr };
 
 // Return the first value which passes a truth test.
-export { find as detect };
 export function find(obj, predicate, context) {
   var keyFinder = isArrayLike(obj) ? findIndex : findKey;
   var key = keyFinder(obj, predicate, context);
   if (key !== void 0 && key !== -1) return obj[key];
 }
+export { find as detect };
 
 // Return all the elements that pass a truth test.
-export { filter as select };
 export function filter(obj, predicate, context) {
   var results = [];
   predicate = cb(predicate, context);
@@ -252,6 +251,7 @@ export function filter(obj, predicate, context) {
   });
   return results;
 }
+export { filter as select };
 
 // Return all the elements for which a truth test fails.
 export function reject(obj, predicate, context) {
@@ -259,7 +259,6 @@ export function reject(obj, predicate, context) {
 }
 
 // Determine whether all of the elements match a truth test.
-export { every as all };
 export function every(obj, predicate, context) {
   predicate = cb(predicate, context);
   var _keys = !isArrayLike(obj) && keys(obj),
@@ -270,9 +269,9 @@ export function every(obj, predicate, context) {
   }
   return true;
 }
+export { every as all };
 
 // Determine if at least one element in the object matches a truth test.
-export { some as any };
 export function some(obj, predicate, context) {
   predicate = cb(predicate, context);
   var _keys = !isArrayLike(obj) && keys(obj),
@@ -283,14 +282,15 @@ export function some(obj, predicate, context) {
   }
   return false;
 }
+export { some as any };
 
 // Determine if the array or object contains a given item (using `===`).
-export { contains as includes, contains as include };
 export function contains(obj, item, fromIndex, guard) {
   if (!isArrayLike(obj)) obj = values(obj);
   if (typeof fromIndex != 'number' || guard) fromIndex = 0;
   return indexOf(obj, item, fromIndex) >= 0;
 }
+export { contains as includes, contains as include };
 
 // Invoke a method (with arguments) on every item in a collection.
 export var invoke = restArguments(function(obj, path, args) {
@@ -491,12 +491,12 @@ export var partition = group(function(result, value, pass) {
 
 // Get the first element of an array. Passing **n** will return the first N
 // values in the array. The **guard** check allows it to work with `map`.
-export { first as head, first as take };
 export function first(array, n, guard) {
   if (array == null || array.length < 1) return n == null ? void 0 : [];
   if (n == null || guard) return array[0];
   return initial(array, array.length - n);
 }
+export { first as head, first as take };
 
 // Returns everything but the last entry of the array. Especially useful on
 // the arguments object. Passing **n** will return all the values in
@@ -516,10 +516,10 @@ export function last(array, n, guard) {
 // Returns everything but the first entry of the array. Especially useful on
 // the arguments object. Passing an **n** will return the rest N values in the
 // array.
-export { rest as tail, rest as drop };
 export function rest(array, n, guard) {
   return slice.call(array, n == null || guard ? 1 : n);
 }
+export { rest as tail, rest as drop };
 
 // Trim out all falsy values from an array.
 export function compact(array) {
@@ -563,7 +563,6 @@ export var without = restArguments(function(array, otherArrays) {
 // The faster algorithm will not work with an iteratee if the iteratee
 // is not a one-to-one function, so providing an iteratee will disable
 // the faster algorithm.
-export { uniq as unique };
 export function uniq(array, isSorted, iteratee, context) {
   if (!isBoolean(isSorted)) {
     context = iteratee;
@@ -590,6 +589,7 @@ export function uniq(array, isSorted, iteratee, context) {
   }
   return result;
 }
+export { uniq as unique };
 
 // Produce an array that contains the union: each distinct element from all of
 // the passed-in arrays.
@@ -1057,7 +1057,6 @@ export function invert(obj) {
 }
 
 // Return a sorted list of the function names available on the object.
-export { functions as methods };
 export function functions(obj) {
   var names = [];
   for (var key in obj) {
@@ -1065,6 +1064,7 @@ export function functions(obj) {
   }
   return names.sort();
 }
+export { functions as methods };
 
 // An internal function for creating assigner functions.
 function createAssigner(keysFunc, defaults) {
@@ -1437,13 +1437,13 @@ export function propertyOf(obj) {
 
 // Returns a predicate for checking whether an object has a given set of
 // `key:value` pairs.
-export { matcher as matches };
 export function matcher(attrs) {
   attrs = extendOwn({}, attrs);
   return function(obj) {
     return isMatch(obj, attrs);
   };
 }
+export { matcher as matches };
 
 // Run a function **n** times.
 export function times(n, iteratee, context) {
