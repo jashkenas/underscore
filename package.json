@@ -45,7 +45,7 @@
     "prepare-tests": "npm run bundle && npm run bundle-treeshake",
     "minify": "uglifyjs underscore.js -c \"evaluate=false\" --comments \"/    .*/\" -m",
     "build": "npm run bundle && npm run minify -- --source-map content=underscore.js.map --source-map-url \" \" -o underscore-min.js",
-    "doc": "npm run bundle && docco underscore-source.js underscore-module.js",
+    "doc": "cd docs && rollup -c && docco -o . underscore.js",
     "weight": "npm run bundle && npm run minify | gzip-size | pretty-bytes"
   },
   "license": "MIT",
