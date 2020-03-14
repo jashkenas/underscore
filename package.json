@@ -40,7 +40,7 @@
     "lint": "eslint modules/*.js test/*.js",
     "test-node": "npm run prepare-tests && qunit-cli test/*.js",
     "test-browser": "npm run prepare-tests && npm i karma-phantomjs-launcher && karma start",
-    "bundle": "rollup --config",
+    "bundle": "rollup --config && eslint underscore.js",
     "bundle-treeshake": "cd test-treeshake && npx rollup@latest --config",
     "prepare-tests": "npm run bundle && npm run bundle-treeshake",
     "minify": "uglifyjs underscore.js -c \"evaluate=false\" --comments \"/    .*/\" -m",
