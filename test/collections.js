@@ -1,5 +1,11 @@
 (function() {
   var _ = typeof require == 'function' ? require('..') : window._;
+  var functions = [
+    'each', 'map', 'filter', 'find',
+    'some', 'every', 'max', 'min',
+    'groupBy', 'countBy', 'partition', 'indexBy'
+  ];
+  var reducers = ['reduce', 'reduceRight'];
 
   QUnit.module('Collections');
 
@@ -60,13 +66,6 @@
   });
 
   QUnit.test('Iterating objects with sketchy length properties', function(assert) {
-    var functions = [
-      'each', 'map', 'filter', 'find',
-      'some', 'every', 'max', 'min',
-      'groupBy', 'countBy', 'partition', 'indexBy'
-    ];
-    var reducers = ['reduce', 'reduceRight'];
-
     var tricks = [
       {length: '5'},
       {length: {valueOf: _.constant(5)}},
@@ -96,6 +95,28 @@
       _.each(reducers, function(method) {
         assert.strictEqual(_[method](trick), trick.length, method);
       });
+    });
+  });
+
+  QUnit.test('Iterating functions', function(assert) {
+    var func = function(a, b, c) {};
+    var prop = func.prop = 'd';
+    var length = func.length;
+    assert.expect(functions.length + reducers.length + 4);
+
+    assert.strictEqual(_.size(func), 1, 'size on func with length: ' + length);
+    assert.deepEqual(_.toArray(func), [prop], 'toArray on func with length: ' + length);
+    assert.deepEqual(_.shuffle(func), [prop], 'shuffle on func with length: ' + length);
+    assert.deepEqual(_.sample(func), prop, 'sample on func with length: ' + length);
+
+    _.each(functions, function(method) {
+      _[method](func, function(val, key) {
+        assert.strictEqual(key, 'prop', method + ': ran with prop = ' + val);
+      });
+    });
+
+    _.each(reducers, function(method) {
+      assert.strictEqual(_[method](func), func.prop, method);
     });
   });
 
