@@ -852,7 +852,7 @@
       previous = options.leading === false ? 0 : _.now();
       timeout = null;
       result = func.apply(context, args);
-      if (!timeout) context = args = null;
+      context = args = null;
     };
 
     var throttled = function() {
