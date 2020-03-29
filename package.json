@@ -23,6 +23,7 @@
     "eslint": "^6.8.0",
     "eslint-plugin-import": "^2.20.1",
     "gzip-size-cli": "^1.0.0",
+    "husky": "^4.2.3",
     "karma": "^0.13.13",
     "karma-qunit": "~2.0.1",
     "karma-sauce-launcher": "^1.2.0",
@@ -54,5 +55,11 @@
     "underscore-min.js",
     "underscore-min.js.map",
     "modules/"
-  ]
+  ],
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run bundle && git add underscore.js underscore.js.map",
+      "post-commit": "git reset underscore.js underscore.js.map"
+    }
+  }
 }
