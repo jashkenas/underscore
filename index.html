@@ -478,6 +478,9 @@
       <li>
         <b>Component</b> <tt>component install jashkenas/underscore</tt>
       </li>
+      <li>
+        <b>ExtendScript</b> <tt>#include "underscore.js"</tt>
+      </li>
     </ul>
 
     <div id="documentation">
@@ -2409,6 +2412,9 @@ _.chain([1, 2, 3]).reverse().value();
             Fixes a bug that would cause infinite recursion if an overridden
             implementation of <tt>_.iteratee</tt> attempted to fall back to the
             original implementation.
+          </li>
+          <li>
+            Restores compatibility with EcmaScript 3 and ExtendScript.
           </li>
         </ul>
       </p>
