@@ -5,3 +5,5 @@ node_modules
 *.swp
 nyc_output
 coverage
+test-treeshake/*-umd.js
+docs/underscore.js

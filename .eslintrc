@@ -3,5 +3,8 @@
     "browser": true,
     "node": true,
     "amd": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 3
   }
 }

@@ -14,8 +14,8 @@
 
   });
 
-  if (typeof this == 'object') {
-    QUnit.test('noConflict', function(assert) {
+  if (typeof require != 'function') {
+    QUnit.test('noConflict (browser)', function(assert) {
       var underscore = _.noConflict();
       assert.strictEqual(underscore.identity(1), 1);
       if (typeof require != 'function') {

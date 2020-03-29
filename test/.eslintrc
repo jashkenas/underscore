@@ -2,6 +2,7 @@
   "env": {
     "browser": true
   },
+  "parserOptions": {},
   "globals": {
     "QUnit": false
   },
