@@ -2405,6 +2405,11 @@ _.chain([1, 2, 3]).reverse().value();
             Makes the notation of the <tt>_.max</tt> unittest consistent with
             other unittests.
           </li>
+          <li>
+            Fixes a bug that would cause infinite recursion if an overridden
+            implementation of <tt>_.iteratee</tt> attempted to fall back to the
+            original implementation.
+          </li>
         </ul>
       </p>
 
