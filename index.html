@@ -481,6 +481,12 @@
       <li>
         <b>ExtendScript</b> <tt>#include "underscore.js"</tt>
       </li>
+      <li>
+        <b>Rollup</b> If you want to enable treeshaking and you don&rsquo;t
+        need the full <tt>_</tt> object (with all Underscore functions as
+        properties), you can import individual functions by name from
+        <tt>underscore/modules/index</tt> instead of <tt>underscore</tt>.
+      </li>
     </ul>
 
     <div id="documentation">
@@ -1953,12 +1959,15 @@ _.isUndefined(window.missingVariable);
       <p id="noConflict">
         <b class="header">noConflict</b><code>_.noConflict()</code>
         <br />
-        Give control of the <tt>_</tt> variable back to its previous owner. Returns
-        a reference to the <b>Underscore</b> object.
+        Give control of the global <tt>_</tt> variable back to its previous
+        owner. Returns a reference to the <b>Underscore</b> object.
       </p>
       <pre>
 var underscore = _.noConflict();
 </pre>
+      <p>
+        The <tt>_.noConflict</tt> function is not present if you use the EcmaScript 6, AMD or CommonJS module system to import Underscore.
+      </p>
 
       <p id="identity">
         <b class="header">identity</b><code>_.identity(value)</code>
@@ -2415,6 +2424,13 @@ _.chain([1, 2, 3]).reverse().value();
           </li>
           <li>
             Restores compatibility with EcmaScript 3 and ExtendScript.
+          </li>
+          <li>
+            Reformats the source code to use EcmaScript 6 <tt>export</tt>
+            notation. The <tt>underscore.js</tt> UMD bundle is now <i>compiled
+            from</i> underlying source modules instead of <i>being</i> the
+            source. From now on, Rollup users have the option to import from
+            the underlying source module in order to enable treeshaking.
           </li>
         </ul>
       </p>
