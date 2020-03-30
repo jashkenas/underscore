@@ -2405,8 +2405,15 @@ _.chain([1, 2, 3]).reverse().value();
       <h2 id="changelog">Change Log</h2>
 
       <p id="1.10.0">
-        <b class="header">1.10.0</b> &mdash; <!--TODO: date--> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.9.2...1.10.0">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/underscore/1.10.0/index.html">Docs</a><br />
+        <b class="header">1.10.0</b> &mdash; <small><i>March 30, 2020</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.9.2...1.10.0">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/underscore/1.10.0/index.html">Docs</a><br />
         <ul>
+          <li>
+            Reformats the source code to use EcmaScript 6 <tt>export</tt>
+            notation. The <tt>underscore.js</tt> UMD bundle is now <i>compiled
+            from</i> underlying source modules instead of <i>being</i> the
+            source. From now on, Rollup users have the option to import from
+            the underlying source module in order to enable treeshaking.
+          </li>
           <li>
             Explicitly states in the documentation, and verifies in the
             unittests, that <tt>_.sortedIndex(array, value)</tt> always returns
@@ -2424,13 +2431,6 @@ _.chain([1, 2, 3]).reverse().value();
           </li>
           <li>
             Restores compatibility with EcmaScript 3 and ExtendScript.
-          </li>
-          <li>
-            Reformats the source code to use EcmaScript 6 <tt>export</tt>
-            notation. The <tt>underscore.js</tt> UMD bundle is now <i>compiled
-            from</i> underlying source modules instead of <i>being</i> the
-            source. From now on, Rollup users have the option to import from
-            the underlying source module in order to enable treeshaking.
           </li>
         </ul>
       </p>
