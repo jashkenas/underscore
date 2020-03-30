@@ -9,7 +9,7 @@
   })();
 }(this, (function () {
 
-  //     Underscore.js 1.10.1
+  //     Underscore.js 1.10.2
   //     https://underscorejs.org
   //     (c) 2009-2020 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
   //     Underscore may be freely distributed under the MIT license.
@@ -57,7 +57,7 @@
   }
 
   // Current version.
-  var VERSION = _.VERSION = '1.10.1';
+  var VERSION = _.VERSION = '1.10.2';
 
   // Internal function that returns an efficient (for current engines) version
   // of the passed-in callback, to be repeatedly applied in other Underscore
@@ -1816,10 +1816,12 @@
     mixin: mixin
   });
 
-  // Add all of the Underscore functions to the wrapper object and return it.
-  var indexDefault = mixin(allExports);
+  // Add all of the Underscore functions to the wrapper object.
+  var _$1 = mixin(allExports);
+  // Legacy Node.js API
+  _$1._ = _$1;
 
-  return indexDefault;
+  return _$1;
 
 })));
 //# sourceMappingURL=underscore.js.map
