@@ -49,6 +49,14 @@
     });
   }
 
+  if (typeof require == 'function') {
+    QUnit.test('Legacy Node API', function(assert) {
+      var filename = __dirname + '/../underscore.js';
+      var resolved = require(filename);
+      assert.strictEqual(resolved, resolved._);
+    });
+  }
+
   QUnit.test('#750 - Return _ instance.', function(assert) {
     assert.expect(2);
     var instance = _([]);

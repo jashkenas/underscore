@@ -27,7 +27,7 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-1">&#182;</a>
               </div>
-              <pre><code>Underscore.js <span class="hljs-number">1.10</span><span class="hljs-number">.1</span>
+              <pre><code>Underscore.js <span class="hljs-number">1.10</span><span class="hljs-number">.2</span>
 https:<span class="hljs-comment">//underscorejs.org</span>
 (c) <span class="hljs-number">2009</span><span class="hljs-number">-2020</span> Jeremy Ashkenas, DocumentCloud and Investigative Reporters &amp; Editors
 Underscore may be freely distributed under the MIT license.
@@ -195,7 +195,7 @@ modules/index-all.js using the mixin function.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">var</span> VERSION = _.VERSION = <span class="hljs-string">'1.10.1'</span>;</pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">var</span> VERSION = _.VERSION = <span class="hljs-string">'1.10.2'</span>;</pre></div></div>
             
         </li>
         
@@ -4137,13 +4137,28 @@ _.prototype.toString = <span class="hljs-function"><span class="hljs-keyword">fu
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-192">&#182;</a>
               </div>
-              <p>Add all of the Underscore functions to the wrapper object and return it.</p>
+              <p>Add all of the Underscore functions to the wrapper object.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">var</span> indexDefault = mixin(allExports);
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">var</span> _$<span class="hljs-number">1</span> = mixin(allExports);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-193">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-193">&#182;</a>
+              </div>
+              <p>Legacy Node.js API</p>
 
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> indexDefault;
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>_$<span class="hljs-number">1.</span>_ = _$<span class="hljs-number">1</span>;
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> _$<span class="hljs-number">1</span>;
 <span class="hljs-keyword">export</span> { VERSION, iteratee, restArguments, each, each <span class="hljs-keyword">as</span> forEach, map, map <span class="hljs-keyword">as</span> collect, reduce, reduce <span class="hljs-keyword">as</span> foldl, reduce <span class="hljs-keyword">as</span> inject, reduceRight, reduceRight <span class="hljs-keyword">as</span> foldr, find, find <span class="hljs-keyword">as</span> detect, filter, filter <span class="hljs-keyword">as</span> select, reject, every, every <span class="hljs-keyword">as</span> all, some, some <span class="hljs-keyword">as</span> any, contains, contains <span class="hljs-keyword">as</span> includes, contains <span class="hljs-keyword">as</span> include, invoke, pluck, where, findWhere, max, min, shuffle, sample, sortBy, groupBy, indexBy, countBy, toArray, size, partition, first, first <span class="hljs-keyword">as</span> head, first <span class="hljs-keyword">as</span> take, initial, last, rest, rest <span class="hljs-keyword">as</span> tail, rest <span class="hljs-keyword">as</span> drop, compact, flatten, without, uniq, uniq <span class="hljs-keyword">as</span> unique, union, intersection, difference, unzip, zip, object, findIndex, findLastIndex, sortedIndex, indexOf, lastIndexOf, range, chunk, bind, partial, bindAll, memoize, delay, defer, throttle, debounce, wrap, negate, compose, after, before, once, keys, allKeys, values, mapObject, pairs, invert, functions, functions <span class="hljs-keyword">as</span> methods, extend, extendOwn, extendOwn <span class="hljs-keyword">as</span> assign, findKey, pick, omit, defaults, create, clone, tap, isMatch, isEqual, isEmpty, isElement, isArray, isObject, isArguments, isFunction, isString, isNumber, isDate, isRegExp, isError, isSymbol, isMap, isWeakMap, isSet, isWeakSet, <span class="hljs-built_in">isFinite</span>, <span class="hljs-built_in">isNaN</span>, isBoolean, isNull, isUndefined, has, identity, constant, noop, property, propertyOf, matcher, matcher <span class="hljs-keyword">as</span> matches, times, random, now, <span class="hljs-built_in">escape</span>, <span class="hljs-built_in">unescape</span>, result, uniqueId, templateSettings, template, chain, mixin };</pre></div></div>
             
         </li>
