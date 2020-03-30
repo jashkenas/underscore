@@ -1816,10 +1816,14 @@
     mixin: mixin
   });
 
-  // Add all of the Underscore functions to the wrapper object and return it.
-  var indexDefault = mixin(allExports);
+  // Add all of the Underscore functions to the wrapper object.
+  var _$1 = mixin(allExports);
 
-  return indexDefault;
+  // Support legacy code that does stuff like this:
+  //     var _ = require('underscore')._;
+  _$1._ = _$1;
+
+  return _$1;
 
 })));
 //# sourceMappingURL=underscore.js.map
