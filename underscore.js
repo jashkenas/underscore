@@ -142,128 +142,35 @@
     return obj != null && hasOwnProperty.call(obj, path);
   }
 
-  function shallowProperty(key) {
-    return function(obj) {
-      return obj == null ? void 0 : obj[key];
+  // collectNonEnumProps used to depend on _.contains, but this led to circular
+  // imports. emulatedSet is a one-off solution that only works for arrays of
+  // strings.
+  function emulatedSet(keys) {
+    var hash = {};
+    for (var l = keys.length, i = 0; i < l; ++i) hash[keys[i]] = true;
+    return {
+      contains: function(key) { return hash[key]; },
+      push: function(key) {
+        hash[key] = true;
+        return keys.push(key);
+      }
     };
-  }
-
-  var getLength = shallowProperty('length');
-
-  // Helper for collection methods to determine whether a collection
-  // should be iterated as an array or as an object.
-  // Related: https://people.mozilla.org/~jorendorff/es6-draft.html#sec-tolength
-  // Avoids a very nasty iOS 8 JIT bug on ARM-64. #2094
-  function isArrayLike(collection) {
-    var length = getLength(collection);
-    return typeof length == 'number' && length >= 0 && length <= MAX_ARRAY_INDEX;
-  }
-
-  // Retrieve the values of an object's properties.
-  function values(obj) {
-    var _keys = keys(obj);
-    var length = _keys.length;
-    var values = Array(length);
-    for (var i = 0; i < length; i++) {
-      values[i] = obj[_keys[i]];
-    }
-    return values;
-  }
-
-  // The function we actually call internally. It invokes _.iteratee if
-  // overridden, otherwise baseIteratee.
-  function cb(value, context, argCount) {
-    if (_.iteratee !== iteratee) return _.iteratee(value, context);
-    return baseIteratee(value, context, argCount);
-  }
-
-  // Use a comparator function to figure out the smallest index at which
-  // an object should be inserted so as to maintain order. Uses binary search.
-  function sortedIndex(array, obj, iteratee, context) {
-    iteratee = cb(iteratee, context, 1);
-    var value = iteratee(obj);
-    var low = 0, high = getLength(array);
-    while (low < high) {
-      var mid = Math.floor((low + high) / 2);
-      if (iteratee(array[mid]) < value) low = mid + 1; else high = mid;
-    }
-    return low;
-  }
-
-  // Generator function to create the findIndex and findLastIndex functions.
-  function createPredicateIndexFinder(dir) {
-    return function(array, predicate, context) {
-      predicate = cb(predicate, context);
-      var length = getLength(array);
-      var index = dir > 0 ? 0 : length - 1;
-      for (; index >= 0 && index < length; index += dir) {
-        if (predicate(array[index], index, array)) return index;
-      }
-      return -1;
-    };
-  }
-
-  // Returns the first index on an array-like that passes a predicate test.
-  var findIndex = createPredicateIndexFinder(1);
-
-  var isNumber = tagTester('Number');
-
-  // Is the given value `NaN`?
-  function isNaN$1(obj) {
-    return isNumber(obj) && _isNaN(obj);
-  }
-
-  // Generator function to create the indexOf and lastIndexOf functions.
-  function createIndexFinder(dir, predicateFind, sortedIndex) {
-    return function(array, item, idx) {
-      var i = 0, length = getLength(array);
-      if (typeof idx == 'number') {
-        if (dir > 0) {
-          i = idx >= 0 ? idx : Math.max(idx + length, i);
-        } else {
-          length = idx >= 0 ? Math.min(idx + 1, length) : idx + length + 1;
-        }
-      } else if (sortedIndex && idx && length) {
-        idx = sortedIndex(array, item);
-        return array[idx] === item ? idx : -1;
-      }
-      if (item !== item) {
-        idx = predicateFind(slice.call(array, i, length), isNaN$1);
-        return idx >= 0 ? idx + i : -1;
-      }
-      for (idx = dir > 0 ? i : length - 1; idx >= 0 && idx < length; idx += dir) {
-        if (array[idx] === item) return idx;
-      }
-      return -1;
-    };
-  }
-
-  // Return the position of the first occurrence of an item in an array,
-  // or -1 if the item is not included in the array.
-  // If the array is large and already in sort order, pass `true`
-  // for **isSorted** to use binary search.
-  var indexOf = createIndexFinder(1, findIndex, sortedIndex);
-
-  // Determine if the array or object contains a given item (using `===`).
-  function contains(obj, item, fromIndex, guard) {
-    if (!isArrayLike(obj)) obj = values(obj);
-    if (typeof fromIndex != 'number' || guard) fromIndex = 0;
-    return indexOf(obj, item, fromIndex) >= 0;
   }
 
   // Keys in IE < 9 that won't be iterated by `for key in ...` and thus missed.
   function collectNonEnumProps(obj, keys) {
+    keys = emulatedSet(keys);
     var nonEnumIdx = nonEnumerableProps.length;
     var constructor = obj.constructor;
     var proto = isFunction$1(constructor) && constructor.prototype || ObjProto;
 
     // Constructor is a special case.
     var prop = 'constructor';
-    if (has(obj, prop) && !contains(keys, prop)) keys.push(prop);
+    if (has(obj, prop) && !keys.contains(prop)) keys.push(prop);
 
     while (nonEnumIdx--) {
       prop = nonEnumerableProps[nonEnumIdx];
-      if (prop in obj && obj[prop] !== proto[prop] && !contains(keys, prop)) {
+      if (prop in obj && obj[prop] !== proto[prop] && !keys.contains(prop)) {
         keys.push(prop);
       }
     }
@@ -303,6 +210,12 @@
     attrs = extendOwn({}, attrs);
     return function(obj) {
       return isMatch(obj, attrs);
+    };
+  }
+
+  function shallowProperty(key) {
+    return function(obj) {
+      return obj == null ? void 0 : obj[key];
     };
   }
 
@@ -372,6 +285,17 @@
     };
   }
 
+  var getLength = shallowProperty('length');
+
+  // Helper for collection methods to determine whether a collection
+  // should be iterated as an array or as an object.
+  // Related: https://people.mozilla.org/~jorendorff/es6-draft.html#sec-tolength
+  // Avoids a very nasty iOS 8 JIT bug on ARM-64. #2094
+  function isArrayLike(collection) {
+    var length = getLength(collection);
+    return typeof length == 'number' && length >= 0 && length <= MAX_ARRAY_INDEX;
+  }
+
   // The cornerstone, an `each` implementation, aka `forEach`.
   // Handles raw objects in addition to array-likes. Treats all
   // sparse array-likes as if they were dense.
@@ -389,6 +313,13 @@
       }
     }
     return obj;
+  }
+
+  // The function we actually call internally. It invokes _.iteratee if
+  // overridden, otherwise baseIteratee.
+  function cb(value, context, argCount) {
+    if (_.iteratee !== iteratee) return _.iteratee(value, context);
+    return baseIteratee(value, context, argCount);
   }
 
   // Return the results of applying the iteratee to each element.
@@ -435,6 +366,22 @@
 
   // The right-associative version of reduce, also known as `foldr`.
   var reduceRight = createReduce(-1);
+
+  // Generator function to create the findIndex and findLastIndex functions.
+  function createPredicateIndexFinder(dir) {
+    return function(array, predicate, context) {
+      predicate = cb(predicate, context);
+      var length = getLength(array);
+      var index = dir > 0 ? 0 : length - 1;
+      for (; index >= 0 && index < length; index += dir) {
+        if (predicate(array[index], index, array)) return index;
+      }
+      return -1;
+    };
+  }
+
+  // Returns the first index on an array-like that passes a predicate test.
+  var findIndex = createPredicateIndexFinder(1);
 
   // Returns the first key on an object that passes a predicate test.
   function findKey(obj, predicate, context) {
@@ -497,6 +444,75 @@
       if (predicate(obj[currentKey], currentKey, obj)) return true;
     }
     return false;
+  }
+
+  // Retrieve the values of an object's properties.
+  function values(obj) {
+    var _keys = keys(obj);
+    var length = _keys.length;
+    var values = Array(length);
+    for (var i = 0; i < length; i++) {
+      values[i] = obj[_keys[i]];
+    }
+    return values;
+  }
+
+  // Use a comparator function to figure out the smallest index at which
+  // an object should be inserted so as to maintain order. Uses binary search.
+  function sortedIndex(array, obj, iteratee, context) {
+    iteratee = cb(iteratee, context, 1);
+    var value = iteratee(obj);
+    var low = 0, high = getLength(array);
+    while (low < high) {
+      var mid = Math.floor((low + high) / 2);
+      if (iteratee(array[mid]) < value) low = mid + 1; else high = mid;
+    }
+    return low;
+  }
+
+  var isNumber = tagTester('Number');
+
+  // Is the given value `NaN`?
+  function isNaN$1(obj) {
+    return isNumber(obj) && _isNaN(obj);
+  }
+
+  // Generator function to create the indexOf and lastIndexOf functions.
+  function createIndexFinder(dir, predicateFind, sortedIndex) {
+    return function(array, item, idx) {
+      var i = 0, length = getLength(array);
+      if (typeof idx == 'number') {
+        if (dir > 0) {
+          i = idx >= 0 ? idx : Math.max(idx + length, i);
+        } else {
+          length = idx >= 0 ? Math.min(idx + 1, length) : idx + length + 1;
+        }
+      } else if (sortedIndex && idx && length) {
+        idx = sortedIndex(array, item);
+        return array[idx] === item ? idx : -1;
+      }
+      if (item !== item) {
+        idx = predicateFind(slice.call(array, i, length), isNaN$1);
+        return idx >= 0 ? idx + i : -1;
+      }
+      for (idx = dir > 0 ? i : length - 1; idx >= 0 && idx < length; idx += dir) {
+        if (array[idx] === item) return idx;
+      }
+      return -1;
+    };
+  }
+
+  // Return the position of the first occurrence of an item in an array,
+  // or -1 if the item is not included in the array.
+  // If the array is large and already in sort order, pass `true`
+  // for **isSorted** to use binary search.
+  var indexOf = createIndexFinder(1, findIndex, sortedIndex);
+
+  // Determine if the array or object contains a given item (using `===`).
+  function contains(obj, item, fromIndex, guard) {
+    if (!isArrayLike(obj)) obj = values(obj);
+    if (typeof fromIndex != 'number' || guard) fromIndex = 0;
+    return indexOf(obj, item, fromIndex) >= 0;
   }
 
   // Invoke a method (with arguments) on every item in a collection.
