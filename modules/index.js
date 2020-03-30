@@ -1,4 +1,4 @@
-//     Underscore.js 1.10.0
+//     Underscore.js 1.10.1
 //     https://underscorejs.org
 //     (c) 2009-2020 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 //     Underscore may be freely distributed under the MIT license.
@@ -46,7 +46,7 @@ export default function _(obj) {
 }
 
 // Current version.
-export var VERSION = _.VERSION = '1.10.0';
+export var VERSION = _.VERSION = '1.10.1';
 
 // Internal function that returns an efficient (for current engines) version
 // of the passed-in callback, to be repeatedly applied in other Underscore
