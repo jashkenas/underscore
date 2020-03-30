@@ -16,7 +16,7 @@
   },
   "main": "underscore.js",
   "module": "modules/index-all.js",
-  "version": "1.10.0",
+  "version": "1.10.1",
   "devDependencies": {
     "coveralls": "^2.11.2",
     "docco": "*",
