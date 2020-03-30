@@ -1,0 +1,10 @@
+import _ from './underscore.js';
+import iteratee from './iteratee.js';
+import baseIteratee from './_baseIteratee.js';
+
+// The function we actually call internally. It invokes _.iteratee if
+// overridden, otherwise baseIteratee.
+export default function cb(value, context, argCount) {
+  if (_.iteratee !== iteratee) return _.iteratee(value, context);
+  return baseIteratee(value, context, argCount);
+}
