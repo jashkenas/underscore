@@ -8,6 +8,6 @@
 
 * Before sending a pull request for a feature, be sure to have [tests](https://underscorejs.org/test/).
 
-* Use the same coding style as the rest of the [codebase](https://github.com/jashkenas/underscore/blob/master/underscore.js).
+* Use the same coding style as the rest of the [codebase](https://github.com/jashkenas/underscore/blob/master/modules/index.js).
 
 * In your pull request, do not add documentation or re-build the minified `underscore-min.js` file. We'll do those things before cutting a new release.

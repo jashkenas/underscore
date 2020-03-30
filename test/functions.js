@@ -701,12 +701,12 @@
 
     // Test custom iteratee
     var builtinIteratee = _.iteratee;
-    _.iteratee = function(value) {
+    _.iteratee = function(value, context) {
       // RegEx values return a function that returns the number of matches
       if (_.isRegExp(value)) return function(obj) {
         return (obj.match(value) || []).length;
       };
-      return value;
+      return builtinIteratee(value, context);
     };
 
     var collection = ['foo', 'bar', 'bbiz'];
@@ -733,6 +733,17 @@
 
     var objCollection = {a: 'foo', b: 'bar', c: 'bbiz'};
     assert.deepEqual(_.mapObject(objCollection, /b/g), {a: 0, b: 1, c: 2});
+
+    // Ensure that the overridden iteratee can still fall back on the builtin
+    // iteratee.
+    assert.strictEqual(_.iteratee(), _.identity);
+    assert.deepEqual(_.toArray(_.iteratee(fn)(1, 2, 3)), _.range(1, 4));
+    var matcher = _.iteratee({b: 'bar'});
+    assert.equal(matcher(objCollection), true);
+    assert.equal(matcher({}), false);
+    var property = _.iteratee('b');
+    assert.equal(property(objCollection), 'bar');
+    assert.equal(property({}), undefined);
 
     // Restore the builtin iteratee
     _.iteratee = builtinIteratee;

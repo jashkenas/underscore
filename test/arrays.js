@@ -130,9 +130,9 @@
   });
 
   QUnit.test('sortedIndex', function(assert) {
-    var numbers = [10, 20, 30, 40, 50];
+    var numbers = [10, 20, 30, 30, 30, 40, 50, 60];
     var indexFor35 = _.sortedIndex(numbers, 35);
-    assert.strictEqual(indexFor35, 3, 'finds the index at which a value should be inserted to retain order');
+    assert.strictEqual(indexFor35, 5, 'finds the index at which a value should be inserted to retain order');
     var indexFor30 = _.sortedIndex(numbers, 30);
     assert.strictEqual(indexFor30, 2, 'finds the smallest index at which a value could be inserted to retain order');
 
