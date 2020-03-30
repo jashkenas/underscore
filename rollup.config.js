@@ -1,7 +1,6 @@
 module.exports = {
   input: 'modules/index-default.js',
   treeshake: false,
-  context: 'this',
   output: {
     file: 'underscore.js',
     exports: 'default',
