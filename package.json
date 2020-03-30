@@ -53,6 +53,7 @@
   "license": "MIT",
   "files": [
     "underscore.js",
+    "underscore.js.map",
     "underscore-min.js",
     "underscore-min.js.map",
     "modules/"
