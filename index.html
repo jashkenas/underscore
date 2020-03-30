@@ -116,6 +116,9 @@
         background: #ccc;
         margin: 5px 0;
       }
+      table .dl-link {
+        white-space: nowrap;
+      }
     ul {
       list-style-type: circle;
       padding: 0 0 0 20px;
@@ -437,18 +440,24 @@
       <i>Underscore is an open-source component of <a href="https://documentcloud.org/">DocumentCloud</a>.</i>
     </p>
 
-    <h2>Downloads <i style="padding-left: 12px; font-size:12px;">(Right-click, and use "Save As")</i></h2>
+    <h2>v1.10.0 Downloads <i style="padding-left: 12px; font-size:12px;">(Right-click, and use "Save As")</i></h2>
 
     <table>
       <tr>
-        <td><a href="underscore.js">Development Version (1.10.0)</a></td>
+        <td class="dl-link"><a href="modules/index.js">ES Module</a></td>
         <td>
-          <i>60kb, Uncompressed with Plentiful Comments</i>
+          <i>56kb, Uncompressed with Plentiful Comments</i>
+        </td>
+      </tr>
+      <tr>
+        <td class="dl-link"><a href="underscore.js">UMD (Development)</a></td>
+        <td>
+          <i>60kb, Uncompressed with Bountiful Comments</i>
           &nbsp;<small>(<a href="underscore.js.map">Source Map</a>)</small>
         </td>
       </tr>
       <tr>
-        <td><a href="underscore-min.js">Production Version (1.10.0)</a></td>
+        <td class="dl-link"><a href="underscore-min.js">UMD (Production)</a></td>
         <td>
           <i>6.78kb, Minified and Gzipped</i>
           &nbsp;<small>(<a href="underscore-min.js.map">Source Map</a>)</small>
@@ -458,8 +467,12 @@
         <td colspan="2"><div class="rule"></div></td>
       </tr>
       <tr>
-        <td><a href="https://raw.github.com/jashkenas/underscore/master/underscore.js">Edge Version</a></td>
+        <td class="dl-link"><a href="https://raw.github.com/jashkenas/underscore/master/modules/index.js">Edge ES Module</a></td>
         <td><i>Unreleased, current <tt>master</tt>, use by your own judgement and at your own risk</i></td>
+      </tr>
+      <tr>
+        <td class="dl-link"><a href="https://raw.github.com/jashkenas/underscore/master/underscore.js">Edge UMD</a></td>
+        <td><i>Unreleased, current <tt>master</tt>, use if you’re feeling lucky</i></td>
       </tr>
     </table>
 
