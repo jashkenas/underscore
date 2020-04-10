@@ -331,6 +331,7 @@
     assert.ok(!_.isEqual(null, void 0), '`null` is not equal to `undefined`');
     assert.ok(!_.isEqual(void 0, null), 'Commutative equality is implemented for `null` and `undefined`');
     assert.ok(!_.isEqual(0, new Number(Number.MIN_VALUE)), '`0` is not equal to `new Number(Number.MIN_VALUE)`');
+    assert.ok(!_.isEqual(new Number(Number.MIN_VALUE), 0), '`new Number(Number.MIN_VALUE)` is not equal to `0`');
 
     // String object and primitive comparisons.
     assert.ok(_.isEqual('Curly', 'Curly'), 'Identical string primitives are equal');
