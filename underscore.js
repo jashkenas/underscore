@@ -1293,7 +1293,7 @@
   // An "empty" object has no enumerable own-properties.
   function isEmpty(obj) {
     if (obj == null) return true;
-    if (isArrayLike(obj) && (isArray(obj) || isString(obj) || isArguments(obj))) return obj.length === 0;
+    if (isArray(obj) || isString(obj) || isArguments(obj)) return obj.length === 0;
     return keys(obj).length === 0;
   }
 
