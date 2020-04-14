@@ -1732,11 +1732,13 @@ _.isMatch(stooge, {age: 32});
 </pre>
 
       <p id="isEmpty">
-        <b class="header">isEmpty</b><code>_.isEmpty(object)</code>
+        <b class="header">isEmpty</b><code>_.isEmpty(collection)</code>
         <br />
-        Returns <i>true</i> if an enumerable <b>object</b> contains no
-        values (no enumerable own-properties). For strings and array-like
-        objects <tt>_.isEmpty</tt> checks if the length property is 0.
+        Returns <i>true</i> if <b>collection</b> has no elements. For strings
+        and array-like objects <tt>_.isEmpty</tt> checks if the length property
+        is 0. For other objects, it returns <i>true</i> if the object has no
+        enumerable own-properties. Note that primitive numbers, booleans and
+        symbols are always empty by this definition.
       </p>
       <pre>
 _.isEmpty([1, 2, 3]);
