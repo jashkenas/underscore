@@ -1296,6 +1296,8 @@ export function isEqual(a, b) {
 // An "empty" object has no enumerable own-properties.
 export function isEmpty(obj) {
   if (obj == null) return true;
+  // Skip the more expensive `toString`-based type checks if `obj` has no
+  // `.length`.
   if (isArrayLike(obj) && (isArray(obj) || isString(obj) || isArguments(obj))) return obj.length === 0;
   return keys(obj).length === 0;
 }
