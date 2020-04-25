@@ -1087,6 +1087,7 @@ function createAssigner(keysFunc, defaults) {
 
 // Extend a given object with all the properties in passed-in object(s).
 export var extend = createAssigner(allKeys);
+export { extend as merge };
 
 // Assigns a given object with all the own properties in the passed-in object(s).
 // (https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object/assign)

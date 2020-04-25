@@ -136,6 +136,10 @@
     assert.strictEqual(_.extend(void 0, {a: 1}), void 0, 'extending undefined results in undefined');
   });
 
+  QUnit.test('merge', function(assert) {
+    assert.strictEqual(_.merge, _.extend, 'is an alias for extend');
+  });
+
   QUnit.test('extendOwn', function(assert) {
     var result;
     assert.strictEqual(_.extendOwn({}, {a: 'b'}).a, 'b', 'can extend an object with the attributes of another');

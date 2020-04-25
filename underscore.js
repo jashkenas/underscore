@@ -1765,6 +1765,7 @@
     functions: functions,
     methods: functions,
     extend: extend,
+    merge: extend,
     extendOwn: extendOwn,
     assign: extendOwn,
     findKey: findKey,
