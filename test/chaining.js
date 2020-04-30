@@ -96,4 +96,14 @@
     assert.strictEqual('' + wrapped, '512');
   });
 
+  QUnit.test('wrapper methods handle undefined and null', function(assert) {
+    var w1 = _(), w2 = _(null);
+    _.each([w1, w2], function(wrapped) {
+      assert.equal(wrapped.extend({a: 1}), void 0);
+      assert.equal(wrapped.first(), void 0);
+      assert.equal(wrapped.push(1), void 0);
+      assert.equal(wrapped.concat([1]), void 0);
+    });
+  });
+
 }());
