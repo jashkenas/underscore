@@ -805,6 +805,7 @@ export var bindAll = restArguments(function(obj, _keys) {
     var key = _keys[index];
     obj[key] = bind(obj[key], obj);
   }
+  return obj;
 });
 
 // Memoize an expensive function by storing its results.
