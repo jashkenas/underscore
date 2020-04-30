@@ -1653,8 +1653,12 @@ each(['pop', 'push', 'reverse', 'shift', 'sort', 'splice', 'unshift'], function(
   var method = ArrayProto[name];
   _.prototype[name] = function() {
     var obj = this._wrapped;
-    method.apply(obj, arguments);
-    if ((name === 'shift' || name === 'splice') && obj.length === 0) delete obj[0];
+    if (obj != null) {
+      method.apply(obj, arguments);
+      if ((name === 'shift' || name === 'splice') && obj.length === 0) {
+        delete obj[0];
+      }
+    }
     return chainResult(this, obj);
   };
 });
@@ -1663,7 +1667,9 @@ each(['pop', 'push', 'reverse', 'shift', 'sort', 'splice', 'unshift'], function(
 each(['concat', 'join', 'slice'], function(name) {
   var method = ArrayProto[name];
   _.prototype[name] = function() {
-    return chainResult(this, method.apply(this._wrapped, arguments));
+    var obj = this._wrapped;
+    if (obj != null) obj = method.apply(obj, arguments);
+    return chainResult(this, obj);
   };
 });
 
