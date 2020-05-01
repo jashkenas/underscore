@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <meta name="viewport" content="target-densitydpi=device-dpi" />
   <meta name="HandheldFriendly" content="true"/>
-  <link rel="canonical" href="http://underscorejs.org/" />
+  <link rel="canonical" href="https://underscorejs.org/" />
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
   <title>Underscore.js</title>
   <style>
@@ -46,11 +46,12 @@
         font-weight: normal;
       }
     ul.toc_section {
-      font-size: 14px;
-      line-height: 16px;
+      font-size: 11px;
+      line-height: 14px;
       margin: 5px 0 0 0;
       padding-left: 0px;
       list-style-type: none;
+      font-family: Lucida Grande;
     }
       .toc_section li {
         cursor: pointer;
@@ -114,6 +115,9 @@
         height: 1px;
         background: #ccc;
         margin: 5px 0;
+      }
+      table .dl-link {
+        white-space: nowrap;
       }
     ul {
       list-style-type: circle;
@@ -182,12 +186,12 @@
   <div id="sidebar" class="interface">
 
     <a class="toc_title" href="#">
-      Underscore.js <span class="version">(1.8.3)</span>
+      Underscore.js <span class="version">(1.10.2)</span>
     </a>
     <ul class="toc_section">
       <li>&raquo; <a href="https://github.com/jashkenas/underscore">GitHub Repository</a></li>
       <li>&raquo; <a href="docs/underscore.html">Annotated Source</a></li>
-      <li>&raquo; <a href="http://documentcloud.github.io/underscore-contrib/">Underscore-contrib</a></li>
+      <li>&raquo; <a href="https://documentcloud.github.io/underscore-contrib/">Underscore-contrib</a></li>
     </ul>
 
     <input id="function_filter" placeholder="Filter" type="text" autofocus />
@@ -228,7 +232,6 @@
         <li data-name="toArray">- <a href="#toArray">toArray</a></li>
         <li data-name="size">- <a href="#size">size</a></li>
         <li data-name="partition">- <a href="#partition">partition</a></li>
-        <li data-name="compact">- <a href="#compact">compact</a></li>
       </ul>
     </div>
 
@@ -240,7 +243,8 @@
         <li data-name="first" data-aliases="head take">- <a href="#first">first</a></li>
         <li data-name="initial">- <a href="#initial">initial</a></li>
         <li data-name="last">- <a href="#last">last</a></li>
-        <li data-name="rest" data-aliases="tail drop">- <a href="#rest">rest</a></li>        
+        <li data-name="rest" data-aliases="tail drop">- <a href="#rest">rest</a></li>
+        <li data-name="compact">- <a href="#compact">compact</a></li>
         <li data-name="flatten">- <a href="#flatten">flatten</a></li>
         <li data-name="without">- <a href="#without">without</a></li>
         <li data-name="union">- <a href="#union">union</a></li>
@@ -250,6 +254,7 @@
         <li data-name="zip">- <a href="#zip">zip</a></li>
         <li data-name="unzip">- <a href="#unzip">unzip</a></li>
         <li data-name="object">- <a href="#object">object</a></li>
+        <li data-name="chunk">- <a href="#chunk">chunk</a></li>
         <li data-name="indexOf">- <a href="#indexOf">indexOf</a></li>
         <li data-name="lastIndexOf">- <a href="#lastIndexOf">lastIndexOf</a></li>
         <li data-name="sortedIndex">- <a href="#sortedIndex">sortedIndex</a></li>
@@ -278,6 +283,7 @@
         <li data-name="wrap">- <a href="#wrap">wrap</a></li>
         <li data-name="negate">- <a href="#negate">negate</a></li>
         <li data-name="compose">- <a href="#compose">compose</a></li>
+        <li data-name="restArguments">- <a href="#restArguments">restArguments</a></li>
       </ul>
     </div>
 
@@ -322,6 +328,10 @@
         <li data-name="isRegExp">- <a href="#isRegExp">isRegExp</a></li>
         <li data-name="isError">- <a href="#isError">isError</a></li>
         <li data-name="isSymbol">- <a href="#isSymbol">isSymbol</a></li>
+        <li data-name="isMap">- <a href="#isMap">isMap</a></li>
+        <li data-name="isWeakMap">- <a href="#isWeakMap">isWeakMap</a></li>
+        <li data-name="isSet">- <a href="#isSet">isSet</a></li>
+        <li data-name="isWeakSet">- <a href="#isWeakSet">isWeakSet</a></li>
         <li data-name="isNaN">- <a href="#isNaN">isNaN</a></li>
         <li data-name="isNull">- <a href="#isNull">isNull</a></li>
         <li data-name="isUndefined">- <a href="#isUndefined">isUndefined</a></li>
@@ -387,14 +397,14 @@
     </p>
 
     <p>
-      <a href="http://github.com/jashkenas/underscore/">Underscore</a>
+      <a href="https://github.com/jashkenas/underscore/">Underscore</a>
       is a JavaScript library that provides a whole mess of useful functional
       programming helpers without extending any built-in objects.
       It&rsquo;s the answer to the question: &ldquo;If I sit down in front of a
       blank HTML page, and want to start being productive immediately, what do I need?&rdquo;
       &hellip; and the tie to go along with
-      <a href="http://jquery.com">jQuery</a>'s tux and
-      <a href="http://backbonejs.org">Backbone</a>'s suspenders.
+      <a href="https://jquery.com">jQuery</a>'s tux and
+      <a href="https://backbonejs.org">Backbone</a>'s suspenders.
     </p>
 
     <p>
@@ -414,42 +424,55 @@
     </p>
 
     <p>
-      Enjoying Underscore, and want to <i>turn it up to 11?</i> Try <a href="http://documentcloud.github.io/underscore-contrib/">Underscore-contrib</a>.
+      Enjoying Underscore, and want to <i>turn it up to 11?</i> Try <a href="https://documentcloud.github.io/underscore-contrib/">Underscore-contrib</a>.
     </p>
 
     <p>
       The project is
       <a href="https://github.com/jashkenas/underscore">hosted on GitHub</a>.
       You can report bugs and discuss features on the
-      <a href="https://github.com/jashkenas/underscore/issues">issues page</a>,
-      on Freenode in the <tt>#documentcloud</tt> channel, or in our <a href="https://gitter.im/jashkenas/underscore">Gitter</a>
+      <a href="https://github.com/jashkenas/underscore/issues">issues page</a>
+      or chat in the <a href="https://gitter.im/jashkenas/underscore">Gitter</a>
       channel.
     </p>
 
     <p>
-      <i>Underscore is an open-source component of <a href="http://documentcloud.org/">DocumentCloud</a>.</i>
+      <i>Underscore is an open-source component of <a href="https://documentcloud.org/">DocumentCloud</a>.</i>
     </p>
 
-    <h2>Downloads <i style="padding-left: 12px; font-size:12px;">(Right-click, and use "Save As")</i></h2>
+    <h2>v1.10.2 Downloads <i style="padding-left: 12px; font-size:12px;">(Right-click, and use "Save As")</i></h2>
 
     <table>
       <tr>
-        <td><a href="underscore.js">Development Version (1.8.3)</a></td>
-        <td><i>52kb, Uncompressed with Plentiful Comments</i></td>
+        <td class="dl-link"><a href="modules/index.js">ES Module</a></td>
+        <td>
+          <i>56kb, Uncompressed with Plentiful Comments</i>
+        </td>
       </tr>
       <tr>
-        <td><a href="underscore-min.js">Production Version (1.8.3)</a></td>
+        <td class="dl-link"><a href="underscore.js">UMD (Development)</a></td>
         <td>
-          <i>5.7kb, Minified and Gzipped</i>
-          &nbsp;<small>(<a href="underscore-min.map">Source Map</a>)</small>
+          <i>60kb, Uncompressed with Bountiful Comments</i>
+          &nbsp;<small>(<a href="underscore.js.map">Source Map</a>)</small>
+        </td>
+      </tr>
+      <tr>
+        <td class="dl-link"><a href="underscore-min.js">UMD (Production)</a></td>
+        <td>
+          <i>6.78kb, Minified and Gzipped</i>
+          &nbsp;<small>(<a href="underscore-min.js.map">Source Map</a>)</small>
         </td>
       </tr>
       <tr>
         <td colspan="2"><div class="rule"></div></td>
       </tr>
       <tr>
-        <td><a href="https://raw.github.com/jashkenas/underscore/master/underscore.js">Edge Version</a></td>
-        <td><i>Unreleased, current <tt>master</tt>, use at your own risk</i></td>
+        <td class="dl-link"><a href="https://raw.github.com/jashkenas/underscore/master/modules/index.js">Edge ES Module</a></td>
+        <td><i>Unreleased, current <tt>master</tt>, use by your own judgement and at your own risk</i></td>
+      </tr>
+      <tr>
+        <td class="dl-link"><a href="https://raw.github.com/jashkenas/underscore/master/underscore.js">Edge UMD</a></td>
+        <td><i>Unreleased, current <tt>master</tt>, use if you’re feeling lucky</i></td>
       </tr>
     </table>
 
@@ -469,7 +492,13 @@
         <b>Bower</b> <tt>bower install underscore</tt>
       </li>
       <li>
-        <b>Component</b> <tt>component install jashkenas/underscore</tt>
+        <b>ExtendScript</b> <tt>#include "underscore.js"</tt>
+      </li>
+      <li>
+        <b>Rollup</b> If you want to enable treeshaking and you don&rsquo;t
+        need the full <tt>_</tt> object (with all Underscore functions as
+        properties), you can import individual functions by name from
+        <tt>underscore/modules/index</tt> instead of <tt>underscore</tt>.
       </li>
     </ul>
 
@@ -797,7 +826,7 @@ _.countBy([1, 2, 3, 4, 5], function(num) {
         <b class="header">shuffle</b><code>_.shuffle(list)</code>
         <br />
         Returns a shuffled copy of the <b>list</b>, using a version of the
-        <a href="http://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle">Fisher-Yates shuffle</a>.
+        <a href="https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle">Fisher-Yates shuffle</a>.
       </p>
       <pre>
 _.shuffle([1, 2, 3, 4, 5, 6]);
@@ -836,6 +865,9 @@ _.sample([1, 2, 3, 4, 5, 6], 3);
         Return the number of values in the <b>list</b>.
       </p>
       <pre>
+_.size([1, 2, 3, 4, 5]);
+=&gt; 5
+
 _.size({one: 1, two: 2, three: 3});
 =&gt; 3
 </pre>
@@ -984,7 +1016,7 @@ _.difference([1, 2, 3, 4, 5], [5, 2, 10]);
         <span class="alias">Alias: <b>unique</b></span>
         <br />
         Produces a duplicate-free version of the <b>array</b>, using <i>===</i> to test
-        object equality. In particular only the first occurence of each value is kept.
+        object equality. In particular only the first occurrence of each value is kept.
         If you know in advance that the <b>array</b> is sorted,
         passing <i>true</i> for <b>isSorted</b> will run a much faster algorithm.
         If you want to compute unique items based on a transformation, pass an
@@ -1040,6 +1072,17 @@ _.object([['moe', 30], ['larry', 40], ['curly', 50]]);
 =&gt; {moe: 30, larry: 40, curly: 50}
 </pre>
 
+      <p id="chunk">
+        <b class="header">chunk</b><code>_.chunk(array, length)</code>
+        <br />
+        Chunks an <b>array</b> into multiple arrays, each containing <b>length</b>
+        or fewer items.
+      </p>
+      <pre>
+var partners = _.chunk(_.shuffle(kindergarten), 2);
+=&gt; [["Tyrone", "Elie"], ["Aidan", "Sam"], ["Katrina", "Billie"], ["Little Timmy"]]
+</pre>
+
       <p id="indexOf">
         <b class="header">indexOf</b><code>_.indexOf(array, value, [isSorted])</code>
         <br />
@@ -1070,7 +1113,7 @@ _.lastIndexOf([1, 2, 3, 1, 2, 3], 2);
       <p id="sortedIndex">
         <b class="header">sortedIndex</b><code>_.sortedIndex(array, value, [iteratee], [context])</code>
         <br />
-        Uses a binary search to determine the index at which the <b>value</b>
+        Uses a binary search to determine the smallest index at which the <b>value</b>
         <i>should</i> be inserted into the <b>array</b> in order to maintain the <b>array</b>'s
         sorted order. If an <a href="#iteratee"><b>iteratee</b></a> function is provided,
         it will be used to compute the sort ranking of each value, including the <b>value</b> you pass.
@@ -1264,6 +1307,10 @@ _.defer(function(){ alert('deferred'); });
 var throttled = _.throttle(updatePosition, 100);
 $(window).scroll(throttled);
 </pre>
+      <p>
+        If you need to cancel a scheduled throttle, you can call <tt>.cancel()</tt>
+        on the throttled function.
+      </p>
 
       <p id="debounce">
         <b class="header">debounce</b><code>_.debounce(function, wait, [immediate])</code>
@@ -1276,13 +1323,11 @@ $(window).scroll(throttled);
         preview of a Markdown comment, recalculating a layout after the window
         has stopped being resized, and so on.
       </p>
-
       <p>
         At the end of the <b>wait</b> interval, the function will be called
         with the arguments that were passed <i>most recently</i> to the
         debounced function.
       </p>
-
       <p>
         Pass <tt>true</tt> for the <b>immediate</b> argument to cause
         <b>debounce</b> to trigger the function on the leading instead of the
@@ -1290,11 +1335,14 @@ $(window).scroll(throttled);
         preventing accidental double-clicks on a "submit" button from firing a
         second time.
       </p>
-
       <pre>
 var lazyLayout = _.debounce(calculateLayout, 300);
 $(window).resize(lazyLayout);
 </pre>
+      <p>
+        If you need to cancel a scheduled debounce, you can call <tt>.cancel()</tt>
+        on the debounced function.
+      </p>
 
       <p id="once">
         <b class="header">once</b><code>_.once(function)</code>
@@ -1384,6 +1432,24 @@ var exclaim  = function(statement){ return statement.toUpperCase() + "!"; };
 var welcome = _.compose(greet, exclaim);
 welcome('moe');
 =&gt; 'hi: MOE!'
+</pre>
+
+      <p id="restArguments">
+        <b class="header">restArguments</b><code>_.restArguments(function, [startIndex])</code>
+        <br />
+        Returns a version of the <b>function</b> that, when called, receives all
+        arguments from and beyond <b>startIndex</b> collected into a single array.
+        If you don’t pass an explicit <b>startIndex</b>, it will be determined by
+        looking at the number of arguments to the <b>function</b> itself. Similar
+        to ES6’s <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/rest_parameters">rest
+        parameters syntax</a>.
+      </p>
+      <pre>
+var raceResults = _.restArguments(function(gold, silver, bronze, everyoneElse) {
+  _.each(everyoneElse, sendConsolations);
+});
+
+raceResults("Dopey", "Grumpy", "Happy", "Sneezy", "Bashful", "Sleepy", "Doc");
 </pre>
 
       <h2 id="objects">Object Functions</h2>
@@ -1590,7 +1656,8 @@ _.chain([1,2,3,200])
         Does the object contain the given key? Identical to
         <tt>object.hasOwnProperty(key)</tt>, but uses a safe reference to the
         <tt>hasOwnProperty</tt> function, in case it's been
-        <a href="http://www.devthought.com/2012/01/18/an-object-is-not-a-hash/">overridden accidentally</a>.
+
+        <a href="https://www.pixelstech.net/article/1326986170-An-Object-is-not-a-Hash">overridden accidentally</a>.
       </p>
       <pre>
 _.has({a: 1, b: 2, c: 3}, "b");
@@ -1598,15 +1665,21 @@ _.has({a: 1, b: 2, c: 3}, "b");
 </pre>
 
       <p id="property">
-        <b class="header">property</b><code>_.property(key)</code>
+        <b class="header">property</b><code>_.property(path)</code>
         <br />
-        Returns a function that will return the <tt>key</tt>
-        property of any passed-in object.
+        Returns a function that will return the specified property of any
+        passed-in object. <tt>path</tt> may be specified as a simple key, or
+        as an array of object keys or array indexes, for deep property fetching.
       </p>
       <pre>
 var stooge = {name: 'moe'};
 'moe' === _.property('name')(stooge);
 =&gt; true
+
+var stooges = {moe: {fears: {worst: 'Spiders'}}, curly: {fears: {worst: 'Moe'}}};
+var curlysWorstFear = _.property(['curly', 'fears', 'worst']);
+curlysWorstFear(stooges);
+=&gt; 'Moe'
 </pre>
 
       <p id="propertyOf">
@@ -1659,11 +1732,13 @@ _.isMatch(stooge, {age: 32});
 </pre>
 
       <p id="isEmpty">
-        <b class="header">isEmpty</b><code>_.isEmpty(object)</code>
+        <b class="header">isEmpty</b><code>_.isEmpty(collection)</code>
         <br />
-        Returns <i>true</i> if an enumerable <b>object</b> contains no
-        values (no enumerable own-properties). For strings and array-like
-        objects <tt>_.isEmpty</tt> checks if the length property is 0.
+        Returns <i>true</i> if <b>collection</b> has no elements. For strings
+        and array-like objects <tt>_.isEmpty</tt> checks if the length property
+        is 0. For other objects, it returns <i>true</i> if the object has no
+        enumerable own-properties. Note that primitive numbers, booleans and
+        symbols are always empty by this definition.
       </p>
       <pre>
 _.isEmpty([1, 2, 3]);
@@ -1809,10 +1884,50 @@ try {
       <p id="isSymbol">
         <b class="header">isSymbol</b><code>_.isSymbol(object)</code>
         <br />
-        Returns <i>true</i> if <b>object</b> is a Symbol.
+        Returns <i>true</i> if <b>object</b> is a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol">Symbol</a>.
       </p>
       <pre>
 _.isSymbol(Symbol());
+=&gt; true
+</pre>
+
+      <p id="isMap">
+        <b class="header">isMap</b><code>_.isMap(object)</code>
+        <br />
+        Returns <i>true</i> if <b>object</b> is a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map">Map</a>.
+      </p>
+      <pre>
+_.isMap(new Map());
+=&gt; true
+</pre>
+
+      <p id="isWeakMap">
+        <b class="header">isWeakMap</b><code>_.isWeakMap(object)</code>
+        <br />
+        Returns <i>true</i> if <b>object</b> is a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakMap">WeakMap</a>.
+      </p>
+      <pre>
+_.isWeakMap(new WeakMap());
+=&gt; true
+</pre>
+
+      <p id="isSet">
+        <b class="header">isSet</b><code>_.isSet(object)</code>
+        <br />
+        Returns <i>true</i> if <b>object</b> is a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set">Set</a>.
+      </p>
+      <pre>
+_.isSet(new Set());
+=&gt; true
+</pre>
+
+      <p id="isWeakSet">
+        <b class="header">isWeakSet</b><code>_.isWeakSet(object)</code>
+        <br />
+        Returns <i>true</i> if <b>object</b> is a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakSet">WeakSet</a>.
+      </p>
+      <pre>
+_.isWeakSet(WeakSet());
 =&gt; true
 </pre>
 
@@ -1859,12 +1974,15 @@ _.isUndefined(window.missingVariable);
       <p id="noConflict">
         <b class="header">noConflict</b><code>_.noConflict()</code>
         <br />
-        Give control of the <tt>_</tt> variable back to its previous owner. Returns
-        a reference to the <b>Underscore</b> object.
+        Give control of the global <tt>_</tt> variable back to its previous
+        owner. Returns a reference to the <b>Underscore</b> object.
       </p>
       <pre>
 var underscore = _.noConflict();
 </pre>
+      <p>
+        The <tt>_.noConflict</tt> function is not present if you use the EcmaScript 6, AMD or CommonJS module system to import Underscore.
+      </p>
 
       <p id="identity">
         <b class="header">identity</b><code>_.identity(value)</code>
@@ -1907,8 +2025,6 @@ obj.initialize = _.noop;
         Invokes the given iteratee function <b>n</b> times. Each invocation of
         <a href="#iteratee"><b>iteratee</b></a> is called with an <tt>index</tt> argument.
         Produces an array of the returned values.
-        <br />
-        <i>Note: this example uses the <a href="#oop">object-oriented syntax</a></i>.
       </p>
       <pre>
 _.times(3, function(n){ genie.grantWishNumber(n); });</pre>
@@ -2206,27 +2322,27 @@ _.chain([1, 2, 3]).reverse().value();
       <h2 id="links">Links &amp; Suggested Reading</h2>
 
       <p>
-        <a href="http://mirven.github.io/underscore.lua/">Underscore.lua</a>,
+        <a href="https://mirven.github.io/underscore.lua/">Underscore.lua</a>,
         a Lua port of the functions that are applicable in both languages.
         Includes OOP-wrapping and chaining.
         (<a href="https://github.com/mirven/underscore.lua">source</a>)
       </p>
 
       <p>
-        <a href="http://www.dollarswift.org/">Dollar.swift</a>, a Swift port
+        <a href="https://www.dollarswift.org/">Dollar.swift</a>, a Swift port
         of many of the Underscore.js functions and more.
         (<a href="https://github.com/ankurp/Dollar.swift">source</a>)
       </p>
 
       <p>
-        <a href="http://underscorem.org/">Underscore.m</a>, an Objective-C port
+        <a href="https://underscorem.org/">Underscore.m</a>, an Objective-C port
         of many of the Underscore.js functions, using a syntax that encourages
         chaining.
         (<a href="https://github.com/robb/Underscore.m">source</a>)
       </p>
 
       <p>
-        <a href="http://kmalakoff.github.io/_.m/">_.m</a>, an alternative
+        <a href="https://kmalakoff.github.io/_.m/">_.m</a>, an alternative
         Objective-C port that tries to stick a little closer to the original
         Underscore.js API.
         (<a href="https://github.com/kmalakoff/_.m">source</a>)
@@ -2240,44 +2356,44 @@ _.chain([1, 2, 3]).reverse().value();
       </p>
 
       <p>
-        <a href="http://vti.github.io/underscore-perl/">Underscore-perl</a>,
+        <a href="https://vti.github.io/underscore-perl/">Underscore-perl</a>,
         a Perl port of many of the Underscore.js functions,
         aimed at on Perl hashes and arrays.
         (<a href="https://github.com/vti/underscore-perl">source</a>)
       </p>
 
       <p>
-        <a href="http://russplaysguitar.github.io/UnderscoreCF/">Underscore.cfc</a>,
+        <a href="https://russplaysguitar.github.io/UnderscoreCF/">Underscore.cfc</a>,
         a Coldfusion port of many of the Underscore.js functions.
         (<a href="https://github.com/russplaysguitar/underscorecf">source</a>)
       </p>
 
       <p>
-        <a href="http://epeli.github.io/underscore.string/">Underscore.string</a>,
+        <a href="https://epeli.github.io/underscore.string/">Underscore.string</a>,
         an Underscore extension that adds functions for string-manipulation:
         <tt>trim</tt>, <tt>startsWith</tt>, <tt>contains</tt>, <tt>capitalize</tt>,
         <tt>reverse</tt>, <tt>sprintf</tt>, and more.
       </p>
 
       <p>
-        <a href="http://javadev.github.io/underscore-java/">Underscore-java</a>,
+        <a href="https://javadev.github.io/underscore-java/">Underscore-java</a>,
         a java port of the functions that are applicable in both languages.
         Includes OOP-wrapping and chaining.
         (<a href="https://github.com/javadev/underscore-java">source</a>)
       </p>
 
       <p>
-        Ruby's <a href="http://ruby-doc.org/core/classes/Enumerable.html">Enumerable</a> module.
+        Ruby's <a href="https://ruby-doc.org/core/classes/Enumerable.html">Enumerable</a> module.
       </p>
 
       <p>
-        <a href="http://prototypejs.org/">Prototype.js</a>, which provides
+        <a href="https://prototypejs.org/">Prototype.js</a>, which provides
         JavaScript with collection functions in the manner closest to Ruby's Enumerable.
       </p>
 
       <p>
         Oliver Steele's
-        <a href="http://osteele.com/sources/javascript/functional/">Functional JavaScript</a>,
+        <a href="https://osteele.com/sources/javascript/functional/">Functional JavaScript</a>,
         which includes comprehensive higher-order function support as well as string lambdas.
       </p>
 
@@ -2287,11 +2403,11 @@ _.chain([1, 2, 3]).reverse().value();
       </p>
 
       <p>
-        Python's <a href="http://docs.python.org/library/itertools.html">itertools</a>.
+        Python's <a href="https://docs.python.org/library/itertools.html">itertools</a>.
       </p>
 
       <p>
-        <a href="http://toolz.readthedocs.org/">PyToolz</a>, a Python port
+        <a href="https://toolz.readthedocs.org/">PyToolz</a>, a Python port
         that extends itertools and functools to include much of the
         Underscore API.
       </p>
@@ -2302,6 +2418,126 @@ _.chain([1, 2, 3]).reverse().value();
       </p>
 
       <h2 id="changelog">Change Log</h2>
+
+      <p id="1.10.2">
+        <b class="header">1.10.2</b> &mdash; <small><i>March 30, 2020</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.10.1...1.10.2">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/underscore/1.10.2/index.html">Docs</a><br />
+        <ul>
+          <li>
+            Fixes a bug introduced with <tt>1.10.0</tt>, while using the legacy
+            Node.js require API: <tt>var _ = require("underscore")._</tt>
+          </li>
+        </ul>
+      </p>
+
+      <p id="1.10.1">
+        <b class="header">1.10.1</b> &mdash; <small><i>March 30, 2020</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.10.0...1.10.1">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/underscore/1.10.1/index.html">Docs</a><br />
+        <ul>
+          <li>
+            Fixed relative links among the ES Modules to include the file
+            extension, for web browser support.
+          </li>
+        </ul>
+      </p>
+
+      <p id="1.10.0">
+        <b class="header">1.10.0</b> &mdash; <small><i>March 30, 2020</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.9.2...1.10.0">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/underscore/1.10.0/index.html">Docs</a><br />
+        <ul>
+          <li>
+            Reformats the source code to use EcmaScript 6 <tt>export</tt>
+            notation. The <tt>underscore.js</tt> UMD bundle is now <i>compiled
+            from</i> underlying source modules instead of <i>being</i> the
+            source. From now on, Rollup users have the option to import from
+            the underlying source module in order to enable treeshaking.
+          </li>
+          <li>
+            Explicitly states in the documentation, and verifies in the
+            unittests, that <tt>_.sortedIndex(array, value)</tt> always returns
+            the lower bound, i.e., the smallest index, at which <tt>value</tt>
+            may be inserted in <tt>array</tt>.
+          </li>
+          <li>
+            Makes the notation of the <tt>_.max</tt> unittest consistent with
+            other unittests.
+          </li>
+          <li>
+            Fixes a bug that would cause infinite recursion if an overridden
+            implementation of <tt>_.iteratee</tt> attempted to fall back to the
+            original implementation.
+          </li>
+          <li>
+            Restores compatibility with EcmaScript 3 and ExtendScript.
+          </li>
+        </ul>
+      </p>
+
+      <p id="1.9.2">
+        <b class="header">1.9.2</b> &mdash; <small><i>Jan 6, 2020</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.9.1...1.9.2">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/underscore/1.9.2/index.html">Docs</a><br />
+        <ul>
+          <li>
+            No code changes. Updated a test to help out
+            <a href="https://github.com/nodejs/node/pull/31167#issuecomment-571022478">CITGM</a>.
+          </li>
+        </ul>
+      </p>
+
+      <p id="1.9.1">
+        <b class="header">1.9.1</b> &mdash; <small><i>May 31, 2018</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.9.0...1.9.1">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/underscore/1.9.1/index.html">Docs</a><br />
+        <ul>
+          <li>
+            Fixes edge-case regressions from 1.9.0, including certain forms
+            of calling <tt>_.first</tt> and <tt>_.last</tt> on an empty array,
+            and passing arrays as keys to <tt>_.countBy</tt> and <tt>_.groupBy</tt>.
+          </li>
+        </ul>
+      </p>
+
+      <p id="1.9.0">
+        <b class="header">1.9.0</b> &mdash; <small><i>April 18, 2018</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.8.3...1.9.0">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/underscore/1.9.0/index.html">Docs</a><br />
+        <ul>
+          <li>
+            Adds the <tt>_.restArguments</tt> function for variadic function
+            handling.
+          </li>
+          <li>
+            Adds the <tt>_.chunk</tt> function for chunking up an array.
+          </li>
+          <li>
+            Adds a <tt>_.isSymbol</tt>, <tt>_.isMap</tt>, <tt>_.isWeakMap</tt>,
+            <tt>_.isSet</tt> and <tt>_.isWeakSet</tt> functions.
+          </li>
+          <li>
+            <tt>_.throttle</tt> and <tt>_.debounce</tt> return functions that now
+            have a <tt>.cancel()</tt> method, which can be used to cancel any
+            scheduled calls.
+          </li>
+          <li>
+            <tt>_.property</tt> now accepts arrays of keys and indexes as path
+            specifiers, for looking up a deep properties of a value.
+          </li>
+          <li>
+            <tt>_.range</tt> now accepts negative ranges to generate descending
+            arrays.
+          </li>
+          <li>
+            Adds support for several environments including: WebWorkers,
+            browserify and ES6 imports.
+          </li>
+          <li>
+            Removes the <tt>component.json</tt> as the Component package
+            management system is discontinued.
+          </li>
+          <li>
+            The placeholder used for partial is now configurable by setting
+            <code>_.partial.placeholder</code>.
+          </li>
+          <li>
+            <code>_.bindAll</code> now accepts arrays or arguments for keys.
+          </li>
+          <li>
+            Three years of performance improvements.
+          </li>
+        </ul>
+      </p>
 
       <p id="1.8.3">
         <b class="header">1.8.3</b> &mdash; <small><i>April 2, 2015</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.8.2...1.8.3">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/underscore/1.8.3/index.html">Docs</a><br />
@@ -3025,7 +3261,7 @@ _.chain([1, 2, 3]).reverse().value();
 
       <p id="1.0.4">
         <b class="header">1.0.4</b> &mdash; <small><i>June 22, 2010</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.0.3...1.0.4">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/underscore/1.0.4/index.html">Docs</a><br />
-        <a href="http://themoell.com/">Andri Möll</a> contributed the <tt>_.memoize</tt>
+        <a href="https://themoell.com/">Andri Möll</a> contributed the <tt>_.memoize</tt>
         function, which can be used to speed up expensive repeated computations
         by caching the results.
       </p>
@@ -3081,7 +3317,7 @@ _.chain([1, 2, 3]).reverse().value();
         <b class="header">0.5.7</b> &mdash; <small><i>January 20, 2010</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/0.5.6...0.5.7">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/underscore/0.5.7/index.html">Docs</a><br />
         A safer implementation of <tt>_.isArguments</tt>, and a
         faster <tt>_.isNumber</tt>,<br />thanks to
-        <a href="http://jedschmidt.com/">Jed Schmidt</a>.
+        <a href="https://jedschmidt.com/">Jed Schmidt</a>.
       </p>
 
       <p id="0.5.6">
@@ -3099,7 +3335,7 @@ _.chain([1, 2, 3]).reverse().value();
         <b class="header">0.5.4</b> &mdash; <small><i>January 5, 2010</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/0.5.2...0.5.4">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/underscore/0.5.4/index.html">Docs</a><br />
         Fix for multiple single quotes within a template string for
         <tt>_.template</tt>. See:
-        <a href="http://www.west-wind.com/Weblog/posts/509108.aspx">Rick Strahl's blog post</a>.
+        <a href="https://www.west-wind.com/Weblog/posts/509108.aspx">Rick Strahl's blog post</a>.
       </p>
 
       <p id="0.5.2">
@@ -3107,14 +3343,14 @@ _.chain([1, 2, 3]).reverse().value();
         New implementations of <tt>isArray</tt>, <tt>isDate</tt>, <tt>isFunction</tt>,
         <tt>isNumber</tt>, <tt>isRegExp</tt>, and <tt>isString</tt>, thanks to
         a suggestion from
-        <a href="http://www.broofa.com/">Robert Kieffer</a>.
+        <a href="https://www.broofa.com/">Robert Kieffer</a>.
         Instead of doing <tt>Object#toString</tt>
         comparisons, they now check for expected properties, which is less safe,
         but more than an order of magnitude faster. Most other Underscore
         functions saw minor speed improvements as a result.
-        <a href="http://dolzhenko.org/">Evgeniy Dolzhenko</a>
+        <a href="https://dolzhenko.org/">Evgeniy Dolzhenko</a>
         contributed <tt>_.tap</tt>,
-        <a href="http://ruby-doc.org/core-1.9/classes/Object.html#M000191">similar to Ruby 1.9's</a>,
+        <a href="https://ruby-doc.org/core-1.9/classes/Object.html#M000191">similar to Ruby 1.9's</a>,
         which is handy for injecting side effects (like logging) into chained calls.
       </p>
 
@@ -3123,7 +3359,7 @@ _.chain([1, 2, 3]).reverse().value();
         Added an <tt>_.isArguments</tt> function. Lots of little safety checks
         and optimizations contributed by
         <a href="https://github.com/iamnoah">Noah Sloan</a> and
-        <a href="http://themoell.com/">Andri Möll</a>.
+        <a href="https://themoell.com/">Andri Möll</a>.
       </p>
 
       <p id="0.5.0">
@@ -3150,7 +3386,7 @@ _.chain([1, 2, 3]).reverse().value();
       <p id="0.4.6">
         <b class="header">0.4.6</b> &mdash; <small><i>November 30, 2009</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/0.4.5...0.4.6">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/underscore/0.4.6/index.html">Docs</a><br />
         Added the <tt>range</tt> function, a port of the
-        <a href="http://docs.python.org/library/functions.html#range">Python
+        <a href="https://docs.python.org/library/functions.html#range">Python
         function of the same name</a>, for generating flexibly-numbered lists
         of integers. Original patch contributed by
         <a href="https://github.com/kylichuku">Kirill Ishanov</a>.
@@ -3195,7 +3431,7 @@ _.chain([1, 2, 3]).reverse().value();
         <b class="header">0.4.0</b> &mdash; <small><i>November 7, 2009</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/0.3.3...0.4.0">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/underscore/0.4.0/index.html">Docs</a><br />
         All Underscore functions can now be called in an object-oriented style,
         like so: <tt>_([1, 2, 3]).map(...);</tt>. Original patch provided by
-        <a href="http://macournoyer.com/">Marc-André Cournoyer</a>.
+        <a href="https://macournoyer.com/">Marc-André Cournoyer</a>.
         Wrapped objects can be chained through multiple
         method invocations. A <a href="#object-functions"><tt>functions</tt></a> method
         was added, providing a sorted list of all the functions in Underscore.
@@ -3209,7 +3445,7 @@ _.chain([1, 2, 3]).reverse().value();
 
       <p id="0.3.2">
         <b class="header">0.3.2</b> &mdash; <small><i>October 29, 2009</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/0.3.1...0.3.2">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/underscore/0.3.2/index.html">Docs</a><br />
-        Now runs on stock <a href="http://www.mozilla.org/rhino/">Rhino</a>
+        Now runs on stock <a href="https://www.mozilla.org/rhino/">Rhino</a>
         interpreters with: <tt>load("underscore.js")</tt>.
         Added <a href="#identity"><tt>identity</tt></a> as a utility function.
       </p>
@@ -3227,8 +3463,8 @@ _.chain([1, 2, 3]).reverse().value();
         Added <a href="https://github.com/DmitryBaranovskiy">Dmitry Baranovskiy</a>'s
         comprehensive optimizations, merged in
         <a href="https://github.com/kriskowal">Kris Kowal</a>'s patches to make Underscore
-        <a href="http://wiki.commonjs.org/wiki/CommonJS">CommonJS</a> and
-        <a href="http://narwhaljs.org/">Narwhal</a> compliant.
+        <a href="https://wiki.commonjs.org/wiki/CommonJS">CommonJS</a> and
+        <a href="https://narwhaljs.org/">Narwhal</a> compliant.
       </p>
 
       <p id="0.2.0">
@@ -3250,8 +3486,8 @@ _.chain([1, 2, 3]).reverse().value();
       </p>
 
       <p>
-        <a href="http://documentcloud.org/" title="A DocumentCloud Project" style="background:none;">
-          <img src="http://jashkenas.s3.amazonaws.com/images/a_documentcloud_project.png" alt="A DocumentCloud Project" />
+        <a href="https://documentcloud.org/" title="A DocumentCloud Project" style="background:none;">
+          <img src="https://jashkenas.s3.amazonaws.com/images/a_documentcloud_project.png" alt="A DocumentCloud Project" />
         </a>
       </p>
 

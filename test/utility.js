@@ -14,8 +14,8 @@
 
   });
 
-  if (typeof this == 'object') {
-    QUnit.test('noConflict', function(assert) {
+  if (typeof require != 'function') {
+    QUnit.test('noConflict (browser)', function(assert) {
       var underscore = _.noConflict();
       assert.strictEqual(underscore.identity(1), 1);
       if (typeof require != 'function') {
@@ -46,6 +46,14 @@
 
         done();
       });
+    });
+  }
+
+  if (typeof require == 'function') {
+    QUnit.test('Legacy Node API', function(assert) {
+      var filename = __dirname + '/../underscore.js';
+      var resolved = require(filename);
+      assert.strictEqual(resolved, resolved._);
     });
   }
 
@@ -153,12 +161,13 @@
 
     // handles multiple escape characters at once
     var joiner = ' other stuff ';
-    var allEscaped = escapeCharacters.join(joiner);
-    allEscaped += allEscaped;
-    assert.ok(_.every(escapeCharacters, function(escapeChar) {
-      return allEscaped.indexOf(escapeChar) !== -1;
-    }), 'handles multiple characters');
-    assert.ok(allEscaped.indexOf(joiner) >= 0, 'can escape multiple escape characters at the same time');
+    var allUnescaped = escapeCharacters.join(joiner);
+    allUnescaped += allUnescaped;
+    var allEscaped = _.escape(allUnescaped);
+    assert.ok(_.every(escapeCharacters), function(escapeChar) {
+      return allEscaped.indexOf(escapeChar) === -1;
+    }, 'replaces all occurrences');
+    assert.strictEqual(_.unescape(allEscaped), allUnescaped, 'undos all replacements');
 
     // test & -> &amp;
     var str = 'some string & another string & yet another';
@@ -402,9 +411,9 @@
   });
 
   QUnit.test('#547 - _.templateSettings is unchanged by custom settings.', function(assert) {
-    assert.notOk(_.templateSettings.variable);
+    assert.ok(!_.templateSettings.variable);
     _.template('', {}, {variable: 'x'});
-    assert.notOk(_.templateSettings.variable);
+    assert.ok(!_.templateSettings.variable);
   });
 
   QUnit.test('#556 - undefined template variables.', function(assert) {
@@ -429,11 +438,11 @@
     assert.expect(2);
     var count = 0;
     var template = _.template('<%= f() %>');
-    template({f: function(){ assert.notOk(count++); }});
+    template({f: function(){ assert.ok(!count++); }});
 
     var countEscaped = 0;
     var templateEscaped = _.template('<%- f() %>');
-    templateEscaped({f: function(){ assert.notOk(countEscaped++); }});
+    templateEscaped({f: function(){ assert.ok(!countEscaped++); }});
   });
 
   QUnit.test('#746 - _.template settings are not modified.', function(assert) {

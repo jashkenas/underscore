@@ -4,7 +4,7 @@
 //      $ npm install karma-firefox-launcher
 //      $ karma start --browser=Firefox
 
-// See http://karma-runner.github.io/0.8/config/configuration-file.html
+// See https://karma-runner.github.io/0.8/config/configuration-file.html
 module.exports = function(config) {
   config.set({
     basePath: '',

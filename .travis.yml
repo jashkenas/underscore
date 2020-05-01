@@ -1,13 +1,14 @@
 language: node_js
 sudo: false
 node_js:
-  - "0.8"
-  - "0.10"
-  - "0.12"
-matrix:
-  include:
-    - node_js: "4.0"
-      env: BROWSER=true
+  - "4.9.1"
+  - "6.14.1"
+  - "8.11.1"
+  - "9.11.1"
+ matrix:
+   include:
+     - node_js: "4.0"
+       env: BROWSER=true
 before_install:
   - npm install -g npm@2.6
   - npm install -g karma-cli
@@ -26,5 +27,5 @@ env:
   - NPM_CONFIG_PROGRESS="false"
   - secure: bDZSBQfqr21hCayjcZ20IxrV6+XGhxQPFIfwWqEKLrF93Gu8LLVjZRxXE/mE8I8N4Z5WtDNb4ZHrm/TTzmcPa5MuHgIxEdknQCncobH8oimwc83SHwEPk6okeNKl39VlCjvvnmoe/V/KpnknuYn3Rqghtl/Uv9KLpCwskwjTtcw=
   - secure: SRECgXuwcZTcD3GVxTS2bYNgRyye4vq6BLrV2PH9FyNenowsKQR2EwlC/dppc1Q8NWMgv79J/R96q9JOFh+mEH9L5dlBb2yhnGH8amVeM/ChAJHT/F8YktKM453uVpz5fR00QcCQDDUOx6Pvx374ID0OKNpWKAkQBWA9mPTsLnE=
-  matrix: BROWSER=false
+  # matrix: BROWSER=false
 after_success: npm run coveralls

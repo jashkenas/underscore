@@ -13,27 +13,21 @@ var sauceBrowsers = _.reduce([
   ['chrome', '31'],
   ['chrome', '26'],
 
-  ['microsoftedge', '20.10240', 'Windows 10'],
-  ['internet explorer', '11', 'Windows 10'],
+  // ['microsoftedge', 'latest', 'Windows 10'],
+  // ['internet explorer', '11', 'Windows 10'], 
   ['internet explorer', '10', 'Windows 8'],
   ['internet explorer', '9', 'Windows 7'],
-  // Currently disabled due to karma-sauce issues
+ 
+ // Currently disabled due to karma-sauce issues
   // ['internet explorer', '8'],
   // ['internet explorer', '7'],
   // ['internet explorer', '6'],
 
-  ['opera', '12'],
-  ['opera', '11'],
-
-  ['android', '5'],
-  ['android', '4.4'],
-  ['android', '4.3'],
-  ['android', '4.0'],
-
+  //['android', 'latest']
+  
   ['safari', '8.0', 'OS X 10.10'],
   ['safari', '7'],
-  ['safari', '6'],
-  ['safari', '5']
+
 ], function(memo, platform) {
   // internet explorer -> ie
   var label = platform[0].split(' ');
@@ -60,6 +54,8 @@ module.exports = function(config) {
     basePath: '',
     frameworks: ['qunit'],
     singleRun: true,
+    browserDisconnectTolerance: 5,
+    browserNoActivityTimeout: 240000,
 
     // list of files / patterns to load in the browser
     files: [

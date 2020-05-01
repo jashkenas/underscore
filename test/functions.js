@@ -99,7 +99,8 @@
       sayHi: function() { return 'hi: ' + this.name; }
     };
     curly.getName = moe.getName;
-    _.bindAll(moe, 'getName', 'sayHi');
+    var bound = _.bindAll(moe, 'getName', 'sayHi');
+    assert.strictEqual(bound, moe, 'returns the bound object');
     curly.sayHi = moe.sayHi;
     assert.strictEqual(curly.getName(), 'name: curly', 'unbound function is bound to current object');
     assert.strictEqual(curly.sayHi(), 'hi: moe', 'bound function is still bound to original object');
@@ -182,7 +183,7 @@
     var done = assert.async();
     var delayed = false;
     _.delay(function(){ delayed = true; }, 100);
-    setTimeout(function(){ assert.notOk(delayed, "didn't delay the function quite yet"); }, 50);
+    setTimeout(function(){ assert.ok(!delayed, "didn't delay the function quite yet"); }, 50);
     setTimeout(function(){ assert.ok(delayed, 'delayed the function'); done(); }, 150);
   });
 
@@ -701,12 +702,12 @@
 
     // Test custom iteratee
     var builtinIteratee = _.iteratee;
-    _.iteratee = function(value) {
+    _.iteratee = function(value, context) {
       // RegEx values return a function that returns the number of matches
       if (_.isRegExp(value)) return function(obj) {
         return (obj.match(value) || []).length;
       };
-      return value;
+      return builtinIteratee(value, context);
     };
 
     var collection = ['foo', 'bar', 'bbiz'];
@@ -734,33 +735,44 @@
     var objCollection = {a: 'foo', b: 'bar', c: 'bbiz'};
     assert.deepEqual(_.mapObject(objCollection, /b/g), {a: 0, b: 1, c: 2});
 
+    // Ensure that the overridden iteratee can still fall back on the builtin
+    // iteratee.
+    assert.strictEqual(_.iteratee(), _.identity);
+    assert.deepEqual(_.toArray(_.iteratee(fn)(1, 2, 3)), _.range(1, 4));
+    var matcher = _.iteratee({b: 'bar'});
+    assert.equal(matcher(objCollection), true);
+    assert.equal(matcher({}), false);
+    var property = _.iteratee('b');
+    assert.equal(property(objCollection), 'bar');
+    assert.equal(property({}), undefined);
+
     // Restore the builtin iteratee
     _.iteratee = builtinIteratee;
   });
 
-  QUnit.test('restArgs', function(assert) {
+  QUnit.test('restArguments', function(assert) {
     assert.expect(10);
-    _.restArgs(function(a, args) {
+    _.restArguments(function(a, args) {
       assert.strictEqual(a, 1);
       assert.deepEqual(args, [2, 3], 'collects rest arguments into an array');
     })(1, 2, 3);
 
-    _.restArgs(function(a, args) {
+    _.restArguments(function(a, args) {
       assert.strictEqual(a, void 0);
       assert.deepEqual(args, [], 'passes empty array if there are not enough arguments');
     })();
 
-    _.restArgs(function(a, b, c, args) {
+    _.restArguments(function(a, b, c, args) {
       assert.strictEqual(arguments.length, 4);
       assert.deepEqual(args, [4, 5], 'works on functions with many named parameters');
     })(1, 2, 3, 4, 5);
 
     var obj = {};
-    _.restArgs(function() {
+    _.restArguments(function() {
       assert.strictEqual(this, obj, 'invokes function with this context');
     }).call(obj);
 
-    _.restArgs(function(array, iteratee, context) {
+    _.restArguments(function(array, iteratee, context) {
       assert.deepEqual(array, [1, 2, 3, 4], 'startIndex can be used manually specify index of rest parameter');
       assert.strictEqual(iteratee, void 0);
       assert.strictEqual(context, void 0);
