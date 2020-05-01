@@ -1219,29 +1219,10 @@ function deepEq(a, b, aStack, bStack) {
   var className = toString.call(a);
   if (className !== toString.call(b)) return false;
 
-  // isView returns true when it's a typed array or DataView
-  if (isTypedArray(a)) {
-    // If a and b are of the same typed array, we compare them as DataView
-    return deepEq(new DataView(a.buffer), new DataView(b.buffer), aStack, bStack);
-  }
-
   switch (className) {
-    // DataView we check by value
-    case '[object ArrayBuffer]':
-      return deepEq(new DataView(a), new DataView(b), aStack, bStack);
-    case '[object DataView]':
-      if (a.byteLength !== b.byteLength) {
-        return false;
-      }
-      for (var i = 0; i < a.byteLength; i++) {
-        if (a.getUint8(i) !== b.getUint8(i)) {
-          return false;
-        }
-      }
-      return true;
-    // Strings, numbers, regular expressions, dates, and booleans are compared by value.
+    // These types are compared by value.
     case '[object RegExp]':
-    // RegExps are coerced to strings for comparison (Note: '' + /a/i === '/a/i')
+      // RegExps are coerced to strings for comparison (Note: '' + /a/i === '/a/i')
     case '[object String]':
       // Primitives and their corresponding object wrappers are equivalent; thus, `"5"` is
       // equivalent to `new String("5")`.
@@ -1260,6 +1241,25 @@ function deepEq(a, b, aStack, bStack) {
       return +a === +b;
     case '[object Symbol]':
       return SymbolProto.valueOf.call(a) === SymbolProto.valueOf.call(b);
+    case '[object ArrayBuffer]':
+      // Coerce to `DataView` so we can fall through to the next case.
+      return deepEq(new DataView(a), new DataView(b), aStack, bStack);
+    case '[object DataView]':
+      var byteLength = getByteLength(a);
+      if (byteLength !== getByteLength(b)) {
+        return false;
+      }
+      while (byteLength--) {
+        if (a.getUint8(byteLength) !== b.getUint8(byteLength)) {
+          return false;
+        }
+      }
+      return true;
+  }
+
+  if (isTypedArray(a)) {
+    // Coerce typed arrays to `DataView`.
+    return deepEq(new DataView(a.buffer), new DataView(b.buffer), aStack, bStack);
   }
 
   var areArrays = className === '[object Array]';
