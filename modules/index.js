@@ -24,11 +24,15 @@ var push = ArrayProto.push,
     toString = ObjProto.toString,
     hasOwnProperty = ObjProto.hasOwnProperty;
 
-// All **ECMAScript 5** native function implementations that we hope to use
+// Modern feature detection.
+var supportsArrayBuffer = typeof ArrayBuffer !== 'undefined';
+
+// All **ECMAScript 5+** native function implementations that we hope to use
 // are declared here.
 var nativeIsArray = Array.isArray,
     nativeKeys = Object.keys,
-    nativeCreate = Object.create;
+    nativeCreate = Object.create,
+    nativeIsView = supportsArrayBuffer && ArrayBuffer.isView;
 
 // Create references to these builtin functions because we override them.
 var _isNaN = root.isNaN,
@@ -44,29 +48,6 @@ export default function _(obj) {
   if (!(this instanceof _)) return new _(obj);
   this._wrapped = obj;
 }
-
-// not every runtime supports ArrayBuffer
-var supportsArrayBuffer = typeof ArrayBuffer !== 'undefined';
-// list from https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypedArray
-var typedArrayNames = [
-  '[object Int8Array]',
-  '[object Int16Array]',
-  '[object Int32Array]',
-  '[object Uint8Array]',
-  '[object Uint8ClampedArray]',
-  '[object Uint16Array]',
-  '[object Uint32Array]',
-  '[object Float32Array]',
-  '[object Float64Array]',
-  '[object BigInt64Array]',
-  '[object BigUint64Array]'
-];
-function isTypedArray(a) {
-  // second check is from the above whitelist, but the first check is more future proof
-  // since new typed arrays may arrive
-  return (supportsArrayBuffer && ArrayBuffer.isView && ArrayBuffer.isView(a) && !(a instanceof DataView))
-    || contains(typedArrayNames, toString.call(a));
-};
 
 // Current version.
 export var VERSION = _.VERSION = '1.10.2';
@@ -184,6 +165,14 @@ var getLength = shallowProperty('length');
 function isArrayLike(collection) {
   var length = getLength(collection);
   return typeof length == 'number' && length >= 0 && length <= MAX_ARRAY_INDEX;
+}
+
+// Likewise to determine whether we should spend extensive checks against
+// `ArrayBuffer` et al.
+var getByteLength = shallowProperty('byteLength');
+function isBufferLike(collection) {
+  var byteLength = getByteLength(collection);
+  return typeof byteLength == 'number' && byteLength >= 0 && byteLength <= MAX_ARRAY_INDEX;
 }
 
 // Collection Functions
@@ -1368,7 +1357,7 @@ export function isObject(obj) {
   return type === 'function' || type === 'object' && !!obj;
 }
 
-// Add some isType methods: isArguments, isFunction, isString, isNumber, isDate, isRegExp, isError, isMap, isWeakMap, isSet, isWeakSet.
+// Add some isType methods.
 export var isArguments = tagTester('Arguments');
 export var isFunction = tagTester('Function');
 export var isString = tagTester('String');
@@ -1381,6 +1370,8 @@ export var isMap = tagTester('Map');
 export var isWeakMap = tagTester('WeakMap');
 export var isSet = tagTester('Set');
 export var isWeakSet = tagTester('WeakSet');
+export var isArrayBuffer = tagTester('ArrayBuffer');
+export var isDataView = tagTester('DataView');
 
 // Define a fallback version of the method in browsers (ahem, IE < 9), where
 // there isn't any inspectable "Arguments" type.
@@ -1425,6 +1416,14 @@ export function isNull(obj) {
 export function isUndefined(obj) {
   return obj === void 0;
 }
+
+// Is a given value a typed array?
+var typedArrayPattern = /\[object ((I|Ui)nt(8|16|32)|Float(32|64)|Uint8Clamped|Big(I|Ui)nt64)Array\]/;
+export var isTypedArray = supportsArrayBuffer ? function(obj) {
+  // `ArrayBuffer.isView` is the most future-proof, so use it when available.
+  // Otherwise, fall back on the above regular expression.
+  return nativeIsView ? (nativeIsView(obj) && !isDataView(obj)) : isBufferLike(obj) && typedArrayPattern.test(toString.call(obj));
+} : constant(false);
 
 // Shortcut function for checking if an object has a given property directly
 // on itself (in other words, not on a prototype).
