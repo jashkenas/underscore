@@ -167,24 +167,26 @@
     return length ? obj : void 0;
   }
 
+  // Common logic for isArrayLike and isBufferLike.
+  var MAX_ARRAY_INDEX = Math.pow(2, 53) - 1;
+  function createSizePropertyCheck(getSizeProperty) {
+    return function(collection) {
+      var sizeProperty = getSizeProperty(collection);
+      return typeof sizeProperty == 'number' && sizeProperty >= 0 && sizeProperty <= MAX_ARRAY_INDEX;
+    }
+  }
+
   // Helper for collection methods to determine whether a collection
   // should be iterated as an array or as an object.
   // Related: https://people.mozilla.org/~jorendorff/es6-draft.html#sec-tolength
   // Avoids a very nasty iOS 8 JIT bug on ARM-64. #2094
-  var MAX_ARRAY_INDEX = Math.pow(2, 53) - 1;
   var getLength = shallowProperty('length');
-  function isArrayLike(collection) {
-    var length = getLength(collection);
-    return typeof length == 'number' && length >= 0 && length <= MAX_ARRAY_INDEX;
-  }
+  var isArrayLike = createSizePropertyCheck(getLength);
 
   // Likewise to determine whether we should spend extensive checks against
   // `ArrayBuffer` et al.
   var getByteLength = shallowProperty('byteLength');
-  function isBufferLike(collection) {
-    var byteLength = getByteLength(collection);
-    return typeof byteLength == 'number' && byteLength >= 0 && byteLength <= MAX_ARRAY_INDEX;
-  }
+  var isBufferLike = createSizePropertyCheck(getByteLength);
 
   // Collection Functions
   // --------------------
