@@ -911,6 +911,42 @@
     assert.ok(_.isError(new URIError()), 'URIErrors are Errors');
   });
 
+  if (typeof ArrayBuffer != 'undefined') {
+    QUnit.test('isArrayBuffer, isDataView and isTypedArray', function(assert) {
+      var buffer = new ArrayBuffer(16);
+      var checkValues = {
+        'null': null,
+        'a string': '',
+        'an array': [],
+        'an ArrayBuffer': buffer,
+        'a DataView': new DataView(buffer),
+        'a TypedArray': new Uint8Array(buffer)
+      };
+      var types = ['an ArrayBuffer', 'a DataView', 'a TypedArray'];
+      _.each(types, function(type) {
+        var typeCheck = _['is' + type.split(' ')[1]];
+        _.each(checkValues, function(value, description) {
+          if (description === type) {
+            assert.ok(typeCheck(value), description + ' is ' + type);
+          } else {
+            assert.ok(!typeCheck(value), description + ' is not ' + type);
+          }
+        });
+      });
+    });
+
+    QUnit.test('isTypedArray', function(assert) {
+      var buffer = new ArrayBuffer(16);
+      _.each([Uint8ClampedArray, Int8Array, Uint16Array, Int16Array, Uint32Array, Int32Array, Float32Array, Float64Array], function(ctor) {
+        assert.ok(_.isTypedArray(new ctor(buffer)), ctor.name + ' is a typed array');
+      });
+
+      if (typeof BigInt64Array != 'undefined') {
+        assert.ok(_.isTypedArray(new BigInt64Array(buffer)), 'BigInt64Array is a typed array');
+      }
+    });
+  }
+
   QUnit.test('tap', function(assert) {
     var intercepted = null;
     var interceptor = function(obj) { intercepted = obj; };
