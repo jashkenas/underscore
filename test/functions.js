@@ -46,6 +46,12 @@
     assert.strictEqual(boundf().hello, 'moe curly', "When called without the new operator, it's OK to be bound to the context");
     assert.ok(newBoundf instanceof F, 'a bound instance is an instance of the original function');
 
+    // Ensure that we are not reproducing #2214.
+    var D = _.bind(Date, null, 2015, 5);
+    var newD = new D(10);
+    assert.ok(newD instanceof Date, 'works on variable argument constructors');
+    assert.ok(newD.toISOString(), 'works on nontrivial constructors');
+
     assert.raises(function() { _.bind('notafunction'); }, TypeError, 'throws an error when binding to a non-function');
   });
 
