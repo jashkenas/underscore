@@ -15,12 +15,13 @@ var root = typeof self == 'object' && self.self === self && self ||
           {};
 
 // Save bytes in the minified (but not gzipped) version:
-var ArrayProto = Array.prototype, ObjProto = Object.prototype;
+var ArrayProto = Array.prototype, FuncProto = Function.prototype, ObjProto = Object.prototype;
 var SymbolProto = typeof Symbol !== 'undefined' ? Symbol.prototype : null;
 
 // Create quick reference variables for speed access to core prototypes.
 var push = ArrayProto.push,
     slice = ArrayProto.slice,
+    _bind = FuncProto.bind,
     toString = ObjProto.toString,
     hasOwnProperty = ObjProto.hasOwnProperty;
 
@@ -766,7 +767,9 @@ function executeBound(sourceFunc, boundFunc, context, callingContext, args) {
 // Create a function bound to a given object (assigning `this`, and arguments,
 // optionally). Delegates to **ECMAScript 5**'s native `Function.bind` if
 // available.
-export var bind = restArguments(function(func, context, args) {
+export var bind = _bind ? restArguments(function(func, args) {
+  return _bind.apply(func, args);
+}) : restArguments(function(func, context, args) {
   if (!isFunction(func)) throw new TypeError('Bind must be called on a function');
   var bound = restArguments(function(callArgs) {
     return executeBound(func, bound, context, this, args.concat(callArgs));
