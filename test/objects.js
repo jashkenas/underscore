@@ -578,6 +578,36 @@
       var sameStringSymbol = Symbol('x');
       assert.strictEqual(_.isEqual(symbol, sameStringSymbol), false, 'Different symbols of same string are not equal');
     }
+
+
+
+    // typed arrays
+    if (typeof ArrayBuffer !== 'undefined') {
+      var u8 = new Uint8Array([1, 2]);
+      var u8b = new Uint8Array([1, 2]);
+      var i8 = new Int8Array([1, 2]);
+      var u16 = new Uint16Array([1, 2]);
+      var u16one = new Uint16Array([3]);
+
+      assert.ok(_.isEqual(u8, u8b), 'Identical typed array data are equal');
+      assert.ok(_.isEqual(u8.buffer, u8b.buffer), 'Identical ArrayBuffers are equal');
+      assert.ok(_.isEqual(new DataView(u8.buffer), new DataView(u8b.buffer)), 'Identical DataViews are equal');
+      assert.ok(_.isEqual(new DataView(u8.buffer), new DataView(i8.buffer)), 'Identical DataViews of different typed arrays are equal');
+      assert.ok(_.isEqual(u8.buffer, i8.buffer), 'Identical ArrayBuffers of different typed arrays are equal');
+
+      assert.notOk(_.isEqual({a: 1, buffer: u8.buffer}, {a: 2, buffer: u8b.buffer}), 'Unequal objects with similar buffer properties are not equals');
+
+      assert.notOk(_.isEqual(u8, i8), 'Different types of typed arrays with the same byte data are not equal');
+      assert.notOk(_.isEqual(u8, u16), 'Typed arrays with different types and different byte length are not equal');
+      assert.notOk(_.isEqual(u8, u16one), 'Typed arrays with different types, same byte length but different byte data are not equal');
+      assert.notOk(_.isEqual(new DataView(u8.buffer), new DataView(u16.buffer)), 'Different DataViews with different length are not equal');
+      assert.notOk(_.isEqual(new DataView(u8.buffer), new DataView(u16one.buffer)), 'Different DataViews with different byte data are not equal');
+      assert.notOk(_.isEqual(u8.buffer, u16.buffer), 'Different ArrayBuffers with different length are not equal');
+      assert.notOk(_.isEqual(u8.buffer, u16one.buffer), 'Different ArrayBuffers with different byte data are not equal');
+    }
+
+    //assert.ok(_.isEqual(new DataView(u8.buffer)), new DataView(u8b.buffer))
+    //assert.notOk(_.isEqual(new DataView((new Uint8Array([1,2])).buffer), new DataView((new Uint8Array([5,6,10])).buffer));
   });
 
   QUnit.test('isEmpty', function(assert) {
@@ -880,6 +910,42 @@
     assert.ok(_.isError(new TypeError()), 'TypeErrors are Errors');
     assert.ok(_.isError(new URIError()), 'URIErrors are Errors');
   });
+
+  if (typeof ArrayBuffer != 'undefined') {
+    QUnit.test('isArrayBuffer, isDataView and isTypedArray', function(assert) {
+      var buffer = new ArrayBuffer(16);
+      var checkValues = {
+        'null': null,
+        'a string': '',
+        'an array': [],
+        'an ArrayBuffer': buffer,
+        'a DataView': new DataView(buffer),
+        'a TypedArray': new Uint8Array(buffer)
+      };
+      var types = ['an ArrayBuffer', 'a DataView', 'a TypedArray'];
+      _.each(types, function(type) {
+        var typeCheck = _['is' + type.split(' ')[1]];
+        _.each(checkValues, function(value, description) {
+          if (description === type) {
+            assert.ok(typeCheck(value), description + ' is ' + type);
+          } else {
+            assert.ok(!typeCheck(value), description + ' is not ' + type);
+          }
+        });
+      });
+    });
+
+    QUnit.test('isTypedArray', function(assert) {
+      var buffer = new ArrayBuffer(16);
+      _.each([Uint8ClampedArray, Int8Array, Uint16Array, Int16Array, Uint32Array, Int32Array, Float32Array, Float64Array], function(ctor) {
+        assert.ok(_.isTypedArray(new ctor(buffer)), ctor.name + ' is a typed array');
+      });
+
+      if (typeof BigInt64Array != 'undefined') {
+        assert.ok(_.isTypedArray(new BigInt64Array(buffer)), 'BigInt64Array is a typed array');
+      }
+    });
+  }
 
   QUnit.test('tap', function(assert) {
     var intercepted = null;

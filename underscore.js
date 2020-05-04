@@ -35,11 +35,15 @@
       toString = ObjProto.toString,
       hasOwnProperty = ObjProto.hasOwnProperty;
 
-  // All **ECMAScript 5** native function implementations that we hope to use
+  // Modern feature detection.
+  var supportsArrayBuffer = typeof ArrayBuffer !== 'undefined';
+
+  // All **ECMAScript 5+** native function implementations that we hope to use
   // are declared here.
   var nativeIsArray = Array.isArray,
       nativeKeys = Object.keys,
-      nativeCreate = Object.create;
+      nativeCreate = Object.create,
+      nativeIsView = supportsArrayBuffer && ArrayBuffer.isView;
 
   // Create references to these builtin functions because we override them.
   var _isNaN = root.isNaN,
@@ -163,16 +167,26 @@
     return length ? obj : void 0;
   }
 
+  // Common logic for isArrayLike and isBufferLike.
+  var MAX_ARRAY_INDEX = Math.pow(2, 53) - 1;
+  function createSizePropertyCheck(getSizeProperty) {
+    return function(collection) {
+      var sizeProperty = getSizeProperty(collection);
+      return typeof sizeProperty == 'number' && sizeProperty >= 0 && sizeProperty <= MAX_ARRAY_INDEX;
+    }
+  }
+
   // Helper for collection methods to determine whether a collection
   // should be iterated as an array or as an object.
   // Related: https://people.mozilla.org/~jorendorff/es6-draft.html#sec-tolength
   // Avoids a very nasty iOS 8 JIT bug on ARM-64. #2094
-  var MAX_ARRAY_INDEX = Math.pow(2, 53) - 1;
   var getLength = shallowProperty('length');
-  function isArrayLike(collection) {
-    var length = getLength(collection);
-    return typeof length == 'number' && length >= 0 && length <= MAX_ARRAY_INDEX;
-  }
+  var isArrayLike = createSizePropertyCheck(getLength);
+
+  // Likewise to determine whether we should spend extensive checks against
+  // `ArrayBuffer` et al.
+  var getByteLength = shallowProperty('byteLength');
+  var isBufferLike = createSizePropertyCheck(getByteLength);
 
   // Collection Functions
   // --------------------
@@ -1203,10 +1217,11 @@
     // Compare `[[Class]]` names.
     var className = toString.call(a);
     if (className !== toString.call(b)) return false;
+
     switch (className) {
-      // Strings, numbers, regular expressions, dates, and booleans are compared by value.
+      // These types are compared by value.
       case '[object RegExp]':
-      // RegExps are coerced to strings for comparison (Note: '' + /a/i === '/a/i')
+        // RegExps are coerced to strings for comparison (Note: '' + /a/i === '/a/i')
       case '[object String]':
         // Primitives and their corresponding object wrappers are equivalent; thus, `"5"` is
         // equivalent to `new String("5")`.
@@ -1225,6 +1240,25 @@
         return +a === +b;
       case '[object Symbol]':
         return SymbolProto.valueOf.call(a) === SymbolProto.valueOf.call(b);
+      case '[object ArrayBuffer]':
+        // Coerce to `DataView` so we can fall through to the next case.
+        return deepEq(new DataView(a), new DataView(b), aStack, bStack);
+      case '[object DataView]':
+        var byteLength = getByteLength(a);
+        if (byteLength !== getByteLength(b)) {
+          return false;
+        }
+        while (byteLength--) {
+          if (a.getUint8(byteLength) !== b.getUint8(byteLength)) {
+            return false;
+          }
+        }
+        return true;
+    }
+
+    if (isTypedArray(a)) {
+      // Coerce typed arrays to `DataView`.
+      return deepEq(new DataView(a.buffer), new DataView(b.buffer), aStack, bStack);
     }
 
     var areArrays = className === '[object Array]';
@@ -1322,7 +1356,7 @@
     return type === 'function' || type === 'object' && !!obj;
   }
 
-  // Add some isType methods: isArguments, isFunction, isString, isNumber, isDate, isRegExp, isError, isMap, isWeakMap, isSet, isWeakSet.
+  // Add some isType methods.
   var isArguments = tagTester('Arguments');
   var isFunction = tagTester('Function');
   var isString = tagTester('String');
@@ -1335,6 +1369,8 @@
   var isWeakMap = tagTester('WeakMap');
   var isSet = tagTester('Set');
   var isWeakSet = tagTester('WeakSet');
+  var isArrayBuffer = tagTester('ArrayBuffer');
+  var isDataView = tagTester('DataView');
 
   // Define a fallback version of the method in browsers (ahem, IE < 9), where
   // there isn't any inspectable "Arguments" type.
@@ -1379,6 +1415,14 @@
   function isUndefined(obj) {
     return obj === void 0;
   }
+
+  // Is a given value a typed array?
+  var typedArrayPattern = /\[object ((I|Ui)nt(8|16|32)|Float(32|64)|Uint8Clamped|Big(I|Ui)nt64)Array\]/;
+  var isTypedArray = supportsArrayBuffer ? function(obj) {
+    // `ArrayBuffer.isView` is the most future-proof, so use it when available.
+    // Otherwise, fall back on the above regular expression.
+    return nativeIsView ? (nativeIsView(obj) && !isDataView(obj)) : isBufferLike(obj) && typedArrayPattern.test(toString.call(obj));
+  } : constant(false);
 
   // Shortcut function for checking if an object has a given property directly
   // on itself (in other words, not on a prototype).
@@ -1799,11 +1843,14 @@
     isWeakMap: isWeakMap,
     isSet: isSet,
     isWeakSet: isWeakSet,
+    isArrayBuffer: isArrayBuffer,
+    isDataView: isDataView,
     isFinite: isFinite,
     isNaN: isNaN,
     isBoolean: isBoolean,
     isNull: isNull,
     isUndefined: isUndefined,
+    isTypedArray: isTypedArray,
     has: has,
     identity: identity,
     constant: constant,
