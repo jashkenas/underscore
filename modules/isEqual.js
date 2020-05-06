@@ -1,5 +1,7 @@
 import _ from './underscore.js';
 import { toString, SymbolProto } from './_setup.js';
+import getByteLength from './_getByteLength';
+import isTypedArray from './isTypedArray';
 import isFunction from './isFunction.js';
 import keys from './keys.js';
 import has from './_has.js';
@@ -28,9 +30,9 @@ function deepEq(a, b, aStack, bStack) {
   var className = toString.call(a);
   if (className !== toString.call(b)) return false;
   switch (className) {
-    // Strings, numbers, regular expressions, dates, and booleans are compared by value.
+    // These types are compared by value.
     case '[object RegExp]':
-    // RegExps are coerced to strings for comparison (Note: '' + /a/i === '/a/i')
+      // RegExps are coerced to strings for comparison (Note: '' + /a/i === '/a/i')
     case '[object String]':
       // Primitives and their corresponding object wrappers are equivalent; thus, `"5"` is
       // equivalent to `new String("5")`.
@@ -49,6 +51,25 @@ function deepEq(a, b, aStack, bStack) {
       return +a === +b;
     case '[object Symbol]':
       return SymbolProto.valueOf.call(a) === SymbolProto.valueOf.call(b);
+    case '[object ArrayBuffer]':
+      // Coerce to `DataView` so we can fall through to the next case.
+      return deepEq(new DataView(a), new DataView(b), aStack, bStack);
+    case '[object DataView]':
+      var byteLength = getByteLength(a);
+      if (byteLength !== getByteLength(b)) {
+        return false;
+      }
+      while (byteLength--) {
+        if (a.getUint8(byteLength) !== b.getUint8(byteLength)) {
+          return false;
+        }
+      }
+      return true;
+  }
+
+  if (isTypedArray(a)) {
+    // Coerce typed arrays to `DataView`.
+    return deepEq(new DataView(a.buffer), new DataView(b.buffer), aStack, bStack);
   }
 
   var areArrays = className === '[object Array]';

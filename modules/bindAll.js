@@ -13,4 +13,5 @@ export default restArguments(function(obj, keys) {
     var key = keys[index];
     obj[key] = bind(obj[key], obj);
   }
+  return obj;
 });

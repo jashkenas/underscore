@@ -12,8 +12,8 @@
     assert.deepEqual(_.first([1, 2, 3], 5), [1, 2, 3], 'returns the whole array if n > length');
     var result = (function(){ return _.first(arguments); }(4, 3, 2, 1));
     assert.strictEqual(result, 4, 'works on an arguments object');
-    result = _.map([[1, 2, 3], [1, 2, 3]], _.first);
-    assert.deepEqual(result, [1, 1], 'works well with _.map');
+    result = _.map([[1, 2, 3], [], [1, 2, 3]], _.first);
+    assert.deepEqual(result, [1, void 0, 1], 'works well with _.map');
     assert.strictEqual(_.first(null), void 0, 'returns undefined when called on null');
     assert.deepEqual(_.first([], 10), [], 'returns an empty array when called with an explicit number of elements to return');
     assert.deepEqual(_.first([], 1), [], 'returns an empty array when called with an explicit number of elements to return');
@@ -70,10 +70,9 @@
     assert.deepEqual(_.last([1, 2, 3], 5), [1, 2, 3], 'returns the whole array if n > length');
     var result = (function(){ return _(arguments).last(); }(1, 2, 3, 4));
     assert.strictEqual(result, 4, 'works on an arguments object');
-    result = _.map([[1, 2, 3], [1, 2, 3]], _.last);
-    assert.deepEqual(result, [3, 3], 'works well with _.map');
+    result = _.map([[1, 2, 3], [], [1, 2, 3]], _.last);
+    assert.deepEqual(result, [3, void 0, 3], 'works well with _.map');
     assert.strictEqual(_.last(null), void 0, 'returns undefined when called on null');
-
     assert.deepEqual(_.last([], 10), [], 'returns an empty array when called with an explicit number of elements to return');
     assert.deepEqual(_.last([], 1), [], 'returns an empty array when called with an explicit number of elements to return');
     assert.deepEqual(_.last(null, 5), [], 'returns an empty array when called with an explicit number of elements to return');

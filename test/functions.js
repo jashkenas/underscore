@@ -99,7 +99,8 @@
       sayHi: function() { return 'hi: ' + this.name; }
     };
     curly.getName = moe.getName;
-    _.bindAll(moe, 'getName', 'sayHi');
+    var bound = _.bindAll(moe, 'getName', 'sayHi');
+    assert.strictEqual(bound, moe, 'returns the bound object');
     curly.sayHi = moe.sayHi;
     assert.strictEqual(curly.getName(), 'name: curly', 'unbound function is bound to current object');
     assert.strictEqual(curly.sayHi(), 'hi: moe', 'bound function is still bound to original object');

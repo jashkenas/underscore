@@ -35,11 +35,15 @@
       toString = ObjProto.toString,
       hasOwnProperty = ObjProto.hasOwnProperty;
 
-  // All **ECMAScript 5** native function implementations that we hope to use
+  // Modern feature detection.
+  var supportsArrayBuffer = typeof ArrayBuffer !== 'undefined';
+
+  // All **ECMAScript 5+** native function implementations that we hope to use
   // are declared here.
   var nativeIsArray = Array.isArray,
       nativeKeys = Object.keys,
-      nativeCreate = Object.create;
+      nativeCreate = Object.create,
+      nativeIsView = supportsArrayBuffer && ArrayBuffer.isView;
 
   // Create references to these builtin functions because we override them.
   var _isNaN = isNaN,
@@ -285,16 +289,21 @@
     };
   }
 
+  // Common logic for isArrayLike and isBufferLike.
+  function createSizePropertyCheck(getSizeProperty) {
+    return function(collection) {
+      var sizeProperty = getSizeProperty(collection);
+      return typeof sizeProperty == 'number' && sizeProperty >= 0 && sizeProperty <= MAX_ARRAY_INDEX;
+    }
+  }
+
   var getLength = shallowProperty('length');
 
   // Helper for collection methods to determine whether a collection
   // should be iterated as an array or as an object.
   // Related: https://people.mozilla.org/~jorendorff/es6-draft.html#sec-tolength
   // Avoids a very nasty iOS 8 JIT bug on ARM-64. #2094
-  function isArrayLike(collection) {
-    var length = getLength(collection);
-    return typeof length == 'number' && length >= 0 && length <= MAX_ARRAY_INDEX;
-  }
+  var isArrayLike = createSizePropertyCheck(getLength);
 
   // The cornerstone, an `each` implementation, aka `forEach`.
   // Handles raw objects in addition to array-likes. Treats all
@@ -749,7 +758,7 @@
   // Get the first element of an array. Passing **n** will return the first N
   // values in the array. The **guard** check allows it to work with `map`.
   function first(array, n, guard) {
-    if (array == null || array.length < 1) return n == null ? void 0 : [];
+    if (array == null || array.length < 1) return n == null || guard ? void 0 : [];
     if (n == null || guard) return array[0];
     return initial(array, array.length - n);
   }
@@ -764,7 +773,7 @@
   // Get the last element of an array. Passing **n** will return the last N
   // values in the array.
   function last(array, n, guard) {
-    if (array == null || array.length < 1) return n == null ? void 0 : [];
+    if (array == null || array.length < 1) return n == null || guard ? void 0 : [];
     if (n == null || guard) return array[array.length - 1];
     return rest(array, Math.max(0, array.length - n));
   }
@@ -1028,6 +1037,7 @@
       var key = keys[index];
       obj[key] = bind(obj[key], obj);
     }
+    return obj;
   });
 
   // Memoize an expensive function by storing its results.
@@ -1288,6 +1298,31 @@
     return obj;
   }
 
+  var getByteLength = shallowProperty('byteLength');
+
+  var isDataView = tagTester('DataView');
+
+  // Helper to determine whether we should spend extensive checks against
+  // `ArrayBuffer` et al.
+  var isBufferLike = createSizePropertyCheck(getByteLength);
+
+  // Predicate-generating functions. Often useful outside of Underscore.
+  function constant(value) {
+    return function() {
+      return value;
+    };
+  }
+
+  // Is a given value a typed array?
+  var typedArrayPattern = /\[object ((I|Ui)nt(8|16|32)|Float(32|64)|Uint8Clamped|Big(I|Ui)nt64)Array\]/;
+  function isTypedArray(obj) {
+    // `ArrayBuffer.isView` is the most future-proof, so use it when available.
+    // Otherwise, fall back on the above regular expression.
+    return nativeIsView ? (nativeIsView(obj) && !isDataView(obj)) : isBufferLike(obj) && typedArrayPattern.test(toString.call(obj));
+  }
+
+  var isTypedArray$1 = supportsArrayBuffer ? isTypedArray : constant(false);
+
   // Internal recursive comparison function for `isEqual`.
   function eq(a, b, aStack, bStack) {
     // Identical objects are equal. `0 === -0`, but they aren't identical.
@@ -1312,9 +1347,9 @@
     var className = toString.call(a);
     if (className !== toString.call(b)) return false;
     switch (className) {
-      // Strings, numbers, regular expressions, dates, and booleans are compared by value.
+      // These types are compared by value.
       case '[object RegExp]':
-      // RegExps are coerced to strings for comparison (Note: '' + /a/i === '/a/i')
+        // RegExps are coerced to strings for comparison (Note: '' + /a/i === '/a/i')
       case '[object String]':
         // Primitives and their corresponding object wrappers are equivalent; thus, `"5"` is
         // equivalent to `new String("5")`.
@@ -1333,6 +1368,25 @@
         return +a === +b;
       case '[object Symbol]':
         return SymbolProto.valueOf.call(a) === SymbolProto.valueOf.call(b);
+      case '[object ArrayBuffer]':
+        // Coerce to `DataView` so we can fall through to the next case.
+        return deepEq(new DataView(a), new DataView(b), aStack, bStack);
+      case '[object DataView]':
+        var byteLength = getByteLength(a);
+        if (byteLength !== getByteLength(b)) {
+          return false;
+        }
+        while (byteLength--) {
+          if (a.getUint8(byteLength) !== b.getUint8(byteLength)) {
+            return false;
+          }
+        }
+        return true;
+    }
+
+    if (isTypedArray$1(a)) {
+      // Coerce typed arrays to `DataView`.
+      return deepEq(new DataView(a.buffer), new DataView(b.buffer), aStack, bStack);
     }
 
     var areArrays = className === '[object Array]';
@@ -1429,6 +1483,8 @@
 
   var isWeakSet = tagTester('WeakSet');
 
+  var isArrayBuffer = tagTester('ArrayBuffer');
+
   // Is a given object a finite number?
   function isFinite$1(obj) {
     return !isSymbol(obj) && _isFinite(obj) && !isNaN(parseFloat(obj));
@@ -1459,13 +1515,6 @@
       obj = obj[key];
     }
     return !!length;
-  }
-
-  // Predicate-generating functions. Often useful outside of Underscore.
-  function constant(value) {
-    return function() {
-      return value;
-    };
   }
 
   function noop(){}
@@ -1671,8 +1720,12 @@
     var method = ArrayProto[name];
     _.prototype[name] = function() {
       var obj = this._wrapped;
-      method.apply(obj, arguments);
-      if ((name === 'shift' || name === 'splice') && obj.length === 0) delete obj[0];
+      if (obj != null) {
+        method.apply(obj, arguments);
+        if ((name === 'shift' || name === 'splice') && obj.length === 0) {
+          delete obj[0];
+        }
+      }
       return chainResult(this, obj);
     };
   });
@@ -1681,7 +1734,9 @@
   each(['concat', 'join', 'slice'], function(name) {
     var method = ArrayProto[name];
     _.prototype[name] = function() {
-      return chainResult(this, method.apply(this._wrapped, arguments));
+      var obj = this._wrapped;
+      if (obj != null) obj = method.apply(obj, arguments);
+      return chainResult(this, obj);
     };
   });
 
@@ -1816,11 +1871,14 @@
     isWeakMap: isWeakMap,
     isSet: isSet,
     isWeakSet: isWeakSet,
+    isArrayBuffer: isArrayBuffer,
+    isDataView: isDataView,
     isFinite: isFinite$1,
     isNaN: isNaN$1,
     isBoolean: isBoolean,
     isNull: isNull,
     isUndefined: isUndefined,
+    isTypedArray: isTypedArray$1,
     has: has$1,
     identity: identity,
     constant: constant,

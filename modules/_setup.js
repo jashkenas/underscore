@@ -19,11 +19,15 @@ export var push = ArrayProto.push,
     toString = ObjProto.toString,
     hasOwnProperty = ObjProto.hasOwnProperty;
 
-// All **ECMAScript 5** native function implementations that we hope to use
+// Modern feature detection.
+export var supportsArrayBuffer = typeof ArrayBuffer !== 'undefined';
+
+// All **ECMAScript 5+** native function implementations that we hope to use
 // are declared here.
 export var nativeIsArray = Array.isArray,
     nativeKeys = Object.keys,
-    nativeCreate = Object.create;
+    nativeCreate = Object.create,
+    nativeIsView = supportsArrayBuffer && ArrayBuffer.isView;
 
 // Create references to these builtin functions because we override them.
 export var _isNaN = isNaN,

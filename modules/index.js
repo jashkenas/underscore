@@ -114,11 +114,14 @@ export { default as isMap } from './isMap.js';
 export { default as isWeakMap } from './isWeakMap.js';
 export { default as isSet } from './isSet.js';
 export { default as isWeakSet } from './isWeakSet.js';
+export { default as isArrayBuffer } from './isArrayBuffer.js';
+export { default as isDataView } from './isDataView.js';
 export { default as isFinite } from './isFinite.js';
 export { default as isNaN } from './isNaN.js';
 export { default as isBoolean } from './isBoolean.js';
 export { default as isNull } from './isNull.js';
 export { default as isUndefined } from './isUndefined.js';
+export { default as isTypedArray } from './isTypedArray.js';
 export { default as has } from './has.js';
 
 // Utility Functions
