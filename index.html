@@ -2435,7 +2435,7 @@ _.chain([1, 2, 3]).reverse().value();
       <h2 id="notes">Notes</h2>
 
       <p id="relational-operator-note">
-        <b class="header">On using the <tt>&lt;</tt> operator in JavaScript</b>
+        <b class="header">On the use of <tt>&lt;</tt> in Underscore</b>
         <br>
         Underscore functions that depend on ordering, such as
         <a href="#sortBy"><tt>_.sortBy</tt></a> and
@@ -2446,47 +2446,11 @@ _.chain([1, 2, 3]).reverse().value();
         important to understand that these operators are only meaningful for
         numbers and strings. You can throw any value to them, but JavaScript
         will convert the operands to string or number first before performing
-        the actual comparison.
-      </p>
-      <p>
-        If you use the relational operators naievely and pass an operand that
+        the actual comparison. If you pass an operand that
         cannot be meaningfully converted to string or number, it ends up being
-        <tt>NaN</tt> by default. This frequently causes confusion because a
-        comparison with <tt>NaN</tt> always yields <tt>false</tt>:
-      </p>
-      <pre>
-1 &lt; NaN // false
-NaN &lt; 1 // false
-NaN == 1 // false
-'a' &lt; NaN // false
-NaN &lt; 'a' // false
-NaN == 'a' // false
-NaN &lt; NaN // false
-NaN &lt;= NaN // false!
-NaN === NaN // false!
-      </pre>
-      <p>
-        In the past, people have tried passing such operands to Underscore
-        functions as well. This invariably led to confusion, too. For example,
-        consider the following apparent inconsistency between <tt>_.sortBy</tt>
-        and <tt>_.sortedIndex</tt> (reported in
-        <a href="https://github.com/jashkenas/underscore/issues/1834">issue #1834</a>):
-      </p>
-      <pre>
-_.sortBy([undefined, 1, undefined, 2]);
-// => [1, 2, undefined, undefined]
-_.sortedIndex([1, 2, undefined, undefined], undefined);
-// => 0; reporter expected 2
-      </pre>
-      <p>
-        The problem with this example, however is not that <tt>_.sortBy</tt>
-        and <tt>_.sortedIndex</tt> are inconsistent with each other, but that
-        unsortable values are being passed into the functions in the first
-        place. <tt>undefined</tt> is just one of the many possible values that
-        is converted to <tt>NaN</tt>.
+        <tt>NaN</tt> by default. This value is unsortable.
       </p>
       <p>
-        Take home point: make sure that ordering makes sense for your values.
         Ideally, the values that you are sorting should either be all
         (meaningfully convertible to) strings or all (meaningfully convertible
         to) numbers. If this is not the case, you have two options:
