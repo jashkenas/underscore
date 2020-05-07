@@ -2461,16 +2461,17 @@ _.chain([1, 2, 3]).reverse().value();
           </li>
           <li>
             Pick a target type, i.e., either string or number, and pass an
-            <tt>iteratee</tt> to your Underscore function that will convert its
-            argument to a sensible instance of the target type. For example, if
-            you have an array of numbers that you want to sort and that may
-            occasionally contain <tt>null</tt> or <tt>undefined</tt>, you can
-            control whether you want to sort these before or after all numbers
-            by passing an <tt>iteratee</tt> to <tt>_.sortBy</tt> that returns
-            <tt>-Infinity</tt> or <tt>+Infinity</tt> for such values,
-            respectively. Or maybe you want to treat them as zeros; it is up to
-            you. The same <tt>iteratee</tt> can also be passed to other
-            Underscore functions to ensure that the behavior is consistent.
+            <a href="#iteratee"><tt>iteratee</tt></a> to your Underscore
+            function that will convert its argument to a sensible instance of
+            the target type. For example, if you have an array of numbers that
+            you want to sort and that may occasionally contain <tt>null</tt> or
+            <tt>undefined</tt>, you can control whether you want to sort these
+            before or after all numbers by passing an <tt>iteratee</tt> to
+            <tt>_.sortBy</tt> that returns <tt>-Infinity</tt> or
+            <tt>+Infinity</tt> for such values, respectively. Or maybe you want
+            to treat them as zeros; it is up to you. The same <tt>iteratee</tt>
+            can also be passed to other Underscore functions to ensure that the
+            behavior is consistent.
           </li>
         </ul>
       </p>
