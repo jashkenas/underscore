@@ -32,7 +32,7 @@
     "qunit": "^2.6.0",
     "qunit-cli": "~0.2.0",
     "rollup": "^0.59.4",
-    "uglify-js": "3.3.21"
+    "terser": "^4.6.13"
   },
   "scripts": {
     "test": "npm run lint && npm run test-node",
@@ -44,7 +44,7 @@
     "bundle": "rollup --config && eslint underscore.js",
     "bundle-treeshake": "cd test-treeshake && npx rollup@latest --config",
     "prepare-tests": "npm run bundle && npm run bundle-treeshake",
-    "minify": "uglifyjs underscore.js -c \"evaluate=false\" --comments \"/    .*/\" -m",
+    "minify": "terser underscore.js -c \"evaluate=false\" --comments \"/    .*/\" -m",
     "build": "npm run bundle && npm run minify -- --source-map content=underscore.js.map --source-map-url \" \" -o underscore-min.js",
     "doc": "cd docs && rollup -c && docco -o . underscore.js",
     "weight": "npm run bundle && npm run minify | gzip-size | pretty-bytes",
