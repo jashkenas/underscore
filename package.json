@@ -19,7 +19,7 @@
   "version": "1.10.2",
   "devDependencies": {
     "coveralls": "^2.11.2",
-    "docco": "*",
+    "docco": "^0.8.0",
     "eslint": "^6.8.0",
     "eslint-plugin-import": "^2.20.1",
     "gzip-size-cli": "^1.0.0",
