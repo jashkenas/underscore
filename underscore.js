@@ -55,8 +55,13 @@
   // The largest integer that can be represented exactly.
   var MAX_ARRAY_INDEX = Math.pow(2, 53) - 1;
 
-  // The Underscore object. All exported functions are added to it in the
-  // `index-default.js` using the `_.mixin` function.
+  // If Underscore is called as a function, it returns a wrapped object that
+  // can be used OO-style. This wrapper holds altered versions of all the
+  // underscore functions. Wrapped objects may be chained.
+  //
+  // Unwrapping methods and `Array.prototype` methods are added in the
+  // `underscore-oop.js` module. All public Underscore functions are added to it
+  // in the `index-default.js` using the `_.mixin` function.
   function _(obj) {
     if (obj instanceof _) return obj;
     if (!(this instanceof _)) return new _(obj);
@@ -70,7 +75,7 @@
     return value;
   }
 
-  // Internal function for creating a toString-based type tester.
+  // Internal function for creating a `toString`-based type tester.
   function tagTester(name) {
     return function(obj) {
       return toString.call(obj) === '[object ' + name + ']';
@@ -144,9 +149,9 @@
     return obj != null && hasOwnProperty.call(obj, path);
   }
 
-  // collectNonEnumProps used to depend on _.contains, but this led to circular
-  // imports. emulatedSet is a one-off solution that only works for arrays of
-  // strings.
+  // `collectNonEnumProps` used to depend on `_.contains`, but this led to
+  // circular imports. `emulatedSet` is a one-off solution that only works for
+  // arrays of strings.
   function emulatedSet(keys) {
     var hash = {};
     for (var l = keys.length, i = 0; i < l; ++i) hash[keys[i]] = true;
@@ -253,11 +258,11 @@
 
   // External wrapper for our callback generator. Users may customize
   // `_.iteratee` if they want additional predicate/iteratee shorthand styles.
-  // This abstraction hides the internal-only argCount argument.
-  _.iteratee = iteratee;
+  // This abstraction hides the internal-only `argCount` argument.
   function iteratee(value, context) {
     return baseIteratee(value, context, Infinity);
   }
+  _.iteratee = iteratee;
 
   // Some functions take a variable number of arguments, or a few expected
   // arguments at the beginning and then a variable number of values to operate
@@ -287,7 +292,7 @@
     };
   }
 
-  // Common logic for isArrayLike and isBufferLike.
+  // Common logic for `isArrayLike` and `isBufferLike`.
   function createSizePropertyCheck(getSizeProperty) {
     return function(collection) {
       var sizeProperty = getSizeProperty(collection);
@@ -303,7 +308,8 @@
   // Avoids a very nasty iOS 8 JIT bug on ARM-64. #2094
   var isArrayLike = createSizePropertyCheck(getLength);
 
-  // The cornerstone, an `each` implementation, aka `forEach`.
+  // The cornerstone for collection functions, an `each`
+  // implementation, aka `forEach`.
   // Handles raw objects in addition to array-likes. Treats all
   // sparse array-likes as if they were dense.
   function each(obj, iteratee, context) {
@@ -322,8 +328,8 @@
     return obj;
   }
 
-  // The function we actually call internally. It invokes _.iteratee if
-  // overridden, otherwise baseIteratee.
+  // The function we call internally to generate a callback. It invokes
+  // `_.iteratee` if overridden, otherwise `baseIteratee`.
   function cb(value, context, argCount) {
     if (_.iteratee !== iteratee) return _.iteratee(value, context);
     return baseIteratee(value, context, argCount);
@@ -374,7 +380,7 @@
   // The right-associative version of reduce, also known as `foldr`.
   var reduceRight = createReduce(-1);
 
-  // Generator function to create the findIndex and findLastIndex functions.
+  // Internal function to generate the `findIndex` and `findLastIndex` functions.
   function createPredicateIndexFinder(dir) {
     return function(array, predicate, context) {
       predicate = cb(predicate, context);
@@ -484,7 +490,7 @@
     return isNumber(obj) && _isNaN(obj);
   }
 
-  // Generator function to create the indexOf and lastIndexOf functions.
+  // Internal function to generate the `indexOf` and `lastIndexOf` functions.
   function createIndexFinder(dir, predicateFind, sortedIndex) {
     return function(array, item, idx) {
       var i = 0, length = getLength(array);
@@ -1236,7 +1242,7 @@
     return names.sort();
   }
 
-  // Internal pick helper function to determine if `obj` has key `key`.
+  // Internal `pick` helper function to determine if `obj` has key `key`.
   function keyInObj(value, key, obj) {
     return key in obj;
   }
@@ -1288,7 +1294,7 @@
     return result;
   }
 
-  // Invokes interceptor with the obj, and then returns obj.
+  // Invokes `interceptor` with the `obj`, and then returns `obj`.
   // The primary purpose of this method is to "tap into" a method chain, in
   // order to perform operations on intermediate results within the chain.
   function tap(obj, interceptor) {
@@ -1304,7 +1310,7 @@
   // `ArrayBuffer` et al.
   var isBufferLike = createSizePropertyCheck(getByteLength);
 
-  // Predicate-generating functions. Often useful outside of Underscore.
+  // Predicate-generating function. Often useful outside of Underscore.
   function constant(value) {
     return function() {
       return value;
@@ -1515,6 +1521,7 @@
     return !!length;
   }
 
+  // Predicate-generating function. Often useful outside of Underscore.
   function noop(){}
 
   // Generates a function for a given object that returns a given property.
@@ -1899,6 +1906,8 @@
     mixin: mixin,
     'default': _
   };
+
+  // In this module, we mix our bundled exports into the `_` object and export
 
   // Add all of the Underscore functions to the wrapper object.
   var _$1 = mixin(allExports);

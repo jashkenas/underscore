@@ -193,8 +193,12 @@ are declared here.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-11">&#182;</a>
               </div>
-              <p>The Underscore object. All exported functions are added to it in the
-underscore-module.js using the mixin function.</p>
+              <p>If Underscore is called as a function, it returns a wrapped object that
+can be used OO-style. This wrapper holds altered versions of all the
+underscore functions. Wrapped objects may be chained.</p>
+<p>Unwrapping methods and <code>Array.prototype</code> methods are added in the
+<code>underscore-oop.js</code> module. All public Underscore functions are added to it
+in the <code>index-default.js</code> using the <code>_.mixin</code> function.</p>
 
             </div>
             
@@ -232,7 +236,7 @@ _.VERSION = VERSION;</pre></div></div>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-13">&#182;</a>
               </div>
-              <p>Internal function for creating a toString-based type tester.</p>
+              <p>Internal function for creating a <code>toString</code>-based type tester.</p>
 
             </div>
             
@@ -392,9 +396,9 @@ Delegates to ECMA5’s native Array.isArray</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-20">&#182;</a>
               </div>
-              <p>collectNonEnumProps used to depend on _.contains, but this led to circular
-imports. emulatedSet is a one-off solution that only works for arrays of
-strings.</p>
+              <p><code>collectNonEnumProps</code> used to depend on <code>_.contains</code>, but this led to
+circular imports. <code>emulatedSet</code> is a one-off solution that only works for
+arrays of strings.</p>
 
             </div>
             
@@ -622,14 +626,14 @@ an arbitrary callback, a property matcher, or a property accessor.</p>
               </div>
               <p>External wrapper for our callback generator. Users may customize
 <code>_.iteratee</code> if they want additional predicate/iteratee shorthand styles.
-This abstraction hides the internal-only argCount argument.</p>
+This abstraction hides the internal-only <code>argCount</code> argument.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>_.iteratee = iteratee;
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">iteratee</span>(<span class="hljs-params">value, context</span>) </span>{
+            <div class="content"><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">iteratee</span>(<span class="hljs-params">value, context</span>) </span>{
   <span class="hljs-keyword">return</span> baseIteratee(value, context, <span class="hljs-literal">Infinity</span>);
-}</pre></div></div>
+}
+_.iteratee = iteratee;</pre></div></div>
             
         </li>
         
@@ -680,7 +684,7 @@ the last argument. Similar to ES6’s “rest parameter”.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-32">&#182;</a>
               </div>
-              <p>Common logic for isArrayLike and isBufferLike.</p>
+              <p>Common logic for <code>isArrayLike</code> and <code>isBufferLike</code>.</p>
 
             </div>
             
@@ -720,7 +724,8 @@ Avoids a very nasty iOS 8 JIT bug on ARM-64. #2094</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-34">&#182;</a>
               </div>
-              <p>The cornerstone, an <code>each</code> implementation, aka <code>forEach</code>.
+              <p>The cornerstone for collection functions, an <code>each</code>
+implementation, aka <code>forEach</code>.
 Handles raw objects in addition to array-likes. Treats all
 sparse array-likes as if they were dense.</p>
 
@@ -751,8 +756,8 @@ sparse array-likes as if they were dense.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-35">&#182;</a>
               </div>
-              <p>The function we actually call internally. It invokes _.iteratee if
-overridden, otherwise baseIteratee.</p>
+              <p>The function we call internally to generate a callback. It invokes
+<code>_.iteratee</code> if overridden, otherwise <code>baseIteratee</code>.</p>
 
             </div>
             
@@ -876,7 +881,7 @@ or <code>foldl</code>.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-41">&#182;</a>
               </div>
-              <p>Generator function to create the findIndex and findLastIndex functions.</p>
+              <p>Internal function to generate the <code>findIndex</code> and <code>findLastIndex</code> functions.</p>
 
             </div>
             
@@ -1130,7 +1135,7 @@ an object should be inserted so as to maintain order. Uses binary search.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-53">&#182;</a>
               </div>
-              <p>Generator function to create the indexOf and lastIndexOf functions.</p>
+              <p>Internal function to generate the <code>indexOf</code> and <code>lastIndexOf</code> functions.</p>
 
             </div>
             
@@ -2703,7 +2708,7 @@ The opposite of object.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-121">&#182;</a>
               </div>
-              <p>Internal pick helper function to determine if <code>obj</code> has key <code>key</code>.</p>
+              <p>Internal <code>pick</code> helper function to determine if <code>obj</code> has key <code>key</code>.</p>
 
             </div>
             
@@ -2815,7 +2820,7 @@ created object.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-126">&#182;</a>
               </div>
-              <p>Invokes interceptor with the obj, and then returns obj.
+              <p>Invokes <code>interceptor</code> with the <code>obj</code>, and then returns <code>obj</code>.
 The primary purpose of this method is to “tap into” a method chain, in
 order to perform operations on intermediate results within the chain.</p>
 
@@ -2855,7 +2860,7 @@ order to perform operations on intermediate results within the chain.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-128">&#182;</a>
               </div>
-              <p>Predicate-generating functions. Often useful outside of Underscore.</p>
+              <p>Predicate-generating function. Often useful outside of Underscore.</p>
 
             </div>
             
@@ -3546,9 +3551,7 @@ on itself (in other words, not on a prototype).</p>
     obj = obj[key];
   }
   <span class="hljs-keyword">return</span> !!length;
-}
-
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">noop</span>(<span class="hljs-params"></span>)</span>{}</pre></div></div>
+}</pre></div></div>
             
         </li>
         
@@ -3558,6 +3561,21 @@ on itself (in other words, not on a prototype).</p>
               
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-167">&#182;</a>
+              </div>
+              <p>Predicate-generating function. Often useful outside of Underscore.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">noop</span>(<span class="hljs-params"></span>)</span>{}</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-168">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-168">&#182;</a>
               </div>
               <p>Generates a function for a given object that returns a given property.</p>
 
@@ -3575,11 +3593,11 @@ on itself (in other words, not on a prototype).</p>
         </li>
         
         
-        <li id="section-168">
+        <li id="section-169">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-168">&#182;</a>
+                <a class="pilcrow" href="#section-169">&#182;</a>
               </div>
               <p>Run a function <strong>n</strong> times.</p>
 
@@ -3595,11 +3613,11 @@ on itself (in other words, not on a prototype).</p>
         </li>
         
         
-        <li id="section-169">
+        <li id="section-170">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-169">&#182;</a>
+                <a class="pilcrow" href="#section-170">&#182;</a>
               </div>
               <p>Functions for escaping and unescaping strings to/from HTML interpolation.</p>
 
@@ -3613,11 +3631,11 @@ on itself (in other words, not on a prototype).</p>
         </li>
         
         
-        <li id="section-170">
+        <li id="section-171">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-170">&#182;</a>
+                <a class="pilcrow" href="#section-171">&#182;</a>
               </div>
               <p>Regexes for identifying a key that needs to be escaped.</p>
 
@@ -3635,11 +3653,11 @@ on itself (in other words, not on a prototype).</p>
         </li>
         
         
-        <li id="section-171">
+        <li id="section-172">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-171">&#182;</a>
+                <a class="pilcrow" href="#section-172">&#182;</a>
               </div>
               <p>List of HTML entities for escaping.</p>
 
@@ -3657,11 +3675,11 @@ on itself (in other words, not on a prototype).</p>
         </li>
         
         
-        <li id="section-172">
+        <li id="section-173">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-172">&#182;</a>
+                <a class="pilcrow" href="#section-173">&#182;</a>
               </div>
               <p>Function for escaping strings to HTML interpolation.</p>
 
@@ -3672,11 +3690,11 @@ on itself (in other words, not on a prototype).</p>
         </li>
         
         
-        <li id="section-173">
+        <li id="section-174">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-173">&#182;</a>
+                <a class="pilcrow" href="#section-174">&#182;</a>
               </div>
               <p>List of HTML entities for unescaping.</p>
 
@@ -3687,11 +3705,11 @@ on itself (in other words, not on a prototype).</p>
         </li>
         
         
-        <li id="section-174">
+        <li id="section-175">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-174">&#182;</a>
+                <a class="pilcrow" href="#section-175">&#182;</a>
               </div>
               <p>Function for unescaping strings from HTML interpolation.</p>
 
@@ -3702,11 +3720,11 @@ on itself (in other words, not on a prototype).</p>
         </li>
         
         
-        <li id="section-175">
+        <li id="section-176">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-175">&#182;</a>
+                <a class="pilcrow" href="#section-176">&#182;</a>
               </div>
               <p>Traverses the children of <code>obj</code> along <code>path</code>. If a child is a function, it
 is invoked with its parent as context. Returns the value of the final
@@ -3734,11 +3752,11 @@ child, or <code>fallback</code> if any child is undefined.</p>
         </li>
         
         
-        <li id="section-176">
+        <li id="section-177">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-176">&#182;</a>
+                <a class="pilcrow" href="#section-177">&#182;</a>
               </div>
               <p>Generate a unique integer id (unique within the entire client session).
 Useful for temporary DOM ids.</p>
@@ -3754,11 +3772,11 @@ Useful for temporary DOM ids.</p>
         </li>
         
         
-        <li id="section-177">
+        <li id="section-178">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-177">&#182;</a>
+                <a class="pilcrow" href="#section-178">&#182;</a>
               </div>
               <p>By default, Underscore uses ERB-style template delimiters, change the
 following template settings to use alternative delimiters.</p>
@@ -3774,11 +3792,11 @@ following template settings to use alternative delimiters.</p>
         </li>
         
         
-        <li id="section-178">
+        <li id="section-179">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-178">&#182;</a>
+                <a class="pilcrow" href="#section-179">&#182;</a>
               </div>
               <p>When customizing <code>_.templateSettings</code>, if you don’t want to define an
 interpolation, evaluation or escaping regex, we need one that is
@@ -3791,11 +3809,11 @@ guaranteed not to match.</p>
         </li>
         
         
-        <li id="section-179">
+        <li id="section-180">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-179">&#182;</a>
+                <a class="pilcrow" href="#section-180">&#182;</a>
               </div>
               <p>Certain characters need to be escaped so that they can be put into a
 string literal.</p>
@@ -3820,11 +3838,11 @@ string literal.</p>
         </li>
         
         
-        <li id="section-180">
+        <li id="section-181">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-180">&#182;</a>
+                <a class="pilcrow" href="#section-181">&#182;</a>
               </div>
               <p>JavaScript micro-templating, similar to John Resig’s implementation.
 Underscore templating handles arbitrary delimiters, preserves whitespace,
@@ -3840,11 +3858,11 @@ NB: <code>oldSettings</code> only exists for backwards compatibility.</p>
         </li>
         
         
-        <li id="section-181">
+        <li id="section-182">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-181">&#182;</a>
+                <a class="pilcrow" href="#section-182">&#182;</a>
               </div>
               <p>Combine delimiters into one regular expression via alternation.</p>
 
@@ -3859,11 +3877,11 @@ NB: <code>oldSettings</code> only exists for backwards compatibility.</p>
         </li>
         
         
-        <li id="section-182">
+        <li id="section-183">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-182">&#182;</a>
+                <a class="pilcrow" href="#section-183">&#182;</a>
               </div>
               <p>Compile the template source, escaping string literals appropriately.</p>
 
@@ -3886,11 +3904,11 @@ NB: <code>oldSettings</code> only exists for backwards compatibility.</p>
         </li>
         
         
-        <li id="section-183">
+        <li id="section-184">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-183">&#182;</a>
+                <a class="pilcrow" href="#section-184">&#182;</a>
               </div>
               <p>Adobe VMs need the match returned to produce the correct offset.</p>
 
@@ -3903,11 +3921,11 @@ NB: <code>oldSettings</code> only exists for backwards compatibility.</p>
         </li>
         
         
-        <li id="section-184">
+        <li id="section-185">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-184">&#182;</a>
+                <a class="pilcrow" href="#section-185">&#182;</a>
               </div>
               <p>If a variable is not specified, place data values in local scope.</p>
 
@@ -3934,11 +3952,11 @@ NB: <code>oldSettings</code> only exists for backwards compatibility.</p>
         </li>
         
         
-        <li id="section-185">
+        <li id="section-186">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-185">&#182;</a>
+                <a class="pilcrow" href="#section-186">&#182;</a>
               </div>
               <p>Provide the compiled source as a convenience for precompilation.</p>
 
@@ -3953,11 +3971,11 @@ NB: <code>oldSettings</code> only exists for backwards compatibility.</p>
         </li>
         
         
-        <li id="section-186">
+        <li id="section-187">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-186">&#182;</a>
+                <a class="pilcrow" href="#section-187">&#182;</a>
               </div>
               <p>Add a “chain” function. Start chaining a wrapped Underscore object.</p>
 
@@ -3972,11 +3990,11 @@ NB: <code>oldSettings</code> only exists for backwards compatibility.</p>
         </li>
         
         
-        <li id="section-187">
+        <li id="section-188">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-187">&#182;</a>
+                <a class="pilcrow" href="#section-188">&#182;</a>
               </div>
               <p>Helper function to continue chaining intermediate results.</p>
 
@@ -3989,11 +4007,11 @@ NB: <code>oldSettings</code> only exists for backwards compatibility.</p>
         </li>
         
         
-        <li id="section-188">
+        <li id="section-189">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-188">&#182;</a>
+                <a class="pilcrow" href="#section-189">&#182;</a>
               </div>
               <p>Add your own custom functions to the Underscore object.</p>
 
@@ -4014,11 +4032,11 @@ NB: <code>oldSettings</code> only exists for backwards compatibility.</p>
         </li>
         
         
-        <li id="section-189">
+        <li id="section-190">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-189">&#182;</a>
+                <a class="pilcrow" href="#section-190">&#182;</a>
               </div>
               <p>Add all mutator Array functions to the wrapper.</p>
 
@@ -4041,11 +4059,11 @@ NB: <code>oldSettings</code> only exists for backwards compatibility.</p>
         </li>
         
         
-        <li id="section-190">
+        <li id="section-191">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-190">&#182;</a>
+                <a class="pilcrow" href="#section-191">&#182;</a>
               </div>
               <p>Add all accessor Array functions to the wrapper.</p>
 
@@ -4063,11 +4081,11 @@ NB: <code>oldSettings</code> only exists for backwards compatibility.</p>
         </li>
         
         
-        <li id="section-191">
+        <li id="section-192">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-191">&#182;</a>
+                <a class="pilcrow" href="#section-192">&#182;</a>
               </div>
               <p>Extracts the result from a wrapped and chained object.</p>
 
@@ -4080,11 +4098,11 @@ NB: <code>oldSettings</code> only exists for backwards compatibility.</p>
         </li>
         
         
-        <li id="section-192">
+        <li id="section-193">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-192">&#182;</a>
+                <a class="pilcrow" href="#section-193">&#182;</a>
               </div>
               <p>Provide unwrapping proxy for some methods used in engine operations
 such as arithmetic and JSON stringification.</p>
@@ -4100,11 +4118,11 @@ _.prototype.toString = <span class="hljs-function"><span class="hljs-keyword">fu
         </li>
         
         
-        <li id="section-193">
+        <li id="section-194">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-193">&#182;</a>
+                <a class="pilcrow" href="#section-194">&#182;</a>
               </div>
               <pre><code>Underscore.js <span class="hljs-number">1.10</span><span class="hljs-number">.2</span></code></pre>
             </div>
@@ -4260,11 +4278,24 @@ _.prototype.toString = <span class="hljs-function"><span class="hljs-keyword">fu
         </li>
         
         
-        <li id="section-194">
+        <li id="section-195">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-194">&#182;</a>
+                <a class="pilcrow" href="#section-195">&#182;</a>
+              </div>
+              <p>In this module, we mix our bundled exports into the <code>_</code> object and export</p>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-196">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-196">&#182;</a>
               </div>
               <p>Add all of the Underscore functions to the wrapper object.</p>
 
@@ -4275,29 +4306,43 @@ _.prototype.toString = <span class="hljs-function"><span class="hljs-keyword">fu
         </li>
         
         
-        <li id="section-195">
+        <li id="section-197">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-195">&#182;</a>
+                <a class="pilcrow" href="#section-197">&#182;</a>
               </div>
               <p>Legacy Node.js API</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>_$<span class="hljs-number">1.</span>_ = _$<span class="hljs-number">1</span>;
+            <div class="content"><div class='highlight'><pre>_$<span class="hljs-number">1.</span>_ = _$<span class="hljs-number">1</span>;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-198">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-198">&#182;</a>
+              </div>
+              <p>This module is the package entry point for ES module users. In other words,</p>
 
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> _$<span class="hljs-number">1</span>;
 <span class="hljs-keyword">export</span> { VERSION, after, every <span class="hljs-keyword">as</span> all, allKeys, some <span class="hljs-keyword">as</span> any, extendOwn <span class="hljs-keyword">as</span> assign, before, bind, bindAll, chain, chunk, clone, map <span class="hljs-keyword">as</span> collect, compact, compose, constant, contains, countBy, create, debounce, defaults, defer, delay, find <span class="hljs-keyword">as</span> detect, difference, rest <span class="hljs-keyword">as</span> drop, each, _escape <span class="hljs-keyword">as</span> <span class="hljs-built_in">escape</span>, every, extend, extendOwn, filter, find, findIndex, findKey, findLastIndex, findWhere, first, flatten$<span class="hljs-number">1</span> <span class="hljs-keyword">as</span> flatten, reduce <span class="hljs-keyword">as</span> foldl, reduceRight <span class="hljs-keyword">as</span> foldr, each <span class="hljs-keyword">as</span> forEach, functions, groupBy, has$<span class="hljs-number">1</span> <span class="hljs-keyword">as</span> has, first <span class="hljs-keyword">as</span> head, identity, contains <span class="hljs-keyword">as</span> include, contains <span class="hljs-keyword">as</span> includes, indexBy, indexOf, initial, reduce <span class="hljs-keyword">as</span> inject, intersection, invert, invoke, isArguments$<span class="hljs-number">1</span> <span class="hljs-keyword">as</span> isArguments, isArray, isArrayBuffer, isBoolean, isDataView, isDate, isElement, isEmpty, isEqual, isError, <span class="hljs-built_in">isFinite</span>$<span class="hljs-number">1</span> <span class="hljs-keyword">as</span> <span class="hljs-built_in">isFinite</span>, isFunction$<span class="hljs-number">1</span> <span class="hljs-keyword">as</span> isFunction, isMap, isMatch, <span class="hljs-built_in">isNaN</span>$<span class="hljs-number">1</span> <span class="hljs-keyword">as</span> <span class="hljs-built_in">isNaN</span>, isNull, isNumber, isObject, isRegExp, isSet, isString, isSymbol, isTypedArray$<span class="hljs-number">1</span> <span class="hljs-keyword">as</span> isTypedArray, isUndefined, isWeakMap, isWeakSet, iteratee, keys, last, lastIndexOf, map, mapObject, matcher, matcher <span class="hljs-keyword">as</span> matches, max, memoize, functions <span class="hljs-keyword">as</span> methods, min, mixin, negate, noop, now, object, omit, once, pairs, partial, partition, pick, pluck, property, propertyOf, random, range, reduce, reduceRight, reject, rest, restArguments, result, sample, filter <span class="hljs-keyword">as</span> select, shuffle, size, some, sortBy, sortedIndex, rest <span class="hljs-keyword">as</span> tail, first <span class="hljs-keyword">as</span> take, tap, template, templateSettings, throttle, times, toArray, _unescape <span class="hljs-keyword">as</span> <span class="hljs-built_in">unescape</span>, union, uniq, uniq <span class="hljs-keyword">as</span> unique, uniqueId, unzip, values, where, without, wrap, zip };</pre></div></div>
             
         </li>
         
         
-        <li id="section-196">
+        <li id="section-199">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-196">&#182;</a>
+                <a class="pilcrow" href="#section-199">&#182;</a>
               </div>
               <h1 id="sourcemappingurlunderscore-esmjsmap">sourceMappingURL=underscore-esm.js.map</h1>
 

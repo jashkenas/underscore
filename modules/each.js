@@ -2,7 +2,8 @@ import optimizeCb from './_optimizeCb.js';
 import isArrayLike from './_isArrayLike.js';
 import keys from './keys.js';
 
-// The cornerstone, an `each` implementation, aka `forEach`.
+// The cornerstone for collection functions, an `each`
+// implementation, aka `forEach`.
 // Handles raw objects in addition to array-likes. Treats all
 // sparse array-likes as if they were dense.
 export default function each(obj, iteratee, context) {

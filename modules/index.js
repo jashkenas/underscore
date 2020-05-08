@@ -3,14 +3,12 @@
 //     (c) 2009-2020 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 //     Underscore may be freely distributed under the MIT license.
 
-// Baseline setup
-// --------------
+// Baseline setup.
 export { VERSION } from './_setup.js';
 export { default as iteratee } from './iteratee.js';
 export { default as restArguments } from './restArguments.js';
 
-// Collection Functions
-// --------------------
+// Collection Functions.
 export { default as each, default as forEach } from './each.js';
 export { default as map, default as collect } from './map.js';
 export { default as reduce, default as foldl, default as inject } from './reduce.js';
@@ -37,8 +35,7 @@ export { default as toArray } from './toArray.js';
 export { default as size } from './size.js';
 export { default as partition } from './partition.js';
 
-// Array Functions
-// ---------------
+// Array Functions.
 export { default as first, default as head, default as take } from './first.js';
 export { default as initial } from './initial.js';
 export { default as last } from './last.js';
@@ -61,8 +58,7 @@ export { default as lastIndexOf } from './lastIndexOf.js';
 export { default as range } from './range.js';
 export { default as chunk } from './chunk.js';
 
-// Function (ahem) Functions
-// ------------------
+// Function (ahem) Functions.
 export { default as bind } from './bind.js';
 export { default as partial } from './partial.js';
 export { default as bindAll } from './bindAll.js';
@@ -78,8 +74,7 @@ export { default as after } from './after.js';
 export { default as before } from './before.js';
 export { default as once } from './once.js';
 
-// Object Functions
-// ----------------
+// Object Functions.
 export { default as keys } from './keys.js';
 export { default as allKeys } from './allKeys.js';
 export { default as values } from './values.js';
@@ -124,8 +119,7 @@ export { default as isUndefined } from './isUndefined.js';
 export { default as isTypedArray } from './isTypedArray.js';
 export { default as has } from './has.js';
 
-// Utility Functions
-// -----------------
+// Utility Functions.
 export { default as identity } from './identity.js';
 export { default as constant } from './constant.js';
 export { default as noop } from './noop.js';
@@ -143,10 +137,6 @@ export { default as templateSettings } from './templateSettings.js';
 export { default as template } from './template.js';
 export { default as chain } from './chain.js';
 
-// OOP
-// ---------------
-// If Underscore is called as a function, it returns a wrapped object that
-// can be used OO-style. This wrapper holds altered versions of all the
-// underscore functions. Wrapped objects may be chained.
+// OOP.
 export { default as mixin } from './mixin.js';
 export { default } from './underscore-oop.js';

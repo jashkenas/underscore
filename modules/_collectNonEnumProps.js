@@ -2,9 +2,9 @@ import { nonEnumerableProps, ObjProto } from './_setup.js';
 import isFunction from './isFunction.js';
 import has from './_has.js';
 
-// collectNonEnumProps used to depend on _.contains, but this led to circular
-// imports. emulatedSet is a one-off solution that only works for arrays of
-// strings.
+// `collectNonEnumProps` used to depend on `_.contains`, but this led to
+// circular imports. `emulatedSet` is a one-off solution that only works for
+// arrays of strings.
 function emulatedSet(keys) {
   var hash = {};
   for (var l = keys.length, i = 0; i < l; ++i) hash[keys[i]] = true;

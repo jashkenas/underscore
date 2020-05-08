@@ -2,7 +2,7 @@ import getLength from './_getLength.js';
 import { slice } from './_setup.js';
 import isNaN from './isNaN.js';
 
-// Generator function to create the indexOf and lastIndexOf functions.
+// Internal function to generate the `indexOf` and `lastIndexOf` functions.
 export default function createIndexFinder(dir, predicateFind, sortedIndex) {
   return function(array, item, idx) {
     var i = 0, length = getLength(array);

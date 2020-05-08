@@ -46,8 +46,13 @@ var nonEnumerableProps = ['valueOf', 'isPrototypeOf', 'toString',
 // The largest integer that can be represented exactly.
 var MAX_ARRAY_INDEX = Math.pow(2, 53) - 1;
 
-// The Underscore object. All exported functions are added to it in the
-// `index-default.js` using the `_.mixin` function.
+// If Underscore is called as a function, it returns a wrapped object that
+// can be used OO-style. This wrapper holds altered versions of all the
+// underscore functions. Wrapped objects may be chained.
+//
+// Unwrapping methods and `Array.prototype` methods are added in the
+// `underscore-oop.js` module. All public Underscore functions are added to it
+// in the `index-default.js` using the `_.mixin` function.
 function _(obj) {
   if (obj instanceof _) return obj;
   if (!(this instanceof _)) return new _(obj);
@@ -61,7 +66,7 @@ function identity(value) {
   return value;
 }
 
-// Internal function for creating a toString-based type tester.
+// Internal function for creating a `toString`-based type tester.
 function tagTester(name) {
   return function(obj) {
     return toString.call(obj) === '[object ' + name + ']';
@@ -135,9 +140,9 @@ function has(obj, path) {
   return obj != null && hasOwnProperty.call(obj, path);
 }
 
-// collectNonEnumProps used to depend on _.contains, but this led to circular
-// imports. emulatedSet is a one-off solution that only works for arrays of
-// strings.
+// `collectNonEnumProps` used to depend on `_.contains`, but this led to
+// circular imports. `emulatedSet` is a one-off solution that only works for
+// arrays of strings.
 function emulatedSet(keys) {
   var hash = {};
   for (var l = keys.length, i = 0; i < l; ++i) hash[keys[i]] = true;
@@ -244,11 +249,11 @@ function baseIteratee(value, context, argCount) {
 
 // External wrapper for our callback generator. Users may customize
 // `_.iteratee` if they want additional predicate/iteratee shorthand styles.
-// This abstraction hides the internal-only argCount argument.
-_.iteratee = iteratee;
+// This abstraction hides the internal-only `argCount` argument.
 function iteratee(value, context) {
   return baseIteratee(value, context, Infinity);
 }
+_.iteratee = iteratee;
 
 // Some functions take a variable number of arguments, or a few expected
 // arguments at the beginning and then a variable number of values to operate
@@ -278,7 +283,7 @@ function restArguments(func, startIndex) {
   };
 }
 
-// Common logic for isArrayLike and isBufferLike.
+// Common logic for `isArrayLike` and `isBufferLike`.
 function createSizePropertyCheck(getSizeProperty) {
   return function(collection) {
     var sizeProperty = getSizeProperty(collection);
@@ -294,7 +299,8 @@ var getLength = shallowProperty('length');
 // Avoids a very nasty iOS 8 JIT bug on ARM-64. #2094
 var isArrayLike = createSizePropertyCheck(getLength);
 
-// The cornerstone, an `each` implementation, aka `forEach`.
+// The cornerstone for collection functions, an `each`
+// implementation, aka `forEach`.
 // Handles raw objects in addition to array-likes. Treats all
 // sparse array-likes as if they were dense.
 function each(obj, iteratee, context) {
@@ -313,8 +319,8 @@ function each(obj, iteratee, context) {
   return obj;
 }
 
-// The function we actually call internally. It invokes _.iteratee if
-// overridden, otherwise baseIteratee.
+// The function we call internally to generate a callback. It invokes
+// `_.iteratee` if overridden, otherwise `baseIteratee`.
 function cb(value, context, argCount) {
   if (_.iteratee !== iteratee) return _.iteratee(value, context);
   return baseIteratee(value, context, argCount);
@@ -365,7 +371,7 @@ var reduce = createReduce(1);
 // The right-associative version of reduce, also known as `foldr`.
 var reduceRight = createReduce(-1);
 
-// Generator function to create the findIndex and findLastIndex functions.
+// Internal function to generate the `findIndex` and `findLastIndex` functions.
 function createPredicateIndexFinder(dir) {
   return function(array, predicate, context) {
     predicate = cb(predicate, context);
@@ -475,7 +481,7 @@ function isNaN$1(obj) {
   return isNumber(obj) && _isNaN(obj);
 }
 
-// Generator function to create the indexOf and lastIndexOf functions.
+// Internal function to generate the `indexOf` and `lastIndexOf` functions.
 function createIndexFinder(dir, predicateFind, sortedIndex) {
   return function(array, item, idx) {
     var i = 0, length = getLength(array);
@@ -1227,7 +1233,7 @@ function functions(obj) {
   return names.sort();
 }
 
-// Internal pick helper function to determine if `obj` has key `key`.
+// Internal `pick` helper function to determine if `obj` has key `key`.
 function keyInObj(value, key, obj) {
   return key in obj;
 }
@@ -1279,7 +1285,7 @@ function create(prototype, props) {
   return result;
 }
 
-// Invokes interceptor with the obj, and then returns obj.
+// Invokes `interceptor` with the `obj`, and then returns `obj`.
 // The primary purpose of this method is to "tap into" a method chain, in
 // order to perform operations on intermediate results within the chain.
 function tap(obj, interceptor) {
@@ -1295,7 +1301,7 @@ var isDataView = tagTester('DataView');
 // `ArrayBuffer` et al.
 var isBufferLike = createSizePropertyCheck(getByteLength);
 
-// Predicate-generating functions. Often useful outside of Underscore.
+// Predicate-generating function. Often useful outside of Underscore.
 function constant(value) {
   return function() {
     return value;
@@ -1506,6 +1512,7 @@ function has$1(obj, path) {
   return !!length;
 }
 
+// Predicate-generating function. Often useful outside of Underscore.
 function noop(){}
 
 // Generates a function for a given object that returns a given property.
@@ -1744,7 +1751,8 @@ _.prototype.toString = function() {
 
 //     Underscore.js 1.10.2
 
-var allExports = /*#__PURE__*/Object.freeze({
+var allExports = {
+  __proto__: null,
   VERSION: VERSION,
   iteratee: iteratee,
   restArguments: restArguments,
@@ -1887,14 +1895,18 @@ var allExports = /*#__PURE__*/Object.freeze({
   template: template,
   chain: chain,
   mixin: mixin,
-  default: _
-});
+  'default': _
+};
+
+// In this module, we mix our bundled exports into the `_` object and export
 
 // Add all of the Underscore functions to the wrapper object.
 var _$1 = mixin(allExports);
 // Legacy Node.js API
 _$1._ = _$1;
 
+// This module is the package entry point for ES module users. In other words,
+
 export default _$1;
-export { VERSION, iteratee, restArguments, each, each as forEach, map, map as collect, reduce, reduce as foldl, reduce as inject, reduceRight, reduceRight as foldr, find, find as detect, filter, filter as select, reject, every, every as all, some, some as any, contains, contains as includes, contains as include, invoke, pluck, where, findWhere, max, min, shuffle, sample, sortBy, groupBy, indexBy, countBy, toArray, size, partition, first, first as head, first as take, initial, last, rest, rest as tail, rest as drop, compact, flatten$1 as flatten, without, uniq, uniq as unique, union, intersection, difference, unzip, zip, object, findIndex, findLastIndex, sortedIndex, indexOf, lastIndexOf, range, chunk, bind, partial, bindAll, memoize, delay, defer, throttle, debounce, wrap, negate, compose, after, before, once, keys, allKeys, values, mapObject, pairs, invert, functions, functions as methods, extend, extendOwn, extendOwn as assign, findKey, pick, omit, defaults, create, clone, tap, isMatch, isEqual, isEmpty, isElement, isArray, isObject, isArguments$1 as isArguments, isFunction$1 as isFunction, isString, isNumber, isDate, isRegExp, isError, isSymbol, isMap, isWeakMap, isSet, isWeakSet, isArrayBuffer, isDataView, isFinite$1 as isFinite, isNaN$1 as isNaN, isBoolean, isNull, isUndefined, isTypedArray$1 as isTypedArray, has$1 as has, identity, constant, noop, property, propertyOf, matcher, matcher as matches, times, random, now, _escape as escape, _unescape as unescape, result, uniqueId, templateSettings, template, chain, mixin };
+export { VERSION, after, every as all, allKeys, some as any, extendOwn as assign, before, bind, bindAll, chain, chunk, clone, map as collect, compact, compose, constant, contains, countBy, create, debounce, defaults, defer, delay, find as detect, difference, rest as drop, each, _escape as escape, every, extend, extendOwn, filter, find, findIndex, findKey, findLastIndex, findWhere, first, flatten$1 as flatten, reduce as foldl, reduceRight as foldr, each as forEach, functions, groupBy, has$1 as has, first as head, identity, contains as include, contains as includes, indexBy, indexOf, initial, reduce as inject, intersection, invert, invoke, isArguments$1 as isArguments, isArray, isArrayBuffer, isBoolean, isDataView, isDate, isElement, isEmpty, isEqual, isError, isFinite$1 as isFinite, isFunction$1 as isFunction, isMap, isMatch, isNaN$1 as isNaN, isNull, isNumber, isObject, isRegExp, isSet, isString, isSymbol, isTypedArray$1 as isTypedArray, isUndefined, isWeakMap, isWeakSet, iteratee, keys, last, lastIndexOf, map, mapObject, matcher, matcher as matches, max, memoize, functions as methods, min, mixin, negate, noop, now, object, omit, once, pairs, partial, partition, pick, pluck, property, propertyOf, random, range, reduce, reduceRight, reject, rest, restArguments, result, sample, filter as select, shuffle, size, some, sortBy, sortedIndex, rest as tail, first as take, tap, template, templateSettings, throttle, times, toArray, _unescape as unescape, union, uniq, uniq as unique, uniqueId, unzip, values, where, without, wrap, zip };
 //# sourceMappingURL=underscore-esm.js.map

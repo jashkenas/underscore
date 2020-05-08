@@ -1,7 +1,7 @@
 import cb from './_cb.js';
 import getLength from './_getLength.js';
 
-// Generator function to create the findIndex and findLastIndex functions.
+// Internal function to generate the `findIndex` and `findLastIndex` functions.
 export default function createPredicateIndexFinder(dir) {
   return function(array, predicate, context) {
     predicate = cb(predicate, context);
