@@ -1,14 +1,12 @@
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
   typeof define === 'function' && define.amd ? define('underscore', factory) :
-  (function() {
-  	var current = global._;
-  	var exports = factory();
-  	global._ = exports;
-  	exports.noConflict = function() { global._ = current; return exports; };
-  })();
+  (global = global || self, (function () {
+    var current = global._;
+    var exports = global._ = factory();
+    exports.noConflict = function () { global._ = current; return exports; };
+  }()));
 }(this, (function () {
-
   //     Underscore.js 1.10.2
   //     https://underscorejs.org
   //     (c) 2009-2020 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
@@ -1755,7 +1753,8 @@
 
   //     Underscore.js 1.10.2
 
-  var allExports = ({
+  var allExports = {
+    __proto__: null,
     VERSION: VERSION,
     iteratee: iteratee,
     restArguments: restArguments,
@@ -1899,7 +1898,7 @@
     chain: chain,
     mixin: mixin,
     'default': _
-  });
+  };
 
   // Add all of the Underscore functions to the wrapper object.
   var _$1 = mixin(allExports);

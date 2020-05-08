@@ -31,7 +31,7 @@
     "pretty-bytes-cli": "^1.0.0",
     "qunit": "^2.6.0",
     "qunit-cli": "~0.2.0",
-    "rollup": "^0.59.4",
+    "rollup": "^1.32.1",
     "terser": "^4.6.13"
   },
   "scripts": {
