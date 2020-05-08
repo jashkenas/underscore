@@ -50,7 +50,7 @@
     "build-umd": "npm run minify-umd -- --source-map content=underscore.js.map --source-map-url \" \" -o underscore-min.js",
     "build-esm": "npm run minify-esm -- --source-map content=underscore-esm.js.map --source-map-url \" \" -o underscore-esm-min.js",
     "build": "npm run bundle && npm run build-umd && npm run build-esm",
-    "doc": "docco underscore-esm.js",
+    "doc": "docco underscore-esm.js && docco modules/*.js -c docco.css -t docs/linked-esm.jst",
     "weight": "npm run bundle && npm run minify-umd | gzip-size | pretty-bytes",
     "prepublishOnly": "npm run build && npm run doc"
   },
