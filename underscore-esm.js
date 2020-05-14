@@ -682,6 +682,15 @@ function identity(value) {
   return value;
 }
 
+// Internal function that returns a bound version of the passed-in callback, to
+// be repeatedly applied in other Underscore functions.
+function bindCb(func, context) {
+  if (context === void 0) return func;
+  return function() {
+    return func.apply(context, arguments);
+  };
+}
+
 // Returns a predicate for checking whether an object has a given set of
 // `key:value` pairs.
 function matcher(attrs) {
@@ -700,51 +709,22 @@ function property(path) {
   };
 }
 
-// Internal function that returns an efficient (for current engines) version
-// of the passed-in callback, to be repeatedly applied in other Underscore
-// functions.
-function optimizeCb(func, context, argCount) {
-  if (context === void 0) return func;
-  switch (argCount == null ? 3 : argCount) {
-    case 1: return function(value) {
-      return func.call(context, value);
-    };
-    // The 2-argument case is omitted because we’re not using it.
-    case 3: return function(value, index, collection) {
-      return func.call(context, value, index, collection);
-    };
-    case 4: return function(accumulator, value, index, collection) {
-      return func.call(context, accumulator, value, index, collection);
-    };
-  }
-  return function() {
-    return func.apply(context, arguments);
-  };
-}
-
-// An internal function to generate callbacks that can be applied to each
-// element in a collection, returning the desired result — either `_.identity`,
-// an arbitrary callback, a property matcher, or a property accessor.
-function baseIteratee(value, context, argCount) {
+// A function to generate callbacks that can be applied to each element in a
+// collection, returning the desired result — either `identity`, an arbitrary
+// callback, a property matcher, or a property accessor. Users may customize
+// `_.iteratee` if they want additional predicate/iteratee shorthand styles.
+function iteratee(value, context) {
   if (value == null) return identity;
-  if (isFunction$1(value)) return optimizeCb(value, context, argCount);
+  if (isFunction$1(value)) return bindCb(value, context);
   if (isObject(value) && !isArray(value)) return matcher(value);
   return property(value);
 }
-
-// External wrapper for our callback generator. Users may customize
-// `_.iteratee` if they want additional predicate/iteratee shorthand styles.
-// This abstraction hides the internal-only `argCount` argument.
-function iteratee(value, context) {
-  return baseIteratee(value, context, Infinity);
-}
 _.iteratee = iteratee;
 
-// The function we call internally to generate a callback. It invokes
-// `_.iteratee` if overridden, otherwise `baseIteratee`.
-function cb(value, context, argCount) {
-  if (_.iteratee !== iteratee) return _.iteratee(value, context);
-  return baseIteratee(value, context, argCount);
+// The function we call internally to generate a callback. It is just a
+// shorthand to save some bytes in the minified code.
+function cb(value, context) {
+  return _.iteratee(value, context);
 }
 
 // Returns the results of applying the `iteratee` to each element of `obj`.
@@ -775,7 +755,7 @@ function propertyOf(obj) {
 // Run a function **n** times.
 function times(n, iteratee, context) {
   var accum = Array(Math.max(0, n));
-  iteratee = optimizeCb(iteratee, context, 1);
+  iteratee = bindCb(iteratee, context);
   for (var i = 0; i < n; i++) accum[i] = iteratee(i);
   return accum;
 }
@@ -1236,7 +1216,7 @@ var findLastIndex = createPredicateIndexFinder(-1);
 // Use a comparator function to figure out the smallest index at which
 // an object should be inserted so as to maintain order. Uses binary search.
 function sortedIndex(array, obj, iteratee, context) {
-  iteratee = cb(iteratee, context, 1);
+  iteratee = cb(iteratee, context);
   var value = iteratee(obj);
   var low = 0, high = getLength(array);
   while (low < high) {
@@ -1299,7 +1279,7 @@ function findWhere(obj, attrs) {
 // Handles raw objects in addition to array-likes. Treats all
 // sparse array-likes as if they were dense.
 function each(obj, iteratee, context) {
-  iteratee = optimizeCb(iteratee, context);
+  iteratee = bindCb(iteratee, context);
   var i, length;
   if (isArrayLike(obj)) {
     for (i = 0, length = obj.length; i < length; i++) {
@@ -1348,7 +1328,7 @@ function createReduce(dir) {
 
   return function(obj, iteratee, memo, context) {
     var initial = arguments.length >= 3;
-    return reducer(obj, optimizeCb(iteratee, context, 4), memo, initial);
+    return reducer(obj, bindCb(iteratee, context), memo, initial);
   };
 }
 
@@ -1605,7 +1585,7 @@ var pick = restArguments(function(obj, keys) {
   var result = {}, iteratee = keys[0];
   if (obj == null) return result;
   if (isFunction$1(iteratee)) {
-    if (keys.length > 1) iteratee = optimizeCb(iteratee, keys[1]);
+    if (keys.length > 1) iteratee = bindCb(iteratee, keys[1]);
     keys = allKeys(obj);
   } else {
     iteratee = keyInObj;

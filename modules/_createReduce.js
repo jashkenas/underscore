@@ -1,6 +1,6 @@
 import isArrayLike from './_isArrayLike.js';
 import keys from './keys.js';
-import optimizeCb from './_optimizeCb.js';
+import bindCb from './_bindCb.js';
 
 // Internal helper to create a reducing function, iterating left or right.
 export default function createReduce(dir) {
@@ -23,6 +23,6 @@ export default function createReduce(dir) {
 
   return function(obj, iteratee, memo, context) {
     var initial = arguments.length >= 3;
-    return reducer(obj, optimizeCb(iteratee, context, 4), memo, initial);
+    return reducer(obj, bindCb(iteratee, context), memo, initial);
   };
 }

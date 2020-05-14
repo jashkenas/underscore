@@ -1,4 +1,4 @@
-import optimizeCb from './_optimizeCb.js';
+import bindCb from './_bindCb.js';
 import isArrayLike from './_isArrayLike.js';
 import keys from './keys.js';
 
@@ -7,7 +7,7 @@ import keys from './keys.js';
 // Handles raw objects in addition to array-likes. Treats all
 // sparse array-likes as if they were dense.
 export default function each(obj, iteratee, context) {
-  iteratee = optimizeCb(iteratee, context);
+  iteratee = bindCb(iteratee, context);
   var i, length;
   if (isArrayLike(obj)) {
     for (i = 0, length = obj.length; i < length; i++) {

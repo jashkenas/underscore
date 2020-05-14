@@ -4,7 +4,7 @@ import getLength from './_getLength.js';
 // Use a comparator function to figure out the smallest index at which
 // an object should be inserted so as to maintain order. Uses binary search.
 export default function sortedIndex(array, obj, iteratee, context) {
-  iteratee = cb(iteratee, context, 1);
+  iteratee = cb(iteratee, context);
   var value = iteratee(obj);
   var low = 0, high = getLength(array);
   while (low < high) {
