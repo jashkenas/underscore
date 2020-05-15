@@ -1378,9 +1378,22 @@ function some(obj, predicate, context) {
   return false;
 }
 
+// Safely create a real, live array from anything iterable.
+var reStrSymbol = /[^\ud800-\udfff]|[\ud800-\udbff][\udc00-\udfff]|[\ud800-\udfff]/g;
+function toArray(obj) {
+  if (!obj) return [];
+  if (isArray(obj)) return slice.call(obj);
+  if (isString(obj)) {
+    // Keep surrogate pair characters together.
+    return obj.match(reStrSymbol);
+  }
+  if (isArrayLike(obj)) return map(obj, identity);
+  return values(obj);
+}
+
 // Determine if the array or object contains a given item (using `===`).
 function contains(obj, item, fromIndex, guard) {
-  if (!isArrayLike(obj)) obj = values(obj);
+  if (!isArrayLike(obj)) obj = toArray(obj);
   if (typeof fromIndex != 'number' || guard) fromIndex = 0;
   return indexOf(obj, item, fromIndex) >= 0;
 }
@@ -1554,19 +1567,6 @@ var countBy = group(function(result, value, key) {
 var partition = group(function(result, value, pass) {
   result[pass ? 0 : 1].push(value);
 }, true);
-
-// Safely create a real, live array from anything iterable.
-var reStrSymbol = /[^\ud800-\udfff]|[\ud800-\udbff][\udc00-\udfff]|[\ud800-\udfff]/g;
-function toArray(obj) {
-  if (!obj) return [];
-  if (isArray(obj)) return slice.call(obj);
-  if (isString(obj)) {
-    // Keep surrogate pair characters together.
-    return obj.match(reStrSymbol);
-  }
-  if (isArrayLike(obj)) return map(obj, identity);
-  return values(obj);
-}
 
 // Return the number of elements in a collection.
 function size(obj) {
