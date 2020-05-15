@@ -1347,28 +1347,19 @@ function reject(obj, predicate, context) {
   return filter(obj, negate(cb(predicate)), context);
 }
 
-// Determine whether all of the elements pass a truth test.
-function every(obj, predicate, context) {
-  predicate = cb(predicate, context);
-  var _keys = !isArrayLike(obj) && keys(obj),
-      length = (_keys || obj).length;
-  for (var index = 0; index < length; index++) {
-    var currentKey = _keys ? _keys[index] : index;
-    if (!predicate(obj[currentKey], currentKey, obj)) return false;
-  }
-  return true;
-}
-
 // Determine if at least one element in the object passes a truth test.
 function some(obj, predicate, context) {
   predicate = cb(predicate, context);
-  var _keys = !isArrayLike(obj) && keys(obj),
-      length = (_keys || obj).length;
-  for (var index = 0; index < length; index++) {
-    var currentKey = _keys ? _keys[index] : index;
-    if (predicate(obj[currentKey], currentKey, obj)) return true;
-  }
-  return false;
+  var found = false;
+  find(obj, function(value, key, obj) {
+    if (predicate(value, key, obj)) return found = true;
+  });
+  return found;
+}
+
+// Determine whether all of the elements pass a truth test.
+function every(obj, predicate, context) {
+  return !some(obj, negate(cb(predicate, context)));
 }
 
 // Safely create a real, live array from anything iterable.
