@@ -1,6 +1,5 @@
 import bindCb from './_bindCb.js';
-import isArrayLike from './_isArrayLike.js';
-import keys from './keys.js';
+import find from './find.js';
 
 // The cornerstone for collection functions, an `each`
 // implementation, aka `forEach`.
@@ -8,16 +7,9 @@ import keys from './keys.js';
 // sparse array-likes as if they were dense.
 export default function each(obj, iteratee, context) {
   iteratee = bindCb(iteratee, context);
-  var i, length;
-  if (isArrayLike(obj)) {
-    for (i = 0, length = obj.length; i < length; i++) {
-      iteratee(obj[i], i, obj);
-    }
-  } else {
-    var _keys = keys(obj);
-    for (i = 0, length = _keys.length; i < length; i++) {
-      iteratee(obj[_keys[i]], _keys[i], obj);
-    }
-  }
+  find(obj, function(value, key, obj) {
+    iteratee(value, key, obj);
+    // We omit the return value so that iteration continues until the end.
+  });
   return obj;
 }
