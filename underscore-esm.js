@@ -987,8 +987,7 @@ function flatten(input, depth, strict, output) {
   } else if (depth <= 0) {
     return output.concat(input);
   }
-  for (var i = 0, length = getLength(input); i < length; i++) {
-    var value = input[i];
+  linearSearch(input, function(value) {
     if (isArrayLike(value) && (isArray(value) || isArguments$1(value))) {
       // Flatten current level of array or arguments object.
       if (depth > 1) {
@@ -1000,7 +999,7 @@ function flatten(input, depth, strict, output) {
     } else if (!strict) {
       output.push(value);
     }
-  }
+  });
   return output;
 }
 
