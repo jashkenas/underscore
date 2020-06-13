@@ -1,7 +1,7 @@
 import _ from './underscore.js';
 import { toString, SymbolProto } from './_setup.js';
-import getByteLength from './_getByteLength';
-import isTypedArray from './isTypedArray';
+import getByteLength from './_getByteLength.js';
+import isTypedArray from './isTypedArray.js';
 import isFunction from './isFunction.js';
 import keys from './keys.js';
 import has from './_has.js';

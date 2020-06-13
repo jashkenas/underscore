@@ -1,6 +1,6 @@
 import defaults from './defaults.js';
 import _ from './underscore.js';
-import './templateSettings';
+import './templateSettings.js';
 
 // When customizing `_.templateSettings`, if you don't want to define an
 // interpolation, evaluation or escaping regex, we need one that is
