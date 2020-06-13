@@ -1377,9 +1377,10 @@ initialize();
       <p id="after">
         <b class="header">after</b><code>_.after(count, function)</code>
         <br />
-        Creates a version of the function that will only be run after
-        being called <b>count</b> times. Useful for grouping asynchronous responses,
-        where you want to be sure that all the async calls have finished, before
+        Creates a wrapper of <b>function</b> that does nothing at first. From
+        the <b>count</b>-th call onwards, it starts actually calling
+        <b>function</b>. Useful for grouping asynchronous responses, where you
+        want to be sure that all the async calls have finished, before
         proceeding.
       </p>
       <pre>
@@ -1393,9 +1394,11 @@ _.each(notes, function(note) {
       <p id="before">
         <b class="header">before</b><code>_.before(count, function)</code>
         <br />
-        Creates a version of the function that can be called no more than
-        <b>count</b> times. The result of the last function call is memoized and
-        returned when <b>count</b> has been reached.
+        Creates a wrapper of <b>function</b> that memoizes its return value.
+        From the <b>count</b>-th call onwards, the memoized result of the last
+        invocation is returned immediately instead of invoking <b>function</b>
+        again. So the wrapper will invoke <b>function</b> at most <b>count</b>
+        - 1 times.
       </p>
       <pre>
 var monthlyMeeting = _.before(3, askForRaise);
