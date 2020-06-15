@@ -5,10 +5,10 @@ node_js:
   - "6.14.1"
   - "8.11.1"
   - "9.11.1"
- matrix:
-   include:
-     - node_js: "4.0"
-       env: BROWSER=true
+matrix:
+  include:
+    - node_js: "4.0"
+      env: BROWSER=true
 before_install:
   - npm install -g npm@2.6
   - npm install -g karma-cli
