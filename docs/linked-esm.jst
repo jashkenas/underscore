@@ -87,7 +87,8 @@
       });
       // Find all 'from' keywords followed by a string (ES6 import statements).
       $('.hljs-keyword').filter(function() {
-        return $(this).text() === 'from';
+        var text = $(this).text();
+        return text === 'from' || text === 'import';
       }).next('.hljs-string').each(function() {
         // Finally, for each of these strings, replace it by a link if we have
         // a matching HTML page.
