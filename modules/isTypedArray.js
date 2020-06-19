@@ -1,7 +1,7 @@
 import { supportsArrayBuffer, nativeIsView, toString } from './_setup.js';
 import isDataView from './isDataView.js';
-import isBufferLike from './_isBufferLike.js';
 import constant from './constant.js';
+import isBufferLike from './_isBufferLike.js';
 
 // Is a given value a typed array?
 var typedArrayPattern = /\[object ((I|Ui)nt(8|16|32)|Float(32|64)|Uint8Clamped|Big(I|Ui)nt64)Array\]/;

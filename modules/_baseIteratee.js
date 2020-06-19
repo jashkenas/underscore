@@ -1,10 +1,10 @@
 import identity from './identity.js';
 import isFunction from './isFunction.js';
 import isObject from './isObject.js';
-import optimizeCb from './_optimizeCb.js';
 import isArray from './isArray.js';
 import matcher from './matcher.js';
 import property from './property.js';
+import optimizeCb from './_optimizeCb.js';
 
 // An internal function to generate callbacks that can be applied to each
 // element in a collection, returning the desired result — either `identity`,
