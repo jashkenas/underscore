@@ -1,6 +1,6 @@
 import _ from './underscore.js';
 
-// By default, Underscore uses ERB-style template delimiters, change the
+// By default, Underscore uses ERB-style template delimiters. Change the
 // following template settings to use alternative delimiters.
 export default _.templateSettings = {
   evaluate: /<%([\s\S]+?)%>/g,

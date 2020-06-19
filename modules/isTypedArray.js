@@ -8,7 +8,8 @@ var typedArrayPattern = /\[object ((I|Ui)nt(8|16|32)|Float(32|64)|Uint8Clamped|B
 function isTypedArray(obj) {
   // `ArrayBuffer.isView` is the most future-proof, so use it when available.
   // Otherwise, fall back on the above regular expression.
-  return nativeIsView ? (nativeIsView(obj) && !isDataView(obj)) : isBufferLike(obj) && typedArrayPattern.test(toString.call(obj));
+  return nativeIsView ? (nativeIsView(obj) && !isDataView(obj)) :
+                isBufferLike(obj) && typedArrayPattern.test(toString.call(obj));
 }
 
 export default supportsArrayBuffer ? isTypedArray : constant(false);

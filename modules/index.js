@@ -7,7 +7,7 @@
 export { VERSION } from './_setup.js';
 export { default as restArguments } from './restArguments.js';
 
-// Object Functions (except for findKey and omit).
+// Object Functions (except for `findKey` and `omit`).
 export { default as isObject } from './isObject.js';
 export { default as isNull } from './isNull.js';
 export { default as isUndefined } from './isUndefined.js';
@@ -95,7 +95,7 @@ export { default as lastIndexOf } from './lastIndexOf.js';
 export { default as find, default as detect } from './find.js';
 export { default as findWhere } from './findWhere.js';
 
-// Collection Functions (plus omit).
+// Collection Functions (plus `omit`).
 export { default as each, default as forEach } from './each.js';
 export { default as map, default as collect } from './map.js';
 export { default as reduce, default as foldl, default as inject } from './reduce.js';

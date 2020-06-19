@@ -3,7 +3,7 @@ import each from './each.js';
 import { ArrayProto } from './_setup.js';
 import chainResult from './_chainResult.js';
 
-// Add all mutator Array functions to the wrapper.
+// Add all mutator `Array` functions to the wrapper.
 each(['pop', 'push', 'reverse', 'shift', 'sort', 'splice', 'unshift'], function(name) {
   var method = ArrayProto[name];
   _.prototype[name] = function() {
@@ -18,7 +18,7 @@ each(['pop', 'push', 'reverse', 'shift', 'sort', 'splice', 'unshift'], function(
   };
 });
 
-// Add all accessor Array functions to the wrapper.
+// Add all accessor `Array` functions to the wrapper.
 each(['concat', 'join', 'slice'], function(name) {
   var method = ArrayProto[name];
   _.prototype[name] = function() {
@@ -33,7 +33,7 @@ _.prototype.value = function() {
   return this._wrapped;
 };
 
-// Provide unwrapping proxy for some methods used in engine operations
+// Provide unwrapping proxies for some methods used in engine operations
 // such as arithmetic and JSON stringification.
 _.prototype.valueOf = _.prototype.toJSON = _.prototype.value;
 

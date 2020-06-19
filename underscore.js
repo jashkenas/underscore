@@ -141,12 +141,13 @@
   var isDataView = tagTester('DataView');
 
   // Is a given value an array?
-  // Delegates to ECMA5's native Array.isArray
+  // Delegates to ECMA5's native `Array.isArray`.
   var isArray = nativeIsArray || tagTester('Array');
 
   var isFunction = tagTester('Function');
-  // Optimize `isFunction` if appropriate. Work around some typeof bugs in old v8,
-  // IE 11 (#1621), Safari 8 (#1929), and PhantomJS (#2236).
+
+  // Optimize `isFunction` if appropriate. Work around some `typeof` bugs in old
+  // v8, IE 11 (#1621), Safari 8 (#1929), and PhantomJS (#2236).
   var nodelist = root.document && root.document.childNodes;
   if (typeof /./ != 'function' && typeof Int8Array != 'object' && typeof nodelist != 'function') {
     isFunction = function(obj) {
@@ -162,6 +163,7 @@
   }
 
   var isArguments = tagTester('Arguments');
+
   // Define a fallback version of the method in browsers (ahem, IE < 9), where
   // there isn't any inspectable "Arguments" type.
   (function() {
@@ -218,7 +220,8 @@
   function isTypedArray(obj) {
     // `ArrayBuffer.isView` is the most future-proof, so use it when available.
     // Otherwise, fall back on the above regular expression.
-    return nativeIsView ? (nativeIsView(obj) && !isDataView(obj)) : isBufferLike(obj) && typedArrayPattern.test(toString.call(obj));
+    return nativeIsView ? (nativeIsView(obj) && !isDataView(obj)) :
+                  isBufferLike(obj) && typedArrayPattern.test(toString.call(obj));
   }
 
   var isTypedArray$1 = supportsArrayBuffer ? isTypedArray : constant(false);
@@ -521,7 +524,8 @@
   // Extend a given object with all the properties in passed-in object(s).
   var extend = createAssigner(allKeys);
 
-  // Assigns a given object with all the own properties in the passed-in object(s).
+  // Assigns a given object with all the own properties in the passed-in
+  // object(s).
   // (https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object/assign)
   var extendOwn = createAssigner(keys);
 
@@ -559,7 +563,7 @@
     return isArray(obj) ? obj.slice() : extend({}, obj);
   }
 
-  // Invokes `interceptor` with the `obj`, and then returns `obj`.
+  // Invokes `interceptor` with the `obj` and then returns `obj`.
   // The primary purpose of this method is to "tap into" a method chain, in
   // order to perform operations on intermediate results within the chain.
   function tap(obj, interceptor) {
@@ -610,7 +614,7 @@
   }
 
   // Creates a function that, when passed an object, will traverse that object’s
-  // properties down the given `path`, specified as an array of keys or indexes.
+  // properties down the given `path`, specified as an array of keys or indices.
   function property(path) {
     if (!isArray(path)) {
       return shallowProperty(path);
@@ -667,8 +671,8 @@
     return baseIteratee(value, context, argCount);
   }
 
-  // Returns the results of applying the iteratee to each element of the object.
-  // In contrast to map it returns an object.
+  // Returns the results of applying the `iteratee` to each element of `obj`.
+  // In contrast to `map` it returns an object.
   function mapObject(obj, iteratee, context) {
     iteratee = cb(iteratee, context);
     var _keys = keys(obj),
@@ -750,7 +754,7 @@
     return accum;
   }
 
-  // Return a random integer between min and max (inclusive).
+  // Return a random integer between `min` and `max` (inclusive).
   function random(min, max) {
     if (max == null) {
       max = min;
@@ -799,7 +803,7 @@
   // Function for unescaping strings from HTML interpolation.
   var _unescape = createEscaper(unescapeMap);
 
-  // By default, Underscore uses ERB-style template delimiters, change the
+  // By default, Underscore uses ERB-style template delimiters. Change the
   // following template settings to use alternative delimiters.
   var templateSettings = _.templateSettings = {
     evaluate: /<%([\s\S]+?)%>/g,
@@ -937,7 +941,7 @@
   }
 
   // Partially apply a function by creating a version that has had some of its
-  // arguments pre-filled, without changing its dynamic `this` context. _ acts
+  // arguments pre-filled, without changing its dynamic `this` context. `_` acts
   // as a placeholder by default, allowing any combination of arguments to be
   // pre-filled. Set `partial.placeholder` for a custom placeholder argument.
   var partial = restArguments(function(func, boundArgs) {
@@ -1051,7 +1055,7 @@
   }
 
   // Returns a function, that, as long as it continues to be invoked, will not
-  // be triggered. The function will be called after it stops being called for
+  // be triggered. The function will be triggered after it stops being called for
   // N milliseconds. If `immediate` is passed, trigger the function on the
   // leading edge, instead of the trailing.
   function debounce(func, wait, immediate) {
@@ -1506,20 +1510,20 @@
     result[pass ? 0 : 1].push(value);
   }, true);
 
-  var reStrSymbol = /[^\ud800-\udfff]|[\ud800-\udbff][\udc00-\udfff]|[\ud800-\udfff]/g;
   // Safely create a real, live array from anything iterable.
+  var reStrSymbol = /[^\ud800-\udfff]|[\ud800-\udbff][\udc00-\udfff]|[\ud800-\udfff]/g;
   function toArray(obj) {
     if (!obj) return [];
     if (isArray(obj)) return slice.call(obj);
     if (isString(obj)) {
-      // Keep surrogate pair characters together
+      // Keep surrogate pair characters together.
       return obj.match(reStrSymbol);
     }
     if (isArrayLike(obj)) return map(obj, identity);
     return values(obj);
   }
 
-  // Return the number of elements in an object.
+  // Return the number of elements in a collection.
   function size(obj) {
     if (obj == null) return 0;
     return isArrayLike(obj) ? obj.length : keys(obj).length;
@@ -1555,9 +1559,9 @@
     return initial(array, array.length - n);
   }
 
-  // Returns everything but the first entry of the array. Especially useful on
-  // the arguments object. Passing an **n** will return the rest N values in the
-  // array.
+  // Returns everything but the first entry of the `array`. Especially useful on
+  // the `arguments` object. Passing an **n** will return the rest N values in the
+  // `array`.
   function rest(array, n, guard) {
     return slice.call(array, n == null || guard ? 1 : n);
   }
@@ -1667,7 +1671,7 @@
 
   // Converts lists into objects. Pass either a single array of `[key, value]`
   // pairs, or two parallel arrays of the same length -- one of keys, and one of
-  // the corresponding values. Passing by pairs is the reverse of pairs.
+  // the corresponding values. Passing by pairs is the reverse of `pairs`.
   function object(list, values) {
     var result = {};
     for (var i = 0, length = getLength(list); i < length; i++) {
@@ -1732,7 +1736,7 @@
     return _;
   }
 
-  // Add all mutator Array functions to the wrapper.
+  // Add all mutator `Array` functions to the wrapper.
   each(['pop', 'push', 'reverse', 'shift', 'sort', 'splice', 'unshift'], function(name) {
     var method = ArrayProto[name];
     _.prototype[name] = function() {
@@ -1747,7 +1751,7 @@
     };
   });
 
-  // Add all accessor Array functions to the wrapper.
+  // Add all accessor `Array` functions to the wrapper.
   each(['concat', 'join', 'slice'], function(name) {
     var method = ArrayProto[name];
     _.prototype[name] = function() {
@@ -1762,7 +1766,7 @@
     return this._wrapped;
   };
 
-  // Provide unwrapping proxy for some methods used in engine operations
+  // Provide unwrapping proxies for some methods used in engine operations
   // such as arithmetic and JSON stringification.
   _.prototype.valueOf = _.prototype.toJSON = _.prototype.value;
 
@@ -1923,7 +1927,7 @@
 
   // Add all of the Underscore functions to the wrapper object.
   var _$1 = mixin(allExports);
-  // Legacy Node.js API
+  // Legacy Node.js API.
   _$1._ = _$1;
 
   return _$1;

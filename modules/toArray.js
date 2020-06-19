@@ -6,13 +6,13 @@ import map from './map.js';
 import identity from './identity.js';
 import values from './values.js';
 
-var reStrSymbol = /[^\ud800-\udfff]|[\ud800-\udbff][\udc00-\udfff]|[\ud800-\udfff]/g;
 // Safely create a real, live array from anything iterable.
+var reStrSymbol = /[^\ud800-\udfff]|[\ud800-\udbff][\udc00-\udfff]|[\ud800-\udfff]/g;
 export default function toArray(obj) {
   if (!obj) return [];
   if (isArray(obj)) return slice.call(obj);
   if (isString(obj)) {
-    // Keep surrogate pair characters together
+    // Keep surrogate pair characters together.
     return obj.match(reStrSymbol);
   }
   if (isArrayLike(obj)) return map(obj, identity);

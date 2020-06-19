@@ -1,4 +1,4 @@
-// Return a random integer between min and max (inclusive).
+// Return a random integer between `min` and `max` (inclusive).
 export default function random(min, max) {
   if (max == null) {
     max = min;
