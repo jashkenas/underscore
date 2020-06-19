@@ -147,8 +147,9 @@ if (typeof /./ != 'function' && typeof Int8Array != 'object' && typeof nodelist 
 
 var isFunction$1 = isFunction;
 
-function has(obj, path) {
-  return obj != null && hasOwnProperty.call(obj, path);
+// Internal function to check whether `key` is an own property name of `obj`.
+function has(obj, key) {
+  return obj != null && hasOwnProperty.call(obj, key);
 }
 
 var isArguments = tagTester('Arguments');
@@ -181,7 +182,7 @@ function constant(value) {
   };
 }
 
-// Common logic for `isArrayLike` and `isBufferLike`.
+// Common internal logic for `isArrayLike` and `isBufferLike`.
 function createSizePropertyCheck(getSizeProperty) {
   return function(collection) {
     var sizeProperty = getSizeProperty(collection);
@@ -189,15 +190,17 @@ function createSizePropertyCheck(getSizeProperty) {
   }
 }
 
+// Internal helper to generate a function to obtain property `key` from `obj`.
 function shallowProperty(key) {
   return function(obj) {
     return obj == null ? void 0 : obj[key];
   };
 }
 
+// Internal helper to obtain the `byteLength` property of an object.
 var getByteLength = shallowProperty('byteLength');
 
-// Helper to determine whether we should spend extensive checks against
+// Internal helper to determine whether we should spend extensive checks against
 // `ArrayBuffer` et al.
 var isBufferLike = createSizePropertyCheck(getByteLength);
 
@@ -211,14 +214,16 @@ function isTypedArray(obj) {
 
 var isTypedArray$1 = supportsArrayBuffer ? isTypedArray : constant(false);
 
+// Internal helper to obtain the `length` property of an object.
 var getLength = shallowProperty('length');
 
-// Helper for collection methods to determine whether a collection
+// Internal helper for collection methods to determine whether a collection
 // should be iterated as an array or as an object.
 // Related: https://people.mozilla.org/~jorendorff/es6-draft.html#sec-tolength
 // Avoids a very nasty iOS 8 JIT bug on ARM-64. #2094
 var isArrayLike = createSizePropertyCheck(getLength);
 
+// Internal helper to create a simple lookup structure.
 // `collectNonEnumProps` used to depend on `_.contains`, but this led to
 // circular imports. `emulatedSet` is a one-off solution that only works for
 // arrays of strings.
@@ -234,7 +239,9 @@ function emulatedSet(keys) {
   };
 }
 
-// Keys in IE < 9 that won't be iterated by `for key in ...` and thus missed.
+// Internal helper. Checks `keys` for the presence of keys in IE < 9 that won't
+// be iterated by `for key in ...` and thus missed. Extends `keys` in place if
+// needed.
 function collectNonEnumProps(obj, keys) {
   keys = emulatedSet(keys);
   var nonEnumIdx = nonEnumerableProps.length;
@@ -431,7 +438,7 @@ function isEqual(a, b) {
   return eq(a, b);
 }
 
-// Retrieve all the property names of an object.
+// Retrieve all the enumerable property names of an object.
 function allKeys(obj) {
   if (!isObject(obj)) return [];
   var keys = [];
@@ -453,7 +460,7 @@ function values(obj) {
 }
 
 // Convert an object into a list of `[key, value]` pairs.
-// The opposite of object.
+// The opposite of `object` with one argument.
 function pairs(obj) {
   var _keys = keys(obj);
   var length = _keys.length;
@@ -551,8 +558,9 @@ function tap(obj, interceptor) {
   return obj;
 }
 
-// Shortcut function for checking if an object has a given property directly
-// on itself (in other words, not on a prototype).
+// Shortcut function for checking if an object has a given property directly on
+// itself (in other words, not on a prototype). Unlike the internal `has`
+// function, this public version can also traverse nested properties.
 function has$1(obj, path) {
   if (!isArray(path)) {
     return has(obj, path);
@@ -582,6 +590,7 @@ function matcher(attrs) {
   };
 }
 
+// Internal function to obtain a nested property in `obj` along `path`.
 function deepGet(obj, path) {
   var length = path.length;
   for (var i = 0; i < length; i++) {
@@ -663,7 +672,8 @@ function mapObject(obj, iteratee, context) {
   return results;
 }
 
-// Internal `pick` helper function to determine if `obj` has key `key`.
+// Internal `pick` helper function to determine whether `key` is an enumerable
+// property name of `obj`.
 function keyInObj(value, key, obj) {
   return key in obj;
 }
@@ -745,7 +755,8 @@ var now = Date.now || function() {
   return new Date().getTime();
 };
 
-// Functions for escaping and unescaping strings to/from HTML interpolation.
+// Internal helper to generate functions for escaping and unescaping strings
+// to/from HTML interpolation.
 function createEscaper(map) {
   var escaper = function(match) {
     return map[match];
@@ -760,7 +771,7 @@ function createEscaper(map) {
   };
 }
 
-// List of HTML entities for escaping.
+// Internal list of HTML entities for escaping.
 var escapeMap = {
   '&': '&amp;',
   '<': '&lt;',
@@ -773,7 +784,7 @@ var escapeMap = {
 // Function for escaping strings to HTML interpolation.
 var _escape = createEscaper(escapeMap);
 
-// List of HTML entities for unescaping.
+// Internal list of HTML entities for unescaping.
 var unescapeMap = invert(escapeMap);
 
 // Function for unescaping strings from HTML interpolation.
@@ -898,15 +909,16 @@ function uniqueId(prefix) {
   return prefix ? prefix + id : id;
 }
 
-// Add a "chain" function. Start chaining a wrapped Underscore object.
+// Start chaining a wrapped Underscore object.
 function chain(obj) {
   var instance = _(obj);
   instance._chain = true;
   return instance;
 }
 
-// Determines whether to execute a function as a constructor
-// or a normal function with the provided arguments.
+// Internal function to execute `sourceFunc` bound to `context` with optional
+// `args`. Determines whether to execute a function as a constructor or as a
+// normal function.
 function executeBound(sourceFunc, boundFunc, context, callingContext, args) {
   if (!(callingContext instanceof boundFunc)) return sourceFunc.apply(context, args);
   var self = baseCreate(sourceFunc.prototype);
@@ -1099,7 +1111,8 @@ function after(times, func) {
   };
 }
 
-// Returns a function that will only be executed up to (but not including) the Nth call.
+// Returns a function that will only be executed up to (but not including) the
+// Nth call.
 function before(times, func) {
   var memo;
   return function() {
@@ -1238,7 +1251,7 @@ function map(obj, iteratee, context) {
   return results;
 }
 
-// Create a reducing function iterating left or right.
+// Internal helper to create a reducing function, iterating left or right.
 function createReduce(dir) {
   // Wrap code that reassigns argument variables in a separate function than
   // the one that accesses `arguments.length` to avoid a perf hit. (#1991)

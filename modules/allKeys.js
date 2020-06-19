@@ -2,7 +2,7 @@ import isObject from './isObject.js';
 import { hasEnumBug } from './_setup.js';
 import collectNonEnumProps from './_collectNonEnumProps.js';
 
-// Retrieve all the property names of an object.
+// Retrieve all the enumerable property names of an object.
 export default function allKeys(obj) {
   if (!isObject(obj)) return [];
   var keys = [];

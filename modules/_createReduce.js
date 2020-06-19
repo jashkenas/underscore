@@ -2,7 +2,7 @@ import isArrayLike from './_isArrayLike.js';
 import keys from './keys.js';
 import optimizeCb from './_optimizeCb.js';
 
-// Create a reducing function iterating left or right.
+// Internal helper to create a reducing function, iterating left or right.
 export default function createReduce(dir) {
   // Wrap code that reassigns argument variables in a separate function than
   // the one that accesses `arguments.length` to avoid a perf hit. (#1991)

@@ -1,5 +1,6 @@
 import { hasOwnProperty } from './_setup.js';
 
-export default function has(obj, path) {
-  return obj != null && hasOwnProperty.call(obj, path);
+// Internal function to check whether `key` is an own property name of `obj`.
+export default function has(obj, key) {
+  return obj != null && hasOwnProperty.call(obj, key);
 }

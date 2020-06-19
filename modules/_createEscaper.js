@@ -1,6 +1,7 @@
 import keys from './keys.js';
 
-// Functions for escaping and unescaping strings to/from HTML interpolation.
+// Internal helper to generate functions for escaping and unescaping strings
+// to/from HTML interpolation.
 export default function createEscaper(map) {
   var escaper = function(match) {
     return map[match];
