@@ -948,8 +948,7 @@ var partial = restArguments(function(func, boundArgs) {
 partial.placeholder = _;
 
 // Create a function bound to a given object (assigning `this`, and arguments,
-// optionally). Delegates to **ECMAScript 5**'s native `Function.bind` if
-// available.
+// optionally).
 var bind = restArguments(function(func, context, args) {
   if (!isFunction$1(func)) throw new TypeError('Bind must be called on a function');
   var bound = restArguments(function(callArgs) {
