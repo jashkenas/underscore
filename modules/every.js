@@ -2,7 +2,7 @@ import cb from './_cb.js';
 import isArrayLike from './_isArrayLike.js';
 import keys from './keys.js';
 
-// Determine whether all of the elements match a truth test.
+// Determine whether all of the elements pass a truth test.
 export default function every(obj, predicate, context) {
   predicate = cb(predicate, context);
   var _keys = !isArrayLike(obj) && keys(obj),

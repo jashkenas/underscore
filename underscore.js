@@ -1136,7 +1136,7 @@
   // often you call it. Useful for lazy initialization.
   var once = partial(before, 2);
 
-  // Returns the first key on an object that passes a predicate test.
+  // Returns the first key on an object that passes a truth test.
   function findKey(obj, predicate, context) {
     predicate = cb(predicate, context);
     var _keys = keys(obj), key;
@@ -1159,10 +1159,10 @@
     };
   }
 
-  // Returns the first index on an array-like that passes a predicate test.
+  // Returns the first index on an array-like that passes a truth test.
   var findIndex = createPredicateIndexFinder(1);
 
-  // Returns the last index on an array-like that passes a predicate test.
+  // Returns the last index on an array-like that passes a truth test.
   var findLastIndex = createPredicateIndexFinder(-1);
 
   // Use a comparator function to figure out the smallest index at which
@@ -1306,7 +1306,7 @@
     return filter(obj, negate(cb(predicate)), context);
   }
 
-  // Determine whether all of the elements match a truth test.
+  // Determine whether all of the elements pass a truth test.
   function every(obj, predicate, context) {
     predicate = cb(predicate, context);
     var _keys = !isArrayLike(obj) && keys(obj),
@@ -1318,7 +1318,7 @@
     return true;
   }
 
-  // Determine if at least one element in the object matches a truth test.
+  // Determine if at least one element in the object passes a truth test.
   function some(obj, predicate, context) {
     predicate = cb(predicate, context);
     var _keys = !isArrayLike(obj) && keys(obj),
@@ -1500,8 +1500,8 @@
     if (has(result, key)) result[key]++; else result[key] = 1;
   });
 
-  // Split a collection into two arrays: one whose elements all satisfy the given
-  // predicate, and one whose elements all do not satisfy the predicate.
+  // Split a collection into two arrays: one whose elements all pass the given
+  // truth test, and one whose elements all do not pass the truth test.
   var partition = group(function(result, value, pass) {
     result[pass ? 0 : 1].push(value);
   }, true);

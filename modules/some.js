@@ -2,7 +2,7 @@ import cb from './_cb.js';
 import isArrayLike from './_isArrayLike.js';
 import keys from './keys.js';
 
-// Determine if at least one element in the object matches a truth test.
+// Determine if at least one element in the object passes a truth test.
 export default function some(obj, predicate, context) {
   predicate = cb(predicate, context);
   var _keys = !isArrayLike(obj) && keys(obj),
