@@ -1,3 +1,5 @@
+// ESM Exports
+// ===========
 // This module is the package entry point for ES module users. In other words,
 // it is the module they are interfacing with when they import from the whole
 // package instead of from a submodule, like this:

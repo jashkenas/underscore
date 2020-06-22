@@ -2,7 +2,7 @@ import { readFileSync } from 'fs';
 import _ from './underscore-esm.js';
 import glob from 'glob';
 
-var intro = readFileSync('modules/index.js', 'utf-8').split('\n').slice(0, 4).join('\n');
+var intro = readFileSync('modules/index.js', 'utf-8').split('\n').slice(3, 7).join('\n');
 
 var outputBase = {
   strict: false,

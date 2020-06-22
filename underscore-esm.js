@@ -1761,7 +1761,7 @@ _.prototype.toString = function() {
   return String(this._wrapped);
 };
 
-//     Underscore.js 1.10.2
+// Named Exports
 
 var allExports = {
   __proto__: null,
@@ -1910,14 +1910,14 @@ var allExports = {
   'default': _
 };
 
-// In this module, we mix our bundled exports into the `_` object and export
+// Default Export
 
 // Add all of the Underscore functions to the wrapper object.
 var _$1 = mixin(allExports);
 // Legacy Node.js API.
 _$1._ = _$1;
 
-// This module is the package entry point for ES module users. In other words,
+// ESM Exports
 
 export default _$1;
 export { VERSION, after, every as all, allKeys, some as any, extendOwn as assign, before, bind, bindAll, chain, chunk, clone, map as collect, compact, compose, constant, contains, countBy, create, debounce, defaults, defer, delay, find as detect, difference, rest as drop, each, _escape as escape, every, extend, extendOwn, filter, find, findIndex, findKey, findLastIndex, findWhere, first, flatten$1 as flatten, reduce as foldl, reduceRight as foldr, each as forEach, functions, groupBy, has$1 as has, first as head, identity, contains as include, contains as includes, indexBy, indexOf, initial, reduce as inject, intersection, invert, invoke, isArguments$1 as isArguments, isArray, isArrayBuffer, isBoolean, isDataView, isDate, isElement, isEmpty, isEqual, isError, isFinite$1 as isFinite, isFunction$1 as isFunction, isMap, isMatch, isNaN$1 as isNaN, isNull, isNumber, isObject, isRegExp, isSet, isString, isSymbol, isTypedArray$1 as isTypedArray, isUndefined, isWeakMap, isWeakSet, iteratee, keys, last, lastIndexOf, map, mapObject, matcher, matcher as matches, max, memoize, functions as methods, min, mixin, negate, noop, now, object, omit, once, pairs, partial, partition, pick, pluck, property, propertyOf, random, range, reduce, reduceRight, reject, rest, restArguments, result, sample, filter as select, shuffle, size, some, sortBy, sortedIndex, rest as tail, first as take, tap, template, templateSettings, throttle, times, toArray, _unescape as unescape, union, uniq, uniq as unique, uniqueId, unzip, values, where, without, wrap, zip };

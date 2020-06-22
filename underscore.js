@@ -1770,7 +1770,7 @@
     return String(this._wrapped);
   };
 
-  //     Underscore.js 1.10.2
+  // Named Exports
 
   var allExports = {
     __proto__: null,
@@ -1919,7 +1919,7 @@
     'default': _
   };
 
-  // In this module, we mix our bundled exports into the `_` object and export
+  // Default Export
 
   // Add all of the Underscore functions to the wrapper object.
   var _$1 = mixin(allExports);

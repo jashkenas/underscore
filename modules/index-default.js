@@ -1,3 +1,5 @@
+// Default Export
+// ==============
 // In this module, we mix our bundled exports into the `_` object and export
 // the result. This is analogous to setting `module.exports = _` in CommonJS.
 // Hence, this module is also the entry point of our UMD bundle and the package
