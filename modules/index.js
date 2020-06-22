@@ -52,9 +52,11 @@ export { default as allKeys } from './allKeys.js';
 export { default as values } from './values.js';
 export { default as pairs } from './pairs.js';
 export { default as invert } from './invert.js';
-export { default as functions, default as methods } from './functions.js';
+export { default as functions,
+         default as methods   } from './functions.js';
 export { default as extend } from './extend.js';
-export { default as extendOwn, default as assign } from './extendOwn.js';
+export { default as extendOwn,
+         default as assign    } from './extendOwn.js';
 export { default as defaults } from './defaults.js';
 export { default as create } from './create.js';
 export { default as clone } from './clone.js';
@@ -72,7 +74,8 @@ export { default as constant } from './constant.js';
 export { default as noop } from './noop.js';
 export { default as property } from './property.js';
 export { default as propertyOf } from './propertyOf.js';
-export { default as matcher, default as matches } from './matcher.js';
+export { default as matcher,
+         default as matches } from './matcher.js';
 export { default as times } from './times.js';
 export { default as random } from './random.js';
 export { default as now } from './now.js';
@@ -114,22 +117,33 @@ export { default as findLastIndex } from './findLastIndex.js';
 export { default as sortedIndex } from './sortedIndex.js';
 export { default as indexOf } from './indexOf.js';
 export { default as lastIndexOf } from './lastIndexOf.js';
-export { default as find, default as detect } from './find.js';
+export { default as find,
+         default as detect } from './find.js';
 export { default as findWhere } from './findWhere.js';
 
 // Collection Functions
 // --------------------
 // Functions that work on any collection of elements, i.e., either
 // an object of key-value pairs or an array.
-export { default as each, default as forEach } from './each.js';
-export { default as map, default as collect } from './map.js';
-export { default as reduce, default as foldl, default as inject } from './reduce.js';
-export { default as reduceRight, default as foldr } from './reduceRight.js';
-export { default as filter, default as select } from './filter.js';
+export { default as each,
+         default as forEach } from './each.js';
+export { default as map,
+         default as collect } from './map.js';
+export { default as reduce,
+         default as foldl,
+         default as inject } from './reduce.js';
+export { default as reduceRight,
+         default as foldr       } from './reduceRight.js';
+export { default as filter,
+         default as select } from './filter.js';
 export { default as reject } from './reject.js';
-export { default as every, default as all } from './every.js';
-export { default as some, default as any } from './some.js';
-export { default as contains, default as includes, default as include } from './contains.js';
+export { default as every,
+         default as all   } from './every.js';
+export { default as some,
+         default as any  } from './some.js';
+export { default as contains,
+         default as includes,
+         default as include  } from './contains.js';
 export { default as invoke } from './invoke.js';
 export { default as pluck } from './pluck.js';
 export { default as where } from './where.js';
@@ -154,14 +168,19 @@ export { default as omit } from './omit.js';
 // Array Functions
 // ---------------
 // Functions that specifically process arrays.
-export { default as first, default as head, default as take } from './first.js';
+export { default as first,
+         default as head,
+         default as take  } from './first.js';
 export { default as initial } from './initial.js';
 export { default as last } from './last.js';
-export { default as rest, default as tail, default as drop } from './rest.js';
+export { default as rest,
+         default as tail,
+         default as drop } from './rest.js';
 export { default as compact } from './compact.js';
 export { default as flatten } from './flatten.js';
 export { default as without } from './without.js';
-export { default as uniq, default as unique } from './uniq.js';
+export { default as uniq,
+         default as unique } from './uniq.js';
 export { default as union } from './union.js';
 export { default as intersection } from './intersection.js';
 export { default as difference } from './difference.js';
