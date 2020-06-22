@@ -7,7 +7,14 @@
 export { VERSION } from './_setup.js';
 export { default as restArguments } from './restArguments.js';
 
-// Object Functions.
+// Object Functions
+// ----------------
+// Our most fundamental functions. Most functions in Underscore
+// depend on at least one function in this section.
+
+// First, a bunch of function that check the passed object for a
+// particular property. These are often informally referred to
+// as the "isType" functions.
 export { default as isObject } from './isObject.js';
 export { default as isNull } from './isNull.js';
 export { default as isUndefined } from './isUndefined.js';
@@ -34,6 +41,9 @@ export { default as isTypedArray } from './isTypedArray.js';
 export { default as isEmpty } from './isEmpty.js';
 export { default as isMatch } from './isMatch.js';
 export { default as isEqual } from './isEqual.js';
+
+// Next, some fundamental functions that take an object and
+// process it as a dictionary of key-value pairs.
 export { default as keys } from './keys.js';
 export { default as allKeys } from './allKeys.js';
 export { default as values } from './values.js';
@@ -49,7 +59,11 @@ export { default as tap } from './tap.js';
 export { default as has } from './has.js';
 export { default as mapObject } from './mapObject.js';
 
-// Utility Functions.
+// Utility Functions
+// -----------------
+// Predicate-generating functions, some functions that operate on
+// numbers, dates or strings and a few functions that facilitate
+// Underscore's chaining and iteration conventions.
 export { default as identity } from './identity.js';
 export { default as constant } from './constant.js';
 export { default as noop } from './noop.js';
@@ -68,7 +82,10 @@ export { default as uniqueId } from './uniqueId.js';
 export { default as chain } from './chain.js';
 export { default as iteratee } from './iteratee.js';
 
-// Function (ahem) Functions.
+// Function (ahem) Functions
+// -------------------------
+// These functions take a function as argument and return
+// a new function as result. A.k.a. higher-order functions.
 export { default as partial } from './partial.js';
 export { default as bind } from './bind.js';
 export { default as bindAll } from './bindAll.js';
@@ -84,7 +101,10 @@ export { default as after } from './after.js';
 export { default as before } from './before.js';
 export { default as once } from './once.js';
 
-// Find et al.
+// Finders
+// -------
+// Functions that extract (the position of) a single element from
+// an object or array based on some criterion.
 export { default as findKey } from './findKey.js';
 export { default as findIndex } from './findIndex.js';
 export { default as findLastIndex } from './findLastIndex.js';
@@ -94,7 +114,10 @@ export { default as lastIndexOf } from './lastIndexOf.js';
 export { default as find, default as detect } from './find.js';
 export { default as findWhere } from './findWhere.js';
 
-// Collection Functions.
+// Collection Functions
+// --------------------
+// Functions that work on any collection of elements, i.e., either
+// an object of key-value pairs or an array.
 export { default as each, default as forEach } from './each.js';
 export { default as map, default as collect } from './map.js';
 export { default as reduce, default as foldl, default as inject } from './reduce.js';
@@ -125,7 +148,9 @@ export { default as size } from './size.js';
 export { default as pick } from './pick.js';
 export { default as omit } from './omit.js';
 
-// Array Functions.
+// Array Functions
+// ---------------
+// Functions that specifically process arrays.
 export { default as first, default as head, default as take } from './first.js';
 export { default as initial } from './initial.js';
 export { default as last } from './last.js';
@@ -143,6 +168,9 @@ export { default as object } from './object.js';
 export { default as range } from './range.js';
 export { default as chunk } from './chunk.js';
 
-// OOP.
+// OOP
+// ---
+// These modules support the OO calling style. See also
+// `underscore.js` and `index-default.js`.
 export { default as mixin } from './mixin.js';
 export { default } from './underscore-oop.js';

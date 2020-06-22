@@ -297,13 +297,9 @@ function isMatch(object, attrs) {
   return true;
 }
 
-// If Underscore is called as a function, it returns a wrapped object that
-// can be used OO-style. This wrapper holds altered versions of all the
-// underscore functions. Wrapped objects may be chained.
-//
-// Unwrapping methods and `Array.prototype` methods are added in the
-// `underscore-oop.js` module. All public Underscore functions are added to it
-// in the `index-default.js` using the `_.mixin` function.
+// If Underscore is called as a function, it returns a wrapped object that can
+// be used OO-style. This wrapper holds altered versions of all functions added
+// through `_.mixin`. Wrapped objects may be chained.
 function _(obj) {
   if (obj instanceof _) return obj;
   if (!(this instanceof _)) return new _(obj);
