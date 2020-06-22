@@ -676,54 +676,6 @@ function mapObject(obj, iteratee, context) {
   return results;
 }
 
-// Internal `pick` helper function to determine whether `key` is an enumerable
-// property name of `obj`.
-function keyInObj(value, key, obj) {
-  return key in obj;
-}
-
-// Internal implementation of a recursive `flatten` function.
-function flatten(input, shallow, strict, output) {
-  output = output || [];
-  var idx = output.length;
-  for (var i = 0, length = getLength(input); i < length; i++) {
-    var value = input[i];
-    if (isArrayLike(value) && (isArray(value) || isArguments$1(value))) {
-      // Flatten current level of array or arguments object.
-      if (shallow) {
-        var j = 0, len = value.length;
-        while (j < len) output[idx++] = value[j++];
-      } else {
-        flatten(value, shallow, strict, output);
-        idx = output.length;
-      }
-    } else if (!strict) {
-      output[idx++] = value;
-    }
-  }
-  return output;
-}
-
-// Return a copy of the object only containing the whitelisted properties.
-var pick = restArguments(function(obj, keys) {
-  var result = {}, iteratee = keys[0];
-  if (obj == null) return result;
-  if (isFunction$1(iteratee)) {
-    if (keys.length > 1) iteratee = optimizeCb(iteratee, keys[1]);
-    keys = allKeys(obj);
-  } else {
-    iteratee = keyInObj;
-    keys = flatten(keys, false, false);
-    obj = Object(obj);
-  }
-  for (var i = 0, length = keys.length; i < length; i++) {
-    var key = keys[i];
-    var value = obj[key];
-    if (iteratee(value, key, obj)) result[key] = value;
-  }
-  return result;
-});
-
 // Predicate-generating function. Often useful outside of Underscore.
 function noop(){}
 
@@ -960,6 +912,28 @@ var bind = restArguments(function(func, context, args) {
   });
   return bound;
 });
+
+// Internal implementation of a recursive `flatten` function.
+function flatten(input, shallow, strict, output) {
+  output = output || [];
+  var idx = output.length;
+  for (var i = 0, length = getLength(input); i < length; i++) {
+    var value = input[i];
+    if (isArrayLike(value) && (isArray(value) || isArguments$1(value))) {
+      // Flatten current level of array or arguments object.
+      if (shallow) {
+        var j = 0, len = value.length;
+        while (j < len) output[idx++] = value[j++];
+      } else {
+        flatten(value, shallow, strict, output);
+        idx = output.length;
+      }
+    } else if (!strict) {
+      output[idx++] = value;
+    }
+  }
+  return output;
+}
 
 // Bind a number of an object's methods to that object. Remaining arguments
 // are the method names to be bound. Useful for ensuring that all callbacks
@@ -1520,6 +1494,32 @@ function size(obj) {
   return isArrayLike(obj) ? obj.length : keys(obj).length;
 }
 
+// Internal `pick` helper function to determine whether `key` is an enumerable
+// property name of `obj`.
+function keyInObj(value, key, obj) {
+  return key in obj;
+}
+
+// Return a copy of the object only containing the whitelisted properties.
+var pick = restArguments(function(obj, keys) {
+  var result = {}, iteratee = keys[0];
+  if (obj == null) return result;
+  if (isFunction$1(iteratee)) {
+    if (keys.length > 1) iteratee = optimizeCb(iteratee, keys[1]);
+    keys = allKeys(obj);
+  } else {
+    iteratee = keyInObj;
+    keys = flatten(keys, false, false);
+    obj = Object(obj);
+  }
+  for (var i = 0, length = keys.length; i < length; i++) {
+    var key = keys[i];
+    var value = obj[key];
+    if (iteratee(value, key, obj)) result[key] = value;
+  }
+  return result;
+});
+
 // Return a copy of the object without the blacklisted properties.
 var omit = restArguments(function(obj, keys) {
   var iteratee = keys[0], context;
@@ -1813,7 +1813,6 @@ var allExports = {
   tap: tap,
   has: has$1,
   mapObject: mapObject,
-  pick: pick,
   identity: identity,
   constant: constant,
   noop: noop,
@@ -1888,6 +1887,7 @@ var allExports = {
   partition: partition,
   toArray: toArray,
   size: size,
+  pick: pick,
   omit: omit,
   first: first,
   head: first,

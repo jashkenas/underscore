@@ -7,7 +7,7 @@
 export { VERSION } from './_setup.js';
 export { default as restArguments } from './restArguments.js';
 
-// Object Functions (except for `findKey` and `omit`).
+// Object Functions.
 export { default as isObject } from './isObject.js';
 export { default as isNull } from './isNull.js';
 export { default as isUndefined } from './isUndefined.js';
@@ -48,7 +48,6 @@ export { default as clone } from './clone.js';
 export { default as tap } from './tap.js';
 export { default as has } from './has.js';
 export { default as mapObject } from './mapObject.js';
-export { default as pick } from './pick.js';
 
 // Utility Functions.
 export { default as identity } from './identity.js';
@@ -95,7 +94,7 @@ export { default as lastIndexOf } from './lastIndexOf.js';
 export { default as find, default as detect } from './find.js';
 export { default as findWhere } from './findWhere.js';
 
-// Collection Functions (plus `omit`).
+// Collection Functions.
 export { default as each, default as forEach } from './each.js';
 export { default as map, default as collect } from './map.js';
 export { default as reduce, default as foldl, default as inject } from './reduce.js';
@@ -119,6 +118,11 @@ export { default as countBy } from './countBy.js';
 export { default as partition } from './partition.js';
 export { default as toArray } from './toArray.js';
 export { default as size } from './size.js';
+
+// `_.pick` and `_.omit` are actually object functions, but we put
+// them here in order to create a more natural reading order in the
+// monolithic build as they depend on `_.contains`.
+export { default as pick } from './pick.js';
 export { default as omit } from './omit.js';
 
 // Array Functions.
