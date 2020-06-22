@@ -1,4 +1,6 @@
 language: node_js
+services:
+  - xvfb
 sudo: false
 node_js:
   - "4.9.1"
@@ -13,8 +15,6 @@ before_install:
   - npm install -g karma-cli
 before_script:
   - npm install karma-sauce-launcher
-  - export DISPLAY=:99.0
-  - sh -e /etc/init.d/xvfb start
 script:
   - npm test
   - "[ $BROWSER == false ] || npm run test-browser"
