@@ -7,7 +7,7 @@ import property from './property.js';
 import optimizeCb from './_optimizeCb.js';
 
 // An internal function to generate callbacks that can be applied to each
-// element in a collection, returning the desired result — either `identity`,
+// element in a collection, returning the desired result — either `_.identity`,
 // an arbitrary callback, a property matcher, or a property accessor.
 export default function baseIteratee(value, context, argCount) {
   if (value == null) return identity;

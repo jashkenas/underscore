@@ -308,7 +308,7 @@ function _(obj) {
 
 _.VERSION = VERSION;
 
-// Internal recursive comparison function for `isEqual`.
+// Internal recursive comparison function for `_.isEqual`.
 function eq(a, b, aStack, bStack) {
   // Identical objects are equal. `0 === -0`, but they aren't identical.
   // See the [Harmony `egal` proposal](https://wiki.ecmascript.org/doku.php?id=harmony:egal).
@@ -323,7 +323,7 @@ function eq(a, b, aStack, bStack) {
   return deepEq(a, b, aStack, bStack);
 }
 
-// Internal recursive comparison function for `isEqual`.
+// Internal recursive comparison function for `_.isEqual`.
 function deepEq(a, b, aStack, bStack) {
   // Unwrap any wrapped objects.
   if (a instanceof _) a = a._wrapped;
@@ -459,7 +459,7 @@ function values(obj) {
 }
 
 // Convert an object into a list of `[key, value]` pairs.
-// The opposite of `object` with one argument.
+// The opposite of `_.object` with one argument.
 function pairs(obj) {
   var _keys = keys(obj);
   var length = _keys.length;
@@ -634,7 +634,7 @@ function optimizeCb(func, context, argCount) {
 }
 
 // An internal function to generate callbacks that can be applied to each
-// element in a collection, returning the desired result — either `identity`,
+// element in a collection, returning the desired result — either `_.identity`,
 // an arbitrary callback, a property matcher, or a property accessor.
 function baseIteratee(value, context, argCount) {
   if (value == null) return identity;
@@ -659,7 +659,7 @@ function cb(value, context, argCount) {
 }
 
 // Returns the results of applying the `iteratee` to each element of `obj`.
-// In contrast to `map` it returns an object.
+// In contrast to `_.map` it returns an object.
 function mapObject(obj, iteratee, context) {
   iteratee = cb(iteratee, context);
   var _keys = keys(obj),
@@ -882,7 +882,7 @@ function executeBound(sourceFunc, boundFunc, context, callingContext, args) {
 // Partially apply a function by creating a version that has had some of its
 // arguments pre-filled, without changing its dynamic `this` context. `_` acts
 // as a placeholder by default, allowing any combination of arguments to be
-// pre-filled. Set `partial.placeholder` for a custom placeholder argument.
+// pre-filled. Set `_.partial.placeholder` for a custom placeholder argument.
 var partial = restArguments(function(func, boundArgs) {
   var placeholder = partial.placeholder;
   var bound = function() {
@@ -1111,7 +1111,7 @@ function findKey(obj, predicate, context) {
   }
 }
 
-// Internal function to generate the `findIndex` and `findLastIndex` functions.
+// Internal function to generate `_.findIndex` and `_.findLastIndex`.
 function createPredicateIndexFinder(dir) {
   return function(array, predicate, context) {
     predicate = cb(predicate, context);
@@ -1143,7 +1143,7 @@ function sortedIndex(array, obj, iteratee, context) {
   return low;
 }
 
-// Internal function to generate the `indexOf` and `lastIndexOf` functions.
+// Internal function to generate the `_.indexOf` and `_.lastIndexOf` functions.
 function createIndexFinder(dir, predicateFind, sortedIndex) {
   return function(array, item, idx) {
     var i = 0, length = getLength(array);
@@ -1185,8 +1185,8 @@ function find(obj, predicate, context) {
   if (key !== void 0 && key !== -1) return obj[key];
 }
 
-// Convenience version of a common use case of `find`: getting the first object
-// containing specific `key:value` pairs.
+// Convenience version of a common use case of `_.find`: getting the first
+// object containing specific `key:value` pairs.
 function findWhere(obj, attrs) {
   return find(obj, matcher(attrs));
 }
@@ -1324,13 +1324,13 @@ var invoke = restArguments(function(obj, path, args) {
   });
 });
 
-// Convenience version of a common use case of `map`: fetching a property.
+// Convenience version of a common use case of `_.map`: fetching a property.
 function pluck(obj, key) {
   return map(obj, property(key));
 }
 
-// Convenience version of a common use case of `filter`: selecting only objects
-// containing specific `key:value` pairs.
+// Convenience version of a common use case of `_.filter`: selecting only
+// objects containing specific `key:value` pairs.
 function where(obj, attrs) {
   return filter(obj, matcher(attrs));
 }
@@ -1388,7 +1388,7 @@ function min(obj, iteratee, context) {
 // Sample **n** random values from a collection using the modern version of the
 // [Fisher-Yates shuffle](https://en.wikipedia.org/wiki/Fisher–Yates_shuffle).
 // If **n** is not specified, returns a single random element.
-// The internal `guard` argument allows it to work with `map`.
+// The internal `guard` argument allows it to work with `_.map`.
 function sample(obj, n, guard) {
   if (n == null || guard) {
     if (!isArrayLike(obj)) obj = values(obj);
@@ -1452,7 +1452,7 @@ var groupBy = group(function(result, value, key) {
   if (has(result, key)) result[key].push(value); else result[key] = [value];
 });
 
-// Indexes the object's values by a criterion, similar to `groupBy`, but for
+// Indexes the object's values by a criterion, similar to `_.groupBy`, but for
 // when you know that your index values will be unique.
 var indexBy = group(function(result, value, key) {
   result[key] = value;
@@ -1490,7 +1490,7 @@ function size(obj) {
   return isArrayLike(obj) ? obj.length : keys(obj).length;
 }
 
-// Internal `pick` helper function to determine whether `key` is an enumerable
+// Internal `_.pick` helper function to determine whether `key` is an enumerable
 // property name of `obj`.
 function keyInObj(value, key, obj) {
   return key in obj;
@@ -1539,7 +1539,7 @@ function initial(array, n, guard) {
 }
 
 // Get the first element of an array. Passing **n** will return the first N
-// values in the array. The **guard** check allows it to work with `map`.
+// values in the array. The **guard** check allows it to work with `_.map`.
 function first(array, n, guard) {
   if (array == null || array.length < 1) return n == null || guard ? void 0 : [];
   if (n == null || guard) return array[0];
@@ -1658,7 +1658,7 @@ var zip = restArguments(unzip);
 
 // Converts lists into objects. Pass either a single array of `[key, value]`
 // pairs, or two parallel arrays of the same length -- one of keys, and one of
-// the corresponding values. Passing by pairs is the reverse of `pairs`.
+// the corresponding values. Passing by pairs is the reverse of `_.pairs`.
 function object(list, values) {
   var result = {};
   for (var i = 0, length = getLength(list); i < length; i++) {

@@ -6,7 +6,7 @@ import isFunction from './isFunction.js';
 import keys from './keys.js';
 import has from './_has.js';
 
-// Internal recursive comparison function for `isEqual`.
+// Internal recursive comparison function for `_.isEqual`.
 function eq(a, b, aStack, bStack) {
   // Identical objects are equal. `0 === -0`, but they aren't identical.
   // See the [Harmony `egal` proposal](https://wiki.ecmascript.org/doku.php?id=harmony:egal).
@@ -21,7 +21,7 @@ function eq(a, b, aStack, bStack) {
   return deepEq(a, b, aStack, bStack);
 }
 
-// Internal recursive comparison function for `isEqual`.
+// Internal recursive comparison function for `_.isEqual`.
 function deepEq(a, b, aStack, bStack) {
   // Unwrap any wrapped objects.
   if (a instanceof _) a = a._wrapped;

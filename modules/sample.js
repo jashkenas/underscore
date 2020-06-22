@@ -7,7 +7,7 @@ import random from './random.js';
 // Sample **n** random values from a collection using the modern version of the
 // [Fisher-Yates shuffle](https://en.wikipedia.org/wiki/Fisher–Yates_shuffle).
 // If **n** is not specified, returns a single random element.
-// The internal `guard` argument allows it to work with `map`.
+// The internal `guard` argument allows it to work with `_.map`.
 export default function sample(obj, n, guard) {
   if (n == null || guard) {
     if (!isArrayLike(obj)) obj = values(obj);

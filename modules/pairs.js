@@ -1,7 +1,7 @@
 import keys from './keys.js';
 
 // Convert an object into a list of `[key, value]` pairs.
-// The opposite of `object` with one argument.
+// The opposite of `_.object` with one argument.
 export default function pairs(obj) {
   var _keys = keys(obj);
   var length = _keys.length;
