@@ -890,8 +890,6 @@
 
     return throttled;
   }
-
-  
   
   // When a sequence of calls of the returned function ends, the argument
   // function is triggered. The end of a sequence is defined by the ‘wait’ 
