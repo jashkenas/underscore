@@ -12,12 +12,11 @@ export { default as restArguments } from './restArguments.js';
 
 // Object Functions
 // ----------------
-// Our most fundamental functions. Most functions in Underscore
-// depend on at least one function in this section.
+// Our most fundamental functions operate on any JavaScript object.
+// Most functions in Underscore depend on at least one function in this section.
 
-// First, a bunch of function that check the passed object for a
-// particular property. These are often informally referred to
-// as the "isType" functions.
+// A group of functions that check the types of core JavaScript values.
+// These are often informally referred to as the "isType" functions.
 export { default as isObject } from './isObject.js';
 export { default as isNull } from './isNull.js';
 export { default as isUndefined } from './isUndefined.js';
@@ -45,8 +44,7 @@ export { default as isEmpty } from './isEmpty.js';
 export { default as isMatch } from './isMatch.js';
 export { default as isEqual } from './isEqual.js';
 
-// Next, some fundamental functions that take an object and
-// process it as a dictionary of key-value pairs.
+// Functions that treat an object as a dictionary of key-value pairs.
 export { default as keys } from './keys.js';
 export { default as allKeys } from './allKeys.js';
 export { default as values } from './values.js';
@@ -66,9 +64,9 @@ export { default as mapObject } from './mapObject.js';
 
 // Utility Functions
 // -----------------
-// Predicate-generating functions, some functions that operate on
-// numbers, dates or strings and a few functions that facilitate
-// Underscore's chaining and iteration conventions.
+// A bit of a grab bag: Predicate-generating functions for use with filters and
+// loops, string escaping and templating, create random numbers and unique ids,
+// and functions that facilitate Underscore's chaining and iteration conventions.
 export { default as identity } from './identity.js';
 export { default as constant } from './constant.js';
 export { default as noop } from './noop.js';
@@ -90,8 +88,8 @@ export { default as iteratee } from './iteratee.js';
 
 // Function (ahem) Functions
 // -------------------------
-// These functions take a function as argument and return
-// a new function as result. A.k.a. higher-order functions.
+// These functions take a function as an argument and return a new function
+// as the result. Also known as higher-order functions.
 export { default as partial } from './partial.js';
 export { default as bind } from './bind.js';
 export { default as bindAll } from './bindAll.js';
@@ -109,8 +107,8 @@ export { default as once } from './once.js';
 
 // Finders
 // -------
-// Functions that extract (the position of) a single element from
-// an object or array based on some criterion.
+// Functions that extract (the position of) a single element from an object
+// or array based on some criterion.
 export { default as findKey } from './findKey.js';
 export { default as findIndex } from './findIndex.js';
 export { default as findLastIndex } from './findLastIndex.js';
@@ -123,8 +121,8 @@ export { default as findWhere } from './findWhere.js';
 
 // Collection Functions
 // --------------------
-// Functions that work on any collection of elements, i.e., either
-// an object of key-value pairs or an array.
+// Functions that work on any collection of elements: either an array, or
+// an object of key-value pairs.
 export { default as each,
          default as forEach } from './each.js';
 export { default as map,
@@ -167,7 +165,8 @@ export { default as omit } from './omit.js';
 
 // Array Functions
 // ---------------
-// Functions that specifically process arrays.
+// Functions that operate on arrays (and array-likes) only, because they’re
+// expressed in terms of operations on an ordered list of values.
 export { default as first,
          default as head,
          default as take  } from './first.js';
@@ -192,7 +191,7 @@ export { default as chunk } from './chunk.js';
 
 // OOP
 // ---
-// These modules support the OO calling style. See also
+// These modules support the "object-oriented" calling style. See also
 // `underscore.js` and `index-default.js`.
 export { default as mixin } from './mixin.js';
 export { default } from './underscore-oop.js';
