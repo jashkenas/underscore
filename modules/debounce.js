@@ -1,10 +1,10 @@
 import restArguments from './restArguments.js';
 import delay from './delay.js';
 
-// Returns a function, that, as long as it continues to be invoked, will not
-// be triggered. The function will be triggered after it stops being called for
-// N milliseconds. If `immediate` is passed, trigger the function on the
-// leading edge, instead of the trailing.
+// When a sequence of calls of the returned function ends, the argument
+// function is triggered. The end of a sequence is defined by the ‘wait’ 
+// parameter. If ‘immediate’ is passed, the argument function will be 
+// triggered at the beginning of the sequence as well. 
 export default function debounce(func, wait, immediate) {
   var timeout, result;
 
