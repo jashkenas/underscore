@@ -2,23 +2,22 @@ language: node_js
 services:
   - xvfb
 sudo: false
-node_js:
-  - "4.9.1"
-  - "6.14.1"
-  - "8.11.1"
-  - "9.11.1"
-matrix:
+jobs:
   include:
-    - node_js: "4.0"
+    - node_js: 8
+      env: BROWSER=false
+    - node_js: 10
       env: BROWSER=true
+    - node_js: 14
+      env: BROWSER=false
 before_install:
   - npm install -g karma-cli
 before_script:
   - npm install karma-sauce-launcher
 script:
   - npm test
-  - "[ $BROWSER == false ] || npm run test-browser"
-  - "[ $BROWSER == false ] || karma start karma.conf-sauce.js"
+  - "[ $BROWSER = false ] || npm run test-browser"
+  - "[ $BROWSER = false ] || karma start karma.conf-sauce.js"
 notifications:
   email: false
 env:
