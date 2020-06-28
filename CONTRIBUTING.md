@@ -6,6 +6,8 @@
 
 * If you're proposing a new feature, make sure it isn't already implemented in [Underscore-Contrib](https://github.com/documentcloud/underscore-contrib).
 
+* When contributing code, make sure that you edit the source code in the `modules/` directory. Also, run `npm install` before committing any changes to ensure that our commit hooks can do their work.
+
 * Before sending a pull request for a feature, be sure to have [tests](https://underscorejs.org/test/).
 
 * Use the same coding style as the rest of the [codebase](https://github.com/jashkenas/underscore/blob/master/modules/index.js).
