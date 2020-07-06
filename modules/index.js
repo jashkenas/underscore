@@ -194,4 +194,4 @@ export { default as chunk } from './chunk.js';
 // These modules support the "object-oriented" calling style. See also
 // `underscore.js` and `index-default.js`.
 export { default as mixin } from './mixin.js';
-export { default } from './underscore-oop.js';
+export { default } from './underscore-array-methods.js';
