@@ -1602,7 +1602,7 @@ _.extend({name: 'moe'}, {age: 50});
         <b class="header">pick</b><code>_.pick(object, *keys)</code>
         <br />
         Return a copy of the <b>object</b>, filtered to only have values for
-        the whitelisted <b>keys</b> (or array of valid keys).  Alternatively
+        the allowed <b>keys</b> (or array of valid keys).  Alternatively
         accepts a predicate indicating which keys to pick.
       </p>
       <pre>
@@ -1617,7 +1617,7 @@ _.pick({name: 'moe', age: 50, userid: 'moe1'}, function(value, key, object) {
       <p id="omit">
         <b class="header">omit</b><code>_.omit(object, *keys)</code>
         <br />
-        Return a copy of the <b>object</b>, filtered to omit the blacklisted
+        Return a copy of the <b>object</b>, filtered to omit the disallowed
         <b>keys</b> (or array of keys).  Alternatively accepts a predicate
         indicating which keys to omit.
       </p>
@@ -2882,7 +2882,7 @@ _.chain([1, 2, 3]).reverse().value();
           </li>
           <li>
             Removed the ability to call <tt>_.bindAll</tt> with no method name
-            arguments. It's pretty much always wiser to white-list the names of
+            arguments. It's pretty much always wiser to allow the names of
             the methods you'd like to bind.
           </li>
           <li>
@@ -3042,7 +3042,7 @@ _.chain([1, 2, 3]).reverse().value();
           </li>
           <li>
             Added the <tt>pick</tt> function, which allows you to filter an
-            object literal with a whitelist of allowed property names.
+            object literal with a list of allowed property names.
           </li>
           <li>
             Added the <tt>result</tt> function, for convenience when working
