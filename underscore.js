@@ -1518,7 +1518,7 @@
     return key in obj;
   }
 
-  // Return a copy of the object only containing the whitelisted properties.
+  // Return a copy of the object only containing the allowed properties.
   var pick = restArguments(function(obj, keys) {
     var result = {}, iteratee = keys[0];
     if (obj == null) return result;
@@ -1538,7 +1538,7 @@
     return result;
   });
 
-  // Return a copy of the object without the blacklisted properties.
+  // Return a copy of the object without the disallowed properties.
   var omit = restArguments(function(obj, keys) {
     var iteratee = keys[0], context;
     if (isFunction$1(iteratee)) {

@@ -6,7 +6,7 @@ import flatten from './_flatten.js';
 import contains from './contains.js';
 import pick from './pick.js';
 
-// Return a copy of the object without the blacklisted properties.
+// Return a copy of the object without the disallowed properties.
 export default restArguments(function(obj, keys) {
   var iteratee = keys[0], context;
   if (isFunction(iteratee)) {
