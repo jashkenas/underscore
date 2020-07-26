@@ -2224,8 +2224,10 @@ compiled({epithet: "stooge"});
         interpolated verbatim, an <b>escape</b> regex to match expressions that should
         be inserted after being HTML-escaped, and an <b>evaluate</b> regex to match
         expressions that should be evaluated without insertion into the resulting
-        string. You may define or omit any combination of the three.
-        For example, to perform
+        string. Note that if part of your template matches more than one of these
+        regexes, the first of the following priority order will be applied:
+        <b>escape</b>, <b>interpolate</b>, or <b>evaluate</b>. You may also define or 
+        omit any combination of the three. For example, to perform
         <a href="https://github.com/janl/mustache.js#readme">Mustache.js</a>-style
         templating:
       </p>
