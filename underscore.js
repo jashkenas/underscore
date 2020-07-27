@@ -1911,6 +1911,7 @@
     intersection: intersection,
     difference: difference,
     unzip: unzip,
+    transpose: unzip,
     zip: zip,
     object: object,
     range: range,

@@ -309,6 +309,10 @@
     assert.deepEqual(_.object(null), {}, 'handles nulls');
   });
 
+  QUnit.test('transpose', function(assert) {
+    assert.strictEqual(_.transpose, _.unzip, 'is an alias for unzip');
+  });
+
   QUnit.test('indexOf', function(assert) {
     var numbers = [1, 2, 3];
     assert.strictEqual(_.indexOf(numbers, 2), 1, 'can compute indexOf');
