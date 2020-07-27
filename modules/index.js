@@ -183,7 +183,8 @@ export { default as uniq,
 export { default as union } from './union.js';
 export { default as intersection } from './intersection.js';
 export { default as difference } from './difference.js';
-export { default as unzip } from './unzip.js';
+export { default as unzip,
+         default as transpose } from './unzip.js';
 export { default as zip } from './zip.js';
 export { default as object } from './object.js';
 export { default as range } from './range.js';
