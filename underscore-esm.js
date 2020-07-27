@@ -929,11 +929,11 @@ function flatten(input, depth, strict, output) {
   for (var i = 0, length = getLength(input); i < length; i++) {
     var value = input[i];
     if (isArrayLike(value) && (isArray(value) || isArguments$1(value))) {
+      // Flatten current level of array or arguments object.
       if (depth > 1) {
         flatten(value, depth - 1, strict, output);
         idx = output.length;
       } else {
-        // Flatten current level of array or arguments object.
         var j = 0, len = value.length;
         while (j < len) output[idx++] = value[j++];
       }
