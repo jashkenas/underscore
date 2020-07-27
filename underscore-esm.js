@@ -925,6 +925,11 @@ var bind = restArguments(function(func, context, args) {
 // Internal implementation of a recursive `flatten` function.
 function flatten(input, depth, strict, output) {
   output = output || [];
+  if (!depth && depth !== 0) {
+    depth = Infinity;
+  } else if (depth <= 0) {
+    return output.concat(input);
+  }
   var idx = output.length;
   for (var i = 0, length = getLength(input); i < length; i++) {
     var value = input[i];
@@ -1582,11 +1587,6 @@ function compact(array) {
 // Flatten out an array, either recursively (by default), or up to `depth`.
 // Passing `true` or `false` as `depth` means `1` or `Infinity`, respectively.
 function flatten$1(array, depth) {
-  if (!depth && depth !== 0) {
-    depth = Infinity;
-  } else if (depth <= 0) {
-    return clone(array);
-  }
   return flatten(array, depth, false);
 }
 

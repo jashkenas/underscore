@@ -6,6 +6,11 @@ import isArguments from './isArguments.js';
 // Internal implementation of a recursive `flatten` function.
 export default function flatten(input, depth, strict, output) {
   output = output || [];
+  if (!depth && depth !== 0) {
+    depth = Infinity;
+  } else if (depth <= 0) {
+    return output.concat(input);
+  }
   var idx = output.length;
   for (var i = 0, length = getLength(input); i < length; i++) {
     var value = input[i];
