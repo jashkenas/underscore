@@ -10,7 +10,8 @@
   var iframe = document.createElement('iframe');
   iframe.frameBorder = iframe.height = iframe.width = 0;
   document.body.appendChild(iframe);
-  var iDoc = (iDoc = iframe.contentDocument || iframe.contentWindow).document || iDoc;
+  var iframeContent = iframe.contentDocument || iframe.contentWindow;
+  var iDoc = iframeContent.document || iframeContent;
   iDoc.write(
     [
       '<script>',
@@ -132,9 +133,9 @@
         _.isFunction(fn);
       }
 
-      assert.equal(_.isFunction(xml), false);
-      assert.equal(_.isFunction(div), false);
-      assert.equal(_.isFunction(fn), true);
+      assert.strictEqual(_.isFunction(xml), false);
+      assert.strictEqual(_.isFunction(div), false);
+      assert.strictEqual(_.isFunction(fn), true);
     });
   }
 

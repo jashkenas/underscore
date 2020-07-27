@@ -2,13 +2,13 @@
   "env": {
     "browser": true
   },
+  "parserOptions": {},
   "globals": {
     "QUnit": false
   },
   "rules": {
     "brace-style": 0,
     "no-new-wrappers": 0,
-    "no-sparse-arrays": 0,
     "no-extend-native": 0
   }
 }
