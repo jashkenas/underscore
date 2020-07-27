@@ -1579,7 +1579,8 @@ function compact(array) {
   return filter(array, Boolean);
 }
 
-// Flatten out an array, either recursively (by default), or just one level.
+// Flatten out an array, either recursively (by default), or up to `depth`.
+// Passing `true` or `false` as `depth` means `1` or `Infinity`, respectively.
 function flatten$1(array, depth) {
   if (!depth && depth !== 0) {
     depth = Infinity;
