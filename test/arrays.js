@@ -100,10 +100,15 @@
     var list = [1, [2], [3, [[[4]]]]];
     assert.deepEqual(_.flatten(list), [1, 2, 3, 4], 'can flatten nested arrays');
     assert.deepEqual(_.flatten(list, true), [1, 2, 3, [[[4]]]], 'can shallowly flatten nested arrays');
+    assert.deepEqual(_.flatten(list, false), [1, 2, 3, 4], 'false means deep');
     var result = (function(){ return _.flatten(arguments); }(1, [2], [3, [[[4]]]]));
     assert.deepEqual(result, [1, 2, 3, 4], 'works on an arguments object');
     list = [[1], [2], [3], [[4]]];
     assert.deepEqual(_.flatten(list, true), [1, 2, 3, [4]], 'can shallowly flatten arrays containing only other arrays');
+    list = [1, [2], [[3]], [[[4]]]];
+    assert.deepEqual(_.flatten(list, 2), [1, 2, 3, [4]], 'can flatten arrays to a given depth');
+    assert.deepEqual(_.flatten(list, 0), list, 'can flatten arrays to depth of 0');
+    assert.deepEqual(_.flatten(list, -1), list, 'can flatten arrays to depth of -1');
 
     assert.strictEqual(_.flatten([_.range(10), _.range(10), 5, 1, 3], true).length, 23, 'can flatten medium length arrays');
     assert.strictEqual(_.flatten([_.range(10), _.range(10), 5, 1, 3]).length, 23, 'can shallowly flatten medium length arrays');
@@ -241,6 +246,9 @@
   QUnit.test('difference', function(assert) {
     var result = _.difference([1, 2, 3], [2, 30, 40]);
     assert.deepEqual(result, [1, 3], 'can find the difference of two arrays');
+
+    var result = _.difference([1, 2, 3], [2, 30, 40, [1]]);
+    assert.deepEqual(result, [1, 3], 'avoids deep flattening of arrays');
 
     result = _([1, 2, 3]).difference([2, 30, 40]);
     assert.deepEqual(result, [1, 3], 'can perform an OO-style difference');

@@ -178,6 +178,8 @@
     assert.deepEqual(result, {b: 2, c: 3}, 'can restrict properties to those named in an array');
     result = _.pick({a: 1, b: 2, c: 3}, ['a'], 'b');
     assert.deepEqual(result, {a: 1, b: 2}, 'can restrict properties to those named in mixed args');
+    result = _.pick({a: 1, b: 2, c: 3}, ['a'], [['b']]);
+    assert.deepEqual(result, {a: 1, b: 2}, 'can restrict properties to those named in mixed deep args');
     result = _.pick(['a', 'b'], 1);
     assert.deepEqual(result, {1: 'b'}, 'can pick numeric properties');
 
@@ -219,6 +221,8 @@
     assert.deepEqual(result, {b: 2}, 'can omit several named properties');
     result = _.omit({a: 1, b: 2, c: 3}, ['b', 'c']);
     assert.deepEqual(result, {a: 1}, 'can omit properties named in an array');
+    result = _.omit({a: 1, b: 2, c: 3}, ['b', ['c']]);
+    assert.deepEqual(result, {a: 1}, 'can omit properties named in a nested array');
     result = _.omit(['a', 'b'], 0);
     assert.deepEqual(result, {1: 'b'}, 'can omit numeric properties');
 

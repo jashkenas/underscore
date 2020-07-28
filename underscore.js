@@ -932,19 +932,24 @@
   });
 
   // Internal implementation of a recursive `flatten` function.
-  function flatten(input, shallow, strict, output) {
+  function flatten(input, depth, strict, output) {
     output = output || [];
+    if (!depth && depth !== 0) {
+      depth = Infinity;
+    } else if (depth <= 0) {
+      return output.concat(input);
+    }
     var idx = output.length;
     for (var i = 0, length = getLength(input); i < length; i++) {
       var value = input[i];
       if (isArrayLike(value) && (isArray(value) || isArguments$1(value))) {
         // Flatten current level of array or arguments object.
-        if (shallow) {
+        if (depth > 1) {
+          flatten(value, depth - 1, strict, output);
+          idx = output.length;
+        } else {
           var j = 0, len = value.length;
           while (j < len) output[idx++] = value[j++];
-        } else {
-          flatten(value, shallow, strict, output);
-          idx = output.length;
         }
       } else if (!strict) {
         output[idx++] = value;
@@ -1588,9 +1593,10 @@
     return filter(array, Boolean);
   }
 
-  // Flatten out an array, either recursively (by default), or just one level.
-  function flatten$1(array, shallow) {
-    return flatten(array, shallow, false);
+  // Flatten out an array, either recursively (by default), or up to `depth`.
+  // Passing `true` or `false` as `depth` means `1` or `Infinity`, respectively.
+  function flatten$1(array, depth) {
+    return flatten(array, depth, false);
   }
 
   // Take the difference between one array and a number of other arrays.
