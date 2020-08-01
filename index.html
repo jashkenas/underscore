@@ -2493,6 +2493,11 @@ _.chain([1, 2, 3]).reverse().value();
             when used as an iteratee.
           </li>
           <li>
+            Fixes a regression introduced in version 1.9.0 that caused
+            <tt>_.bindAll</tt> to return <tt>undefined</tt> instead of the
+            bound object.
+          </li>
+          <li>
             Adds a clarification to the documentation that <tt>_.isEmpty</tt>
             is meant to be called with a collection and is unfit for validating
             other types of values.
