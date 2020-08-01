@@ -430,7 +430,10 @@
     </p>
 
     <p>
-      You may also read through the <a href="docs/underscore.html">annotated source code</a>.
+      You may also read through the <a
+      href="docs/underscore-esm.html">annotated source code</a>. There is a <a
+      href="docs/modules/index-all.html">modular version</a> with clickable
+      import references as well.
     </p>
 
     <p>
@@ -454,9 +457,17 @@
 
     <table>
       <tr>
-        <td class="dl-link"><a href="modules/index.js">ES Module</a></td>
+        <td class="dl-link"><a href="underscore-esm.js">ESM (Development)</a></td>
         <td>
-          <i>56kb, Uncompressed with Plentiful Comments</i>
+          <i>62kb, Uncompressed with Plentiful Comments</i>
+          &nbsp;<small>(<a href="underscore-esm.js.map">Source Map</a>)</small>
+        </td>
+      </tr>
+      <tr>
+        <td class="dl-link"><a href="underscore-esm-min.js">ESM (Production)</a></td>
+        <td>
+          <i>8.18kb, Minified and Gzipped</i>
+          &nbsp;<small>(<a href="underscore-esm-min.js.map">Source Map</a>)</small>
         </td>
       </tr>
       <tr>
@@ -477,7 +488,7 @@
         <td colspan="2"><div class="rule"></div></td>
       </tr>
       <tr>
-        <td class="dl-link"><a href="https://raw.github.com/jashkenas/underscore/master/modules/index.js">Edge ES Module</a></td>
+        <td class="dl-link"><a href="https://raw.github.com/jashkenas/underscore/master/underscore-esm.js">Edge ESM</a></td>
         <td><i>Unreleased, current <tt>master</tt>, use by your own judgement and at your own risk</i></td>
       </tr>
       <tr>
@@ -505,10 +516,10 @@
         <b>ExtendScript</b> <tt>#include "underscore.js"</tt>
       </li>
       <li>
-        <b>Rollup</b> If you want to enable treeshaking and you don&rsquo;t
+        <b>Modular</b> If you want to enable treeshaking and you don&rsquo;t
         need the full <tt>_</tt> object (with all Underscore functions as
-        properties), you can import individual functions by name from
-        <tt>underscore/modules/index</tt> instead of <tt>underscore</tt>.
+        properties), you can import individual functions from
+        <tt>underscore/modules/*.js</tt> instead of <tt>underscore</tt>. Replace the <tt>modules</tt> part by <tt>amd</tt> or <tt>cjs</tt> for AMD or CommonJS versions, respectively. <tt>*</tt> is the name of the function that appears <b>first</b> in the documentation.
       </li>
     </ul>
 
