@@ -2521,6 +2521,40 @@ _.chain([1, 2, 3]).reverse().value();
         <b class="header">1.11.0</b> &mdash; <small><i><!-- TODO: date --></i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.10.2...1.11.0">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/underscore/1.11.0/index.html">Docs</a><br />
         <ul>
           <li>
+            Puts the source of every function in a separate module, following
+            up on the move to EcmaScript 6 <tt>export</tt> notation in <a
+            href="#1.10.0">version 1.10.0</a>. AMD and CommonJS versions of the
+            function modules are provided as well. This brings perfect
+            treeshaking to all users and unlocks the possibility to create
+            arbitrary custom Underscore builds without code size overhead.
+            <tt>modules/index.js</tt> is still present and the UMD bundle is
+            still recommended for most users.<br>
+            Since the modularization obfuscates the diff, piecewise diffs are provided below.
+            <ul>
+              <li><a href="https://github.com/jashkenas/underscore/compare/1.10.2...3236023">
+                Changes before modularization
+              </a></li>
+              <li><a href="https://github.com/jashkenas/underscore/compare/3236023...240d60a">
+                Modularization itself
+              </a></li>
+              <li><a href="https://github.com/jashkenas/underscore/compare/240d60a...1.11.0">
+                Changes after modularization
+              </a></li>
+            </ul>
+          </li>
+          <li>
+            Adds a monolithic bundle in EcmaScript 6 module format,
+            <tt>underscore-esm.js</tt>, as a modern alternative to the
+            monolithic UMD bundle. Users who want to use ES module imports in
+            the browser are advised to use this new bundle instead of
+            <tt>modules/index.js</tt>, because <tt>underscore-esm.js</tt>
+            provides the complete Underscore interface in a single download.
+          </li>
+          <li>
+            Adds a modular version of the annotated source, reflecting the full
+            internal structure of the primary source code.
+          </li>
+          <li>
             Adds <tt>_.isArrayBuffer</tt>, <tt>_.isDataView</tt> and
             <tt>_.isTypedArray</tt> functions, as well as support for the
             corresponding value types to <tt>_.isEqual</tt>.
