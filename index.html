@@ -969,10 +969,14 @@ _.rest([5, 4, 3, 2, 1]);
 </pre>
 
       <p id="flatten">
-        <b class="header">flatten</b><code>_.flatten(array, [shallow])</code>
+        <b class="header">flatten</b><code>_.flatten(array, [depth])</code>
         <br />
-        Flattens a nested <b>array</b> (the nesting can be to any depth). If you
-        pass <b>shallow</b>, the array will only be flattened a single level.
+        Flattens a nested <b>array</b>. If you pass <tt>true</tt> or <tt>1</tt>
+        as the <b>depth</b>, the array will only be flattened a single level.
+        Passing a greater number will cause the flattening to descend deeper
+        into the nesting hierarchy. Omitting the <b>depth</b> argument, or
+        passing <tt>false</tt> or <tt>Infinity</tt>, flattens the array all the
+        way to the deepest nesting level.
       </p>
       <pre>
 _.flatten([1, [2], [3, [[4]]]]);
@@ -980,6 +984,9 @@ _.flatten([1, [2], [3, [[4]]]]);
 
 _.flatten([1, [2], [3, [[4]]]], true);
 =&gt; [1, 2, 3, [[4]]];
+
+_.flatten([1, [2], [3, [[4]]]], 2);
+=&gt; [1, 2, 3, [4]];
 </pre>
 
       <p id="without">
@@ -2558,6 +2565,10 @@ _.chain([1, 2, 3]).reverse().value();
             Adds <tt>_.isArrayBuffer</tt>, <tt>_.isDataView</tt> and
             <tt>_.isTypedArray</tt> functions, as well as support for the
             corresponding value types to <tt>_.isEqual</tt>.
+          </li>
+          <li>
+            Adds the option to flatten arrays to a specific depth:
+            <tt>_.flatten(anArray, 3)</tt>.
           </li>
           <li>
             Adds <tt>_.transpose</tt> as an alias to <tt>_.unzip</tt>.
