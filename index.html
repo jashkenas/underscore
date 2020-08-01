@@ -333,6 +333,9 @@
         <li data-name="isWeakMap">- <a href="#isWeakMap">isWeakMap</a></li>
         <li data-name="isSet">- <a href="#isSet">isSet</a></li>
         <li data-name="isWeakSet">- <a href="#isWeakSet">isWeakSet</a></li>
+        <li data-name="isArrayBuffer">- <a href="#isArrayBuffer">isArrayBuffer</a></li>
+        <li data-name="isDataView">- <a href="#isDataView">isDataView</a></li>
+        <li data-name="isTypedArray" data-aliases="isInt8Array isUint8Array isUint8ClampedArray isInt16Array isUint16Array isInt32Array isUint32Array isBigInt64Array isBigUint64Array isFloat32Array isFloat64Array">- <a href="#isTypedArray">isTypedArray</a></li>
         <li data-name="isNaN">- <a href="#isNaN">isNaN</a></li>
         <li data-name="isNull">- <a href="#isNull">isNull</a></li>
         <li data-name="isUndefined">- <a href="#isUndefined">isUndefined</a></li>
@@ -1950,6 +1953,36 @@ _.isWeakSet(WeakSet());
 =&gt; true
 </pre>
 
+      <p id="isArrayBuffer">
+        <b class="header">isArrayBuffer</b><code>_.isArrayBuffer(object)</code>
+        <br />
+        Returns <i>true</i> if <b>object</b> is an <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer">ArrayBuffer</a>.
+      </p>
+      <pre>
+_.isArrayBuffer(new ArrayBuffer(8));
+=&gt; true
+</pre>
+
+      <p id="isDataView">
+        <b class="header">isDataView</b><code>_.isDataView(object)</code>
+        <br />
+        Returns <i>true</i> if <b>object</b> is a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DataView">DataView</a>.
+      </p>
+      <pre>
+_.isDataView(new DataView(new ArrayBuffer(8)));
+=&gt; true
+</pre>
+
+      <p id="isTypedArray">
+        <b class="header">isTypedArray</b><code>_.isTypedArray(object)</code>
+        <br />
+        Returns <i>true</i> if <b>object</b> is a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypedArray">TypedArray</a>.
+      </p>
+      <pre>
+_.isTypedArray(new Int8Array(8));
+=&gt; true
+</pre>
+
       <p id="isNaN">
         <b class="header">isNaN</b><code>_.isNaN(object)</code>
         <br />
@@ -2487,6 +2520,11 @@ _.chain([1, 2, 3]).reverse().value();
       <p id="1.11.0">
         <b class="header">1.11.0</b> &mdash; <small><i><!-- TODO: date --></i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.10.2...1.11.0">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/underscore/1.11.0/index.html">Docs</a><br />
         <ul>
+          <li>
+            Adds <tt>_.isArrayBuffer</tt>, <tt>_.isDataView</tt> and
+            <tt>_.isTypedArray</tt> functions, as well as support for the
+            corresponding value types to <tt>_.isEqual</tt>.
+          </li>
           <li>
             Fixes an inconsistency where <tt>Array.prototype</tt> methods on
             the Underscore wrapper would error when the wrapped value is
