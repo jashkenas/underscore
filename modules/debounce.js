@@ -2,9 +2,9 @@ import restArguments from './restArguments.js';
 import delay from './delay.js';
 
 // When a sequence of calls of the returned function ends, the argument
-// function is triggered. The end of a sequence is defined by the ‘wait’ 
-// parameter. If ‘immediate’ is passed, the argument function will be 
-// triggered at the beginning of the sequence as well. 
+// function is triggered. The end of a sequence is defined by the `wait`
+// parameter. If `immediate` is passed, the argument function will be
+// triggered at the beginning of the sequence instead of at the end.
 export default function debounce(func, wait, immediate) {
   var timeout, result;
 
