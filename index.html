@@ -497,7 +497,7 @@
       </tr>
     </table>
 
-    <h2>Installation</h2>
+    <h2>Package Installation</h2>
 
     <ul>
       <li>
@@ -507,21 +507,48 @@
         <b>Meteor.js</b> <tt>meteor add underscore</tt>
       </li>
       <li>
-        <b>Require.js</b> <tt>require(["underscore"], ...</tt>
+        <b>Bower</b> <tt>bower install underscore</tt>
+      </li>
+    </ul>
+
+    <h2>Monolithic Import</h2>
+
+    <ul>
+      <li>
+        <b>ESM</b> <tt>import _, { map } from 'underscore';</tt>
       </li>
       <li>
-        <b>Bower</b> <tt>bower install underscore</tt>
+        <b>AMD</b> <tt>require(['underscore'], ...)</tt>
+      </li>
+      <li>
+        <b>CommonJS</b> <tt>var _ = require('underscore');</tt>
       </li>
       <li>
         <b>ExtendScript</b> <tt>#include "underscore.js"</tt>
       </li>
+    </ul>
+
+    <h2>Modular Import</h2>
+
+    <ul>
       <li>
-        <b>Modular</b> If you want to enable treeshaking and you don&rsquo;t
-        need the full <tt>_</tt> object (with all Underscore functions as
-        properties), you can import individual functions from
-        <tt>underscore/modules/*.js</tt> instead of <tt>underscore</tt>. Replace the <tt>modules</tt> part by <tt>amd</tt> or <tt>cjs</tt> for AMD or CommonJS versions, respectively. <tt>*</tt> is the name of the function that appears <b>first</b> in the documentation.
+        <b>ESM</b> <tt>import map from 'underscore/modules/map.js'</tt>
+      </li>
+      <li>
+        <b>AMD</b> <tt>require(['underscore/amd/map.js'], ...)</tt>
+      </li>
+      <li>
+        <b>CommonJS</b> <tt>var map = require('underscore/cjs/map.js');</tt>
       </li>
     </ul>
+
+    <p>
+      <i>For functions with multiple aliases, the file name of the module is
+      always the <b>first</b> name that appears in the documentation. For
+      example, <tt>_.reduce</tt>/<tt>_.inject</tt>/<tt>_.foldl</tt> is exported
+      from <tt>underscore/modules/reduce.js</tt>. Modular usage is mostly
+      recommended for creating a customized build of Underscore.</i>
+    </p>
 
     <div id="documentation">
 
