@@ -2542,6 +2542,12 @@ _.chain([1, 2, 3]).reverse().value();
             bound object.
           </li>
           <li>
+            Adds notes to the documentation to emphasize that
+            Underscore&rsquo;s order-sensitive functions use the builtin
+            <tt>&lt;</tt> operator, which requires that the operands can be
+            meaningfully coerced to string or number.
+          </li>
+          <li>
             Adds a clarification to the documentation that <tt>_.isEmpty</tt>
             is meant to be called with a collection and is unfit for validating
             other types of values.
