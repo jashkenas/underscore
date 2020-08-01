@@ -2560,6 +2560,9 @@ _.chain([1, 2, 3]).reverse().value();
             corresponding value types to <tt>_.isEqual</tt>.
           </li>
           <li>
+            Adds <tt>_.transpose</tt> as an alias to <tt>_.unzip</tt>.
+          </li>
+          <li>
             Fixes an inconsistency where <tt>Array.prototype</tt> methods on
             the Underscore wrapper would error when the wrapped value is
             <tt>null</tt> or <tt>undefined</tt>. These methods now perform a
