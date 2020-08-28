@@ -37,10 +37,11 @@
         var moduleLines = moduleData.split('\n').length,
             fixtureLines = fixtureData.split('\n').length;
         // _.template depends on the entire underscore object, so all of the
-        // source code should be included. Allowing for up to 4 lines of
-        // difference; this is the size of the noConflict logic, which is
-        // present in the official module but not in the fixture.
-        assert.ok(moduleLines - fixtureLines <= 4);
+        // source code should be included. Allowing for up to 9 lines of
+        // difference; this is the size of the noConflict logic plus the
+        // copyright intro, both of which are present in the official module but
+        // not in the fixture.
+        assert.ok(moduleLines - fixtureLines <= 9);
         done();
       });
     });

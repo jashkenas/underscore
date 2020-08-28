@@ -99,7 +99,8 @@
       sayHi: function() { return 'hi: ' + this.name; }
     };
     curly.getName = moe.getName;
-    _.bindAll(moe, 'getName', 'sayHi');
+    var bound = _.bindAll(moe, 'getName', 'sayHi');
+    assert.strictEqual(bound, moe, 'returns the bound object');
     curly.sayHi = moe.sayHi;
     assert.strictEqual(curly.getName(), 'name: curly', 'unbound function is bound to current object');
     assert.strictEqual(curly.sayHi(), 'hi: moe', 'bound function is still bound to original object');
@@ -123,9 +124,11 @@
     var sayLast = moe.sayLast;
     assert.strictEqual(sayLast(1, 2, 3, 4, 5, 6, 7, 'Tom'), 'hi: moe', 'createCallback works with any number of arguments');
 
-    _.bindAll(moe, ['getName']);
+    _.bindAll(moe, ['getName'], [['sayHi']]);
     var getName = moe.getName;
+    var sayHi = moe.sayHi;
     assert.strictEqual(getName(), 'name: moe', 'flattens arguments into a single list');
+    assert.strictEqual(sayHi(), 'hi: moe', 'deeply flattens arguments into a single list');
   });
 
   QUnit.test('memoize', function(assert) {

@@ -161,12 +161,13 @@
 
     // handles multiple escape characters at once
     var joiner = ' other stuff ';
-    var allEscaped = escapeCharacters.join(joiner);
-    allEscaped += allEscaped;
-    assert.ok(_.every(escapeCharacters, function(escapeChar) {
-      return allEscaped.indexOf(escapeChar) !== -1;
-    }), 'handles multiple characters');
-    assert.ok(allEscaped.indexOf(joiner) >= 0, 'can escape multiple escape characters at the same time');
+    var allUnescaped = escapeCharacters.join(joiner);
+    allUnescaped += allUnescaped;
+    var allEscaped = _.escape(allUnescaped);
+    assert.ok(_.every(escapeCharacters), function(escapeChar) {
+      return allEscaped.indexOf(escapeChar) === -1;
+    }, 'replaces all occurrences');
+    assert.strictEqual(_.unescape(allEscaped), allUnescaped, 'undos all replacements');
 
     // test & -> &amp;
     var str = 'some string & another string & yet another';

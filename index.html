@@ -186,12 +186,14 @@
   <div id="sidebar" class="interface">
 
     <a class="toc_title" href="#">
-      Underscore.js <span class="version">(1.10.2)</span>
+      Underscore.js <span class="version">(1.11.0)</span>
     </a>
     <ul class="toc_section">
       <li>&raquo; <a href="https://github.com/jashkenas/underscore">GitHub Repository</a></li>
-      <li>&raquo; <a href="docs/underscore.html">Annotated Source</a></li>
+      <li>&raquo; <a href="docs/modules/index-all.html">Annotated Source (modular)</a></li>
+      <li>&raquo; <a href="docs/underscore-esm.html">Annotated Source (single read)</a></li>
       <li>&raquo; <a href="https://documentcloud.github.io/underscore-contrib/">Underscore-contrib</a></li>
+      <li>&raquo; <a href="https://twitter.com/underscoredotjs">Twitter</a></li>
     </ul>
 
     <input id="function_filter" placeholder="Filter" type="text" autofocus />
@@ -252,7 +254,7 @@
         <li data-name="difference">- <a href="#difference">difference</a></li>
         <li data-name="uniq" data-aliases="unique">- <a href="#uniq">uniq</a></li>
         <li data-name="zip">- <a href="#zip">zip</a></li>
-        <li data-name="unzip">- <a href="#unzip">unzip</a></li>
+        <li data-name="unzip" data-aliases="transpose">- <a href="#unzip">unzip</a></li>
         <li data-name="object">- <a href="#object">object</a></li>
         <li data-name="chunk">- <a href="#chunk">chunk</a></li>
         <li data-name="indexOf">- <a href="#indexOf">indexOf</a></li>
@@ -332,6 +334,9 @@
         <li data-name="isWeakMap">- <a href="#isWeakMap">isWeakMap</a></li>
         <li data-name="isSet">- <a href="#isSet">isSet</a></li>
         <li data-name="isWeakSet">- <a href="#isWeakSet">isWeakSet</a></li>
+        <li data-name="isArrayBuffer">- <a href="#isArrayBuffer">isArrayBuffer</a></li>
+        <li data-name="isDataView">- <a href="#isDataView">isDataView</a></li>
+        <li data-name="isTypedArray" data-aliases="isInt8Array isUint8Array isUint8ClampedArray isInt16Array isUint16Array isInt32Array isUint32Array isBigInt64Array isBigUint64Array isFloat32Array isFloat64Array">- <a href="#isTypedArray">isTypedArray</a></li>
         <li data-name="isNaN">- <a href="#isNaN">isNaN</a></li>
         <li data-name="isNull">- <a href="#isNull">isNull</a></li>
         <li data-name="isUndefined">- <a href="#isUndefined">isUndefined</a></li>
@@ -361,7 +366,7 @@
     </div>
 
     <div class="searchable_section">
-      <a class="toc_title" href="#oop">
+      <a class="toc_title" href="#oop" data-name="oop" data-aliases="_() ()">
         OOP Style
       </a>
     </div>
@@ -379,6 +384,12 @@
     <div class="searchable_section">
       <a class="toc_title" href="#links">
         Links
+      </a>
+    </div>
+
+    <div class="searchable_section">
+      <a class="toc_title" href="#notes">
+        Notes
       </a>
     </div>
 
@@ -420,7 +431,18 @@
     </p>
 
     <p>
-      You may also read through the <a href="docs/underscore.html">annotated source code</a>.
+      You may also read through the <a
+      href="docs/underscore-esm.html">annotated source code</a>. There is a <a
+      href="docs/modules/index-all.html">modular version</a> with clickable
+      import references as well.
+    </p>
+
+    <p>
+        You may choose between monolithic and modular imports. There is a quick
+        summary of the options below, as well as a more comprehensive
+        discussion in <a
+    href="https://juliangonggrijp.com/article/introducing-modular-underscore.html"
+        >the article</a>.
     </p>
 
     <p>
@@ -440,26 +462,34 @@
       <i>Underscore is an open-source component of <a href="https://documentcloud.org/">DocumentCloud</a>.</i>
     </p>
 
-    <h2>v1.10.2 Downloads <i style="padding-left: 12px; font-size:12px;">(Right-click, and use "Save As")</i></h2>
+    <h2>v1.11.0 Downloads <i style="padding-left: 12px; font-size:12px;">(Right-click, and use "Save As")</i></h2>
 
     <table>
       <tr>
-        <td class="dl-link"><a href="modules/index.js">ES Module</a></td>
+        <td class="dl-link"><a href="underscore-esm.js">ESM (Development)</a></td>
         <td>
-          <i>56kb, Uncompressed with Plentiful Comments</i>
+          <i>62kb, Uncompressed with Plentiful Comments</i>
+          &nbsp;<small>(<a href="underscore-esm.js.map">Source Map</a>)</small>
+        </td>
+      </tr>
+      <tr>
+        <td class="dl-link"><a href="underscore-esm-min.js">ESM (Production)</a></td>
+        <td>
+          <i>8.18kb, Minified and Gzipped</i>
+          &nbsp;<small>(<a href="underscore-esm-min.js.map">Source Map</a>)</small>
         </td>
       </tr>
       <tr>
         <td class="dl-link"><a href="underscore.js">UMD (Development)</a></td>
         <td>
-          <i>60kb, Uncompressed with Bountiful Comments</i>
+          <i>64kb, Uncompressed with Bountiful Comments</i>
           &nbsp;<small>(<a href="underscore.js.map">Source Map</a>)</small>
         </td>
       </tr>
       <tr>
         <td class="dl-link"><a href="underscore-min.js">UMD (Production)</a></td>
         <td>
-          <i>6.78kb, Minified and Gzipped</i>
+          <i>7.15kb, Minified and Gzipped</i>
           &nbsp;<small>(<a href="underscore-min.js.map">Source Map</a>)</small>
         </td>
       </tr>
@@ -467,7 +497,7 @@
         <td colspan="2"><div class="rule"></div></td>
       </tr>
       <tr>
-        <td class="dl-link"><a href="https://raw.github.com/jashkenas/underscore/master/modules/index.js">Edge ES Module</a></td>
+        <td class="dl-link"><a href="https://raw.github.com/jashkenas/underscore/master/underscore-esm.js">Edge ESM</a></td>
         <td><i>Unreleased, current <tt>master</tt>, use by your own judgement and at your own risk</i></td>
       </tr>
       <tr>
@@ -476,7 +506,36 @@
       </tr>
     </table>
 
-    <h2>Installation</h2>
+    <h2>v1.11.0 CDN URLs <i style="padding-left: 12px; font-size:12px;">(Use with <tt>&lt;script src="..."&gt;&lt;/script&gt;</tt>)</i></h2>
+
+    <ul>
+      <li>
+        <tt>https://cdn.jsdelivr.net/npm/underscore@1.11.0/underscore-min.js</tt>
+      </li>
+      <li>
+        <tt>https://cdn.jsdelivr.net/npm/underscore@1.11.0/underscore-esm-min.js</tt>
+      </li>
+      <li>
+        <tt>https://unpkg.com/underscore@1.11.0/underscore-min.js</tt>
+      </li>
+      <li>
+        <tt>https://unpkg.com/underscore@1.11.0/underscore-esm-min.js</tt>
+      </li>
+      <li>
+        <tt>https://pagecdn.io/lib/underscore/1.11.0/underscore-min.js</tt>
+      </li>
+      <li>
+        <tt>https://pagecdn.io/lib/underscore/1.11.0/underscore-esm-min.js</tt>
+      </li>
+      <li>
+        <tt>https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.11.0/underscore-min.js</tt>
+      </li>
+      <li>
+        <tt>https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.11.0/underscore-esm-min.js</tt>
+      </li>
+    </ul>
+
+    <h2>Package Installation</h2>
 
     <ul>
       <li>
@@ -486,21 +545,48 @@
         <b>Meteor.js</b> <tt>meteor add underscore</tt>
       </li>
       <li>
-        <b>Require.js</b> <tt>require(["underscore"], ...</tt>
+        <b>Bower</b> <tt>bower install underscore</tt>
+      </li>
+    </ul>
+
+    <h2>Monolithic Import</h2>
+
+    <ul>
+      <li>
+        <b>ESM</b> <tt>import _, { map } from 'underscore';</tt>
       </li>
       <li>
-        <b>Bower</b> <tt>bower install underscore</tt>
+        <b>AMD</b> <tt>require(['underscore'], ...)</tt>
+      </li>
+      <li>
+        <b>CommonJS</b> <tt>var _ = require('underscore');</tt>
       </li>
       <li>
         <b>ExtendScript</b> <tt>#include "underscore.js"</tt>
       </li>
+    </ul>
+
+    <h2>Modular Import</h2>
+
+    <ul>
       <li>
-        <b>Rollup</b> If you want to enable treeshaking and you don&rsquo;t
-        need the full <tt>_</tt> object (with all Underscore functions as
-        properties), you can import individual functions by name from
-        <tt>underscore/modules/index</tt> instead of <tt>underscore</tt>.
+        <b>ESM</b> <tt>import map from 'underscore/modules/map.js'</tt>
+      </li>
+      <li>
+        <b>AMD</b> <tt>require(['underscore/amd/map.js'], ...)</tt>
+      </li>
+      <li>
+        <b>CommonJS</b> <tt>var map = require('underscore/cjs/map.js');</tt>
       </li>
     </ul>
+
+    <p>
+      <i>For functions with multiple aliases, the file name of the module is
+      always the <b>first</b> name that appears in the documentation. For
+      example, <tt>_.reduce</tt>/<tt>_.inject</tt>/<tt>_.foldl</tt> is exported
+      from <tt>underscore/modules/reduce.js</tt>. Modular usage is mostly
+      recommended for creating a customized build of Underscore.</i>
+    </p>
 
     <div id="documentation">
 
@@ -734,6 +820,8 @@ _.pluck(stooges, 'name');
         criterion by which the value is ranked. <i>-Infinity</i> is returned
         if <b>list</b> is empty, so an <a href="#isEmpty">isEmpty</a> guard
         may be required. Non-numerical values in <b>list</b> will be ignored.
+        This function uses operator <tt>&lt;</tt>
+        (<a href="#relational-operator-note">note</a>).
       </p>
       <pre>
 var stooges = [{name: 'moe', age: 40}, {name: 'larry', age: 50}, {name: 'curly', age: 60}];
@@ -749,6 +837,8 @@ _.max(stooges, function(stooge){ return stooge.age; });
         criterion by which the value is ranked. <i>Infinity</i> is returned
         if <b>list</b> is empty, so an <a href="#isEmpty">isEmpty</a> guard
         may be required. Non-numerical values in <b>list</b> will be ignored.
+        This function uses operator <tt>&lt;</tt>
+        (<a href="#relational-operator-note">note</a>).
       </p>
       <pre>
 var numbers = [10, 5, 100, 2, 1000];
@@ -762,7 +852,8 @@ _.min(numbers);
         Returns a (stably) sorted copy of <b>list</b>, ranked in ascending
         order by the results of running each value through <a href="#iteratee"><b>iteratee</b></a>.
         iteratee may also be the string name of the property to sort by (eg.
-        <tt>length</tt>).
+        <tt>length</tt>). This function uses operator <tt>&lt;</tt>
+        (<a href="#relational-operator-note">note</a>).
       </p>
       <pre>
 _.sortBy([1, 2, 3, 4, 5, 6], function(num){ return Math.sin(num); });
@@ -954,10 +1045,14 @@ _.rest([5, 4, 3, 2, 1]);
 </pre>
 
       <p id="flatten">
-        <b class="header">flatten</b><code>_.flatten(array, [shallow])</code>
+        <b class="header">flatten</b><code>_.flatten(array, [depth])</code>
         <br />
-        Flattens a nested <b>array</b> (the nesting can be to any depth). If you
-        pass <b>shallow</b>, the array will only be flattened a single level.
+        Flattens a nested <b>array</b>. If you pass <tt>true</tt> or <tt>1</tt>
+        as the <b>depth</b>, the array will only be flattened a single level.
+        Passing a greater number will cause the flattening to descend deeper
+        into the nesting hierarchy. Omitting the <b>depth</b> argument, or
+        passing <tt>false</tt> or <tt>Infinity</tt>, flattens the array all the
+        way to the deepest nesting level.
       </p>
       <pre>
 _.flatten([1, [2], [3, [[4]]]]);
@@ -965,6 +1060,9 @@ _.flatten([1, [2], [3, [[4]]]]);
 
 _.flatten([1, [2], [3, [[4]]]], true);
 =&gt; [1, 2, 3, [[4]]];
+
+_.flatten([1, [2], [3, [[4]]]], 2);
+=&gt; [1, 2, 3, [4]];
 </pre>
 
       <p id="without">
@@ -1033,9 +1131,6 @@ _.uniq([1, 2, 1, 4, 1, 3]);
         Merges together the values of each of the <b>arrays</b> with the
         values at the corresponding position. Useful when you have separate
         data sources that are coordinated through matching array indexes.
-        Use with <tt>apply</tt> to pass in an array of arrays.
-        If you're working with a matrix of nested arrays, this can be used to
-        transpose the matrix.
       </p>
       <pre>
 _.zip(['moe', 'larry', 'curly'], [30, 40, 50], [true, false, false]);
@@ -1043,13 +1138,15 @@ _.zip(['moe', 'larry', 'curly'], [30, 40, 50], [true, false, false]);
 
 </pre>
 
-<p id="unzip">
+      <p id="unzip">
         <b class="header">unzip</b><code>_.unzip(array)</code>
+        <span class="alias">Alias: <b>transpose</b></span>
         <br>
-        The opposite of <a href="#zip">zip</a>. Given an <b>array</b> of arrays, returns a
-        series of new arrays, the first of which contains all of the first elements
-        in the input arrays, the second of which contains all of the second elements,
-        and so on.
+        The opposite of <a href="#zip">zip</a>. Given an <b>array</b> of
+        arrays, returns a series of new arrays, the first of which contains all
+        of the first elements in the input arrays, the second of which contains
+        all of the second elements, and so on. If you're working with a matrix
+        of nested arrays, this can be used to transpose the matrix.
       </p>
       <pre>
 _.unzip([["moe", 30, true], ["larry", 40, false], ["curly", 50, false]]);
@@ -1091,7 +1188,9 @@ var partners = _.chunk(_.shuffle(kindergarten), 2);
         large array, and you know that the array is already sorted, pass <tt>true</tt>
         for <b>isSorted</b> to use a faster binary search ... or, pass a number as
         the third argument in order to look for the first matching value in the
-        array after the given index.
+        array after the given index. If <tt>isSorted</tt> is <tt>true</tt>,
+        this function uses operator <tt>&lt;</tt>
+        (<a href="#relational-operator-note">note</a>).
       </p>
       <pre>
 _.indexOf([1, 2, 3], 2);
@@ -1117,7 +1216,9 @@ _.lastIndexOf([1, 2, 3, 1, 2, 3], 2);
         <i>should</i> be inserted into the <b>array</b> in order to maintain the <b>array</b>'s
         sorted order. If an <a href="#iteratee"><b>iteratee</b></a> function is provided,
         it will be used to compute the sort ranking of each value, including the <b>value</b> you pass.
-        The iteratee may also be the string name of the property to sort by (eg. <tt>length</tt>).
+        The iteratee may also be the string name of the property to sort by
+        (eg. <tt>length</tt>). This function uses operator <tt>&lt;</tt>
+        (<a href="#relational-operator-note">note</a>).
       </p>
       <pre>
 _.sortedIndex([10, 20, 30, 40, 50], 35);
@@ -1163,12 +1264,13 @@ _.findLastIndex(users, {
         <b class="header">range</b><code>_.range([start], stop, [step])</code>
         <br />
         A function to create flexibly-numbered lists of integers, handy for
-        <tt>each</tt> and <tt>map</tt> loops. <b>start</b>, if omitted, defaults
-        to <i>0</i>; <b>step</b> defaults to <i>1</i>. Returns a list of integers
-        from <b>start</b> (inclusive) to <b>stop</b> (exclusive), incremented (or decremented) by <b>step</b>,
-        exclusive. Note that ranges that <b>stop</b> before they <b>start</b>
-        are considered to be zero-length instead of negative — if you'd like a
-        negative range, use a negative <b>step</b>.
+        <tt>each</tt> and <tt>map</tt> loops. <b>start</b>, if omitted,
+        defaults to <i>0</i>; <b>step</b> defaults to <i>1</i>. Returns a list
+        of integers from <b>start</b> (inclusive) to <b>stop</b> (exclusive),
+        incremented (or decremented) by <b>step</b>. Note that ranges that
+        <b>stop</b> before they <b>start</b> are considered to be zero-length
+        instead of negative — if you'd like a negative range, use a negative
+        <b>step</b>.
       </p>
       <pre>
 _.range(10);
@@ -1362,9 +1464,10 @@ initialize();
       <p id="after">
         <b class="header">after</b><code>_.after(count, function)</code>
         <br />
-        Creates a version of the function that will only be run after
-        being called <b>count</b> times. Useful for grouping asynchronous responses,
-        where you want to be sure that all the async calls have finished, before
+        Creates a wrapper of <b>function</b> that does nothing at first. From
+        the <b>count</b>-th call onwards, it starts actually calling
+        <b>function</b>. Useful for grouping asynchronous responses, where you
+        want to be sure that all the async calls have finished, before
         proceeding.
       </p>
       <pre>
@@ -1378,9 +1481,11 @@ _.each(notes, function(note) {
       <p id="before">
         <b class="header">before</b><code>_.before(count, function)</code>
         <br />
-        Creates a version of the function that can be called no more than
-        <b>count</b> times. The result of the last function call is memoized and
-        returned when <b>count</b> has been reached.
+        Creates a wrapper of <b>function</b> that memoizes its return value.
+        From the <b>count</b>-th call onwards, the memoized result of the last
+        invocation is returned immediately instead of invoking <b>function</b>
+        again. So the wrapper will invoke <b>function</b> at most <b>count</b>
+        - 1 times.
       </p>
       <pre>
 var monthlyMeeting = _.before(3, askForRaise);
@@ -1583,7 +1688,7 @@ _.extend({name: 'moe'}, {age: 50});
         <b class="header">pick</b><code>_.pick(object, *keys)</code>
         <br />
         Return a copy of the <b>object</b>, filtered to only have values for
-        the whitelisted <b>keys</b> (or array of valid keys).  Alternatively
+        the allowed <b>keys</b> (or array of valid keys).  Alternatively
         accepts a predicate indicating which keys to pick.
       </p>
       <pre>
@@ -1598,7 +1703,7 @@ _.pick({name: 'moe', age: 50, userid: 'moe1'}, function(value, key, object) {
       <p id="omit">
         <b class="header">omit</b><code>_.omit(object, *keys)</code>
         <br />
-        Return a copy of the <b>object</b>, filtered to omit the blacklisted
+        Return a copy of the <b>object</b>, filtered to omit the disallowed
         <b>keys</b> (or array of keys).  Alternatively accepts a predicate
         indicating which keys to omit.
       </p>
@@ -1732,11 +1837,13 @@ _.isMatch(stooge, {age: 32});
 </pre>
 
       <p id="isEmpty">
-        <b class="header">isEmpty</b><code>_.isEmpty(object)</code>
+        <b class="header">isEmpty</b><code>_.isEmpty(collection)</code>
         <br />
-        Returns <i>true</i> if an enumerable <b>object</b> contains no
-        values (no enumerable own-properties). For strings and array-like
-        objects <tt>_.isEmpty</tt> checks if the length property is 0.
+        Returns <i>true</i> if <b>collection</b> has no elements. For strings
+        and array-like objects <tt>_.isEmpty</tt> checks if the length property
+        is 0. For other objects, it returns <i>true</i> if the object has no
+        enumerable own-properties. Note that primitive numbers, booleans and
+        symbols are always empty by this definition.
       </p>
       <pre>
 _.isEmpty([1, 2, 3]);
@@ -1926,6 +2033,36 @@ _.isSet(new Set());
       </p>
       <pre>
 _.isWeakSet(WeakSet());
+=&gt; true
+</pre>
+
+      <p id="isArrayBuffer">
+        <b class="header">isArrayBuffer</b><code>_.isArrayBuffer(object)</code>
+        <br />
+        Returns <i>true</i> if <b>object</b> is an <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer">ArrayBuffer</a>.
+      </p>
+      <pre>
+_.isArrayBuffer(new ArrayBuffer(8));
+=&gt; true
+</pre>
+
+      <p id="isDataView">
+        <b class="header">isDataView</b><code>_.isDataView(object)</code>
+        <br />
+        Returns <i>true</i> if <b>object</b> is a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DataView">DataView</a>.
+      </p>
+      <pre>
+_.isDataView(new DataView(new ArrayBuffer(8)));
+=&gt; true
+</pre>
+
+      <p id="isTypedArray">
+        <b class="header">isTypedArray</b><code>_.isTypedArray(object)</code>
+        <br />
+        Returns <i>true</i> if <b>object</b> is a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypedArray">TypedArray</a>.
+      </p>
+      <pre>
+_.isTypedArray(new Int8Array(8));
 =&gt; true
 </pre>
 
@@ -2203,8 +2340,10 @@ compiled({epithet: "stooge"});
         interpolated verbatim, an <b>escape</b> regex to match expressions that should
         be inserted after being HTML-escaped, and an <b>evaluate</b> regex to match
         expressions that should be evaluated without insertion into the resulting
-        string. You may define or omit any combination of the three.
-        For example, to perform
+        string. Note that if part of your template matches more than one of these
+        regexes, the first will be applied by the following order of priority:
+        (1) <b>escape</b>, (2) <b>interpolate</b>, (3) <b>evaluate</b>. You may
+        define or omit any combination of the three. For example, to perform
         <a href="https://github.com/janl/mustache.js#readme">Mustache.js</a>-style
         templating:
       </p>
@@ -2415,7 +2554,132 @@ _.chain([1, 2, 3]).reverse().value();
         collection of functional helpers for Python, partially inspired by Underscore.
       </p>
 
+      <h2 id="notes">Notes</h2>
+
+      <p id="relational-operator-note">
+        <b class="header">On the use of <tt>&lt;</tt> in Underscore</b>
+        <br>
+        Underscore functions that depend on ordering, such as
+        <a href="#sortBy"><tt>_.sortBy</tt></a> and
+        <a href="#sortedIndex"><tt>_.sortedIndex</tt></a>, use
+        JavaScript&rsquo;s built-in
+        <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Comparison_Operators#Relational_operators">relational operators</a>,
+        specifically the &ldquo;less than&rdquo; operator <tt>&lt;</tt>. It is
+        important to understand that these operators are only meaningful for
+        numbers and strings. You can throw any value to them, but JavaScript
+        will convert the operands to string or number first before performing
+        the actual comparison. If you pass an operand that
+        cannot be meaningfully converted to string or number, it ends up being
+        <tt>NaN</tt> by default. This value is unsortable.
+      </p>
+      <p>
+        Ideally, the values that you are sorting should either be all
+        (meaningfully convertible to) strings or all (meaningfully convertible
+        to) numbers. If this is not the case, you have two options:
+        <ul>
+          <li>
+            <a href="#filter"><tt>_.filter</tt></a> out all unsortable values
+            first.
+          </li>
+          <li>
+            Pick a target type, i.e., either string or number, and pass an
+            <a href="#iteratee"><tt>iteratee</tt></a> to your Underscore
+            function that will convert its argument to a sensible instance of
+            the target type. For example, if you have an array of numbers that
+            you want to sort and that may occasionally contain <tt>null</tt> or
+            <tt>undefined</tt>, you can control whether you want to sort these
+            before or after all numbers by passing an <tt>iteratee</tt> to
+            <tt>_.sortBy</tt> that returns <tt>-Infinity</tt> or
+            <tt>+Infinity</tt> for such values, respectively. Or maybe you want
+            to treat them as zeros; it is up to you. The same <tt>iteratee</tt>
+            can also be passed to other Underscore functions to ensure that the
+            behavior is consistent.
+          </li>
+        </ul>
+      </p>
+
       <h2 id="changelog">Change Log</h2>
+
+      <p id="1.11.0">
+        <b class="header">1.11.0</b> &mdash; <small><i>August 28, 2020</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.10.2...1.11.0">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/underscore/1.11.0/index.html">Docs</a> &mdash; <a href="https://juliangonggrijp.com/article/introducing-modular-underscore.html">Article</a><br />
+        <ul>
+          <li>
+            Puts the source of every function in a separate module, following
+            up on the move to EcmaScript 6 <tt>export</tt> notation in <a
+            href="#1.10.0">version 1.10.0</a>. AMD and CommonJS versions of the
+            function modules are provided as well. This brings perfect
+            treeshaking to all users and unlocks the possibility to create
+            arbitrary custom Underscore builds without code size overhead.
+            <tt>modules/index.js</tt> is still present and the UMD bundle is
+            still recommended for most users.<br>
+            Since the modularization obfuscates the diff, piecewise diffs are provided below.
+            <ul>
+              <li><a href="https://github.com/jashkenas/underscore/compare/1.10.2...3236023">
+                Changes before modularization
+              </a></li>
+              <li><a href="https://github.com/jashkenas/underscore/compare/3236023...240d60a">
+                Modularization itself
+              </a></li>
+              <li><a href="https://github.com/jashkenas/underscore/compare/240d60a...1.11.0">
+                Changes after modularization
+              </a></li>
+            </ul>
+          </li>
+          <li>
+            Adds a monolithic bundle in EcmaScript 6 module format,
+            <tt>underscore-esm.js</tt>, as a modern alternative to the
+            monolithic UMD bundle. Users who want to use ES module imports in
+            the browser are advised to use this new bundle instead of
+            <tt>modules/index.js</tt>, because <tt>underscore-esm.js</tt>
+            provides the complete Underscore interface in a single download.
+          </li>
+          <li>
+            Adds a modular version of the annotated source, reflecting the full
+            internal structure of the primary source code.
+          </li>
+          <li>
+            Adds <tt>_.isArrayBuffer</tt>, <tt>_.isDataView</tt> and
+            <tt>_.isTypedArray</tt> functions, as well as support for the
+            corresponding value types to <tt>_.isEqual</tt>.
+          </li>
+          <li>
+            Adds the option to flatten arrays to a specific depth:
+            <tt>_.flatten(anArray, 3)</tt>.
+          </li>
+          <li>
+            Adds <tt>_.transpose</tt> as an alias to <tt>_.unzip</tt>.
+          </li>
+          <li>
+            Fixes an inconsistency where <tt>Array.prototype</tt> methods on
+            the Underscore wrapper would error when the wrapped value is
+            <tt>null</tt> or <tt>undefined</tt>. These methods now perform a
+            no-op on null values like the other Underscore functions.
+          </li>
+          <li>
+            Fixes a bug that caused <tt>_.first</tt> and <tt>_.last</tt> to
+            return <tt>[]</tt> instead of <tt>undefined</tt> for empty arrays
+            when used as an iteratee.
+          </li>
+          <li>
+            Fixes a regression introduced in version 1.9.0 that caused
+            <tt>_.bindAll</tt> to return <tt>undefined</tt> instead of the
+            bound object.
+          </li>
+          <li>
+            Restores continuous integration testing with Travis CI.
+          </li>
+          <li>
+            Replaces stigmatizing
+            &ldquo;whitelist&rdquo;/&ldquo;blacklist&rdquo; terminology in
+            comments and documentation by neutral
+            &ldquo;allowed&rdquo;/&ldquo;disallowed&rdquo; terminology.
+          </li>
+          <li>
+            Various clarifications and minor enhancements and fixes to the
+            documentation, source comments and a test.
+          </li>
+        </ul>
+      </p>
 
       <p id="1.10.2">
         <b class="header">1.10.2</b> &mdash; <small><i>March 30, 2020</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.10.1...1.10.2">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/underscore/1.10.2/index.html">Docs</a><br />
@@ -2817,7 +3081,7 @@ _.chain([1, 2, 3]).reverse().value();
           </li>
           <li>
             Removed the ability to call <tt>_.bindAll</tt> with no method name
-            arguments. It's pretty much always wiser to white-list the names of
+            arguments. It's pretty much always wiser to allow the names of
             the methods you'd like to bind.
           </li>
           <li>
@@ -2977,7 +3241,7 @@ _.chain([1, 2, 3]).reverse().value();
           </li>
           <li>
             Added the <tt>pick</tt> function, which allows you to filter an
-            object literal with a whitelist of allowed property names.
+            object literal with a list of allowed property names.
           </li>
           <li>
             Added the <tt>result</tt> function, for convenience when working

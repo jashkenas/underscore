@@ -1,0 +1,108 @@
+<% /*
+  This is an extended version of the resources/parallel/docco.jst that is
+  bundled with Docco 0.8.0.
+  The license of the original file is available over here:
+  https://github.com/jashkenas/docco/blob/master/LICENSE.
+  The extension adds hyperlinking to javascript import statements.
+*/ %>
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title><%= title %></title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="<%= css %>" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    <% if (sources.length > 1) { %>
+      <ul id="jump_to">
+        <li>
+          <a class="large" href="javascript:void(0);">Jump To &hellip;</a>
+          <a class="small" href="javascript:void(0);">+</a>
+          <div id="jump_wrapper">
+          <div id="jump_page_wrapper">
+            <div id="jump_page">
+              <% for (var i=0, l=sources.length; i<l; i++) { %>
+                <% var source = sources[i]; %>
+                <a class="source" href="<%= relative(destination(source)) %>">
+                  <%= source %>
+                </a>
+              <% } %>
+            </div>
+          </div>
+        </li>
+      </ul>
+    <% } %>
+    <ul class="sections">
+        <% if (!hasTitle) { %>
+          <li id="title">
+              <div class="annotation">
+                  <h1><%= title %></h1>
+              </div>
+          </li>
+        <% } %>
+        <% for (var i=0, l=sections.length; i<l; i++) { %>
+        <% var section = sections[i]; %>
+        <li id="section-<%= i + 1 %>">
+            <div class="annotation">
+              <% heading = section.docsHtml.match(/^\s*<(h\d)>/) %>
+              <div class="pilwrap <%= heading ? 'for-' + heading[1] : '' %>">
+                <a class="pilcrow" href="#section-<%= i + 1 %>">&#182;</a>
+              </div>
+              <%= section.docsHtml %>
+            </div>
+            <% if (section.codeText.replace(/\s/gm, '') != '') { %>
+            <div class="content"><%= section.codeHtml %></div>
+            <% } %>
+        </li>
+        <% } %>
+    </ul>
+  </div>
+  <% /* Start of hyperlinking extension */ %>
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <script>
+    // We run a script at page load to inject the links after the fact.
+    // It would be more elegant to do this at page generation time, but
+    // unfortunately the docco infrastructure doesn't support this very well.
+    // Highlighted code is passed along as an unparsed HTML string, which would
+    // make this very tricky. In the script below, we exploit the fact that the
+    // HTML has already been parsed by the browser.
+    (function() {
+      // Define a regex for stripping the .html extension from anchor hrefs.
+      var extPattern = /\.html$/;
+      // Collect all module paths that we have an HTML page for.
+      var moduleMap = {};
+      $('#jump_page a.source').each(function() {
+        // Fortunately, translating anchor hrefs to ES module paths is easy,
+        // because both systems work relative to the current file by default.
+        var href = $(this).attr('href');
+        var path = href.replace(extPattern, '').split('/');
+        if (path[0] !== '..') path.unshift('.');
+        var normPath = path.join('/');
+        // Support both paths with and without extension.
+        moduleMap[normPath] = moduleMap[normPath + '.js'] = href;
+      });
+      // Find all 'from' keywords followed by a string (ES6 import statements).
+      $('.hljs-keyword').filter(function() {
+        var text = $(this).text();
+        return text === 'from' || text === 'import';
+      }).next('.hljs-string').each(function() {
+        // Finally, for each of these strings, replace it by a link if we have
+        // a matching HTML page.
+        var text = $(this).text();
+        var quote = text[0];
+        var path = text.slice(1, -1);
+        var matchingDoc = moduleMap[path];
+        if (!matchingDoc) return;
+        $(this).html(
+          quote + '<a href="' + matchingDoc + '">' + path + '</a>' + quote
+        );
+      });
+    }());
+  </script>
+  <% /* End of hyperlinking extension */ %>
+</body>
+</html>

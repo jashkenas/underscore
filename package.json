@@ -16,12 +16,13 @@
   },
   "main": "underscore.js",
   "module": "modules/index-all.js",
-  "version": "1.10.2",
+  "version": "1.11.0",
   "devDependencies": {
     "coveralls": "^2.11.2",
-    "docco": "*",
+    "docco": "^0.8.0",
     "eslint": "^6.8.0",
     "eslint-plugin-import": "^2.20.1",
+    "glob": "^7.1.6",
     "gzip-size-cli": "^1.0.0",
     "husky": "^4.2.3",
     "karma": "^0.13.13",
@@ -31,8 +32,8 @@
     "pretty-bytes-cli": "^1.0.0",
     "qunit": "^2.6.0",
     "qunit-cli": "~0.2.0",
-    "rollup": "^0.59.4",
-    "uglify-js": "3.3.21"
+    "rollup": "^1.32.1",
+    "terser": "^4.6.13"
   },
   "scripts": {
     "test": "npm run lint && npm run test-node",
@@ -42,12 +43,15 @@
     "test-node": "npm run prepare-tests && qunit-cli test/*.js",
     "test-browser": "npm run prepare-tests && npm i karma-phantomjs-launcher && karma start",
     "bundle": "rollup --config && eslint underscore.js",
-    "bundle-treeshake": "cd test-treeshake && npx rollup@latest --config",
+    "bundle-treeshake": "cd test-treeshake && rollup --config",
     "prepare-tests": "npm run bundle && npm run bundle-treeshake",
-    "minify": "uglifyjs underscore.js -c \"evaluate=false\" --comments \"/    .*/\" -m",
-    "build": "npm run bundle && npm run minify -- --source-map content=underscore.js.map --source-map-url \" \" -o underscore-min.js",
-    "doc": "cd docs && rollup -c && docco -o . underscore.js",
-    "weight": "npm run bundle && npm run minify | gzip-size | pretty-bytes",
+    "minify-umd": "terser underscore.js -c \"evaluate=false\" --comments \"/    .*/\" -m",
+    "minify-esm": "terser underscore-esm.js -c \"evaluate=false\" --comments \"/    .*/\" -m",
+    "build-umd": "npm run minify-umd -- --source-map content=underscore.js.map --source-map-url \" \" -o underscore-min.js",
+    "build-esm": "npm run minify-esm -- --source-map content=underscore-esm.js.map --source-map-url \" \" -o underscore-esm-min.js",
+    "build": "npm run bundle && npm run build-umd && npm run build-esm",
+    "doc": "docco underscore-esm.js && docco modules/*.js -c docco.css -t docs/linked-esm.jst",
+    "weight": "npm run bundle && npm run minify-umd | gzip-size | pretty-bytes",
     "prepublishOnly": "npm run build && npm run doc"
   },
   "license": "MIT",
@@ -56,12 +60,18 @@
     "underscore.js.map",
     "underscore-min.js",
     "underscore-min.js.map",
-    "modules/"
+    "underscore-esm.js",
+    "underscore-esm.js.map",
+    "underscore-esm-min.js",
+    "underscore-esm-min.js.map",
+    "modules/",
+    "amd/",
+    "cjs/"
   ],
   "husky": {
     "hooks": {
-      "pre-commit": "npm run bundle && git add underscore.js underscore.js.map",
-      "post-commit": "git reset underscore.js underscore.js.map"
+      "pre-commit": "npm run bundle && git add underscore.js underscore.js.map underscore-esm.js underscore-esm.js.map",
+      "post-commit": "git reset underscore.js underscore.js.map underscore-esm.js underscore-esm.js.map"
     }
   }
 }
