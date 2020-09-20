@@ -69,7 +69,12 @@ function deepEq(a, b, aStack, bStack) {
 
   if (isTypedArray(a)) {
     // Coerce typed arrays to `DataView`.
-    return deepEq(new DataView(a.buffer), new DataView(b.buffer), aStack, bStack);
+    return deepEq(
+      new DataView(a.buffer, a.byteOffset, a.byteLength),
+      new DataView(b.buffer, b.byteOffset, b.byteLength),
+      aStack,
+      bStack
+    );
   }
 
   var areArrays = className === '[object Array]';
