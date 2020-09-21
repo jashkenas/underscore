@@ -59,6 +59,7 @@ export { default as defaults } from './defaults.js';
 export { default as create } from './create.js';
 export { default as clone } from './clone.js';
 export { default as tap } from './tap.js';
+export { default as get } from './get.js';
 export { default as has } from './has.js';
 export { default as mapObject } from './mapObject.js';
 

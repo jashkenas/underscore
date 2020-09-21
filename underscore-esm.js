@@ -571,6 +571,38 @@ function tap(obj, interceptor) {
   return obj;
 }
 
+// Normalize a (deep) property `path` to array.
+// Like `_.iteratee`, this function can be customized.
+function toPath(path) {
+  return isArray(path) ? path : [path];
+}
+_.toPath = toPath;
+
+// Internal wrapper for `_.toPath` to enable minification.
+// Similar to `cb` for `_.iteratee`.
+function toPath$1(path) {
+  return _.toPath(path);
+}
+
+// Internal function to obtain a nested property in `obj` along `path`.
+function deepGet(obj, path) {
+  var length = path.length;
+  for (var i = 0; i < length; i++) {
+    if (obj == null) return void 0;
+    obj = obj[path[i]];
+  }
+  return length ? obj : void 0;
+}
+
+// Get the value of the (deep) property on `path` from `object`.
+// If any property in `path` does not exist or if the value is
+// `undefined`, return `defaultValue` instead.
+// The `path` is normalized through `_.toPath`.
+function get(object, path, defaultValue) {
+  var value = deepGet(object, toPath$1(path));
+  return isUndefined(value) ? defaultValue : value;
+}
+
 // Shortcut function for checking if an object has a given property directly on
 // itself (in other words, not on a prototype). Unlike the internal `has`
 // function, this public version can also traverse nested properties.
@@ -601,16 +633,6 @@ function matcher(attrs) {
   return function(obj) {
     return isMatch(obj, attrs);
   };
-}
-
-// Internal function to obtain a nested property in `obj` along `path`.
-function deepGet(obj, path) {
-  var length = path.length;
-  for (var i = 0; i < length; i++) {
-    if (obj == null) return void 0;
-    obj = obj[path[i]];
-  }
-  return length ? obj : void 0;
 }
 
 // Creates a function that, when passed an object, will traverse that object’s
@@ -687,13 +709,6 @@ function mapObject(obj, iteratee, context) {
 
 // Predicate-generating function. Often useful outside of Underscore.
 function noop(){}
-
-// Normalize a (deep) property `path` to array.
-// Like `_.iteratee`, this function can be customized.
-function toPath(path) {
-  return isArray(path) ? path : [path];
-}
-_.toPath = toPath;
 
 // Generates a function for a given object that returns a given property.
 function propertyOf(obj) {
@@ -1820,6 +1835,7 @@ var allExports = {
   create: create,
   clone: clone,
   tap: tap,
+  get: get,
   has: has$1,
   mapObject: mapObject,
   identity: identity,
@@ -1935,5 +1951,5 @@ _$1._ = _$1;
 // ESM Exports
 
 export default _$1;
-export { VERSION, after, every as all, allKeys, some as any, extendOwn as assign, before, bind, bindAll, chain, chunk, clone, map as collect, compact, compose, constant, contains, countBy, create, debounce, defaults, defer, delay, find as detect, difference, rest as drop, each, _escape as escape, every, extend, extendOwn, filter, find, findIndex, findKey, findLastIndex, findWhere, first, flatten$1 as flatten, reduce as foldl, reduceRight as foldr, each as forEach, functions, groupBy, has$1 as has, first as head, identity, contains as include, contains as includes, indexBy, indexOf, initial, reduce as inject, intersection, invert, invoke, isArguments$1 as isArguments, isArray, isArrayBuffer, isBoolean, isDataView, isDate, isElement, isEmpty, isEqual, isError, isFinite$1 as isFinite, isFunction$1 as isFunction, isMap, isMatch, isNaN$1 as isNaN, isNull, isNumber, isObject, isRegExp, isSet, isString, isSymbol, isTypedArray$1 as isTypedArray, isUndefined, isWeakMap, isWeakSet, iteratee, keys, last, lastIndexOf, map, mapObject, matcher, matcher as matches, max, memoize, functions as methods, min, mixin, negate, noop, now, object, omit, once, pairs, partial, partition, pick, pluck, property, propertyOf, random, range, reduce, reduceRight, reject, rest, restArguments, result, sample, filter as select, shuffle, size, some, sortBy, sortedIndex, rest as tail, first as take, tap, template, templateSettings, throttle, times, toArray, toPath, unzip as transpose, _unescape as unescape, union, uniq, uniq as unique, uniqueId, unzip, values, where, without, wrap, zip };
+export { VERSION, after, every as all, allKeys, some as any, extendOwn as assign, before, bind, bindAll, chain, chunk, clone, map as collect, compact, compose, constant, contains, countBy, create, debounce, defaults, defer, delay, find as detect, difference, rest as drop, each, _escape as escape, every, extend, extendOwn, filter, find, findIndex, findKey, findLastIndex, findWhere, first, flatten$1 as flatten, reduce as foldl, reduceRight as foldr, each as forEach, functions, get, groupBy, has$1 as has, first as head, identity, contains as include, contains as includes, indexBy, indexOf, initial, reduce as inject, intersection, invert, invoke, isArguments$1 as isArguments, isArray, isArrayBuffer, isBoolean, isDataView, isDate, isElement, isEmpty, isEqual, isError, isFinite$1 as isFinite, isFunction$1 as isFunction, isMap, isMatch, isNaN$1 as isNaN, isNull, isNumber, isObject, isRegExp, isSet, isString, isSymbol, isTypedArray$1 as isTypedArray, isUndefined, isWeakMap, isWeakSet, iteratee, keys, last, lastIndexOf, map, mapObject, matcher, matcher as matches, max, memoize, functions as methods, min, mixin, negate, noop, now, object, omit, once, pairs, partial, partition, pick, pluck, property, propertyOf, random, range, reduce, reduceRight, reject, rest, restArguments, result, sample, filter as select, shuffle, size, some, sortBy, sortedIndex, rest as tail, first as take, tap, template, templateSettings, throttle, times, toArray, toPath, unzip as transpose, _unescape as unescape, union, uniq, uniq as unique, uniqueId, unzip, values, where, without, wrap, zip };
 //# sourceMappingURL=underscore-esm.js.map

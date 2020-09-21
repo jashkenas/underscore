@@ -580,6 +580,38 @@
     return obj;
   }
 
+  // Normalize a (deep) property `path` to array.
+  // Like `_.iteratee`, this function can be customized.
+  function toPath(path) {
+    return isArray(path) ? path : [path];
+  }
+  _.toPath = toPath;
+
+  // Internal wrapper for `_.toPath` to enable minification.
+  // Similar to `cb` for `_.iteratee`.
+  function toPath$1(path) {
+    return _.toPath(path);
+  }
+
+  // Internal function to obtain a nested property in `obj` along `path`.
+  function deepGet(obj, path) {
+    var length = path.length;
+    for (var i = 0; i < length; i++) {
+      if (obj == null) return void 0;
+      obj = obj[path[i]];
+    }
+    return length ? obj : void 0;
+  }
+
+  // Get the value of the (deep) property on `path` from `object`.
+  // If any property in `path` does not exist or if the value is
+  // `undefined`, return `defaultValue` instead.
+  // The `path` is normalized through `_.toPath`.
+  function get(object, path, defaultValue) {
+    var value = deepGet(object, toPath$1(path));
+    return isUndefined(value) ? defaultValue : value;
+  }
+
   // Shortcut function for checking if an object has a given property directly on
   // itself (in other words, not on a prototype). Unlike the internal `has`
   // function, this public version can also traverse nested properties.
@@ -610,16 +642,6 @@
     return function(obj) {
       return isMatch(obj, attrs);
     };
-  }
-
-  // Internal function to obtain a nested property in `obj` along `path`.
-  function deepGet(obj, path) {
-    var length = path.length;
-    for (var i = 0; i < length; i++) {
-      if (obj == null) return void 0;
-      obj = obj[path[i]];
-    }
-    return length ? obj : void 0;
   }
 
   // Creates a function that, when passed an object, will traverse that object’s
@@ -696,13 +718,6 @@
 
   // Predicate-generating function. Often useful outside of Underscore.
   function noop(){}
-
-  // Normalize a (deep) property `path` to array.
-  // Like `_.iteratee`, this function can be customized.
-  function toPath(path) {
-    return isArray(path) ? path : [path];
-  }
-  _.toPath = toPath;
 
   // Generates a function for a given object that returns a given property.
   function propertyOf(obj) {
@@ -1829,6 +1844,7 @@
     create: create,
     clone: clone,
     tap: tap,
+    get: get,
     has: has$1,
     mapObject: mapObject,
     identity: identity,

@@ -1769,6 +1769,22 @@ _.toPath(['a', 0, 'b']);
 =&gt; ['a', 0, 'b'] // (same array)
 </pre>
 
+      <p id="get">
+        <b class="header">get</b><code>_.get(object, path, [default])</code><br>
+        Returns the specified property of <b>object</b>. <b>path</b> may be
+        specified as a simple key, or as an array of object keys or array
+        indexes, for deep property fetching. If the property does not exist or
+        is <tt>undefined</tt>, the optional <b>default</b> is returned.
+      </p>
+      <pre>
+_.get({a: 10}, 'a');
+=&gt; 10
+_.get({a: [{b: 2}]}, ['a', 0, 'b']);
+=&gt; 2
+_.get({a: 10}, 'b', 100);
+=&gt; 100
+</pre>
+
       <p id="has">
         <b class="header">has</b><code>_.has(object, key)</code>
         <br />
