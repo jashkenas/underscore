@@ -580,19 +580,47 @@
     return obj;
   }
 
+  // Normalize a (deep) property `path` to array.
+  // Like `_.iteratee`, this function can be customized.
+  function toPath(path) {
+    return isArray(path) ? path : [path];
+  }
+  _.toPath = toPath;
+
+  // Internal wrapper for `_.toPath` to enable minification.
+  // Similar to `cb` for `_.iteratee`.
+  function toPath$1(path) {
+    return _.toPath(path);
+  }
+
+  // Internal function to obtain a nested property in `obj` along `path`.
+  function deepGet(obj, path) {
+    var length = path.length;
+    for (var i = 0; i < length; i++) {
+      if (obj == null) return void 0;
+      obj = obj[path[i]];
+    }
+    return length ? obj : void 0;
+  }
+
+  // Get the value of the (deep) property on `path` from `object`.
+  // If any property in `path` does not exist or if the value is
+  // `undefined`, return `defaultValue` instead.
+  // The `path` is normalized through `_.toPath`.
+  function get(object, path, defaultValue) {
+    var value = deepGet(object, toPath$1(path));
+    return isUndefined(value) ? defaultValue : value;
+  }
+
   // Shortcut function for checking if an object has a given property directly on
   // itself (in other words, not on a prototype). Unlike the internal `has`
   // function, this public version can also traverse nested properties.
   function has$1(obj, path) {
-    if (!isArray(path)) {
-      return has(obj, path);
-    }
+    path = toPath$1(path);
     var length = path.length;
     for (var i = 0; i < length; i++) {
       var key = path[i];
-      if (obj == null || !hasOwnProperty.call(obj, key)) {
-        return false;
-      }
+      if (!has(obj, key)) return false;
       obj = obj[key];
     }
     return !!length;
@@ -612,22 +640,10 @@
     };
   }
 
-  // Internal function to obtain a nested property in `obj` along `path`.
-  function deepGet(obj, path) {
-    var length = path.length;
-    for (var i = 0; i < length; i++) {
-      if (obj == null) return void 0;
-      obj = obj[path[i]];
-    }
-    return length ? obj : void 0;
-  }
-
   // Creates a function that, when passed an object, will traverse that object’s
   // properties down the given `path`, specified as an array of keys or indices.
   function property(path) {
-    if (!isArray(path)) {
-      return shallowProperty(path);
-    }
+    path = toPath$1(path);
     return function(obj) {
       return deepGet(obj, path);
     };
@@ -699,11 +715,9 @@
 
   // Generates a function for a given object that returns a given property.
   function propertyOf(obj) {
-    if (obj == null) {
-      return function(){};
-    }
+    if (obj == null) return noop;
     return function(path) {
-      return !isArray(path) ? obj[path] : deepGet(obj, path);
+      return get(obj, path);
     };
   }
 
@@ -859,7 +873,7 @@
   // is invoked with its parent as context. Returns the value of the final
   // child, or `fallback` if any child is undefined.
   function result(obj, path, fallback) {
-    if (!isArray(path)) path = [path];
+    path = toPath$1(path);
     var length = path.length;
     if (!length) {
       return isFunction$1(fallback) ? fallback.call(obj) : fallback;
@@ -1334,7 +1348,8 @@
     var contextPath, func;
     if (isFunction$1(path)) {
       func = path;
-    } else if (isArray(path)) {
+    } else {
+      path = toPath$1(path);
       contextPath = path.slice(0, -1);
       path = path[path.length - 1];
     }
@@ -1822,11 +1837,13 @@
     create: create,
     clone: clone,
     tap: tap,
+    get: get,
     has: has$1,
     mapObject: mapObject,
     identity: identity,
     constant: constant,
     noop: noop,
+    toPath: toPath,
     property: property,
     propertyOf: propertyOf,
     matcher: matcher,

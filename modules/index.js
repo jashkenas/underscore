@@ -59,6 +59,7 @@ export { default as defaults } from './defaults.js';
 export { default as create } from './create.js';
 export { default as clone } from './clone.js';
 export { default as tap } from './tap.js';
+export { default as get } from './get.js';
 export { default as has } from './has.js';
 export { default as mapObject } from './mapObject.js';
 
@@ -70,6 +71,7 @@ export { default as mapObject } from './mapObject.js';
 export { default as identity } from './identity.js';
 export { default as constant } from './constant.js';
 export { default as noop } from './noop.js';
+export { default as toPath } from './toPath.js';
 export { default as property } from './property.js';
 export { default as propertyOf } from './propertyOf.js';
 export { default as matcher,

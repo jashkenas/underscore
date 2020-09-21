@@ -1,11 +1,11 @@
-import isArray from './isArray.js';
 import isFunction from './isFunction.js';
+import toPath from './_toPath.js';
 
 // Traverses the children of `obj` along `path`. If a child is a function, it
 // is invoked with its parent as context. Returns the value of the final
 // child, or `fallback` if any child is undefined.
 export default function result(obj, path, fallback) {
-  if (!isArray(path)) path = [path];
+  path = toPath(path);
   var length = path.length;
   if (!length) {
     return isFunction(fallback) ? fallback.call(obj) : fallback;
