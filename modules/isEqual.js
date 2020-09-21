@@ -57,9 +57,8 @@ function deepEq(a, b, aStack, bStack) {
       return deepEq(toDataView(a), toDataView(b), aStack, bStack);
     case '[object DataView]':
       var byteLength = getByteLength(a);
-      if (byteLength !== getByteLength(b)) {
-        return false;
-      }
+      if (byteLength !== getByteLength(b)) return false;
+      if (a.buffer === b.buffer && a.byteOffset === b.byteOffset) return true;
       while (byteLength--) {
         if (a.getUint8(byteLength) !== b.getUint8(byteLength)) {
           return false;
