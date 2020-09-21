@@ -697,6 +697,13 @@
   // Predicate-generating function. Often useful outside of Underscore.
   function noop(){}
 
+  // Normalize a (deep) property `path` to array.
+  // Like `_.iteratee`, this function can be customized.
+  function toPath(path) {
+    return isArray(path) ? path : [path];
+  }
+  _.toPath = toPath;
+
   // Generates a function for a given object that returns a given property.
   function propertyOf(obj) {
     if (obj == null) {
@@ -1827,6 +1834,7 @@
     identity: identity,
     constant: constant,
     noop: noop,
+    toPath: toPath,
     property: property,
     propertyOf: propertyOf,
     matcher: matcher,

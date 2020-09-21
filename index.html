@@ -310,6 +310,7 @@
         <li data-name="defaults">- <a href="#defaults">defaults</a></li>
         <li data-name="clone">- <a href="#clone">clone</a></li>
         <li data-name="tap">- <a href="#tap">tap</a></li>
+        <li data-name="toPath">- <a href="#toPath">toPath</a></li>
         <li data-name="has">- <a href="#has">has</a></li>
         <li data-name="property">- <a href="#property">property</a></li>
         <li data-name="propertyOf">- <a href="#propertyOf">propertyOf</a></li>
@@ -1753,6 +1754,19 @@ _.chain([1,2,3,200])
   .value();
 =&gt; // [2, 200] (alerted)
 =&gt; [4, 40000]
+</pre>
+
+      <p id="toPath">
+        <b class="header">toPath</b><code>_.toPath(path)</code><br>
+        Ensures that <b>path</b> is an array. If <b>path</b> is a string, it is
+        wrapped in a single-element array; if it is an array already, it is
+        returned unmodified.
+      </p>
+      <pre>
+_.toPath('key');
+=&gt; ['key']
+_.toPath(['a', 0, 'b']);
+=&gt; ['a', 0, 'b'] // (same array)
 </pre>
 
       <p id="has">

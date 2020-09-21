@@ -70,6 +70,7 @@ export { default as mapObject } from './mapObject.js';
 export { default as identity } from './identity.js';
 export { default as constant } from './constant.js';
 export { default as noop } from './noop.js';
+export { default as toPath } from './toPath.js';
 export { default as property } from './property.js';
 export { default as propertyOf } from './propertyOf.js';
 export { default as matcher,

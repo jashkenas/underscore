@@ -688,6 +688,13 @@ function mapObject(obj, iteratee, context) {
 // Predicate-generating function. Often useful outside of Underscore.
 function noop(){}
 
+// Normalize a (deep) property `path` to array.
+// Like `_.iteratee`, this function can be customized.
+function toPath(path) {
+  return isArray(path) ? path : [path];
+}
+_.toPath = toPath;
+
 // Generates a function for a given object that returns a given property.
 function propertyOf(obj) {
   if (obj == null) {
@@ -1818,6 +1825,7 @@ var allExports = {
   identity: identity,
   constant: constant,
   noop: noop,
+  toPath: toPath,
   property: property,
   propertyOf: propertyOf,
   matcher: matcher,
@@ -1927,5 +1935,5 @@ _$1._ = _$1;
 // ESM Exports
 
 export default _$1;
-export { VERSION, after, every as all, allKeys, some as any, extendOwn as assign, before, bind, bindAll, chain, chunk, clone, map as collect, compact, compose, constant, contains, countBy, create, debounce, defaults, defer, delay, find as detect, difference, rest as drop, each, _escape as escape, every, extend, extendOwn, filter, find, findIndex, findKey, findLastIndex, findWhere, first, flatten$1 as flatten, reduce as foldl, reduceRight as foldr, each as forEach, functions, groupBy, has$1 as has, first as head, identity, contains as include, contains as includes, indexBy, indexOf, initial, reduce as inject, intersection, invert, invoke, isArguments$1 as isArguments, isArray, isArrayBuffer, isBoolean, isDataView, isDate, isElement, isEmpty, isEqual, isError, isFinite$1 as isFinite, isFunction$1 as isFunction, isMap, isMatch, isNaN$1 as isNaN, isNull, isNumber, isObject, isRegExp, isSet, isString, isSymbol, isTypedArray$1 as isTypedArray, isUndefined, isWeakMap, isWeakSet, iteratee, keys, last, lastIndexOf, map, mapObject, matcher, matcher as matches, max, memoize, functions as methods, min, mixin, negate, noop, now, object, omit, once, pairs, partial, partition, pick, pluck, property, propertyOf, random, range, reduce, reduceRight, reject, rest, restArguments, result, sample, filter as select, shuffle, size, some, sortBy, sortedIndex, rest as tail, first as take, tap, template, templateSettings, throttle, times, toArray, unzip as transpose, _unescape as unescape, union, uniq, uniq as unique, uniqueId, unzip, values, where, without, wrap, zip };
+export { VERSION, after, every as all, allKeys, some as any, extendOwn as assign, before, bind, bindAll, chain, chunk, clone, map as collect, compact, compose, constant, contains, countBy, create, debounce, defaults, defer, delay, find as detect, difference, rest as drop, each, _escape as escape, every, extend, extendOwn, filter, find, findIndex, findKey, findLastIndex, findWhere, first, flatten$1 as flatten, reduce as foldl, reduceRight as foldr, each as forEach, functions, groupBy, has$1 as has, first as head, identity, contains as include, contains as includes, indexBy, indexOf, initial, reduce as inject, intersection, invert, invoke, isArguments$1 as isArguments, isArray, isArrayBuffer, isBoolean, isDataView, isDate, isElement, isEmpty, isEqual, isError, isFinite$1 as isFinite, isFunction$1 as isFunction, isMap, isMatch, isNaN$1 as isNaN, isNull, isNumber, isObject, isRegExp, isSet, isString, isSymbol, isTypedArray$1 as isTypedArray, isUndefined, isWeakMap, isWeakSet, iteratee, keys, last, lastIndexOf, map, mapObject, matcher, matcher as matches, max, memoize, functions as methods, min, mixin, negate, noop, now, object, omit, once, pairs, partial, partition, pick, pluck, property, propertyOf, random, range, reduce, reduceRight, reject, rest, restArguments, result, sample, filter as select, shuffle, size, some, sortBy, sortedIndex, rest as tail, first as take, tap, template, templateSettings, throttle, times, toArray, toPath, unzip as transpose, _unescape as unescape, union, uniq, uniq as unique, uniqueId, unzip, values, where, without, wrap, zip };
 //# sourceMappingURL=underscore-esm.js.map
