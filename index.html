@@ -1768,6 +1768,27 @@ _.toPath('key');
 _.toPath(['a', 0, 'b']);
 =&gt; ['a', 0, 'b'] // (same array)
 </pre>
+      <p>
+        <tt>_.toPath</tt> is used internally in <tt>has</tt>, <tt>get</tt>,
+        <tt>invoke</tt>, <tt>property</tt>, <tt>propertyOf</tt> and
+        <tt>result</tt>, as well as in <a href="#iteratee"><b>iteratee</b></a>
+        and all functions that depend on it, in order to normalize deep
+        property paths. You can override <tt>_.toPath</tt> if you want to
+        customize this behavior, for example to enable Lodash-like string path
+        shorthands. Be advised that altering <tt>_.toPath</tt> will unavoidably
+        cause some keys to become unreachable; override at your own risk.
+      </p>
+      <pre>
+// Support dotted path shorthands.
+var originalToPath = _.toPath;
+_.mixin({
+  toPath: function(path) {
+    return _.isString(path) ? path.split('.') : originalToPath(path);
+  }
+});
+_.get({a: [{b: 5}]}, 'a.0.b');
+=&gt; 5
+</pre>
 
       <p id="get">
         <b class="header">get</b><code>_.get(object, path, [default])</code><br>

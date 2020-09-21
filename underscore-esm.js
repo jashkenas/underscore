@@ -607,15 +607,11 @@ function get(object, path, defaultValue) {
 // itself (in other words, not on a prototype). Unlike the internal `has`
 // function, this public version can also traverse nested properties.
 function has$1(obj, path) {
-  if (!isArray(path)) {
-    return has(obj, path);
-  }
+  path = toPath$1(path);
   var length = path.length;
   for (var i = 0; i < length; i++) {
     var key = path[i];
-    if (obj == null || !hasOwnProperty.call(obj, key)) {
-      return false;
-    }
+    if (!has(obj, key)) return false;
     obj = obj[key];
   }
   return !!length;
@@ -638,9 +634,7 @@ function matcher(attrs) {
 // Creates a function that, when passed an object, will traverse that object’s
 // properties down the given `path`, specified as an array of keys or indices.
 function property(path) {
-  if (!isArray(path)) {
-    return shallowProperty(path);
-  }
+  path = toPath$1(path);
   return function(obj) {
     return deepGet(obj, path);
   };
@@ -712,11 +706,9 @@ function noop(){}
 
 // Generates a function for a given object that returns a given property.
 function propertyOf(obj) {
-  if (obj == null) {
-    return function(){};
-  }
+  if (obj == null) return noop;
   return function(path) {
-    return !isArray(path) ? obj[path] : deepGet(obj, path);
+    return get(obj, path);
   };
 }
 
@@ -872,7 +864,7 @@ function template(text, settings, oldSettings) {
 // is invoked with its parent as context. Returns the value of the final
 // child, or `fallback` if any child is undefined.
 function result(obj, path, fallback) {
-  if (!isArray(path)) path = [path];
+  path = toPath$1(path);
   var length = path.length;
   if (!length) {
     return isFunction$1(fallback) ? fallback.call(obj) : fallback;
@@ -1347,7 +1339,8 @@ var invoke = restArguments(function(obj, path, args) {
   var contextPath, func;
   if (isFunction$1(path)) {
     func = path;
-  } else if (isArray(path)) {
+  } else {
+    path = toPath$1(path);
     contextPath = path.slice(0, -1);
     path = path[path.length - 1];
   }
