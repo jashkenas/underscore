@@ -330,6 +330,16 @@
     return String(this._wrapped);
   };
 
+  // Internal function to wrap or shallow-copy an ArrayBuffer,
+  // typed array or DataView to a new DataView, reusing the buffer.
+  function toDataView(bufferSource) {
+    return new DataView(
+      bufferSource.buffer || bufferSource,
+      bufferSource.byteOffset,
+      getByteLength(bufferSource)
+    );
+  }
+
   // Internal recursive comparison function for `_.isEqual`.
   function eq(a, b, aStack, bStack) {
     // Identical objects are equal. `0 === -0`, but they aren't identical.
@@ -377,12 +387,11 @@
         return SymbolProto.valueOf.call(a) === SymbolProto.valueOf.call(b);
       case '[object ArrayBuffer]':
         // Coerce to `DataView` so we can fall through to the next case.
-        return deepEq(new DataView(a), new DataView(b), aStack, bStack);
+        return deepEq(toDataView(a), toDataView(b), aStack, bStack);
       case '[object DataView]':
         var byteLength = getByteLength(a);
-        if (byteLength !== getByteLength(b)) {
-          return false;
-        }
+        if (byteLength !== getByteLength(b)) return false;
+        if (a.buffer === b.buffer && a.byteOffset === b.byteOffset) return true;
         while (byteLength--) {
           if (a.getUint8(byteLength) !== b.getUint8(byteLength)) {
             return false;
@@ -393,7 +402,7 @@
 
     if (isTypedArray$1(a)) {
       // Coerce typed arrays to `DataView`.
-      return deepEq(new DataView(a.buffer), new DataView(b.buffer), aStack, bStack);
+      return deepEq(toDataView(a), toDataView(b), aStack, bStack);
     }
 
     var areArrays = className === '[object Array]';

@@ -583,8 +583,6 @@
       assert.strictEqual(_.isEqual(symbol, sameStringSymbol), false, 'Different symbols of same string are not equal');
     }
 
-
-
     // typed arrays
     if (typeof ArrayBuffer !== 'undefined') {
       var u8 = new Uint8Array([1, 2]);
@@ -608,10 +606,13 @@
       assert.notOk(_.isEqual(new DataView(u8.buffer), new DataView(u16one.buffer)), 'Different DataViews with different byte data are not equal');
       assert.notOk(_.isEqual(u8.buffer, u16.buffer), 'Different ArrayBuffers with different length are not equal');
       assert.notOk(_.isEqual(u8.buffer, u16one.buffer), 'Different ArrayBuffers with different byte data are not equal');
-    }
 
-    //assert.ok(_.isEqual(new DataView(u8.buffer)), new DataView(u8b.buffer))
-    //assert.notOk(_.isEqual(new DataView((new Uint8Array([1,2])).buffer), new DataView((new Uint8Array([5,6,10])).buffer));
+      // Regression tests for #2875.
+      var shared = new Uint8Array([1, 2, 3, 4]);
+      var view1 = new Uint8Array(shared.buffer, 0, 2);
+      var view2 = new Uint8Array(shared.buffer, 2, 2);
+      assert.notOk(_.isEqual(view1, view2), 'same buffer with different offset is not equal');
+    }
   });
 
   QUnit.test('isEmpty', function(assert) {
