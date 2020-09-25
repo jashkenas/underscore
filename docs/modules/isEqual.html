@@ -151,6 +151,16 @@
                 </a>
               
                 
+                <a class="source" href="_toDataView.html">
+                  modules/_toDataView.js
+                </a>
+              
+                
+                <a class="source" href="_toPath.html">
+                  modules/_toPath.js
+                </a>
+              
+                
                 <a class="source" href="_unescapeMap.html">
                   modules/_unescapeMap.js
                 </a>
@@ -318,6 +328,11 @@
                 
                 <a class="source" href="functions.html">
                   modules/functions.js
+                </a>
+              
+                
+                <a class="source" href="get.html">
+                  modules/get.js
                 </a>
               
                 
@@ -731,6 +746,11 @@
                 </a>
               
                 
+                <a class="source" href="toPath.html">
+                  modules/toPath.js
+                </a>
+              
+                
                 <a class="source" href="underscore-array-methods.html">
                   modules/underscore-array-methods.js
                 </a>
@@ -814,13 +834,14 @@
               
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">import</span> _ <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./underscore.js&#x27;</span>;
-<span class="hljs-keyword">import</span> { toString, SymbolProto } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./_setup.js&#x27;</span>;
-<span class="hljs-keyword">import</span> getByteLength <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./_getByteLength.js&#x27;</span>;
-<span class="hljs-keyword">import</span> isTypedArray <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./isTypedArray.js&#x27;</span>;
-<span class="hljs-keyword">import</span> isFunction <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./isFunction.js&#x27;</span>;
-<span class="hljs-keyword">import</span> keys <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./keys.js&#x27;</span>;
-<span class="hljs-keyword">import</span> has <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./_has.js&#x27;</span>;</pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">import</span> _ <span class="hljs-keyword">from</span> <span class="hljs-string">'./underscore.js'</span>;
+<span class="hljs-keyword">import</span> { toString, SymbolProto } <span class="hljs-keyword">from</span> <span class="hljs-string">'./_setup.js'</span>;
+<span class="hljs-keyword">import</span> getByteLength <span class="hljs-keyword">from</span> <span class="hljs-string">'./_getByteLength.js'</span>;
+<span class="hljs-keyword">import</span> isTypedArray <span class="hljs-keyword">from</span> <span class="hljs-string">'./isTypedArray.js'</span>;
+<span class="hljs-keyword">import</span> isFunction <span class="hljs-keyword">from</span> <span class="hljs-string">'./isFunction.js'</span>;
+<span class="hljs-keyword">import</span> keys <span class="hljs-keyword">from</span> <span class="hljs-string">'./keys.js'</span>;
+<span class="hljs-keyword">import</span> has <span class="hljs-keyword">from</span> <span class="hljs-string">'./_has.js'</span>;
+<span class="hljs-keyword">import</span> toDataView <span class="hljs-keyword">from</span> <span class="hljs-string">'./_toDataView.js'</span>;</pre></div></div>
             
         </li>
         
@@ -897,7 +918,7 @@ See the <a href="https://wiki.ecmascript.org/doku.php?id=harmony:egal">Harmony <
             </div>
             
             <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">var</span> type = <span class="hljs-keyword">typeof</span> a;
-  <span class="hljs-keyword">if</span> (type !== <span class="hljs-string">&#x27;function&#x27;</span> &amp;&amp; type !== <span class="hljs-string">&#x27;object&#x27;</span> &amp;&amp; <span class="hljs-keyword">typeof</span> b != <span class="hljs-string">&#x27;object&#x27;</span>) <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+  <span class="hljs-keyword">if</span> (type !== <span class="hljs-string">'function'</span> &amp;&amp; type !== <span class="hljs-string">'object'</span> &amp;&amp; <span class="hljs-keyword">typeof</span> b != <span class="hljs-string">'object'</span>) <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
   <span class="hljs-keyword">return</span> deepEq(a, b, aStack, bStack);
 }</pre></div></div>
             
@@ -962,7 +983,7 @@ See the <a href="https://wiki.ecmascript.org/doku.php?id=harmony:egal">Harmony <
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;[object RegExp]&#x27;</span>:</pre></div></div>
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">case</span> <span class="hljs-string">'[object RegExp]'</span>:</pre></div></div>
             
         </li>
         
@@ -977,7 +998,7 @@ See the <a href="https://wiki.ecmascript.org/doku.php?id=harmony:egal">Harmony <
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;[object String]&#x27;</span>:</pre></div></div>
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">case</span> <span class="hljs-string">'[object String]'</span>:</pre></div></div>
             
         </li>
         
@@ -993,8 +1014,8 @@ equivalent to <code>new String(&quot;5&quot;)</code>.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;&#x27;</span> + a === <span class="hljs-string">&#x27;&#x27;</span> + b;
-    <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;[object Number]&#x27;</span>:</pre></div></div>
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">return</span> <span class="hljs-string">''</span> + a === <span class="hljs-string">''</span> + b;
+    <span class="hljs-keyword">case</span> <span class="hljs-string">'[object Number]'</span>:</pre></div></div>
             
         </li>
         
@@ -1026,8 +1047,8 @@ Object(NaN) is equivalent to NaN.</p>
             </div>
             
             <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">return</span> +a === <span class="hljs-number">0</span> ? <span class="hljs-number">1</span> / +a === <span class="hljs-number">1</span> / b : +a === +b;
-    <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;[object Date]&#x27;</span>:
-    <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;[object Boolean]&#x27;</span>:</pre></div></div>
+    <span class="hljs-keyword">case</span> <span class="hljs-string">'[object Date]'</span>:
+    <span class="hljs-keyword">case</span> <span class="hljs-string">'[object Boolean]'</span>:</pre></div></div>
             
         </li>
         
@@ -1045,9 +1066,9 @@ of <code>NaN</code> are not equivalent.</p>
             </div>
             
             <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">return</span> +a === +b;
-    <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;[object Symbol]&#x27;</span>:
+    <span class="hljs-keyword">case</span> <span class="hljs-string">'[object Symbol]'</span>:
       <span class="hljs-keyword">return</span> SymbolProto.valueOf.call(a) === SymbolProto.valueOf.call(b);
-    <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;[object ArrayBuffer]&#x27;</span>:</pre></div></div>
+    <span class="hljs-keyword">case</span> <span class="hljs-string">'[object ArrayBuffer]'</span>:</pre></div></div>
             
         </li>
         
@@ -1062,13 +1083,12 @@ of <code>NaN</code> are not equivalent.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">return</span> deepEq(<span class="hljs-keyword">new</span> <span class="hljs-built_in">DataView</span>(a), <span class="hljs-keyword">new</span> <span class="hljs-built_in">DataView</span>(b), aStack, bStack);
-    <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;[object DataView]&#x27;</span>:
-      <span class="hljs-keyword">var</span> byteLength = getByteLength(a);
-      <span class="hljs-keyword">if</span> (byteLength !== getByteLength(b)) {
-        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
-      }
-      <span class="hljs-keyword">while</span> (byteLength--) {
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">return</span> deepEq(toDataView(a), toDataView(b), aStack, bStack);
+    <span class="hljs-keyword">case</span> <span class="hljs-string">'[object DataView]'</span>:
+      <span class="hljs-keyword">var</span> byteLength = <span class="hljs-keyword">get</span><span class="hljs-title">ByteLength</span>(<span class="hljs-params">a</span>);
+      <span class="hljs-title">if</span> (<span class="hljs-params">byteLength !== getByteLength(b</span>)) <span class="hljs-title">return</span> <span class="hljs-title">false</span>;
+      <span class="hljs-title">if</span> (<span class="hljs-params">a.buffer === b.buffer &amp;&amp; a.byteOffset === b.byteOffset</span>) <span class="hljs-title">return</span> <span class="hljs-title">true</span>;
+      <span class="hljs-title">while</span> (<span class="hljs-params">byteLength--</span>) {
         <span class="hljs-keyword">if</span> (a.getUint8(byteLength) !== b.getUint8(byteLength)) {
           <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
         }
@@ -1091,12 +1111,12 @@ of <code>NaN</code> are not equivalent.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">return</span> deepEq(<span class="hljs-keyword">new</span> <span class="hljs-built_in">DataView</span>(a.buffer), <span class="hljs-keyword">new</span> <span class="hljs-built_in">DataView</span>(b.buffer), aStack, bStack);
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">return</span> deepEq(toDataView(a), toDataView(b), aStack, bStack);
   }
 
-  <span class="hljs-keyword">var</span> areArrays = className === <span class="hljs-string">&#x27;[object Array]&#x27;</span>;
+  <span class="hljs-keyword">var</span> areArrays = className === <span class="hljs-string">'[object Array]'</span>;
   <span class="hljs-keyword">if</span> (!areArrays) {
-    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> a != <span class="hljs-string">&#x27;object&#x27;</span> || <span class="hljs-keyword">typeof</span> b != <span class="hljs-string">&#x27;object&#x27;</span>) <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;</pre></div></div>
+    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> a != <span class="hljs-string">'object'</span> || <span class="hljs-keyword">typeof</span> b != <span class="hljs-string">'object'</span>) <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;</pre></div></div>
             
         </li>
         
@@ -1115,7 +1135,7 @@ from different frames are.</p>
             <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">var</span> aCtor = a.constructor, bCtor = b.constructor;
     <span class="hljs-keyword">if</span> (aCtor !== bCtor &amp;&amp; !(isFunction(aCtor) &amp;&amp; aCtor <span class="hljs-keyword">instanceof</span> aCtor &amp;&amp;
                              isFunction(bCtor) &amp;&amp; bCtor <span class="hljs-keyword">instanceof</span> bCtor)
-                        &amp;&amp; (<span class="hljs-string">&#x27;constructor&#x27;</span> <span class="hljs-keyword">in</span> a &amp;&amp; <span class="hljs-string">&#x27;constructor&#x27;</span> <span class="hljs-keyword">in</span> b)) {
+                        &amp;&amp; (<span class="hljs-string">'constructor'</span> <span class="hljs-keyword">in</span> a &amp;&amp; <span class="hljs-string">'constructor'</span> <span class="hljs-keyword">in</span> b)) {
       <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
     }
   }</pre></div></div>

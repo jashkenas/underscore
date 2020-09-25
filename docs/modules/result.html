@@ -151,6 +151,16 @@
                 </a>
               
                 
+                <a class="source" href="_toDataView.html">
+                  modules/_toDataView.js
+                </a>
+              
+                
+                <a class="source" href="_toPath.html">
+                  modules/_toPath.js
+                </a>
+              
+                
                 <a class="source" href="_unescapeMap.html">
                   modules/_unescapeMap.js
                 </a>
@@ -318,6 +328,11 @@
                 
                 <a class="source" href="functions.html">
                   modules/functions.js
+                </a>
+              
+                
+                <a class="source" href="get.html">
+                  modules/get.js
                 </a>
               
                 
@@ -731,6 +746,11 @@
                 </a>
               
                 
+                <a class="source" href="toPath.html">
+                  modules/toPath.js
+                </a>
+              
+                
                 <a class="source" href="underscore-array-methods.html">
                   modules/underscore-array-methods.js
                 </a>
@@ -814,8 +834,8 @@
               
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">import</span> isArray <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./isArray.js&#x27;</span>;
-<span class="hljs-keyword">import</span> isFunction <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./isFunction.js&#x27;</span>;</pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">import</span> isFunction <span class="hljs-keyword">from</span> <span class="hljs-string">'./isFunction.js'</span>;
+<span class="hljs-keyword">import</span> toPath <span class="hljs-keyword">from</span> <span class="hljs-string">'./_toPath.js'</span>;</pre></div></div>
             
         </li>
         
@@ -833,7 +853,7 @@ child, or <code>fallback</code> if any child is undefined.</p>
             </div>
             
             <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">result</span>(<span class="hljs-params">obj, path, fallback</span>) </span>{
-  <span class="hljs-keyword">if</span> (!isArray(path)) path = [path];
+  path = toPath(path);
   <span class="hljs-keyword">var</span> length = path.length;
   <span class="hljs-keyword">if</span> (!length) {
     <span class="hljs-keyword">return</span> isFunction(fallback) ? fallback.call(obj) : fallback;
@@ -842,7 +862,7 @@ child, or <code>fallback</code> if any child is undefined.</p>
     <span class="hljs-keyword">var</span> prop = obj == <span class="hljs-literal">null</span> ? <span class="hljs-keyword">void</span> <span class="hljs-number">0</span> : obj[path[i]];
     <span class="hljs-keyword">if</span> (prop === <span class="hljs-keyword">void</span> <span class="hljs-number">0</span>) {
       prop = fallback;
-      i = length; <span class="hljs-comment">// Ensure we don&#x27;t continue iterating.</span>
+      i = length; <span class="hljs-comment">// Ensure we don't continue iterating.</span>
     }
     obj = isFunction(prop) ? prop.call(obj) : prop;
   }

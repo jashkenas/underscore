@@ -151,6 +151,16 @@
                 </a>
               
                 
+                <a class="source" href="_toDataView.html">
+                  modules/_toDataView.js
+                </a>
+              
+                
+                <a class="source" href="_toPath.html">
+                  modules/_toPath.js
+                </a>
+              
+                
                 <a class="source" href="_unescapeMap.html">
                   modules/_unescapeMap.js
                 </a>
@@ -318,6 +328,11 @@
                 
                 <a class="source" href="functions.html">
                   modules/functions.js
+                </a>
+              
+                
+                <a class="source" href="get.html">
+                  modules/get.js
                 </a>
               
                 
@@ -731,6 +746,11 @@
                 </a>
               
                 
+                <a class="source" href="toPath.html">
+                  modules/toPath.js
+                </a>
+              
+                
                 <a class="source" href="underscore-array-methods.html">
                   modules/underscore-array-methods.js
                 </a>
@@ -821,8 +841,8 @@ consuming the return value of the function that follows.</p>
   <span class="hljs-keyword">var</span> start = args.length - <span class="hljs-number">1</span>;
   <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
     <span class="hljs-keyword">var</span> i = start;
-    <span class="hljs-keyword">var</span> result = args[start].apply(<span class="hljs-built_in">this</span>, <span class="hljs-built_in">arguments</span>);
-    <span class="hljs-keyword">while</span> (i--) result = args[i].call(<span class="hljs-built_in">this</span>, result);
+    <span class="hljs-keyword">var</span> result = args[start].apply(<span class="hljs-keyword">this</span>, <span class="hljs-built_in">arguments</span>);
+    <span class="hljs-keyword">while</span> (i--) result = args[i].call(<span class="hljs-keyword">this</span>, result);
     <span class="hljs-keyword">return</span> result;
   };
 }</pre></div></div>

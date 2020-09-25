@@ -151,6 +151,16 @@
                 </a>
               
                 
+                <a class="source" href="_toDataView.html">
+                  modules/_toDataView.js
+                </a>
+              
+                
+                <a class="source" href="_toPath.html">
+                  modules/_toPath.js
+                </a>
+              
+                
                 <a class="source" href="_unescapeMap.html">
                   modules/_unescapeMap.js
                 </a>
@@ -318,6 +328,11 @@
                 
                 <a class="source" href="functions.html">
                   modules/functions.js
+                </a>
+              
+                
+                <a class="source" href="get.html">
+                  modules/get.js
                 </a>
               
                 
@@ -731,6 +746,11 @@
                 </a>
               
                 
+                <a class="source" href="toPath.html">
+                  modules/toPath.js
+                </a>
+              
+                
                 <a class="source" href="underscore-array-methods.html">
                   modules/underscore-array-methods.js
                 </a>
@@ -814,8 +834,8 @@
               
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">import</span> getLength <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./_getLength.js&#x27;</span>;
-<span class="hljs-keyword">import</span> contains <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./contains.js&#x27;</span>;</pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">import</span> getLength <span class="hljs-keyword">from</span> <span class="hljs-string">'./_getLength.js'</span>;
+<span class="hljs-keyword">import</span> contains <span class="hljs-keyword">from</span> <span class="hljs-string">'./contains.js'</span>;</pre></div></div>
             
         </li>
         
@@ -834,7 +854,7 @@ passed-in arrays.</p>
             <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">intersection</span>(<span class="hljs-params">array</span>) </span>{
   <span class="hljs-keyword">var</span> result = [];
   <span class="hljs-keyword">var</span> argsLength = <span class="hljs-built_in">arguments</span>.length;
-  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>, length = getLength(array); i &lt; length; i++) {
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>, length = <span class="hljs-keyword">get</span><span class="hljs-title">Length</span>(<span class="hljs-params">array</span>); <span class="hljs-title">i</span> &lt; <span class="hljs-title">length</span>; <span class="hljs-title">i</span>++) {
     <span class="hljs-keyword">var</span> item = array[i];
     <span class="hljs-keyword">if</span> (contains(result, item)) <span class="hljs-keyword">continue</span>;
     <span class="hljs-keyword">var</span> j;

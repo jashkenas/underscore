@@ -151,6 +151,16 @@
                 </a>
               
                 
+                <a class="source" href="_toDataView.html">
+                  modules/_toDataView.js
+                </a>
+              
+                
+                <a class="source" href="_toPath.html">
+                  modules/_toPath.js
+                </a>
+              
+                
                 <a class="source" href="_unescapeMap.html">
                   modules/_unescapeMap.js
                 </a>
@@ -318,6 +328,11 @@
                 
                 <a class="source" href="functions.html">
                   modules/functions.js
+                </a>
+              
+                
+                <a class="source" href="get.html">
+                  modules/get.js
                 </a>
               
                 
@@ -731,6 +746,11 @@
                 </a>
               
                 
+                <a class="source" href="toPath.html">
+                  modules/toPath.js
+                </a>
+              
+                
                 <a class="source" href="underscore-array-methods.html">
                   modules/underscore-array-methods.js
                 </a>
@@ -830,11 +850,10 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-3">&#182;</a>
               </div>
-              <pre><code>Underscore.js <span class="hljs-number">1.11</span><span class="hljs-number">.0</span>
+              <pre><code>Underscore.js <span class="hljs-number">1.12</span><span class="hljs-number">.0</span>
 <span class="hljs-attr">https</span>:<span class="hljs-comment">//underscorejs.org</span>
 (c) <span class="hljs-number">2009</span><span class="hljs-number">-2020</span> Jeremy Ashkenas, DocumentCloud and Investigative Reporters &amp; Editors
 Underscore may be freely distributed under the MIT license.</code></pre>
-
             </div>
             
         </li>
@@ -850,8 +869,8 @@ Underscore may be freely distributed under the MIT license.</code></pre>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> { VERSION } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./_setup.js&#x27;</span>;
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> restArguments } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./restArguments.js&#x27;</span>;</pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> { VERSION } <span class="hljs-keyword">from</span> <span class="hljs-string">'./_setup.js'</span>;
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> restArguments } <span class="hljs-keyword">from</span> <span class="hljs-string">'./restArguments.js'</span>;</pre></div></div>
             
         </li>
         
@@ -894,32 +913,32 @@ These are often informally referred to as the “isType” functions.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> isObject } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./isObject.js&#x27;</span>;
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> isNull } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./isNull.js&#x27;</span>;
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> isUndefined } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./isUndefined.js&#x27;</span>;
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> isBoolean } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./isBoolean.js&#x27;</span>;
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> isElement } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./isElement.js&#x27;</span>;
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> isString } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./isString.js&#x27;</span>;
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> isNumber } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./isNumber.js&#x27;</span>;
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> isDate } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./isDate.js&#x27;</span>;
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> isRegExp } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./isRegExp.js&#x27;</span>;
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> isError } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./isError.js&#x27;</span>;
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> isSymbol } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./isSymbol.js&#x27;</span>;
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> isMap } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./isMap.js&#x27;</span>;
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> isWeakMap } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./isWeakMap.js&#x27;</span>;
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> isSet } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./isSet.js&#x27;</span>;
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> isWeakSet } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./isWeakSet.js&#x27;</span>;
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> isArrayBuffer } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./isArrayBuffer.js&#x27;</span>;
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> isDataView } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./isDataView.js&#x27;</span>;
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> isArray } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./isArray.js&#x27;</span>;
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> isFunction } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./isFunction.js&#x27;</span>;
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> isArguments } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./isArguments.js&#x27;</span>;
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> <span class="hljs-built_in">isFinite</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./isFinite.js&#x27;</span>;
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> <span class="hljs-built_in">isNaN</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./isNaN.js&#x27;</span>;
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> isTypedArray } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./isTypedArray.js&#x27;</span>;
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> isEmpty } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./isEmpty.js&#x27;</span>;
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> isMatch } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./isMatch.js&#x27;</span>;
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> isEqual } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./isEqual.js&#x27;</span>;</pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> isObject } <span class="hljs-keyword">from</span> <span class="hljs-string">'./isObject.js'</span>;
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> isNull } <span class="hljs-keyword">from</span> <span class="hljs-string">'./isNull.js'</span>;
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> isUndefined } <span class="hljs-keyword">from</span> <span class="hljs-string">'./isUndefined.js'</span>;
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> isBoolean } <span class="hljs-keyword">from</span> <span class="hljs-string">'./isBoolean.js'</span>;
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> isElement } <span class="hljs-keyword">from</span> <span class="hljs-string">'./isElement.js'</span>;
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> isString } <span class="hljs-keyword">from</span> <span class="hljs-string">'./isString.js'</span>;
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> isNumber } <span class="hljs-keyword">from</span> <span class="hljs-string">'./isNumber.js'</span>;
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> isDate } <span class="hljs-keyword">from</span> <span class="hljs-string">'./isDate.js'</span>;
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> isRegExp } <span class="hljs-keyword">from</span> <span class="hljs-string">'./isRegExp.js'</span>;
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> isError } <span class="hljs-keyword">from</span> <span class="hljs-string">'./isError.js'</span>;
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> isSymbol } <span class="hljs-keyword">from</span> <span class="hljs-string">'./isSymbol.js'</span>;
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> isMap } <span class="hljs-keyword">from</span> <span class="hljs-string">'./isMap.js'</span>;
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> isWeakMap } <span class="hljs-keyword">from</span> <span class="hljs-string">'./isWeakMap.js'</span>;
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> isSet } <span class="hljs-keyword">from</span> <span class="hljs-string">'./isSet.js'</span>;
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> isWeakSet } <span class="hljs-keyword">from</span> <span class="hljs-string">'./isWeakSet.js'</span>;
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> isArrayBuffer } <span class="hljs-keyword">from</span> <span class="hljs-string">'./isArrayBuffer.js'</span>;
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> isDataView } <span class="hljs-keyword">from</span> <span class="hljs-string">'./isDataView.js'</span>;
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> isArray } <span class="hljs-keyword">from</span> <span class="hljs-string">'./isArray.js'</span>;
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> isFunction } <span class="hljs-keyword">from</span> <span class="hljs-string">'./isFunction.js'</span>;
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> isArguments } <span class="hljs-keyword">from</span> <span class="hljs-string">'./isArguments.js'</span>;
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> <span class="hljs-built_in">isFinite</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'./isFinite.js'</span>;
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> <span class="hljs-built_in">isNaN</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'./isNaN.js'</span>;
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> isTypedArray } <span class="hljs-keyword">from</span> <span class="hljs-string">'./isTypedArray.js'</span>;
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> isEmpty } <span class="hljs-keyword">from</span> <span class="hljs-string">'./isEmpty.js'</span>;
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> isMatch } <span class="hljs-keyword">from</span> <span class="hljs-string">'./isMatch.js'</span>;
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> isEqual } <span class="hljs-keyword">from</span> <span class="hljs-string">'./isEqual.js'</span>;</pre></div></div>
             
         </li>
         
@@ -934,22 +953,23 @@ These are often informally referred to as the “isType” functions.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> keys } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./keys.js&#x27;</span>;
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> allKeys } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./allKeys.js&#x27;</span>;
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> values } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./values.js&#x27;</span>;
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> pairs } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./pairs.js&#x27;</span>;
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> invert } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./invert.js&#x27;</span>;
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> keys } <span class="hljs-keyword">from</span> <span class="hljs-string">'./keys.js'</span>;
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> allKeys } <span class="hljs-keyword">from</span> <span class="hljs-string">'./allKeys.js'</span>;
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> values } <span class="hljs-keyword">from</span> <span class="hljs-string">'./values.js'</span>;
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> pairs } <span class="hljs-keyword">from</span> <span class="hljs-string">'./pairs.js'</span>;
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> invert } <span class="hljs-keyword">from</span> <span class="hljs-string">'./invert.js'</span>;
 <span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> functions,
-         <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> methods   } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./functions.js&#x27;</span>;
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> extend } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./extend.js&#x27;</span>;
+         <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> methods   } <span class="hljs-keyword">from</span> <span class="hljs-string">'./functions.js'</span>;
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> extend } <span class="hljs-keyword">from</span> <span class="hljs-string">'./extend.js'</span>;
 <span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> extendOwn,
-         <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> assign    } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./extendOwn.js&#x27;</span>;
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> defaults } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./defaults.js&#x27;</span>;
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> create } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./create.js&#x27;</span>;
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> clone } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./clone.js&#x27;</span>;
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> tap } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./tap.js&#x27;</span>;
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> has } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./has.js&#x27;</span>;
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> mapObject } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./mapObject.js&#x27;</span>;</pre></div></div>
+         <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> assign    } <span class="hljs-keyword">from</span> <span class="hljs-string">'./extendOwn.js'</span>;
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> defaults } <span class="hljs-keyword">from</span> <span class="hljs-string">'./defaults.js'</span>;
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> create } <span class="hljs-keyword">from</span> <span class="hljs-string">'./create.js'</span>;
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> clone } <span class="hljs-keyword">from</span> <span class="hljs-string">'./clone.js'</span>;
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> tap } <span class="hljs-keyword">from</span> <span class="hljs-string">'./tap.js'</span>;
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> get } <span class="hljs-keyword">from</span> <span class="hljs-string">'./get.js'</span>;
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> has } <span class="hljs-keyword">from</span> <span class="hljs-string">'./has.js'</span>;
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> mapObject } <span class="hljs-keyword">from</span> <span class="hljs-string">'./mapObject.js'</span>;</pre></div></div>
             
         </li>
         
@@ -979,24 +999,25 @@ and functions that facilitate Underscore’s chaining and iteration conventions.
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> identity } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./identity.js&#x27;</span>;
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> constant } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./constant.js&#x27;</span>;
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> noop } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./noop.js&#x27;</span>;
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> property } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./property.js&#x27;</span>;
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> propertyOf } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./propertyOf.js&#x27;</span>;
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> identity } <span class="hljs-keyword">from</span> <span class="hljs-string">'./identity.js'</span>;
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> constant } <span class="hljs-keyword">from</span> <span class="hljs-string">'./constant.js'</span>;
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> noop } <span class="hljs-keyword">from</span> <span class="hljs-string">'./noop.js'</span>;
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> toPath } <span class="hljs-keyword">from</span> <span class="hljs-string">'./toPath.js'</span>;
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> property } <span class="hljs-keyword">from</span> <span class="hljs-string">'./property.js'</span>;
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> propertyOf } <span class="hljs-keyword">from</span> <span class="hljs-string">'./propertyOf.js'</span>;
 <span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> matcher,
-         <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> matches } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./matcher.js&#x27;</span>;
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> times } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./times.js&#x27;</span>;
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> random } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./random.js&#x27;</span>;
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> now } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./now.js&#x27;</span>;
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> <span class="hljs-built_in">escape</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./escape.js&#x27;</span>;
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> <span class="hljs-built_in">unescape</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./unescape.js&#x27;</span>;
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> templateSettings } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./templateSettings.js&#x27;</span>;
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> template } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./template.js&#x27;</span>;
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> result } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./result.js&#x27;</span>;
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> uniqueId } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./uniqueId.js&#x27;</span>;
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> chain } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./chain.js&#x27;</span>;
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> iteratee } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./iteratee.js&#x27;</span>;</pre></div></div>
+         <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> matches } <span class="hljs-keyword">from</span> <span class="hljs-string">'./matcher.js'</span>;
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> times } <span class="hljs-keyword">from</span> <span class="hljs-string">'./times.js'</span>;
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> random } <span class="hljs-keyword">from</span> <span class="hljs-string">'./random.js'</span>;
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> now } <span class="hljs-keyword">from</span> <span class="hljs-string">'./now.js'</span>;
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> <span class="hljs-built_in">escape</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'./escape.js'</span>;
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> <span class="hljs-built_in">unescape</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'./unescape.js'</span>;
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> templateSettings } <span class="hljs-keyword">from</span> <span class="hljs-string">'./templateSettings.js'</span>;
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> template } <span class="hljs-keyword">from</span> <span class="hljs-string">'./template.js'</span>;
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> result } <span class="hljs-keyword">from</span> <span class="hljs-string">'./result.js'</span>;
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> uniqueId } <span class="hljs-keyword">from</span> <span class="hljs-string">'./uniqueId.js'</span>;
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> chain } <span class="hljs-keyword">from</span> <span class="hljs-string">'./chain.js'</span>;
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> iteratee } <span class="hljs-keyword">from</span> <span class="hljs-string">'./iteratee.js'</span>;</pre></div></div>
             
         </li>
         
@@ -1025,20 +1046,20 @@ as the result. Also known as higher-order functions.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> partial } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./partial.js&#x27;</span>;
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> bind } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./bind.js&#x27;</span>;
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> bindAll } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./bindAll.js&#x27;</span>;
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> memoize } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./memoize.js&#x27;</span>;
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> delay } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./delay.js&#x27;</span>;
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> defer } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./defer.js&#x27;</span>;
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> throttle } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./throttle.js&#x27;</span>;
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> debounce } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./debounce.js&#x27;</span>;
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> wrap } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./wrap.js&#x27;</span>;
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> negate } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./negate.js&#x27;</span>;
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> compose } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./compose.js&#x27;</span>;
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> after } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./after.js&#x27;</span>;
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> before } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./before.js&#x27;</span>;
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> once } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./once.js&#x27;</span>;</pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> partial } <span class="hljs-keyword">from</span> <span class="hljs-string">'./partial.js'</span>;
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> bind } <span class="hljs-keyword">from</span> <span class="hljs-string">'./bind.js'</span>;
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> bindAll } <span class="hljs-keyword">from</span> <span class="hljs-string">'./bindAll.js'</span>;
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> memoize } <span class="hljs-keyword">from</span> <span class="hljs-string">'./memoize.js'</span>;
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> delay } <span class="hljs-keyword">from</span> <span class="hljs-string">'./delay.js'</span>;
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> defer } <span class="hljs-keyword">from</span> <span class="hljs-string">'./defer.js'</span>;
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> throttle } <span class="hljs-keyword">from</span> <span class="hljs-string">'./throttle.js'</span>;
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> debounce } <span class="hljs-keyword">from</span> <span class="hljs-string">'./debounce.js'</span>;
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> wrap } <span class="hljs-keyword">from</span> <span class="hljs-string">'./wrap.js'</span>;
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> negate } <span class="hljs-keyword">from</span> <span class="hljs-string">'./negate.js'</span>;
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> compose } <span class="hljs-keyword">from</span> <span class="hljs-string">'./compose.js'</span>;
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> after } <span class="hljs-keyword">from</span> <span class="hljs-string">'./after.js'</span>;
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> before } <span class="hljs-keyword">from</span> <span class="hljs-string">'./before.js'</span>;
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> once } <span class="hljs-keyword">from</span> <span class="hljs-string">'./once.js'</span>;</pre></div></div>
             
         </li>
         
@@ -1067,15 +1088,15 @@ or array based on some criterion.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> findKey } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./findKey.js&#x27;</span>;
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> findIndex } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./findIndex.js&#x27;</span>;
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> findLastIndex } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./findLastIndex.js&#x27;</span>;
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> sortedIndex } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./sortedIndex.js&#x27;</span>;
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> indexOf } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./indexOf.js&#x27;</span>;
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> lastIndexOf } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./lastIndexOf.js&#x27;</span>;
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> findKey } <span class="hljs-keyword">from</span> <span class="hljs-string">'./findKey.js'</span>;
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> findIndex } <span class="hljs-keyword">from</span> <span class="hljs-string">'./findIndex.js'</span>;
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> findLastIndex } <span class="hljs-keyword">from</span> <span class="hljs-string">'./findLastIndex.js'</span>;
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> sortedIndex } <span class="hljs-keyword">from</span> <span class="hljs-string">'./sortedIndex.js'</span>;
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> indexOf } <span class="hljs-keyword">from</span> <span class="hljs-string">'./indexOf.js'</span>;
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> lastIndexOf } <span class="hljs-keyword">from</span> <span class="hljs-string">'./lastIndexOf.js'</span>;
 <span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> find,
-         <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> detect } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./find.js&#x27;</span>;
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> findWhere } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./findWhere.js&#x27;</span>;</pre></div></div>
+         <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> detect } <span class="hljs-keyword">from</span> <span class="hljs-string">'./find.js'</span>;
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> findWhere } <span class="hljs-keyword">from</span> <span class="hljs-string">'./findWhere.js'</span>;</pre></div></div>
             
         </li>
         
@@ -1105,38 +1126,38 @@ an object of key-value pairs.</p>
             </div>
             
             <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> each,
-         <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> forEach } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./each.js&#x27;</span>;
+         <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> forEach } <span class="hljs-keyword">from</span> <span class="hljs-string">'./each.js'</span>;
 <span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> map,
-         <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> collect } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./map.js&#x27;</span>;
+         <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> collect } <span class="hljs-keyword">from</span> <span class="hljs-string">'./map.js'</span>;
 <span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> reduce,
          <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> foldl,
-         <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> inject } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./reduce.js&#x27;</span>;
+         <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> inject } <span class="hljs-keyword">from</span> <span class="hljs-string">'./reduce.js'</span>;
 <span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> reduceRight,
-         <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> foldr       } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./reduceRight.js&#x27;</span>;
+         <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> foldr       } <span class="hljs-keyword">from</span> <span class="hljs-string">'./reduceRight.js'</span>;
 <span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> filter,
-         <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> select } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./filter.js&#x27;</span>;
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> reject } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./reject.js&#x27;</span>;
+         <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> select } <span class="hljs-keyword">from</span> <span class="hljs-string">'./filter.js'</span>;
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> reject } <span class="hljs-keyword">from</span> <span class="hljs-string">'./reject.js'</span>;
 <span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> every,
-         <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> all   } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./every.js&#x27;</span>;
+         <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> all   } <span class="hljs-keyword">from</span> <span class="hljs-string">'./every.js'</span>;
 <span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> some,
-         <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> any  } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./some.js&#x27;</span>;
+         <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> any  } <span class="hljs-keyword">from</span> <span class="hljs-string">'./some.js'</span>;
 <span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> contains,
          <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> includes,
-         <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> include  } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./contains.js&#x27;</span>;
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> invoke } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./invoke.js&#x27;</span>;
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> pluck } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./pluck.js&#x27;</span>;
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> where } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./where.js&#x27;</span>;
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> max } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./max.js&#x27;</span>;
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> min } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./min.js&#x27;</span>;
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> shuffle } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./shuffle.js&#x27;</span>;
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> sample } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./sample.js&#x27;</span>;
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> sortBy } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./sortBy.js&#x27;</span>;
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> groupBy } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./groupBy.js&#x27;</span>;
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> indexBy } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./indexBy.js&#x27;</span>;
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> countBy } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./countBy.js&#x27;</span>;
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> partition } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./partition.js&#x27;</span>;
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> toArray } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./toArray.js&#x27;</span>;
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> size } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./size.js&#x27;</span>;</pre></div></div>
+         <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> include  } <span class="hljs-keyword">from</span> <span class="hljs-string">'./contains.js'</span>;
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> invoke } <span class="hljs-keyword">from</span> <span class="hljs-string">'./invoke.js'</span>;
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> pluck } <span class="hljs-keyword">from</span> <span class="hljs-string">'./pluck.js'</span>;
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> where } <span class="hljs-keyword">from</span> <span class="hljs-string">'./where.js'</span>;
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> max } <span class="hljs-keyword">from</span> <span class="hljs-string">'./max.js'</span>;
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> min } <span class="hljs-keyword">from</span> <span class="hljs-string">'./min.js'</span>;
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> shuffle } <span class="hljs-keyword">from</span> <span class="hljs-string">'./shuffle.js'</span>;
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> sample } <span class="hljs-keyword">from</span> <span class="hljs-string">'./sample.js'</span>;
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> sortBy } <span class="hljs-keyword">from</span> <span class="hljs-string">'./sortBy.js'</span>;
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> groupBy } <span class="hljs-keyword">from</span> <span class="hljs-string">'./groupBy.js'</span>;
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> indexBy } <span class="hljs-keyword">from</span> <span class="hljs-string">'./indexBy.js'</span>;
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> countBy } <span class="hljs-keyword">from</span> <span class="hljs-string">'./countBy.js'</span>;
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> partition } <span class="hljs-keyword">from</span> <span class="hljs-string">'./partition.js'</span>;
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> toArray } <span class="hljs-keyword">from</span> <span class="hljs-string">'./toArray.js'</span>;
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> size } <span class="hljs-keyword">from</span> <span class="hljs-string">'./size.js'</span>;</pre></div></div>
             
         </li>
         
@@ -1153,8 +1174,8 @@ monolithic build as they depend on <code>_.contains</code>.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> pick } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./pick.js&#x27;</span>;
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> omit } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./omit.js&#x27;</span>;</pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> pick } <span class="hljs-keyword">from</span> <span class="hljs-string">'./pick.js'</span>;
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> omit } <span class="hljs-keyword">from</span> <span class="hljs-string">'./omit.js'</span>;</pre></div></div>
             
         </li>
         
@@ -1185,26 +1206,26 @@ expressed in terms of operations on an ordered list of values.</p>
             
             <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> first,
          <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> head,
-         <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> take  } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./first.js&#x27;</span>;
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> initial } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./initial.js&#x27;</span>;
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> last } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./last.js&#x27;</span>;
+         <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> take  } <span class="hljs-keyword">from</span> <span class="hljs-string">'./first.js'</span>;
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> initial } <span class="hljs-keyword">from</span> <span class="hljs-string">'./initial.js'</span>;
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> last } <span class="hljs-keyword">from</span> <span class="hljs-string">'./last.js'</span>;
 <span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> rest,
          <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> tail,
-         <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> drop } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./rest.js&#x27;</span>;
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> compact } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./compact.js&#x27;</span>;
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> flatten } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./flatten.js&#x27;</span>;
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> without } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./without.js&#x27;</span>;
+         <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> drop } <span class="hljs-keyword">from</span> <span class="hljs-string">'./rest.js'</span>;
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> compact } <span class="hljs-keyword">from</span> <span class="hljs-string">'./compact.js'</span>;
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> flatten } <span class="hljs-keyword">from</span> <span class="hljs-string">'./flatten.js'</span>;
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> without } <span class="hljs-keyword">from</span> <span class="hljs-string">'./without.js'</span>;
 <span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> uniq,
-         <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> unique } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./uniq.js&#x27;</span>;
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> union } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./union.js&#x27;</span>;
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> intersection } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./intersection.js&#x27;</span>;
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> difference } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./difference.js&#x27;</span>;
+         <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> unique } <span class="hljs-keyword">from</span> <span class="hljs-string">'./uniq.js'</span>;
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> union } <span class="hljs-keyword">from</span> <span class="hljs-string">'./union.js'</span>;
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> intersection } <span class="hljs-keyword">from</span> <span class="hljs-string">'./intersection.js'</span>;
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> difference } <span class="hljs-keyword">from</span> <span class="hljs-string">'./difference.js'</span>;
 <span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> unzip,
-         <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> transpose } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./unzip.js&#x27;</span>;
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> zip } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./zip.js&#x27;</span>;
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> object } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./object.js&#x27;</span>;
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> range } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./range.js&#x27;</span>;
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> chunk } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./chunk.js&#x27;</span>;</pre></div></div>
+         <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> transpose } <span class="hljs-keyword">from</span> <span class="hljs-string">'./unzip.js'</span>;
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> zip } <span class="hljs-keyword">from</span> <span class="hljs-string">'./zip.js'</span>;
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> object } <span class="hljs-keyword">from</span> <span class="hljs-string">'./object.js'</span>;
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> range } <span class="hljs-keyword">from</span> <span class="hljs-string">'./range.js'</span>;
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> chunk } <span class="hljs-keyword">from</span> <span class="hljs-string">'./chunk.js'</span>;</pre></div></div>
             
         </li>
         
@@ -1233,8 +1254,8 @@ expressed in terms of operations on an ordered list of values.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> mixin } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./mixin.js&#x27;</span>;
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./underscore-array-methods.js&#x27;</span>;</pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> mixin } <span class="hljs-keyword">from</span> <span class="hljs-string">'./mixin.js'</span>;
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'./underscore-array-methods.js'</span>;</pre></div></div>
             
         </li>
         

@@ -151,6 +151,16 @@
                 </a>
               
                 
+                <a class="source" href="_toDataView.html">
+                  modules/_toDataView.js
+                </a>
+              
+                
+                <a class="source" href="_toPath.html">
+                  modules/_toPath.js
+                </a>
+              
+                
                 <a class="source" href="_unescapeMap.html">
                   modules/_unescapeMap.js
                 </a>
@@ -318,6 +328,11 @@
                 
                 <a class="source" href="functions.html">
                   modules/functions.js
+                </a>
+              
+                
+                <a class="source" href="get.html">
+                  modules/get.js
                 </a>
               
                 
@@ -731,6 +746,11 @@
                 </a>
               
                 
+                <a class="source" href="toPath.html">
+                  modules/toPath.js
+                </a>
+              
+                
                 <a class="source" href="underscore-array-methods.html">
                   modules/underscore-array-methods.js
                 </a>
@@ -814,7 +834,7 @@
               
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">import</span> now <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./now.js&#x27;</span>;</pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">import</span> now <span class="hljs-keyword">from</span> <span class="hljs-string">'./now.js'</span>;</pre></div></div>
             
         </li>
         
@@ -849,24 +869,24 @@ but if you’d like to disable the execution on the leading edge, pass
     <span class="hljs-keyword">var</span> _now = now();
     <span class="hljs-keyword">if</span> (!previous &amp;&amp; options.leading === <span class="hljs-literal">false</span>) previous = _now;
     <span class="hljs-keyword">var</span> remaining = wait - (_now - previous);
-    context = <span class="hljs-built_in">this</span>;
+    context = <span class="hljs-keyword">this</span>;
     args = <span class="hljs-built_in">arguments</span>;
     <span class="hljs-keyword">if</span> (remaining &lt;= <span class="hljs-number">0</span> || remaining &gt; wait) {
       <span class="hljs-keyword">if</span> (timeout) {
-        <span class="hljs-built_in">clearTimeout</span>(timeout);
+        clearTimeout(timeout);
         timeout = <span class="hljs-literal">null</span>;
       }
       previous = _now;
       result = func.apply(context, args);
       <span class="hljs-keyword">if</span> (!timeout) context = args = <span class="hljs-literal">null</span>;
     } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (!timeout &amp;&amp; options.trailing !== <span class="hljs-literal">false</span>) {
-      timeout = <span class="hljs-built_in">setTimeout</span>(later, remaining);
+      timeout = <span class="hljs-keyword">set</span><span class="hljs-title">Timeout</span>(<span class="hljs-params">later, remaining</span>);
     }
-    <span class="hljs-keyword">return</span> result;
+    <span class="hljs-title">return</span> <span class="hljs-title">result</span>;
   };
 
-  throttled.cancel = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
-    <span class="hljs-built_in">clearTimeout</span>(timeout);
+  <span class="hljs-title">throttled</span>.<span class="hljs-title">cancel</span> = <span class="hljs-title">function</span>() {
+    clearTimeout(timeout);
     previous = <span class="hljs-number">0</span>;
     timeout = context = args = <span class="hljs-literal">null</span>;
   };
