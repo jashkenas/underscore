@@ -2667,6 +2667,17 @@ _.chain([1, 2, 3]).reverse().value();
             using that function from Underscore-contrib to override
             <tt>_.toPath</tt>.
           </li>
+          <li>
+            Fixes a bug in <tt>_.isEqual</tt> that caused typed arrays to
+            compare equal when viewing different segments of the same
+            underlying <tt>ArrayBuffer</tt>.
+          </li>
+          <li>
+            Speeds up <tt>_.isEqual</tt> comparison of typed arrays and
+            <tt>DataView</tt>s with idential <tt>buffer</tt>,
+            <tt>byteOffset</tt> and <tt>byteLength</tt> by omitting linear
+            byte-wise comparison of buffer contents.
+          </li>
         </ul>
       </p>
 
