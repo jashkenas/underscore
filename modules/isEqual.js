@@ -1,11 +1,12 @@
 import _ from './underscore.js';
-import { toString, SymbolProto } from './_setup.js';
+import { toString, SymbolProto, root } from './_setup.js';
 import getByteLength from './_getByteLength.js';
 import isTypedArray from './isTypedArray.js';
 import isFunction from './isFunction.js';
 import keys from './keys.js';
 import has from './_has.js';
 import toDataView from './_toDataView.js';
+import bind from './bind.js';
 
 // Internal recursive comparison function for `_.isEqual`.
 function eq(a, b, aStack, bStack) {
@@ -21,6 +22,9 @@ function eq(a, b, aStack, bStack) {
   if (type !== 'function' && type !== 'object' && typeof b != 'object') return false;
   return deepEq(a, b, aStack, bStack);
 }
+
+// Get Buffer.from function, if present(usually in node.js environment)
+var bufferFrom = root.Buffer && root.Buffer.from && bind(root.Buffer.from, root.Buffer);
 
 // Internal recursive comparison function for `_.isEqual`.
 function deepEq(a, b, aStack, bStack) {
@@ -53,6 +57,11 @@ function deepEq(a, b, aStack, bStack) {
     case '[object Symbol]':
       return SymbolProto.valueOf.call(a) === SymbolProto.valueOf.call(b);
     case '[object ArrayBuffer]':
+      // If Buffer.from function is present(usually in nodejs environments), use that as
+      // that will be faster
+      if (bufferFrom) {
+        return bufferFrom(a).equals(bufferFrom(b));
+      }
       // Coerce to `DataView` so we can fall through to the next case.
       return deepEq(toDataView(a), toDataView(b), aStack, bStack);
     case '[object DataView]':
@@ -68,6 +77,11 @@ function deepEq(a, b, aStack, bStack) {
   }
 
   if (isTypedArray(a)) {
+    // If Buffer.from function is present(usually in nodejs environments), use that as
+    // that will be faster
+    if (bufferFrom) {
+      return bufferFrom(a).equals(bufferFrom(b));
+    }
     // Coerce typed arrays to `DataView`.
     return deepEq(toDataView(a), toDataView(b), aStack, bStack);
   }

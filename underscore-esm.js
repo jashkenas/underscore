@@ -331,6 +331,43 @@ function toDataView(bufferSource) {
   );
 }
 
+// Create a naked function reference for surrogate-prototype-swapping.
+function ctor() {
+  return function(){};
+}
+
+// An internal function for creating a new object that inherits from another.
+function baseCreate(prototype) {
+  if (!isObject(prototype)) return {};
+  if (nativeCreate) return nativeCreate(prototype);
+  var Ctor = ctor();
+  Ctor.prototype = prototype;
+  var result = new Ctor;
+  Ctor.prototype = null;
+  return result;
+}
+
+// Internal function to execute `sourceFunc` bound to `context` with optional
+// `args`. Determines whether to execute a function as a constructor or as a
+// normal function.
+function executeBound(sourceFunc, boundFunc, context, callingContext, args) {
+  if (!(callingContext instanceof boundFunc)) return sourceFunc.apply(context, args);
+  var self = baseCreate(sourceFunc.prototype);
+  var result = sourceFunc.apply(self, args);
+  if (isObject(result)) return result;
+  return self;
+}
+
+// Create a function bound to a given object (assigning `this`, and arguments,
+// optionally).
+var bind = restArguments(function(func, context, args) {
+  if (!isFunction$1(func)) throw new TypeError('Bind must be called on a function');
+  var bound = restArguments(function(callArgs) {
+    return executeBound(func, bound, context, this, args.concat(callArgs));
+  });
+  return bound;
+});
+
 // Internal recursive comparison function for `_.isEqual`.
 function eq(a, b, aStack, bStack) {
   // Identical objects are equal. `0 === -0`, but they aren't identical.
@@ -345,6 +382,9 @@ function eq(a, b, aStack, bStack) {
   if (type !== 'function' && type !== 'object' && typeof b != 'object') return false;
   return deepEq(a, b, aStack, bStack);
 }
+
+// Get Buffer.from function, if present(usually in node.js environment)
+var bufferFrom = root.Buffer && root.Buffer.from && bind(root.Buffer.from, root.Buffer);
 
 // Internal recursive comparison function for `_.isEqual`.
 function deepEq(a, b, aStack, bStack) {
@@ -377,6 +417,11 @@ function deepEq(a, b, aStack, bStack) {
     case '[object Symbol]':
       return SymbolProto.valueOf.call(a) === SymbolProto.valueOf.call(b);
     case '[object ArrayBuffer]':
+      // If Buffer.from function is present(usually in nodejs environments), use that as
+      // that will be faster
+      if (bufferFrom) {
+        return bufferFrom(a).equals(bufferFrom(b));
+      }
       // Coerce to `DataView` so we can fall through to the next case.
       return deepEq(toDataView(a), toDataView(b), aStack, bStack);
     case '[object DataView]':
@@ -392,6 +437,11 @@ function deepEq(a, b, aStack, bStack) {
   }
 
   if (isTypedArray$1(a)) {
+    // If Buffer.from function is present(usually in nodejs environments), use that as
+    // that will be faster
+    if (bufferFrom) {
+      return bufferFrom(a).equals(bufferFrom(b));
+    }
     // Coerce typed arrays to `DataView`.
     return deepEq(toDataView(a), toDataView(b), aStack, bStack);
   }
@@ -540,22 +590,6 @@ var extendOwn = createAssigner(keys);
 
 // Fill in a given object with default properties.
 var defaults = createAssigner(allKeys, true);
-
-// Create a naked function reference for surrogate-prototype-swapping.
-function ctor() {
-  return function(){};
-}
-
-// An internal function for creating a new object that inherits from another.
-function baseCreate(prototype) {
-  if (!isObject(prototype)) return {};
-  if (nativeCreate) return nativeCreate(prototype);
-  var Ctor = ctor();
-  Ctor.prototype = prototype;
-  var result = new Ctor;
-  Ctor.prototype = null;
-  return result;
-}
 
 // Creates an object that inherits from the given prototype object.
 // If additional properties are provided then they will be added to the
@@ -904,17 +938,6 @@ function chain(obj) {
   return instance;
 }
 
-// Internal function to execute `sourceFunc` bound to `context` with optional
-// `args`. Determines whether to execute a function as a constructor or as a
-// normal function.
-function executeBound(sourceFunc, boundFunc, context, callingContext, args) {
-  if (!(callingContext instanceof boundFunc)) return sourceFunc.apply(context, args);
-  var self = baseCreate(sourceFunc.prototype);
-  var result = sourceFunc.apply(self, args);
-  if (isObject(result)) return result;
-  return self;
-}
-
 // Partially apply a function by creating a version that has had some of its
 // arguments pre-filled, without changing its dynamic `this` context. `_` acts
 // as a placeholder by default, allowing any combination of arguments to be
@@ -934,16 +957,6 @@ var partial = restArguments(function(func, boundArgs) {
 });
 
 partial.placeholder = _;
-
-// Create a function bound to a given object (assigning `this`, and arguments,
-// optionally).
-var bind = restArguments(function(func, context, args) {
-  if (!isFunction$1(func)) throw new TypeError('Bind must be called on a function');
-  var bound = restArguments(function(callArgs) {
-    return executeBound(func, bound, context, this, args.concat(callArgs));
-  });
-  return bound;
-});
 
 // Internal implementation of a recursive `flatten` function.
 function flatten(input, depth, strict, output) {
