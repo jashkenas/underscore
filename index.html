@@ -2657,6 +2657,16 @@ _.chain([1, 2, 3]).reverse().value();
           TODO: date
         --></i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.11.0...1.12.0">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/underscore/1.12.0/index.html">Docs</a><br />
         <ul>
+          <li>
+            Adds the <tt>_.get</tt> and <tt>_.toPath</tt> functions. The latter
+            can be overridden in order to customize the interpretation of deep
+            property paths throughout Underscore. A future version of
+            Underscore-contrib will be providing a ready-made function for this
+            purpose; users will be able to opt in to string-based path
+            shorthands such as <tt>'a.0.b'</tt> and <tt>'a[0]["b"]'</tt> by
+            using that function from Underscore-contrib to override
+            <tt>_.toPath</tt>.
+          </li>
         </ul>
       </p>
 
