@@ -384,7 +384,7 @@ function eq(a, b, aStack, bStack) {
 }
 
 // Get Buffer.from function, if present(usually in node.js environment)
-var bufferFrom = root.Buffer && root.Buffer.from && bind(root.Buffer.from, root.Buffer);
+var bufferFrom = root.Buffer && root.Buffer.from && isFunction$1(root.Buffer.from) && bind(root.Buffer.from, root.Buffer);
 
 // Internal recursive comparison function for `_.isEqual`.
 function deepEq(a, b, aStack, bStack) {
@@ -417,10 +417,10 @@ function deepEq(a, b, aStack, bStack) {
     case '[object Symbol]':
       return SymbolProto.valueOf.call(a) === SymbolProto.valueOf.call(b);
     case '[object ArrayBuffer]':
-      // If Buffer.from function is present(usually in nodejs environments), use that as
-      // that will be faster
-      if (bufferFrom) {
-        return bufferFrom(a).equals(bufferFrom(b));
+      // If equals function is present(usually in nodejs environments), on the buffer object 
+      // use that as that will be faster
+      if (isFunction$1(a.equals)) {
+        return a.equals(b);
       }
       // Coerce to `DataView` so we can fall through to the next case.
       return deepEq(toDataView(a), toDataView(b), aStack, bStack);
