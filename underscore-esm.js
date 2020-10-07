@@ -326,7 +326,7 @@ _.prototype.toString = function() {
 function toDataView(bufferSource) {
   return new DataView(
     bufferSource.buffer || bufferSource,
-    bufferSource.byteOffset,
+    bufferSource.byteOffset || 0,
     getByteLength(bufferSource)
   );
 }
