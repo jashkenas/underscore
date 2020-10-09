@@ -499,8 +499,9 @@
       difference = time48 - time0;
       assert.ok(difference >= 48, 'time48 is ' + difference + ' ms after time0');
       debouncedIncr();
+      _.delay(finish, 80);
     }, 48);
-    _.delay(function(){
+    var finish = function(){
       time128 = _.now();
       difference = time128 - time0;
       assert.ok(difference >= 128, 'time128 is ' + difference + ' ms after time0');
@@ -511,7 +512,7 @@
       assert.strictEqual(c, 2);
       assert.strictEqual(counter, 2, 'incr was called again');
       done();
-    }, 128);
+    };
   });
 
   QUnit.test('debounce asap cancel', function(assert) {
