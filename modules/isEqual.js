@@ -5,7 +5,7 @@ import isTypedArray from './isTypedArray.js';
 import isFunction from './isFunction.js';
 import keys from './keys.js';
 import has from './_has.js';
-import toDataView from './_toDataView.js';
+import toBufferView from './_toBufferView.js';
 
 // Internal recursive comparison function for `_.isEqual`.
 function eq(a, b, aStack, bStack) {
@@ -53,26 +53,18 @@ function deepEq(a, b, aStack, bStack) {
     case '[object Symbol]':
       return SymbolProto.valueOf.call(a) === SymbolProto.valueOf.call(b);
     case '[object ArrayBuffer]':
-      // Coerce to `DataView` so we can fall through to the next case.
-      return deepEq(toDataView(a), toDataView(b), aStack, bStack);
     case '[object DataView]':
-      var byteLength = getByteLength(a);
-      if (byteLength !== getByteLength(b)) return false;
-      if (a.buffer === b.buffer && a.byteOffset === b.byteOffset) return true;
-      while (byteLength--) {
-        if (a.getUint8(byteLength) !== b.getUint8(byteLength)) {
-          return false;
-        }
-      }
-      return true;
-  }
-
-  if (isTypedArray(a)) {
-    // Coerce typed arrays to `DataView`.
-    return deepEq(toDataView(a), toDataView(b), aStack, bStack);
+      // Coerce to typed array so we can fall through.
+      return deepEq(toBufferView(a), toBufferView(b), aStack, bStack);
   }
 
   var areArrays = className === '[object Array]';
+  if (!areArrays && isTypedArray(a)) {
+      var byteLength = getByteLength(a);
+      if (byteLength !== getByteLength(b)) return false;
+      if (a.buffer === b.buffer && a.byteOffset === b.byteOffset) return true;
+      areArrays = true;
+  }
   if (!areArrays) {
     if (typeof a != 'object' || typeof b != 'object') return false;
 
