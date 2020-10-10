@@ -480,10 +480,9 @@
   });
 
   QUnit.test('debounce asap', function(assert) {
-    assert.expect(9);
+    assert.expect(6);
     var done = assert.async();
     var a, b, c;
-    var time0 = _.now(), time48, time128, difference;
     var counter = 0;
     var incr = function(){ return ++counter; };
     var debouncedIncr = _.debounce(incr, 64, true);
@@ -495,18 +494,10 @@
     _.delay(debouncedIncr, 16);
     _.delay(debouncedIncr, 32);
     _.delay(function() {
-      time48 = _.now();
-      difference = time48 - time0;
-      assert.ok(difference >= 48, 'time48 is ' + difference + ' ms after time0');
       debouncedIncr();
       _.delay(finish, 80);
     }, 48);
     var finish = function(){
-      time128 = _.now();
-      difference = time128 - time0;
-      assert.ok(difference >= 128, 'time128 is ' + difference + ' ms after time0');
-      difference = time128 - time48;
-      assert.ok(difference >= 64, 'time128 is ' + difference + ' ms after time48');
       assert.strictEqual(counter, 1, 'incr was debounced');
       c = debouncedIncr();
       assert.strictEqual(c, 2);
@@ -572,17 +563,14 @@
   });
 
   QUnit.test('debounce re-entrant', function(assert) {
-    assert.expect(6);
+    assert.expect(2);
     var done = assert.async();
     var sequence = [
       ['b1', 'b2']
     ];
     var value = '';
-    var start = _.now(), firstInvocation, lastInvocation, end;
     var debouncedAppend;
     var append = function(arg){
-      lastInvocation = _.now();
-      firstInvocation || (firstInvocation = lastInvocation);
       value += this + arg;
       var args = sequence.pop();
       if (args) {
@@ -593,15 +581,6 @@
     debouncedAppend.call('a1', 'a2');
     assert.strictEqual(value, '');
     _.delay(function(){
-      end = _.now();
-      var difference = firstInvocation - start;
-      assert.ok(difference >= 32, 'firstInvocation - start is ' + difference);
-      difference = lastInvocation - firstInvocation;
-      assert.ok(difference >= 32, 'lastInvocation - firstInvocation is ' + difference);
-      difference = end - start;
-      assert.ok(difference >= 100, 'end - start is ' + difference);
-      difference = end - lastInvocation;
-      assert.ok(difference >= 0, 'end - lastInvocation is ' + difference);
       assert.strictEqual(value, 'a1a2b1b2', 'append was debounced successfully');
       done();
     }, 100);

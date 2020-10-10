@@ -744,7 +744,6 @@
     if (typeof Map === 'function') {
       var keyString = 'a string';
       var obj = new Map();
-      assert.equal(Object.prototype.toString.call(obj), '[object Map]', 'Map has the appropriate string tag');
       obj.set(keyString, "value associated with 'a string'");
       assert.ok(_.isMap(obj), 'but a map is');
     }
@@ -768,7 +767,6 @@
     }
     if (typeof WeakMap === 'function') {
       var keyObj = {}, obj = new WeakMap();
-      assert.equal(Object.prototype.toString.call(obj), '[object WeakMap]', 'WeakMap has the appropriate string tag');
       obj.set(keyObj, 'value');
       assert.ok(_.isWeakMap(obj), 'but a weakmap is');
     }
@@ -792,7 +790,6 @@
     }
     if (typeof Set === 'function') {
       var obj = new Set([1, 2, 3, 4, 5]);
-      assert.equal(Object.prototype.toString.call(obj), '[object Set]', 'Set has the appropriate string tag');
       assert.ok(_.isSet(obj), 'but a set is');
     }
   });
@@ -936,7 +933,6 @@
       // Some older browsers support typed arrays but not DataView.
       if (typeof DataView !== 'undefined') {
         checkValues['a DataView'] = new DataView(buffer);
-        assert.equal(Object.prototype.toString.call(checkValues['a DataView']), '[object DataView]', 'DataView has an appropriate string tag');
       }
       var types = ['an ArrayBuffer', 'a DataView', 'a TypedArray'];
       _.each(types, function(type) {
