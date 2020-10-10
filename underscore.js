@@ -34,7 +34,8 @@
       hasOwnProperty = ObjProto.hasOwnProperty;
 
   // Modern feature detection.
-  var supportsArrayBuffer = typeof ArrayBuffer !== 'undefined';
+  var supportsArrayBuffer = typeof ArrayBuffer !== 'undefined',
+      supportsDataView = typeof DataView !== 'undefined';
 
   // All **ECMAScript 5+** native function implementations that we hope to use
   // are declared here.
@@ -128,17 +129,31 @@
 
   var isSymbol = tagTester('Symbol');
 
-  var isMap = tagTester('Map');
-
-  var isWeakMap = tagTester('WeakMap');
-
-  var isSet = tagTester('Set');
-
-  var isWeakSet = tagTester('WeakSet');
-
   var isArrayBuffer = tagTester('ArrayBuffer');
 
+  var hasObjectTag = tagTester('Object');
+
+  // In IE 10 - Edge 13, `DataView` has string tag `'[object Object]'`.
+  // In IE 11, the most common among them, this problem also applies to
+  // `Map`, `WeakMap` and `Set`.
+  var hasStringTagBug = (
+        supportsDataView && hasObjectTag(new DataView(new ArrayBuffer(8)))
+      ),
+      isIE11 = (typeof Map !== 'undefined' && hasObjectTag(new Map));
+
   var isDataView = tagTester('DataView');
+
+  // In IE 10 - Edge 13, we need a different heuristic
+  // to determine whether an object is a `DataView`.
+  function ie10IsDataView(obj) {
+    return (
+      obj != null &&
+      typeof obj.getInt8 == 'function' &&
+      isArrayBuffer(obj.buffer)
+    );
+  }
+
+  var isDataView$1 = (hasStringTagBug ? ie10IsDataView : isDataView);
 
   // Is a given value an array?
   // Delegates to ECMA5's native `Array.isArray`.
@@ -220,7 +235,7 @@
   function isTypedArray(obj) {
     // `ArrayBuffer.isView` is the most future-proof, so use it when available.
     // Otherwise, fall back on the above regular expression.
-    return nativeIsView ? (nativeIsView(obj) && !isDataView(obj)) :
+    return nativeIsView ? (nativeIsView(obj) && !isDataView$1(obj)) :
                   isBufferLike(obj) && typedArrayPattern.test(toString.call(obj));
   }
 
@@ -340,6 +355,9 @@
     );
   }
 
+  // We use this string twice, so give it a name for minification.
+  var tagDataView = '[object DataView]';
+
   // Internal recursive comparison function for `_.isEqual`.
   function eq(a, b, aStack, bStack) {
     // Identical objects are equal. `0 === -0`, but they aren't identical.
@@ -363,6 +381,11 @@
     // Compare `[[Class]]` names.
     var className = toString.call(a);
     if (className !== toString.call(b)) return false;
+    // Work around a bug in IE 10 - Edge 13.
+    if (hasStringTagBug && className == '[object Object]' && isDataView$1(a)) {
+      if (!isDataView$1(b)) return false;
+      className = tagDataView;
+    }
     switch (className) {
       // These types are compared by value.
       case '[object RegExp]':
@@ -386,7 +409,7 @@
       case '[object Symbol]':
         return SymbolProto.valueOf.call(a) === SymbolProto.valueOf.call(b);
       case '[object ArrayBuffer]':
-      case '[object DataView]':
+      case tagDataView:
         // Coerce to typed array so we can fall through.
         return deepEq(toBufferView(a), toBufferView(b), aStack, bStack);
     }
@@ -460,6 +483,46 @@
     return eq(a, b);
   }
 
+  // Return a sorted list of the function names available on the object.
+  function functions(obj) {
+    var names = [];
+    for (var key in obj) {
+      if (isFunction$1(obj[key])) names.push(key);
+    }
+    return names.sort();
+  }
+
+  // Since the regular `Object.prototype.toString` type tests don't work for
+  // some types in IE 11, we use a fingerprinting heuristic instead, based
+  // on the methods. It's not great, but it's the best we got.
+  // The fingerprint method lists are defined below.
+  function ie11fingerprint(methods) {
+    return function(obj) {
+      return obj != null && isEqual(functions(obj), methods);
+    };
+  }
+
+  // In the interest of compact minification, we write
+  // each string in the fingerprints only once.
+  var forEachName = 'forEach',
+      hasName = 'has',
+      commonInit = ['clear', 'delete'],
+      mapTail = ['get', hasName, 'set'];
+
+  // `Map`, `WeakMap` and `Set` each have slightly different
+  // combinations of the above sublists.
+  var mapMethods = [commonInit].concat(forEachName, mapTail),
+      weakMapMethods = [commonInit].concat(mapTail),
+      setMethods = ['add'].concat(commonInit, forEachName, hasName);
+
+  var isMap = isIE11 ? ie11fingerprint(mapMethods) : tagTester('Map');
+
+  var isWeakMap = isIE11 ? ie11fingerprint(weakMapMethods) : tagTester('WeakMap');
+
+  var isSet = isIE11 ? ie11fingerprint(setMethods) : tagTester('Set');
+
+  var isWeakSet = tagTester('WeakSet');
+
   // Retrieve all the enumerable property names of an object.
   function allKeys(obj) {
     if (!isObject(obj)) return [];
@@ -501,15 +564,6 @@
       result[obj[_keys[i]]] = _keys[i];
     }
     return result;
-  }
-
-  // Return a sorted list of the function names available on the object.
-  function functions(obj) {
-    var names = [];
-    for (var key in obj) {
-      if (isFunction$1(obj[key])) names.push(key);
-    }
-    return names.sort();
   }
 
   // An internal function for creating assigner functions.
@@ -1809,12 +1863,8 @@
     isRegExp: isRegExp,
     isError: isError,
     isSymbol: isSymbol,
-    isMap: isMap,
-    isWeakMap: isWeakMap,
-    isSet: isSet,
-    isWeakSet: isWeakSet,
     isArrayBuffer: isArrayBuffer,
-    isDataView: isDataView,
+    isDataView: isDataView$1,
     isArray: isArray,
     isFunction: isFunction$1,
     isArguments: isArguments$1,
@@ -1824,6 +1874,10 @@
     isEmpty: isEmpty,
     isMatch: isMatch,
     isEqual: isEqual,
+    isMap: isMap,
+    isWeakMap: isWeakMap,
+    isSet: isSet,
+    isWeakSet: isWeakSet,
     keys: keys,
     allKeys: allKeys,
     values: values,

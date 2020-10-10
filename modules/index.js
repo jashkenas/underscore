@@ -28,10 +28,6 @@ export { default as isDate } from './isDate.js';
 export { default as isRegExp } from './isRegExp.js';
 export { default as isError } from './isError.js';
 export { default as isSymbol } from './isSymbol.js';
-export { default as isMap } from './isMap.js';
-export { default as isWeakMap } from './isWeakMap.js';
-export { default as isSet } from './isSet.js';
-export { default as isWeakSet } from './isWeakSet.js';
 export { default as isArrayBuffer } from './isArrayBuffer.js';
 export { default as isDataView } from './isDataView.js';
 export { default as isArray } from './isArray.js';
@@ -43,6 +39,10 @@ export { default as isTypedArray } from './isTypedArray.js';
 export { default as isEmpty } from './isEmpty.js';
 export { default as isMatch } from './isMatch.js';
 export { default as isEqual } from './isEqual.js';
+export { default as isMap } from './isMap.js';
+export { default as isWeakMap } from './isWeakMap.js';
+export { default as isSet } from './isSet.js';
+export { default as isWeakSet } from './isWeakSet.js';
 
 // Functions that treat an object as a dictionary of key-value pairs.
 export { default as keys } from './keys.js';
