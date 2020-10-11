@@ -218,7 +218,7 @@
     throttledUpdate(1); throttledUpdate(2);
     _.delay(function(){ throttledUpdate(3); }, 64);
     assert.strictEqual(value, 1, 'updated to latest value');
-    _.delay(function(){ assert.strictEqual(value, 3, 'updated to latest value'); done(); }, 96);
+    _.delay(function(){ assert.strictEqual(value, 3, 'updated to latest value'); done(); }, 104);
   });
 
   QUnit.test('throttle once', function(assert) {
@@ -281,7 +281,7 @@
       assert.strictEqual(results[4], 2, 'incr was throttled');
       assert.strictEqual(results[5], 3, 'incr was called trailing');
       done();
-    }, 300);
+    }, 304);
   });
 
   QUnit.test('throttle triggers trailing call when invoked repeatedly', function(assert) {
@@ -428,7 +428,7 @@
     _.delay(function(){
       assert.strictEqual(value, 'a1a2c1c2b1b2', 'append was throttled successfully');
       done();
-    }, 100);
+    }, 104);
   });
 
   QUnit.test('throttle cancel', function(assert) {
