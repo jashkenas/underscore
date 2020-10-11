@@ -16,6 +16,11 @@ export function ie11fingerprint(methods) {
     for (var i = 0; i < length; i++) {
       if (!isFunction(obj[methods[i]])) return false;
     }
+    // Special case for Map != WeakMap.
+    if (
+      methods === weakMapMethods &&
+      isFunction(obj[forEachName])
+    ) return false;
     return true;
   };
 }

@@ -507,6 +507,11 @@
       for (var i = 0; i < length; i++) {
         if (!isFunction$1(obj[methods[i]])) return false;
       }
+      // Special case for Map != WeakMap.
+      if (
+        methods === weakMapMethods &&
+        isFunction$1(obj[forEachName])
+      ) return false;
       return true;
     };
   }
