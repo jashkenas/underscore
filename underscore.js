@@ -131,6 +131,19 @@
 
   var isArrayBuffer = tagTester('ArrayBuffer');
 
+  var isFunction = tagTester('Function');
+
+  // Optimize `isFunction` if appropriate. Work around some `typeof` bugs in old
+  // v8, IE 11 (#1621), Safari 8 (#1929), and PhantomJS (#2236).
+  var nodelist = root.document && root.document.childNodes;
+  if (typeof /./ != 'function' && typeof Int8Array != 'object' && typeof nodelist != 'function') {
+    isFunction = function(obj) {
+      return typeof obj == 'function' || false;
+    };
+  }
+
+  var isFunction$1 = isFunction;
+
   var hasObjectTag = tagTester('Object');
 
   // In IE 10 - Edge 13, `DataView` has string tag `'[object Object]'`.
@@ -146,11 +159,7 @@
   // In IE 10 - Edge 13, we need a different heuristic
   // to determine whether an object is a `DataView`.
   function ie10IsDataView(obj) {
-    return (
-      obj != null &&
-      typeof obj.getInt8 == 'function' &&
-      isArrayBuffer(obj.buffer)
-    );
+    return obj != null && isFunction$1(obj.getInt8) && isArrayBuffer(obj.buffer);
   }
 
   var isDataView$1 = (hasStringTagBug ? ie10IsDataView : isDataView);
@@ -158,19 +167,6 @@
   // Is a given value an array?
   // Delegates to ECMA5's native `Array.isArray`.
   var isArray = nativeIsArray || tagTester('Array');
-
-  var isFunction = tagTester('Function');
-
-  // Optimize `isFunction` if appropriate. Work around some `typeof` bugs in old
-  // v8, IE 11 (#1621), Safari 8 (#1929), and PhantomJS (#2236).
-  var nodelist = root.document && root.document.childNodes;
-  if (typeof /./ != 'function' && typeof Int8Array != 'object' && typeof nodelist != 'function') {
-    isFunction = function(obj) {
-      return typeof obj == 'function' || false;
-    };
-  }
-
-  var isFunction$1 = isFunction;
 
   // Internal function to check whether `key` is an own property name of `obj`.
   function has(obj, key) {
@@ -507,12 +503,10 @@
       for (var i = 0; i < length; i++) {
         if (!isFunction$1(obj[methods[i]])) return false;
       }
-      // Special case for Map != WeakMap.
-      if (
-        methods === weakMapMethods &&
-        isFunction$1(obj[forEachName])
-      ) return false;
-      return true;
+      // If we are testing against `WeakMap`, we need to ensure that
+      // `obj` doesn't have a `forEach` method in order to distinguish
+      // it from a regular `Map`.
+      return methods !== weakMapMethods || !isFunction$1(obj[forEachName]);
     };
   }
 
