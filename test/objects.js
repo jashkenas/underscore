@@ -745,10 +745,16 @@
       var keyString = 'a string';
       var obj = new Map();
       obj.set(keyString, "value associated with 'a string'");
+      var required = ['clear', 'delete', 'forEach', 'get', 'has', 'set'];
+      var taboo = ['add'];
+      assert.deepEqual(_.allKeys(obj), [], 'has no enumerable keys');
+      _.each(required, function(key) {
+        assert.ok(_.isFunction(obj[key]), 'has method ' + key);
+      });
+      _.each(taboo, function(key) {
+        assert.notOk(_.isFunction(obj[key]), 'has no method ' + key);
+      });
       assert.ok(_.isMap(obj), 'but a map is');
-      if (Object.prototype.toString.call(obj) == '[object Object]') {
-        assert.equal(_.functions(obj), ['clear', 'delete', 'forEach', 'get', 'has', 'set'], 'has expected methods for IE 11');
-      }
     }
   });
 
@@ -771,10 +777,16 @@
     if (typeof WeakMap === 'function') {
       var keyObj = {}, obj = new WeakMap();
       obj.set(keyObj, 'value');
+      var required = ['delete', 'get', 'has', 'set'];
+      var taboo = ['add', 'forEach'];
+      assert.deepEqual(_.allKeys(obj), [], 'has no enumerable keys');
+      _.each(required, function(key) {
+        assert.ok(_.isFunction(obj[key]), 'has method ' + key);
+      });
+      _.each(taboo, function(key) {
+        assert.notOk(_.isFunction(obj[key]), 'has no method ' + key);
+      });
       assert.ok(_.isWeakMap(obj), 'but a weakmap is');
-      if (Object.prototype.toString.call(obj) == '[object Object]') {
-        assert.equal(_.functions(obj), ['clear', 'delete', 'get', 'has', 'set'], 'has expected methods for IE 11');
-      }
     }
   });
 
@@ -796,10 +808,16 @@
     }
     if (typeof Set === 'function') {
       var obj = new Set([1, 2, 3, 4, 5]);
+      var required = ['add', 'clear', 'delete', 'forEach', 'has'];
+      var taboo = ['get', 'set'];
+      assert.deepEqual(_.allKeys(obj), [], 'has no enumerable keys');
+      _.each(required, function(key) {
+        assert.ok(_.isFunction(obj[key]), 'has method ' + key);
+      });
+      _.each(taboo, function(key) {
+        assert.notOk(_.isFunction(obj[key]), 'has no method ' + key);
+      });
       assert.ok(_.isSet(obj), 'but a set is');
-      if (Object.prototype.toString.call(obj) == '[object Object]') {
-        assert.equal(_.functions(obj), ['add', 'clear', 'delete', 'forEach', 'has'], 'has expected methods for IE 11');
-      }
     }
   });
 
