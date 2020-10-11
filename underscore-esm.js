@@ -474,13 +474,14 @@ function isEqual(a, b) {
   return eq(a, b);
 }
 
-// Return a sorted list of the function names available on the object.
-function functions(obj) {
-  var names = [];
-  for (var key in obj) {
-    if (isFunction$1(obj[key])) names.push(key);
-  }
-  return names.sort();
+// Retrieve all the enumerable property names of an object.
+function allKeys(obj) {
+  if (!isObject(obj)) return [];
+  var keys = [];
+  for (var key in obj) keys.push(key);
+  // Ahem, IE < 9.
+  if (hasEnumBug) collectNonEnumProps(obj, keys);
+  return keys;
 }
 
 // Since the regular `Object.prototype.toString` type tests don't work for
@@ -488,8 +489,16 @@ function functions(obj) {
 // on the methods. It's not great, but it's the best we got.
 // The fingerprint method lists are defined below.
 function ie11fingerprint(methods) {
+  var length = getLength(methods);
   return function(obj) {
-    return obj != null && isEqual(functions(obj), methods);
+    if (obj == null) return false;
+    // `Map`, `WeakMap` and `Set` have no enumerable keys.
+    var keys = allKeys(obj);
+    if (getLength(keys)) return false;
+    for (var i = 0; i < length; i++) {
+      if (!isFunction$1(obj[methods[i]])) return false;
+    }
+    return true;
   };
 }
 
@@ -502,8 +511,8 @@ var forEachName = 'forEach',
 
 // `Map`, `WeakMap` and `Set` each have slightly different
 // combinations of the above sublists.
-var mapMethods = [commonInit].concat(forEachName, mapTail),
-    weakMapMethods = [commonInit].concat(mapTail),
+var mapMethods = commonInit.concat(forEachName, mapTail),
+    weakMapMethods = commonInit.concat(mapTail),
     setMethods = ['add'].concat(commonInit, forEachName, hasName);
 
 var isMap = isIE11 ? ie11fingerprint(mapMethods) : tagTester('Map');
@@ -513,16 +522,6 @@ var isWeakMap = isIE11 ? ie11fingerprint(weakMapMethods) : tagTester('WeakMap');
 var isSet = isIE11 ? ie11fingerprint(setMethods) : tagTester('Set');
 
 var isWeakSet = tagTester('WeakSet');
-
-// Retrieve all the enumerable property names of an object.
-function allKeys(obj) {
-  if (!isObject(obj)) return [];
-  var keys = [];
-  for (var key in obj) keys.push(key);
-  // Ahem, IE < 9.
-  if (hasEnumBug) collectNonEnumProps(obj, keys);
-  return keys;
-}
 
 // Retrieve the values of an object's properties.
 function values(obj) {
@@ -555,6 +554,15 @@ function invert(obj) {
     result[obj[_keys[i]]] = _keys[i];
   }
   return result;
+}
+
+// Return a sorted list of the function names available on the object.
+function functions(obj) {
+  var names = [];
+  for (var key in obj) {
+    if (isFunction$1(obj[key])) names.push(key);
+  }
+  return names.sort();
 }
 
 // An internal function for creating assigner functions.

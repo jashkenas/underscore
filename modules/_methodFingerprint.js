@@ -1,13 +1,22 @@
-import isEqual from './isEqual.js';
-import functions from './functions.js';
+import getLength from './_getLength.js';
+import isFunction from './isFunction.js';
+import allKeys from './allKeys.js';
 
 // Since the regular `Object.prototype.toString` type tests don't work for
 // some types in IE 11, we use a fingerprinting heuristic instead, based
 // on the methods. It's not great, but it's the best we got.
 // The fingerprint method lists are defined below.
 export function ie11fingerprint(methods) {
+  var length = getLength(methods);
   return function(obj) {
-    return obj != null && isEqual(functions(obj), methods);
+    if (obj == null) return false;
+    // `Map`, `WeakMap` and `Set` have no enumerable keys.
+    var keys = allKeys(obj);
+    if (getLength(keys)) return false;
+    for (var i = 0; i < length; i++) {
+      if (!isFunction(obj[methods[i]])) return false;
+    }
+    return true;
   };
 }
 
@@ -20,6 +29,6 @@ var forEachName = 'forEach',
 
 // `Map`, `WeakMap` and `Set` each have slightly different
 // combinations of the above sublists.
-export var mapMethods = [commonInit].concat(forEachName, mapTail),
-    weakMapMethods = [commonInit].concat(mapTail),
+export var mapMethods = commonInit.concat(forEachName, mapTail),
+    weakMapMethods = commonInit.concat(mapTail),
     setMethods = ['add'].concat(commonInit, forEachName, hasName);
