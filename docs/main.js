@@ -8,9 +8,7 @@
   }
 
   function strIn(a, b) {
-    a = a.toLowerCase();
-    b = b.toLowerCase();
-    return b.indexOf(a) >= 0;
+    return b.toLowerCase().indexOf(a.toLowerCase()) >= 0;
   }
 
   function doesMatch(element) {
