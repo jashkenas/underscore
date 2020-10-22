@@ -25,7 +25,8 @@ var push = ArrayProto.push,
     hasOwnProperty = ObjProto.hasOwnProperty;
 
 // Modern feature detection.
-var supportsArrayBuffer = typeof ArrayBuffer !== 'undefined';
+var supportsArrayBuffer = typeof ArrayBuffer !== 'undefined',
+    supportsDataView = typeof DataView !== 'undefined';
 
 // All **ECMAScript 5+** native function implementations that we hope to use
 // are declared here.
@@ -119,21 +120,7 @@ var isError = tagTester('Error');
 
 var isSymbol = tagTester('Symbol');
 
-var isMap = tagTester('Map');
-
-var isWeakMap = tagTester('WeakMap');
-
-var isSet = tagTester('Set');
-
-var isWeakSet = tagTester('WeakSet');
-
 var isArrayBuffer = tagTester('ArrayBuffer');
-
-var isDataView = tagTester('DataView');
-
-// Is a given value an array?
-// Delegates to ECMA5's native `Array.isArray`.
-var isArray = nativeIsArray || tagTester('Array');
 
 var isFunction = tagTester('Function');
 
@@ -147,6 +134,30 @@ if (typeof /./ != 'function' && typeof Int8Array != 'object' && typeof nodelist 
 }
 
 var isFunction$1 = isFunction;
+
+var hasObjectTag = tagTester('Object');
+
+// In IE 10 - Edge 13, `DataView` has string tag `'[object Object]'`.
+// In IE 11, the most common among them, this problem also applies to
+// `Map`, `WeakMap` and `Set`.
+var hasStringTagBug = (
+      supportsDataView && hasObjectTag(new DataView(new ArrayBuffer(8)))
+    ),
+    isIE11 = (typeof Map !== 'undefined' && hasObjectTag(new Map));
+
+var isDataView = tagTester('DataView');
+
+// In IE 10 - Edge 13, we need a different heuristic
+// to determine whether an object is a `DataView`.
+function ie10IsDataView(obj) {
+  return obj != null && isFunction$1(obj.getInt8) && isArrayBuffer(obj.buffer);
+}
+
+var isDataView$1 = (hasStringTagBug ? ie10IsDataView : isDataView);
+
+// Is a given value an array?
+// Delegates to ECMA5's native `Array.isArray`.
+var isArray = nativeIsArray || tagTester('Array');
 
 // Internal function to check whether `key` is an own property name of `obj`.
 function has(obj, key) {
@@ -211,7 +222,7 @@ var typedArrayPattern = /\[object ((I|Ui)nt(8|16|32)|Float(32|64)|Uint8Clamped|B
 function isTypedArray(obj) {
   // `ArrayBuffer.isView` is the most future-proof, so use it when available.
   // Otherwise, fall back on the above regular expression.
-  return nativeIsView ? (nativeIsView(obj) && !isDataView(obj)) :
+  return nativeIsView ? (nativeIsView(obj) && !isDataView$1(obj)) :
                 isBufferLike(obj) && typedArrayPattern.test(toString.call(obj));
 }
 
@@ -322,14 +333,17 @@ _.prototype.toString = function() {
 };
 
 // Internal function to wrap or shallow-copy an ArrayBuffer,
-// typed array or DataView to a new DataView, reusing the buffer.
-function toDataView(bufferSource) {
-  return new DataView(
+// typed array or DataView to a new view, reusing the buffer.
+function toBufferView(bufferSource) {
+  return new Uint8Array(
     bufferSource.buffer || bufferSource,
-    bufferSource.byteOffset,
+    bufferSource.byteOffset || 0,
     getByteLength(bufferSource)
   );
 }
+
+// We use this string twice, so give it a name for minification.
+var tagDataView = '[object DataView]';
 
 // Internal recursive comparison function for `_.isEqual`.
 function eq(a, b, aStack, bStack) {
@@ -354,6 +368,11 @@ function deepEq(a, b, aStack, bStack) {
   // Compare `[[Class]]` names.
   var className = toString.call(a);
   if (className !== toString.call(b)) return false;
+  // Work around a bug in IE 10 - Edge 13.
+  if (hasStringTagBug && className == '[object Object]' && isDataView$1(a)) {
+    if (!isDataView$1(b)) return false;
+    className = tagDataView;
+  }
   switch (className) {
     // These types are compared by value.
     case '[object RegExp]':
@@ -377,26 +396,18 @@ function deepEq(a, b, aStack, bStack) {
     case '[object Symbol]':
       return SymbolProto.valueOf.call(a) === SymbolProto.valueOf.call(b);
     case '[object ArrayBuffer]':
-      // Coerce to `DataView` so we can fall through to the next case.
-      return deepEq(toDataView(a), toDataView(b), aStack, bStack);
-    case '[object DataView]':
-      var byteLength = getByteLength(a);
-      if (byteLength !== getByteLength(b)) return false;
-      if (a.buffer === b.buffer && a.byteOffset === b.byteOffset) return true;
-      while (byteLength--) {
-        if (a.getUint8(byteLength) !== b.getUint8(byteLength)) {
-          return false;
-        }
-      }
-      return true;
-  }
-
-  if (isTypedArray$1(a)) {
-    // Coerce typed arrays to `DataView`.
-    return deepEq(toDataView(a), toDataView(b), aStack, bStack);
+    case tagDataView:
+      // Coerce to typed array so we can fall through.
+      return deepEq(toBufferView(a), toBufferView(b), aStack, bStack);
   }
 
   var areArrays = className === '[object Array]';
+  if (!areArrays && isTypedArray$1(a)) {
+      var byteLength = getByteLength(a);
+      if (byteLength !== getByteLength(b)) return false;
+      if (a.buffer === b.buffer && a.byteOffset === b.byteOffset) return true;
+      areArrays = true;
+  }
   if (!areArrays) {
     if (typeof a != 'object' || typeof b != 'object') return false;
 
@@ -468,6 +479,48 @@ function allKeys(obj) {
   if (hasEnumBug) collectNonEnumProps(obj, keys);
   return keys;
 }
+
+// Since the regular `Object.prototype.toString` type tests don't work for
+// some types in IE 11, we use a fingerprinting heuristic instead, based
+// on the methods. It's not great, but it's the best we got.
+// The fingerprint method lists are defined below.
+function ie11fingerprint(methods) {
+  var length = getLength(methods);
+  return function(obj) {
+    if (obj == null) return false;
+    // `Map`, `WeakMap` and `Set` have no enumerable keys.
+    var keys = allKeys(obj);
+    if (getLength(keys)) return false;
+    for (var i = 0; i < length; i++) {
+      if (!isFunction$1(obj[methods[i]])) return false;
+    }
+    // If we are testing against `WeakMap`, we need to ensure that
+    // `obj` doesn't have a `forEach` method in order to distinguish
+    // it from a regular `Map`.
+    return methods !== weakMapMethods || !isFunction$1(obj[forEachName]);
+  };
+}
+
+// In the interest of compact minification, we write
+// each string in the fingerprints only once.
+var forEachName = 'forEach',
+    hasName = 'has',
+    commonInit = ['clear', 'delete'],
+    mapTail = ['get', hasName, 'set'];
+
+// `Map`, `WeakMap` and `Set` each have slightly different
+// combinations of the above sublists.
+var mapMethods = commonInit.concat(forEachName, mapTail),
+    weakMapMethods = commonInit.concat(mapTail),
+    setMethods = ['add'].concat(commonInit, forEachName, hasName);
+
+var isMap = isIE11 ? ie11fingerprint(mapMethods) : tagTester('Map');
+
+var isWeakMap = isIE11 ? ie11fingerprint(weakMapMethods) : tagTester('WeakMap');
+
+var isSet = isIE11 ? ie11fingerprint(setMethods) : tagTester('Set');
+
+var isWeakSet = tagTester('WeakSet');
 
 // Retrieve the values of an object's properties.
 function values(obj) {
@@ -1808,12 +1861,8 @@ var allExports = {
   isRegExp: isRegExp,
   isError: isError,
   isSymbol: isSymbol,
-  isMap: isMap,
-  isWeakMap: isWeakMap,
-  isSet: isSet,
-  isWeakSet: isWeakSet,
   isArrayBuffer: isArrayBuffer,
-  isDataView: isDataView,
+  isDataView: isDataView$1,
   isArray: isArray,
   isFunction: isFunction$1,
   isArguments: isArguments$1,
@@ -1823,6 +1872,10 @@ var allExports = {
   isEmpty: isEmpty,
   isMatch: isMatch,
   isEqual: isEqual,
+  isMap: isMap,
+  isWeakMap: isWeakMap,
+  isSet: isSet,
+  isWeakSet: isWeakSet,
   keys: keys,
   allKeys: allKeys,
   values: values,
@@ -1953,5 +2006,5 @@ _$1._ = _$1;
 // ESM Exports
 
 export default _$1;
-export { VERSION, after, every as all, allKeys, some as any, extendOwn as assign, before, bind, bindAll, chain, chunk, clone, map as collect, compact, compose, constant, contains, countBy, create, debounce, defaults, defer, delay, find as detect, difference, rest as drop, each, _escape as escape, every, extend, extendOwn, filter, find, findIndex, findKey, findLastIndex, findWhere, first, flatten$1 as flatten, reduce as foldl, reduceRight as foldr, each as forEach, functions, get, groupBy, has$1 as has, first as head, identity, contains as include, contains as includes, indexBy, indexOf, initial, reduce as inject, intersection, invert, invoke, isArguments$1 as isArguments, isArray, isArrayBuffer, isBoolean, isDataView, isDate, isElement, isEmpty, isEqual, isError, isFinite$1 as isFinite, isFunction$1 as isFunction, isMap, isMatch, isNaN$1 as isNaN, isNull, isNumber, isObject, isRegExp, isSet, isString, isSymbol, isTypedArray$1 as isTypedArray, isUndefined, isWeakMap, isWeakSet, iteratee, keys, last, lastIndexOf, map, mapObject, matcher, matcher as matches, max, memoize, functions as methods, min, mixin, negate, noop, now, object, omit, once, pairs, partial, partition, pick, pluck, property, propertyOf, random, range, reduce, reduceRight, reject, rest, restArguments, result, sample, filter as select, shuffle, size, some, sortBy, sortedIndex, rest as tail, first as take, tap, template, templateSettings, throttle, times, toArray, toPath, unzip as transpose, _unescape as unescape, union, uniq, uniq as unique, uniqueId, unzip, values, where, without, wrap, zip };
+export { VERSION, after, every as all, allKeys, some as any, extendOwn as assign, before, bind, bindAll, chain, chunk, clone, map as collect, compact, compose, constant, contains, countBy, create, debounce, defaults, defer, delay, find as detect, difference, rest as drop, each, _escape as escape, every, extend, extendOwn, filter, find, findIndex, findKey, findLastIndex, findWhere, first, flatten$1 as flatten, reduce as foldl, reduceRight as foldr, each as forEach, functions, get, groupBy, has$1 as has, first as head, identity, contains as include, contains as includes, indexBy, indexOf, initial, reduce as inject, intersection, invert, invoke, isArguments$1 as isArguments, isArray, isArrayBuffer, isBoolean, isDataView$1 as isDataView, isDate, isElement, isEmpty, isEqual, isError, isFinite$1 as isFinite, isFunction$1 as isFunction, isMap, isMatch, isNaN$1 as isNaN, isNull, isNumber, isObject, isRegExp, isSet, isString, isSymbol, isTypedArray$1 as isTypedArray, isUndefined, isWeakMap, isWeakSet, iteratee, keys, last, lastIndexOf, map, mapObject, matcher, matcher as matches, max, memoize, functions as methods, min, mixin, negate, noop, now, object, omit, once, pairs, partial, partition, pick, pluck, property, propertyOf, random, range, reduce, reduceRight, reject, rest, restArguments, result, sample, filter as select, shuffle, size, some, sortBy, sortedIndex, rest as tail, first as take, tap, template, templateSettings, throttle, times, toArray, toPath, unzip as transpose, _unescape as unescape, union, uniq, uniq as unique, uniqueId, unzip, values, where, without, wrap, zip };
 //# sourceMappingURL=underscore-esm.js.map
