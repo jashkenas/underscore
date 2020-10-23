@@ -2714,10 +2714,19 @@ _.chain([1, 2, 3]).reverse().value();
             underlying <tt>ArrayBuffer</tt>.
           </li>
           <li>
+            Improves the compatibility of <tt>_.isEqual</tt>,
+            <tt>_.isDataView</tt>, <tt>_.isMap</tt>, <tt>_.isWeakMap</tt> and
+            <tt>_.isSet</tt> with some older browsers, especially IE 11.
+          </li>
+          <li>
             Speeds up <tt>_.isEqual</tt> comparison of typed arrays and
             <tt>DataView</tt>s with idential <tt>buffer</tt>,
             <tt>byteOffset</tt> and <tt>byteLength</tt> by omitting linear
             byte-wise comparison of buffer contents.
+          </li>
+          <li>
+            Restores cross-browser testing during continuous integration to its
+            former glory and adds documentation about engine compatibility.
           </li>
         </ul>
       </p>
