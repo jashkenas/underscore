@@ -20,7 +20,8 @@ export var push = ArrayProto.push,
     hasOwnProperty = ObjProto.hasOwnProperty;
 
 // Modern feature detection.
-export var supportsArrayBuffer = typeof ArrayBuffer !== 'undefined';
+export var supportsArrayBuffer = typeof ArrayBuffer !== 'undefined',
+    supportsDataView = typeof DataView !== 'undefined';
 
 // All **ECMAScript 5+** native function implementations that we hope to use
 // are declared here.
