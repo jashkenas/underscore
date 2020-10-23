@@ -590,6 +590,47 @@
       recommended for creating a customized build of Underscore.</i>
     </p>
 
+    <h2 id=compatibility>Engine Compatibility</h2>
+
+    <p>
+      Underscore 1.x is backwards compatible with any engine that fully
+      supports ES3, while also utilizing newer features when available, such as
+      <tt>Object.keys</tt>, typed arrays and ES modules. We routinely run our
+      unittests against the JavaScript engines listed below:
+    </p>
+
+    <ul>
+      <li>Chrome 26&ndash;latest</li>
+      <li>Edge 13, 18 and latest</li>
+      <li>Firefox 11&ndash;latest</li>
+      <li>Internet Explorer 9&ndash;11</li>
+      <li>Node.js 8&ndash;latest LTS</li>
+      <li>Safari 8&ndash;latest</li>
+    </ul>
+
+    <p>
+      In addition:
+    </p>
+
+    <ul>
+      <li>
+        We have recent confirmation that the library is compatible with Adobe
+        ExtendScript.
+      </li>
+      <li>
+        There is support code present for IE 8, which we will retain in
+        future Underscore 1.x updates.
+      </li>
+      <li>
+        Patches to enhance support for other ES3-compatible environments
+        are always welcome.
+      </li>
+    </ul>
+
+    <p>
+      Underscore 2.x will likely remove support for some outdated environments.
+    </p>
+
     <div id="documentation">
 
       <h2 id="collections">Collection Functions (Arrays or Objects)</h2>
