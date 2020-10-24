@@ -232,12 +232,6 @@ var isTypedArray$1 = supportsArrayBuffer ? isTypedArray : constant(false);
 // Internal helper to obtain the `length` property of an object.
 var getLength = shallowProperty('length');
 
-// Internal helper for collection methods to determine whether a collection
-// should be iterated as an array or as an object.
-// Related: https://people.mozilla.org/~jorendorff/es6-draft.html#sec-tolength
-// Avoids a very nasty iOS 8 JIT bug on ARM-64. #2094
-var isArrayLike = createSizePropertyCheck(getLength);
-
 // Internal helper to create a simple lookup structure.
 // `collectNonEnumProps` used to depend on `_.contains`, but this led to
 // circular imports. `emulatedSet` is a one-off solution that only works for
@@ -293,8 +287,11 @@ function isEmpty(obj) {
   if (obj == null) return true;
   // Skip the more expensive `toString`-based type checks if `obj` has no
   // `.length`.
-  if (isArrayLike(obj) && (isArray(obj) || isString(obj) || isArguments$1(obj))) return obj.length === 0;
-  return keys(obj).length === 0;
+  var length = getLength(obj);
+  if (typeof length == 'number' && (
+    isArray(obj) || isString(obj) || isArguments$1(obj)
+  )) return length === 0;
+  return getLength(keys(obj)) === 0;
 }
 
 // Returns whether an object has a given set of `key:value` pairs.
@@ -998,6 +995,12 @@ var bind = restArguments(function(func, context, args) {
   });
   return bound;
 });
+
+// Internal helper for collection methods to determine whether a collection
+// should be iterated as an array or as an object.
+// Related: https://people.mozilla.org/~jorendorff/es6-draft.html#sec-tolength
+// Avoids a very nasty iOS 8 JIT bug on ARM-64. #2094
+var isArrayLike = createSizePropertyCheck(getLength);
 
 // Internal implementation of a recursive `flatten` function.
 function flatten(input, depth, strict, output) {
