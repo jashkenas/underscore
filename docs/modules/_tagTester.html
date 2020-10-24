@@ -116,6 +116,11 @@
                 </a>
               
                 
+                <a class="source" href="_hasObjectTag.html">
+                  modules/_hasObjectTag.js
+                </a>
+              
+                
                 <a class="source" href="_isArrayLike.html">
                   modules/_isArrayLike.js
                 </a>
@@ -128,6 +133,11 @@
                 
                 <a class="source" href="_keyInObj.html">
                   modules/_keyInObj.js
+                </a>
+              
+                
+                <a class="source" href="_methodFingerprint.html">
+                  modules/_methodFingerprint.js
                 </a>
               
                 
@@ -146,13 +156,23 @@
                 </a>
               
                 
+                <a class="source" href="_stringTag.html">
+                  modules/_stringTag.js
+                </a>
+              
+                
+                <a class="source" href="_stringTagBug.html">
+                  modules/_stringTagBug.js
+                </a>
+              
+                
                 <a class="source" href="_tagTester.html">
                   modules/_tagTester.js
                 </a>
               
                 
-                <a class="source" href="_toDataView.html">
-                  modules/_toDataView.js
+                <a class="source" href="_toBufferView.html">
+                  modules/_toBufferView.js
                 </a>
               
                 
@@ -850,8 +870,9 @@
             </div>
             
             <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">tagTester</span>(<span class="hljs-params">name</span>) </span>{
+  <span class="hljs-keyword">var</span> tag = <span class="hljs-string">'[object '</span> + name + <span class="hljs-string">']'</span>;
   <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">obj</span>) </span>{
-    <span class="hljs-keyword">return</span> toString.call(obj) === <span class="hljs-string">'[object '</span> + name + <span class="hljs-string">']'</span>;
+    <span class="hljs-keyword">return</span> toString.call(obj) === tag;
   };
 }</pre></div></div>
             

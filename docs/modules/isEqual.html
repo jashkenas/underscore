@@ -116,6 +116,11 @@
                 </a>
               
                 
+                <a class="source" href="_hasObjectTag.html">
+                  modules/_hasObjectTag.js
+                </a>
+              
+                
                 <a class="source" href="_isArrayLike.html">
                   modules/_isArrayLike.js
                 </a>
@@ -128,6 +133,11 @@
                 
                 <a class="source" href="_keyInObj.html">
                   modules/_keyInObj.js
+                </a>
+              
+                
+                <a class="source" href="_methodFingerprint.html">
+                  modules/_methodFingerprint.js
                 </a>
               
                 
@@ -146,13 +156,23 @@
                 </a>
               
                 
+                <a class="source" href="_stringTag.html">
+                  modules/_stringTag.js
+                </a>
+              
+                
+                <a class="source" href="_stringTagBug.html">
+                  modules/_stringTagBug.js
+                </a>
+              
+                
                 <a class="source" href="_tagTester.html">
                   modules/_tagTester.js
                 </a>
               
                 
-                <a class="source" href="_toDataView.html">
-                  modules/_toDataView.js
+                <a class="source" href="_toBufferView.html">
+                  modules/_toBufferView.js
                 </a>
               
                 
@@ -839,9 +859,11 @@
 <span class="hljs-keyword">import</span> getByteLength <span class="hljs-keyword">from</span> <span class="hljs-string">'./_getByteLength.js'</span>;
 <span class="hljs-keyword">import</span> isTypedArray <span class="hljs-keyword">from</span> <span class="hljs-string">'./isTypedArray.js'</span>;
 <span class="hljs-keyword">import</span> isFunction <span class="hljs-keyword">from</span> <span class="hljs-string">'./isFunction.js'</span>;
+<span class="hljs-keyword">import</span> { hasStringTagBug }  <span class="hljs-keyword">from</span> <span class="hljs-string">'./_stringTagBug.js'</span>;
+<span class="hljs-keyword">import</span> isDataView <span class="hljs-keyword">from</span> <span class="hljs-string">'./isDataView.js'</span>;
 <span class="hljs-keyword">import</span> keys <span class="hljs-keyword">from</span> <span class="hljs-string">'./keys.js'</span>;
 <span class="hljs-keyword">import</span> has <span class="hljs-keyword">from</span> <span class="hljs-string">'./_has.js'</span>;
-<span class="hljs-keyword">import</span> toDataView <span class="hljs-keyword">from</span> <span class="hljs-string">'./_toDataView.js'</span>;</pre></div></div>
+<span class="hljs-keyword">import</span> toBufferView <span class="hljs-keyword">from</span> <span class="hljs-string">'./_toBufferView.js'</span>;</pre></div></div>
             
         </li>
         
@@ -852,11 +874,11 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-2">&#182;</a>
               </div>
-              <p>Internal recursive comparison function for <code>_.isEqual</code>.</p>
+              <p>We use this string twice, so give it a name for minification.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">eq</span>(<span class="hljs-params">a, b, aStack, bStack</span>) </span>{</pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">var</span> tagDataView = <span class="hljs-string">'[object DataView]'</span>;</pre></div></div>
             
         </li>
         
@@ -866,6 +888,21 @@
               
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-3">&#182;</a>
+              </div>
+              <p>Internal recursive comparison function for <code>_.isEqual</code>.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">eq</span>(<span class="hljs-params">a, b, aStack, bStack</span>) </span>{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-4">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-4">&#182;</a>
               </div>
               <p>Identical objects are equal. <code>0 === -0</code>, but they aren’t identical.
 See the <a href="https://wiki.ecmascript.org/doku.php?id=harmony:egal">Harmony <code>egal</code> proposal</a>.</p>
@@ -877,11 +914,11 @@ See the <a href="https://wiki.ecmascript.org/doku.php?id=harmony:egal">Harmony <
         </li>
         
         
-        <li id="section-4">
+        <li id="section-5">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-4">&#182;</a>
+                <a class="pilcrow" href="#section-5">&#182;</a>
               </div>
               <p><code>null</code> or <code>undefined</code> only equal to itself (strict comparison).</p>
 
@@ -892,11 +929,11 @@ See the <a href="https://wiki.ecmascript.org/doku.php?id=harmony:egal">Harmony <
         </li>
         
         
-        <li id="section-5">
+        <li id="section-6">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-5">&#182;</a>
+                <a class="pilcrow" href="#section-6">&#182;</a>
               </div>
               <p><code>NaN</code>s are equivalent, but non-reflexive.</p>
 
@@ -907,11 +944,11 @@ See the <a href="https://wiki.ecmascript.org/doku.php?id=harmony:egal">Harmony <
         </li>
         
         
-        <li id="section-6">
+        <li id="section-7">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-6">&#182;</a>
+                <a class="pilcrow" href="#section-7">&#182;</a>
               </div>
               <p>Exhaust primitive checks</p>
 
@@ -925,11 +962,11 @@ See the <a href="https://wiki.ecmascript.org/doku.php?id=harmony:egal">Harmony <
         </li>
         
         
-        <li id="section-7">
+        <li id="section-8">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-7">&#182;</a>
+                <a class="pilcrow" href="#section-8">&#182;</a>
               </div>
               <p>Internal recursive comparison function for <code>_.isEqual</code>.</p>
 
@@ -940,11 +977,11 @@ See the <a href="https://wiki.ecmascript.org/doku.php?id=harmony:egal">Harmony <
         </li>
         
         
-        <li id="section-8">
+        <li id="section-9">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-8">&#182;</a>
+                <a class="pilcrow" href="#section-9">&#182;</a>
               </div>
               <p>Unwrap any wrapped objects.</p>
 
@@ -956,34 +993,18 @@ See the <a href="https://wiki.ecmascript.org/doku.php?id=harmony:egal">Harmony <
         </li>
         
         
-        <li id="section-9">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-9">&#182;</a>
-              </div>
-              <p>Compare <code>[[Class]]</code> names.</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">var</span> className = toString.call(a);
-  <span class="hljs-keyword">if</span> (className !== toString.call(b)) <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
-  <span class="hljs-keyword">switch</span> (className) {</pre></div></div>
-            
-        </li>
-        
-        
         <li id="section-10">
             <div class="annotation">
               
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-10">&#182;</a>
               </div>
-              <p>These types are compared by value.</p>
+              <p>Compare <code>[[Class]]</code> names.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">case</span> <span class="hljs-string">'[object RegExp]'</span>:</pre></div></div>
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">var</span> className = toString.call(a);
+  <span class="hljs-keyword">if</span> (className !== toString.call(b)) <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;</pre></div></div>
             
         </li>
         
@@ -994,11 +1015,15 @@ See the <a href="https://wiki.ecmascript.org/doku.php?id=harmony:egal">Harmony <
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-11">&#182;</a>
               </div>
-              <p>RegExps are coerced to strings for comparison (Note: ‘’ + /a/i === ‘/a/i’)</p>
+              <p>Work around a bug in IE 10 - Edge 13.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">case</span> <span class="hljs-string">'[object String]'</span>:</pre></div></div>
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">if</span> (hasStringTagBug &amp;&amp; className == <span class="hljs-string">'[object Object]'</span> &amp;&amp; isDataView(a)) {
+    <span class="hljs-keyword">if</span> (!isDataView(b)) <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+    className = tagDataView;
+  }
+  <span class="hljs-keyword">switch</span> (className) {</pre></div></div>
             
         </li>
         
@@ -1008,6 +1033,36 @@ See the <a href="https://wiki.ecmascript.org/doku.php?id=harmony:egal">Harmony <
               
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-12">&#182;</a>
+              </div>
+              <p>These types are compared by value.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">case</span> <span class="hljs-string">'[object RegExp]'</span>:</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-13">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-13">&#182;</a>
+              </div>
+              <p>RegExps are coerced to strings for comparison (Note: ‘’ + /a/i === ‘/a/i’)</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">case</span> <span class="hljs-string">'[object String]'</span>:</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-14">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-14">&#182;</a>
               </div>
               <p>Primitives and their corresponding object wrappers are equivalent; thus, <code>&quot;5&quot;</code> is
 equivalent to <code>new String(&quot;5&quot;)</code>.</p>
@@ -1020,11 +1075,11 @@ equivalent to <code>new String(&quot;5&quot;)</code>.</p>
         </li>
         
         
-        <li id="section-13">
+        <li id="section-15">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-13">&#182;</a>
+                <a class="pilcrow" href="#section-15">&#182;</a>
               </div>
               <p><code>NaN</code>s are equivalent, but non-reflexive.
 Object(NaN) is equivalent to NaN.</p>
@@ -1036,11 +1091,11 @@ Object(NaN) is equivalent to NaN.</p>
         </li>
         
         
-        <li id="section-14">
+        <li id="section-16">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-14">&#182;</a>
+                <a class="pilcrow" href="#section-16">&#182;</a>
               </div>
               <p>An <code>egal</code> comparison is performed for other numeric values.</p>
 
@@ -1053,11 +1108,11 @@ Object(NaN) is equivalent to NaN.</p>
         </li>
         
         
-        <li id="section-15">
+        <li id="section-17">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-15">&#182;</a>
+                <a class="pilcrow" href="#section-17">&#182;</a>
               </div>
               <p>Coerce dates and booleans to numeric primitive values. Dates are compared by their
 millisecond representations. Note that invalid dates with millisecond representations
@@ -1068,55 +1123,8 @@ of <code>NaN</code> are not equivalent.</p>
             <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">return</span> +a === +b;
     <span class="hljs-keyword">case</span> <span class="hljs-string">'[object Symbol]'</span>:
       <span class="hljs-keyword">return</span> SymbolProto.valueOf.call(a) === SymbolProto.valueOf.call(b);
-    <span class="hljs-keyword">case</span> <span class="hljs-string">'[object ArrayBuffer]'</span>:</pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-16">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-16">&#182;</a>
-              </div>
-              <p>Coerce to <code>DataView</code> so we can fall through to the next case.</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">return</span> deepEq(toDataView(a), toDataView(b), aStack, bStack);
-    <span class="hljs-keyword">case</span> <span class="hljs-string">'[object DataView]'</span>:
-      <span class="hljs-keyword">var</span> byteLength = <span class="hljs-keyword">get</span><span class="hljs-title">ByteLength</span>(<span class="hljs-params">a</span>);
-      <span class="hljs-title">if</span> (<span class="hljs-params">byteLength !== getByteLength(b</span>)) <span class="hljs-title">return</span> <span class="hljs-title">false</span>;
-      <span class="hljs-title">if</span> (<span class="hljs-params">a.buffer === b.buffer &amp;&amp; a.byteOffset === b.byteOffset</span>) <span class="hljs-title">return</span> <span class="hljs-title">true</span>;
-      <span class="hljs-title">while</span> (<span class="hljs-params">byteLength--</span>) {
-        <span class="hljs-keyword">if</span> (a.getUint8(byteLength) !== b.getUint8(byteLength)) {
-          <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
-        }
-      }
-      <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
-  }
-
-  <span class="hljs-keyword">if</span> (isTypedArray(a)) {</pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-17">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-17">&#182;</a>
-              </div>
-              <p>Coerce typed arrays to <code>DataView</code>.</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">return</span> deepEq(toDataView(a), toDataView(b), aStack, bStack);
-  }
-
-  <span class="hljs-keyword">var</span> areArrays = className === <span class="hljs-string">'[object Array]'</span>;
-  <span class="hljs-keyword">if</span> (!areArrays) {
-    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> a != <span class="hljs-string">'object'</span> || <span class="hljs-keyword">typeof</span> b != <span class="hljs-string">'object'</span>) <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;</pre></div></div>
+    <span class="hljs-keyword">case</span> <span class="hljs-string">'[object ArrayBuffer]'</span>:
+    <span class="hljs-keyword">case</span> tagDataView:</pre></div></div>
             
         </li>
         
@@ -1126,6 +1134,32 @@ of <code>NaN</code> are not equivalent.</p>
               
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-18">&#182;</a>
+              </div>
+              <p>Coerce to typed array so we can fall through.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">return</span> deepEq(toBufferView(a), toBufferView(b), aStack, bStack);
+  }
+
+  <span class="hljs-keyword">var</span> areArrays = className === <span class="hljs-string">'[object Array]'</span>;
+  <span class="hljs-keyword">if</span> (!areArrays &amp;&amp; isTypedArray(a)) {
+      <span class="hljs-keyword">var</span> byteLength = <span class="hljs-keyword">get</span><span class="hljs-title">ByteLength</span>(<span class="hljs-params">a</span>);
+      <span class="hljs-title">if</span> (<span class="hljs-params">byteLength !== getByteLength(b</span>)) <span class="hljs-title">return</span> <span class="hljs-title">false</span>;
+      <span class="hljs-title">if</span> (<span class="hljs-params">a.buffer === b.buffer &amp;&amp; a.byteOffset === b.byteOffset</span>) <span class="hljs-title">return</span> <span class="hljs-title">true</span>;
+      <span class="hljs-title">areArrays</span> = <span class="hljs-title">true</span>;
+  }
+  <span class="hljs-title">if</span> (<span class="hljs-params">!areArrays</span>) {
+    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> a != <span class="hljs-string">'object'</span> || <span class="hljs-keyword">typeof</span> b != <span class="hljs-string">'object'</span>) <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-19">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-19">&#182;</a>
               </div>
               <p>Objects with different constructors are not equivalent, but <code>Object</code>s or <code>Array</code>s
 from different frames are.</p>
@@ -1143,11 +1177,11 @@ from different frames are.</p>
         </li>
         
         
-        <li id="section-19">
+        <li id="section-20">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-19">&#182;</a>
+                <a class="pilcrow" href="#section-20">&#182;</a>
               </div>
               <p>Assume equality for cyclic structures. The algorithm for detecting cyclic
 structures is adapted from ES 5.1 section 15.12.3, abstract operation <code>JO</code>.</p>
@@ -1157,11 +1191,11 @@ structures is adapted from ES 5.1 section 15.12.3, abstract operation <code>JO</
         </li>
         
         
-        <li id="section-20">
+        <li id="section-21">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-20">&#182;</a>
+                <a class="pilcrow" href="#section-21">&#182;</a>
               </div>
               <p>Initializing stack of traversed objects.
 It’s done here since we only need them for objects and arrays comparison.</p>
@@ -1176,11 +1210,11 @@ It’s done here since we only need them for objects and arrays comparison.</p>
         </li>
         
         
-        <li id="section-21">
+        <li id="section-22">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-21">&#182;</a>
+                <a class="pilcrow" href="#section-22">&#182;</a>
               </div>
               <p>Linear search. Performance is inversely proportional to the number of
 unique nested structures.</p>
@@ -1193,11 +1227,11 @@ unique nested structures.</p>
         </li>
         
         
-        <li id="section-22">
+        <li id="section-23">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-22">&#182;</a>
+                <a class="pilcrow" href="#section-23">&#182;</a>
               </div>
               <p>Add the first object to the stack of traversed objects.</p>
 
@@ -1209,11 +1243,11 @@ unique nested structures.</p>
         </li>
         
         
-        <li id="section-23">
+        <li id="section-24">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-23">&#182;</a>
+                <a class="pilcrow" href="#section-24">&#182;</a>
               </div>
               <p>Recursively compare objects and arrays.</p>
 
@@ -1224,11 +1258,11 @@ unique nested structures.</p>
         </li>
         
         
-        <li id="section-24">
+        <li id="section-25">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-24">&#182;</a>
+                <a class="pilcrow" href="#section-25">&#182;</a>
               </div>
               <p>Compare array lengths to determine if a deep comparison is necessary.</p>
 
@@ -1240,11 +1274,11 @@ unique nested structures.</p>
         </li>
         
         
-        <li id="section-25">
+        <li id="section-26">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-25">&#182;</a>
+                <a class="pilcrow" href="#section-26">&#182;</a>
               </div>
               <p>Deep compare the contents, ignoring non-numeric properties.</p>
 
@@ -1258,11 +1292,11 @@ unique nested structures.</p>
         </li>
         
         
-        <li id="section-26">
+        <li id="section-27">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-26">&#182;</a>
+                <a class="pilcrow" href="#section-27">&#182;</a>
               </div>
               <p>Deep compare objects.</p>
 
@@ -1274,11 +1308,11 @@ unique nested structures.</p>
         </li>
         
         
-        <li id="section-27">
+        <li id="section-28">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-27">&#182;</a>
+                <a class="pilcrow" href="#section-28">&#182;</a>
               </div>
               <p>Ensure that both objects contain the same number of properties before comparing deep equality.</p>
 
@@ -1290,11 +1324,11 @@ unique nested structures.</p>
         </li>
         
         
-        <li id="section-28">
+        <li id="section-29">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-28">&#182;</a>
+                <a class="pilcrow" href="#section-29">&#182;</a>
               </div>
               <p>Deep compare each member</p>
 
@@ -1308,11 +1342,11 @@ unique nested structures.</p>
         </li>
         
         
-        <li id="section-29">
+        <li id="section-30">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-29">&#182;</a>
+                <a class="pilcrow" href="#section-30">&#182;</a>
               </div>
               <p>Remove the first object from the stack of traversed objects.</p>
 
@@ -1326,11 +1360,11 @@ unique nested structures.</p>
         </li>
         
         
-        <li id="section-30">
+        <li id="section-31">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-30">&#182;</a>
+                <a class="pilcrow" href="#section-31">&#182;</a>
               </div>
               <p>Perform a deep comparison to check if two objects are equal.</p>
 
