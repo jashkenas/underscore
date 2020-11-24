@@ -16,7 +16,7 @@
   },
   "main": "underscore.js",
   "module": "modules/index-all.js",
-  "version": "1.11.0",
+  "version": "1.12.0",
   "devDependencies": {
     "coveralls": "^2.11.2",
     "docco": "^0.8.0",
@@ -30,8 +30,7 @@
     "karma-sauce-launcher": "^1.2.0",
     "nyc": "^2.1.3",
     "pretty-bytes-cli": "^1.0.0",
-    "qunit": "^2.6.0",
-    "qunit-cli": "~0.2.0",
+    "qunit": "^2.10.0",
     "rollup": "^1.32.1",
     "terser": "^4.6.13"
   },
@@ -40,7 +39,7 @@
     "coverage": "nyc npm run test-node && nyc report",
     "coveralls": "nyc npm run test-node && nyc report --reporter=text-lcov | coveralls",
     "lint": "eslint modules/*.js test/*.js",
-    "test-node": "npm run prepare-tests && qunit-cli test/*.js",
+    "test-node": "npm run prepare-tests && qunit test/",
     "test-browser": "npm run prepare-tests && npm i karma-phantomjs-launcher && karma start",
     "bundle": "rollup --config && eslint underscore.js",
     "bundle-treeshake": "cd test-treeshake && rollup --config",

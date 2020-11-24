@@ -78,6 +78,13 @@
     assert.strictEqual(_.noop('curly', 'larry', 'moe'), void 0, 'should always return undefined');
   });
 
+  QUnit.test('toPath', function(assert) {
+    var key = 'xyz';
+    var path = [key];
+    assert.deepEqual(_.toPath(key), path, 'bare strings are wrapped in a single-element array');
+    assert.strictEqual(_.toPath(path), path, 'arrays are returned untouched');
+  })
+
   QUnit.test('random', function(assert) {
     var array = _.range(1000);
     var min = Math.pow(2, 31);

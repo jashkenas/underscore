@@ -7,13 +7,13 @@
     exports.noConflict = function () { global._ = current; return exports; };
   }()));
 }(this, (function () {
-  //     Underscore.js 1.11.0
+  //     Underscore.js 1.12.0
   //     https://underscorejs.org
   //     (c) 2009-2020 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
   //     Underscore may be freely distributed under the MIT license.
 
   // Current version.
-  var VERSION = '1.11.0';
+  var VERSION = '1.12.0';
 
   // Establish the root object, `window` (`self`) in the browser, `global`
   // on the server, or `this` in some virtual machines. We use `self`
@@ -34,7 +34,8 @@
       hasOwnProperty = ObjProto.hasOwnProperty;
 
   // Modern feature detection.
-  var supportsArrayBuffer = typeof ArrayBuffer !== 'undefined';
+  var supportsArrayBuffer = typeof ArrayBuffer !== 'undefined',
+      supportsDataView = typeof DataView !== 'undefined';
 
   // All **ECMAScript 5+** native function implementations that we hope to use
   // are declared here.
@@ -111,8 +112,9 @@
 
   // Internal function for creating a `toString`-based type tester.
   function tagTester(name) {
+    var tag = '[object ' + name + ']';
     return function(obj) {
-      return toString.call(obj) === '[object ' + name + ']';
+      return toString.call(obj) === tag;
     };
   }
 
@@ -128,21 +130,7 @@
 
   var isSymbol = tagTester('Symbol');
 
-  var isMap = tagTester('Map');
-
-  var isWeakMap = tagTester('WeakMap');
-
-  var isSet = tagTester('Set');
-
-  var isWeakSet = tagTester('WeakSet');
-
   var isArrayBuffer = tagTester('ArrayBuffer');
-
-  var isDataView = tagTester('DataView');
-
-  // Is a given value an array?
-  // Delegates to ECMA5's native `Array.isArray`.
-  var isArray = nativeIsArray || tagTester('Array');
 
   var isFunction = tagTester('Function');
 
@@ -156,6 +144,30 @@
   }
 
   var isFunction$1 = isFunction;
+
+  var hasObjectTag = tagTester('Object');
+
+  // In IE 10 - Edge 13, `DataView` has string tag `'[object Object]'`.
+  // In IE 11, the most common among them, this problem also applies to
+  // `Map`, `WeakMap` and `Set`.
+  var hasStringTagBug = (
+        supportsDataView && hasObjectTag(new DataView(new ArrayBuffer(8)))
+      ),
+      isIE11 = (typeof Map !== 'undefined' && hasObjectTag(new Map));
+
+  var isDataView = tagTester('DataView');
+
+  // In IE 10 - Edge 13, we need a different heuristic
+  // to determine whether an object is a `DataView`.
+  function ie10IsDataView(obj) {
+    return obj != null && isFunction$1(obj.getInt8) && isArrayBuffer(obj.buffer);
+  }
+
+  var isDataView$1 = (hasStringTagBug ? ie10IsDataView : isDataView);
+
+  // Is a given value an array?
+  // Delegates to ECMA5's native `Array.isArray`.
+  var isArray = nativeIsArray || tagTester('Array');
 
   // Internal function to check whether `key` is an own property name of `obj`.
   function has(obj, key) {
@@ -220,7 +232,7 @@
   function isTypedArray(obj) {
     // `ArrayBuffer.isView` is the most future-proof, so use it when available.
     // Otherwise, fall back on the above regular expression.
-    return nativeIsView ? (nativeIsView(obj) && !isDataView(obj)) :
+    return nativeIsView ? (nativeIsView(obj) && !isDataView$1(obj)) :
                   isBufferLike(obj) && typedArrayPattern.test(toString.call(obj));
   }
 
@@ -228,12 +240,6 @@
 
   // Internal helper to obtain the `length` property of an object.
   var getLength = shallowProperty('length');
-
-  // Internal helper for collection methods to determine whether a collection
-  // should be iterated as an array or as an object.
-  // Related: https://people.mozilla.org/~jorendorff/es6-draft.html#sec-tolength
-  // Avoids a very nasty iOS 8 JIT bug on ARM-64. #2094
-  var isArrayLike = createSizePropertyCheck(getLength);
 
   // Internal helper to create a simple lookup structure.
   // `collectNonEnumProps` used to depend on `_.contains`, but this led to
@@ -290,8 +296,11 @@
     if (obj == null) return true;
     // Skip the more expensive `toString`-based type checks if `obj` has no
     // `.length`.
-    if (isArrayLike(obj) && (isArray(obj) || isString(obj) || isArguments$1(obj))) return obj.length === 0;
-    return keys(obj).length === 0;
+    var length = getLength(obj);
+    if (typeof length == 'number' && (
+      isArray(obj) || isString(obj) || isArguments$1(obj)
+    )) return length === 0;
+    return getLength(keys(obj)) === 0;
   }
 
   // Returns whether an object has a given set of `key:value` pairs.
@@ -330,6 +339,19 @@
     return String(this._wrapped);
   };
 
+  // Internal function to wrap or shallow-copy an ArrayBuffer,
+  // typed array or DataView to a new view, reusing the buffer.
+  function toBufferView(bufferSource) {
+    return new Uint8Array(
+      bufferSource.buffer || bufferSource,
+      bufferSource.byteOffset || 0,
+      getByteLength(bufferSource)
+    );
+  }
+
+  // We use this string twice, so give it a name for minification.
+  var tagDataView = '[object DataView]';
+
   // Internal recursive comparison function for `_.isEqual`.
   function eq(a, b, aStack, bStack) {
     // Identical objects are equal. `0 === -0`, but they aren't identical.
@@ -353,6 +375,11 @@
     // Compare `[[Class]]` names.
     var className = toString.call(a);
     if (className !== toString.call(b)) return false;
+    // Work around a bug in IE 10 - Edge 13.
+    if (hasStringTagBug && className == '[object Object]' && isDataView$1(a)) {
+      if (!isDataView$1(b)) return false;
+      className = tagDataView;
+    }
     switch (className) {
       // These types are compared by value.
       case '[object RegExp]':
@@ -376,27 +403,18 @@
       case '[object Symbol]':
         return SymbolProto.valueOf.call(a) === SymbolProto.valueOf.call(b);
       case '[object ArrayBuffer]':
-        // Coerce to `DataView` so we can fall through to the next case.
-        return deepEq(new DataView(a), new DataView(b), aStack, bStack);
-      case '[object DataView]':
-        var byteLength = getByteLength(a);
-        if (byteLength !== getByteLength(b)) {
-          return false;
-        }
-        while (byteLength--) {
-          if (a.getUint8(byteLength) !== b.getUint8(byteLength)) {
-            return false;
-          }
-        }
-        return true;
-    }
-
-    if (isTypedArray$1(a)) {
-      // Coerce typed arrays to `DataView`.
-      return deepEq(new DataView(a.buffer), new DataView(b.buffer), aStack, bStack);
+      case tagDataView:
+        // Coerce to typed array so we can fall through.
+        return deepEq(toBufferView(a), toBufferView(b), aStack, bStack);
     }
 
     var areArrays = className === '[object Array]';
+    if (!areArrays && isTypedArray$1(a)) {
+        var byteLength = getByteLength(a);
+        if (byteLength !== getByteLength(b)) return false;
+        if (a.buffer === b.buffer && a.byteOffset === b.byteOffset) return true;
+        areArrays = true;
+    }
     if (!areArrays) {
       if (typeof a != 'object' || typeof b != 'object') return false;
 
@@ -468,6 +486,48 @@
     if (hasEnumBug) collectNonEnumProps(obj, keys);
     return keys;
   }
+
+  // Since the regular `Object.prototype.toString` type tests don't work for
+  // some types in IE 11, we use a fingerprinting heuristic instead, based
+  // on the methods. It's not great, but it's the best we got.
+  // The fingerprint method lists are defined below.
+  function ie11fingerprint(methods) {
+    var length = getLength(methods);
+    return function(obj) {
+      if (obj == null) return false;
+      // `Map`, `WeakMap` and `Set` have no enumerable keys.
+      var keys = allKeys(obj);
+      if (getLength(keys)) return false;
+      for (var i = 0; i < length; i++) {
+        if (!isFunction$1(obj[methods[i]])) return false;
+      }
+      // If we are testing against `WeakMap`, we need to ensure that
+      // `obj` doesn't have a `forEach` method in order to distinguish
+      // it from a regular `Map`.
+      return methods !== weakMapMethods || !isFunction$1(obj[forEachName]);
+    };
+  }
+
+  // In the interest of compact minification, we write
+  // each string in the fingerprints only once.
+  var forEachName = 'forEach',
+      hasName = 'has',
+      commonInit = ['clear', 'delete'],
+      mapTail = ['get', hasName, 'set'];
+
+  // `Map`, `WeakMap` and `Set` each have slightly different
+  // combinations of the above sublists.
+  var mapMethods = commonInit.concat(forEachName, mapTail),
+      weakMapMethods = commonInit.concat(mapTail),
+      setMethods = ['add'].concat(commonInit, forEachName, hasName);
+
+  var isMap = isIE11 ? ie11fingerprint(mapMethods) : tagTester('Map');
+
+  var isWeakMap = isIE11 ? ie11fingerprint(weakMapMethods) : tagTester('WeakMap');
+
+  var isSet = isIE11 ? ie11fingerprint(setMethods) : tagTester('Set');
+
+  var isWeakSet = tagTester('WeakSet');
 
   // Retrieve the values of an object's properties.
   function values(obj) {
@@ -580,19 +640,47 @@
     return obj;
   }
 
+  // Normalize a (deep) property `path` to array.
+  // Like `_.iteratee`, this function can be customized.
+  function toPath(path) {
+    return isArray(path) ? path : [path];
+  }
+  _.toPath = toPath;
+
+  // Internal wrapper for `_.toPath` to enable minification.
+  // Similar to `cb` for `_.iteratee`.
+  function toPath$1(path) {
+    return _.toPath(path);
+  }
+
+  // Internal function to obtain a nested property in `obj` along `path`.
+  function deepGet(obj, path) {
+    var length = path.length;
+    for (var i = 0; i < length; i++) {
+      if (obj == null) return void 0;
+      obj = obj[path[i]];
+    }
+    return length ? obj : void 0;
+  }
+
+  // Get the value of the (deep) property on `path` from `object`.
+  // If any property in `path` does not exist or if the value is
+  // `undefined`, return `defaultValue` instead.
+  // The `path` is normalized through `_.toPath`.
+  function get(object, path, defaultValue) {
+    var value = deepGet(object, toPath$1(path));
+    return isUndefined(value) ? defaultValue : value;
+  }
+
   // Shortcut function for checking if an object has a given property directly on
   // itself (in other words, not on a prototype). Unlike the internal `has`
   // function, this public version can also traverse nested properties.
   function has$1(obj, path) {
-    if (!isArray(path)) {
-      return has(obj, path);
-    }
+    path = toPath$1(path);
     var length = path.length;
     for (var i = 0; i < length; i++) {
       var key = path[i];
-      if (obj == null || !hasOwnProperty.call(obj, key)) {
-        return false;
-      }
+      if (!has(obj, key)) return false;
       obj = obj[key];
     }
     return !!length;
@@ -612,22 +700,10 @@
     };
   }
 
-  // Internal function to obtain a nested property in `obj` along `path`.
-  function deepGet(obj, path) {
-    var length = path.length;
-    for (var i = 0; i < length; i++) {
-      if (obj == null) return void 0;
-      obj = obj[path[i]];
-    }
-    return length ? obj : void 0;
-  }
-
   // Creates a function that, when passed an object, will traverse that object’s
   // properties down the given `path`, specified as an array of keys or indices.
   function property(path) {
-    if (!isArray(path)) {
-      return shallowProperty(path);
-    }
+    path = toPath$1(path);
     return function(obj) {
       return deepGet(obj, path);
     };
@@ -699,11 +775,9 @@
 
   // Generates a function for a given object that returns a given property.
   function propertyOf(obj) {
-    if (obj == null) {
-      return function(){};
-    }
+    if (obj == null) return noop;
     return function(path) {
-      return !isArray(path) ? obj[path] : deepGet(obj, path);
+      return get(obj, path);
     };
   }
 
@@ -859,7 +933,7 @@
   // is invoked with its parent as context. Returns the value of the final
   // child, or `fallback` if any child is undefined.
   function result(obj, path, fallback) {
-    if (!isArray(path)) path = [path];
+    path = toPath$1(path);
     var length = path.length;
     if (!length) {
       return isFunction$1(fallback) ? fallback.call(obj) : fallback;
@@ -930,6 +1004,12 @@
     });
     return bound;
   });
+
+  // Internal helper for collection methods to determine whether a collection
+  // should be iterated as an array or as an object.
+  // Related: https://people.mozilla.org/~jorendorff/es6-draft.html#sec-tolength
+  // Avoids a very nasty iOS 8 JIT bug on ARM-64. #2094
+  var isArrayLike = createSizePropertyCheck(getLength);
 
   // Internal implementation of a recursive `flatten` function.
   function flatten(input, depth, strict, output) {
@@ -1334,7 +1414,8 @@
     var contextPath, func;
     if (isFunction$1(path)) {
       func = path;
-    } else if (isArray(path)) {
+    } else {
+      path = toPath$1(path);
       contextPath = path.slice(0, -1);
       path = path[path.length - 1];
     }
@@ -1793,12 +1874,8 @@
     isRegExp: isRegExp,
     isError: isError,
     isSymbol: isSymbol,
-    isMap: isMap,
-    isWeakMap: isWeakMap,
-    isSet: isSet,
-    isWeakSet: isWeakSet,
     isArrayBuffer: isArrayBuffer,
-    isDataView: isDataView,
+    isDataView: isDataView$1,
     isArray: isArray,
     isFunction: isFunction$1,
     isArguments: isArguments$1,
@@ -1808,6 +1885,10 @@
     isEmpty: isEmpty,
     isMatch: isMatch,
     isEqual: isEqual,
+    isMap: isMap,
+    isWeakMap: isWeakMap,
+    isSet: isSet,
+    isWeakSet: isWeakSet,
     keys: keys,
     allKeys: allKeys,
     values: values,
@@ -1822,11 +1903,13 @@
     create: create,
     clone: clone,
     tap: tap,
+    get: get,
     has: has$1,
     mapObject: mapObject,
     identity: identity,
     constant: constant,
     noop: noop,
+    toPath: toPath,
     property: property,
     propertyOf: propertyOf,
     matcher: matcher,

@@ -1,5 +1,5 @@
 // Current version.
-export var VERSION = '1.11.0';
+export var VERSION = '1.12.0';
 
 // Establish the root object, `window` (`self`) in the browser, `global`
 // on the server, or `this` in some virtual machines. We use `self`
@@ -20,7 +20,8 @@ export var push = ArrayProto.push,
     hasOwnProperty = ObjProto.hasOwnProperty;
 
 // Modern feature detection.
-export var supportsArrayBuffer = typeof ArrayBuffer !== 'undefined';
+export var supportsArrayBuffer = typeof ArrayBuffer !== 'undefined',
+    supportsDataView = typeof DataView !== 'undefined';
 
 // All **ECMAScript 5+** native function implementations that we hope to use
 // are declared here.

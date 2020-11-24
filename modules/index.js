@@ -1,7 +1,7 @@
 // Named Exports
 // =============
 
-//     Underscore.js 1.11.0
+//     Underscore.js 1.12.0
 //     https://underscorejs.org
 //     (c) 2009-2020 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 //     Underscore may be freely distributed under the MIT license.
@@ -28,10 +28,6 @@ export { default as isDate } from './isDate.js';
 export { default as isRegExp } from './isRegExp.js';
 export { default as isError } from './isError.js';
 export { default as isSymbol } from './isSymbol.js';
-export { default as isMap } from './isMap.js';
-export { default as isWeakMap } from './isWeakMap.js';
-export { default as isSet } from './isSet.js';
-export { default as isWeakSet } from './isWeakSet.js';
 export { default as isArrayBuffer } from './isArrayBuffer.js';
 export { default as isDataView } from './isDataView.js';
 export { default as isArray } from './isArray.js';
@@ -43,6 +39,10 @@ export { default as isTypedArray } from './isTypedArray.js';
 export { default as isEmpty } from './isEmpty.js';
 export { default as isMatch } from './isMatch.js';
 export { default as isEqual } from './isEqual.js';
+export { default as isMap } from './isMap.js';
+export { default as isWeakMap } from './isWeakMap.js';
+export { default as isSet } from './isSet.js';
+export { default as isWeakSet } from './isWeakSet.js';
 
 // Functions that treat an object as a dictionary of key-value pairs.
 export { default as keys } from './keys.js';
@@ -59,6 +59,7 @@ export { default as defaults } from './defaults.js';
 export { default as create } from './create.js';
 export { default as clone } from './clone.js';
 export { default as tap } from './tap.js';
+export { default as get } from './get.js';
 export { default as has } from './has.js';
 export { default as mapObject } from './mapObject.js';
 
@@ -70,6 +71,7 @@ export { default as mapObject } from './mapObject.js';
 export { default as identity } from './identity.js';
 export { default as constant } from './constant.js';
 export { default as noop } from './noop.js';
+export { default as toPath } from './toPath.js';
 export { default as property } from './property.js';
 export { default as propertyOf } from './propertyOf.js';
 export { default as matcher,
