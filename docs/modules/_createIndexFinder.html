@@ -116,6 +116,11 @@
                 </a>
               
                 
+                <a class="source" href="_hasObjectTag.html">
+                  modules/_hasObjectTag.js
+                </a>
+              
+                
                 <a class="source" href="_isArrayLike.html">
                   modules/_isArrayLike.js
                 </a>
@@ -128,6 +133,11 @@
                 
                 <a class="source" href="_keyInObj.html">
                   modules/_keyInObj.js
+                </a>
+              
+                
+                <a class="source" href="_methodFingerprint.html">
+                  modules/_methodFingerprint.js
                 </a>
               
                 
@@ -146,8 +156,28 @@
                 </a>
               
                 
+                <a class="source" href="_stringTag.html">
+                  modules/_stringTag.js
+                </a>
+              
+                
+                <a class="source" href="_stringTagBug.html">
+                  modules/_stringTagBug.js
+                </a>
+              
+                
                 <a class="source" href="_tagTester.html">
                   modules/_tagTester.js
+                </a>
+              
+                
+                <a class="source" href="_toBufferView.html">
+                  modules/_toBufferView.js
+                </a>
+              
+                
+                <a class="source" href="_toPath.html">
+                  modules/_toPath.js
                 </a>
               
                 
@@ -318,6 +348,11 @@
                 
                 <a class="source" href="functions.html">
                   modules/functions.js
+                </a>
+              
+                
+                <a class="source" href="get.html">
+                  modules/get.js
                 </a>
               
                 
@@ -731,6 +766,11 @@
                 </a>
               
                 
+                <a class="source" href="toPath.html">
+                  modules/toPath.js
+                </a>
+              
+                
                 <a class="source" href="underscore-array-methods.html">
                   modules/underscore-array-methods.js
                 </a>
@@ -814,9 +854,9 @@
               
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">import</span> getLength <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./_getLength.js&#x27;</span>;
-<span class="hljs-keyword">import</span> { slice } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./_setup.js&#x27;</span>;
-<span class="hljs-keyword">import</span> <span class="hljs-built_in">isNaN</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./isNaN.js&#x27;</span>;</pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">import</span> getLength <span class="hljs-keyword">from</span> <span class="hljs-string">'./_getLength.js'</span>;
+<span class="hljs-keyword">import</span> { slice } <span class="hljs-keyword">from</span> <span class="hljs-string">'./_setup.js'</span>;
+<span class="hljs-keyword">import</span> <span class="hljs-built_in">isNaN</span> <span class="hljs-keyword">from</span> <span class="hljs-string">'./isNaN.js'</span>;</pre></div></div>
             
         </li>
         
@@ -833,8 +873,8 @@
             
             <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">createIndexFinder</span>(<span class="hljs-params">dir, predicateFind, sortedIndex</span>) </span>{
   <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">array, item, idx</span>) </span>{
-    <span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>, length = getLength(array);
-    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> idx == <span class="hljs-string">&#x27;number&#x27;</span>) {
+    <span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>, length = <span class="hljs-keyword">get</span><span class="hljs-title">Length</span>(<span class="hljs-params">array</span>);
+    <span class="hljs-title">if</span> (<span class="hljs-params">typeof idx == <span class="hljs-string">'number'</span></span>) {
       <span class="hljs-keyword">if</span> (dir &gt; <span class="hljs-number">0</span>) {
         i = idx &gt;= <span class="hljs-number">0</span> ? idx : <span class="hljs-built_in">Math</span>.max(idx + length, i);
       } <span class="hljs-keyword">else</span> {

@@ -116,6 +116,11 @@
                 </a>
               
                 
+                <a class="source" href="_hasObjectTag.html">
+                  modules/_hasObjectTag.js
+                </a>
+              
+                
                 <a class="source" href="_isArrayLike.html">
                   modules/_isArrayLike.js
                 </a>
@@ -128,6 +133,11 @@
                 
                 <a class="source" href="_keyInObj.html">
                   modules/_keyInObj.js
+                </a>
+              
+                
+                <a class="source" href="_methodFingerprint.html">
+                  modules/_methodFingerprint.js
                 </a>
               
                 
@@ -146,8 +156,28 @@
                 </a>
               
                 
+                <a class="source" href="_stringTag.html">
+                  modules/_stringTag.js
+                </a>
+              
+                
+                <a class="source" href="_stringTagBug.html">
+                  modules/_stringTagBug.js
+                </a>
+              
+                
                 <a class="source" href="_tagTester.html">
                   modules/_tagTester.js
+                </a>
+              
+                
+                <a class="source" href="_toBufferView.html">
+                  modules/_toBufferView.js
+                </a>
+              
+                
+                <a class="source" href="_toPath.html">
+                  modules/_toPath.js
                 </a>
               
                 
@@ -318,6 +348,11 @@
                 
                 <a class="source" href="functions.html">
                   modules/functions.js
+                </a>
+              
+                
+                <a class="source" href="get.html">
+                  modules/get.js
                 </a>
               
                 
@@ -731,6 +766,11 @@
                 </a>
               
                 
+                <a class="source" href="toPath.html">
+                  modules/toPath.js
+                </a>
+              
+                
                 <a class="source" href="underscore-array-methods.html">
                   modules/underscore-array-methods.js
                 </a>
@@ -829,16 +869,16 @@ the last argument. Similar to ES6’s “rest parameter”.</p>
       rest[index] = <span class="hljs-built_in">arguments</span>[index + startIndex];
     }
     <span class="hljs-keyword">switch</span> (startIndex) {
-      <span class="hljs-keyword">case</span> <span class="hljs-number">0</span>: <span class="hljs-keyword">return</span> func.call(<span class="hljs-built_in">this</span>, rest);
-      <span class="hljs-keyword">case</span> <span class="hljs-number">1</span>: <span class="hljs-keyword">return</span> func.call(<span class="hljs-built_in">this</span>, <span class="hljs-built_in">arguments</span>[<span class="hljs-number">0</span>], rest);
-      <span class="hljs-keyword">case</span> <span class="hljs-number">2</span>: <span class="hljs-keyword">return</span> func.call(<span class="hljs-built_in">this</span>, <span class="hljs-built_in">arguments</span>[<span class="hljs-number">0</span>], <span class="hljs-built_in">arguments</span>[<span class="hljs-number">1</span>], rest);
+      <span class="hljs-keyword">case</span> <span class="hljs-number">0</span>: <span class="hljs-keyword">return</span> func.call(<span class="hljs-keyword">this</span>, rest);
+      <span class="hljs-keyword">case</span> <span class="hljs-number">1</span>: <span class="hljs-keyword">return</span> func.call(<span class="hljs-keyword">this</span>, <span class="hljs-built_in">arguments</span>[<span class="hljs-number">0</span>], rest);
+      <span class="hljs-keyword">case</span> <span class="hljs-number">2</span>: <span class="hljs-keyword">return</span> func.call(<span class="hljs-keyword">this</span>, <span class="hljs-built_in">arguments</span>[<span class="hljs-number">0</span>], <span class="hljs-built_in">arguments</span>[<span class="hljs-number">1</span>], rest);
     }
     <span class="hljs-keyword">var</span> args = <span class="hljs-built_in">Array</span>(startIndex + <span class="hljs-number">1</span>);
     <span class="hljs-keyword">for</span> (index = <span class="hljs-number">0</span>; index &lt; startIndex; index++) {
       args[index] = <span class="hljs-built_in">arguments</span>[index];
     }
     args[startIndex] = rest;
-    <span class="hljs-keyword">return</span> func.apply(<span class="hljs-built_in">this</span>, args);
+    <span class="hljs-keyword">return</span> func.apply(<span class="hljs-keyword">this</span>, args);
   };
 }</pre></div></div>
             

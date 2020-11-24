@@ -116,6 +116,11 @@
                 </a>
               
                 
+                <a class="source" href="_hasObjectTag.html">
+                  modules/_hasObjectTag.js
+                </a>
+              
+                
                 <a class="source" href="_isArrayLike.html">
                   modules/_isArrayLike.js
                 </a>
@@ -128,6 +133,11 @@
                 
                 <a class="source" href="_keyInObj.html">
                   modules/_keyInObj.js
+                </a>
+              
+                
+                <a class="source" href="_methodFingerprint.html">
+                  modules/_methodFingerprint.js
                 </a>
               
                 
@@ -146,8 +156,28 @@
                 </a>
               
                 
+                <a class="source" href="_stringTag.html">
+                  modules/_stringTag.js
+                </a>
+              
+                
+                <a class="source" href="_stringTagBug.html">
+                  modules/_stringTagBug.js
+                </a>
+              
+                
                 <a class="source" href="_tagTester.html">
                   modules/_tagTester.js
+                </a>
+              
+                
+                <a class="source" href="_toBufferView.html">
+                  modules/_toBufferView.js
+                </a>
+              
+                
+                <a class="source" href="_toPath.html">
+                  modules/_toPath.js
                 </a>
               
                 
@@ -318,6 +348,11 @@
                 
                 <a class="source" href="functions.html">
                   modules/functions.js
+                </a>
+              
+                
+                <a class="source" href="get.html">
+                  modules/get.js
                 </a>
               
                 
@@ -731,6 +766,11 @@
                 </a>
               
                 
+                <a class="source" href="toPath.html">
+                  modules/toPath.js
+                </a>
+              
+                
                 <a class="source" href="underscore-array-methods.html">
                   modules/underscore-array-methods.js
                 </a>
@@ -815,7 +855,7 @@
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">var</span> VERSION = <span class="hljs-string">&#x27;1.11.0&#x27;</span>;</pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">var</span> VERSION = <span class="hljs-string">'1.12.0'</span>;</pre></div></div>
             
         </li>
         
@@ -832,9 +872,9 @@ instead of <code>window</code> for <code>WebWorker</code> support.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">var</span> root = <span class="hljs-keyword">typeof</span> self == <span class="hljs-string">&#x27;object&#x27;</span> &amp;&amp; self.self === self &amp;&amp; self ||
-          <span class="hljs-keyword">typeof</span> <span class="hljs-built_in">global</span> == <span class="hljs-string">&#x27;object&#x27;</span> &amp;&amp; <span class="hljs-built_in">global</span>.global === <span class="hljs-built_in">global</span> &amp;&amp; <span class="hljs-built_in">global</span> ||
-          <span class="hljs-built_in">Function</span>(<span class="hljs-string">&#x27;return this&#x27;</span>)() ||
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">var</span> root = <span class="hljs-keyword">typeof</span> self == <span class="hljs-string">'object'</span> &amp;&amp; self.self === self &amp;&amp; self ||
+          <span class="hljs-keyword">typeof</span> global == <span class="hljs-string">'object'</span> &amp;&amp; global.global === global &amp;&amp; global ||
+          <span class="hljs-built_in">Function</span>(<span class="hljs-string">'return this'</span>)() ||
           {};</pre></div></div>
             
         </li>
@@ -851,7 +891,7 @@ instead of <code>window</code> for <code>WebWorker</code> support.</p>
             </div>
             
             <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">var</span> ArrayProto = <span class="hljs-built_in">Array</span>.prototype, ObjProto = <span class="hljs-built_in">Object</span>.prototype;
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">var</span> SymbolProto = <span class="hljs-keyword">typeof</span> <span class="hljs-built_in">Symbol</span> !== <span class="hljs-string">&#x27;undefined&#x27;</span> ? <span class="hljs-built_in">Symbol</span>.prototype : <span class="hljs-literal">null</span>;</pre></div></div>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">var</span> SymbolProto = <span class="hljs-keyword">typeof</span> <span class="hljs-built_in">Symbol</span> !== <span class="hljs-string">'undefined'</span> ? <span class="hljs-built_in">Symbol</span>.prototype : <span class="hljs-literal">null</span>;</pre></div></div>
             
         </li>
         
@@ -884,7 +924,8 @@ instead of <code>window</code> for <code>WebWorker</code> support.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">var</span> supportsArrayBuffer = <span class="hljs-keyword">typeof</span> <span class="hljs-built_in">ArrayBuffer</span> !== <span class="hljs-string">&#x27;undefined&#x27;</span>;</pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">var</span> supportsArrayBuffer = <span class="hljs-keyword">typeof</span> <span class="hljs-built_in">ArrayBuffer</span> !== <span class="hljs-string">'undefined'</span>,
+    supportsDataView = <span class="hljs-keyword">typeof</span> <span class="hljs-built_in">DataView</span> !== <span class="hljs-string">'undefined'</span>;</pre></div></div>
             
         </li>
         
@@ -934,9 +975,9 @@ are declared here.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">var</span> hasEnumBug = !{<span class="hljs-attr">toString</span>: <span class="hljs-literal">null</span>}.propertyIsEnumerable(<span class="hljs-string">&#x27;toString&#x27;</span>);
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">var</span> nonEnumerableProps = [<span class="hljs-string">&#x27;valueOf&#x27;</span>, <span class="hljs-string">&#x27;isPrototypeOf&#x27;</span>, <span class="hljs-string">&#x27;toString&#x27;</span>,
-  <span class="hljs-string">&#x27;propertyIsEnumerable&#x27;</span>, <span class="hljs-string">&#x27;hasOwnProperty&#x27;</span>, <span class="hljs-string">&#x27;toLocaleString&#x27;</span>];</pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">var</span> hasEnumBug = !{<span class="hljs-attr">toString</span>: <span class="hljs-literal">null</span>}.propertyIsEnumerable(<span class="hljs-string">'toString'</span>);
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">var</span> nonEnumerableProps = [<span class="hljs-string">'valueOf'</span>, <span class="hljs-string">'isPrototypeOf'</span>, <span class="hljs-string">'toString'</span>,
+  <span class="hljs-string">'propertyIsEnumerable'</span>, <span class="hljs-string">'hasOwnProperty'</span>, <span class="hljs-string">'toLocaleString'</span>];</pre></div></div>
             
         </li>
         

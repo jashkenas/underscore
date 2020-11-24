@@ -116,6 +116,11 @@
                 </a>
               
                 
+                <a class="source" href="_hasObjectTag.html">
+                  modules/_hasObjectTag.js
+                </a>
+              
+                
                 <a class="source" href="_isArrayLike.html">
                   modules/_isArrayLike.js
                 </a>
@@ -128,6 +133,11 @@
                 
                 <a class="source" href="_keyInObj.html">
                   modules/_keyInObj.js
+                </a>
+              
+                
+                <a class="source" href="_methodFingerprint.html">
+                  modules/_methodFingerprint.js
                 </a>
               
                 
@@ -146,8 +156,28 @@
                 </a>
               
                 
+                <a class="source" href="_stringTag.html">
+                  modules/_stringTag.js
+                </a>
+              
+                
+                <a class="source" href="_stringTagBug.html">
+                  modules/_stringTagBug.js
+                </a>
+              
+                
                 <a class="source" href="_tagTester.html">
                   modules/_tagTester.js
+                </a>
+              
+                
+                <a class="source" href="_toBufferView.html">
+                  modules/_toBufferView.js
+                </a>
+              
+                
+                <a class="source" href="_toPath.html">
+                  modules/_toPath.js
                 </a>
               
                 
@@ -318,6 +348,11 @@
                 
                 <a class="source" href="functions.html">
                   modules/functions.js
+                </a>
+              
+                
+                <a class="source" href="get.html">
+                  modules/get.js
                 </a>
               
                 
@@ -731,6 +766,11 @@
                 </a>
               
                 
+                <a class="source" href="toPath.html">
+                  modules/toPath.js
+                </a>
+              
+                
                 <a class="source" href="underscore-array-methods.html">
                   modules/underscore-array-methods.js
                 </a>
@@ -814,9 +854,9 @@
               
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">import</span> defaults <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./defaults.js&#x27;</span>;
-<span class="hljs-keyword">import</span> _ <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./underscore.js&#x27;</span>;
-<span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;./templateSettings.js&#x27;</span>;</pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">import</span> defaults <span class="hljs-keyword">from</span> <span class="hljs-string">'./defaults.js'</span>;
+<span class="hljs-keyword">import</span> _ <span class="hljs-keyword">from</span> <span class="hljs-string">'./underscore.js'</span>;
+<span class="hljs-keyword">import</span> <span class="hljs-string">'./templateSettings.js'</span>;</pre></div></div>
             
         </li>
         
@@ -850,18 +890,18 @@ string literal.</p>
             </div>
             
             <div class="content"><div class='highlight'><pre><span class="hljs-keyword">var</span> escapes = {
-  <span class="hljs-string">&quot;&#x27;&quot;</span>: <span class="hljs-string">&quot;&#x27;&quot;</span>,
-  <span class="hljs-string">&#x27;\\&#x27;</span>: <span class="hljs-string">&#x27;\\&#x27;</span>,
-  <span class="hljs-string">&#x27;\r&#x27;</span>: <span class="hljs-string">&#x27;r&#x27;</span>,
-  <span class="hljs-string">&#x27;\n&#x27;</span>: <span class="hljs-string">&#x27;n&#x27;</span>,
-  <span class="hljs-string">&#x27;\u2028&#x27;</span>: <span class="hljs-string">&#x27;u2028&#x27;</span>,
-  <span class="hljs-string">&#x27;\u2029&#x27;</span>: <span class="hljs-string">&#x27;u2029&#x27;</span>
+  <span class="hljs-string">"'"</span>: <span class="hljs-string">"'"</span>,
+  <span class="hljs-string">'\\'</span>: <span class="hljs-string">'\\'</span>,
+  <span class="hljs-string">'\r'</span>: <span class="hljs-string">'r'</span>,
+  <span class="hljs-string">'\n'</span>: <span class="hljs-string">'n'</span>,
+  <span class="hljs-string">'\u2028'</span>: <span class="hljs-string">'u2028'</span>,
+  <span class="hljs-string">'\u2029'</span>: <span class="hljs-string">'u2029'</span>
 };
 
-<span class="hljs-keyword">var</span> escapeRegExp = <span class="hljs-regexp">/\\|&#x27;|\r|\n|\u2028|\u2029/g</span>;
+<span class="hljs-keyword">var</span> escapeRegExp = <span class="hljs-regexp">/\\|'|\r|\n|\u2028|\u2029/g</span>;
 
 <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">escapeChar</span>(<span class="hljs-params">match</span>) </span>{
-  <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;\\&#x27;</span> + escapes[match];
+  <span class="hljs-keyword">return</span> <span class="hljs-string">'\\'</span> + escapes[match];
 }</pre></div></div>
             
         </li>
@@ -901,7 +941,7 @@ NB: <code>oldSettings</code> only exists for backwards compatibility.</p>
     (settings.escape || noMatch).source,
     (settings.interpolate || noMatch).source,
     (settings.evaluate || noMatch).source
-  ].join(<span class="hljs-string">&#x27;|&#x27;</span>) + <span class="hljs-string">&#x27;|$&#x27;</span>, <span class="hljs-string">&#x27;g&#x27;</span>);</pre></div></div>
+  ].join(<span class="hljs-string">'|'</span>) + <span class="hljs-string">'|$'</span>, <span class="hljs-string">'g'</span>);</pre></div></div>
             
         </li>
         
@@ -917,17 +957,17 @@ NB: <code>oldSettings</code> only exists for backwards compatibility.</p>
             </div>
             
             <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">var</span> index = <span class="hljs-number">0</span>;
-  <span class="hljs-keyword">var</span> source = <span class="hljs-string">&quot;__p+=&#x27;&quot;</span>;
+  <span class="hljs-keyword">var</span> source = <span class="hljs-string">"__p+='"</span>;
   text.replace(matcher, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">match, escape, interpolate, evaluate, offset</span>) </span>{
     source += text.slice(index, offset).replace(escapeRegExp, escapeChar);
     index = offset + match.length;
 
     <span class="hljs-keyword">if</span> (<span class="hljs-built_in">escape</span>) {
-      source += <span class="hljs-string">&quot;&#x27;+\n((__t=(&quot;</span> + <span class="hljs-built_in">escape</span> + <span class="hljs-string">&quot;))==null?&#x27;&#x27;:_.escape(__t))+\n&#x27;&quot;</span>;
+      source += <span class="hljs-string">"'+\n((__t=("</span> + <span class="hljs-built_in">escape</span> + <span class="hljs-string">"))==null?'':_.escape(__t))+\n'"</span>;
     } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (interpolate) {
-      source += <span class="hljs-string">&quot;&#x27;+\n((__t=(&quot;</span> + interpolate + <span class="hljs-string">&quot;))==null?&#x27;&#x27;:__t)+\n&#x27;&quot;</span>;
+      source += <span class="hljs-string">"'+\n((__t=("</span> + interpolate + <span class="hljs-string">"))==null?'':__t)+\n'"</span>;
     } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (evaluate) {
-      source += <span class="hljs-string">&quot;&#x27;;\n&quot;</span> + evaluate + <span class="hljs-string">&quot;\n__p+=&#x27;&quot;</span>;
+      source += <span class="hljs-string">"';\n"</span> + evaluate + <span class="hljs-string">"\n__p+='"</span>;
     }</pre></div></div>
             
         </li>
@@ -945,7 +985,7 @@ NB: <code>oldSettings</code> only exists for backwards compatibility.</p>
             
             <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">return</span> match;
   });
-  source += <span class="hljs-string">&quot;&#x27;;\n&quot;</span>;</pre></div></div>
+  source += <span class="hljs-string">"';\n"</span>;</pre></div></div>
             
         </li>
         
@@ -960,22 +1000,22 @@ NB: <code>oldSettings</code> only exists for backwards compatibility.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">if</span> (!settings.variable) source = <span class="hljs-string">&#x27;with(obj||{}){\n&#x27;</span> + source + <span class="hljs-string">&#x27;}\n&#x27;</span>;
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">if</span> (!settings.variable) source = <span class="hljs-string">'with(obj||{}){\n'</span> + source + <span class="hljs-string">'}\n'</span>;
 
-  source = <span class="hljs-string">&quot;var __t,__p=&#x27;&#x27;,__j=Array.prototype.join,&quot;</span> +
-    <span class="hljs-string">&quot;print=function(){__p+=__j.call(arguments,&#x27;&#x27;);};\n&quot;</span> +
-    source + <span class="hljs-string">&#x27;return __p;\n&#x27;</span>;
+  source = <span class="hljs-string">"var __t,__p='',__j=Array.prototype.join,"</span> +
+    <span class="hljs-string">"print=function(){__p+=__j.call(arguments,'');};\n"</span> +
+    source + <span class="hljs-string">'return __p;\n'</span>;
 
   <span class="hljs-keyword">var</span> render;
   <span class="hljs-keyword">try</span> {
-    render = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Function</span>(settings.variable || <span class="hljs-string">&#x27;obj&#x27;</span>, <span class="hljs-string">&#x27;_&#x27;</span>, source);
+    render = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Function</span>(settings.variable || <span class="hljs-string">'obj'</span>, <span class="hljs-string">'_'</span>, source);
   } <span class="hljs-keyword">catch</span> (e) {
     e.source = source;
     <span class="hljs-keyword">throw</span> e;
   }
 
   <span class="hljs-keyword">var</span> template = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">data</span>) </span>{
-    <span class="hljs-keyword">return</span> render.call(<span class="hljs-built_in">this</span>, data, _);
+    <span class="hljs-keyword">return</span> render.call(<span class="hljs-keyword">this</span>, data, _);
   };</pre></div></div>
             
         </li>
@@ -991,8 +1031,8 @@ NB: <code>oldSettings</code> only exists for backwards compatibility.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">var</span> argument = settings.variable || <span class="hljs-string">&#x27;obj&#x27;</span>;
-  template.source = <span class="hljs-string">&#x27;function(&#x27;</span> + argument + <span class="hljs-string">&#x27;){\n&#x27;</span> + source + <span class="hljs-string">&#x27;}&#x27;</span>;
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">var</span> argument = settings.variable || <span class="hljs-string">'obj'</span>;
+  template.source = <span class="hljs-string">'function('</span> + argument + <span class="hljs-string">'){\n'</span> + source + <span class="hljs-string">'}'</span>;
 
   <span class="hljs-keyword">return</span> template;
 }</pre></div></div>

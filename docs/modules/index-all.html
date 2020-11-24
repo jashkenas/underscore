@@ -116,6 +116,11 @@
                 </a>
               
                 
+                <a class="source" href="_hasObjectTag.html">
+                  modules/_hasObjectTag.js
+                </a>
+              
+                
                 <a class="source" href="_isArrayLike.html">
                   modules/_isArrayLike.js
                 </a>
@@ -128,6 +133,11 @@
                 
                 <a class="source" href="_keyInObj.html">
                   modules/_keyInObj.js
+                </a>
+              
+                
+                <a class="source" href="_methodFingerprint.html">
+                  modules/_methodFingerprint.js
                 </a>
               
                 
@@ -146,8 +156,28 @@
                 </a>
               
                 
+                <a class="source" href="_stringTag.html">
+                  modules/_stringTag.js
+                </a>
+              
+                
+                <a class="source" href="_stringTagBug.html">
+                  modules/_stringTagBug.js
+                </a>
+              
+                
                 <a class="source" href="_tagTester.html">
                   modules/_tagTester.js
+                </a>
+              
+                
+                <a class="source" href="_toBufferView.html">
+                  modules/_toBufferView.js
+                </a>
+              
+                
+                <a class="source" href="_toPath.html">
+                  modules/_toPath.js
                 </a>
               
                 
@@ -318,6 +348,11 @@
                 
                 <a class="source" href="functions.html">
                   modules/functions.js
+                </a>
+              
+                
+                <a class="source" href="get.html">
+                  modules/get.js
                 </a>
               
                 
@@ -731,6 +766,11 @@
                 </a>
               
                 
+                <a class="source" href="toPath.html">
+                  modules/toPath.js
+                </a>
+              
+                
                 <a class="source" href="underscore-array-methods.html">
                   modules/underscore-array-methods.js
                 </a>
@@ -821,7 +861,7 @@
               <p>This module is the package entry point for ES module users. In other words,
 it is the module they are interfacing with when they import from the whole
 package instead of from a submodule, like this:</p>
-<pre><code class="language-js"><span class="hljs-keyword">import</span> { map } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;underscore&#x27;</span>;</code></pre>
+<pre><code class="language-js"><span class="hljs-keyword">import</span> { map } <span class="hljs-keyword">from</span> <span class="hljs-string">'underscore'</span>;</code></pre>
 <p>The difference with <code>./index-default</code>, which is the package entry point for
 CommonJS, AMD and UMD users, is purely technical. In ES modules, named and
 default exports are considered to be siblings, so when you have a default
@@ -831,8 +871,8 @@ default export as in <code>./index-default</code>.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./index-default.js&#x27;</span>;
-<span class="hljs-keyword">export</span> * <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./index.js&#x27;</span>;</pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'./index-default.js'</span>;
+<span class="hljs-keyword">export</span> * <span class="hljs-keyword">from</span> <span class="hljs-string">'./index.js'</span>;</pre></div></div>
             
         </li>
         

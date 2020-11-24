@@ -186,7 +186,7 @@
   <div id="sidebar" class="interface">
 
     <a class="toc_title" href="#">
-      Underscore.js <span class="version">(1.11.0)</span>
+      Underscore.js <span class="version">(1.12.0)</span>
     </a>
     <ul class="toc_section">
       <li>&raquo; <a href="https://github.com/jashkenas/underscore">GitHub Repository</a></li>
@@ -464,34 +464,34 @@
       <i>Underscore is an open-source component of <a href="https://documentcloud.org/">DocumentCloud</a>.</i>
     </p>
 
-    <h2>v1.11.0 Downloads <i style="padding-left: 12px; font-size:12px;">(Right-click, and use "Save As")</i></h2>
+    <h2>v1.12.0 Downloads <i style="padding-left: 12px; font-size:12px;">(Right-click, and use "Save As")</i></h2>
 
     <table>
       <tr>
         <td class="dl-link"><a href="underscore-esm.js">ESM (Development)</a></td>
         <td>
-          <i>62kb, Uncompressed with Plentiful Comments</i>
+          <i>65.08kb, Uncompressed with Plentiful Comments</i>
           &nbsp;<small>(<a href="underscore-esm.js.map">Source Map</a>)</small>
         </td>
       </tr>
       <tr>
         <td class="dl-link"><a href="underscore-esm-min.js">ESM (Production)</a></td>
         <td>
-          <i>8.18kb, Minified and Gzipped</i>
+          <i>8.5kb, Minified and Gzipped</i>
           &nbsp;<small>(<a href="underscore-esm-min.js.map">Source Map</a>)</small>
         </td>
       </tr>
       <tr>
         <td class="dl-link"><a href="underscore.js">UMD (Development)</a></td>
         <td>
-          <i>64kb, Uncompressed with Bountiful Comments</i>
+          <i>67.45kb, Uncompressed with Bountiful Comments</i>
           &nbsp;<small>(<a href="underscore.js.map">Source Map</a>)</small>
         </td>
       </tr>
       <tr>
         <td class="dl-link"><a href="underscore-min.js">UMD (Production)</a></td>
         <td>
-          <i>7.15kb, Minified and Gzipped</i>
+          <i>7.39kb, Minified and Gzipped</i>
           &nbsp;<small>(<a href="underscore-min.js.map">Source Map</a>)</small>
         </td>
       </tr>
@@ -508,32 +508,32 @@
       </tr>
     </table>
 
-    <h2>v1.11.0 CDN URLs <i style="padding-left: 12px; font-size:12px;">(Use with <tt>&lt;script src="..."&gt;&lt;/script&gt;</tt>)</i></h2>
+    <h2>v1.12.0 CDN URLs <i style="padding-left: 12px; font-size:12px;">(Use with <tt>&lt;script src="..."&gt;&lt;/script&gt;</tt>)</i></h2>
 
     <ul>
       <li>
-        <tt>https://cdn.jsdelivr.net/npm/underscore@1.11.0/underscore-min.js</tt>
+        <tt>https://cdn.jsdelivr.net/npm/underscore@1.12.0/underscore-min.js</tt>
       </li>
       <li>
-        <tt>https://cdn.jsdelivr.net/npm/underscore@1.11.0/underscore-esm-min.js</tt>
+        <tt>https://cdn.jsdelivr.net/npm/underscore@1.12.0/underscore-esm-min.js</tt>
       </li>
       <li>
-        <tt>https://unpkg.com/underscore@1.11.0/underscore-min.js</tt>
+        <tt>https://unpkg.com/underscore@1.12.0/underscore-min.js</tt>
       </li>
       <li>
-        <tt>https://unpkg.com/underscore@1.11.0/underscore-esm-min.js</tt>
+        <tt>https://unpkg.com/underscore@1.12.0/underscore-esm-min.js</tt>
       </li>
       <li>
-        <tt>https://pagecdn.io/lib/underscore/1.11.0/underscore-min.js</tt>
+        <tt>https://pagecdn.io/lib/underscore/1.12.0/underscore-min.js</tt>
       </li>
       <li>
-        <tt>https://pagecdn.io/lib/underscore/1.11.0/underscore-esm-min.js</tt>
+        <tt>https://pagecdn.io/lib/underscore/1.12.0/underscore-esm-min.js</tt>
       </li>
       <li>
-        <tt>https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.11.0/underscore-min.js</tt>
+        <tt>https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.12.0/underscore-min.js</tt>
       </li>
       <li>
-        <tt>https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.11.0/underscore-esm-min.js</tt>
+        <tt>https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.12.0/underscore-esm-min.js</tt>
       </li>
     </ul>
 
@@ -588,6 +588,47 @@
       example, <tt>_.reduce</tt>/<tt>_.inject</tt>/<tt>_.foldl</tt> is exported
       from <tt>underscore/modules/reduce.js</tt>. Modular usage is mostly
       recommended for creating a customized build of Underscore.</i>
+    </p>
+
+    <h2 id=compatibility>Engine Compatibility</h2>
+
+    <p>
+      Underscore 1.x is backwards compatible with any engine that fully
+      supports ES3, while also utilizing newer features when available, such as
+      <tt>Object.keys</tt>, typed arrays and ES modules. We routinely run our
+      unittests against the JavaScript engines listed below:
+    </p>
+
+    <ul>
+      <li>Chrome 26&ndash;latest</li>
+      <li>Edge 13, 18 and latest</li>
+      <li>Firefox 11&ndash;latest</li>
+      <li>Internet Explorer 9&ndash;11</li>
+      <li>Node.js 8&ndash;latest LTS</li>
+      <li>Safari 8&ndash;latest</li>
+    </ul>
+
+    <p>
+      In addition:
+    </p>
+
+    <ul>
+      <li>
+        We have recent confirmation that the library is compatible with Adobe
+        ExtendScript.
+      </li>
+      <li>
+        There is support code present for IE 8, which we will retain in
+        future Underscore 1.x updates.
+      </li>
+      <li>
+        Patches to enhance support for other ES3-compatible environments
+        are always welcome.
+      </li>
+    </ul>
+
+    <p>
+      Underscore 2.x will likely remove support for some outdated environments.
     </p>
 
     <div id="documentation">
@@ -2651,6 +2692,48 @@ _.chain([1, 2, 3]).reverse().value();
       </p>
 
       <h2 id="changelog">Change Log</h2>
+
+      <p id="1.12.0">
+        <b class="header">1.12.0</b> &mdash; <small><i>November 24, 2020</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.11.0...1.12.0">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/underscore/1.12.0/index.html">Docs</a><br />
+        <ul>
+          <li>
+            Adds the <tt>_.get</tt> and <tt>_.toPath</tt> functions. The latter
+            can be overridden in order to customize the interpretation of deep
+            property paths throughout Underscore. A future version of
+            Underscore-contrib will be providing a ready-made function for this
+            purpose; users will be able to opt in to string-based path
+            shorthands such as <tt>'a.0.b'</tt> and <tt>'a[0]["b"]'</tt> by
+            using that function from Underscore-contrib to override
+            <tt>_.toPath</tt>.
+          </li>
+          <li>
+            Fixes a bug in <tt>_.isEqual</tt> that caused typed arrays to
+            compare equal when viewing different segments of the same
+            underlying <tt>ArrayBuffer</tt>.
+          </li>
+          <li>
+            Improves the compatibility of <tt>_.isEqual</tt>,
+            <tt>_.isDataView</tt>, <tt>_.isMap</tt>, <tt>_.isWeakMap</tt> and
+            <tt>_.isSet</tt> with some older browsers, especially IE 11.
+          </li>
+          <li>
+            Significantly enhances the performance of <tt>_.isEmpty</tt> and
+            several members of the isType family of functions.
+          </li>
+          <li>
+            Speeds up <tt>_.isEqual</tt> comparison of typed arrays and
+            <tt>DataView</tt>s with idential <tt>buffer</tt>,
+            <tt>byteOffset</tt> and <tt>byteLength</tt>.
+          </li>
+          <li>
+            Restores cross-browser testing during continuous integration to its
+            former glory and adds documentation about engine compatibility.
+          </li>
+          <li>
+            Slims down the development dependencies for testing.
+          </li>
+        </ul>
+      </p>
 
       <p id="1.11.0">
         <b class="header">1.11.0</b> &mdash; <small><i>August 28, 2020</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.10.2...1.11.0">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/underscore/1.11.0/index.html">Docs</a> &mdash; <a href="https://juliangonggrijp.com/article/introducing-modular-underscore.html">Article</a><br />
