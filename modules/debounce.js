@@ -1,32 +1,32 @@
-import restArguments from './restArguments.js';
-import delay from './delay.js';
+import now from './now.js';
 
 // When a sequence of calls of the returned function ends, the argument
 // function is triggered. The end of a sequence is defined by the `wait`
 // parameter. If `immediate` is passed, the argument function will be
 // triggered at the beginning of the sequence instead of at the end.
 export default function debounce(func, wait, immediate) {
-  var timeout, result;
-
-  var later = function(context, args) {
-    timeout = null;
-    if (args) result = func.apply(context, args);
+  var timeout, timestamp, args, result, context;
+  var later = function () {
+    var last = now() - timestamp;
+    if (wait > last) {
+      timeout = setTimeout(later, wait - last);
+    } else {
+      timeout = null;
+      if (!immediate) result = func.apply(context, args);
+    }
   };
 
-  var debounced = restArguments(function(args) {
-    if (timeout) clearTimeout(timeout);
-    if (immediate) {
-      var callNow = !timeout;
-      timeout = setTimeout(later, wait);
-      if (callNow) result = func.apply(this, args);
-    } else {
-      timeout = delay(later, wait, this, args);
-    }
-
+  var debounced = function () {
+    var callNow = immediate && !timeout;
+    context = this;
+    args = [].slice.call(arguments, 0);
+    timestamp = now();
+    if (!timeout) timeout = setTimeout(later, wait);
+    if (callNow) result = func.apply(context, args);
     return result;
-  });
+  }
 
-  debounced.cancel = function() {
+  debounced.cancel = function () {
     clearTimeout(timeout);
     timeout = null;
   };
