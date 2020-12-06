@@ -1090,7 +1090,6 @@
       previous = options.leading === false ? 0 : now();
       timeout = null;
       result = func.apply(context, args);
-      if (!timeout) context = args = null;
     };
 
     var throttled = function() {
@@ -1099,14 +1098,14 @@
       var remaining = wait - (_now - previous);
       context = this;
       args = arguments;
-      if (remaining <= 0 || remaining > wait) {
+      if (remaining <= 0) {
         if (timeout) {
           clearTimeout(timeout);
           timeout = null;
         }
         previous = _now;
         result = func.apply(context, args);
-        if (!timeout) context = args = null;
+        //if (!timeout) context = args = null;
       } else if (!timeout && options.trailing !== false) {
         timeout = setTimeout(later, remaining);
       }
@@ -1116,7 +1115,7 @@
     throttled.cancel = function() {
       clearTimeout(timeout);
       previous = 0;
-      timeout = context = args = null;
+      timeout = null;
     };
 
     return throttled;
@@ -1128,7 +1127,7 @@
   // triggered at the beginning of the sequence instead of at the end.
   function debounce(func, wait, immediate) {
     var timeout, timestamp, args, result, context;
-    var later = function () {
+    var later = function() {
       var last = now() - timestamp;
       if (wait > last) {
         timeout = setTimeout(later, wait - last);
@@ -1137,8 +1136,8 @@
         if (!immediate) result = func.apply(context, args);
       }
     };
-
-    var debounced = function () {
+  // Remove timer for immediate, samme as for throttle
+    var debounced = function() {
       var callNow = immediate && !timeout;
       context = this;
       args = [].slice.call(arguments, 0);
@@ -1148,7 +1147,7 @@
       return result;
     };
 
-    debounced.cancel = function () {
+    debounced.cancel = function() {
       clearTimeout(timeout);
       timeout = null;
     };

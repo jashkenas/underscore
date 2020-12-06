@@ -6,7 +6,7 @@ import now from './now.js';
 // triggered at the beginning of the sequence instead of at the end.
 export default function debounce(func, wait, immediate) {
   var timeout, timestamp, args, result, context;
-  var later = function () {
+  var later = function() {
     var last = now() - timestamp;
     if (wait > last) {
       timeout = setTimeout(later, wait - last);
@@ -15,8 +15,8 @@ export default function debounce(func, wait, immediate) {
       if (!immediate) result = func.apply(context, args);
     }
   };
-
-  var debounced = function () {
+// Remove timer for immediate, samme as for throttle
+  var debounced = function() {
     var callNow = immediate && !timeout;
     context = this;
     args = [].slice.call(arguments, 0);
@@ -26,7 +26,7 @@ export default function debounce(func, wait, immediate) {
     return result;
   }
 
-  debounced.cancel = function () {
+  debounced.cancel = function() {
     clearTimeout(timeout);
     timeout = null;
   };
