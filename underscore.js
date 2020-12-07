@@ -1131,13 +1131,12 @@
 
     var later = function() {
       var passed = now() - previous;
-      if (wait >= passed) {
+      if (wait > passed) {
         timeout = setTimeout(later, wait - passed);
-
       } else {
         timeout = null;
         if (!immediate) result = func.apply(context, args);
-        // This check is needed because the argument function can recursively invoke debounced
+        // This check is needed because the func can recursively invoke debounced
         if (!timeout) args = context = null;
       }
     };
