@@ -1081,6 +1081,7 @@ function throttle(func, wait, options) {
     previous = options.leading === false ? 0 : now();
     timeout = null;
     result = func.apply(context, args);
+    if (!timeout) context = args = null;
   };
 
   var throttled = function() {
@@ -1089,14 +1090,14 @@ function throttle(func, wait, options) {
     var remaining = wait - (_now - previous);
     context = this;
     args = arguments;
-    if (remaining <= 0) {
+    if (remaining <= 0 || remaining > wait) {
       if (timeout) {
         clearTimeout(timeout);
         timeout = null;
       }
       previous = _now;
       result = func.apply(context, args);
-      //if (!timeout) context = args = null;
+      if (!timeout) context = args = null;
     } else if (!timeout && options.trailing !== false) {
       timeout = setTimeout(later, remaining);
     }
@@ -1106,7 +1107,7 @@ function throttle(func, wait, options) {
   throttled.cancel = function() {
     clearTimeout(timeout);
     previous = 0;
-    timeout = null;
+    timeout = context = args = null;
   };
 
   return throttled;
@@ -1117,30 +1118,35 @@ function throttle(func, wait, options) {
 // parameter. If `immediate` is passed, the argument function will be
 // triggered at the beginning of the sequence instead of at the end.
 function debounce(func, wait, immediate) {
-  var timeout, timestamp, args, result, context;
+  var timeout, previous, args, result, context;
+
   var later = function() {
-    var last = now() - timestamp;
-    if (wait > last) {
-      timeout = setTimeout(later, wait - last);
+    var passed = now() - previous;
+    if (wait >= passed) {
+      timeout = setTimeout(later, wait - passed);
+
     } else {
       timeout = null;
       if (!immediate) result = func.apply(context, args);
+      // This check is needed because the argument function can recursively invoke debounced
+      if (!timeout) args = context = null;
     }
   };
-// Remove timer for immediate, samme as for throttle
-  var debounced = function() {
-    var callNow = immediate && !timeout;
+
+  var debounced = restArguments(function(_args) {
     context = this;
-    args = [].slice.call(arguments, 0);
-    timestamp = now();
-    if (!timeout) timeout = setTimeout(later, wait);
-    if (callNow) result = func.apply(context, args);
+    args = _args;
+    previous = now();
+    if (!timeout) {
+      timeout = setTimeout(later, wait);
+      if (immediate) result = func.apply(context, args);
+    }
     return result;
-  };
+  });
 
   debounced.cancel = function() {
     clearTimeout(timeout);
-    timeout = null;
+    timeout = args = context = null;
   };
 
   return debounced;
