@@ -621,12 +621,12 @@
 
   // An internal function for creating assigner functions.
   function createAssigner(keysFunc, defaults) {
-    return function(obj) {
-      var length = arguments.length;
+    return restArguments(function(obj, sources) {
+      var length = sources.length;
       if (defaults) obj = Object(obj);
-      if (length < 2 || obj == null) return obj;
-      for (var index = 1; index < length; index++) {
-        var source = arguments[index],
+      if (!length || obj == null) return obj;
+      for (var index = 0; index < length; index++) {
+        var source = sources[index],
             keys = keysFunc(source),
             l = keys.length;
         for (var i = 0; i < l; i++) {
@@ -635,7 +635,7 @@
         }
       }
       return obj;
-    };
+    });
   }
 
   // Extend a given object with all the properties in passed-in object(s).
