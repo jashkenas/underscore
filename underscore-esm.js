@@ -469,20 +469,33 @@ function allKeys(obj) {
   return keys;
 }
 
+// Internal function for linearly iterating over arrays.
+function linearSearch(array, predicate, index, dir) {
+  var length = getLength(array);
+  dir || (dir = 1);
+  index = (
+    index == null ? (dir > 0 ? 0 : length - 1) :
+    index < 0 ? (dir > 0 ? Math.max(0, index + length) : index + length) :
+    dir > 0 ? index : Math.min(index, length - 1)
+  );
+  for (; index >= 0 && index < length; index += dir) {
+    if (predicate(array[index], index, array)) return index;
+  }
+  return -1;
+}
+
 // Since the regular `Object.prototype.toString` type tests don't work for
 // some types in IE 11, we use a fingerprinting heuristic instead, based
 // on the methods. It's not great, but it's the best we got.
 // The fingerprint method lists are defined below.
 function ie11fingerprint(methods) {
-  var length = getLength(methods);
   return function(obj) {
     if (obj == null) return false;
     // `Map`, `WeakMap` and `Set` have no enumerable keys.
-    var keys = allKeys(obj);
-    if (getLength(keys)) return false;
-    for (var i = 0; i < length; i++) {
-      if (!isFunction$1(obj[methods[i]])) return false;
-    }
+    if (getLength(allKeys(obj))) return false;
+    if (linearSearch(methods, function(method) {
+      return !isFunction$1(obj[method]);
+    }) != -1) return false;
     // If we are testing against `WeakMap`, we need to ensure that
     // `obj` doesn't have a `forEach` method in order to distinguish
     // it from a regular `Map`.
@@ -652,21 +665,6 @@ function deepGet(obj, path) {
 function get(object, path, defaultValue) {
   var value = deepGet(object, toPath$1(path));
   return isUndefined(value) ? defaultValue : value;
-}
-
-// Internal function for linearly iterating over arrays.
-function linearSearch(array, predicate, index, dir) {
-  var length = getLength(array);
-  dir || (dir = 1);
-  index = (
-    index == null ? (dir > 0 ? 0 : length - 1) :
-    index < 0 ? (dir > 0 ? Math.max(0, index + length) : index + length) :
-    dir > 0 ? index : Math.min(index, length - 1)
-  );
-  for (; index >= 0 && index < length; index += dir) {
-    if (predicate(array[index], index, array)) return index;
-  }
-  return -1;
 }
 
 // Shortcut function for checking if an object has a given property directly on
