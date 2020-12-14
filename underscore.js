@@ -1698,17 +1698,16 @@
 
   // Produce an array that contains every item shared between all the
   // passed-in arrays.
-  function intersection(array) {
+  var intersection = restArguments(function(array, others) {
     var result = [];
-    for (var i = 0, length = getLength(array); i < length; i++) {
-      var item = array[i];
-      if (contains(result, item)) continue;
-      if (linearSearch(arguments, function(other) {
+    linearSearch(array, function(item) {
+      if (contains(result, item)) return;
+      if (linearSearch(others, function(other) {
         return !contains(other, item);
       }) == -1) result.push(item);
-    }
+    });
     return result;
-  }
+  });
 
   // Complement of zip. Unzip accepts an array of arrays and groups
   // each array's elements on shared indices.
