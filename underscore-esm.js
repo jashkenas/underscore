@@ -1127,7 +1127,7 @@ function debounce(func, wait, immediate) {
     } else {
       timeout = null;
       if (!immediate) result = func.apply(context, args);
-      // This check is needed because the func can recursively invoke debounced
+      // This check is needed because `func` can recursively invoke `debounced`.
       if (!timeout) args = context = null;
     }
   };
