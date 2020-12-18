@@ -1136,7 +1136,7 @@
       } else {
         timeout = null;
         if (!immediate) result = func.apply(context, args);
-        // This check is needed because the func can recursively invoke debounced
+        // This check is needed because `func` can recursively invoke `debounced`.
         if (!timeout) args = context = null;
       }
     };
@@ -1584,6 +1584,20 @@
     result[pass ? 0 : 1].push(value);
   }, true);
 
+  // return obj's iterator if it exists
+  function getIterator(obj) {
+      try {
+          isObject(Symbol)? obj[Symbol.iterator]: null;
+      } catch (e) {
+          return null
+      }
+  }
+
+  // Internal function to check if `obj` is iterable.
+  function isIterable(obj) {
+    return isFunction$1(getIterator(obj));
+  }
+
   // Safely create a real, live array from anything iterable.
   var reStrSymbol = /[^\ud800-\udfff]|[\ud800-\udbff][\udc00-\udfff]|[\ud800-\udfff]/g;
   function toArray(obj) {
@@ -1594,7 +1608,19 @@
       return obj.match(reStrSymbol);
     }
     if (isArrayLike(obj)) return map(obj, identity);
+    else if (isIterable(obj)) return iteratorToArray(obj[Symbol.iterator]())
     return values(obj);
+  }
+
+  // create an array of iterator's values
+  function iteratorToArray(iterator) {
+    var data,
+      result = [];
+
+    while (!(data = iterator.next()).done) {
+      result.push(data.value);
+    }
+    return result;
   }
 
   // Return the number of elements in a collection.
