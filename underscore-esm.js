@@ -1294,8 +1294,12 @@ function eachRight(obj, func) {
 }
 
 // Create a reducing function iterating left or right.
-function createReduce(dir) {
+// `customInit` can be used to control how the accumulator is
+// initialized from the first element. Defaults to using the element
+// directly.
+function createReduce(dir, customInit) {
   var loop = dir > 0 ? each : eachRight;
+  customInit || (customInit = identity);
 
   // Wrap code that reassigns argument variables in a separate function than
   // the one that accesses `arguments.length` to avoid a perf hit. (#1991)
@@ -1304,9 +1308,9 @@ function createReduce(dir) {
       // Make the `iteratee` change identity temporarily so that it only sets
       // the `memo` on the first iteration.
       var actualIteratee = iteratee;
-      iteratee = function(memo, value) {
+      iteratee = function(memo, value, key) {
         iteratee = actualIteratee;
-        return value;
+        return customInit(value, key, obj);
       };
     }
     loop(obj, function(value, key, obj) {
