@@ -361,10 +361,12 @@ function identity(value) {
   return value;
 }
 
+// A version of the `<` operator that can be passed around as a function.
 function less(left, right) {
   return left < right;
 }
 
+// A version of the `<=` operator that can be passed around as a function.
 function lessEqual(left, right) {
   return left <= right;
 }
@@ -1441,55 +1443,76 @@ function where(obj, attrs) {
   return filter(obj, matcher(attrs));
 }
 
-// Return the maximum element (or element-based computation).
-function max(obj, iteratee, context) {
-  var result = -Infinity, lastComputed = -Infinity,
-      value, computed;
-  if (iteratee == null || typeof iteratee == 'number' && typeof obj[0] != 'object' && obj != null) {
-    obj = isArrayLike(obj) ? obj : values(obj);
-    for (var i = 0, length = obj.length; i < length; i++) {
-      value = obj[i];
-      if (value != null && value > result) {
-        result = value;
-      }
-    }
-  } else {
-    iteratee = cb(iteratee, context);
-    each(obj, function(v, index, list) {
-      computed = iteratee(v, index, list);
-      if (computed > lastComputed || computed === -Infinity && result === -Infinity) {
-        result = v;
-        lastComputed = computed;
-      }
-    });
+// The general algorithm behind `_.min` and `_.max`. `compare` should return
+// `true` if its first argument is more extreme than (i.e., should be preferred
+// over) its second argument, `false` otherwise. `iteratee` and `context`, like
+// in other collection functions, let you map the actual values in `collection`
+// to the values to `compare`. `decide` is an optional customization point
+// which is only present for historical reasons; please don't use it, as it will
+// likely be removed in the future.
+function extremum(collection, compare, iteratee, context, decide) {
+  decide || (decide = identity);
+  // Detect use of a partially-applied `extremum` as an iteratee.
+  if (typeof iteratee == 'number' && typeof collection[0] != 'object') {
+    iteratee = null;
   }
-  return result;
+  iteratee = cb(iteratee, context);
+  // `extremum` is essentially a combined map+reduce with **two** accumulators:
+  // an unmapped and a mapped version, corresponding to the same element. Our
+  // `reduce` implementation only passes one accumulator on each iteration,
+  // `iterResult` (the mapped version) so we close over the second accumulator,
+  // `result` (the unmapped version). We define a custom `reduce` so that we can
+  // map the first element to the initial accumulator and also set `result`.
+  var result;
+  var reduce = createReduce(1, function(value, key) {
+    result = value;
+    return iteratee(value, key, collection);
+  });
+  var iterResult = reduce(collection, function(iterResult, value, key) {
+    var iterValue = iteratee(value, key, collection);
+    if (compare(iterValue, iterResult)) {
+      result = value;
+      return iterValue;
+    }
+    return iterResult;
+  });
+  // `extremum` normally returns an unmapped element from `collection`. However,
+  // `_.min` and `_.max` forcibly return a number even if there is no element
+  // that maps to a numeric value. Passing both accumulators through `decide`
+  // before returning enables this behavior.
+  return decide(result, iterResult);
 }
 
-// Return the minimum element (or element-based computation).
-function min(obj, iteratee, context) {
-  var result = Infinity, lastComputed = Infinity,
-      value, computed;
-  if (iteratee == null || typeof iteratee == 'number' && typeof obj[0] != 'object' && obj != null) {
-    obj = isArrayLike(obj) ? obj : values(obj);
-    for (var i = 0, length = obj.length; i < length; i++) {
-      value = obj[i];
-      if (value != null && value < result) {
-        result = value;
-      }
-    }
-  } else {
-    iteratee = cb(iteratee, context);
-    each(obj, function(v, index, list) {
-      computed = iteratee(v, index, list);
-      if (computed < lastComputed || computed === Infinity && result === Infinity) {
-        result = v;
-        lastComputed = computed;
-      }
-    });
+// Internal comparison adapter for `_.min` and `_.max`.
+// Only considers numeric values as possible extremes.
+function compareNumeric(compare) {
+  return function(left, right) {
+    if (right == null || +right !== +right) return true;
+    return left != null && compare(+left, +right);
   }
-  return result;
 }
+
+// Internal `extremum` return value adapter for `_.min` and `_.max`.
+// Ensures that a number is returned even if no element of the
+// collection maps to a numeric value.
+function decideNumeric(fallback) {
+  return function(result, iterResult) {
+    return isNaN$1(+iterResult) ? fallback : result;
+  }
+}
+
+// A version of the `>` operator that can be passed around as a function.
+function greater(left, right) {
+  return left > right;
+}
+
+// Return the maximum element (or element-based computation).
+// Forces a numeric result.
+var max = partial(extremum, _, compareNumeric(greater), _, _, decideNumeric(-Infinity));
+
+// Return the minimum element (or element-based computation).
+// Forces a numeric result.
+var min = partial(extremum, _, compareNumeric(less), _, _, decideNumeric(Infinity));
 
 // Sample **n** random values from a collection using the modern version of the
 // [Fisher-Yates shuffle](https://en.wikipedia.org/wiki/Fisher–Yates_shuffle).
