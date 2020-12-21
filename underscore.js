@@ -1609,7 +1609,8 @@
     var iteratee = keys[0], context;
     if (isFunction$1(iteratee)) {
       iteratee = negate(iteratee);
-      if (keys.length > 1) context = keys[1];
+      // `keys[1]` might be `undefined`, but that's fine.
+      context = keys[1];
     } else {
       keys = map(flatten(keys, false, false), String);
       iteratee = function(value, key) {
