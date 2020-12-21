@@ -3,7 +3,7 @@ import clone from './clone.js';
 import values from './values.js';
 import getLength from './_getLength.js';
 import random from './random.js';
-import linearSearch from './_linearSearch.js';
+import times from './times.js';
 
 // Sample **n** random values from a collection using the modern version of the
 // [Fisher-Yates shuffle](https://en.wikipedia.org/wiki/Fisher–Yates_shuffle).
@@ -17,11 +17,10 @@ export default function sample(obj, n, guard) {
   sample = sample || clone(obj);
   n = Math.max(Math.min(n, length), 0);
   var last = length - 1;
-  linearSearch(sample, function(temp, index) {
-    if (index >= n) return true;
+  return times(n, function(index) {
     var rand = random(index, last);
-    sample[index] = sample[rand];
-    sample[rand] = temp;
+    var chosen = sample[rand];
+    sample[rand] = sample[index];
+    return chosen;
   });
-  return sample.slice(0, n);
 }

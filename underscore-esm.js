@@ -1503,13 +1503,12 @@ function sample(obj, n, guard) {
   sample = sample || clone(obj);
   n = Math.max(Math.min(n, length), 0);
   var last = length - 1;
-  linearSearch(sample, function(temp, index) {
-    if (index >= n) return true;
+  return times(n, function(index) {
     var rand = random(index, last);
-    sample[index] = sample[rand];
-    sample[rand] = temp;
+    var chosen = sample[rand];
+    sample[rand] = sample[index];
+    return chosen;
   });
-  return sample.slice(0, n);
 }
 
 // Shuffle a collection.
