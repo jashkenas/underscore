@@ -158,6 +158,7 @@ export { default as countBy } from './countBy.js';
 export { default as partition } from './partition.js';
 export { default as toArray } from './toArray.js';
 export { default as size } from './size.js';
+export { default as findKeys} from './findKeys.js';
 
 // `_.pick` and `_.omit` are actually object functions, but we put
 // them here in order to create a more natural reading order in the

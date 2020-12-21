@@ -1201,6 +1201,42 @@
     assert.strictEqual(_.findKey(array, function(x) { return x === 55; }), 'match', 'matches array-likes keys');
   });
 
+  QUnit.test('findKeys', function(assert) {
+    var objects = {
+      a: {a: 10, b: 7},
+      b: {a: 4, b: 6},
+      c: {a: 3, b: 8},
+      d: {a: 5, b: 8}
+    };
+  
+    assert.deepEqual(_.findKeys(objects, function(obj) {
+      return obj.b === 6;
+    }), ['b']);
+  
+    assert.deepEqual(_.findKeys(objects, function(obj) {
+      return obj.b * obj.a === 24;
+    }), ['b', 'c']);
+  
+  
+    assert.deepEqual(_.findKeys(objects, function(obj) {
+      return obj.b === 8 && obj.a === 5;
+    }), ['d']);
+  
+    assert.deepEqual(_.findKeys([1, 2, 3, 4, 5, 6], function(obj) {
+      return obj === 3;
+    }), ['2'], 'Keys are strings');
+  
+    assert.deepEqual(_.findKeys(objects, function(a) {
+      return a.foo === null;
+    }), []);
+  
+  
+    var array = [1, 2, 3, 4];
+    array.match = 55;
+    assert.deepEqual(_.findKeys(array, function(x) { return x === 55; }), ['match'], 'matches array-likes keys');
+  });
+  
+
 
   QUnit.test('mapObject', function(assert) {
     var obj = {a: 1, b: 2};

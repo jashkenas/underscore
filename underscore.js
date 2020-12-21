@@ -1629,6 +1629,18 @@
     return isArrayLike(obj) ? obj.length : keys(obj).length;
   }
 
+  // Returns the first key on an object that passes a truth test.
+  function findKeys(obj, predicate, context) {
+    predicate = cb(predicate, context);
+    var result = [];
+    var _keys = keys(obj), key;
+    for (var i = 0, length = _keys.length; i < length; i++) {
+      key = _keys[i];
+      if (predicate(obj[key], key, obj)) result.push(key);
+    }
+    return result
+  }
+
   // Internal `_.pick` helper function to determine whether `key` is an enumerable
   // property name of `obj`.
   function keyInObj(value, key, obj) {
@@ -2012,6 +2024,7 @@
     partition: partition,
     toArray: toArray,
     size: size,
+    findKeys: findKeys,
     pick: pick,
     omit: omit,
     first: first,
