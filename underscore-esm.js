@@ -55,17 +55,8 @@ var MAX_ARRAY_INDEX = Math.pow(2, 53) - 1;
 function restArguments(func, startIndex) {
   startIndex = startIndex == null ? func.length - 1 : +startIndex;
   return function() {
-    var length = Math.max(arguments.length - startIndex, 0),
-        rest = Array(length),
-        index = 0;
-    for (; index < length; index++) {
-      rest[index] = arguments[index + startIndex];
-    }
-    var args = Array(startIndex + 1);
-    for (index = 0; index < startIndex; index++) {
-      args[index] = arguments[index];
-    }
-    args[startIndex] = rest;
+    var args = slice.call(arguments, 0, startIndex);
+    args[startIndex] = slice.call(arguments, startIndex);
     return func.apply(this, args);
   };
 }
