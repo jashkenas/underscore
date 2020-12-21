@@ -416,8 +416,7 @@
 
     var areArrays = className === '[object Array]';
     if (!areArrays && isTypedArray$1(a)) {
-        var byteLength = getByteLength(a);
-        if (byteLength !== getByteLength(b)) return false;
+        if (getByteLength(a) !== getByteLength(b)) return false;
         if (a.buffer === b.buffer && a.byteOffset === b.byteOffset) return true;
         areArrays = true;
     }
@@ -454,23 +453,20 @@
     // Recursively compare objects and arrays.
     if (areArrays) {
       // Compare array lengths to determine if a deep comparison is necessary.
-      length = a.length;
-      if (length !== b.length) return false;
+      if (a.length !== b.length) return false;
       // Deep compare the contents, ignoring non-numeric properties.
-      while (length--) {
-        if (!eq(a[length], b[length], aStack, bStack)) return false;
-      }
+      if (linearSearch(a, function(aElement, index) {
+        return !eq(aElement, b[index], aStack, bStack);
+      }, null, -1) != -1) return false; /* legacy backwards iteration */
     } else {
       // Deep compare objects.
-      var _keys = keys(a), key;
-      length = _keys.length;
+      var _keys = keys(a);
       // Ensure that both objects contain the same number of properties before comparing deep equality.
-      if (keys(b).length !== length) return false;
-      while (length--) {
+      if (keys(b).length !== _keys.length) return false;
+      if (linearSearch(_keys, function(key) {
         // Deep compare each member
-        key = _keys[length];
-        if (!(has(b, key) && eq(a[key], b[key], aStack, bStack))) return false;
-      }
+        return !(has(b, key) && eq(a[key], b[key], aStack, bStack));
+      }, null, -1) != -1) return false; /* legacy backwards iteration */
     }
     // Remove the first object from the stack of traversed objects.
     aStack.pop();
