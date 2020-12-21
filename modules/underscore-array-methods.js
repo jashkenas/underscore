@@ -1,10 +1,10 @@
 import _ from './underscore.js';
-import each from './each.js';
+import linearSearch from './_linearSearch.js';
 import { ArrayProto } from './_setup.js';
 import chainResult from './_chainResult.js';
 
 // Add all mutator `Array` functions to the wrapper.
-each(['pop', 'push', 'reverse', 'shift', 'sort', 'splice', 'unshift'], function(name) {
+linearSearch(['pop', 'push', 'reverse', 'shift', 'sort', 'splice', 'unshift'], function(name) {
   var method = ArrayProto[name];
   _.prototype[name] = function() {
     var obj = this._wrapped;
@@ -19,7 +19,7 @@ each(['pop', 'push', 'reverse', 'shift', 'sort', 'splice', 'unshift'], function(
 });
 
 // Add all accessor `Array` functions to the wrapper.
-each(['concat', 'join', 'slice'], function(name) {
+linearSearch(['concat', 'join', 'slice'], function(name) {
   var method = ArrayProto[name];
   _.prototype[name] = function() {
     var obj = this._wrapped;
