@@ -821,7 +821,7 @@ _.pluck(stooges, 'name');
         function is provided, it will be used on each value to generate the
         criterion by which the value is ranked. <i>-Infinity</i> is returned
         if <b>list</b> is empty, so an <a href="#isEmpty">isEmpty</a> guard
-        may be required. Non-numerical values in <b>list</b> will be ignored.
+        may be required. This function can currently only compare numbers reliably.
         This function uses operator <tt>&lt;</tt>
         (<a href="#relational-operator-note">note</a>).
       </p>
@@ -838,7 +838,7 @@ _.max(stooges, function(stooge){ return stooge.age; });
         function is provided, it will be used on each value to generate the
         criterion by which the value is ranked. <i>Infinity</i> is returned
         if <b>list</b> is empty, so an <a href="#isEmpty">isEmpty</a> guard
-        may be required. Non-numerical values in <b>list</b> will be ignored.
+        may be required. This function can currently only compare numbers reliably.
         This function uses operator <tt>&lt;</tt>
         (<a href="#relational-operator-note">note</a>).
       </p>
