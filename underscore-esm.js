@@ -1678,21 +1678,18 @@ function uniq(array, isSorted, iteratee, context) {
     iteratee = isSorted;
     isSorted = false;
   }
-  if (iteratee != null) iteratee = cb(iteratee, context);
+  var identity = iteratee == null;
+  iteratee = cb(iteratee, context);
   var result = [];
-  var seen = [];
+  var seen = identity ? result : [];
   for (var i = 0, length = getLength(array); i < length; i++) {
     var value = array[i],
-        computed = iteratee ? iteratee(value, i, array) : value;
-    if (isSorted && !iteratee) {
+        computed = iteratee(value, i, array);
+    if (isSorted && identity) {
       if (!i || seen !== computed) result.push(value);
       seen = computed;
-    } else if (iteratee) {
-      if (!contains(seen, computed)) {
-        seen.push(computed);
-        result.push(value);
-      }
-    } else if (!contains(result, value)) {
+    } else if (!contains(seen, computed)) {
+      identity || seen.push(computed);
       result.push(value);
     }
   }
