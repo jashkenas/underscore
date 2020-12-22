@@ -1377,12 +1377,14 @@ function every(obj, predicate, context) {
 var reStrSymbol = /[^\ud800-\udfff]|[\ud800-\udbff][\udc00-\udfff]|[\ud800-\udfff]/g;
 function toArray(obj) {
   if (!obj) return [];
-  if (isArray(obj)) return slice.call(obj);
   if (isString(obj)) {
     // Keep surrogate pair characters together.
     return obj.match(reStrSymbol);
   }
-  if (isArrayLike(obj)) return map(obj, identity);
+  // We would use `slice.call` for any array-like, but that didn't work for
+  // `NodeList` in IE8. See commit 26a30551f912f8180e6c2381d0eae4b24259fb70.
+  if (isArray(obj)) return slice.call(obj);
+  if (isArrayLike(obj)) return map(obj /*identity*/);
   return values(obj);
 }
 
