@@ -260,7 +260,6 @@ function emulatedSet(keys) {
 // needed.
 function collectNonEnumProps(obj, keys) {
   keys = emulatedSet(keys);
-  var nonEnumIdx = getLength(nonEnumerableProps);
   var constructor = obj.constructor;
   var proto = isFunction$1(constructor) && constructor.prototype || ObjProto;
 
@@ -268,12 +267,11 @@ function collectNonEnumProps(obj, keys) {
   var prop = 'constructor';
   if (has(obj, prop) && !keys.contains(prop)) keys.push(prop);
 
-  while (nonEnumIdx--) {
-    prop = nonEnumerableProps[nonEnumIdx];
+  linearSearch(nonEnumerableProps, function(prop) {
     if (prop in obj && obj[prop] !== proto[prop] && !keys.contains(prop)) {
       keys.push(prop);
     }
-  }
+  }, null, -1); /* legacy backwards iteration */
 }
 
 // Retrieve the names of an object's own properties.

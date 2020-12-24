@@ -1,5 +1,4 @@
 import linearSearch from './_linearSearch.js';
-import getLength from './_getLength.js';
 import { nonEnumerableProps, ObjProto } from './_setup.js';
 import isFunction from './isFunction.js';
 import has from './_has.js';
@@ -25,7 +24,6 @@ function emulatedSet(keys) {
 // needed.
 export default function collectNonEnumProps(obj, keys) {
   keys = emulatedSet(keys);
-  var nonEnumIdx = getLength(nonEnumerableProps);
   var constructor = obj.constructor;
   var proto = isFunction(constructor) && constructor.prototype || ObjProto;
 
@@ -33,10 +31,9 @@ export default function collectNonEnumProps(obj, keys) {
   var prop = 'constructor';
   if (has(obj, prop) && !keys.contains(prop)) keys.push(prop);
 
-  while (nonEnumIdx--) {
-    prop = nonEnumerableProps[nonEnumIdx];
+  linearSearch(nonEnumerableProps, function(prop) {
     if (prop in obj && obj[prop] !== proto[prop] && !keys.contains(prop)) {
       keys.push(prop);
     }
-  }
+  }, null, -1); /* legacy backwards iteration */
 }
