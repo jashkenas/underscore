@@ -1,5 +1,6 @@
 import restArguments from './restArguments.js';
 import isFunction from './isFunction.js';
+import initial from './initial.js';
 import last from './last.js';
 import map from './map.js';
 import getLength from './_getLength.js';
@@ -13,7 +14,7 @@ export default restArguments(function(obj, path, args) {
     func = path;
   } else {
     path = toPath(path);
-    contextPath = path.slice(0, -1);
+    contextPath = initial(path);
     path = last(path);
   }
   return map(obj, function(context) {

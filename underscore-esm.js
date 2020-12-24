@@ -1381,6 +1381,13 @@ function contains(obj, item, fromIndex, guard) {
   return indexOf(obj, item, fromIndex) >= 0;
 }
 
+// Returns everything but the last entry of the array. Especially useful on
+// the arguments object. Passing **n** will return all the values in
+// the array, excluding the last N.
+function initial(array, n, guard) {
+  return slice.call(array, 0, Math.max(0, array.length - (n == null || guard ? 1 : n)));
+}
+
 // Returns everything but the first entry of the `array`. Especially useful on
 // the `arguments` object. Passing an **n** will return the rest N values in the
 // `array`.
@@ -1404,7 +1411,7 @@ var invoke = restArguments(function(obj, path, args) {
     func = path;
   } else {
     path = toPath$1(path);
-    contextPath = path.slice(0, -1);
+    contextPath = initial(path);
     path = last(path);
   }
   return map(obj, function(context) {
@@ -1613,13 +1620,6 @@ var omit = restArguments(function(obj, keys) {
   }
   return pick(obj, iteratee, context);
 });
-
-// Returns everything but the last entry of the array. Especially useful on
-// the arguments object. Passing **n** will return all the values in
-// the array, excluding the last N.
-function initial(array, n, guard) {
-  return slice.call(array, 0, Math.max(0, array.length - (n == null || guard ? 1 : n)));
-}
 
 // Get the first element of an array. Passing **n** will return the first N
 // values in the array. The **guard** check allows it to work with `_.map`.
