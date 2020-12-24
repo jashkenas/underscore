@@ -1381,6 +1381,22 @@ function contains(obj, item, fromIndex, guard) {
   return indexOf(obj, item, fromIndex) >= 0;
 }
 
+// Returns everything but the first entry of the `array`. Especially useful on
+// the `arguments` object. Passing an **n** will return the rest N values in the
+// `array`.
+function rest(array, n, guard) {
+  return slice.call(array, n == null || guard ? 1 : n);
+}
+
+// Get the last element of an array. Passing **n** will return the last N
+// values in the array.
+function last(array, n, guard) {
+  var len = getLength(array);
+  var singleton = (n == null || guard);
+  if (array == null || len < 1) return singleton ? void 0 : [];
+  return singleton ? array[len - 1] : rest(array, Math.max(0, len - n));
+}
+
 // Invoke a method (with arguments) on every item in a collection.
 var invoke = restArguments(function(obj, path, args) {
   var contextPath, func;
@@ -1389,7 +1405,7 @@ var invoke = restArguments(function(obj, path, args) {
   } else {
     path = toPath$1(path);
     contextPath = path.slice(0, -1);
-    path = path[path.length - 1];
+    path = last(path);
   }
   return map(obj, function(context) {
     var method = func;
@@ -1612,22 +1628,6 @@ function first(array, n, guard) {
   var singleton = (n == null || guard);
   if (array == null || len < 1) return singleton ? void 0 : [];
   return singleton ? array[0] : initial(array, len - n);
-}
-
-// Returns everything but the first entry of the `array`. Especially useful on
-// the `arguments` object. Passing an **n** will return the rest N values in the
-// `array`.
-function rest(array, n, guard) {
-  return slice.call(array, n == null || guard ? 1 : n);
-}
-
-// Get the last element of an array. Passing **n** will return the last N
-// values in the array.
-function last(array, n, guard) {
-  var len = getLength(array);
-  var singleton = (n == null || guard);
-  if (array == null || len < 1) return singleton ? void 0 : [];
-  return singleton ? array[len - 1] : rest(array, Math.max(0, len - n));
 }
 
 // Trim out all falsy values from an array.
