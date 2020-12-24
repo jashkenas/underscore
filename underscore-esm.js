@@ -1408,7 +1408,7 @@ var invoke = restArguments(function(obj, path, args) {
   return map(obj, function(context) {
     var method = func;
     if (!method) {
-      if (contextPath && contextPath.length) {
+      if (getLength(contextPath)) {
         context = deepGet(context, contextPath);
       }
       if (context == null) return void 0;

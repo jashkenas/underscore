@@ -1,6 +1,7 @@
 import restArguments from './restArguments.js';
 import isFunction from './isFunction.js';
 import map from './map.js';
+import getLength from './_getLength.js';
 import deepGet from './_deepGet.js';
 import toPath from './_toPath.js';
 
@@ -17,7 +18,7 @@ export default restArguments(function(obj, path, args) {
   return map(obj, function(context) {
     var method = func;
     if (!method) {
-      if (contextPath && contextPath.length) {
+      if (getLength(contextPath)) {
         context = deepGet(context, contextPath);
       }
       if (context == null) return void 0;
