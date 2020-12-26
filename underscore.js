@@ -234,16 +234,16 @@
   var isArrayLike = createSizePropertyCheck(getLength);
 
   // Internal function for linearly iterating over arrays.
-  function linearSearch(array, predicate, dir, index) {
+  function linearSearch(array, predicate, dir, start) {
     var length = getLength(array);
     dir || (dir = 1);
-    index = (
-      index == null ? (dir > 0 ? 0 : length - 1) :
-      index < 0 ? (dir > 0 ? Math.max(0, index + length) : index + length) :
-      dir > 0 ? index : Math.min(index, length - 1)
+    start = (
+      start == null ? (dir > 0 ? 0 : length - 1) :
+      start < 0 ? (dir > 0 ? Math.max(0, start + length) : start + length) :
+      dir > 0 ? start : Math.min(start, length - 1)
     );
-    for (; index >= 0 && index < length; index += dir) {
-      if (predicate(array[index], index, array)) return index;
+    for (; start >= 0 && start < length; start += dir) {
+      if (predicate(array[start], start, array)) return start;
     }
     return -1;
   }
