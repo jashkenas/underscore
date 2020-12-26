@@ -8,6 +8,7 @@ import isDataView from './isDataView.js';
 import keys from './keys.js';
 import has from './_has.js';
 import toBufferView from './_toBufferView.js';
+import lastIndexOf from './lastIndexOf.js';
 import linearSearch from './_linearSearch.js';
 
 // We use this string twice, so give it a name for minification.
@@ -94,12 +95,10 @@ function deepEq(a, b, aStack, bStack) {
   // It's done here since we only need them for objects and arrays comparison.
   aStack = aStack || [];
   bStack = bStack || [];
-  var length = aStack.length;
-  while (length--) {
-    // Linear search. Performance is inversely proportional to the number of
-    // unique nested structures.
-    if (aStack[length] === a) return bStack[length] === b;
-  }
+  // Linear search. Performance is inversely proportional to the number of
+  // unique nested structures.
+  var parentIndex = lastIndexOf(aStack, a); /* legacy backwards iteration */
+  if (parentIndex != -1) return bStack[parentIndex] === b;
 
   // Add the first object to the stack of traversed objects.
   aStack.push(a);
