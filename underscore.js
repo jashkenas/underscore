@@ -234,7 +234,7 @@
   var isArrayLike = createSizePropertyCheck(getLength);
 
   // Internal function for linearly iterating over arrays.
-  function linearSearch(array, predicate, index, dir) {
+  function linearSearch(array, predicate, dir, index) {
     var length = getLength(array);
     dir || (dir = 1);
     index = (
@@ -280,7 +280,7 @@
       if (prop in obj && obj[prop] !== proto[prop] && !keys.contains(prop)) {
         keys.push(prop);
       }
-    }, null, -1); /* legacy backwards iteration */
+    }, -1); /* legacy backwards iteration */
   }
 
   // Retrieve the names of an object's own properties.
@@ -455,7 +455,7 @@
       // Deep compare the contents, ignoring non-numeric properties.
       if (linearSearch(a, function(aElement, index) {
         return !eq(aElement, b[index], aStack, bStack);
-      }, null, -1) != -1) return false; /* legacy backwards iteration */
+      }, -1) != -1) return false; /* legacy backwards iteration */
     } else {
       // Deep compare objects.
       var _keys = keys(a);
@@ -464,7 +464,7 @@
       if (linearSearch(_keys, function(key) {
         // Deep compare each member
         return !(has(b, key) && eq(a[key], b[key], aStack, bStack));
-      }, null, -1) != -1) return false; /* legacy backwards iteration */
+      }, -1) != -1) return false; /* legacy backwards iteration */
     }
     // Remove the first object from the stack of traversed objects.
     aStack.pop();
@@ -1009,7 +1009,7 @@
     if (!getLength(keys)) throw new Error('bindAll must be passed function names');
     linearSearch(keys, function(key) {
       obj[key] = bind(obj[key], obj);
-    }, null, -1); /* backwards for legacy reasons */
+    }, -1); /* backwards for legacy reasons */
     return obj;
   });
 
@@ -1187,7 +1187,7 @@
   // Internal function to generate `_.findIndex` and `_.findLastIndex`.
   function createPredicateIndexFinder(dir) {
     return function(array, predicate, context) {
-      return linearSearch(array, cb(predicate, context), null, dir);
+      return linearSearch(array, cb(predicate, context), dir);
     };
   }
 
@@ -1242,7 +1242,7 @@
       var predicate = item !== item ? isNaN$1 : function(candidate) {
         return candidate === item;
       };
-      return linearSearch(array, predicate, start, dir);
+      return linearSearch(array, predicate, dir, start);
     };
   }
 
@@ -1769,7 +1769,7 @@
     var result = [];
     linearSearch(array, function(_, index) {
       result.push(slice.call(array, index, index + count));
-    }, 0, count);
+    }, count);
     return result;
   }
 

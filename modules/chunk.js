@@ -8,6 +8,6 @@ export default function chunk(array, count) {
   var result = [];
   linearSearch(array, function(_, index) {
     result.push(slice.call(array, index, index + count));
-  }, 0, count);
+  }, count);
   return result;
 }

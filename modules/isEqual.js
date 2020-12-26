@@ -112,7 +112,7 @@ function deepEq(a, b, aStack, bStack) {
     // Deep compare the contents, ignoring non-numeric properties.
     if (linearSearch(a, function(aElement, index) {
       return !eq(aElement, b[index], aStack, bStack);
-    }, null, -1) != -1) return false; /* legacy backwards iteration */
+    }, -1) != -1) return false; /* legacy backwards iteration */
   } else {
     // Deep compare objects.
     var _keys = keys(a);
@@ -121,7 +121,7 @@ function deepEq(a, b, aStack, bStack) {
     if (linearSearch(_keys, function(key) {
       // Deep compare each member
       return !(has(b, key) && eq(a[key], b[key], aStack, bStack));
-    }, null, -1) != -1) return false; /* legacy backwards iteration */
+    }, -1) != -1) return false; /* legacy backwards iteration */
   }
   // Remove the first object from the stack of traversed objects.
   aStack.pop();

@@ -1,7 +1,7 @@
 import getLength from './_getLength.js';
 
 // Internal function for linearly iterating over arrays.
-export default function linearSearch(array, predicate, index, dir) {
+export default function linearSearch(array, predicate, dir, index) {
   var length = getLength(array);
   dir || (dir = 1);
   index = (

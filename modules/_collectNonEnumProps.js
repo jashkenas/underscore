@@ -35,5 +35,5 @@ export default function collectNonEnumProps(obj, keys) {
     if (prop in obj && obj[prop] !== proto[prop] && !keys.contains(prop)) {
       keys.push(prop);
     }
-  }, null, -1); /* legacy backwards iteration */
+  }, -1); /* legacy backwards iteration */
 }

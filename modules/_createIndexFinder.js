@@ -25,6 +25,6 @@ export default function createIndexFinder(dir) {
     var predicate = item !== item ? isNaN : function(candidate) {
       return candidate === item;
     };
-    return linearSearch(array, predicate, start, dir);
+    return linearSearch(array, predicate, dir, start);
   };
 }
