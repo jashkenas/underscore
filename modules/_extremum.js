@@ -1,7 +1,7 @@
 import identity from './identity.js';
 import isArrayLike from './_isArrayLike.js';
 import toArray from './toArray.js';
-import linearSearch from './_linearSearch.js';
+import getLength from './_getLength.js';
 import cb from './_cb.js';
 import find from './find.js';
 
@@ -23,9 +23,11 @@ export default function extremum(collection, compare, iteratee, context, decide)
     // We're using an identity iteratee, so we can take some shortcuts.
     collection = isArrayLike(collection) ? collection : toArray(collection);
     result = iterResult = collection[0];
-    linearSearch(collection, function(value) {
+    var value;
+    for (var l = getLength(collection), i = 1; i < l; i++) {
+      value = collection[i];
       if (compare(value, result)) result = iterResult = value;
-    }, 1, 1);
+    }
   } else {
     // Use the general algorithm.
     iteratee = cb(iteratee, context);
