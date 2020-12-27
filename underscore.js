@@ -1502,17 +1502,21 @@
 
   // Return the maximum element (or element-based computation).
   // Forces a numeric result.
-  var max = partial(extremum, _, function(left, right) {
-    if (right == null || +right !== +right) return true;
-    return left != null && +left > +right;
-  }, _, _, decideNumeric(-Infinity));
+  function max(collection, iteratee, context) {
+    return extremum(collection, function(left, right) {
+      if (right == null || +right !== +right) return true;
+      return left != null && +left > +right;
+    }, iteratee, context, decideNumeric(-Infinity));
+  }
 
   // Return the minimum element (or element-based computation).
   // Forces a numeric result.
-  var min = partial(extremum, _, function(left, right) {
-    if (right == null || +right !== +right) return true;
-    return left != null && +left < +right;
-  }, _, _, decideNumeric(Infinity));
+  function min(collection, iteratee, context) {
+    return extremum(collection, function(left, right) {
+      if (right == null || +right !== +right) return true;
+      return left != null && +left < +right;
+    }, iteratee, context, decideNumeric(Infinity));
+  }
 
   // Sample **n** random values from a collection using the modern version of the
   // [Fisher-Yates shuffle](https://en.wikipedia.org/wiki/Fisher–Yates_shuffle).
