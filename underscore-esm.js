@@ -1458,24 +1458,22 @@ function extremum(collection, compare, iteratee, context, decide) {
   }
   iteratee = cb(iteratee, context);
   // `extremum` is essentially a combined map+reduce with **two** accumulators:
-  // an unmapped and a mapped version, corresponding to the same element. Our
-  // `reduce` implementation only passes one accumulator on each iteration,
-  // `iterResult` (the mapped version) so we close over the second accumulator,
-  // `result` (the unmapped version). We define a custom `reduce` so that we can
-  // map the first element to the initial accumulator and also set `result`.
-  var result;
-  var reduce = createReduce(1, function(value, key) {
-    result = value;
-    return iteratee(value, key, collection);
-  });
-  var iterResult = reduce(collection, function(iterResult, value, key) {
+  // `result` and `iterResult`, respectively the unmapped and the mapped version
+  // corresponding to the same element.
+  var result, iterResult;
+  function processRemainder(value, key) {
     var iterValue = iteratee(value, key, collection);
     if (compare(iterValue, iterResult)) {
       result = value;
-      return iterValue;
+      iterResult = iterValue;
     }
-    return iterResult;
-  });
+  }
+  var process = function(value, key) {
+    process = processRemainder;
+    result = value;
+    iterResult = iteratee(value, key, collection);
+  };
+  find(collection, function(value, key) { process(value, key); });
   // `extremum` normally returns an unmapped element from `collection`. However,
   // `_.min` and `_.max` forcibly return a number even if there is no element
   // that maps to a numeric value. Passing both accumulators through `decide`
