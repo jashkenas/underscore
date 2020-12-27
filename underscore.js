@@ -1474,19 +1474,15 @@
     } else {
       // Use the general algorithm.
       iteratee = cb(iteratee, context);
-      function processRemainder(value, key) {
+      var first = true;
+      find(collection, function(value, key) {
         var iterValue = iteratee(value, key, collection);
-        if (compare(iterValue, iterResult)) {
+        if (first || compare(iterValue, iterResult)) {
           result = value;
           iterResult = iterValue;
+          first = false;
         }
-      }
-      var process = function(value, key) {
-        process = processRemainder;
-        result = value;
-        iterResult = iteratee(value, key, collection);
-      };
-      find(collection, function(value, key) { process(value, key); });
+      });
     }
     // `extremum` normally returns an unmapped element from `collection`. However,
     // `_.min` and `_.max` forcibly return a number even if there is no element
