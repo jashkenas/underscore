@@ -1457,28 +1457,35 @@
   // likely be removed in the future.
   function extremum(collection, compare, iteratee, context, decide) {
     decide || (decide = identity);
-    // Detect use of a partially-applied `extremum` as an iteratee.
-    if (typeof iteratee == 'number' && typeof collection[0] != 'object') {
-      iteratee = null;
-    }
-    iteratee = cb(iteratee, context);
     // `extremum` is essentially a combined map+reduce with **two** accumulators:
     // `result` and `iterResult`, respectively the unmapped and the mapped version
     // corresponding to the same element.
     var result, iterResult;
-    function processRemainder(value, key) {
-      var iterValue = iteratee(value, key, collection);
-      if (compare(iterValue, iterResult)) {
-        result = value;
-        iterResult = iterValue;
+    // Detect use of a partially-applied `extremum` as an iteratee.
+    if (iteratee == null || typeof iteratee == 'number' && typeof collection[0] != 'object') {
+      // We're using an identity iteratee, so we can take some shortcuts.
+      collection = isArrayLike(collection) ? collection : toArray(collection);
+      result = iterResult = collection[0];
+      linearSearch(collection, function(value) {
+        if (compare(value, result)) result = iterResult = value;
+      }, 1, 1);
+    } else {
+      // Use the general algorithm.
+      iteratee = cb(iteratee, context);
+      function processRemainder(value, key) {
+        var iterValue = iteratee(value, key, collection);
+        if (compare(iterValue, iterResult)) {
+          result = value;
+          iterResult = iterValue;
+        }
       }
+      var process = function(value, key) {
+        process = processRemainder;
+        result = value;
+        iterResult = iteratee(value, key, collection);
+      };
+      find(collection, function(value, key) { process(value, key); });
     }
-    var process = function(value, key) {
-      process = processRemainder;
-      result = value;
-      iterResult = iteratee(value, key, collection);
-    };
-    find(collection, function(value, key) { process(value, key); });
     // `extremum` normally returns an unmapped element from `collection`. However,
     // `_.min` and `_.max` forcibly return a number even if there is no element
     // that maps to a numeric value. Passing both accumulators through `decide`
