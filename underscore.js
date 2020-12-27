@@ -1495,15 +1495,6 @@
     return decide(result, iterResult);
   }
 
-  // Internal comparison adapter for `_.min` and `_.max`.
-  // Only considers numeric values as possible extremes.
-  function compareNumeric(compare) {
-    return function(left, right) {
-      if (right == null || +right !== +right) return true;
-      return left != null && compare(+left, +right);
-    }
-  }
-
   // Internal `extremum` return value adapter for `_.min` and `_.max`.
   // Ensures that a number is returned even if no element of the
   // collection maps to a numeric value.
@@ -1513,18 +1504,19 @@
     }
   }
 
-  // A version of the `>` operator that can be passed around as a function.
-  function greater(left, right) {
-    return left > right;
-  }
-
   // Return the maximum element (or element-based computation).
   // Forces a numeric result.
-  var max = partial(extremum, _, compareNumeric(greater), _, _, decideNumeric(-Infinity));
+  var max = partial(extremum, _, function(left, right) {
+    if (right == null || +right !== +right) return true;
+    return left != null && +left > +right;
+  }, _, _, decideNumeric(-Infinity));
 
   // Return the minimum element (or element-based computation).
   // Forces a numeric result.
-  var min = partial(extremum, _, compareNumeric(less), _, _, decideNumeric(Infinity));
+  var min = partial(extremum, _, function(left, right) {
+    if (right == null || +right !== +right) return true;
+    return left != null && +left < +right;
+  }, _, _, decideNumeric(Infinity));
 
   // Sample **n** random values from a collection using the modern version of the
   // [Fisher-Yates shuffle](https://en.wikipedia.org/wiki/Fisher–Yates_shuffle).
