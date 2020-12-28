@@ -22,9 +22,7 @@ export default function createIndexFinder(dir) {
       var index = binarySearch(array, item, identity, compare);
       return array[index] === item ? index : -1;
     }
-    var predicate = item !== item ? isNaN : function(candidate) {
-      return candidate === item;
-    };
+    var predicate = item !== item ? isNaN : { value: item };
     return linearSearch(array, predicate, dir, start);
   };
 }

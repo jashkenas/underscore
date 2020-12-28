@@ -226,15 +226,26 @@ var isArrayLike = createSizePropertyCheck(getLength);
 
 // Internal function for linearly iterating over arrays.
 function linearSearch(array, predicate, dir, start) {
-  var length = getLength(array);
+  var target, length = getLength(array);
   dir || (dir = 1);
   start = (
     start == null ? (dir > 0 ? 0 : length - 1) :
     start < 0 ? (dir > 0 ? Math.max(0, start + length) : start + length) :
     dir > 0 ? start : Math.min(start, length - 1)
   );
+  // As a special case, in order to elide the `predicate` invocation on every
+  // loop iteration, we allow the caller to pass a value that should be found by
+  // strict equality comparison. This is somewhat like a rudimentary iteratee
+  // shorthand. It is used in `_.indexof` and `_.lastIndexOf`.
+  if (!isFunction$1(predicate)) {
+    target = has(predicate, 'value') ? predicate.value : predicate;
+    predicate = false;
+  }
   for (; start >= 0 && start < length; start += dir) {
-    if (predicate(array[start], start, array)) return start;
+    if (
+      predicate ? predicate(array[start], start, array) :
+      array[start] === target
+    ) return start;
   }
   return -1;
 }
@@ -387,9 +398,7 @@ function createIndexFinder(dir) {
       var index = binarySearch(array, item, identity, compare);
       return array[index] === item ? index : -1;
     }
-    var predicate = item !== item ? isNaN$1 : function(candidate) {
-      return candidate === item;
-    };
+    var predicate = item !== item ? isNaN$1 : { value: item };
     return linearSearch(array, predicate, dir, start);
   };
 }
