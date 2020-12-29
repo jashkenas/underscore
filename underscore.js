@@ -1301,22 +1301,9 @@
     return results;
   }
 
-  // A **less general** backward variant of `_.each`, specifically catered to
-  // implementing `_.reduceRight`.
-  function eachRight(obj, func) {
-    if (isArrayLike(obj)) {
-      findLastIndex(obj, func);
-    } else {
-      findLastIndex(keys(obj), function(key) {
-        func(obj[key], key, obj);
-      });
-    }
-  }
-
-  // Create a reducing function iterating left or right.
-  function createReduce(dir) {
-    var loop = dir > 0 ? find : eachRight;
-
+  // Create a reducing function iterating in the same way as `loop` (e.g.
+  // `_.find`).
+  function createReduce(loop) {
     // Wrap code that reassigns argument variables in a separate function than
     // the one that accesses `arguments.length` to avoid a perf hit. (#1991)
     function reducer(obj, iteratee, memo, initial) {
@@ -1343,10 +1330,22 @@
 
   // **Reduce** builds up a single result from a list of values, aka `inject`,
   // or `foldl`.
-  var reduce = createReduce(1);
+  var reduce = createReduce(find);
+
+  // A **less general** backward variant of `_.each`, specifically catered to
+  // implementing `_.reduceRight`.
+  function eachRight(obj, func) {
+    if (isArrayLike(obj)) {
+      findLastIndex(obj, func);
+    } else {
+      findLastIndex(keys(obj), function(key) {
+        func(obj[key], key, obj);
+      });
+    }
+  }
 
   // The right-associative version of reduce, also known as `foldr`.
-  var reduceRight = createReduce(-1);
+  var reduceRight = createReduce(eachRight);
 
   // Return all the elements that pass a truth test.
   function filter(obj, predicate, context) {
