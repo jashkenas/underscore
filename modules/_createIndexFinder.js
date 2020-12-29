@@ -19,8 +19,8 @@ export default function createIndexFinder(dir) {
     if (typeof controlArg == 'number') {
       start = controlArg;
     } else if (controlArg && forward) {
-      var index = binarySearch(array, item, identity, compare);
-      return array[index] === item ? index : -1;
+      start = binarySearch(array, item, identity, compare);
+      return array[start] === item ? start : -1;
     }
     var predicate = item !== item ? isNaN : { value: item };
     return linearSearch(array, predicate, dir, start);
