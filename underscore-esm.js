@@ -1306,7 +1306,7 @@ function eachRight(obj, func) {
 
 // Create a reducing function iterating left or right.
 function createReduce(dir) {
-  var loop = dir > 0 ? each : eachRight;
+  var loop = dir > 0 ? find : eachRight;
 
   // Wrap code that reassigns argument variables in a separate function than
   // the one that accesses `arguments.length` to avoid a perf hit. (#1991)

@@ -1,7 +1,7 @@
 import findLastIndex from './findLastIndex.js';
 import isArrayLike from './_isArrayLike.js';
 import keys from './keys.js';
-import each from './each.js';
+import find from './find.js';
 import bindCb from './_bindCb.js';
 
 // A **less general** backward variant of `_.each`, specifically catered to
@@ -18,7 +18,7 @@ function eachRight(obj, func) {
 
 // Create a reducing function iterating left or right.
 export default function createReduce(dir) {
-  var loop = dir > 0 ? each : eachRight;
+  var loop = dir > 0 ? find : eachRight;
 
   // Wrap code that reassigns argument variables in a separate function than
   // the one that accesses `arguments.length` to avoid a perf hit. (#1991)
