@@ -1482,12 +1482,11 @@ function min(obj, iteratee, context) {
 // If **n** is not specified, returns a single random element.
 // The internal `guard` argument allows it to work with `_.map`.
 function sample(obj, n, guard) {
-  if (n == null || guard) {
-    if (!isArrayLike(obj)) obj = values(obj);
-    return obj[random(obj.length - 1)];
-  }
-  var sample = isArrayLike(obj) ? clone(obj) : values(obj);
-  var length = getLength(sample);
+  var sample = isArrayLike(obj) ? null : values(obj);
+  obj = sample || obj;
+  var length = getLength(obj);
+  if (n == null || guard) return obj[random(length - 1)];
+  sample = sample || clone(obj);
   n = Math.max(Math.min(n, length), 0);
   var last = length - 1;
   for (var index = 0; index < n; index++) {
