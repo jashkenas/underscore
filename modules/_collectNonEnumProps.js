@@ -1,3 +1,4 @@
+import getLength from './_getLength.js';
 import { nonEnumerableProps, ObjProto } from './_setup.js';
 import isFunction from './isFunction.js';
 import has from './_has.js';
@@ -8,7 +9,7 @@ import has from './_has.js';
 // arrays of strings.
 function emulatedSet(keys) {
   var hash = {};
-  for (var l = keys.length, i = 0; i < l; ++i) hash[keys[i]] = true;
+  for (var l = getLength(keys), i = 0; i < l; ++i) hash[keys[i]] = true;
   return {
     contains: function(key) { return hash[key]; },
     push: function(key) {
@@ -23,7 +24,7 @@ function emulatedSet(keys) {
 // needed.
 export default function collectNonEnumProps(obj, keys) {
   keys = emulatedSet(keys);
-  var nonEnumIdx = nonEnumerableProps.length;
+  var nonEnumIdx = getLength(nonEnumerableProps);
   var constructor = obj.constructor;
   var proto = isFunction(constructor) && constructor.prototype || ObjProto;
 

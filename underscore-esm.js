@@ -244,7 +244,7 @@ var isArrayLike = createSizePropertyCheck(getLength);
 // arrays of strings.
 function emulatedSet(keys) {
   var hash = {};
-  for (var l = keys.length, i = 0; i < l; ++i) hash[keys[i]] = true;
+  for (var l = getLength(keys), i = 0; i < l; ++i) hash[keys[i]] = true;
   return {
     contains: function(key) { return hash[key]; },
     push: function(key) {
@@ -259,7 +259,7 @@ function emulatedSet(keys) {
 // needed.
 function collectNonEnumProps(obj, keys) {
   keys = emulatedSet(keys);
-  var nonEnumIdx = nonEnumerableProps.length;
+  var nonEnumIdx = getLength(nonEnumerableProps);
   var constructor = obj.constructor;
   var proto = isFunction$1(constructor) && constructor.prototype || ObjProto;
 
