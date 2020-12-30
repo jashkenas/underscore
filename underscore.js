@@ -663,18 +663,30 @@
     return isUndefined(value) ? defaultValue : value;
   }
 
+  // Internal function for linearly iterating over arrays.
+  function linearSearch(array, predicate, index, dir) {
+    var length = getLength(array);
+    dir || (dir = 1);
+    index = (
+      index == null ? (dir > 0 ? 0 : length - 1) :
+      index < 0 ? (dir > 0 ? Math.max(0, index + length) : index + length) :
+      dir > 0 ? index : Math.min(index, length - 1)
+    );
+    for (; index >= 0 && index < length; index += dir) {
+      if (predicate(array[index], index, array)) return index;
+    }
+    return -1;
+  }
+
   // Shortcut function for checking if an object has a given property directly on
   // itself (in other words, not on a prototype). Unlike the internal `has`
   // function, this public version can also traverse nested properties.
   function has$1(obj, path) {
     path = toPath$1(path);
-    var length = path.length;
-    for (var i = 0; i < length; i++) {
-      var key = path[i];
-      if (!has(obj, key)) return false;
+    return linearSearch(path, function(key) {
+      if (!has(obj, key)) return true;
       obj = obj[key];
-    }
-    return !!length;
+    }) == -1;
   }
 
   // Keep the identity function around for default iteratees.
@@ -1184,21 +1196,6 @@
       key = _keys[i];
       if (predicate(obj[key], key, obj)) return key;
     }
-  }
-
-  // Internal function for linearly iterating over arrays.
-  function linearSearch(array, predicate, index, dir) {
-    var length = getLength(array);
-    dir || (dir = 1);
-    index = (
-      index == null ? (dir > 0 ? 0 : length - 1) :
-      index < 0 ? (dir > 0 ? Math.max(0, index + length) : index + length) :
-      dir > 0 ? index : Math.min(index, length - 1)
-    );
-    for (; index >= 0 && index < length; index += dir) {
-      if (predicate(array[index], index, array)) return index;
-    }
-    return -1;
   }
 
   // Internal function to generate `_.findIndex` and `_.findLastIndex`.
