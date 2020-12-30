@@ -1,5 +1,6 @@
 import restArguments from './restArguments.js';
 import flatten from './_flatten.js';
+import getLength from './_getLength.js';
 import bind from './bind.js';
 
 // Bind a number of an object's methods to that object. Remaining arguments
@@ -7,7 +8,7 @@ import bind from './bind.js';
 // defined on an object belong to it.
 export default restArguments(function(obj, keys) {
   keys = flatten(keys, false, false);
-  var index = keys.length;
+  var index = getLength(keys);
   if (index < 1) throw new Error('bindAll must be passed function names');
   while (index--) {
     var key = keys[index];
