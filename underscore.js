@@ -1513,12 +1513,12 @@
     sample = sample || clone(obj);
     n = Math.max(Math.min(n, length), 0);
     var last = length - 1;
-    for (var index = 0; index < n; index++) {
+    linearSearch(sample, function(temp, index) {
+      if (index >= n) return true;
       var rand = random(index, last);
-      var temp = sample[index];
       sample[index] = sample[rand];
       sample[rand] = temp;
-    }
+    });
     return sample.slice(0, n);
   }
 
