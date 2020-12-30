@@ -1580,7 +1580,7 @@ var pick = restArguments(function(obj, keys) {
   var result = {}, iteratee = keys[0];
   if (obj == null) return result;
   if (isFunction$1(iteratee)) {
-    if (keys.length > 1) iteratee = bindCb(iteratee, keys[1]);
+    iteratee = bindCb(iteratee, keys[1]);
     keys = allKeys(obj);
   } else {
     iteratee = keyInObj;
