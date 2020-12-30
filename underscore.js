@@ -1610,11 +1610,10 @@
       keys = flatten(keys, false, false);
       obj = Object(obj);
     }
-    for (var i = 0, length = keys.length; i < length; i++) {
-      var key = keys[i];
+    linearSearch(keys, function(key) {
       var value = obj[key];
       if (iteratee(value, key, obj)) result[key] = value;
-    }
+    });
     return result;
   });
 
