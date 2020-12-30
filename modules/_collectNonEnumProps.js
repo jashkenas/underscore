@@ -1,3 +1,4 @@
+import linearSearch from './_linearSearch.js';
 import getLength from './_getLength.js';
 import { nonEnumerableProps, ObjProto } from './_setup.js';
 import isFunction from './isFunction.js';
@@ -9,7 +10,7 @@ import has from './_has.js';
 // arrays of strings.
 function emulatedSet(keys) {
   var hash = {};
-  for (var l = getLength(keys), i = 0; i < l; ++i) hash[keys[i]] = true;
+  linearSearch(keys, function(key) { hash[key] = true; });
   return {
     contains: function(key) { return hash[key]; },
     push: function(key) {
