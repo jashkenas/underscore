@@ -1011,12 +1011,11 @@
   // defined on an object belong to it.
   var bindAll = restArguments(function(obj, keys) {
     keys = flatten(keys, false, false);
-    var index = getLength(keys);
-    if (index < 1) throw new Error('bindAll must be passed function names');
-    while (index--) {
-      var key = keys[index];
+    /* legacy unnecessary check */
+    if (!getLength(keys)) throw new Error('bindAll must be passed function names');
+    linearSearch(keys, function(key) {
       obj[key] = bind(obj[key], obj);
-    }
+    }, null, -1); /* backwards for legacy reasons */
     return obj;
   });
 
