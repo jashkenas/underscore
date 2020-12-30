@@ -1186,16 +1186,25 @@
     }
   }
 
+  // Internal function for linearly iterating over arrays.
+  function linearSearch(array, predicate, index, dir) {
+    var length = getLength(array);
+    dir || (dir = 1);
+    index = (
+      index == null ? (dir > 0 ? 0 : length - 1) :
+      index < 0 ? (dir > 0 ? Math.max(0, index + length) : index + length) :
+      dir > 0 ? index : Math.min(index, length - 1)
+    );
+    for (; index >= 0 && index < length; index += dir) {
+      if (predicate(array[index], index, array)) return index;
+    }
+    return -1;
+  }
+
   // Internal function to generate `_.findIndex` and `_.findLastIndex`.
   function createPredicateIndexFinder(dir) {
     return function(array, predicate, context) {
-      predicate = cb(predicate, context);
-      var length = getLength(array);
-      var index = dir > 0 ? 0 : length - 1;
-      for (; index >= 0 && index < length; index += dir) {
-        if (predicate(array[index], index, array)) return index;
-      }
-      return -1;
+      return linearSearch(array, cb(predicate, context), null, dir);
     };
   }
 
@@ -1205,41 +1214,53 @@
   // Returns the last index on an array-like that passes a truth test.
   var findLastIndex = createPredicateIndexFinder(-1);
 
-  // Use a comparator function to figure out the smallest index at which
-  // an object should be inserted so as to maintain order. Uses binary search.
-  function sortedIndex(array, obj, iteratee, context) {
-    iteratee = cb(iteratee, context);
+  function less(left, right) {
+    return left < right;
+  }
+
+  // Iteratively cut `array` in half to figure out the index at which `obj` should
+  // be inserted so as to maintain the order defined by `compare`.
+  function binarySearch(array, obj, iteratee, compare) {
     var value = iteratee(obj);
     var low = 0, high = getLength(array);
     while (low < high) {
       var mid = Math.floor((low + high) / 2);
-      if (iteratee(array[mid]) < value) low = mid + 1; else high = mid;
+      if (compare(iteratee(array[mid]), value)) low = mid + 1; else high = mid;
     }
     return low;
   }
 
-  // Internal function to generate the `_.indexOf` and `_.lastIndexOf` functions.
-  function createIndexFinder(dir, predicateFind, sortedIndex) {
-    return function(array, item, idx) {
-      var i = 0, length = getLength(array);
-      if (typeof idx == 'number') {
-        if (dir > 0) {
-          i = idx >= 0 ? idx : Math.max(idx + length, i);
-        } else {
-          length = idx >= 0 ? Math.min(idx + 1, length) : idx + length + 1;
-        }
-      } else if (sortedIndex && idx && length) {
-        idx = sortedIndex(array, item);
-        return array[idx] === item ? idx : -1;
+  // Use an iteratee to figure out the smallest index at which an object should be
+  // inserted so as to maintain order. Uses binary search.
+  function sortedIndex(array, obj, iteratee, context) {
+    iteratee = cb(iteratee, context);
+    return binarySearch(array, obj, iteratee, less);
+  }
+
+  function lessEqual(left, right) {
+    return left <= right;
+  }
+
+  // Internal function to generate the `indexOf` and `lastIndexOf` functions.
+  function createIndexFinder(dir) {
+    var forward = dir > 0;
+    var compare = forward ? less : lessEqual;
+    // `controlArg` may be either a number indicating the first index to start
+    // searching at, or a boolean indicating whether the array is sorted by native
+    // operator `<`.
+    return function(array, item, controlArg) {
+      var start;
+      if (getLength(array) < 1) return -1;
+      if (typeof controlArg == 'number') {
+        start = controlArg;
+      } else if (controlArg && forward) {
+        var index = binarySearch(array, item, identity, compare);
+        return array[index] === item ? index : -1;
       }
-      if (item !== item) {
-        idx = predicateFind(slice.call(array, i, length), isNaN$1);
-        return idx >= 0 ? idx + i : -1;
-      }
-      for (idx = dir > 0 ? i : length - 1; idx >= 0 && idx < length; idx += dir) {
-        if (array[idx] === item) return idx;
-      }
-      return -1;
+      var predicate = item !== item ? isNaN$1 : function(candidate) {
+        return candidate === item;
+      };
+      return linearSearch(array, predicate, start, dir);
     };
   }
 
@@ -1247,11 +1268,11 @@
   // or -1 if the item is not included in the array.
   // If the array is large and already in sort order, pass `true`
   // for **isSorted** to use binary search.
-  var indexOf = createIndexFinder(1, findIndex, sortedIndex);
+  var indexOf = createIndexFinder(1);
 
   // Return the position of the last occurrence of an item in an array,
   // or -1 if the item is not included in the array.
-  var lastIndexOf = createIndexFinder(-1, findLastIndex);
+  var lastIndexOf = createIndexFinder(-1);
 
   // Return the first value which passes a truth test.
   function find(obj, predicate, context) {
