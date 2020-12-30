@@ -997,8 +997,7 @@
         if (depth > 1) {
           flatten(value, depth - 1, strict, output);
         } else {
-          var j = 0, len = value.length;
-          while (j < len) output.push(value[j++]);
+          linearSearch(value, function(item) { output.push(item); });
         }
       } else if (!strict) {
         output.push(value);
