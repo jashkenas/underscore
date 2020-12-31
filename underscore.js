@@ -1295,7 +1295,7 @@
   function map(obj, iteratee, context) {
     iteratee = cb(iteratee, context);
     var results = [];
-    each(obj, function(value, key) {
+    find(obj, function(value, key) {
       results.push(iteratee(value, key, obj));
     });
     return results;
