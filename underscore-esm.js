@@ -1342,7 +1342,7 @@ var reduceRight = createReduce(eachRight);
 function filter(obj, predicate, context) {
   var results = [];
   predicate = cb(predicate, context);
-  each(obj, function(value, index) {
+  find(obj, function(value, index) {
     if (predicate(value, index, obj)) results.push(value);
   });
   return results;
