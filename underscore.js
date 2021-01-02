@@ -1453,6 +1453,15 @@
     return filter(obj, matcher(attrs));
   }
 
+  // Internal `extremum` return value adapter for `_.min` and `_.max`.
+  // Ensures that a number is returned even if no element of the
+  // collection maps to a numeric value.
+  function decideNumeric(fallback) {
+    return function(result, iterResult) {
+      return isNaN$1(+iterResult) ? fallback : result;
+    }
+  }
+
   // The general algorithm behind `_.min` and `_.max`. `compare` should return
   // `true` if its first argument is more extreme than (i.e., should be preferred
   // over) its second argument, `false` otherwise. `iteratee` and `context`, like
@@ -1466,29 +1475,16 @@
     // `result` and `iterResult`, respectively the unmapped and the mapped version
     // corresponding to the same element.
     var result, iterResult;
-    // Detect use of a partially-applied `extremum` as an iteratee.
-    if (iteratee == null || typeof iteratee == 'number' && typeof collection[0] != 'object') {
-      // We're using an identity iteratee, so we can take some shortcuts.
-      collection = isArrayLike(collection) ? collection : toArray(collection);
-      result = iterResult = collection[0];
-      var value;
-      for (var l = getLength(collection), i = 1; i < l; i++) {
-        value = collection[i];
-        if (compare(value, result)) result = iterResult = value;
+    iteratee = cb(iteratee, context);
+    var first = true;
+    find(collection, function(value, key) {
+      var iterValue = iteratee(value, key, collection);
+      if (first || compare(iterValue, iterResult)) {
+        result = value;
+        iterResult = iterValue;
+        first = false;
       }
-    } else {
-      // Use the general algorithm.
-      iteratee = cb(iteratee, context);
-      var first = true;
-      find(collection, function(value, key) {
-        var iterValue = iteratee(value, key, collection);
-        if (first || compare(iterValue, iterResult)) {
-          result = value;
-          iterResult = iterValue;
-          first = false;
-        }
-      });
-    }
+    });
     // `extremum` normally returns an unmapped element from `collection`. However,
     // `_.min` and `_.max` forcibly return a number even if there is no element
     // that maps to a numeric value. Passing both accumulators through `decide`
@@ -1496,31 +1492,58 @@
     return decide(result, iterResult);
   }
 
-  // Internal `extremum` return value adapter for `_.min` and `_.max`.
-  // Ensures that a number is returned even if no element of the
-  // collection maps to a numeric value.
-  function decideNumeric(fallback) {
-    return function(result, iterResult) {
-      return isNaN$1(+iterResult) ? fallback : result;
-    }
-  }
-
   // Return the maximum element (or element-based computation).
   // Forces a numeric result.
+  var decideMax = decideNumeric(-Infinity);
   function max(collection, iteratee, context) {
-    return extremum(collection, function(left, right) {
-      if (right == null || +right !== +right) return true;
-      return left != null && +left > +right;
-    }, iteratee, context, decideNumeric(-Infinity));
+    if (
+      iteratee == null ||
+      // Detect use as an iteratee.
+      typeof iteratee == 'number' && typeof collection[0] != 'object'
+    ) {
+      // We're using an identity iteratee, so we can take some shortcuts. This
+      // optimization should move to `extremum` when we have a saner comparison
+      // function (i.e., just the plain `>` operator aka `greater`).
+      collection = isArrayLike(collection) ? collection : toArray(collection);
+      var val, res = collection[0];
+      for (var l = getLength(collection), i = 1; i < l; i++) {
+        val = collection[i];
+        if (
+          res == null || val != null && +val > +res || +res !== +res
+        ) res = val;
+      }
+      return decideMax(res, res);
+    }
+    return extremum(collection, function(val, res) {
+      return res == null || val != null && +val > +res || +res !== +res;
+    }, iteratee, context, decideMax);
   }
 
   // Return the minimum element (or element-based computation).
   // Forces a numeric result.
+  var decideMin = decideNumeric(Infinity);
   function min(collection, iteratee, context) {
-    return extremum(collection, function(left, right) {
-      if (right == null || +right !== +right) return true;
-      return left != null && +left < +right;
-    }, iteratee, context, decideNumeric(Infinity));
+    if (
+      iteratee == null ||
+      // Detect use as an iteratee.
+      typeof iteratee == 'number' && typeof collection[0] != 'object'
+    ) {
+      // We're using an identity iteratee, so we can take some shortcuts. This
+      // optimization should move to `extremum` when we have a saner comparison
+      // function (i.e., just the plain `<` operator aka `less`).
+      collection = isArrayLike(collection) ? collection : toArray(collection);
+      var val, res = collection[0];
+      for (var l = getLength(collection), i = 1; i < l; i++) {
+        val = collection[i];
+        if (
+          res == null || val != null && +val < +res || +res !== +res
+        ) res = val;
+      }
+      return decideMin(res, res);
+    }
+    return extremum(collection, function(val, res) {
+      return res == null || val != null && +val < +res || +res !== +res;
+    }, iteratee, context, decideMin);
   }
 
   // Sample **n** random values from a collection using the modern version of the
