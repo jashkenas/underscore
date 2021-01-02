@@ -1444,15 +1444,6 @@ function where(obj, attrs) {
   return filter(obj, matcher(attrs));
 }
 
-// Internal `extremum` return value adapter for `_.min` and `_.max`.
-// Ensures that a number is returned even if no element of the
-// collection maps to a numeric value.
-function decideNumeric(fallback) {
-  return function(result, iterResult) {
-    return isNaN$1(+iterResult) ? fallback : result;
-  }
-}
-
 // The general algorithm behind `_.min` and `_.max`. `compare` should return
 // `true` if its first argument is more extreme than (i.e., should be preferred
 // over) its second argument, `false` otherwise. `iteratee` and `context`, like
@@ -1483,9 +1474,12 @@ function extremum(collection, compare, iteratee, context, decide) {
   return decide(result, iterResult);
 }
 
+// Internal helper to force a numeric result in `_.max`.
+function decideMax(result, iterResult) {
+  return +iterResult !== +iterResult ? -Infinity : result;
+}
+
 // Return the maximum element (or element-based computation).
-// Forces a numeric result.
-var decideMax = decideNumeric(-Infinity);
 function max(collection, iteratee, context) {
   if (
     iteratee == null ||
@@ -1510,9 +1504,12 @@ function max(collection, iteratee, context) {
   }, iteratee, context, decideMax);
 }
 
+// Internal helper to force a numeric result in `_.min`.
+function decideMin(result, iterResult) {
+  return +iterResult !== +iterResult ? Infinity : result;
+}
+
 // Return the minimum element (or element-based computation).
-// Forces a numeric result.
-var decideMin = decideNumeric(Infinity);
 function min(collection, iteratee, context) {
   if (
     iteratee == null ||

@@ -1,12 +1,14 @@
-import { decideNumeric } from './_forceNumericMinMax.js';
 import isArrayLike from './_isArrayLike.js';
 import toArray from './toArray.js';
 import getLength from './_getLength.js';
 import extremum from './_extremum.js';
 
+// Internal helper to force a numeric result in `_.min`.
+function decideMin(result, iterResult) {
+  return +iterResult !== +iterResult ? Infinity : result;
+}
+
 // Return the minimum element (or element-based computation).
-// Forces a numeric result.
-var decideMin = decideNumeric(Infinity);
 export default function min(collection, iteratee, context) {
   if (
     iteratee == null ||
