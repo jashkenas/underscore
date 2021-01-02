@@ -1784,11 +1784,10 @@ function range(start, stop, step) {
 // items.
 function chunk(array, count) {
   if (count == null || count < 1) return [];
-  var result = [];
-  linearSearch(array, function(_, index) {
-    result.push(slice.call(array, index, index + count));
-  }, count);
-  return result;
+  return times(Math.ceil(getLength(array) / count), function(index) {
+    var offset = index * count;
+    return slice.call(array, offset, offset + count);
+  });
 }
 
 // Helper function to continue chaining intermediate results.
