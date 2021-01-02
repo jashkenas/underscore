@@ -1231,18 +1231,15 @@ function before(times, func) {
 // often you call it. Useful for lazy initialization.
 var once = partial(before, 2);
 
-// Internal function to generate `_.findIndex` and `_.findLastIndex`.
-function createPredicateIndexFinder(dir) {
-  return function(array, predicate, context) {
-    return linearSearch(array, cb(predicate, context), dir);
-  };
+// Returns the first index on an array-like that passes a truth test.
+function findIndex(array, predicate, context) {
+  return linearSearch(array, cb(predicate, context));
 }
 
-// Returns the first index on an array-like that passes a truth test.
-var findIndex = createPredicateIndexFinder(1);
-
 // Returns the last index on an array-like that passes a truth test.
-var findLastIndex = createPredicateIndexFinder(-1);
+function findLastIndex(array, predicate, context) {
+  return linearSearch(array, cb(predicate, context), -1);
+}
 
 // Use an iteratee to figure out the smallest index at which an object should be
 // inserted so as to maintain order. Uses binary search.
