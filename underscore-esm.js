@@ -778,13 +778,23 @@ function cb(value, context) {
   return _.iteratee(value, context);
 }
 
+// Returns the first key on an object that passes a truth test.
+function findKey(obj, predicate, context) {
+  predicate = cb(predicate, context);
+  var _keys = keys(obj), key;
+  for (var i = 0, length = _keys.length; i < length; i++) {
+    key = _keys[i];
+    if (predicate(obj[key], key, obj)) return key;
+  }
+}
+
 // Returns the results of applying the `iteratee` to each element of `obj`.
 // In contrast to `_.map` it returns an object.
 function mapObject(obj, iteratee, context) {
   iteratee = cb(iteratee, context);
   var results = {};
-  linearSearch(keys(obj), function(currentKey) {
-    results[currentKey] = iteratee(obj[currentKey], currentKey, obj);
+  findKey(obj, function(value, key) {
+    results[key] = iteratee(value, key, obj);
   });
   return results;
 }
@@ -1220,16 +1230,6 @@ function before(times, func) {
 // Returns a function that will be executed at most one time, no matter how
 // often you call it. Useful for lazy initialization.
 var once = partial(before, 2);
-
-// Returns the first key on an object that passes a truth test.
-function findKey(obj, predicate, context) {
-  predicate = cb(predicate, context);
-  var _keys = keys(obj), key;
-  for (var i = 0, length = _keys.length; i < length; i++) {
-    key = _keys[i];
-    if (predicate(obj[key], key, obj)) return key;
-  }
-}
 
 // Internal function to generate `_.findIndex` and `_.findLastIndex`.
 function createPredicateIndexFinder(dir) {
