@@ -1,6 +1,5 @@
 import getLength from './_getLength.js';
 import isFunction from './isFunction.js';
-import has from './_has.js';
 
 // Internal function for linearly iterating over arrays.
 export default function linearSearch(array, predicate, dir, start) {
@@ -16,7 +15,7 @@ export default function linearSearch(array, predicate, dir, start) {
   // strict equality comparison. This is somewhat like a rudimentary iteratee
   // shorthand. It is used in `_.indexof` and `_.lastIndexOf`.
   if (!isFunction(predicate)) {
-    target = has(predicate, 'value') ? predicate.value : predicate;
+    target = predicate && predicate.value;
     predicate = false;
   }
   for (; start >= 0 && start < length; start += dir) {

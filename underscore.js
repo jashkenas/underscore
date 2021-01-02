@@ -247,7 +247,7 @@
     // strict equality comparison. This is somewhat like a rudimentary iteratee
     // shorthand. It is used in `_.indexof` and `_.lastIndexOf`.
     if (!isFunction$1(predicate)) {
-      target = has(predicate, 'value') ? predicate.value : predicate;
+      target = predicate && predicate.value;
       predicate = false;
     }
     for (; start >= 0 && start < length; start += dir) {
