@@ -11,8 +11,6 @@ export default restArguments(function(obj, keys) {
   keys = flatten(keys, false, false);
   /* legacy unnecessary check */
   if (!getLength(keys)) throw new Error('bindAll must be passed function names');
-  linearSearch(keys, function(key) {
-    obj[key] = bind(obj[key], obj);
-  }, -1); /* backwards for legacy reasons */
+  linearSearch(keys, function(key) { obj[key] = bind(obj[key], obj); });
   return obj;
 });
