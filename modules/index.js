@@ -87,6 +87,7 @@ export { default as result } from './result.js';
 export { default as uniqueId } from './uniqueId.js';
 export { default as chain } from './chain.js';
 export { default as iteratee } from './iteratee.js';
+export { default as findKeys } from './findkeys.js';
 
 // Function (ahem) Functions
 // -------------------------

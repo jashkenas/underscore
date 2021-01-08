@@ -465,4 +465,12 @@
     assert.strictEqual(template(), '<<\nx\n>>');
   });
 
+  QUnit.test('findkeys - extended findkey function.', function(assert) {
+    input = {'a':2, 'b':2}
+    var key = _.findKey(info, function (value) { 
+      return value === 2; 
+    }); 
+    assert.strictEqual(_.findKeys(input, ['a', 'b']))
+  });
+
 }());
