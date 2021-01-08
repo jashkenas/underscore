@@ -1,4 +1,4 @@
-export function getTogglingfunction() {
+export default function getTogglingfunction() {
     if (arguments.length == 0) {
         function inner(input) {
             return !input;

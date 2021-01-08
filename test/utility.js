@@ -465,4 +465,25 @@
     assert.strictEqual(template(), '<<\nx\n>>');
   });
 
+  
+  QUnit.test('transition function - toggles the input in several values.', function(assert) {
+    // assert.expect(1);
+    // var template = _.template('<<\nx\n>>', null, {evaluate: /<<(.*?)>>/g});
+    // assert.strictEqual(template(), '<<\nx\n>>');
+    toggler = _.getTogglingfunction()
+    var input = true;
+    assert.strictEqual(toggler(input), false)
+    toggler = _.getTogglingfunction([1, 2, 3])
+    var input = 3;
+    assert.strictEqual(toggler(input), 1)
+    toggler = _.getTogglingfunction({
+      'red': 'green',
+      'yellow': 'red',
+      'green': 'yellow'
+    })
+    var input = 'green';
+    assert.strictEqual(toggler(input), 'yellow')   
+  });
+
 }());
+
