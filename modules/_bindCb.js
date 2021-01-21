@@ -1,5 +1,5 @@
-// Internal function that returns a bound version of the passed-in callback, to
-// be repeatedly applied in other Underscore functions.
+// Internal function that returns a bound version of the
+// passed-in callback, used in `_.iteratee`.
 export default function bindCb(func, context) {
   if (context === void 0) return func;
   return function() {

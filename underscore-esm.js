@@ -733,8 +733,20 @@ function has$1(obj, path) {
   }) == -1;
 }
 
-// Internal function that returns a bound version of the passed-in callback, to
-// be repeatedly applied in other Underscore functions.
+// In Firefox, `Function.prototype.call` is faster than
+// `Function.prototype.apply`. In the optimized variant of
+// `bindCb` below, we exploit the fact that no Underscore
+// function passes more than four arguments to a callback.
+// **NOT general enough for use outside of Underscore.**
+function bindCb4(func, context) {
+  if (context === void 0) return func;
+  return function(a1, a2, a3, a4) {
+    return func.call(context, a1, a2, a3, a4);
+  };
+}
+
+// Internal function that returns a bound version of the
+// passed-in callback, used in `_.iteratee`.
 function bindCb(func, context) {
   if (context === void 0) return func;
   return function() {
@@ -772,9 +784,11 @@ function iteratee(value, context) {
 }
 _.iteratee = iteratee;
 
-// The function we call internally to generate a callback. It is just a
-// shorthand to save some bytes in the minified code.
+// The function we call internally to generate a callback: a wrapper
+// of `_.iteratee`, which uses `bindCb4` instead of `bindCb` for
+// function iteratees. It also saves some bytes in the minified code.
 function cb(value, context) {
+  if (isFunction$1(value)) return bindCb4(value, context);
   return _.iteratee(value, context);
 }
 
