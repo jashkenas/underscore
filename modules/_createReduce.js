@@ -1,4 +1,4 @@
-import bindCb from './_bindCb.js';
+import bindCb4 from './_bindCb4.js';
 
 // Create a reducing function iterating in the same way as `loop` (e.g.
 // `_.find`).
@@ -23,6 +23,6 @@ export default function createReduce(loop) {
 
   return function(obj, iteratee, memo, context) {
     var initial = arguments.length >= 3;
-    return reducer(obj, bindCb(iteratee, context), memo, initial);
+    return reducer(obj, bindCb4(iteratee, context), memo, initial);
   };
 }

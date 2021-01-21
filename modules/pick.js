@@ -1,6 +1,6 @@
 import restArguments from './restArguments.js';
 import isFunction from './isFunction.js';
-import bindCb from './_bindCb.js';
+import bindCb4 from './_bindCb4.js';
 import allKeys from './allKeys.js';
 import keyInObj from './_keyInObj.js';
 import flatten from './_flatten.js';
@@ -11,7 +11,7 @@ export default restArguments(function(obj, keys) {
   var result = {}, iteratee = keys[0];
   if (obj == null) return result;
   if (isFunction(iteratee)) {
-    iteratee = bindCb(iteratee, keys[1]);
+    iteratee = bindCb4(iteratee, keys[1]);
     keys = allKeys(obj);
   } else {
     iteratee = keyInObj;

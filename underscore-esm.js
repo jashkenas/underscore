@@ -827,7 +827,7 @@ function propertyOf(obj) {
 // Run a function **n** times.
 function times(n, iteratee, context) {
   var accum = Array(Math.max(0, n));
-  iteratee = bindCb(iteratee, context);
+  iteratee = bindCb4(iteratee, context);
   for (var i = 0; i < n; i++) accum[i] = iteratee(i);
   return accum;
 }
@@ -1283,7 +1283,7 @@ function findWhere(obj, attrs) {
 // Handles raw objects in addition to array-likes. Treats all
 // sparse array-likes as if they were dense.
 function each(obj, iteratee, context) {
-  iteratee = bindCb(iteratee, context);
+  iteratee = bindCb4(iteratee, context);
   find(obj, function(value, key, obj) {
     iteratee(value, key, obj);
     // We omit the return value so that iteration continues until the end.
@@ -1324,7 +1324,7 @@ function createReduce(loop) {
 
   return function(obj, iteratee, memo, context) {
     var initial = arguments.length >= 3;
-    return reducer(obj, bindCb(iteratee, context), memo, initial);
+    return reducer(obj, bindCb4(iteratee, context), memo, initial);
   };
 }
 
@@ -1647,7 +1647,7 @@ var pick = restArguments(function(obj, keys) {
   var result = {}, iteratee = keys[0];
   if (obj == null) return result;
   if (isFunction$1(iteratee)) {
-    iteratee = bindCb(iteratee, keys[1]);
+    iteratee = bindCb4(iteratee, keys[1]);
     keys = allKeys(obj);
   } else {
     iteratee = keyInObj;
