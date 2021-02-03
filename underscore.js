@@ -1,3 +1,5 @@
+const { default: remove } = require("./modules/remove");
+
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
   typeof define === 'function' && define.amd ? define('underscore', factory) :
@@ -1862,6 +1864,12 @@
     };
   });
 
+  // removes first element having the condition
+  function remove(collection, predicate){
+    collection.splice(findIndex(collection, predicate), 1);
+    return collection;
+  }
+
   // Named Exports
 
   var allExports = {
@@ -2011,6 +2019,7 @@
     range: range,
     chunk: chunk,
     mixin: mixin,
+    remove: remove,
     'default': _
   };
 

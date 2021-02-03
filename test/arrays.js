@@ -583,4 +583,11 @@
     assert.deepEqual(_.chunk([10, 20, 30, 40, 50, 60, 70], 2), [[10, 20], [30, 40], [50, 60], [70]], 'chunk into parts of less then current array length elements');
     assert.deepEqual(_.chunk([10, 20, 30, 40, 50, 60, 70], 3), [[10, 20, 30], [40, 50, 60], [70]], 'chunk into parts of less then current array length elements');
   });
+
+  QUnit.test('remove', function(assert) {
+    assert.deepEqual(_.remove([1, 2, 3, 4], [1, 3, 4]), function(obj) {return(obj == 2)});
+    assert.deepEqual(_.remove([{a: 1}, {a:3, b: 2}, 3], [{a: 1}, 3], function(obj) {return(obj.a == 3)}));
+    assert.deepEqual(_.remove([{a: {a: 1}}, 2, 3], [2, 3], function(obj) {return(obj.a.a == 1)}));
+    assert.deepEqual(_.remove([{a: 1, b: 2, c: 3}, {a:3, b: 2}, {c: 3}], [{a:3, b: 2}, {c: 3}], function(obj) {return(obj.b == 2 && obj.c == 3)}));
+  });
 }());
