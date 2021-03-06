@@ -390,20 +390,64 @@
     var counter = 0;
     var incr = function(){ counter++; };
     var throttledIncr = _.throttle(incr, 100);
-    var origNowFunc = _.now;
+    var originalNowFunc = Date.now;
+    var originalGetTimeFunc = Date.prototype.getTime;
 
     throttledIncr();
-    assert.strictEqual(counter, 1);
-    _.now = function() {
-      return new Date(2013, 0, 1, 1, 1, 1);
-    };
+    assert.strictEqual(counter, 1, '_.throttle: incr was called immediately');
+
+    Date.prototype.getTime = function() {
+      return +(new Date(2013, 0, 1, 1, 1, 1));
+    }
+    Date.now = function() {
+      return +(new Date(2013, 0, 1, 1, 1, 1));
+    }
 
     _.delay(function() {
       throttledIncr();
-      assert.strictEqual(counter, 2);
+      assert.strictEqual(counter, 2, '_.throttle: incr was called successfully, with tampered system time');
       done();
-      _.now = origNowFunc;
+      Date.now = originalNowFunc;
+      Date.prototype.getTime = originalGetTimeFunc;
     }, 200);
+  });
+
+  QUnit.test('throttle continues to function after system time is not accessible (or in invalid format)', function(assert) {
+    assert.expect(3);
+    var done = assert.async();
+    var counter = 0;
+    var incr = function(){ counter++; };
+    var throttledIncr = _.throttle(incr, 100);
+    var originalNowFunc = Date.now;
+    var originalGetTimeFunc = Date.prototype.getTime;
+    var originalValueOfFunc = Date.prototype.valueOf;
+
+    throttledIncr();
+    assert.strictEqual(counter, 1, '_.throttle: incr was called immediately');
+
+    Date.prototype.valueOf = function() {
+      return null;
+    }
+    Date.prototype.getTime = function() {
+      return null;
+    }
+    Date.now = function() {
+      return null;
+    }
+
+    _.delay(function() {
+      throttledIncr();
+      assert.strictEqual(counter, 2, '_.throttle: incr was debounced successfully, with tampered system time');
+      Date.now = originalNowFunc;
+      Date.prototype.getTime = originalGetTimeFunc;
+      Date.prototype.valueOf = originalValueOfFunc;
+    }, 200);
+
+    _.delay(function() {
+      throttledIncr();
+      assert.strictEqual(counter, 3, '_.throttle: incr was debounced successfully, after system time method restoration');
+      done();
+    }, 400);
   });
 
   QUnit.test('throttle re-entrant', function(assert) {
@@ -542,24 +586,68 @@
     assert.expect(2);
     var done = assert.async();
     var counter = 0;
-    var origNowFunc = _.now;
     var debouncedIncr = _.debounce(function(){
       counter++;
     }, 100, true);
+    var originalNowFunc = Date.now;
+    var originalGetTimeFunc = Date.prototype.getTime;
 
     debouncedIncr();
-    assert.strictEqual(counter, 1, 'incr was called immediately');
+    assert.strictEqual(counter, 1, '_.debounce: incr was called immediately');
 
-    _.now = function() {
-      return new Date(2013, 0, 1, 1, 1, 1);
+    Date.prototype.getTime = function() {
+      return +(new Date(2013, 0, 1, 1, 1, 1));
+    }
+    Date.now = function() {
+      return +(new Date(2013, 0, 1, 1, 1, 1));
+    }
+
+    _.delay(function() {
+      debouncedIncr();
+      assert.strictEqual(counter, 2, '_.debounce: incr was debounced successfully, with tampered system time');
+      done();
+      Date.now = originalNowFunc;
+      Date.prototype.getTime = originalGetTimeFunc;
+    }, 200);
+  });
+
+  QUnit.test('debounce after system time is is not accessible (or in invalid format)', function(assert) {
+    assert.expect(3);
+    var done = assert.async();
+    var counter = 0;
+    var debouncedIncr = _.debounce(function(){
+      counter++;
+    }, 100, true);
+    var originalNowFunc = Date.now;
+    var originalGetTimeFunc = Date.prototype.getTime;
+    var originalValueOfFunc = Date.prototype.valueOf;
+
+    debouncedIncr();
+    assert.strictEqual(counter, 1, '_.debounce: incr was called immediately');
+
+    Date.prototype.valueOf = function() {
+      return null;
+    };
+    Date.prototype.getTime = function() {
+      return null;
+    };
+    Date.now = function() {
+      return null;
     };
 
     _.delay(function() {
       debouncedIncr();
-      assert.strictEqual(counter, 2, 'incr was debounced successfully');
-      done();
-      _.now = origNowFunc;
+      assert.strictEqual(counter, 2, '_.debounce: incr was debounced successfully, with tampered system time');
+      Date.now = originalNowFunc;
+      Date.prototype.getTime = originalGetTimeFunc;
+      Date.prototype.valueOf = originalValueOfFunc;
     }, 200);
+
+    _.delay(function() {
+      debouncedIncr();
+      assert.strictEqual(counter, 3, '_.debounce: incr was debounced successfully, after system time method restoration');
+      done();
+    }, 400);
   });
 
   QUnit.test('debounce re-entrant', function(assert) {
