@@ -1,7 +1,14 @@
 {
   "name": "underscore",
   "description": "JavaScript's functional programming helper library.",
+  "version": "1.12.0",
+  "author": "Jeremy Ashkenas <jeremy@documentcloud.org>",
+  "license": "MIT",
   "homepage": "https://underscorejs.org",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/jashkenas/underscore.git"
+  },
   "keywords": [
     "util",
     "functional",
@@ -9,15 +16,9 @@
     "client",
     "browser"
   ],
-  "author": "Jeremy Ashkenas <jeremy@documentcloud.org>",
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/jashkenas/underscore.git"
-  },
   "main": "underscore.js",
   "type": "commonjs",
   "module": "modules/index-all.js",
-  "version": "1.12.0",
   "devDependencies": {
     "coveralls": "^2.11.2",
     "docco": "^0.8.0",
@@ -54,7 +55,6 @@
     "weight": "npm run bundle && npm run minify-umd | gzip-size | pretty-bytes",
     "prepublishOnly": "npm run build && npm run doc"
   },
-  "license": "MIT",
   "files": [
     "underscore.js",
     "underscore.js.map",
