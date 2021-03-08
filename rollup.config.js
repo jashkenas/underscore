@@ -60,10 +60,12 @@ export default [
     output: [
       outputConf({
         dir: 'amd',
+        exports: 'auto',
         format: 'amd',
       }),
       outputConf({
         dir: 'cjs',
+        exports: 'auto',
         format: 'cjs',
       }),
     ],
