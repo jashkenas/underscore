@@ -64,14 +64,20 @@
     "underscore-esm.js.map",
     "underscore-esm-min.js",
     "underscore-esm-min.js.map",
+    "underscore-node-f.cjs",
+    "underscore-node-f.cjs.map",
+    "underscore-node.cjs",
+    "underscore-node.cjs.map",
+    "underscore-node.mjs",
+    "underscore-node.mjs.map",
     "modules/",
     "amd/",
     "cjs/"
   ],
   "husky": {
     "hooks": {
-      "pre-commit": "npm run bundle && git add underscore.js underscore.js.map underscore-esm.js underscore-esm.js.map",
-      "post-commit": "git reset underscore.js underscore.js.map underscore-esm.js underscore-esm.js.map"
+      "pre-commit": "npm run bundle && git add underscore.js underscore.js.map underscore-esm.js underscore-esm.js.map underscore-node-f.cjs underscore-node-f.cjs.map underscore-node.cjs underscore-node.cjs.map underscore-node.mjs underscore-node.mjs.map",
+      "post-commit": "git reset underscore.js underscore.js.map underscore-esm.js underscore-esm.js.map underscore-node-f.cjs underscore-node-f.cjs.map underscore-node.cjs underscore-node.cjs.map underscore-node.mjs underscore-node.mjs.map"
     }
   }
 }
