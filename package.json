@@ -15,6 +15,7 @@
     "url": "git://github.com/jashkenas/underscore.git"
   },
   "main": "underscore.js",
+  "type": "commonjs",
   "module": "modules/index-all.js",
   "version": "1.12.0",
   "devDependencies": {
