@@ -8,3 +8,6 @@ coverage
 test-treeshake/*-umd.js
 amd
 cjs
+/underscore.js
+/underscore-min.js
+/underscore-min.js.map

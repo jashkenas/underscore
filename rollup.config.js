@@ -44,7 +44,7 @@ export default [
     input: 'modules/index-default.js',
     treeshake: false,
     output: monolithConf({
-      file: 'underscore.js',
+      file: 'underscore-umd.js',
       exports: 'default',
       format: 'umd',
       name: '_',
