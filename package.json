@@ -46,8 +46,7 @@
     },
     "./amd/*": "./amd/*",
     "./cjs/*": "./cjs/*",
-    "./package.json": "./package.json",
-    "./package-lock.json": "./package-lock.json"
+    "./package.json": "./package.json"
   },
   "devDependencies": {
     "coveralls": "^2.11.2",
