@@ -17,8 +17,38 @@
     "browser"
   ],
   "main": "underscore-umd.js",
-  "type": "commonjs",
   "module": "modules/index-all.js",
+  "type": "commonjs",
+  "exports": {
+    ".": {
+      "import": {
+        "browser": {
+          "production": "./underscore-esm-min.js",
+          "default": "./underscore-esm.js"
+        },
+        "node": "./underscore-node.mjs",
+        "default": "./underscore-esm.js"
+      },
+      "require": {
+        "browser": {
+          "production": "./underscore-umd-min.js",
+          "default": "./underscore-umd.js"
+        },
+        "node": "./underscore-node.cjs",
+        "default": "./underscore-umd.js"
+      },
+      "default": "./underscore-umd.js"
+    },
+    "./underscore*": "./underscore*",
+    "./modules/*": {
+      "require": "./cjs/*",
+      "default": "./modules/*"
+    },
+    "./amd/*": "./amd/*",
+    "./cjs/*": "./cjs/*",
+    "./package.json": "./package.json",
+    "./package-lock.json": "./package-lock.json"
+  },
   "devDependencies": {
     "coveralls": "^2.11.2",
     "cpy-cli": "^3.1.1",
