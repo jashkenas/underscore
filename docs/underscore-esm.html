@@ -27,7 +27,7 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-1">&#182;</a>
               </div>
-              <pre><code>Underscore.js <span class="hljs-number">1.12</span><span class="hljs-number">.0</span>
+              <pre><code>Underscore.js <span class="hljs-number">1.13</span><span class="hljs-number">.0</span><span class="hljs-number">-0</span>
 <span class="hljs-attr">https</span>:<span class="hljs-comment">//underscorejs.org</span>
 (c) <span class="hljs-number">2009</span><span class="hljs-number">-2020</span> Jeremy Ashkenas, DocumentCloud and Investigative Reporters &amp; Editors
 Underscore may be freely distributed under the MIT license.</code></pre>
@@ -46,7 +46,7 @@ Underscore may be freely distributed under the MIT license.</code></pre>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">var</span> VERSION = <span class="hljs-string">'1.12.0'</span>;</pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">var</span> VERSION = <span class="hljs-string">'1.13.0-0'</span>;</pre></div></div>
             
         </li>
         
@@ -443,7 +443,7 @@ Delegates to ECMA5’s native <code>Array.isArray</code>.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">has</span>(<span class="hljs-params">obj, key</span>) </span>{
+            <div class="content"><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">has$1</span>(<span class="hljs-params">obj, key</span>) </span>{
   <span class="hljs-keyword">return</span> obj != <span class="hljs-literal">null</span> &amp;&amp; hasOwnProperty.call(obj, key);
 }
 
@@ -466,7 +466,7 @@ there isn’t any inspectable “Arguments” type.</p>
             <div class="content"><div class='highlight'><pre>(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
   <span class="hljs-keyword">if</span> (!isArguments(<span class="hljs-built_in">arguments</span>)) {
     isArguments = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">obj</span>) </span>{
-      <span class="hljs-keyword">return</span> has(obj, <span class="hljs-string">'callee'</span>);
+      <span class="hljs-keyword">return</span> has$<span class="hljs-number">1</span>(obj, <span class="hljs-string">'callee'</span>);
     };
   }
 }());
@@ -710,7 +710,7 @@ needed.</p>
             </div>
             
             <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">var</span> prop = <span class="hljs-string">'constructor'</span>;
-  <span class="hljs-keyword">if</span> (has(obj, prop) &amp;&amp; !keys.contains(prop)) keys.push(prop);
+  <span class="hljs-keyword">if</span> (has$<span class="hljs-number">1</span>(obj, prop) &amp;&amp; !keys.contains(prop)) keys.push(prop);
 
   <span class="hljs-keyword">while</span> (nonEnumIdx--) {
     prop = nonEnumerableProps[nonEnumIdx];
@@ -738,7 +738,7 @@ Delegates to <strong>ECMAScript 5</strong>‘s native <code>Object.keys</code>.<
   <span class="hljs-keyword">if</span> (!isObject(obj)) <span class="hljs-keyword">return</span> [];
   <span class="hljs-keyword">if</span> (nativeKeys) <span class="hljs-keyword">return</span> nativeKeys(obj);
   <span class="hljs-keyword">var</span> keys = [];
-  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> key <span class="hljs-keyword">in</span> obj) <span class="hljs-keyword">if</span> (has(obj, key)) keys.push(key);</pre></div></div>
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> key <span class="hljs-keyword">in</span> obj) <span class="hljs-keyword">if</span> (has$<span class="hljs-number">1</span>(obj, key)) keys.push(key);</pre></div></div>
             
         </li>
         
@@ -834,13 +834,13 @@ through <code>_.mixin</code>. Wrapped objects may be chained.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">_</span>(<span class="hljs-params">obj</span>) </span>{
-  <span class="hljs-keyword">if</span> (obj <span class="hljs-keyword">instanceof</span> _) <span class="hljs-keyword">return</span> obj;
-  <span class="hljs-keyword">if</span> (!(<span class="hljs-keyword">this</span> <span class="hljs-keyword">instanceof</span> _)) <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> _(obj);
+            <div class="content"><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">_$1</span>(<span class="hljs-params">obj</span>) </span>{
+  <span class="hljs-keyword">if</span> (obj <span class="hljs-keyword">instanceof</span> _$<span class="hljs-number">1</span>) <span class="hljs-keyword">return</span> obj;
+  <span class="hljs-keyword">if</span> (!(<span class="hljs-keyword">this</span> <span class="hljs-keyword">instanceof</span> _$<span class="hljs-number">1</span>)) <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> _$<span class="hljs-number">1</span>(obj);
   <span class="hljs-keyword">this</span>._wrapped = obj;
 }
 
-_.VERSION = VERSION;</pre></div></div>
+_$<span class="hljs-number">1.</span>VERSION = VERSION;</pre></div></div>
             
         </li>
         
@@ -855,7 +855,7 @@ _.VERSION = VERSION;</pre></div></div>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>_.prototype.value = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+            <div class="content"><div class='highlight'><pre>_$<span class="hljs-number">1.</span>prototype.value = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
   <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>._wrapped;
 };</pre></div></div>
             
@@ -873,9 +873,9 @@ such as arithmetic and JSON stringification.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>_.prototype.valueOf = _.prototype.toJSON = _.prototype.value;
+            <div class="content"><div class='highlight'><pre>_$<span class="hljs-number">1.</span>prototype.valueOf = _$<span class="hljs-number">1.</span>prototype.toJSON = _$<span class="hljs-number">1.</span>prototype.value;
 
-_.prototype.toString = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+_$<span class="hljs-number">1.</span>prototype.toString = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
   <span class="hljs-keyword">return</span> <span class="hljs-built_in">String</span>(<span class="hljs-keyword">this</span>._wrapped);
 };</pre></div></div>
             
@@ -1023,8 +1023,8 @@ See the <a href="https://wiki.ecmascript.org/doku.php?id=harmony:egal">Harmony <
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">if</span> (a <span class="hljs-keyword">instanceof</span> _) a = a._wrapped;
-  <span class="hljs-keyword">if</span> (b <span class="hljs-keyword">instanceof</span> _) b = b._wrapped;</pre></div></div>
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">if</span> (a <span class="hljs-keyword">instanceof</span> _$<span class="hljs-number">1</span>) a = a._wrapped;
+  <span class="hljs-keyword">if</span> (b <span class="hljs-keyword">instanceof</span> _$<span class="hljs-number">1</span>) b = b._wrapped;</pre></div></div>
             
         </li>
         
@@ -1371,7 +1371,7 @@ unique nested structures.</p>
             </div>
             
             <div class="content"><div class='highlight'><pre>      key = _keys[length];
-      <span class="hljs-keyword">if</span> (!(has(b, key) &amp;&amp; eq(a[key], b[key], aStack, bStack))) <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+      <span class="hljs-keyword">if</span> (!(has$<span class="hljs-number">1</span>(b, key) &amp;&amp; eq(a[key], b[key], aStack, bStack))) <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
     }
   }</pre></div></div>
             
@@ -1830,10 +1830,10 @@ Like <code>_.iteratee</code>, this function can be customized.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">toPath</span>(<span class="hljs-params">path</span>) </span>{
+            <div class="content"><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">toPath$1</span>(<span class="hljs-params">path</span>) </span>{
   <span class="hljs-keyword">return</span> isArray(path) ? path : [path];
 }
-_.toPath = toPath;</pre></div></div>
+_$<span class="hljs-number">1.</span>toPath = toPath$<span class="hljs-number">1</span>;</pre></div></div>
             
         </li>
         
@@ -1849,8 +1849,8 @@ Similar to <code>cb</code> for <code>_.iteratee</code>.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">toPath$1</span>(<span class="hljs-params">path</span>) </span>{
-  <span class="hljs-keyword">return</span> _.toPath(path);
+            <div class="content"><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">toPath</span>(<span class="hljs-params">path</span>) </span>{
+  <span class="hljs-keyword">return</span> _$<span class="hljs-number">1.</span>toPath(path);
 }</pre></div></div>
             
         </li>
@@ -1892,7 +1892,7 @@ The <code>path</code> is normalized through <code>_.toPath</code>.</p>
             </div>
             
             <div class="content"><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">get</span>(<span class="hljs-params">object, path, defaultValue</span>) </span>{
-  <span class="hljs-keyword">var</span> value = deepGet(object, toPath$<span class="hljs-number">1</span>(path));
+  <span class="hljs-keyword">var</span> value = deepGet(object, toPath(path));
   <span class="hljs-keyword">return</span> isUndefined(value) ? defaultValue : value;
 }</pre></div></div>
             
@@ -1911,12 +1911,12 @@ function, this public version can also traverse nested properties.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">has$1</span>(<span class="hljs-params">obj, path</span>) </span>{
-  path = toPath$<span class="hljs-number">1</span>(path);
+            <div class="content"><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">has</span>(<span class="hljs-params">obj, path</span>) </span>{
+  path = toPath(path);
   <span class="hljs-keyword">var</span> length = path.length;
   <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; length; i++) {
     <span class="hljs-keyword">var</span> key = path[i];
-    <span class="hljs-keyword">if</span> (!has(obj, key)) <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+    <span class="hljs-keyword">if</span> (!has$<span class="hljs-number">1</span>(obj, key)) <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
     obj = obj[key];
   }
   <span class="hljs-keyword">return</span> !!length;
@@ -1975,7 +1975,7 @@ properties down the given <code>path</code>, specified as an array of keys or in
             </div>
             
             <div class="content"><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">property</span>(<span class="hljs-params">path</span>) </span>{
-  path = toPath$<span class="hljs-number">1</span>(path);
+  path = toPath(path);
   <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">obj</span>) </span>{
     <span class="hljs-keyword">return</span> deepGet(obj, path);
   };
@@ -2068,7 +2068,7 @@ This abstraction hides the internal-only <code>argCount</code> argument.</p>
             <div class="content"><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">iteratee</span>(<span class="hljs-params">value, context</span>) </span>{
   <span class="hljs-keyword">return</span> baseIteratee(value, context, <span class="hljs-literal">Infinity</span>);
 }
-_.iteratee = iteratee;</pre></div></div>
+_$<span class="hljs-number">1.</span>iteratee = iteratee;</pre></div></div>
             
         </li>
         
@@ -2085,7 +2085,7 @@ _.iteratee = iteratee;</pre></div></div>
             </div>
             
             <div class="content"><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">cb</span>(<span class="hljs-params">value, context, argCount</span>) </span>{
-  <span class="hljs-keyword">if</span> (_.iteratee !== iteratee) <span class="hljs-keyword">return</span> _.iteratee(value, context);
+  <span class="hljs-keyword">if</span> (_$<span class="hljs-number">1.</span>iteratee !== iteratee) <span class="hljs-keyword">return</span> _$<span class="hljs-number">1.</span>iteratee(value, context);
   <span class="hljs-keyword">return</span> baseIteratee(value, context, argCount);
 }</pre></div></div>
             
@@ -2330,7 +2330,7 @@ following template settings to use alternative delimiters.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">var</span> templateSettings = _.templateSettings = {
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">var</span> templateSettings = _$<span class="hljs-number">1.</span>templateSettings = {
   <span class="hljs-attr">evaluate</span>: <span class="hljs-regexp">/&lt;%([\s\S]+?)%&gt;/g</span>,
   interpolate: <span class="hljs-regexp">/&lt;%=([\s\S]+?)%&gt;/g</span>,
   <span class="hljs-built_in">escape</span>: <span class="hljs-regexp">/&lt;%-([\s\S]+?)%&gt;/g</span>
@@ -2400,7 +2400,7 @@ NB: <code>oldSettings</code> only exists for backwards compatibility.</p>
             
             <div class="content"><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">template</span>(<span class="hljs-params">text, settings, oldSettings</span>) </span>{
   <span class="hljs-keyword">if</span> (!settings &amp;&amp; oldSettings) settings = oldSettings;
-  settings = defaults({}, settings, _.templateSettings);</pre></div></div>
+  settings = defaults({}, settings, _$<span class="hljs-number">1.</span>templateSettings);</pre></div></div>
             
         </li>
         
@@ -2493,7 +2493,7 @@ NB: <code>oldSettings</code> only exists for backwards compatibility.</p>
   }
 
   <span class="hljs-keyword">var</span> template = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">data</span>) </span>{
-    <span class="hljs-keyword">return</span> render.call(<span class="hljs-keyword">this</span>, data, _);
+    <span class="hljs-keyword">return</span> render.call(<span class="hljs-keyword">this</span>, data, _$<span class="hljs-number">1</span>);
   };</pre></div></div>
             
         </li>
@@ -2531,7 +2531,7 @@ child, or <code>fallback</code> if any child is undefined.</p>
             </div>
             
             <div class="content"><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">result</span>(<span class="hljs-params">obj, path, fallback</span>) </span>{
-  path = toPath$<span class="hljs-number">1</span>(path);
+  path = toPath(path);
   <span class="hljs-keyword">var</span> length = path.length;
   <span class="hljs-keyword">if</span> (!length) {
     <span class="hljs-keyword">return</span> isFunction$<span class="hljs-number">1</span>(fallback) ? fallback.call(obj) : fallback;
@@ -2581,7 +2581,7 @@ Useful for temporary DOM ids.</p>
             </div>
             
             <div class="content"><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">chain</span>(<span class="hljs-params">obj</span>) </span>{
-  <span class="hljs-keyword">var</span> instance = _(obj);
+  <span class="hljs-keyword">var</span> instance = _$<span class="hljs-number">1</span>(obj);
   instance._chain = <span class="hljs-literal">true</span>;
   <span class="hljs-keyword">return</span> instance;
 }</pre></div></div>
@@ -2639,7 +2639,7 @@ pre-filled. Set <code>_.partial.placeholder</code> for a custom placeholder argu
   <span class="hljs-keyword">return</span> bound;
 });
 
-partial.placeholder = _;</pre></div></div>
+partial.placeholder = _$<span class="hljs-number">1</span>;</pre></div></div>
             
         </li>
         
@@ -2694,7 +2694,7 @@ Avoids a very nasty iOS 8 JIT bug on ARM-64. #2094</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">flatten</span>(<span class="hljs-params">input, depth, strict, output</span>) </span>{
+            <div class="content"><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">flatten$1</span>(<span class="hljs-params">input, depth, strict, output</span>) </span>{
   output = output || [];
   <span class="hljs-keyword">if</span> (!depth &amp;&amp; depth !== <span class="hljs-number">0</span>) {
     depth = <span class="hljs-literal">Infinity</span>;
@@ -2720,7 +2720,7 @@ Avoids a very nasty iOS 8 JIT bug on ARM-64. #2094</p>
             </div>
             
             <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">if</span> (depth &gt; <span class="hljs-number">1</span>) {
-        flatten(value, depth - <span class="hljs-number">1</span>, strict, output);
+        flatten$<span class="hljs-number">1</span>(value, depth - <span class="hljs-number">1</span>, strict, output);
         idx = output.length;
       } <span class="hljs-keyword">else</span> {
         <span class="hljs-keyword">var</span> j = <span class="hljs-number">0</span>, len = value.length;
@@ -2749,7 +2749,7 @@ defined on an object belong to it.</p>
             </div>
             
             <div class="content"><div class='highlight'><pre><span class="hljs-keyword">var</span> bindAll = restArguments(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">obj, keys</span>) </span>{
-  keys = flatten(keys, <span class="hljs-literal">false</span>, <span class="hljs-literal">false</span>);
+  keys = flatten$<span class="hljs-number">1</span>(keys, <span class="hljs-literal">false</span>, <span class="hljs-literal">false</span>);
   <span class="hljs-keyword">var</span> index = keys.length;
   <span class="hljs-keyword">if</span> (index &lt; <span class="hljs-number">1</span>) <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">'bindAll must be passed function names'</span>);
   <span class="hljs-keyword">while</span> (index--) {
@@ -2776,7 +2776,7 @@ defined on an object belong to it.</p>
   <span class="hljs-keyword">var</span> memoize = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">key</span>) </span>{
     <span class="hljs-keyword">var</span> cache = memoize.cache;
     <span class="hljs-keyword">var</span> address = <span class="hljs-string">''</span> + (hasher ? hasher.apply(<span class="hljs-keyword">this</span>, <span class="hljs-built_in">arguments</span>) : key);
-    <span class="hljs-keyword">if</span> (!has(cache, address)) cache[address] = func.apply(<span class="hljs-keyword">this</span>, <span class="hljs-built_in">arguments</span>);
+    <span class="hljs-keyword">if</span> (!has$<span class="hljs-number">1</span>(cache, address)) cache[address] = func.apply(<span class="hljs-keyword">this</span>, <span class="hljs-built_in">arguments</span>);
     <span class="hljs-keyword">return</span> cache[address];
   };
   memoize.cache = {};
@@ -2817,7 +2817,7 @@ cleared.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">var</span> defer = partial(delay, _, <span class="hljs-number">1</span>);</pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">var</span> defer = partial(delay, _$<span class="hljs-number">1</span>, <span class="hljs-number">1</span>);</pre></div></div>
             
         </li>
         
@@ -2894,33 +2894,15 @@ triggered at the beginning of the sequence instead of at the end.</p>
             </div>
             
             <div class="content"><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">debounce</span>(<span class="hljs-params">func, wait, immediate</span>) </span>{
-  <span class="hljs-keyword">var</span> timeout, result;
+  <span class="hljs-keyword">var</span> timeout, previous, args, result, context;
 
-  <span class="hljs-keyword">var</span> later = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">context, args</span>) </span>{
-    timeout = <span class="hljs-literal">null</span>;
-    <span class="hljs-keyword">if</span> (args) result = func.apply(context, args);
-  };
-
-  <span class="hljs-keyword">var</span> debounced = restArguments(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">args</span>) </span>{
-    <span class="hljs-keyword">if</span> (timeout) clearTimeout(timeout);
-    <span class="hljs-keyword">if</span> (immediate) {
-      <span class="hljs-keyword">var</span> callNow = !timeout;
-      timeout = <span class="hljs-keyword">set</span><span class="hljs-title">Timeout</span>(<span class="hljs-params">later, wait</span>);
-      <span class="hljs-title">if</span> (<span class="hljs-params">callNow</span>) <span class="hljs-title">result</span> = <span class="hljs-title">func</span>.<span class="hljs-title">apply</span>(<span class="hljs-params">this, args</span>);
+  <span class="hljs-keyword">var</span> later = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+    <span class="hljs-keyword">var</span> passed = now() - previous;
+    <span class="hljs-keyword">if</span> (wait &gt; passed) {
+      timeout = <span class="hljs-keyword">set</span><span class="hljs-title">Timeout</span>(<span class="hljs-params">later, wait - passed</span>);
     } <span class="hljs-title">else</span> {
-      timeout = delay(later, wait, <span class="hljs-keyword">this</span>, args);
-    }
-
-    <span class="hljs-keyword">return</span> result;
-  });
-
-  debounced.cancel = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
-    clearTimeout(timeout);
-    timeout = <span class="hljs-literal">null</span>;
-  };
-
-  <span class="hljs-keyword">return</span> debounced;
-}</pre></div></div>
+      timeout = <span class="hljs-literal">null</span>;
+      <span class="hljs-keyword">if</span> (!immediate) result = func.apply(context, args);</pre></div></div>
             
         </li>
         
@@ -2930,6 +2912,42 @@ triggered at the beginning of the sequence instead of at the end.</p>
               
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-145">&#182;</a>
+              </div>
+              <p>This check is needed because <code>func</code> can recursively invoke <code>debounced</code>.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">if</span> (!timeout) args = context = <span class="hljs-literal">null</span>;
+    }
+  };
+
+  <span class="hljs-keyword">var</span> debounced = restArguments(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">_args</span>) </span>{
+    context = <span class="hljs-keyword">this</span>;
+    args = _args;
+    previous = now();
+    <span class="hljs-keyword">if</span> (!timeout) {
+      timeout = <span class="hljs-keyword">set</span><span class="hljs-title">Timeout</span>(<span class="hljs-params">later, wait</span>);
+      <span class="hljs-title">if</span> (<span class="hljs-params">immediate</span>) <span class="hljs-title">result</span> = <span class="hljs-title">func</span>.<span class="hljs-title">apply</span>(<span class="hljs-params">context, args</span>);
+    }
+    <span class="hljs-title">return</span> <span class="hljs-title">result</span>;
+  });
+
+  <span class="hljs-title">debounced</span>.<span class="hljs-title">cancel</span> = <span class="hljs-title">function</span>() {
+    clearTimeout(timeout);
+    timeout = args = context = <span class="hljs-literal">null</span>;
+  };
+
+  <span class="hljs-keyword">return</span> debounced;
+}</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-146">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-146">&#182;</a>
               </div>
               <p>Returns the first function passed as an argument to the second,
 allowing you to adjust arguments, run code before and after, and
@@ -2944,11 +2962,11 @@ conditionally execute the original function.</p>
         </li>
         
         
-        <li id="section-146">
+        <li id="section-147">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-146">&#182;</a>
+                <a class="pilcrow" href="#section-147">&#182;</a>
               </div>
               <p>Returns a negated version of the passed-in predicate.</p>
 
@@ -2963,11 +2981,11 @@ conditionally execute the original function.</p>
         </li>
         
         
-        <li id="section-147">
+        <li id="section-148">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-147">&#182;</a>
+                <a class="pilcrow" href="#section-148">&#182;</a>
               </div>
               <p>Returns a function that is the composition of a list of functions, each
 consuming the return value of the function that follows.</p>
@@ -2988,11 +3006,11 @@ consuming the return value of the function that follows.</p>
         </li>
         
         
-        <li id="section-148">
+        <li id="section-149">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-148">&#182;</a>
+                <a class="pilcrow" href="#section-149">&#182;</a>
               </div>
               <p>Returns a function that will only be executed on and after the Nth call.</p>
 
@@ -3009,11 +3027,11 @@ consuming the return value of the function that follows.</p>
         </li>
         
         
-        <li id="section-149">
+        <li id="section-150">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-149">&#182;</a>
+                <a class="pilcrow" href="#section-150">&#182;</a>
               </div>
               <p>Returns a function that will only be executed up to (but not including) the
 Nth call.</p>
@@ -3034,11 +3052,11 @@ Nth call.</p>
         </li>
         
         
-        <li id="section-150">
+        <li id="section-151">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-150">&#182;</a>
+                <a class="pilcrow" href="#section-151">&#182;</a>
               </div>
               <p>Returns a function that will be executed at most one time, no matter how
 often you call it. Useful for lazy initialization.</p>
@@ -3050,11 +3068,11 @@ often you call it. Useful for lazy initialization.</p>
         </li>
         
         
-        <li id="section-151">
+        <li id="section-152">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-151">&#182;</a>
+                <a class="pilcrow" href="#section-152">&#182;</a>
               </div>
               <p>Returns the first key on an object that passes a truth test.</p>
 
@@ -3072,11 +3090,11 @@ often you call it. Useful for lazy initialization.</p>
         </li>
         
         
-        <li id="section-152">
+        <li id="section-153">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-152">&#182;</a>
+                <a class="pilcrow" href="#section-153">&#182;</a>
               </div>
               <p>Internal function to generate <code>_.findIndex</code> and <code>_.findLastIndex</code>.</p>
 
@@ -3097,11 +3115,11 @@ often you call it. Useful for lazy initialization.</p>
         </li>
         
         
-        <li id="section-153">
+        <li id="section-154">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-153">&#182;</a>
+                <a class="pilcrow" href="#section-154">&#182;</a>
               </div>
               <p>Returns the first index on an array-like that passes a truth test.</p>
 
@@ -3112,11 +3130,11 @@ often you call it. Useful for lazy initialization.</p>
         </li>
         
         
-        <li id="section-154">
+        <li id="section-155">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-154">&#182;</a>
+                <a class="pilcrow" href="#section-155">&#182;</a>
               </div>
               <p>Returns the last index on an array-like that passes a truth test.</p>
 
@@ -3127,11 +3145,11 @@ often you call it. Useful for lazy initialization.</p>
         </li>
         
         
-        <li id="section-155">
+        <li id="section-156">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-155">&#182;</a>
+                <a class="pilcrow" href="#section-156">&#182;</a>
               </div>
               <p>Use a comparator function to figure out the smallest index at which
 an object should be inserted so as to maintain order. Uses binary search.</p>
@@ -3152,11 +3170,11 @@ an object should be inserted so as to maintain order. Uses binary search.</p>
         </li>
         
         
-        <li id="section-156">
+        <li id="section-157">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-156">&#182;</a>
+                <a class="pilcrow" href="#section-157">&#182;</a>
               </div>
               <p>Internal function to generate the <code>_.indexOf</code> and <code>_.lastIndexOf</code> functions.</p>
 
@@ -3189,11 +3207,11 @@ an object should be inserted so as to maintain order. Uses binary search.</p>
         </li>
         
         
-        <li id="section-157">
+        <li id="section-158">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-157">&#182;</a>
+                <a class="pilcrow" href="#section-158">&#182;</a>
               </div>
               <p>Return the position of the first occurrence of an item in an array,
 or -1 if the item is not included in the array.
@@ -3207,11 +3225,11 @@ for <strong>isSorted</strong> to use binary search.</p>
         </li>
         
         
-        <li id="section-158">
+        <li id="section-159">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-158">&#182;</a>
+                <a class="pilcrow" href="#section-159">&#182;</a>
               </div>
               <p>Return the position of the last occurrence of an item in an array,
 or -1 if the item is not included in the array.</p>
@@ -3223,11 +3241,11 @@ or -1 if the item is not included in the array.</p>
         </li>
         
         
-        <li id="section-159">
+        <li id="section-160">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-159">&#182;</a>
+                <a class="pilcrow" href="#section-160">&#182;</a>
               </div>
               <p>Return the first value which passes a truth test.</p>
 
@@ -3242,11 +3260,11 @@ or -1 if the item is not included in the array.</p>
         </li>
         
         
-        <li id="section-160">
+        <li id="section-161">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-160">&#182;</a>
+                <a class="pilcrow" href="#section-161">&#182;</a>
               </div>
               <p>Convenience version of a common use case of <code>_.find</code>: getting the first
 object containing specific <code>key:value</code> pairs.</p>
@@ -3260,11 +3278,11 @@ object containing specific <code>key:value</code> pairs.</p>
         </li>
         
         
-        <li id="section-161">
+        <li id="section-162">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-161">&#182;</a>
+                <a class="pilcrow" href="#section-162">&#182;</a>
               </div>
               <p>The cornerstone for collection functions, an <code>each</code>
 implementation, aka <code>forEach</code>.
@@ -3292,11 +3310,11 @@ sparse array-likes as if they were dense.</p>
         </li>
         
         
-        <li id="section-162">
+        <li id="section-163">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-162">&#182;</a>
+                <a class="pilcrow" href="#section-163">&#182;</a>
               </div>
               <p>Return the results of applying the iteratee to each element.</p>
 
@@ -3317,11 +3335,11 @@ sparse array-likes as if they were dense.</p>
         </li>
         
         
-        <li id="section-163">
+        <li id="section-164">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-163">&#182;</a>
+                <a class="pilcrow" href="#section-164">&#182;</a>
               </div>
               <p>Internal helper to create a reducing function, iterating left or right.</p>
 
@@ -3332,11 +3350,11 @@ sparse array-likes as if they were dense.</p>
         </li>
         
         
-        <li id="section-164">
+        <li id="section-165">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-164">&#182;</a>
+                <a class="pilcrow" href="#section-165">&#182;</a>
               </div>
               <p>Wrap code that reassigns argument variables in a separate function than
 the one that accesses <code>arguments.length</code> to avoid a perf hit. (#1991)</p>
@@ -3367,11 +3385,11 @@ the one that accesses <code>arguments.length</code> to avoid a perf hit. (#1991)
         </li>
         
         
-        <li id="section-165">
+        <li id="section-166">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-165">&#182;</a>
+                <a class="pilcrow" href="#section-166">&#182;</a>
               </div>
               <p><strong>Reduce</strong> builds up a single result from a list of values, aka <code>inject</code>,
 or <code>foldl</code>.</p>
@@ -3383,11 +3401,11 @@ or <code>foldl</code>.</p>
         </li>
         
         
-        <li id="section-166">
+        <li id="section-167">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-166">&#182;</a>
+                <a class="pilcrow" href="#section-167">&#182;</a>
               </div>
               <p>The right-associative version of reduce, also known as <code>foldr</code>.</p>
 
@@ -3398,11 +3416,11 @@ or <code>foldl</code>.</p>
         </li>
         
         
-        <li id="section-167">
+        <li id="section-168">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-167">&#182;</a>
+                <a class="pilcrow" href="#section-168">&#182;</a>
               </div>
               <p>Return all the elements that pass a truth test.</p>
 
@@ -3420,11 +3438,11 @@ or <code>foldl</code>.</p>
         </li>
         
         
-        <li id="section-168">
+        <li id="section-169">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-168">&#182;</a>
+                <a class="pilcrow" href="#section-169">&#182;</a>
               </div>
               <p>Return all the elements for which a truth test fails.</p>
 
@@ -3437,11 +3455,11 @@ or <code>foldl</code>.</p>
         </li>
         
         
-        <li id="section-169">
+        <li id="section-170">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-169">&#182;</a>
+                <a class="pilcrow" href="#section-170">&#182;</a>
               </div>
               <p>Determine whether all of the elements pass a truth test.</p>
 
@@ -3461,11 +3479,11 @@ or <code>foldl</code>.</p>
         </li>
         
         
-        <li id="section-170">
+        <li id="section-171">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-170">&#182;</a>
+                <a class="pilcrow" href="#section-171">&#182;</a>
               </div>
               <p>Determine if at least one element in the object passes a truth test.</p>
 
@@ -3485,11 +3503,11 @@ or <code>foldl</code>.</p>
         </li>
         
         
-        <li id="section-171">
+        <li id="section-172">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-171">&#182;</a>
+                <a class="pilcrow" href="#section-172">&#182;</a>
               </div>
               <p>Determine if the array or object contains a given item (using <code>===</code>).</p>
 
@@ -3504,11 +3522,11 @@ or <code>foldl</code>.</p>
         </li>
         
         
-        <li id="section-172">
+        <li id="section-173">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-172">&#182;</a>
+                <a class="pilcrow" href="#section-173">&#182;</a>
               </div>
               <p>Invoke a method (with arguments) on every item in a collection.</p>
 
@@ -3519,7 +3537,7 @@ or <code>foldl</code>.</p>
   <span class="hljs-keyword">if</span> (isFunction$<span class="hljs-number">1</span>(path)) {
     func = path;
   } <span class="hljs-keyword">else</span> {
-    path = toPath$<span class="hljs-number">1</span>(path);
+    path = toPath(path);
     contextPath = path.slice(<span class="hljs-number">0</span>, <span class="hljs-number">-1</span>);
     path = path[path.length - <span class="hljs-number">1</span>];
   }
@@ -3539,11 +3557,11 @@ or <code>foldl</code>.</p>
         </li>
         
         
-        <li id="section-173">
+        <li id="section-174">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-173">&#182;</a>
+                <a class="pilcrow" href="#section-174">&#182;</a>
               </div>
               <p>Convenience version of a common use case of <code>_.map</code>: fetching a property.</p>
 
@@ -3556,11 +3574,11 @@ or <code>foldl</code>.</p>
         </li>
         
         
-        <li id="section-174">
+        <li id="section-175">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-174">&#182;</a>
+                <a class="pilcrow" href="#section-175">&#182;</a>
               </div>
               <p>Convenience version of a common use case of <code>_.filter</code>: selecting only
 objects containing specific <code>key:value</code> pairs.</p>
@@ -3574,11 +3592,11 @@ objects containing specific <code>key:value</code> pairs.</p>
         </li>
         
         
-        <li id="section-175">
+        <li id="section-176">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-175">&#182;</a>
+                <a class="pilcrow" href="#section-176">&#182;</a>
               </div>
               <p>Return the maximum element (or element-based computation).</p>
 
@@ -3611,11 +3629,11 @@ objects containing specific <code>key:value</code> pairs.</p>
         </li>
         
         
-        <li id="section-176">
+        <li id="section-177">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-176">&#182;</a>
+                <a class="pilcrow" href="#section-177">&#182;</a>
               </div>
               <p>Return the minimum element (or element-based computation).</p>
 
@@ -3648,11 +3666,11 @@ objects containing specific <code>key:value</code> pairs.</p>
         </li>
         
         
-        <li id="section-177">
+        <li id="section-178">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-177">&#182;</a>
+                <a class="pilcrow" href="#section-178">&#182;</a>
               </div>
               <p>Sample <strong>n</strong> random values from a collection using the modern version of the
 <a href="https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle">Fisher-Yates shuffle</a>.
@@ -3682,11 +3700,11 @@ The internal <code>guard</code> argument allows it to work with <code>_.map</cod
         </li>
         
         
-        <li id="section-178">
+        <li id="section-179">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-178">&#182;</a>
+                <a class="pilcrow" href="#section-179">&#182;</a>
               </div>
               <p>Shuffle a collection.</p>
 
@@ -3699,11 +3717,11 @@ The internal <code>guard</code> argument allows it to work with <code>_.map</cod
         </li>
         
         
-        <li id="section-179">
+        <li id="section-180">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-179">&#182;</a>
+                <a class="pilcrow" href="#section-180">&#182;</a>
               </div>
               <p>Sort the object’s values by a criterion produced by an iteratee.</p>
 
@@ -3732,11 +3750,11 @@ The internal <code>guard</code> argument allows it to work with <code>_.map</cod
         </li>
         
         
-        <li id="section-180">
+        <li id="section-181">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-180">&#182;</a>
+                <a class="pilcrow" href="#section-181">&#182;</a>
               </div>
               <p>An internal function used for aggregate “group by” operations.</p>
 
@@ -3757,11 +3775,11 @@ The internal <code>guard</code> argument allows it to work with <code>_.map</cod
         </li>
         
         
-        <li id="section-181">
+        <li id="section-182">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-181">&#182;</a>
+                <a class="pilcrow" href="#section-182">&#182;</a>
               </div>
               <p>Groups the object’s values by a criterion. Pass either a string attribute
 to group by, or a function that returns the criterion.</p>
@@ -3769,17 +3787,17 @@ to group by, or a function that returns the criterion.</p>
             </div>
             
             <div class="content"><div class='highlight'><pre><span class="hljs-keyword">var</span> groupBy = group(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">result, value, key</span>) </span>{
-  <span class="hljs-keyword">if</span> (has(result, key)) result[key].push(value); <span class="hljs-keyword">else</span> result[key] = [value];
+  <span class="hljs-keyword">if</span> (has$<span class="hljs-number">1</span>(result, key)) result[key].push(value); <span class="hljs-keyword">else</span> result[key] = [value];
 });</pre></div></div>
             
         </li>
         
         
-        <li id="section-182">
+        <li id="section-183">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-182">&#182;</a>
+                <a class="pilcrow" href="#section-183">&#182;</a>
               </div>
               <p>Indexes the object’s values by a criterion, similar to <code>_.groupBy</code>, but for
 when you know that your index values will be unique.</p>
@@ -3793,11 +3811,11 @@ when you know that your index values will be unique.</p>
         </li>
         
         
-        <li id="section-183">
+        <li id="section-184">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-183">&#182;</a>
+                <a class="pilcrow" href="#section-184">&#182;</a>
               </div>
               <p>Counts instances of an object that group by a certain criterion. Pass
 either a string attribute to count by, or a function that returns the
@@ -3806,17 +3824,17 @@ criterion.</p>
             </div>
             
             <div class="content"><div class='highlight'><pre><span class="hljs-keyword">var</span> countBy = group(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">result, value, key</span>) </span>{
-  <span class="hljs-keyword">if</span> (has(result, key)) result[key]++; <span class="hljs-keyword">else</span> result[key] = <span class="hljs-number">1</span>;
+  <span class="hljs-keyword">if</span> (has$<span class="hljs-number">1</span>(result, key)) result[key]++; <span class="hljs-keyword">else</span> result[key] = <span class="hljs-number">1</span>;
 });</pre></div></div>
             
         </li>
         
         
-        <li id="section-184">
+        <li id="section-185">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-184">&#182;</a>
+                <a class="pilcrow" href="#section-185">&#182;</a>
               </div>
               <p>Split a collection into two arrays: one whose elements all pass the given
 truth test, and one whose elements all do not pass the truth test.</p>
@@ -3830,11 +3848,11 @@ truth test, and one whose elements all do not pass the truth test.</p>
         </li>
         
         
-        <li id="section-185">
+        <li id="section-186">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-185">&#182;</a>
+                <a class="pilcrow" href="#section-186">&#182;</a>
               </div>
               <p>Safely create a real, live array from anything iterable.</p>
 
@@ -3849,11 +3867,11 @@ truth test, and one whose elements all do not pass the truth test.</p>
         </li>
         
         
-        <li id="section-186">
+        <li id="section-187">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-186">&#182;</a>
+                <a class="pilcrow" href="#section-187">&#182;</a>
               </div>
               <p>Keep surrogate pair characters together.</p>
 
@@ -3868,11 +3886,11 @@ truth test, and one whose elements all do not pass the truth test.</p>
         </li>
         
         
-        <li id="section-187">
+        <li id="section-188">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-187">&#182;</a>
+                <a class="pilcrow" href="#section-188">&#182;</a>
               </div>
               <p>Return the number of elements in a collection.</p>
 
@@ -3886,11 +3904,11 @@ truth test, and one whose elements all do not pass the truth test.</p>
         </li>
         
         
-        <li id="section-188">
+        <li id="section-189">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-188">&#182;</a>
+                <a class="pilcrow" href="#section-189">&#182;</a>
               </div>
               <p>Internal <code>_.pick</code> helper function to determine whether <code>key</code> is an enumerable
 property name of <code>obj</code>.</p>
@@ -3904,11 +3922,11 @@ property name of <code>obj</code>.</p>
         </li>
         
         
-        <li id="section-189">
+        <li id="section-190">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-189">&#182;</a>
+                <a class="pilcrow" href="#section-190">&#182;</a>
               </div>
               <p>Return a copy of the object only containing the allowed properties.</p>
 
@@ -3922,7 +3940,7 @@ property name of <code>obj</code>.</p>
     keys = allKeys(obj);
   } <span class="hljs-keyword">else</span> {
     iteratee = keyInObj;
-    keys = flatten(keys, <span class="hljs-literal">false</span>, <span class="hljs-literal">false</span>);
+    keys = flatten$<span class="hljs-number">1</span>(keys, <span class="hljs-literal">false</span>, <span class="hljs-literal">false</span>);
     obj = <span class="hljs-built_in">Object</span>(obj);
   }
   <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>, length = keys.length; i &lt; length; i++) {
@@ -3936,11 +3954,11 @@ property name of <code>obj</code>.</p>
         </li>
         
         
-        <li id="section-190">
+        <li id="section-191">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-190">&#182;</a>
+                <a class="pilcrow" href="#section-191">&#182;</a>
               </div>
               <p>Return a copy of the object without the disallowed properties.</p>
 
@@ -3952,7 +3970,7 @@ property name of <code>obj</code>.</p>
     iteratee = negate(iteratee);
     <span class="hljs-keyword">if</span> (keys.length &gt; <span class="hljs-number">1</span>) context = keys[<span class="hljs-number">1</span>];
   } <span class="hljs-keyword">else</span> {
-    keys = map(flatten(keys, <span class="hljs-literal">false</span>, <span class="hljs-literal">false</span>), <span class="hljs-built_in">String</span>);
+    keys = map(flatten$<span class="hljs-number">1</span>(keys, <span class="hljs-literal">false</span>, <span class="hljs-literal">false</span>), <span class="hljs-built_in">String</span>);
     iteratee = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">value, key</span>) </span>{
       <span class="hljs-keyword">return</span> !contains(keys, key);
     };
@@ -3963,11 +3981,11 @@ property name of <code>obj</code>.</p>
         </li>
         
         
-        <li id="section-191">
+        <li id="section-192">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-191">&#182;</a>
+                <a class="pilcrow" href="#section-192">&#182;</a>
               </div>
               <p>Returns everything but the last entry of the array. Especially useful on
 the arguments object. Passing <strong>n</strong> will return all the values in
@@ -3982,11 +4000,11 @@ the array, excluding the last N.</p>
         </li>
         
         
-        <li id="section-192">
+        <li id="section-193">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-192">&#182;</a>
+                <a class="pilcrow" href="#section-193">&#182;</a>
               </div>
               <p>Get the first element of an array. Passing <strong>n</strong> will return the first N
 values in the array. The <strong>guard</strong> check allows it to work with <code>_.map</code>.</p>
@@ -4002,11 +4020,11 @@ values in the array. The <strong>guard</strong> check allows it to work with <co
         </li>
         
         
-        <li id="section-193">
+        <li id="section-194">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-193">&#182;</a>
+                <a class="pilcrow" href="#section-194">&#182;</a>
               </div>
               <p>Returns everything but the first entry of the <code>array</code>. Especially useful on
 the <code>arguments</code> object. Passing an <strong>n</strong> will return the rest N values in the
@@ -4021,11 +4039,11 @@ the <code>arguments</code> object. Passing an <strong>n</strong> will return the
         </li>
         
         
-        <li id="section-194">
+        <li id="section-195">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-194">&#182;</a>
+                <a class="pilcrow" href="#section-195">&#182;</a>
               </div>
               <p>Get the last element of an array. Passing <strong>n</strong> will return the last N
 values in the array.</p>
@@ -4041,11 +4059,11 @@ values in the array.</p>
         </li>
         
         
-        <li id="section-195">
+        <li id="section-196">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-195">&#182;</a>
+                <a class="pilcrow" href="#section-196">&#182;</a>
               </div>
               <p>Trim out all falsy values from an array.</p>
 
@@ -4058,41 +4076,20 @@ values in the array.</p>
         </li>
         
         
-        <li id="section-196">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-196">&#182;</a>
-              </div>
-              <p>Flatten out an array, either recursively (by default), or up to <code>depth</code>.
-Passing <code>true</code> or <code>false</code> as <code>depth</code> means <code>1</code> or <code>Infinity</code>, respectively.</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">flatten$1</span>(<span class="hljs-params">array, depth</span>) </span>{
-  <span class="hljs-keyword">return</span> flatten(array, depth, <span class="hljs-literal">false</span>);
-}</pre></div></div>
-            
-        </li>
-        
-        
         <li id="section-197">
             <div class="annotation">
               
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-197">&#182;</a>
               </div>
-              <p>Take the difference between one array and a number of other arrays.
-Only the elements present in just the first array will remain.</p>
+              <p>Flatten out an array, either recursively (by default), or up to <code>depth</code>.
+Passing <code>true</code> or <code>false</code> as <code>depth</code> means <code>1</code> or <code>Infinity</code>, respectively.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">var</span> difference = restArguments(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">array, rest</span>) </span>{
-  rest = flatten(rest, <span class="hljs-literal">true</span>, <span class="hljs-literal">true</span>);
-  <span class="hljs-keyword">return</span> filter(array, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">value</span>)</span>{
-    <span class="hljs-keyword">return</span> !contains(rest, value);
-  });
-});</pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">flatten</span>(<span class="hljs-params">array, depth</span>) </span>{
+  <span class="hljs-keyword">return</span> flatten$<span class="hljs-number">1</span>(array, depth, <span class="hljs-literal">false</span>);
+}</pre></div></div>
             
         </li>
         
@@ -4102,6 +4099,27 @@ Only the elements present in just the first array will remain.</p>
               
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-198">&#182;</a>
+              </div>
+              <p>Take the difference between one array and a number of other arrays.
+Only the elements present in just the first array will remain.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">var</span> difference = restArguments(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">array, rest</span>) </span>{
+  rest = flatten$<span class="hljs-number">1</span>(rest, <span class="hljs-literal">true</span>, <span class="hljs-literal">true</span>);
+  <span class="hljs-keyword">return</span> filter(array, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">value</span>)</span>{
+    <span class="hljs-keyword">return</span> !contains(rest, value);
+  });
+});</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-199">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-199">&#182;</a>
               </div>
               <p>Return a version of the array that does not contain the specified value(s).</p>
 
@@ -4114,11 +4132,11 @@ Only the elements present in just the first array will remain.</p>
         </li>
         
         
-        <li id="section-199">
+        <li id="section-200">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-199">&#182;</a>
+                <a class="pilcrow" href="#section-200">&#182;</a>
               </div>
               <p>Produce a duplicate-free version of the array. If the array has already
 been sorted, you have the option of using a faster algorithm.
@@ -4158,11 +4176,11 @@ the faster algorithm.</p>
         </li>
         
         
-        <li id="section-200">
+        <li id="section-201">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-200">&#182;</a>
+                <a class="pilcrow" href="#section-201">&#182;</a>
               </div>
               <p>Produce an array that contains the union: each distinct element from all of
 the passed-in arrays.</p>
@@ -4170,17 +4188,17 @@ the passed-in arrays.</p>
             </div>
             
             <div class="content"><div class='highlight'><pre><span class="hljs-keyword">var</span> union = restArguments(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">arrays</span>) </span>{
-  <span class="hljs-keyword">return</span> uniq(flatten(arrays, <span class="hljs-literal">true</span>, <span class="hljs-literal">true</span>));
+  <span class="hljs-keyword">return</span> uniq(flatten$<span class="hljs-number">1</span>(arrays, <span class="hljs-literal">true</span>, <span class="hljs-literal">true</span>));
 });</pre></div></div>
             
         </li>
         
         
-        <li id="section-201">
+        <li id="section-202">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-201">&#182;</a>
+                <a class="pilcrow" href="#section-202">&#182;</a>
               </div>
               <p>Produce an array that contains every item shared between all the
 passed-in arrays.</p>
@@ -4205,11 +4223,11 @@ passed-in arrays.</p>
         </li>
         
         
-        <li id="section-202">
+        <li id="section-203">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-202">&#182;</a>
+                <a class="pilcrow" href="#section-203">&#182;</a>
               </div>
               <p>Complement of zip. Unzip accepts an array of arrays and groups
 each array’s elements on shared indices.</p>
@@ -4229,11 +4247,11 @@ each array’s elements on shared indices.</p>
         </li>
         
         
-        <li id="section-203">
+        <li id="section-204">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-203">&#182;</a>
+                <a class="pilcrow" href="#section-204">&#182;</a>
               </div>
               <p>Zip together multiple lists into a single array – elements that share
 an index go together.</p>
@@ -4245,11 +4263,11 @@ an index go together.</p>
         </li>
         
         
-        <li id="section-204">
+        <li id="section-205">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-204">&#182;</a>
+                <a class="pilcrow" href="#section-205">&#182;</a>
               </div>
               <p>Converts lists into objects. Pass either a single array of <code>[key, value]</code>
 pairs, or two parallel arrays of the same length – one of keys, and one of
@@ -4272,11 +4290,11 @@ the corresponding values. Passing by pairs is the reverse of <code>_.pairs</code
         </li>
         
         
-        <li id="section-205">
+        <li id="section-206">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-205">&#182;</a>
+                <a class="pilcrow" href="#section-206">&#182;</a>
               </div>
               <p>Generate an integer Array containing an arithmetic progression. A port of
 the native Python <code>range()</code> function. See
@@ -4306,11 +4324,11 @@ the native Python <code>range()</code> function. See
         </li>
         
         
-        <li id="section-206">
+        <li id="section-207">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-206">&#182;</a>
+                <a class="pilcrow" href="#section-207">&#182;</a>
               </div>
               <p>Chunk a single array into multiple arrays, each containing <code>count</code> or fewer
 items.</p>
@@ -4330,43 +4348,18 @@ items.</p>
         </li>
         
         
-        <li id="section-207">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-207">&#182;</a>
-              </div>
-              <p>Helper function to continue chaining intermediate results.</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">chainResult</span>(<span class="hljs-params">instance, obj</span>) </span>{
-  <span class="hljs-keyword">return</span> instance._chain ? _(obj).chain() : obj;
-}</pre></div></div>
-            
-        </li>
-        
-        
         <li id="section-208">
             <div class="annotation">
               
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-208">&#182;</a>
               </div>
-              <p>Add your own custom functions to the Underscore object.</p>
+              <p>Helper function to continue chaining intermediate results.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">mixin</span>(<span class="hljs-params">obj</span>) </span>{
-  each(functions(obj), <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">name</span>) </span>{
-    <span class="hljs-keyword">var</span> func = _[name] = obj[name];
-    _.prototype[name] = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
-      <span class="hljs-keyword">var</span> args = [<span class="hljs-keyword">this</span>._wrapped];
-      push.apply(args, <span class="hljs-built_in">arguments</span>);
-      <span class="hljs-keyword">return</span> chainResult(<span class="hljs-keyword">this</span>, func.apply(_, args));
-    };
-  });
-  <span class="hljs-keyword">return</span> _;
+            <div class="content"><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">chainResult</span>(<span class="hljs-params">instance, obj</span>) </span>{
+  <span class="hljs-keyword">return</span> instance._chain ? _$<span class="hljs-number">1</span>(obj).chain() : obj;
 }</pre></div></div>
             
         </li>
@@ -4378,13 +4371,38 @@ items.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-209">&#182;</a>
               </div>
+              <p>Add your own custom functions to the Underscore object.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">mixin</span>(<span class="hljs-params">obj</span>) </span>{
+  each(functions(obj), <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">name</span>) </span>{
+    <span class="hljs-keyword">var</span> func = _$<span class="hljs-number">1</span>[name] = obj[name];
+    _$<span class="hljs-number">1.</span>prototype[name] = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+      <span class="hljs-keyword">var</span> args = [<span class="hljs-keyword">this</span>._wrapped];
+      push.apply(args, <span class="hljs-built_in">arguments</span>);
+      <span class="hljs-keyword">return</span> chainResult(<span class="hljs-keyword">this</span>, func.apply(_$<span class="hljs-number">1</span>, args));
+    };
+  });
+  <span class="hljs-keyword">return</span> _$<span class="hljs-number">1</span>;
+}</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-210">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-210">&#182;</a>
+              </div>
               <p>Add all mutator <code>Array</code> functions to the wrapper.</p>
 
             </div>
             
             <div class="content"><div class='highlight'><pre>each([<span class="hljs-string">'pop'</span>, <span class="hljs-string">'push'</span>, <span class="hljs-string">'reverse'</span>, <span class="hljs-string">'shift'</span>, <span class="hljs-string">'sort'</span>, <span class="hljs-string">'splice'</span>, <span class="hljs-string">'unshift'</span>], <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">name</span>) </span>{
   <span class="hljs-keyword">var</span> method = ArrayProto[name];
-  _.prototype[name] = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+  _$<span class="hljs-number">1.</span>prototype[name] = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
     <span class="hljs-keyword">var</span> obj = <span class="hljs-keyword">this</span>._wrapped;
     <span class="hljs-keyword">if</span> (obj != <span class="hljs-literal">null</span>) {
       method.apply(obj, <span class="hljs-built_in">arguments</span>);
@@ -4399,11 +4417,11 @@ items.</p>
         </li>
         
         
-        <li id="section-210">
+        <li id="section-211">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-210">&#182;</a>
+                <a class="pilcrow" href="#section-211">&#182;</a>
               </div>
               <p>Add all accessor <code>Array</code> functions to the wrapper.</p>
 
@@ -4411,7 +4429,7 @@ items.</p>
             
             <div class="content"><div class='highlight'><pre>each([<span class="hljs-string">'concat'</span>, <span class="hljs-string">'join'</span>, <span class="hljs-string">'slice'</span>], <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">name</span>) </span>{
   <span class="hljs-keyword">var</span> method = ArrayProto[name];
-  _.prototype[name] = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+  _$<span class="hljs-number">1.</span>prototype[name] = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
     <span class="hljs-keyword">var</span> obj = <span class="hljs-keyword">this</span>._wrapped;
     <span class="hljs-keyword">if</span> (obj != <span class="hljs-literal">null</span>) obj = method.apply(obj, <span class="hljs-built_in">arguments</span>);
     <span class="hljs-keyword">return</span> chainResult(<span class="hljs-keyword">this</span>, obj);
@@ -4421,11 +4439,11 @@ items.</p>
         </li>
         
         
-        <li id="section-211">
+        <li id="section-212">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-211">&#182;</a>
+                <a class="pilcrow" href="#section-212">&#182;</a>
               </div>
               <p>Named Exports</p>
 
@@ -4477,12 +4495,12 @@ items.</p>
   <span class="hljs-attr">clone</span>: clone,
   <span class="hljs-attr">tap</span>: tap,
   <span class="hljs-attr">get</span>: get,
-  <span class="hljs-attr">has</span>: has$<span class="hljs-number">1</span>,
+  <span class="hljs-attr">has</span>: has,
   <span class="hljs-attr">mapObject</span>: mapObject,
   <span class="hljs-attr">identity</span>: identity,
   <span class="hljs-attr">constant</span>: constant,
   <span class="hljs-attr">noop</span>: noop,
-  <span class="hljs-attr">toPath</span>: toPath,
+  <span class="hljs-attr">toPath</span>: toPath$<span class="hljs-number">1</span>,
   <span class="hljs-attr">property</span>: property,
   <span class="hljs-attr">propertyOf</span>: propertyOf,
   <span class="hljs-attr">matcher</span>: matcher,
@@ -4565,7 +4583,7 @@ items.</p>
   <span class="hljs-attr">tail</span>: rest,
   <span class="hljs-attr">drop</span>: rest,
   <span class="hljs-attr">compact</span>: compact,
-  <span class="hljs-attr">flatten</span>: flatten$<span class="hljs-number">1</span>,
+  <span class="hljs-attr">flatten</span>: flatten,
   <span class="hljs-attr">without</span>: without,
   <span class="hljs-attr">uniq</span>: uniq,
   <span class="hljs-attr">unique</span>: uniq,
@@ -4579,21 +4597,8 @@ items.</p>
   <span class="hljs-attr">range</span>: range,
   <span class="hljs-attr">chunk</span>: chunk,
   <span class="hljs-attr">mixin</span>: mixin,
-  <span class="hljs-string">'default'</span>: _
+  <span class="hljs-string">'default'</span>: _$<span class="hljs-number">1</span>
 };</pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-212">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-212">&#182;</a>
-              </div>
-              <p>Default Export</p>
-
-            </div>
             
         </li>
         
@@ -4604,11 +4609,9 @@ items.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-213">&#182;</a>
               </div>
-              <p>Add all of the Underscore functions to the wrapper object.</p>
+              <p>Default Export</p>
 
             </div>
-            
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">var</span> _$<span class="hljs-number">1</span> = mixin(allExports);</pre></div></div>
             
         </li>
         
@@ -4619,11 +4622,11 @@ items.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-214">&#182;</a>
               </div>
-              <p>Legacy Node.js API.</p>
+              <p>Add all of the Underscore functions to the wrapper object.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>_$<span class="hljs-number">1.</span>_ = _$<span class="hljs-number">1</span>;</pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">var</span> _ = mixin(allExports);</pre></div></div>
             
         </li>
         
@@ -4634,13 +4637,11 @@ items.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-215">&#182;</a>
               </div>
-              <p>ESM Exports</p>
+              <p>Legacy Node.js API.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> _$<span class="hljs-number">1</span>;
-<span class="hljs-keyword">export</span> { VERSION, after, every <span class="hljs-keyword">as</span> all, allKeys, some <span class="hljs-keyword">as</span> any, extendOwn <span class="hljs-keyword">as</span> assign, before, bind, bindAll, chain, chunk, clone, map <span class="hljs-keyword">as</span> collect, compact, compose, constant, contains, countBy, create, debounce, defaults, defer, delay, find <span class="hljs-keyword">as</span> detect, difference, rest <span class="hljs-keyword">as</span> drop, each, _escape <span class="hljs-keyword">as</span> <span class="hljs-built_in">escape</span>, every, extend, extendOwn, filter, find, findIndex, findKey, findLastIndex, findWhere, first, flatten$<span class="hljs-number">1</span> <span class="hljs-keyword">as</span> flatten, reduce <span class="hljs-keyword">as</span> foldl, reduceRight <span class="hljs-keyword">as</span> foldr, each <span class="hljs-keyword">as</span> forEach, functions, get, groupBy, has$<span class="hljs-number">1</span> <span class="hljs-keyword">as</span> has, first <span class="hljs-keyword">as</span> head, identity, contains <span class="hljs-keyword">as</span> include, contains <span class="hljs-keyword">as</span> includes, indexBy, indexOf, initial, reduce <span class="hljs-keyword">as</span> inject, intersection, invert, invoke, isArguments$<span class="hljs-number">1</span> <span class="hljs-keyword">as</span> isArguments, isArray, isArrayBuffer, isBoolean, isDataView$<span class="hljs-number">1</span> <span class="hljs-keyword">as</span> isDataView, isDate, isElement, isEmpty, isEqual, isError, <span class="hljs-built_in">isFinite</span>$<span class="hljs-number">1</span> <span class="hljs-keyword">as</span> <span class="hljs-built_in">isFinite</span>, isFunction$<span class="hljs-number">1</span> <span class="hljs-keyword">as</span> isFunction, isMap, isMatch, <span class="hljs-built_in">isNaN</span>$<span class="hljs-number">1</span> <span class="hljs-keyword">as</span> <span class="hljs-built_in">isNaN</span>, isNull, isNumber, isObject, isRegExp, isSet, isString, isSymbol, isTypedArray$<span class="hljs-number">1</span> <span class="hljs-keyword">as</span> isTypedArray, isUndefined, isWeakMap, isWeakSet, iteratee, keys, last, lastIndexOf, map, mapObject, matcher, matcher <span class="hljs-keyword">as</span> matches, max, memoize, functions <span class="hljs-keyword">as</span> methods, min, mixin, negate, noop, now, object, omit, once, pairs, partial, partition, pick, pluck, property, propertyOf, random, range, reduce, reduceRight, reject, rest, restArguments, result, sample, filter <span class="hljs-keyword">as</span> select, shuffle, size, some, sortBy, sortedIndex, rest <span class="hljs-keyword">as</span> tail, first <span class="hljs-keyword">as</span> take, tap, template, templateSettings, throttle, times, toArray, toPath, unzip <span class="hljs-keyword">as</span> transpose, _unescape <span class="hljs-keyword">as</span> <span class="hljs-built_in">unescape</span>, union, uniq, uniq <span class="hljs-keyword">as</span> unique, uniqueId, unzip, values, where, without, wrap, zip };</pre></div></div>
+            <div class="content"><div class='highlight'><pre>_._ = _;</pre></div></div>
             
         </li>
         
@@ -4650,6 +4651,23 @@ items.</p>
               
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-216">&#182;</a>
+              </div>
+              <p>ESM Exports</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> _;
+<span class="hljs-keyword">export</span> { VERSION, after, every <span class="hljs-keyword">as</span> all, allKeys, some <span class="hljs-keyword">as</span> any, extendOwn <span class="hljs-keyword">as</span> assign, before, bind, bindAll, chain, chunk, clone, map <span class="hljs-keyword">as</span> collect, compact, compose, constant, contains, countBy, create, debounce, defaults, defer, delay, find <span class="hljs-keyword">as</span> detect, difference, rest <span class="hljs-keyword">as</span> drop, each, _escape <span class="hljs-keyword">as</span> <span class="hljs-built_in">escape</span>, every, extend, extendOwn, filter, find, findIndex, findKey, findLastIndex, findWhere, first, flatten, reduce <span class="hljs-keyword">as</span> foldl, reduceRight <span class="hljs-keyword">as</span> foldr, each <span class="hljs-keyword">as</span> forEach, functions, get, groupBy, has, first <span class="hljs-keyword">as</span> head, identity, contains <span class="hljs-keyword">as</span> include, contains <span class="hljs-keyword">as</span> includes, indexBy, indexOf, initial, reduce <span class="hljs-keyword">as</span> inject, intersection, invert, invoke, isArguments$<span class="hljs-number">1</span> <span class="hljs-keyword">as</span> isArguments, isArray, isArrayBuffer, isBoolean, isDataView$<span class="hljs-number">1</span> <span class="hljs-keyword">as</span> isDataView, isDate, isElement, isEmpty, isEqual, isError, <span class="hljs-built_in">isFinite</span>$<span class="hljs-number">1</span> <span class="hljs-keyword">as</span> <span class="hljs-built_in">isFinite</span>, isFunction$<span class="hljs-number">1</span> <span class="hljs-keyword">as</span> isFunction, isMap, isMatch, <span class="hljs-built_in">isNaN</span>$<span class="hljs-number">1</span> <span class="hljs-keyword">as</span> <span class="hljs-built_in">isNaN</span>, isNull, isNumber, isObject, isRegExp, isSet, isString, isSymbol, isTypedArray$<span class="hljs-number">1</span> <span class="hljs-keyword">as</span> isTypedArray, isUndefined, isWeakMap, isWeakSet, iteratee, keys, last, lastIndexOf, map, mapObject, matcher, matcher <span class="hljs-keyword">as</span> matches, max, memoize, functions <span class="hljs-keyword">as</span> methods, min, mixin, negate, noop, now, object, omit, once, pairs, partial, partition, pick, pluck, property, propertyOf, random, range, reduce, reduceRight, reject, rest, restArguments, result, sample, filter <span class="hljs-keyword">as</span> select, shuffle, size, some, sortBy, sortedIndex, rest <span class="hljs-keyword">as</span> tail, first <span class="hljs-keyword">as</span> take, tap, template, templateSettings, throttle, times, toArray, toPath$<span class="hljs-number">1</span> <span class="hljs-keyword">as</span> toPath, unzip <span class="hljs-keyword">as</span> transpose, _unescape <span class="hljs-keyword">as</span> <span class="hljs-built_in">unescape</span>, union, uniq, uniq <span class="hljs-keyword">as</span> unique, uniqueId, unzip, values, where, without, wrap, zip };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-217">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-217">&#182;</a>
               </div>
               <h1 id="sourcemappingurlunderscore-esmjsmap">sourceMappingURL=underscore-esm.js.map</h1>
 
