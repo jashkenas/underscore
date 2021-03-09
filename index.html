@@ -2693,6 +2693,31 @@ _.chain([1, 2, 3]).reverse().value();
 
       <h2 id="changelog">Change Log</h2>
 
+      <p id="1.13.0-0">
+        <b class="header">1.13.0-0</b> &mdash; <small><i>March 9, 2021</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.12.0...1.13.0-0">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/underscore/1.13.0-0/index.html">Docs</a><br />
+        <ul>
+          <li>
+            Adds experimental support for native ESM imports in Node.js. You
+            can now also do named imports or even deep module imports directly
+            from a Node.js process in Node.js version 12 and later. Monolithic
+            imports are recommended for use in production. State (such as
+            mixed-in functions) is shared between CommonJS and ESM consumers.
+          </li>
+          <li>
+            Renames the UMD bundle to <tt>underscore-umd.js</tt> for
+            consistency with the other bundle names. An alias named
+            <tt>underscore.js</tt> is retained for backwards compatibility.
+          </li>
+          <li>
+            Restores an optimization in <tt>_.debounce</tt> that was
+            unintentionally lost in version 1.9.0.
+          </li>
+          <li>
+            Various test and documentation enhancements.
+          </li>
+        </ul>
+      </p>
+
       <p id="1.12.0">
         <b class="header">1.12.0</b> &mdash; <small><i>November 24, 2020</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.11.0...1.12.0">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/underscore/1.12.0/index.html">Docs</a><br />
         <ul>
