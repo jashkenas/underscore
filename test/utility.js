@@ -465,4 +465,19 @@
     assert.strictEqual(template(), '<<\nx\n>>');
   });
 
+  QUnit.test('#2911 - _.template must not trigger CVE-2021-23337.', function(assert) {
+      QUnit.holyProperty = 'holy';
+      var invalidVariableNames = [
+          '){delete QUnit.holyProperty}; with(obj',
+          '(x = QUnit.holyProperty = "evil"), obj',
+          'document.write("got you!")'
+      ];
+      _.each(invalidVariableNames, function(name) {
+          assert.throws(function() { _.template('', { variable: name })(); });
+      });
+      var holy = QUnit.holyProperty;
+      delete QUnit.holyProperty;
+      assert.strictEqual(holy, 'holy');
+  });
+
 }());
