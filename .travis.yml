@@ -11,11 +11,11 @@ jobs:
     - node_js: 10
       env:
         - DOWNGRADE=false
-        - EXTRA=true
+        - EXTRA=false
     - node_js: 14
       env:
         - DOWNGRADE=false
-        - EXTRA=false
+        - EXTRA=true
 before_install:
   - npm install -g karma-cli
 before_script:
