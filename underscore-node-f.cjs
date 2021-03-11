@@ -3,6 +3,8 @@
 //     (c) 2009-2020 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 //     Underscore may be freely distributed under the MIT license.
 
+Object.defineProperty(exports, '__esModule', { value: true });
+
 // Current version.
 var VERSION = '1.13.0-0';
 
@@ -309,24 +311,24 @@ function isMatch(object, attrs) {
 // If Underscore is called as a function, it returns a wrapped object that can
 // be used OO-style. This wrapper holds altered versions of all functions added
 // through `_.mixin`. Wrapped objects may be chained.
-function _(obj) {
-  if (obj instanceof _) return obj;
-  if (!(this instanceof _)) return new _(obj);
+function _$1(obj) {
+  if (obj instanceof _$1) return obj;
+  if (!(this instanceof _$1)) return new _$1(obj);
   this._wrapped = obj;
 }
 
-_.VERSION = VERSION;
+_$1.VERSION = VERSION;
 
 // Extracts the result from a wrapped and chained object.
-_.prototype.value = function() {
+_$1.prototype.value = function() {
   return this._wrapped;
 };
 
 // Provide unwrapping proxies for some methods used in engine operations
 // such as arithmetic and JSON stringification.
-_.prototype.valueOf = _.prototype.toJSON = _.prototype.value;
+_$1.prototype.valueOf = _$1.prototype.toJSON = _$1.prototype.value;
 
-_.prototype.toString = function() {
+_$1.prototype.toString = function() {
   return String(this._wrapped);
 };
 
@@ -361,8 +363,8 @@ function eq(a, b, aStack, bStack) {
 // Internal recursive comparison function for `_.isEqual`.
 function deepEq(a, b, aStack, bStack) {
   // Unwrap any wrapped objects.
-  if (a instanceof _) a = a._wrapped;
-  if (b instanceof _) b = b._wrapped;
+  if (a instanceof _$1) a = a._wrapped;
+  if (b instanceof _$1) b = b._wrapped;
   // Compare `[[Class]]` names.
   var className = toString.call(a);
   if (className !== toString.call(b)) return false;
@@ -636,12 +638,12 @@ function tap(obj, interceptor) {
 function toPath$1(path) {
   return isArray(path) ? path : [path];
 }
-_.toPath = toPath$1;
+_$1.toPath = toPath$1;
 
 // Internal wrapper for `_.toPath` to enable minification.
 // Similar to `cb` for `_.iteratee`.
 function toPath(path) {
-  return _.toPath(path);
+  return _$1.toPath(path);
 }
 
 // Internal function to obtain a nested property in `obj` along `path`.
@@ -738,12 +740,12 @@ function baseIteratee(value, context, argCount) {
 function iteratee(value, context) {
   return baseIteratee(value, context, Infinity);
 }
-_.iteratee = iteratee;
+_$1.iteratee = iteratee;
 
 // The function we call internally to generate a callback. It invokes
 // `_.iteratee` if overridden, otherwise `baseIteratee`.
 function cb(value, context, argCount) {
-  if (_.iteratee !== iteratee) return _.iteratee(value, context);
+  if (_$1.iteratee !== iteratee) return _$1.iteratee(value, context);
   return baseIteratee(value, context, argCount);
 }
 
@@ -831,7 +833,7 @@ var _unescape = createEscaper(unescapeMap);
 
 // By default, Underscore uses ERB-style template delimiters. Change the
 // following template settings to use alternative delimiters.
-var templateSettings = _.templateSettings = {
+var templateSettings = _$1.templateSettings = {
   evaluate: /<%([\s\S]+?)%>/g,
   interpolate: /<%=([\s\S]+?)%>/g,
   escape: /<%-([\s\S]+?)%>/g
@@ -865,7 +867,7 @@ function escapeChar(match) {
 // NB: `oldSettings` only exists for backwards compatibility.
 function template(text, settings, oldSettings) {
   if (!settings && oldSettings) settings = oldSettings;
-  settings = defaults({}, settings, _.templateSettings);
+  settings = defaults({}, settings, _$1.templateSettings);
 
   // Combine delimiters into one regular expression via alternation.
   var matcher = RegExp([
@@ -910,7 +912,7 @@ function template(text, settings, oldSettings) {
   }
 
   var template = function(data) {
-    return render.call(this, data, _);
+    return render.call(this, data, _$1);
   };
 
   // Provide the compiled source as a convenience for precompilation.
@@ -950,7 +952,7 @@ function uniqueId(prefix) {
 
 // Start chaining a wrapped Underscore object.
 function chain(obj) {
-  var instance = _(obj);
+  var instance = _$1(obj);
   instance._chain = true;
   return instance;
 }
@@ -984,7 +986,7 @@ var partial = restArguments(function(func, boundArgs) {
   return bound;
 });
 
-partial.placeholder = _;
+partial.placeholder = _$1;
 
 // Create a function bound to a given object (assigning `this`, and arguments,
 // optionally).
@@ -1065,7 +1067,7 @@ var delay = restArguments(function(func, wait, args) {
 
 // Defers a function, scheduling it to run after the current call stack has
 // cleared.
-var defer = partial(delay, _, 1);
+var defer = partial(delay, _$1, 1);
 
 // Returns a function, that, when invoked, will only be triggered at most once
 // during a given window of time. Normally, the throttled function will run
@@ -1812,26 +1814,26 @@ function chunk(array, count) {
 
 // Helper function to continue chaining intermediate results.
 function chainResult(instance, obj) {
-  return instance._chain ? _(obj).chain() : obj;
+  return instance._chain ? _$1(obj).chain() : obj;
 }
 
 // Add your own custom functions to the Underscore object.
 function mixin(obj) {
   each(functions(obj), function(name) {
-    var func = _[name] = obj[name];
-    _.prototype[name] = function() {
+    var func = _$1[name] = obj[name];
+    _$1.prototype[name] = function() {
       var args = [this._wrapped];
       push.apply(args, arguments);
-      return chainResult(this, func.apply(_, args));
+      return chainResult(this, func.apply(_$1, args));
     };
   });
-  return _;
+  return _$1;
 }
 
 // Add all mutator `Array` functions to the wrapper.
 each(['pop', 'push', 'reverse', 'shift', 'sort', 'splice', 'unshift'], function(name) {
   var method = ArrayProto[name];
-  _.prototype[name] = function() {
+  _$1.prototype[name] = function() {
     var obj = this._wrapped;
     if (obj != null) {
       method.apply(obj, arguments);
@@ -1846,12 +1848,171 @@ each(['pop', 'push', 'reverse', 'shift', 'sort', 'splice', 'unshift'], function(
 // Add all accessor `Array` functions to the wrapper.
 each(['concat', 'join', 'slice'], function(name) {
   var method = ArrayProto[name];
-  _.prototype[name] = function() {
+  _$1.prototype[name] = function() {
     var obj = this._wrapped;
     if (obj != null) obj = method.apply(obj, arguments);
     return chainResult(this, obj);
   };
 });
+
+// Named Exports
+
+var allExports = {
+  __proto__: null,
+  VERSION: VERSION,
+  restArguments: restArguments,
+  isObject: isObject,
+  isNull: isNull,
+  isUndefined: isUndefined,
+  isBoolean: isBoolean,
+  isElement: isElement,
+  isString: isString,
+  isNumber: isNumber,
+  isDate: isDate,
+  isRegExp: isRegExp,
+  isError: isError,
+  isSymbol: isSymbol,
+  isArrayBuffer: isArrayBuffer,
+  isDataView: isDataView$1,
+  isArray: isArray,
+  isFunction: isFunction$1,
+  isArguments: isArguments$1,
+  isFinite: isFinite$1,
+  isNaN: isNaN$1,
+  isTypedArray: isTypedArray$1,
+  isEmpty: isEmpty,
+  isMatch: isMatch,
+  isEqual: isEqual,
+  isMap: isMap,
+  isWeakMap: isWeakMap,
+  isSet: isSet,
+  isWeakSet: isWeakSet,
+  keys: keys,
+  allKeys: allKeys,
+  values: values,
+  pairs: pairs,
+  invert: invert,
+  functions: functions,
+  methods: functions,
+  extend: extend,
+  extendOwn: extendOwn,
+  assign: extendOwn,
+  defaults: defaults,
+  create: create,
+  clone: clone,
+  tap: tap,
+  get: get,
+  has: has,
+  mapObject: mapObject,
+  identity: identity,
+  constant: constant,
+  noop: noop,
+  toPath: toPath$1,
+  property: property,
+  propertyOf: propertyOf,
+  matcher: matcher,
+  matches: matcher,
+  times: times,
+  random: random,
+  now: now,
+  escape: _escape,
+  unescape: _unescape,
+  templateSettings: templateSettings,
+  template: template,
+  result: result,
+  uniqueId: uniqueId,
+  chain: chain,
+  iteratee: iteratee,
+  partial: partial,
+  bind: bind,
+  bindAll: bindAll,
+  memoize: memoize,
+  delay: delay,
+  defer: defer,
+  throttle: throttle,
+  debounce: debounce,
+  wrap: wrap,
+  negate: negate,
+  compose: compose,
+  after: after,
+  before: before,
+  once: once,
+  findKey: findKey,
+  findIndex: findIndex,
+  findLastIndex: findLastIndex,
+  sortedIndex: sortedIndex,
+  indexOf: indexOf,
+  lastIndexOf: lastIndexOf,
+  find: find,
+  detect: find,
+  findWhere: findWhere,
+  each: each,
+  forEach: each,
+  map: map,
+  collect: map,
+  reduce: reduce,
+  foldl: reduce,
+  inject: reduce,
+  reduceRight: reduceRight,
+  foldr: reduceRight,
+  filter: filter,
+  select: filter,
+  reject: reject,
+  every: every,
+  all: every,
+  some: some,
+  any: some,
+  contains: contains,
+  includes: contains,
+  include: contains,
+  invoke: invoke,
+  pluck: pluck,
+  where: where,
+  max: max,
+  min: min,
+  shuffle: shuffle,
+  sample: sample,
+  sortBy: sortBy,
+  groupBy: groupBy,
+  indexBy: indexBy,
+  countBy: countBy,
+  partition: partition,
+  toArray: toArray,
+  size: size,
+  pick: pick,
+  omit: omit,
+  first: first,
+  head: first,
+  take: first,
+  initial: initial,
+  last: last,
+  rest: rest,
+  tail: rest,
+  drop: rest,
+  compact: compact,
+  flatten: flatten,
+  without: without,
+  uniq: uniq,
+  unique: uniq,
+  union: union,
+  intersection: intersection,
+  difference: difference,
+  unzip: unzip,
+  transpose: unzip,
+  zip: zip,
+  object: object,
+  range: range,
+  chunk: chunk,
+  mixin: mixin,
+  'default': _$1
+};
+
+// Default Export
+
+// Add all of the Underscore functions to the wrapper object.
+var _ = mixin(allExports);
+// Legacy Node.js API.
+_._ = _;
 
 exports.VERSION = VERSION;
 exports._ = _;

@@ -73,7 +73,7 @@
     "lint": "eslint modules/*.js test/*.js",
     "test-node": "npm run prepare-tests && qunit test/",
     "test-browser": "npm run prepare-tests && npm i karma-phantomjs-launcher && karma start",
-    "bundle": "rollup --config && eslint underscore-umd.js",
+    "bundle": "rollup -c && eslint underscore-umd.js && rollup -c rollup.config2.js",
     "bundle-treeshake": "cd test-treeshake && rollup --config",
     "prepare-tests": "npm run bundle && npm run bundle-treeshake",
     "minify-umd": "terser underscore-umd.js -c \"evaluate=false\" --comments \"/    .*/\" -m",
