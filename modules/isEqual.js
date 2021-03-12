@@ -8,6 +8,8 @@ import isDataView from './isDataView.js';
 import keys from './keys.js';
 import has from './_has.js';
 import toBufferView from './_toBufferView.js';
+import lastIndexOf from './lastIndexOf.js';
+import linearSearch from './_linearSearch.js';
 
 // We use this string twice, so give it a name for minification.
 var tagDataView = '[object DataView]';
@@ -70,8 +72,7 @@ function deepEq(a, b, aStack, bStack) {
 
   var areArrays = className === '[object Array]';
   if (!areArrays && isTypedArray(a)) {
-      var byteLength = getByteLength(a);
-      if (byteLength !== getByteLength(b)) return false;
+      if (getByteLength(a) !== getByteLength(b)) return false;
       if (a.buffer === b.buffer && a.byteOffset === b.byteOffset) return true;
       areArrays = true;
   }
@@ -94,12 +95,10 @@ function deepEq(a, b, aStack, bStack) {
   // It's done here since we only need them for objects and arrays comparison.
   aStack = aStack || [];
   bStack = bStack || [];
-  var length = aStack.length;
-  while (length--) {
-    // Linear search. Performance is inversely proportional to the number of
-    // unique nested structures.
-    if (aStack[length] === a) return bStack[length] === b;
-  }
+  // Linear search. Performance is inversely proportional to the number of
+  // unique nested structures.
+  var parentIndex = lastIndexOf(aStack, a); /* legacy backwards iteration */
+  if (parentIndex != -1) return bStack[parentIndex] === b;
 
   // Add the first object to the stack of traversed objects.
   aStack.push(a);
@@ -108,23 +107,20 @@ function deepEq(a, b, aStack, bStack) {
   // Recursively compare objects and arrays.
   if (areArrays) {
     // Compare array lengths to determine if a deep comparison is necessary.
-    length = a.length;
-    if (length !== b.length) return false;
+    if (a.length !== b.length) return false;
     // Deep compare the contents, ignoring non-numeric properties.
-    while (length--) {
-      if (!eq(a[length], b[length], aStack, bStack)) return false;
-    }
+    if (linearSearch(a, function(aElement, index) {
+      return !eq(aElement, b[index], aStack, bStack);
+    }) != -1) return false;
   } else {
     // Deep compare objects.
-    var _keys = keys(a), key;
-    length = _keys.length;
+    var _keys = keys(a);
     // Ensure that both objects contain the same number of properties before comparing deep equality.
-    if (keys(b).length !== length) return false;
-    while (length--) {
+    if (keys(b).length !== _keys.length) return false;
+    if (linearSearch(_keys, function(key) {
       // Deep compare each member
-      key = _keys[length];
-      if (!(has(b, key) && eq(a[key], b[key], aStack, bStack))) return false;
-    }
+      return !(has(b, key) && eq(a[key], b[key], aStack, bStack));
+    }) != -1) return false;
   }
   // Remove the first object from the stack of traversed objects.
   aStack.pop();

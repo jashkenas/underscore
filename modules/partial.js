@@ -8,15 +8,15 @@ import _ from './underscore.js';
 // pre-filled. Set `_.partial.placeholder` for a custom placeholder argument.
 var partial = restArguments(function(func, boundArgs) {
   var placeholder = partial.placeholder;
-  var bound = function() {
+  var bound = restArguments(function(_args) {
     var position = 0, length = boundArgs.length;
-    var args = Array(length);
+    var args = [];
     for (var i = 0; i < length; i++) {
-      args[i] = boundArgs[i] === placeholder ? arguments[position++] : boundArgs[i];
+      args.push(boundArgs[i] === placeholder ? _args[position++] : boundArgs[i]);
     }
-    while (position < arguments.length) args.push(arguments[position++]);
+    while (position < _args.length) args.push(_args[position++]);
     return executeBound(func, bound, this, this, args);
-  };
+  });
   return bound;
 });
 

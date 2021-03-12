@@ -1,27 +1,26 @@
 import isArrayLike from './_isArrayLike.js';
 import clone from './clone.js';
-import values from './values.js';
+import toArray from './toArray.js';
 import getLength from './_getLength.js';
 import random from './random.js';
+import times from './times.js';
 
 // Sample **n** random values from a collection using the modern version of the
 // [Fisher-Yates shuffle](https://en.wikipedia.org/wiki/Fisher–Yates_shuffle).
 // If **n** is not specified, returns a single random element.
 // The internal `guard` argument allows it to work with `_.map`.
 export default function sample(obj, n, guard) {
-  if (n == null || guard) {
-    if (!isArrayLike(obj)) obj = values(obj);
-    return obj[random(obj.length - 1)];
-  }
-  var sample = isArrayLike(obj) ? clone(obj) : values(obj);
-  var length = getLength(sample);
+  var sample = isArrayLike(obj) ? null : toArray(obj);
+  obj = sample || obj;
+  var length = getLength(obj);
+  if (n == null || guard) return obj[random(length - 1)];
+  sample = sample || clone(obj);
   n = Math.max(Math.min(n, length), 0);
   var last = length - 1;
-  for (var index = 0; index < n; index++) {
+  return times(n, function(index) {
     var rand = random(index, last);
-    var temp = sample[index];
-    sample[index] = sample[rand];
-    sample[rand] = temp;
-  }
-  return sample.slice(0, n);
+    var chosen = sample[rand];
+    sample[rand] = sample[index];
+    return chosen;
+  });
 }

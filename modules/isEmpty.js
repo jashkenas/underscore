@@ -1,7 +1,8 @@
-import getLength from './_getLength.js';
+import isArrayLike from './_isArrayLike.js';
 import isArray from './isArray.js';
 import isString from './isString.js';
 import isArguments from './isArguments.js';
+import getLength from './_getLength.js';
 import keys from './keys.js';
 
 // Is a given array, string, or object empty?
@@ -10,9 +11,8 @@ export default function isEmpty(obj) {
   if (obj == null) return true;
   // Skip the more expensive `toString`-based type checks if `obj` has no
   // `.length`.
-  var length = getLength(obj);
-  if (typeof length == 'number' && (
+  if (isArrayLike(obj) && (
     isArray(obj) || isString(obj) || isArguments(obj)
-  )) return length === 0;
-  return getLength(keys(obj)) === 0;
+  )) return !getLength(obj);
+  return !getLength(keys(obj));
 }

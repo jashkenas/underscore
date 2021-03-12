@@ -1,3 +1,4 @@
+import linearSearch from './_linearSearch.js';
 import { nonEnumerableProps, ObjProto } from './_setup.js';
 import isFunction from './isFunction.js';
 import has from './_has.js';
@@ -8,7 +9,7 @@ import has from './_has.js';
 // arrays of strings.
 function emulatedSet(keys) {
   var hash = {};
-  for (var l = keys.length, i = 0; i < l; ++i) hash[keys[i]] = true;
+  linearSearch(keys, function(key) { hash[key] = true; });
   return {
     contains: function(key) { return hash[key]; },
     push: function(key) {
@@ -23,7 +24,6 @@ function emulatedSet(keys) {
 // needed.
 export default function collectNonEnumProps(obj, keys) {
   keys = emulatedSet(keys);
-  var nonEnumIdx = nonEnumerableProps.length;
   var constructor = obj.constructor;
   var proto = isFunction(constructor) && constructor.prototype || ObjProto;
 
@@ -31,10 +31,9 @@ export default function collectNonEnumProps(obj, keys) {
   var prop = 'constructor';
   if (has(obj, prop) && !keys.contains(prop)) keys.push(prop);
 
-  while (nonEnumIdx--) {
-    prop = nonEnumerableProps[nonEnumIdx];
+  linearSearch(nonEnumerableProps, function(prop) {
     if (prop in obj && obj[prop] !== proto[prop] && !keys.contains(prop)) {
       keys.push(prop);
     }
-  }
+  }, -1); /* legacy backwards iteration */
 }

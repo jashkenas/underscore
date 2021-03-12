@@ -64,22 +64,8 @@
   function restArguments(func, startIndex) {
     startIndex = startIndex == null ? func.length - 1 : +startIndex;
     return function() {
-      var length = Math.max(arguments.length - startIndex, 0),
-          rest = Array(length),
-          index = 0;
-      for (; index < length; index++) {
-        rest[index] = arguments[index + startIndex];
-      }
-      switch (startIndex) {
-        case 0: return func.call(this, rest);
-        case 1: return func.call(this, arguments[0], rest);
-        case 2: return func.call(this, arguments[0], arguments[1], rest);
-      }
-      var args = Array(startIndex + 1);
-      for (index = 0; index < startIndex; index++) {
-        args[index] = arguments[index];
-      }
-      args[startIndex] = rest;
+      var args = slice.call(arguments, 0, startIndex);
+      args[startIndex] = slice.call(arguments, startIndex);
       return func.apply(this, args);
     };
   }
@@ -241,13 +227,45 @@
   // Internal helper to obtain the `length` property of an object.
   var getLength = shallowProperty('length');
 
+  // Internal helper for collection methods to determine whether a collection
+  // should be iterated as an array or as an object.
+  // Related: https://people.mozilla.org/~jorendorff/es6-draft.html#sec-tolength
+  // Avoids a very nasty iOS 8 JIT bug on ARM-64. #2094
+  var isArrayLike = createSizePropertyCheck(getLength);
+
+  // Internal function for linearly iterating over arrays.
+  function linearSearch(array, predicate, dir, start) {
+    var target, length = getLength(array);
+    dir || (dir = 1);
+    start = (
+      start == null ? (dir > 0 ? 0 : length - 1) :
+      start < 0 ? (dir > 0 ? Math.max(0, start + length) : start + length) :
+      dir > 0 ? start : Math.min(start, length - 1)
+    );
+    // As a special case, in order to elide the `predicate` invocation on every
+    // loop iteration, we allow the caller to pass a value that should be found by
+    // strict equality comparison. This is somewhat like a rudimentary iteratee
+    // shorthand. It is used in `_.indexof` and `_.lastIndexOf`.
+    if (!isFunction$1(predicate)) {
+      target = predicate && predicate.value;
+      predicate = false;
+    }
+    for (; start >= 0 && start < length; start += dir) {
+      if (
+        predicate ? predicate(array[start], start, array) :
+        array[start] === target
+      ) return start;
+    }
+    return -1;
+  }
+
   // Internal helper to create a simple lookup structure.
   // `collectNonEnumProps` used to depend on `_.contains`, but this led to
   // circular imports. `emulatedSet` is a one-off solution that only works for
   // arrays of strings.
   function emulatedSet(keys) {
     var hash = {};
-    for (var l = keys.length, i = 0; i < l; ++i) hash[keys[i]] = true;
+    linearSearch(keys, function(key) { hash[key] = true; });
     return {
       contains: function(key) { return hash[key]; },
       push: function(key) {
@@ -262,7 +280,6 @@
   // needed.
   function collectNonEnumProps(obj, keys) {
     keys = emulatedSet(keys);
-    var nonEnumIdx = nonEnumerableProps.length;
     var constructor = obj.constructor;
     var proto = isFunction$1(constructor) && constructor.prototype || ObjProto;
 
@@ -270,12 +287,11 @@
     var prop = 'constructor';
     if (has(obj, prop) && !keys.contains(prop)) keys.push(prop);
 
-    while (nonEnumIdx--) {
-      prop = nonEnumerableProps[nonEnumIdx];
+    linearSearch(nonEnumerableProps, function(prop) {
       if (prop in obj && obj[prop] !== proto[prop] && !keys.contains(prop)) {
         keys.push(prop);
       }
-    }
+    }, -1); /* legacy backwards iteration */
   }
 
   // Retrieve the names of an object's own properties.
@@ -296,11 +312,10 @@
     if (obj == null) return true;
     // Skip the more expensive `toString`-based type checks if `obj` has no
     // `.length`.
-    var length = getLength(obj);
-    if (typeof length == 'number' && (
+    if (isArrayLike(obj) && (
       isArray(obj) || isString(obj) || isArguments$1(obj)
-    )) return length === 0;
-    return getLength(keys(obj)) === 0;
+    )) return !getLength(obj);
+    return !getLength(keys(obj));
   }
 
   // Returns whether an object has a given set of `key:value` pairs.
@@ -348,6 +363,58 @@
       getByteLength(bufferSource)
     );
   }
+
+  // Iteratively cut `array` in half to figure out the index at which `obj` should
+  // be inserted so as to maintain the order defined by `compare`.
+  function binarySearch(array, obj, iteratee, compare) {
+    var value = iteratee(obj);
+    var low = 0, high = getLength(array);
+    while (low < high) {
+      var mid = Math.floor((low + high) / 2);
+      if (compare(iteratee(array[mid]), value)) low = mid + 1; else high = mid;
+    }
+    return low;
+  }
+
+  // Keep the identity function around for default iteratees.
+  function identity(value) {
+    return value;
+  }
+
+  // A version of the `<` operator that can be passed around as a function.
+  function less(left, right) {
+    return left < right;
+  }
+
+  // A version of the `<=` operator that can be passed around as a function.
+  function lessEqual(left, right) {
+    return left <= right;
+  }
+
+  // Internal function to generate the `indexOf` and `lastIndexOf` functions.
+  function createIndexFinder(dir) {
+    var forward = dir > 0;
+    var compare = forward ? less : lessEqual;
+    // `controlArg` may be either a number indicating the first index to start
+    // searching at, or a boolean indicating whether the array is sorted by native
+    // operator `<`.
+    return function(array, item, controlArg) {
+      var start;
+      if (getLength(array) < 1) return -1;
+      if (typeof controlArg == 'number') {
+        start = controlArg;
+      } else if (controlArg && forward) {
+        start = binarySearch(array, item, identity, compare);
+        return array[start] === item ? start : -1;
+      }
+      var predicate = item !== item ? isNaN$1 : { value: item };
+      return linearSearch(array, predicate, dir, start);
+    };
+  }
+
+  // Return the position of the last occurrence of an item in an array,
+  // or -1 if the item is not included in the array.
+  var lastIndexOf = createIndexFinder(-1);
 
   // We use this string twice, so give it a name for minification.
   var tagDataView = '[object DataView]';
@@ -410,8 +477,7 @@
 
     var areArrays = className === '[object Array]';
     if (!areArrays && isTypedArray$1(a)) {
-        var byteLength = getByteLength(a);
-        if (byteLength !== getByteLength(b)) return false;
+        if (getByteLength(a) !== getByteLength(b)) return false;
         if (a.buffer === b.buffer && a.byteOffset === b.byteOffset) return true;
         areArrays = true;
     }
@@ -434,12 +500,10 @@
     // It's done here since we only need them for objects and arrays comparison.
     aStack = aStack || [];
     bStack = bStack || [];
-    var length = aStack.length;
-    while (length--) {
-      // Linear search. Performance is inversely proportional to the number of
-      // unique nested structures.
-      if (aStack[length] === a) return bStack[length] === b;
-    }
+    // Linear search. Performance is inversely proportional to the number of
+    // unique nested structures.
+    var parentIndex = lastIndexOf(aStack, a); /* legacy backwards iteration */
+    if (parentIndex != -1) return bStack[parentIndex] === b;
 
     // Add the first object to the stack of traversed objects.
     aStack.push(a);
@@ -448,23 +512,20 @@
     // Recursively compare objects and arrays.
     if (areArrays) {
       // Compare array lengths to determine if a deep comparison is necessary.
-      length = a.length;
-      if (length !== b.length) return false;
+      if (a.length !== b.length) return false;
       // Deep compare the contents, ignoring non-numeric properties.
-      while (length--) {
-        if (!eq(a[length], b[length], aStack, bStack)) return false;
-      }
+      if (linearSearch(a, function(aElement, index) {
+        return !eq(aElement, b[index], aStack, bStack);
+      }) != -1) return false;
     } else {
       // Deep compare objects.
-      var _keys = keys(a), key;
-      length = _keys.length;
+      var _keys = keys(a);
       // Ensure that both objects contain the same number of properties before comparing deep equality.
-      if (keys(b).length !== length) return false;
-      while (length--) {
+      if (keys(b).length !== _keys.length) return false;
+      if (linearSearch(_keys, function(key) {
         // Deep compare each member
-        key = _keys[length];
-        if (!(has(b, key) && eq(a[key], b[key], aStack, bStack))) return false;
-      }
+        return !(has(b, key) && eq(a[key], b[key], aStack, bStack));
+      }) != -1) return false;
     }
     // Remove the first object from the stack of traversed objects.
     aStack.pop();
@@ -492,15 +553,13 @@
   // on the methods. It's not great, but it's the best we got.
   // The fingerprint method lists are defined below.
   function ie11fingerprint(methods) {
-    var length = getLength(methods);
     return function(obj) {
       if (obj == null) return false;
       // `Map`, `WeakMap` and `Set` have no enumerable keys.
-      var keys = allKeys(obj);
-      if (getLength(keys)) return false;
-      for (var i = 0; i < length; i++) {
-        if (!isFunction$1(obj[methods[i]])) return false;
-      }
+      if (getLength(allKeys(obj))) return false;
+      if (linearSearch(methods, function(method) {
+        return !isFunction$1(obj[method]);
+      }) != -1) return false;
       // If we are testing against `WeakMap`, we need to ensure that
       // `obj` doesn't have a `forEach` method in order to distinguish
       // it from a regular `Map`.
@@ -573,12 +632,12 @@
 
   // An internal function for creating assigner functions.
   function createAssigner(keysFunc, defaults) {
-    return function(obj) {
-      var length = arguments.length;
+    return restArguments(function(obj, sources) {
+      var length = sources.length;
       if (defaults) obj = Object(obj);
-      if (length < 2 || obj == null) return obj;
-      for (var index = 1; index < length; index++) {
-        var source = arguments[index],
+      if (!length || obj == null) return obj;
+      for (var index = 0; index < length; index++) {
+        var source = sources[index],
             keys = keysFunc(source),
             l = keys.length;
         for (var i = 0; i < l; i++) {
@@ -587,7 +646,7 @@
         }
       }
       return obj;
-    };
+    });
   }
 
   // Extend a given object with all the properties in passed-in object(s).
@@ -677,18 +736,31 @@
   // function, this public version can also traverse nested properties.
   function has$1(obj, path) {
     path = toPath$1(path);
-    var length = path.length;
-    for (var i = 0; i < length; i++) {
-      var key = path[i];
-      if (!has(obj, key)) return false;
+    return linearSearch(path, function(key) {
+      if (!has(obj, key)) return true;
       obj = obj[key];
-    }
-    return !!length;
+    }) == -1;
   }
 
-  // Keep the identity function around for default iteratees.
-  function identity(value) {
-    return value;
+  // In Firefox, `Function.prototype.call` is faster than
+  // `Function.prototype.apply`. In the optimized variant of
+  // `bindCb` below, we exploit the fact that no Underscore
+  // function passes more than four arguments to a callback.
+  // **NOT general enough for use outside of Underscore.**
+  function bindCb4(func, context) {
+    if (context === void 0) return func;
+    return function(a1, a2, a3, a4) {
+      return func.call(context, a1, a2, a3, a4);
+    };
+  }
+
+  // Internal function that returns a bound version of the
+  // passed-in callback, used in `_.iteratee`.
+  function bindCb(func, context) {
+    if (context === void 0) return func;
+    return function() {
+      return func.apply(context, arguments);
+    };
   }
 
   // Returns a predicate for checking whether an object has a given set of
@@ -709,64 +781,44 @@
     };
   }
 
-  // Internal function that returns an efficient (for current engines) version
-  // of the passed-in callback, to be repeatedly applied in other Underscore
-  // functions.
-  function optimizeCb(func, context, argCount) {
-    if (context === void 0) return func;
-    switch (argCount == null ? 3 : argCount) {
-      case 1: return function(value) {
-        return func.call(context, value);
-      };
-      // The 2-argument case is omitted because we’re not using it.
-      case 3: return function(value, index, collection) {
-        return func.call(context, value, index, collection);
-      };
-      case 4: return function(accumulator, value, index, collection) {
-        return func.call(context, accumulator, value, index, collection);
-      };
-    }
-    return function() {
-      return func.apply(context, arguments);
-    };
-  }
-
-  // An internal function to generate callbacks that can be applied to each
-  // element in a collection, returning the desired result — either `_.identity`,
-  // an arbitrary callback, a property matcher, or a property accessor.
-  function baseIteratee(value, context, argCount) {
+  // A function to generate callbacks that can be applied to each element in a
+  // collection, returning the desired result — either `identity`, an arbitrary
+  // callback, a property matcher, or a property accessor. Users may customize
+  // `_.iteratee` if they want additional predicate/iteratee shorthand styles.
+  function iteratee(value, context) {
     if (value == null) return identity;
-    if (isFunction$1(value)) return optimizeCb(value, context, argCount);
+    if (isFunction$1(value)) return bindCb(value, context);
     if (isObject(value) && !isArray(value)) return matcher(value);
     return property(value);
   }
-
-  // External wrapper for our callback generator. Users may customize
-  // `_.iteratee` if they want additional predicate/iteratee shorthand styles.
-  // This abstraction hides the internal-only `argCount` argument.
-  function iteratee(value, context) {
-    return baseIteratee(value, context, Infinity);
-  }
   _.iteratee = iteratee;
 
-  // The function we call internally to generate a callback. It invokes
-  // `_.iteratee` if overridden, otherwise `baseIteratee`.
-  function cb(value, context, argCount) {
-    if (_.iteratee !== iteratee) return _.iteratee(value, context);
-    return baseIteratee(value, context, argCount);
+  // The function we call internally to generate a callback: a wrapper
+  // of `_.iteratee`, which uses `bindCb4` instead of `bindCb` for
+  // function iteratees. It also saves some bytes in the minified code.
+  function cb(value, context) {
+    if (isFunction$1(value)) return bindCb4(value, context);
+    return _.iteratee(value, context);
+  }
+
+  // Returns the first key on an object that passes a truth test.
+  function findKey(obj, predicate, context) {
+    predicate = cb(predicate, context);
+    var _keys = keys(obj), key;
+    for (var i = 0, length = _keys.length; i < length; i++) {
+      key = _keys[i];
+      if (predicate(obj[key], key, obj)) return key;
+    }
   }
 
   // Returns the results of applying the `iteratee` to each element of `obj`.
   // In contrast to `_.map` it returns an object.
   function mapObject(obj, iteratee, context) {
     iteratee = cb(iteratee, context);
-    var _keys = keys(obj),
-        length = _keys.length,
-        results = {};
-    for (var index = 0; index < length; index++) {
-      var currentKey = _keys[index];
-      results[currentKey] = iteratee(obj[currentKey], currentKey, obj);
-    }
+    var results = {};
+    findKey(obj, function(value, key) {
+      results[key] = iteratee(value, key, obj);
+    });
     return results;
   }
 
@@ -784,7 +836,7 @@
   // Run a function **n** times.
   function times(n, iteratee, context) {
     var accum = Array(Math.max(0, n));
-    iteratee = optimizeCb(iteratee, context, 1);
+    iteratee = bindCb4(iteratee, context);
     for (var i = 0; i < n; i++) accum[i] = iteratee(i);
     return accum;
   }
@@ -981,15 +1033,15 @@
   // pre-filled. Set `_.partial.placeholder` for a custom placeholder argument.
   var partial = restArguments(function(func, boundArgs) {
     var placeholder = partial.placeholder;
-    var bound = function() {
+    var bound = restArguments(function(_args) {
       var position = 0, length = boundArgs.length;
-      var args = Array(length);
+      var args = [];
       for (var i = 0; i < length; i++) {
-        args[i] = boundArgs[i] === placeholder ? arguments[position++] : boundArgs[i];
+        args.push(boundArgs[i] === placeholder ? _args[position++] : boundArgs[i]);
       }
-      while (position < arguments.length) args.push(arguments[position++]);
+      while (position < _args.length) args.push(_args[position++]);
       return executeBound(func, bound, this, this, args);
-    };
+    });
     return bound;
   });
 
@@ -1005,12 +1057,6 @@
     return bound;
   });
 
-  // Internal helper for collection methods to determine whether a collection
-  // should be iterated as an array or as an object.
-  // Related: https://people.mozilla.org/~jorendorff/es6-draft.html#sec-tolength
-  // Avoids a very nasty iOS 8 JIT bug on ARM-64. #2094
-  var isArrayLike = createSizePropertyCheck(getLength);
-
   // Internal implementation of a recursive `flatten` function.
   function flatten(input, depth, strict, output) {
     output = output || [];
@@ -1019,22 +1065,18 @@
     } else if (depth <= 0) {
       return output.concat(input);
     }
-    var idx = output.length;
-    for (var i = 0, length = getLength(input); i < length; i++) {
-      var value = input[i];
+    linearSearch(input, function(value) {
       if (isArrayLike(value) && (isArray(value) || isArguments$1(value))) {
         // Flatten current level of array or arguments object.
         if (depth > 1) {
           flatten(value, depth - 1, strict, output);
-          idx = output.length;
         } else {
-          var j = 0, len = value.length;
-          while (j < len) output[idx++] = value[j++];
+          linearSearch(value, function(item) { output.push(item); });
         }
       } else if (!strict) {
-        output[idx++] = value;
+        output.push(value);
       }
-    }
+    });
     return output;
   }
 
@@ -1043,12 +1085,9 @@
   // defined on an object belong to it.
   var bindAll = restArguments(function(obj, keys) {
     keys = flatten(keys, false, false);
-    var index = keys.length;
-    if (index < 1) throw new Error('bindAll must be passed function names');
-    while (index--) {
-      var key = keys[index];
-      obj[key] = bind(obj[key], obj);
-    }
+    /* legacy unnecessary check */
+    if (!getLength(keys)) throw new Error('bindAll must be passed function names');
+    linearSearch(keys, function(key) { obj[key] = bind(obj[key], obj); });
     return obj;
   });
 
@@ -1213,88 +1252,33 @@
   // often you call it. Useful for lazy initialization.
   var once = partial(before, 2);
 
-  // Returns the first key on an object that passes a truth test.
-  function findKey(obj, predicate, context) {
-    predicate = cb(predicate, context);
-    var _keys = keys(obj), key;
-    for (var i = 0, length = _keys.length; i < length; i++) {
-      key = _keys[i];
-      if (predicate(obj[key], key, obj)) return key;
-    }
-  }
-
-  // Internal function to generate `_.findIndex` and `_.findLastIndex`.
-  function createPredicateIndexFinder(dir) {
-    return function(array, predicate, context) {
-      predicate = cb(predicate, context);
-      var length = getLength(array);
-      var index = dir > 0 ? 0 : length - 1;
-      for (; index >= 0 && index < length; index += dir) {
-        if (predicate(array[index], index, array)) return index;
-      }
-      return -1;
-    };
-  }
-
   // Returns the first index on an array-like that passes a truth test.
-  var findIndex = createPredicateIndexFinder(1);
+  function findIndex(array, predicate, context) {
+    return linearSearch(array, cb(predicate, context));
+  }
 
   // Returns the last index on an array-like that passes a truth test.
-  var findLastIndex = createPredicateIndexFinder(-1);
-
-  // Use a comparator function to figure out the smallest index at which
-  // an object should be inserted so as to maintain order. Uses binary search.
-  function sortedIndex(array, obj, iteratee, context) {
-    iteratee = cb(iteratee, context, 1);
-    var value = iteratee(obj);
-    var low = 0, high = getLength(array);
-    while (low < high) {
-      var mid = Math.floor((low + high) / 2);
-      if (iteratee(array[mid]) < value) low = mid + 1; else high = mid;
-    }
-    return low;
+  function findLastIndex(array, predicate, context) {
+    return linearSearch(array, cb(predicate, context), -1);
   }
 
-  // Internal function to generate the `_.indexOf` and `_.lastIndexOf` functions.
-  function createIndexFinder(dir, predicateFind, sortedIndex) {
-    return function(array, item, idx) {
-      var i = 0, length = getLength(array);
-      if (typeof idx == 'number') {
-        if (dir > 0) {
-          i = idx >= 0 ? idx : Math.max(idx + length, i);
-        } else {
-          length = idx >= 0 ? Math.min(idx + 1, length) : idx + length + 1;
-        }
-      } else if (sortedIndex && idx && length) {
-        idx = sortedIndex(array, item);
-        return array[idx] === item ? idx : -1;
-      }
-      if (item !== item) {
-        idx = predicateFind(slice.call(array, i, length), isNaN$1);
-        return idx >= 0 ? idx + i : -1;
-      }
-      for (idx = dir > 0 ? i : length - 1; idx >= 0 && idx < length; idx += dir) {
-        if (array[idx] === item) return idx;
-      }
-      return -1;
-    };
+  // Use an iteratee to figure out the smallest index at which an object should be
+  // inserted so as to maintain order. Uses binary search.
+  function sortedIndex(array, obj, iteratee, context) {
+    return binarySearch(array, obj, cb(iteratee, context), less);
   }
 
   // Return the position of the first occurrence of an item in an array,
   // or -1 if the item is not included in the array.
   // If the array is large and already in sort order, pass `true`
   // for **isSorted** to use binary search.
-  var indexOf = createIndexFinder(1, findIndex, sortedIndex);
-
-  // Return the position of the last occurrence of an item in an array,
-  // or -1 if the item is not included in the array.
-  var lastIndexOf = createIndexFinder(-1, findLastIndex);
+  var indexOf = createIndexFinder(1);
 
   // Return the first value which passes a truth test.
   function find(obj, predicate, context) {
     var keyFinder = isArrayLike(obj) ? findIndex : findKey;
     var key = keyFinder(obj, predicate, context);
-    if (key !== void 0 && key !== -1) return obj[key];
+    if (!isUndefined(key) && key !== -1) return obj[key];
   }
 
   // Convenience version of a common use case of `_.find`: getting the first
@@ -1308,72 +1292,76 @@
   // Handles raw objects in addition to array-likes. Treats all
   // sparse array-likes as if they were dense.
   function each(obj, iteratee, context) {
-    iteratee = optimizeCb(iteratee, context);
-    var i, length;
-    if (isArrayLike(obj)) {
-      for (i = 0, length = obj.length; i < length; i++) {
-        iteratee(obj[i], i, obj);
-      }
-    } else {
-      var _keys = keys(obj);
-      for (i = 0, length = _keys.length; i < length; i++) {
-        iteratee(obj[_keys[i]], _keys[i], obj);
-      }
-    }
+    iteratee = bindCb4(iteratee, context);
+    find(obj, function(value, key, obj) {
+      iteratee(value, key, obj);
+      // We omit the return value so that iteration continues until the end.
+    });
     return obj;
   }
 
   // Return the results of applying the iteratee to each element.
   function map(obj, iteratee, context) {
     iteratee = cb(iteratee, context);
-    var _keys = !isArrayLike(obj) && keys(obj),
-        length = (_keys || obj).length,
-        results = Array(length);
-    for (var index = 0; index < length; index++) {
-      var currentKey = _keys ? _keys[index] : index;
-      results[index] = iteratee(obj[currentKey], currentKey, obj);
-    }
+    var results = [];
+    find(obj, function(value, key) {
+      results.push(iteratee(value, key, obj));
+    });
     return results;
   }
 
-  // Internal helper to create a reducing function, iterating left or right.
-  function createReduce(dir) {
+  // Create a reducing function iterating in the same way as `loop` (e.g.
+  // `_.find`).
+  function createReduce(loop) {
     // Wrap code that reassigns argument variables in a separate function than
     // the one that accesses `arguments.length` to avoid a perf hit. (#1991)
-    var reducer = function(obj, iteratee, memo, initial) {
-      var _keys = !isArrayLike(obj) && keys(obj),
-          length = (_keys || obj).length,
-          index = dir > 0 ? 0 : length - 1;
+    function reducer(obj, iteratee, memo, initial) {
       if (!initial) {
-        memo = obj[_keys ? _keys[index] : index];
-        index += dir;
+        // Make the `iteratee` change identity temporarily so that it only sets
+        // the `memo` on the first iteration.
+        var actualIteratee = iteratee;
+        iteratee = function(memo, value) {
+          iteratee = actualIteratee;
+          return value;
+        };
       }
-      for (; index >= 0 && index < length; index += dir) {
-        var currentKey = _keys ? _keys[index] : index;
-        memo = iteratee(memo, obj[currentKey], currentKey, obj);
-      }
+      loop(obj, function(value, key, obj) {
+        memo = iteratee(memo, value, key, obj);
+      });
       return memo;
-    };
+    }
 
     return function(obj, iteratee, memo, context) {
       var initial = arguments.length >= 3;
-      return reducer(obj, optimizeCb(iteratee, context, 4), memo, initial);
+      return reducer(obj, bindCb4(iteratee, context), memo, initial);
     };
   }
 
   // **Reduce** builds up a single result from a list of values, aka `inject`,
   // or `foldl`.
-  var reduce = createReduce(1);
+  var reduce = createReduce(find);
+
+  // A **less general** backward variant of `_.each`, specifically catered to
+  // implementing `_.reduceRight`.
+  function eachRight(obj, func) {
+    if (isArrayLike(obj)) {
+      findLastIndex(obj, func);
+    } else {
+      findLastIndex(keys(obj), function(key) {
+        func(obj[key], key, obj);
+      });
+    }
+  }
 
   // The right-associative version of reduce, also known as `foldr`.
-  var reduceRight = createReduce(-1);
+  var reduceRight = createReduce(eachRight);
 
   // Return all the elements that pass a truth test.
   function filter(obj, predicate, context) {
     var results = [];
     predicate = cb(predicate, context);
-    each(obj, function(value, index, list) {
-      if (predicate(value, index, list)) results.push(value);
+    find(obj, function(value, index) {
+      if (predicate(value, index, obj)) results.push(value);
     });
     return results;
   }
@@ -1383,35 +1371,64 @@
     return filter(obj, negate(cb(predicate)), context);
   }
 
-  // Determine whether all of the elements pass a truth test.
-  function every(obj, predicate, context) {
-    predicate = cb(predicate, context);
-    var _keys = !isArrayLike(obj) && keys(obj),
-        length = (_keys || obj).length;
-    for (var index = 0; index < length; index++) {
-      var currentKey = _keys ? _keys[index] : index;
-      if (!predicate(obj[currentKey], currentKey, obj)) return false;
-    }
-    return true;
-  }
-
   // Determine if at least one element in the object passes a truth test.
   function some(obj, predicate, context) {
     predicate = cb(predicate, context);
-    var _keys = !isArrayLike(obj) && keys(obj),
-        length = (_keys || obj).length;
-    for (var index = 0; index < length; index++) {
-      var currentKey = _keys ? _keys[index] : index;
-      if (predicate(obj[currentKey], currentKey, obj)) return true;
+    var found = false;
+    find(obj, function(value, key, obj) {
+      if (predicate(value, key, obj)) return found = true;
+    });
+    return found;
+  }
+
+  // Determine whether all of the elements pass a truth test.
+  function every(obj, predicate, context) {
+    return !some(obj, negate(cb(predicate, context)));
+  }
+
+  // Safely create a real, live array from anything iterable.
+  var reStrSymbol = /[^\ud800-\udfff]|[\ud800-\udbff][\udc00-\udfff]|[\ud800-\udfff]/g;
+  function toArray(obj) {
+    if (!obj) return [];
+    if (isString(obj)) {
+      // Keep surrogate pair characters together.
+      return obj.match(reStrSymbol);
     }
-    return false;
+    // We would use `slice.call` for any array-like, but that didn't work for
+    // `NodeList` in IE8. See commit 26a30551f912f8180e6c2381d0eae4b24259fb70.
+    if (isArray(obj)) return slice.call(obj);
+    if (isArrayLike(obj)) return map(obj /*identity*/);
+    return values(obj);
   }
 
   // Determine if the array or object contains a given item (using `===`).
   function contains(obj, item, fromIndex, guard) {
-    if (!isArrayLike(obj)) obj = values(obj);
+    if (!isArrayLike(obj)) obj = toArray(obj);
     if (typeof fromIndex != 'number' || guard) fromIndex = 0;
     return indexOf(obj, item, fromIndex) >= 0;
+  }
+
+  // Returns everything but the last entry of the array. Especially useful on
+  // the arguments object. Passing **n** will return all the values in
+  // the array, excluding the last N.
+  function initial(array, n, guard) {
+    return slice.call(array, 0, Math.max(0, array.length - (n == null || guard ? 1 : n)));
+  }
+
+  // Returns everything but the first entry of the `array`. Especially useful on
+  // the `arguments` object. Passing an **n** will return the rest N values in the
+  // `array`.
+  function rest(array, n, guard) {
+    return slice.call(array, n == null || guard ? 1 : n);
+  }
+
+  // Get the last element of an array. Passing **n** will return the last N
+  // values in the array.
+  function last(array, n, guard) {
+    var len = getLength(array);
+    var singleton = (n == null || guard);
+    if (array == null || len < 1) return singleton ? void 0 : [];
+    return singleton ? array[len - 1] : rest(array, Math.max(0, len - n));
   }
 
   // Invoke a method (with arguments) on every item in a collection.
@@ -1421,13 +1438,13 @@
       func = path;
     } else {
       path = toPath$1(path);
-      contextPath = path.slice(0, -1);
-      path = path[path.length - 1];
+      contextPath = initial(path);
+      path = last(path);
     }
     return map(obj, function(context) {
       var method = func;
       if (!method) {
-        if (contextPath && contextPath.length) {
+        if (getLength(contextPath)) {
           context = deepGet(context, contextPath);
         }
         if (context == null) return void 0;
@@ -1448,54 +1465,94 @@
     return filter(obj, matcher(attrs));
   }
 
-  // Return the maximum element (or element-based computation).
-  function max(obj, iteratee, context) {
-    var result = -Infinity, lastComputed = -Infinity,
-        value, computed;
-    if (iteratee == null || typeof iteratee == 'number' && typeof obj[0] != 'object' && obj != null) {
-      obj = isArrayLike(obj) ? obj : values(obj);
-      for (var i = 0, length = obj.length; i < length; i++) {
-        value = obj[i];
-        if (value != null && value > result) {
-          result = value;
-        }
+  // The general algorithm behind `_.min` and `_.max`. `compare` should return
+  // `true` if its first argument is more extreme than (i.e., should be preferred
+  // over) its second argument, `false` otherwise. `iteratee` and `context`, like
+  // in other collection functions, let you map the actual values in `collection`
+  // to the values to `compare`.
+  function extremum(collection, compare, iteratee, context, decide) {
+    // `extremum` is essentially a combined map+reduce with **two** accumulators:
+    // `result` and `iterResult`, respectively the unmapped and the mapped version
+    // corresponding to the same element.
+    var result, iterResult;
+    iteratee = cb(iteratee, context);
+    var first = true;
+    find(collection, function(value, key) {
+      var iterValue = iteratee(value, key, collection);
+      if (first || compare(iterValue, iterResult)) {
+        result = value;
+        iterResult = iterValue;
+        first = false;
       }
-    } else {
-      iteratee = cb(iteratee, context);
-      each(obj, function(v, index, list) {
-        computed = iteratee(v, index, list);
-        if (computed > lastComputed || computed === -Infinity && result === -Infinity) {
-          result = v;
-          lastComputed = computed;
-        }
-      });
+    });
+    // `extremum` would normally return `result`. However, `_.min` and `_.max`
+    // forcibly return a number even if there is no element that maps to a numeric
+    // value. Passing both accumulators through `decide` before returning enables
+    // this behavior.
+    // `decide` is an optional customization point which is only present for the
+    // above historical reason; please don't use it, as it will likely be removed
+    // in the future.
+    return (decide || identity)(result, iterResult);
+  }
+
+  // Internal helper to force a numeric result in `_.max`.
+  function decideMax(result, iterResult) {
+    return +iterResult !== +iterResult ? -Infinity : result;
+  }
+
+  // Return the maximum element (or element-based computation).
+  function max(collection, iteratee, context) {
+    if (
+      iteratee == null ||
+      // Detect use as an iteratee.
+      typeof iteratee == 'number' && typeof collection[0] != 'object'
+    ) {
+      // We're using an identity iteratee, so we can take some shortcuts. This
+      // optimization should move to `extremum` when we have a saner comparison
+      // function (i.e., just the plain `>` operator aka `greater`).
+      collection = isArrayLike(collection) ? collection : toArray(collection);
+      var val, res = collection[0];
+      for (var l = getLength(collection), i = 1; i < l; i++) {
+        val = collection[i];
+        if (
+          res == null || val != null && +val > +res || +res !== +res
+        ) res = val;
+      }
+      return decideMax(res, res);
     }
-    return result;
+    return extremum(collection, function(val, res) {
+      return res == null || val != null && +val > +res || +res !== +res;
+    }, iteratee, context, decideMax);
+  }
+
+  // Internal helper to force a numeric result in `_.min`.
+  function decideMin(result, iterResult) {
+    return +iterResult !== +iterResult ? Infinity : result;
   }
 
   // Return the minimum element (or element-based computation).
-  function min(obj, iteratee, context) {
-    var result = Infinity, lastComputed = Infinity,
-        value, computed;
-    if (iteratee == null || typeof iteratee == 'number' && typeof obj[0] != 'object' && obj != null) {
-      obj = isArrayLike(obj) ? obj : values(obj);
-      for (var i = 0, length = obj.length; i < length; i++) {
-        value = obj[i];
-        if (value != null && value < result) {
-          result = value;
-        }
+  function min(collection, iteratee, context) {
+    if (
+      iteratee == null ||
+      // Detect use as an iteratee.
+      typeof iteratee == 'number' && typeof collection[0] != 'object'
+    ) {
+      // We're using an identity iteratee, so we can take some shortcuts. This
+      // optimization should move to `extremum` when we have a saner comparison
+      // function (i.e., just the plain `<` operator aka `less`).
+      collection = isArrayLike(collection) ? collection : toArray(collection);
+      var val, res = collection[0];
+      for (var l = getLength(collection), i = 1; i < l; i++) {
+        val = collection[i];
+        if (
+          res == null || val != null && +val < +res || +res !== +res
+        ) res = val;
       }
-    } else {
-      iteratee = cb(iteratee, context);
-      each(obj, function(v, index, list) {
-        computed = iteratee(v, index, list);
-        if (computed < lastComputed || computed === Infinity && result === Infinity) {
-          result = v;
-          lastComputed = computed;
-        }
-      });
+      return decideMin(res, res);
     }
-    return result;
+    return extremum(collection, function(val, res) {
+      return res == null || val != null && +val < +res || +res !== +res;
+    }, iteratee, context, decideMin);
   }
 
   // Sample **n** random values from a collection using the modern version of the
@@ -1503,21 +1560,19 @@
   // If **n** is not specified, returns a single random element.
   // The internal `guard` argument allows it to work with `_.map`.
   function sample(obj, n, guard) {
-    if (n == null || guard) {
-      if (!isArrayLike(obj)) obj = values(obj);
-      return obj[random(obj.length - 1)];
-    }
-    var sample = isArrayLike(obj) ? clone(obj) : values(obj);
-    var length = getLength(sample);
+    var sample = isArrayLike(obj) ? null : toArray(obj);
+    obj = sample || obj;
+    var length = getLength(obj);
+    if (n == null || guard) return obj[random(length - 1)];
+    sample = sample || clone(obj);
     n = Math.max(Math.min(n, length), 0);
     var last = length - 1;
-    for (var index = 0; index < n; index++) {
+    return times(n, function(index) {
       var rand = random(index, last);
-      var temp = sample[index];
-      sample[index] = sample[rand];
-      sample[rand] = temp;
-    }
-    return sample.slice(0, n);
+      var chosen = sample[rand];
+      sample[rand] = sample[index];
+      return chosen;
+    });
   }
 
   // Shuffle a collection.
@@ -1551,7 +1606,7 @@
     return function(obj, iteratee, context) {
       var result = partition ? [[], []] : {};
       iteratee = cb(iteratee, context);
-      each(obj, function(value, index) {
+      find(obj, function(value, index) {
         var key = iteratee(value, index, obj);
         behavior(result, value, key);
       });
@@ -1584,19 +1639,6 @@
     result[pass ? 0 : 1].push(value);
   }, true);
 
-  // Safely create a real, live array from anything iterable.
-  var reStrSymbol = /[^\ud800-\udfff]|[\ud800-\udbff][\udc00-\udfff]|[\ud800-\udfff]/g;
-  function toArray(obj) {
-    if (!obj) return [];
-    if (isArray(obj)) return slice.call(obj);
-    if (isString(obj)) {
-      // Keep surrogate pair characters together.
-      return obj.match(reStrSymbol);
-    }
-    if (isArrayLike(obj)) return map(obj, identity);
-    return values(obj);
-  }
-
   // Return the number of elements in a collection.
   function size(obj) {
     if (obj == null) return 0;
@@ -1614,18 +1656,17 @@
     var result = {}, iteratee = keys[0];
     if (obj == null) return result;
     if (isFunction$1(iteratee)) {
-      if (keys.length > 1) iteratee = optimizeCb(iteratee, keys[1]);
+      iteratee = bindCb4(iteratee, keys[1]);
       keys = allKeys(obj);
     } else {
       iteratee = keyInObj;
       keys = flatten(keys, false, false);
       obj = Object(obj);
     }
-    for (var i = 0, length = keys.length; i < length; i++) {
-      var key = keys[i];
+    linearSearch(keys, function(key) {
       var value = obj[key];
       if (iteratee(value, key, obj)) result[key] = value;
-    }
+    });
     return result;
   });
 
@@ -1634,7 +1675,8 @@
     var iteratee = keys[0], context;
     if (isFunction$1(iteratee)) {
       iteratee = negate(iteratee);
-      if (keys.length > 1) context = keys[1];
+      // `keys[1]` might be `undefined`, but that's fine.
+      context = keys[1];
     } else {
       keys = map(flatten(keys, false, false), String);
       iteratee = function(value, key) {
@@ -1644,34 +1686,13 @@
     return pick(obj, iteratee, context);
   });
 
-  // Returns everything but the last entry of the array. Especially useful on
-  // the arguments object. Passing **n** will return all the values in
-  // the array, excluding the last N.
-  function initial(array, n, guard) {
-    return slice.call(array, 0, Math.max(0, array.length - (n == null || guard ? 1 : n)));
-  }
-
   // Get the first element of an array. Passing **n** will return the first N
   // values in the array. The **guard** check allows it to work with `_.map`.
   function first(array, n, guard) {
-    if (array == null || array.length < 1) return n == null || guard ? void 0 : [];
-    if (n == null || guard) return array[0];
-    return initial(array, array.length - n);
-  }
-
-  // Returns everything but the first entry of the `array`. Especially useful on
-  // the `arguments` object. Passing an **n** will return the rest N values in the
-  // `array`.
-  function rest(array, n, guard) {
-    return slice.call(array, n == null || guard ? 1 : n);
-  }
-
-  // Get the last element of an array. Passing **n** will return the last N
-  // values in the array.
-  function last(array, n, guard) {
-    if (array == null || array.length < 1) return n == null || guard ? void 0 : [];
-    if (n == null || guard) return array[array.length - 1];
-    return rest(array, Math.max(0, array.length - n));
+    var len = getLength(array);
+    var singleton = (n == null || guard);
+    if (array == null || len < 1) return singleton ? void 0 : [];
+    return singleton ? array[0] : initial(array, len - n);
   }
 
   // Trim out all falsy values from an array.
@@ -1710,21 +1731,18 @@
       iteratee = isSorted;
       isSorted = false;
     }
-    if (iteratee != null) iteratee = cb(iteratee, context);
+    var identity = iteratee == null;
+    iteratee = cb(iteratee, context);
     var result = [];
-    var seen = [];
+    var seen = identity ? result : [];
     for (var i = 0, length = getLength(array); i < length; i++) {
       var value = array[i],
-          computed = iteratee ? iteratee(value, i, array) : value;
-      if (isSorted && !iteratee) {
+          computed = iteratee(value, i, array);
+      if (isSorted && identity) {
         if (!i || seen !== computed) result.push(value);
         seen = computed;
-      } else if (iteratee) {
-        if (!contains(seen, computed)) {
-          seen.push(computed);
-          result.push(value);
-        }
-      } else if (!contains(result, value)) {
+      } else if (!contains(seen, computed)) {
+        identity || seen.push(computed);
         result.push(value);
       }
     }
@@ -1739,31 +1757,24 @@
 
   // Produce an array that contains every item shared between all the
   // passed-in arrays.
-  function intersection(array) {
+  var intersection = restArguments(function(array, others) {
     var result = [];
-    var argsLength = arguments.length;
-    for (var i = 0, length = getLength(array); i < length; i++) {
-      var item = array[i];
-      if (contains(result, item)) continue;
-      var j;
-      for (j = 1; j < argsLength; j++) {
-        if (!contains(arguments[j], item)) break;
-      }
-      if (j === argsLength) result.push(item);
-    }
+    linearSearch(array, function(item) {
+      if (contains(result, item)) return;
+      if (linearSearch(others, function(other) {
+        return !contains(other, item);
+      }) == -1) result.push(item);
+    });
     return result;
-  }
+  });
 
   // Complement of zip. Unzip accepts an array of arrays and groups
   // each array's elements on shared indices.
   function unzip(array) {
     var length = array && max(array, getLength).length || 0;
-    var result = Array(length);
-
-    for (var index = 0; index < length; index++) {
-      result[index] = pluck(array, index);
-    }
-    return result;
+    return times(length, function(index) {
+      return pluck(array, index);
+    });
   }
 
   // Zip together multiple lists into a single array -- elements that share
@@ -1811,22 +1822,20 @@
   // items.
   function chunk(array, count) {
     if (count == null || count < 1) return [];
-    var result = [];
-    var i = 0, length = array.length;
-    while (i < length) {
-      result.push(slice.call(array, i, i += count));
-    }
-    return result;
+    return times(Math.ceil(getLength(array) / count), function(index) {
+      var offset = index * count;
+      return slice.call(array, offset, offset + count);
+    });
   }
 
   // Helper function to continue chaining intermediate results.
   function chainResult(instance, obj) {
-    return instance._chain ? _(obj).chain() : obj;
+    return instance._chain ? chain(obj) : obj;
   }
 
   // Add your own custom functions to the Underscore object.
   function mixin(obj) {
-    each(functions(obj), function(name) {
+    linearSearch(functions(obj), function(name) {
       var func = _[name] = obj[name];
       _.prototype[name] = function() {
         var args = [this._wrapped];
@@ -1838,7 +1847,7 @@
   }
 
   // Add all mutator `Array` functions to the wrapper.
-  each(['pop', 'push', 'reverse', 'shift', 'sort', 'splice', 'unshift'], function(name) {
+  linearSearch(['pop', 'push', 'reverse', 'shift', 'sort', 'splice', 'unshift'], function(name) {
     var method = ArrayProto[name];
     _.prototype[name] = function() {
       var obj = this._wrapped;
@@ -1853,7 +1862,7 @@
   });
 
   // Add all accessor `Array` functions to the wrapper.
-  each(['concat', 'join', 'slice'], function(name) {
+  linearSearch(['concat', 'join', 'slice'], function(name) {
     var method = ArrayProto[name];
     _.prototype[name] = function() {
       var obj = this._wrapped;

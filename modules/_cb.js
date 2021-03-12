@@ -1,10 +1,12 @@
+import isFunction from './isFunction.js';
+import bindCb4 from './_bindCb4.js';
 import _ from './underscore.js';
-import baseIteratee from './_baseIteratee.js';
-import iteratee from './iteratee.js';
+import './iteratee.js';
 
-// The function we call internally to generate a callback. It invokes
-// `_.iteratee` if overridden, otherwise `baseIteratee`.
-export default function cb(value, context, argCount) {
-  if (_.iteratee !== iteratee) return _.iteratee(value, context);
-  return baseIteratee(value, context, argCount);
+// The function we call internally to generate a callback: a wrapper
+// of `_.iteratee`, which uses `bindCb4` instead of `bindCb` for
+// function iteratees. It also saves some bytes in the minified code.
+export default function cb(value, context) {
+  if (isFunction(value)) return bindCb4(value, context);
+  return _.iteratee(value, context);
 }

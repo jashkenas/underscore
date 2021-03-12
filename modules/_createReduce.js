@@ -1,28 +1,28 @@
-import isArrayLike from './_isArrayLike.js';
-import keys from './keys.js';
-import optimizeCb from './_optimizeCb.js';
+import bindCb4 from './_bindCb4.js';
 
-// Internal helper to create a reducing function, iterating left or right.
-export default function createReduce(dir) {
+// Create a reducing function iterating in the same way as `loop` (e.g.
+// `_.find`).
+export default function createReduce(loop) {
   // Wrap code that reassigns argument variables in a separate function than
   // the one that accesses `arguments.length` to avoid a perf hit. (#1991)
-  var reducer = function(obj, iteratee, memo, initial) {
-    var _keys = !isArrayLike(obj) && keys(obj),
-        length = (_keys || obj).length,
-        index = dir > 0 ? 0 : length - 1;
+  function reducer(obj, iteratee, memo, initial) {
     if (!initial) {
-      memo = obj[_keys ? _keys[index] : index];
-      index += dir;
+      // Make the `iteratee` change identity temporarily so that it only sets
+      // the `memo` on the first iteration.
+      var actualIteratee = iteratee;
+      iteratee = function(memo, value) {
+        iteratee = actualIteratee;
+        return value;
+      }
     }
-    for (; index >= 0 && index < length; index += dir) {
-      var currentKey = _keys ? _keys[index] : index;
-      memo = iteratee(memo, obj[currentKey], currentKey, obj);
-    }
+    loop(obj, function(value, key, obj) {
+      memo = iteratee(memo, value, key, obj);
+    });
     return memo;
-  };
+  }
 
   return function(obj, iteratee, memo, context) {
     var initial = arguments.length >= 3;
-    return reducer(obj, optimizeCb(iteratee, context, 4), memo, initial);
+    return reducer(obj, bindCb4(iteratee, context), memo, initial);
   };
 }

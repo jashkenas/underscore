@@ -1,4 +1,4 @@
-import getLength from './_getLength.js';
+import linearSearch from './_linearSearch.js';
 import isArrayLike from './_isArrayLike.js';
 import isArray from './isArray.js';
 import isArguments from './isArguments.js';
@@ -11,21 +11,17 @@ export default function flatten(input, depth, strict, output) {
   } else if (depth <= 0) {
     return output.concat(input);
   }
-  var idx = output.length;
-  for (var i = 0, length = getLength(input); i < length; i++) {
-    var value = input[i];
+  linearSearch(input, function(value) {
     if (isArrayLike(value) && (isArray(value) || isArguments(value))) {
       // Flatten current level of array or arguments object.
       if (depth > 1) {
         flatten(value, depth - 1, strict, output);
-        idx = output.length;
       } else {
-        var j = 0, len = value.length;
-        while (j < len) output[idx++] = value[j++];
+        linearSearch(value, function(item) { output.push(item); });
       }
     } else if (!strict) {
-      output[idx++] = value;
+      output.push(value);
     }
-  }
+  });
   return output;
 }

@@ -1,21 +1,20 @@
 import getLength from './_getLength.js';
 import isFunction from './isFunction.js';
 import allKeys from './allKeys.js';
+import linearSearch from './_linearSearch.js';
 
 // Since the regular `Object.prototype.toString` type tests don't work for
 // some types in IE 11, we use a fingerprinting heuristic instead, based
 // on the methods. It's not great, but it's the best we got.
 // The fingerprint method lists are defined below.
 export function ie11fingerprint(methods) {
-  var length = getLength(methods);
   return function(obj) {
     if (obj == null) return false;
     // `Map`, `WeakMap` and `Set` have no enumerable keys.
-    var keys = allKeys(obj);
-    if (getLength(keys)) return false;
-    for (var i = 0; i < length; i++) {
-      if (!isFunction(obj[methods[i]])) return false;
-    }
+    if (getLength(allKeys(obj))) return false;
+    if (linearSearch(methods, function(method) {
+      return !isFunction(obj[method]);
+    }) != -1) return false;
     // If we are testing against `WeakMap`, we need to ensure that
     // `obj` doesn't have a `forEach` method in order to distinguish
     // it from a regular `Map`.
