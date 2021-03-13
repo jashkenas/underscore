@@ -868,6 +868,13 @@
     return '\\' + escapes[match];
   }
 
+  // In order to prevent third-party code injection through
+  // `_.templateSettings.variable`, we test it against the following regular
+  // expression. It is intentionally a bit more liberal than just matching valid
+  // identifiers, but still prevents possible loopholes through defaults or
+  // destructuring assignment.
+  var bareIdentifier = /^\s*(\w|\$)+\s*$/;
+
   // JavaScript micro-templating, similar to John Resig's implementation.
   // Underscore templating handles arbitrary delimiters, preserves whitespace,
   // and correctly escapes quotes within interpolated code.
@@ -903,8 +910,17 @@
     });
     source += "';\n";
 
-    // If a variable is not specified, place data values in local scope.
-    if (!settings.variable) source = 'with(obj||{}){\n' + source + '}\n';
+    var argument = settings.variable;
+    if (argument) {
+      // Insure against third-party code injection.
+      if (!bareIdentifier.test(argument)) throw new Error(
+        'variable is not a bare identifier: ' + argument
+      );
+    } else {
+      // If a variable is not specified, place data values in local scope.
+      source = 'with(obj||{}){\n' + source + '}\n';
+      argument = 'obj';
+    }
 
     source = "var __t,__p='',__j=Array.prototype.join," +
       "print=function(){__p+=__j.call(arguments,'');};\n" +
@@ -912,7 +928,7 @@
 
     var render;
     try {
-      render = new Function(settings.variable || 'obj', '_', source);
+      render = new Function(argument, '_', source);
     } catch (e) {
       e.source = source;
       throw e;
@@ -923,7 +939,6 @@
     };
 
     // Provide the compiled source as a convenience for precompilation.
-    var argument = settings.variable || 'obj';
     template.source = 'function(' + argument + '){\n' + source + '}';
 
     return template;
