@@ -186,7 +186,7 @@
   <div id="sidebar" class="interface">
 
     <a class="toc_title" href="#">
-      Underscore.js <span class="version">(1.12.0)</span>
+      Underscore.js <span class="version">(1.12.1)</span>
     </a>
     <ul class="toc_section">
       <li>&raquo; <a href="https://github.com/jashkenas/underscore">GitHub Repository</a></li>
@@ -476,7 +476,7 @@
       <i>Underscore is an open-source component of <a href="https://documentcloud.org/">DocumentCloud</a>.</i>
     </p>
 
-    <h2>v1.12.0 Downloads <i style="padding-left: 12px; font-size:12px;">(Right-click, and use "Save As")</i></h2>
+    <h2>v1.12.1 Downloads <i style="padding-left: 12px; font-size:12px;">(Right-click, and use "Save As")</i></h2>
 
     <table>
       <tr>
@@ -520,32 +520,32 @@
       </tr>
     </table>
 
-    <h2>v1.12.0 CDN URLs <i style="padding-left: 12px; font-size:12px;">(Use with <tt>&lt;script src="..."&gt;&lt;/script&gt;</tt>)</i></h2>
+    <h2>v1.12.1 CDN URLs <i style="padding-left: 12px; font-size:12px;">(Use with <tt>&lt;script src="..."&gt;&lt;/script&gt;</tt>)</i></h2>
 
     <ul>
       <li>
-        <tt>https://cdn.jsdelivr.net/npm/underscore@1.12.0/underscore-min.js</tt>
+        <tt>https://cdn.jsdelivr.net/npm/underscore@1.12.1/underscore-min.js</tt>
       </li>
       <li>
-        <tt>https://cdn.jsdelivr.net/npm/underscore@1.12.0/underscore-esm-min.js</tt>
+        <tt>https://cdn.jsdelivr.net/npm/underscore@1.12.1/underscore-esm-min.js</tt>
       </li>
       <li>
-        <tt>https://unpkg.com/underscore@1.12.0/underscore-min.js</tt>
+        <tt>https://unpkg.com/underscore@1.12.1/underscore-min.js</tt>
       </li>
       <li>
-        <tt>https://unpkg.com/underscore@1.12.0/underscore-esm-min.js</tt>
+        <tt>https://unpkg.com/underscore@1.12.1/underscore-esm-min.js</tt>
       </li>
       <li>
-        <tt>https://pagecdn.io/lib/underscore/1.12.0/underscore-min.js</tt>
+        <tt>https://pagecdn.io/lib/underscore/1.12.1/underscore-min.js</tt>
       </li>
       <li>
-        <tt>https://pagecdn.io/lib/underscore/1.12.0/underscore-esm-min.js</tt>
+        <tt>https://pagecdn.io/lib/underscore/1.12.1/underscore-esm-min.js</tt>
       </li>
       <li>
-        <tt>https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.12.0/underscore-min.js</tt>
+        <tt>https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.12.1/underscore-min.js</tt>
       </li>
       <li>
-        <tt>https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.12.0/underscore-esm-min.js</tt>
+        <tt>https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.12.1/underscore-esm-min.js</tt>
       </li>
     </ul>
 
@@ -2704,6 +2704,27 @@ _.chain([1, 2, 3]).reverse().value();
       </p>
 
       <h2 id="changelog">Change Log</h2>
+
+      <p id="1.12.1">
+        <b class="header">1.12.1</b> &mdash; <small><i>March 15, 2021</i></small><br />
+        <ul>
+          <li>
+            Fixes a security issue in <tt>_.template</tt> that could enable a
+            third party to inject code in compiled templates. This issue
+            affects all versions of Underscore between 1.3.2 and 1.12.0,
+            inclusive, as well as preview releases 1.13.0-0 and 1.13.0-1. The
+            fix in this release is also included in the parallel preview
+            release 1.13.0-2.
+          </li>
+          <li>
+            Restores an optimization in <tt>_.debounce</tt> that was
+            unintentionally lost in version 1.9.0.
+          </li>
+          <li>
+            Various test and documentation enhancements.
+          </li>
+        </ul>
+      </p>
 
       <p id="1.12.0">
         <b class="header">1.12.0</b> &mdash; <small><i>November 24, 2020</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.11.0...1.12.0">Diff</a> &mdash; <a href="https://cdn.statically.io/gh/jashkenas/underscore/1.12.0/index.html">Docs</a><br />
