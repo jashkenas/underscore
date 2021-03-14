@@ -1,10 +1,10 @@
-//     Underscore.js 1.12.0
+//     Underscore.js 1.12.1
 //     https://underscorejs.org
 //     (c) 2009-2020 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 //     Underscore may be freely distributed under the MIT license.
 
 // Current version.
-var VERSION = '1.12.0';
+var VERSION = '1.12.1';
 
 // Establish the root object, `window` (`self`) in the browser, `global`
 // on the server, or `this` in some virtual machines. We use `self`
