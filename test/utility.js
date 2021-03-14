@@ -465,19 +465,27 @@
     assert.strictEqual(template(), '<<\nx\n>>');
   });
 
-  QUnit.test('#2911 - _.template must not trigger CVE-2021-23337.', function(assert) {
-      QUnit.holyProperty = 'holy';
-      var invalidVariableNames = [
-          '){delete QUnit.holyProperty}; with(obj',
-          '(x = QUnit.holyProperty = "evil"), obj',
-          'document.write("got you!")'
-      ];
-      _.each(invalidVariableNames, function(name) {
-          assert.throws(function() { _.template('', { variable: name })(); });
-      });
-      var holy = QUnit.holyProperty;
-      delete QUnit.holyProperty;
-      assert.strictEqual(holy, 'holy');
+  QUnit.test('#2911 - _.templateSettings.variable must not allow third parties to inject code.', function(assert) {
+    QUnit.holyProperty = 'holy';
+    var invalidVariableNames = [
+      '){delete QUnit.holyProperty}; with(obj',
+      '(x = QUnit.holyProperty = "evil"), obj',
+      'document.write("got you!")',
+      'a = (function() { delete QUnit.holyProperty; }())',
+      'a = (QUnit.holyProperty = "evil")',
+      'a = document.write("got you!")'
+    ];
+    _.each(invalidVariableNames, function(name) {
+      _.templateSettings.variable = name;
+      assert.throws(function() {
+        _.template('')();
+      }, 'code injection through _.templateSettings.variable: ' + name);
+      delete _.templateSettings.variable;
+    });
+    var holy = QUnit.holyProperty;
+    delete QUnit.holyProperty;
+    assert.strictEqual(holy, 'holy', '_.template variable cannot touch global state');
+    assert.ok(_.isUndefined(_.templateSettings.variable), 'cleanup');
   });
 
 }());

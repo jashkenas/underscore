@@ -2380,7 +2380,9 @@ string literal.</p>
 
 <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">escapeChar</span>(<span class="hljs-params">match</span>) </span>{
   <span class="hljs-keyword">return</span> <span class="hljs-string">'\\'</span> + escapes[match];
-}</pre></div></div>
+}
+
+<span class="hljs-keyword">var</span> bareIdentifier = <span class="hljs-regexp">/^\s*(\w|\$)+\s*$/</span>;</pre></div></div>
             
         </li>
         
@@ -2463,7 +2465,12 @@ NB: <code>oldSettings</code> only exists for backwards compatibility.</p>
             
             <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">return</span> match;
   });
-  source += <span class="hljs-string">"';\n"</span>;</pre></div></div>
+  source += <span class="hljs-string">"';\n"</span>;
+
+  <span class="hljs-keyword">var</span> argument = settings.variable;
+  <span class="hljs-keyword">if</span> (argument) {
+    <span class="hljs-keyword">if</span> (!bareIdentifier.test(argument)) <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(argument);
+  } <span class="hljs-keyword">else</span> {</pre></div></div>
             
         </li>
         
@@ -2478,7 +2485,9 @@ NB: <code>oldSettings</code> only exists for backwards compatibility.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">if</span> (!settings.variable) source = <span class="hljs-string">'with(obj||{}){\n'</span> + source + <span class="hljs-string">'}\n'</span>;
+            <div class="content"><div class='highlight'><pre>    source = <span class="hljs-string">'with(obj||{}){\n'</span> + source + <span class="hljs-string">'}\n'</span>;
+    argument = <span class="hljs-string">'obj'</span>;
+  }
 
   source = <span class="hljs-string">"var __t,__p='',__j=Array.prototype.join,"</span> +
     <span class="hljs-string">"print=function(){__p+=__j.call(arguments,'');};\n"</span> +
@@ -2486,7 +2495,7 @@ NB: <code>oldSettings</code> only exists for backwards compatibility.</p>
 
   <span class="hljs-keyword">var</span> render;
   <span class="hljs-keyword">try</span> {
-    render = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Function</span>(settings.variable || <span class="hljs-string">'obj'</span>, <span class="hljs-string">'_'</span>, source);
+    render = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Function</span>(argument, <span class="hljs-string">'_'</span>, source);
   } <span class="hljs-keyword">catch</span> (e) {
     e.source = source;
     <span class="hljs-keyword">throw</span> e;
@@ -2509,8 +2518,7 @@ NB: <code>oldSettings</code> only exists for backwards compatibility.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">var</span> argument = settings.variable || <span class="hljs-string">'obj'</span>;
-  template.source = <span class="hljs-string">'function('</span> + argument + <span class="hljs-string">'){\n'</span> + source + <span class="hljs-string">'}'</span>;
+            <div class="content"><div class='highlight'><pre>  template.source = <span class="hljs-string">'function('</span> + argument + <span class="hljs-string">'){\n'</span> + source + <span class="hljs-string">'}'</span>;
 
   <span class="hljs-keyword">return</span> template;
 }</pre></div></div>
