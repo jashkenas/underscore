@@ -22,6 +22,7 @@
   "exports": {
     ".": {
       "import": {
+        "module": "./modules/index-all.js",
         "browser": {
           "production": "./underscore-esm-min.js",
           "default": "./underscore-esm.js"
