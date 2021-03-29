@@ -468,9 +468,11 @@
   QUnit.test('#2911 - _.templateSettings.variable must not allow third parties to inject code.', function(assert) {
     QUnit.holyProperty = 'holy';
     var invalidVariableNames = [
+      // CVE-2021-23337 (not applicable to Underscore)
       '){delete QUnit.holyProperty}; with(obj',
       '(x = QUnit.holyProperty = "evil"), obj',
       'document.write("got you!")',
+      // CVE-2021-23358 (our actual security leak, which we fixed)
       'a = (function() { delete QUnit.holyProperty; }())',
       'a = (QUnit.holyProperty = "evil")',
       'a = document.write("got you!")'

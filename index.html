@@ -2719,7 +2719,11 @@ _.chain([1, 2, 3]).reverse().value();
             Fixes a security issue in <tt>_.template</tt> that could enable a
             third party to inject code in compiled templates. This issue
             affects all versions of Underscore between 1.3.2 and 1.12.0,
-            inclusive, as well as preview releases 1.13.0-0 and 1.13.0-1.
+            inclusive, as well as preview releases 1.13.0-0 and 1.13.0-1. The
+            fix in this release is also included in the parallel preview
+            release 1.13.0-2. <a
+                href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-23358"
+            >CVE-2021-23358</a>
           </li>
           <li>
             Restores an optimization in <tt>_.debounce</tt> that was

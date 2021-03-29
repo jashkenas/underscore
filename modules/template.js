@@ -24,6 +24,11 @@ function escapeChar(match) {
   return '\\' + escapes[match];
 }
 
+// In order to prevent third-party code injection through
+// `_.templateSettings.variable`, we test it against the following regular
+// expression. It is intentionally a bit more liberal than just matching valid
+// identifiers, but still prevents possible loopholes through defaults or
+// destructuring assignment.
 var bareIdentifier = /^\s*(\w|\$)+\s*$/;
 
 // JavaScript micro-templating, similar to John Resig's implementation.
@@ -63,7 +68,10 @@ export default function template(text, settings, oldSettings) {
 
   var argument = settings.variable;
   if (argument) {
-    if (!bareIdentifier.test(argument)) throw new Error(argument);
+    // Insure against third-party code injection. (CVE-2021-23358)
+    if (!bareIdentifier.test(argument)) throw new Error(
+      'variable is not a bare identifier: ' + argument
+    );
   } else {
     // If a variable is not specified, place data values in local scope.
     source = 'with(obj||{}){\n' + source + '}\n';

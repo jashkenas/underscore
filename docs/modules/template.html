@@ -897,9 +897,7 @@ string literal.</p>
 
 <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">escapeChar</span>(<span class="hljs-params">match</span>) </span>{
   <span class="hljs-keyword">return</span> <span class="hljs-string">'\\'</span> + escapes[match];
-}
-
-<span class="hljs-keyword">var</span> bareIdentifier = <span class="hljs-regexp">/^\s*(\w|\$)+\s*$/</span>;</pre></div></div>
+}</pre></div></div>
             
         </li>
         
@@ -909,6 +907,25 @@ string literal.</p>
               
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-4">&#182;</a>
+              </div>
+              <p>In order to prevent third-party code injection through
+<code>_.templateSettings.variable</code>, we test it against the following regular
+expression. It is intentionally a bit more liberal than just matching valid
+identifiers, but still prevents possible loopholes through defaults or
+destructuring assignment.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">var</span> bareIdentifier = <span class="hljs-regexp">/^\s*(\w|\$)+\s*$/</span>;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-5">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-5">&#182;</a>
               </div>
               <p>JavaScript micro-templating, similar to John Resig’s implementation.
 Underscore templating handles arbitrary delimiters, preserves whitespace,
@@ -924,11 +941,11 @@ NB: <code>oldSettings</code> only exists for backwards compatibility.</p>
         </li>
         
         
-        <li id="section-5">
+        <li id="section-6">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-5">&#182;</a>
+                <a class="pilcrow" href="#section-6">&#182;</a>
               </div>
               <p>Combine delimiters into one regular expression via alternation.</p>
 
@@ -943,11 +960,11 @@ NB: <code>oldSettings</code> only exists for backwards compatibility.</p>
         </li>
         
         
-        <li id="section-6">
+        <li id="section-7">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-6">&#182;</a>
+                <a class="pilcrow" href="#section-7">&#182;</a>
               </div>
               <p>Compile the template source, escaping string literals appropriately.</p>
 
@@ -970,11 +987,11 @@ NB: <code>oldSettings</code> only exists for backwards compatibility.</p>
         </li>
         
         
-        <li id="section-7">
+        <li id="section-8">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-7">&#182;</a>
+                <a class="pilcrow" href="#section-8">&#182;</a>
               </div>
               <p>Adobe VMs need the match returned to produce the correct offset.</p>
 
@@ -985,18 +1002,34 @@ NB: <code>oldSettings</code> only exists for backwards compatibility.</p>
   source += <span class="hljs-string">"';\n"</span>;
 
   <span class="hljs-keyword">var</span> argument = settings.variable;
-  <span class="hljs-keyword">if</span> (argument) {
-    <span class="hljs-keyword">if</span> (!bareIdentifier.test(argument)) <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(argument);
+  <span class="hljs-keyword">if</span> (argument) {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-9">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-9">&#182;</a>
+              </div>
+              <p>Insure against third-party code injection. (CVE-2021-23358)</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">if</span> (!bareIdentifier.test(argument)) <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(
+      <span class="hljs-string">'variable is not a bare identifier: '</span> + argument
+    );
   } <span class="hljs-keyword">else</span> {</pre></div></div>
             
         </li>
         
         
-        <li id="section-8">
+        <li id="section-10">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-8">&#182;</a>
+                <a class="pilcrow" href="#section-10">&#182;</a>
               </div>
               <p>If a variable is not specified, place data values in local scope.</p>
 
@@ -1025,11 +1058,11 @@ NB: <code>oldSettings</code> only exists for backwards compatibility.</p>
         </li>
         
         
-        <li id="section-9">
+        <li id="section-11">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-9">&#182;</a>
+                <a class="pilcrow" href="#section-11">&#182;</a>
               </div>
               <p>Provide the compiled source as a convenience for precompilation.</p>
 
