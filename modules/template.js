@@ -68,7 +68,7 @@ export default function template(text, settings, oldSettings) {
 
   var argument = settings.variable;
   if (argument) {
-    // Insure against third-party code injection.
+    // Insure against third-party code injection. (CVE-2021-23358)
     if (!bareIdentifier.test(argument)) throw new Error(
       'variable is not a bare identifier: ' + argument
     );
