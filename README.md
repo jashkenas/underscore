@@ -15,7 +15,8 @@ without extending any core JavaScript objects.
 For Docs, License, Tests, and pre-packed downloads, see:
 https://underscorejs.org
 
-For support and questions, please use
+For support and questions, please consult
+our [security policy](SECURITY.md),
 [the gitter channel](https://gitter.im/jashkenas/underscore)
 or [stackoverflow](https://stackoverflow.com/search?q=underscore.js)
 
