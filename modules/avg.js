@@ -2,7 +2,7 @@ import isArrayLike from './_isArrayLike.js';
 import values from './values.js';
 import sum from './sum.js'
 
-// Return the maximum element (or element-based computation).
+// Return the average element (or element-based computation).
 export default function mean(obj, iteratee, context) {
     if (!iteratee && _.isEmpty(obj)){
         return 0;

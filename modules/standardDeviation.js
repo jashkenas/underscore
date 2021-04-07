@@ -2,7 +2,7 @@ import isArrayLike from './_isArrayLike.js';
 import values from './values.js';
 import variance from './variance.js'
 
-// Return the maximum element (or element-based computation).
+// Return the standardDeviation element (or element-based computation).
 export default function standardDeviation(obj, iteratee, context) {
     if (!iteratee && _.isEmpty(obj)){
         return 0;

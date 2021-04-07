@@ -2,7 +2,7 @@ import isArrayLike from './_isArrayLike.js';
 import values from './values.js';
 import sortBy from './sortBy.js'
 
-// Return the maximum element (or element-based computation).
+// Return the mode element (or element-based computation).
 export default function mode(obj, iteratee, context) {
     if (!iteratee && _.isEmpty(obj)){
         return 0;

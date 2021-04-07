@@ -5,7 +5,7 @@ import each from './each.js';
 import clone from './clone.js'
 import isNumber from './isNumber.js'
 
-// Return the maximum element (or element-based computation).
+// Return the median element (or element-based computation).
 export default function median(obj, iteratee, context) {
     if (!iteratee && _.isEmpty(obj)){
         return 0;

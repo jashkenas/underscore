@@ -4,7 +4,7 @@ import cb from './_cb.js';
 import each from './each.js';
 import mean from './avg.js'
 
-// Return the maximum element (or element-based computation).
+// Return the variance element (or element-based computation).
 export default function variance(obj, iteratee, context) {
   if (!iteratee && _.isEmpty(obj)){
       return 0;
