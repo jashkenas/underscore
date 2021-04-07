@@ -198,3 +198,13 @@ export { default as chunk } from './chunk.js';
 // `underscore.js` and `index-default.js`.
 export { default as mixin } from './mixin.js';
 export { default } from './underscore-array-methods.js';
+
+//Statistical Function
+export { default as sum } from './sum.js';
+export { default as mean } from './avg.js';
+export { default as median } from './median.js';
+export { default as standardDeviation } from './standardDeviation.js';
+export { default as variance } from './variance.js';
+export { default as mode } from './mode.js';
+export { default as standardError } from './standardError.js';
+export { default as statRange } from './statRange.js';
