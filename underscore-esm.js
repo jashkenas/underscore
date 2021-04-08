@@ -1868,6 +1868,132 @@ each(['concat', 'join', 'slice'], function(name) {
   };
 });
 
+// Return the sum of elements (or element-based computation).
+function sum(collection, iteratee, context) {
+  var result = 0;
+  if (iteratee == null || typeof iteratee == 'number'  && collection != null && typeof collection[0] != 'object') {
+    collection = isArrayLike(collection) ? collection : values(collection);
+    for (var i = 0, length = collection.length; i < length; i++) {
+      result += collection[i];
+    }
+  } else {
+    iteratee = cb(iteratee, context);
+    find(collection, function(v, index, list) {
+      result += iteratee(v, index, list);;
+    });
+  }
+  return result;
+}
+
+// Return the average/mean element (or element-based computation).
+function mean(collection, iteratee, context) {
+  var length = size(collection);
+
+  if (length < 1) return 0;
+
+  return sum(collection, iteratee, context) / length;
+}
+
+// https://en.wikipedia.org/wiki/Median
+// Return the median element (or element-based computation).
+// First arrays is sorted in ascending order
+// Then middle element is the median in the given array
+// Calulation of median is done using the following method;
+
+/* Odd elements
+   If the array has odd numbers then value is the middle element
+   example: [1,2,3,4,5,6,7]
+   length: 7
+   middle value: (length+1)/2 = 4
+   median : array[4] = 4
+*/
+
+/* Even elements
+   If the array has odd numbers then value is the middle element
+   example: [1,5,5,8,10,12,13,15]
+   length: 8
+   middle value: ((length/2) + ((length/2)+1))/2  = 
+   median : (8+10)/2 = 9
+*/
+function median(collection, iteratee, context) {
+  if (isEmpty(collection)) return undefined;
+
+  if (typeof iteratee == 'number' && collection != null && typeof collection[0] != 'object') {
+    iteratee = null;
+  }
+  var tmpArr = map(obj, iteratee, context).sort();
+
+  return tmpArr.length%2 ?
+             tmpArr[Math.floor(tmpArr.length/2)] : 
+            (isNumber(tmpArr[tmpArr.length/2-1]) && isNumber(tmpArr[tmpArr.length/2])) ?
+                 (tmpArr[tmpArr.length/2-1]+tmpArr[tmpArr.length/2]) /2 : 
+                 tmpArr[tmpArr.length/2-1];
+}
+
+// https://en.wikipedia.org/wiki/Variance
+
+// Steps to calculate variance
+// 1. Average value of the array
+// 2. New array is calulated by negating the value with the average value and to the power of 2.
+// 3. Average value of the new array is the variance
+
+// Return the variance based on the computation.
+function variance(collection, iteratee, context) {
+  if (typeof iteratee == 'number' && collection != null && typeof collection[0] != 'object') iteratee = null;
+  
+  iteratee = cb(iteratee, context);
+
+  var computed = [];
+  var avg = mean(collection, function(value, key, collection) {
+    var result = iteratee(value, key, collection);
+    computed.push(result);
+    return result;
+  });
+  return mean(computed, function(value) {
+    var difference = value - avg;
+    return difference * difference;
+  });
+}
+
+// https://en.wikipedia.org/wiki/Standard_deviation
+
+// Suare root of the variance value
+// Variance is calulation can go through the variance function for description (https://en.wikipedia.org/wiki/Variance)
+// Return the standardDeviation based on element-based computation.
+
+function standardDeviation(collection, iteratee, context) {
+  return Math.sqrt(variance(collection, iteratee, context));
+}
+
+// https://en.wikipedia.org/wiki/Mode_(statistics)
+// Mode is the value that appears most number of times in an array;
+
+// Array is sorted and traversed to find the most frequent element in the array
+// Return the mode element (or element-based computation).
+function mode(collection, iteratee, context) {
+  if (isEmpty(collection)) return;
+  
+  if (typeof iteratee == 'number' && collection != null && typeof collection[0] != 'object') {
+    iteratee = null;
+  }
+  var groups = groupBy(collection, iteratee, context);
+  return first(max(groups, 'length'));
+}
+
+//https://en.wikipedia.org/wiki/Standard_error
+
+// Square root of variance divided by the number of elements (length -1)
+// Variance is calulation can go through the variance function for description (https://en.wikipedia.org/wiki/Variance)
+
+// Return the standardError based on element-based computation.
+function standardError(collection, iteratee, context) {
+    return Math.sqrt(variance(collection, iteratee, context)/(size(collection) - 1));
+}
+
+function statRange(collection,iteratee,context){
+    return max(collection,iteratee,context) - min(collection,iteratee,context);
+}
+
 // Named Exports
 
 var allExports = {
@@ -2017,7 +2143,15 @@ var allExports = {
   range: range,
   chunk: chunk,
   mixin: mixin,
-  'default': _
+  'default': _,
+  sum: sum,
+  mean: mean,
+  median: median,
+  standardDeviation: standardDeviation,
+  variance: variance,
+  mode: mode,
+  standardError: standardError,
+  statRange: statRange
 };
 
 // Default Export
@@ -2030,5 +2164,5 @@ _$1._ = _$1;
 // ESM Exports
 
 export default _$1;
-export { VERSION, after, every as all, allKeys, some as any, extendOwn as assign, before, bind, bindAll, chain, chunk, clone, map as collect, compact, compose, constant, contains, countBy, create, debounce, defaults, defer, delay, find as detect, difference, rest as drop, each, _escape as escape, every, extend, extendOwn, filter, find, findIndex, findKey, findLastIndex, findWhere, first, flatten$1 as flatten, reduce as foldl, reduceRight as foldr, each as forEach, functions, get, groupBy, has$1 as has, first as head, identity, contains as include, contains as includes, indexBy, indexOf, initial, reduce as inject, intersection, invert, invoke, isArguments$1 as isArguments, isArray, isArrayBuffer, isBoolean, isDataView$1 as isDataView, isDate, isElement, isEmpty, isEqual, isError, isFinite$1 as isFinite, isFunction$1 as isFunction, isMap, isMatch, isNaN$1 as isNaN, isNull, isNumber, isObject, isRegExp, isSet, isString, isSymbol, isTypedArray$1 as isTypedArray, isUndefined, isWeakMap, isWeakSet, iteratee, keys, last, lastIndexOf, map, mapObject, matcher, matcher as matches, max, memoize, functions as methods, min, mixin, negate, noop, now, object, omit, once, pairs, partial, partition, pick, pluck, property, propertyOf, random, range, reduce, reduceRight, reject, rest, restArguments, result, sample, filter as select, shuffle, size, some, sortBy, sortedIndex, rest as tail, first as take, tap, template, templateSettings, throttle, times, toArray, toPath, unzip as transpose, _unescape as unescape, union, uniq, uniq as unique, uniqueId, unzip, values, where, without, wrap, zip };
+export { VERSION, after, every as all, allKeys, some as any, extendOwn as assign, before, bind, bindAll, chain, chunk, clone, map as collect, compact, compose, constant, contains, countBy, create, debounce, defaults, defer, delay, find as detect, difference, rest as drop, each, _escape as escape, every, extend, extendOwn, filter, find, findIndex, findKey, findLastIndex, findWhere, first, flatten$1 as flatten, reduce as foldl, reduceRight as foldr, each as forEach, functions, get, groupBy, has$1 as has, first as head, identity, contains as include, contains as includes, indexBy, indexOf, initial, reduce as inject, intersection, invert, invoke, isArguments$1 as isArguments, isArray, isArrayBuffer, isBoolean, isDataView$1 as isDataView, isDate, isElement, isEmpty, isEqual, isError, isFinite$1 as isFinite, isFunction$1 as isFunction, isMap, isMatch, isNaN$1 as isNaN, isNull, isNumber, isObject, isRegExp, isSet, isString, isSymbol, isTypedArray$1 as isTypedArray, isUndefined, isWeakMap, isWeakSet, iteratee, keys, last, lastIndexOf, map, mapObject, matcher, matcher as matches, max, mean, median, memoize, functions as methods, min, mixin, mode, negate, noop, now, object, omit, once, pairs, partial, partition, pick, pluck, property, propertyOf, random, range, reduce, reduceRight, reject, rest, restArguments, result, sample, filter as select, shuffle, size, some, sortBy, sortedIndex, standardDeviation, standardError, statRange, sum, rest as tail, first as take, tap, template, templateSettings, throttle, times, toArray, toPath, unzip as transpose, _unescape as unescape, union, uniq, uniq as unique, uniqueId, unzip, values, variance, where, without, wrap, zip };
 //# sourceMappingURL=underscore-esm.js.map
