@@ -1,34 +1,27 @@
-import isArrayLike from './_isArrayLike.js';
-import values from './values.js';
 import cb from './_cb.js';
-import each from './each.js';
-import mean from './avg.js'
+import mean from './mean.js';
 
-// Return the variance element (or element-based computation).
-export default function variance(obj, iteratee, context) {
-  if (!iteratee && _.isEmpty(obj)){
-      return 0;
-  }
-  var result = 0;
-  if (iteratee == null || typeof iteratee == 'number' && typeof obj[0] != 'object' && obj != null) {
-    obj = isArrayLike(obj) ? obj : values(obj);
-    var avg = mean(obj);
-    var squareDiffs = obj.map(function(value){
-        return (value - avg) * (value - avg);;
-    });
-    result = mean(squareDiffs);
-  } else {
-    var tmpObj;
-    iteratee = cb(iteratee, context);
-    each(obj, function(v, index, list) {
-      computed = iteratee(v, index, list);
-      tmpObj.push(iteratee ? computed : v);
-    });
-    var avg = mean(tmpObj);
-    var squareDiffs = tmpObj.map(function(value){
-        return (value - avg) * (value - avg);;
-    });
-    result = mean(squareDiffs);
-  }
-  return result;
+// https://en.wikipedia.org/wiki/Variance
+
+// Steps to calculate variance
+// 1. Average value of the array
+// 2. New array is calulated by negating the value with the average value and to the power of 2.
+// 3. Average value of the new array is the variance
+
+// Return the variance based on the computation.
+export default function variance(collection, iteratee, context) {
+  if (typeof iteratee == 'number' && collection != null && typeof collection[0] != 'object') iteratee = null;
+  
+  iteratee = cb(iteratee, context);
+
+  var computed = [];
+  var avg = mean(collection, function(value, key, collection) {
+    var result = iteratee(value, key, collection);
+    computed.push(result);
+    return result;
+  });
+  return mean(computed, function(value) {
+    var difference = value - avg;
+    return difference * difference;
+  });
 }

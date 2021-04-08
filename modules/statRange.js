@@ -1,6 +1,6 @@
-import max from './max.js'
-import min from './min.js'
+import max from './max.js';
+import min from './min.js';
 
-export default function statRange(obj,iteratee,context){
-    return max(obj,iteratee,context) - min(obj,iteratee,context);
+export default function statRange(collection,iteratee,context){
+    return max(collection,iteratee,context) - min(collection,iteratee,context);
 }
