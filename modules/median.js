@@ -29,7 +29,7 @@ export default function median(collection, iteratee, context) {
   if (typeof iteratee == 'number' && collection != null && typeof collection[0] != 'object') {
     iteratee = null;
   }
-  var tmpArr = map(obj, iteratee, context).sort();
+  var tmpArr = map(collection, iteratee, context).sort();
 
   return tmpArr.length%2 ?
              tmpArr[Math.floor(tmpArr.length/2)] : 
