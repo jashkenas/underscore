@@ -2,6 +2,8 @@
 
 * This project adheres to a [code of conduct](CODE_OF_CONDUCT.md). By participating, you are expected to uphold this code.
 
+* Please do not open a ticket to report a security issue. Consult the [security policy](SECURITY.md) on what to do instead.
+
 * Before you open a ticket or send a pull request, [search](https://github.com/jashkenas/underscore/issues) for previous discussions about the same feature or issue. Add to the earlier ticket if you find one.
 
 * If you're proposing a new feature, make sure it isn't already implemented in [Underscore-Contrib](https://github.com/documentcloud/underscore-contrib).
@@ -12,4 +14,4 @@
 
 * Use the same coding style as the rest of the [codebase](https://github.com/jashkenas/underscore/blob/master/modules/index.js).
 
-* In your pull request, do not add documentation or re-build the minified `underscore-min.js` file. We'll do those things before cutting a new release.
+* In your pull request, do not add documentation or re-build the minified `underscore-umd-min.js` file. We'll do those things before cutting a new release.

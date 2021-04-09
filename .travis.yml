@@ -5,15 +5,22 @@ sudo: false
 jobs:
   include:
     - node_js: 8
-      env: EXTRA=false
+      env:
+        - DOWNGRADE=true
+        - EXTRA=false
     - node_js: 10
-      env: EXTRA=true
+      env:
+        - DOWNGRADE=false
+        - EXTRA=false
     - node_js: 14
-      env: EXTRA=false
+      env:
+        - DOWNGRADE=false
+        - EXTRA=true
 before_install:
   - npm install -g karma-cli
 before_script:
   - npm install karma-sauce-launcher
+  - "[ $DOWNGRADE = false ] || npm install rollup@1"
 script:
   - npm test
   - "[ $EXTRA = false ] || npm run test-browser"

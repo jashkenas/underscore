@@ -33,7 +33,7 @@
       var done = assert.async();
       var fs = require('fs');
       var vm = require('vm');
-      var filename = __dirname + '/../underscore.js';
+      var filename = __dirname + '/../underscore-umd.js';
       fs.readFile(filename, function(err, content){
         var sandbox = vm.createScript(
           content + 'this.underscore = this._.noConflict();',
@@ -51,7 +51,7 @@
 
   if (typeof require == 'function') {
     QUnit.test('Legacy Node API', function(assert) {
-      var filename = __dirname + '/../underscore.js';
+      var filename = __dirname + '/../underscore-umd.js';
       var resolved = require(filename);
       assert.strictEqual(resolved, resolved._);
     });
