@@ -3,7 +3,7 @@
   if (typeof require !== 'function') return;
 
   var fixturePrefix = __dirname + '/../test-treeshake/';
-  var moduleName = __dirname + '/../underscore.js';
+  var moduleName = __dirname + '/../underscore-umd.js';
   var fs = require('fs');
 
   QUnit.module('Tree-shaking');

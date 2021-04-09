@@ -27,7 +27,7 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-1">&#182;</a>
               </div>
-              <pre><code>Underscore.js <span class="hljs-number">1.12</span><span class="hljs-number">.1</span>
+              <pre><code>Underscore.js <span class="hljs-number">1.13</span><span class="hljs-number">.0</span><span class="hljs-number">-3</span>
 <span class="hljs-attr">https</span>:<span class="hljs-comment">//underscorejs.org</span>
 (c) <span class="hljs-number">2009</span><span class="hljs-number">-2020</span> Jeremy Ashkenas, DocumentCloud and Investigative Reporters &amp; Editors
 Underscore may be freely distributed under the MIT license.</code></pre>
@@ -46,7 +46,7 @@ Underscore may be freely distributed under the MIT license.</code></pre>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">var</span> VERSION = <span class="hljs-string">'1.12.1'</span>;</pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">var</span> VERSION = <span class="hljs-string">'1.13.0-3'</span>;</pre></div></div>
             
         </li>
         
@@ -443,7 +443,7 @@ Delegates to ECMA5’s native <code>Array.isArray</code>.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">has</span>(<span class="hljs-params">obj, key</span>) </span>{
+            <div class="content"><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">has$1</span>(<span class="hljs-params">obj, key</span>) </span>{
   <span class="hljs-keyword">return</span> obj != <span class="hljs-literal">null</span> &amp;&amp; hasOwnProperty.call(obj, key);
 }
 
@@ -466,7 +466,7 @@ there isn’t any inspectable “Arguments” type.</p>
             <div class="content"><div class='highlight'><pre>(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
   <span class="hljs-keyword">if</span> (!isArguments(<span class="hljs-built_in">arguments</span>)) {
     isArguments = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">obj</span>) </span>{
-      <span class="hljs-keyword">return</span> has(obj, <span class="hljs-string">'callee'</span>);
+      <span class="hljs-keyword">return</span> has$<span class="hljs-number">1</span>(obj, <span class="hljs-string">'callee'</span>);
     };
   }
 }());
@@ -710,7 +710,7 @@ needed.</p>
             </div>
             
             <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">var</span> prop = <span class="hljs-string">'constructor'</span>;
-  <span class="hljs-keyword">if</span> (has(obj, prop) &amp;&amp; !keys.contains(prop)) keys.push(prop);
+  <span class="hljs-keyword">if</span> (has$<span class="hljs-number">1</span>(obj, prop) &amp;&amp; !keys.contains(prop)) keys.push(prop);
 
   <span class="hljs-keyword">while</span> (nonEnumIdx--) {
     prop = nonEnumerableProps[nonEnumIdx];
@@ -738,7 +738,7 @@ Delegates to <strong>ECMAScript 5</strong>‘s native <code>Object.keys</code>.<
   <span class="hljs-keyword">if</span> (!isObject(obj)) <span class="hljs-keyword">return</span> [];
   <span class="hljs-keyword">if</span> (nativeKeys) <span class="hljs-keyword">return</span> nativeKeys(obj);
   <span class="hljs-keyword">var</span> keys = [];
-  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> key <span class="hljs-keyword">in</span> obj) <span class="hljs-keyword">if</span> (has(obj, key)) keys.push(key);</pre></div></div>
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> key <span class="hljs-keyword">in</span> obj) <span class="hljs-keyword">if</span> (has$<span class="hljs-number">1</span>(obj, key)) keys.push(key);</pre></div></div>
             
         </li>
         
@@ -834,13 +834,13 @@ through <code>_.mixin</code>. Wrapped objects may be chained.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">_</span>(<span class="hljs-params">obj</span>) </span>{
-  <span class="hljs-keyword">if</span> (obj <span class="hljs-keyword">instanceof</span> _) <span class="hljs-keyword">return</span> obj;
-  <span class="hljs-keyword">if</span> (!(<span class="hljs-keyword">this</span> <span class="hljs-keyword">instanceof</span> _)) <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> _(obj);
+            <div class="content"><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">_$1</span>(<span class="hljs-params">obj</span>) </span>{
+  <span class="hljs-keyword">if</span> (obj <span class="hljs-keyword">instanceof</span> _$<span class="hljs-number">1</span>) <span class="hljs-keyword">return</span> obj;
+  <span class="hljs-keyword">if</span> (!(<span class="hljs-keyword">this</span> <span class="hljs-keyword">instanceof</span> _$<span class="hljs-number">1</span>)) <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> _$<span class="hljs-number">1</span>(obj);
   <span class="hljs-keyword">this</span>._wrapped = obj;
 }
 
-_.VERSION = VERSION;</pre></div></div>
+_$<span class="hljs-number">1.</span>VERSION = VERSION;</pre></div></div>
             
         </li>
         
@@ -855,7 +855,7 @@ _.VERSION = VERSION;</pre></div></div>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>_.prototype.value = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+            <div class="content"><div class='highlight'><pre>_$<span class="hljs-number">1.</span>prototype.value = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
   <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>._wrapped;
 };</pre></div></div>
             
@@ -873,9 +873,9 @@ such as arithmetic and JSON stringification.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>_.prototype.valueOf = _.prototype.toJSON = _.prototype.value;
+            <div class="content"><div class='highlight'><pre>_$<span class="hljs-number">1.</span>prototype.valueOf = _$<span class="hljs-number">1.</span>prototype.toJSON = _$<span class="hljs-number">1.</span>prototype.value;
 
-_.prototype.toString = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+_$<span class="hljs-number">1.</span>prototype.toString = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
   <span class="hljs-keyword">return</span> <span class="hljs-built_in">String</span>(<span class="hljs-keyword">this</span>._wrapped);
 };</pre></div></div>
             
@@ -1023,8 +1023,8 @@ See the <a href="https://wiki.ecmascript.org/doku.php?id=harmony:egal">Harmony <
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">if</span> (a <span class="hljs-keyword">instanceof</span> _) a = a._wrapped;
-  <span class="hljs-keyword">if</span> (b <span class="hljs-keyword">instanceof</span> _) b = b._wrapped;</pre></div></div>
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">if</span> (a <span class="hljs-keyword">instanceof</span> _$<span class="hljs-number">1</span>) a = a._wrapped;
+  <span class="hljs-keyword">if</span> (b <span class="hljs-keyword">instanceof</span> _$<span class="hljs-number">1</span>) b = b._wrapped;</pre></div></div>
             
         </li>
         
@@ -1371,7 +1371,7 @@ unique nested structures.</p>
             </div>
             
             <div class="content"><div class='highlight'><pre>      key = _keys[length];
-      <span class="hljs-keyword">if</span> (!(has(b, key) &amp;&amp; eq(a[key], b[key], aStack, bStack))) <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+      <span class="hljs-keyword">if</span> (!(has$<span class="hljs-number">1</span>(b, key) &amp;&amp; eq(a[key], b[key], aStack, bStack))) <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
     }
   }</pre></div></div>
             
@@ -1830,10 +1830,10 @@ Like <code>_.iteratee</code>, this function can be customized.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">toPath</span>(<span class="hljs-params">path</span>) </span>{
+            <div class="content"><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">toPath$1</span>(<span class="hljs-params">path</span>) </span>{
   <span class="hljs-keyword">return</span> isArray(path) ? path : [path];
 }
-_.toPath = toPath;</pre></div></div>
+_$<span class="hljs-number">1.</span>toPath = toPath$<span class="hljs-number">1</span>;</pre></div></div>
             
         </li>
         
@@ -1849,8 +1849,8 @@ Similar to <code>cb</code> for <code>_.iteratee</code>.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">toPath$1</span>(<span class="hljs-params">path</span>) </span>{
-  <span class="hljs-keyword">return</span> _.toPath(path);
+            <div class="content"><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">toPath</span>(<span class="hljs-params">path</span>) </span>{
+  <span class="hljs-keyword">return</span> _$<span class="hljs-number">1.</span>toPath(path);
 }</pre></div></div>
             
         </li>
@@ -1892,7 +1892,7 @@ The <code>path</code> is normalized through <code>_.toPath</code>.</p>
             </div>
             
             <div class="content"><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">get</span>(<span class="hljs-params">object, path, defaultValue</span>) </span>{
-  <span class="hljs-keyword">var</span> value = deepGet(object, toPath$<span class="hljs-number">1</span>(path));
+  <span class="hljs-keyword">var</span> value = deepGet(object, toPath(path));
   <span class="hljs-keyword">return</span> isUndefined(value) ? defaultValue : value;
 }</pre></div></div>
             
@@ -1911,12 +1911,12 @@ function, this public version can also traverse nested properties.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">has$1</span>(<span class="hljs-params">obj, path</span>) </span>{
-  path = toPath$<span class="hljs-number">1</span>(path);
+            <div class="content"><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">has</span>(<span class="hljs-params">obj, path</span>) </span>{
+  path = toPath(path);
   <span class="hljs-keyword">var</span> length = path.length;
   <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; length; i++) {
     <span class="hljs-keyword">var</span> key = path[i];
-    <span class="hljs-keyword">if</span> (!has(obj, key)) <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+    <span class="hljs-keyword">if</span> (!has$<span class="hljs-number">1</span>(obj, key)) <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
     obj = obj[key];
   }
   <span class="hljs-keyword">return</span> !!length;
@@ -1975,7 +1975,7 @@ properties down the given <code>path</code>, specified as an array of keys or in
             </div>
             
             <div class="content"><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">property</span>(<span class="hljs-params">path</span>) </span>{
-  path = toPath$<span class="hljs-number">1</span>(path);
+  path = toPath(path);
   <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">obj</span>) </span>{
     <span class="hljs-keyword">return</span> deepGet(obj, path);
   };
@@ -2068,7 +2068,7 @@ This abstraction hides the internal-only <code>argCount</code> argument.</p>
             <div class="content"><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">iteratee</span>(<span class="hljs-params">value, context</span>) </span>{
   <span class="hljs-keyword">return</span> baseIteratee(value, context, <span class="hljs-literal">Infinity</span>);
 }
-_.iteratee = iteratee;</pre></div></div>
+_$<span class="hljs-number">1.</span>iteratee = iteratee;</pre></div></div>
             
         </li>
         
@@ -2085,7 +2085,7 @@ _.iteratee = iteratee;</pre></div></div>
             </div>
             
             <div class="content"><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">cb</span>(<span class="hljs-params">value, context, argCount</span>) </span>{
-  <span class="hljs-keyword">if</span> (_.iteratee !== iteratee) <span class="hljs-keyword">return</span> _.iteratee(value, context);
+  <span class="hljs-keyword">if</span> (_$<span class="hljs-number">1.</span>iteratee !== iteratee) <span class="hljs-keyword">return</span> _$<span class="hljs-number">1.</span>iteratee(value, context);
   <span class="hljs-keyword">return</span> baseIteratee(value, context, argCount);
 }</pre></div></div>
             
@@ -2330,7 +2330,7 @@ following template settings to use alternative delimiters.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">var</span> templateSettings = _.templateSettings = {
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">var</span> templateSettings = _$<span class="hljs-number">1.</span>templateSettings = {
   <span class="hljs-attr">evaluate</span>: <span class="hljs-regexp">/&lt;%([\s\S]+?)%&gt;/g</span>,
   interpolate: <span class="hljs-regexp">/&lt;%=([\s\S]+?)%&gt;/g</span>,
   <span class="hljs-built_in">escape</span>: <span class="hljs-regexp">/&lt;%-([\s\S]+?)%&gt;/g</span>
@@ -2419,7 +2419,7 @@ NB: <code>oldSettings</code> only exists for backwards compatibility.</p>
             
             <div class="content"><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">template</span>(<span class="hljs-params">text, settings, oldSettings</span>) </span>{
   <span class="hljs-keyword">if</span> (!settings &amp;&amp; oldSettings) settings = oldSettings;
-  settings = defaults({}, settings, _.templateSettings);</pre></div></div>
+  settings = defaults({}, settings, _$<span class="hljs-number">1.</span>templateSettings);</pre></div></div>
             
         </li>
         
@@ -2535,7 +2535,7 @@ NB: <code>oldSettings</code> only exists for backwards compatibility.</p>
   }
 
   <span class="hljs-keyword">var</span> template = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">data</span>) </span>{
-    <span class="hljs-keyword">return</span> render.call(<span class="hljs-keyword">this</span>, data, _);
+    <span class="hljs-keyword">return</span> render.call(<span class="hljs-keyword">this</span>, data, _$<span class="hljs-number">1</span>);
   };</pre></div></div>
             
         </li>
@@ -2572,7 +2572,7 @@ child, or <code>fallback</code> if any child is undefined.</p>
             </div>
             
             <div class="content"><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">result</span>(<span class="hljs-params">obj, path, fallback</span>) </span>{
-  path = toPath$<span class="hljs-number">1</span>(path);
+  path = toPath(path);
   <span class="hljs-keyword">var</span> length = path.length;
   <span class="hljs-keyword">if</span> (!length) {
     <span class="hljs-keyword">return</span> isFunction$<span class="hljs-number">1</span>(fallback) ? fallback.call(obj) : fallback;
@@ -2622,7 +2622,7 @@ Useful for temporary DOM ids.</p>
             </div>
             
             <div class="content"><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">chain</span>(<span class="hljs-params">obj</span>) </span>{
-  <span class="hljs-keyword">var</span> instance = _(obj);
+  <span class="hljs-keyword">var</span> instance = _$<span class="hljs-number">1</span>(obj);
   instance._chain = <span class="hljs-literal">true</span>;
   <span class="hljs-keyword">return</span> instance;
 }</pre></div></div>
@@ -2680,7 +2680,7 @@ pre-filled. Set <code>_.partial.placeholder</code> for a custom placeholder argu
   <span class="hljs-keyword">return</span> bound;
 });
 
-partial.placeholder = _;</pre></div></div>
+partial.placeholder = _$<span class="hljs-number">1</span>;</pre></div></div>
             
         </li>
         
@@ -2735,7 +2735,7 @@ Avoids a very nasty iOS 8 JIT bug on ARM-64. #2094</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">flatten</span>(<span class="hljs-params">input, depth, strict, output</span>) </span>{
+            <div class="content"><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">flatten$1</span>(<span class="hljs-params">input, depth, strict, output</span>) </span>{
   output = output || [];
   <span class="hljs-keyword">if</span> (!depth &amp;&amp; depth !== <span class="hljs-number">0</span>) {
     depth = <span class="hljs-literal">Infinity</span>;
@@ -2761,7 +2761,7 @@ Avoids a very nasty iOS 8 JIT bug on ARM-64. #2094</p>
             </div>
             
             <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">if</span> (depth &gt; <span class="hljs-number">1</span>) {
-        flatten(value, depth - <span class="hljs-number">1</span>, strict, output);
+        flatten$<span class="hljs-number">1</span>(value, depth - <span class="hljs-number">1</span>, strict, output);
         idx = output.length;
       } <span class="hljs-keyword">else</span> {
         <span class="hljs-keyword">var</span> j = <span class="hljs-number">0</span>, len = value.length;
@@ -2790,7 +2790,7 @@ defined on an object belong to it.</p>
             </div>
             
             <div class="content"><div class='highlight'><pre><span class="hljs-keyword">var</span> bindAll = restArguments(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">obj, keys</span>) </span>{
-  keys = flatten(keys, <span class="hljs-literal">false</span>, <span class="hljs-literal">false</span>);
+  keys = flatten$<span class="hljs-number">1</span>(keys, <span class="hljs-literal">false</span>, <span class="hljs-literal">false</span>);
   <span class="hljs-keyword">var</span> index = keys.length;
   <span class="hljs-keyword">if</span> (index &lt; <span class="hljs-number">1</span>) <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">'bindAll must be passed function names'</span>);
   <span class="hljs-keyword">while</span> (index--) {
@@ -2817,7 +2817,7 @@ defined on an object belong to it.</p>
   <span class="hljs-keyword">var</span> memoize = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">key</span>) </span>{
     <span class="hljs-keyword">var</span> cache = memoize.cache;
     <span class="hljs-keyword">var</span> address = <span class="hljs-string">''</span> + (hasher ? hasher.apply(<span class="hljs-keyword">this</span>, <span class="hljs-built_in">arguments</span>) : key);
-    <span class="hljs-keyword">if</span> (!has(cache, address)) cache[address] = func.apply(<span class="hljs-keyword">this</span>, <span class="hljs-built_in">arguments</span>);
+    <span class="hljs-keyword">if</span> (!has$<span class="hljs-number">1</span>(cache, address)) cache[address] = func.apply(<span class="hljs-keyword">this</span>, <span class="hljs-built_in">arguments</span>);
     <span class="hljs-keyword">return</span> cache[address];
   };
   memoize.cache = {};
@@ -2858,7 +2858,7 @@ cleared.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">var</span> defer = partial(delay, _, <span class="hljs-number">1</span>);</pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">var</span> defer = partial(delay, _$<span class="hljs-number">1</span>, <span class="hljs-number">1</span>);</pre></div></div>
             
         </li>
         
@@ -3578,7 +3578,7 @@ or <code>foldl</code>.</p>
   <span class="hljs-keyword">if</span> (isFunction$<span class="hljs-number">1</span>(path)) {
     func = path;
   } <span class="hljs-keyword">else</span> {
-    path = toPath$<span class="hljs-number">1</span>(path);
+    path = toPath(path);
     contextPath = path.slice(<span class="hljs-number">0</span>, <span class="hljs-number">-1</span>);
     path = path[path.length - <span class="hljs-number">1</span>];
   }
@@ -3828,7 +3828,7 @@ to group by, or a function that returns the criterion.</p>
             </div>
             
             <div class="content"><div class='highlight'><pre><span class="hljs-keyword">var</span> groupBy = group(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">result, value, key</span>) </span>{
-  <span class="hljs-keyword">if</span> (has(result, key)) result[key].push(value); <span class="hljs-keyword">else</span> result[key] = [value];
+  <span class="hljs-keyword">if</span> (has$<span class="hljs-number">1</span>(result, key)) result[key].push(value); <span class="hljs-keyword">else</span> result[key] = [value];
 });</pre></div></div>
             
         </li>
@@ -3865,7 +3865,7 @@ criterion.</p>
             </div>
             
             <div class="content"><div class='highlight'><pre><span class="hljs-keyword">var</span> countBy = group(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">result, value, key</span>) </span>{
-  <span class="hljs-keyword">if</span> (has(result, key)) result[key]++; <span class="hljs-keyword">else</span> result[key] = <span class="hljs-number">1</span>;
+  <span class="hljs-keyword">if</span> (has$<span class="hljs-number">1</span>(result, key)) result[key]++; <span class="hljs-keyword">else</span> result[key] = <span class="hljs-number">1</span>;
 });</pre></div></div>
             
         </li>
@@ -3981,7 +3981,7 @@ property name of <code>obj</code>.</p>
     keys = allKeys(obj);
   } <span class="hljs-keyword">else</span> {
     iteratee = keyInObj;
-    keys = flatten(keys, <span class="hljs-literal">false</span>, <span class="hljs-literal">false</span>);
+    keys = flatten$<span class="hljs-number">1</span>(keys, <span class="hljs-literal">false</span>, <span class="hljs-literal">false</span>);
     obj = <span class="hljs-built_in">Object</span>(obj);
   }
   <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>, length = keys.length; i &lt; length; i++) {
@@ -4011,7 +4011,7 @@ property name of <code>obj</code>.</p>
     iteratee = negate(iteratee);
     <span class="hljs-keyword">if</span> (keys.length &gt; <span class="hljs-number">1</span>) context = keys[<span class="hljs-number">1</span>];
   } <span class="hljs-keyword">else</span> {
-    keys = map(flatten(keys, <span class="hljs-literal">false</span>, <span class="hljs-literal">false</span>), <span class="hljs-built_in">String</span>);
+    keys = map(flatten$<span class="hljs-number">1</span>(keys, <span class="hljs-literal">false</span>, <span class="hljs-literal">false</span>), <span class="hljs-built_in">String</span>);
     iteratee = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">value, key</span>) </span>{
       <span class="hljs-keyword">return</span> !contains(keys, key);
     };
@@ -4128,8 +4128,8 @@ Passing <code>true</code> or <code>false</code> as <code>depth</code> means <cod
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">flatten$1</span>(<span class="hljs-params">array, depth</span>) </span>{
-  <span class="hljs-keyword">return</span> flatten(array, depth, <span class="hljs-literal">false</span>);
+            <div class="content"><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">flatten</span>(<span class="hljs-params">array, depth</span>) </span>{
+  <span class="hljs-keyword">return</span> flatten$<span class="hljs-number">1</span>(array, depth, <span class="hljs-literal">false</span>);
 }</pre></div></div>
             
         </li>
@@ -4147,7 +4147,7 @@ Only the elements present in just the first array will remain.</p>
             </div>
             
             <div class="content"><div class='highlight'><pre><span class="hljs-keyword">var</span> difference = restArguments(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">array, rest</span>) </span>{
-  rest = flatten(rest, <span class="hljs-literal">true</span>, <span class="hljs-literal">true</span>);
+  rest = flatten$<span class="hljs-number">1</span>(rest, <span class="hljs-literal">true</span>, <span class="hljs-literal">true</span>);
   <span class="hljs-keyword">return</span> filter(array, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">value</span>)</span>{
     <span class="hljs-keyword">return</span> !contains(rest, value);
   });
@@ -4229,7 +4229,7 @@ the passed-in arrays.</p>
             </div>
             
             <div class="content"><div class='highlight'><pre><span class="hljs-keyword">var</span> union = restArguments(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">arrays</span>) </span>{
-  <span class="hljs-keyword">return</span> uniq(flatten(arrays, <span class="hljs-literal">true</span>, <span class="hljs-literal">true</span>));
+  <span class="hljs-keyword">return</span> uniq(flatten$<span class="hljs-number">1</span>(arrays, <span class="hljs-literal">true</span>, <span class="hljs-literal">true</span>));
 });</pre></div></div>
             
         </li>
@@ -4400,7 +4400,7 @@ items.</p>
             </div>
             
             <div class="content"><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">chainResult</span>(<span class="hljs-params">instance, obj</span>) </span>{
-  <span class="hljs-keyword">return</span> instance._chain ? _(obj).chain() : obj;
+  <span class="hljs-keyword">return</span> instance._chain ? _$<span class="hljs-number">1</span>(obj).chain() : obj;
 }</pre></div></div>
             
         </li>
@@ -4418,14 +4418,14 @@ items.</p>
             
             <div class="content"><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">mixin</span>(<span class="hljs-params">obj</span>) </span>{
   each(functions(obj), <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">name</span>) </span>{
-    <span class="hljs-keyword">var</span> func = _[name] = obj[name];
-    _.prototype[name] = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+    <span class="hljs-keyword">var</span> func = _$<span class="hljs-number">1</span>[name] = obj[name];
+    _$<span class="hljs-number">1.</span>prototype[name] = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
       <span class="hljs-keyword">var</span> args = [<span class="hljs-keyword">this</span>._wrapped];
       push.apply(args, <span class="hljs-built_in">arguments</span>);
-      <span class="hljs-keyword">return</span> chainResult(<span class="hljs-keyword">this</span>, func.apply(_, args));
+      <span class="hljs-keyword">return</span> chainResult(<span class="hljs-keyword">this</span>, func.apply(_$<span class="hljs-number">1</span>, args));
     };
   });
-  <span class="hljs-keyword">return</span> _;
+  <span class="hljs-keyword">return</span> _$<span class="hljs-number">1</span>;
 }</pre></div></div>
             
         </li>
@@ -4443,7 +4443,7 @@ items.</p>
             
             <div class="content"><div class='highlight'><pre>each([<span class="hljs-string">'pop'</span>, <span class="hljs-string">'push'</span>, <span class="hljs-string">'reverse'</span>, <span class="hljs-string">'shift'</span>, <span class="hljs-string">'sort'</span>, <span class="hljs-string">'splice'</span>, <span class="hljs-string">'unshift'</span>], <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">name</span>) </span>{
   <span class="hljs-keyword">var</span> method = ArrayProto[name];
-  _.prototype[name] = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+  _$<span class="hljs-number">1.</span>prototype[name] = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
     <span class="hljs-keyword">var</span> obj = <span class="hljs-keyword">this</span>._wrapped;
     <span class="hljs-keyword">if</span> (obj != <span class="hljs-literal">null</span>) {
       method.apply(obj, <span class="hljs-built_in">arguments</span>);
@@ -4470,7 +4470,7 @@ items.</p>
             
             <div class="content"><div class='highlight'><pre>each([<span class="hljs-string">'concat'</span>, <span class="hljs-string">'join'</span>, <span class="hljs-string">'slice'</span>], <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">name</span>) </span>{
   <span class="hljs-keyword">var</span> method = ArrayProto[name];
-  _.prototype[name] = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+  _$<span class="hljs-number">1.</span>prototype[name] = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
     <span class="hljs-keyword">var</span> obj = <span class="hljs-keyword">this</span>._wrapped;
     <span class="hljs-keyword">if</span> (obj != <span class="hljs-literal">null</span>) obj = method.apply(obj, <span class="hljs-built_in">arguments</span>);
     <span class="hljs-keyword">return</span> chainResult(<span class="hljs-keyword">this</span>, obj);
@@ -4536,12 +4536,12 @@ items.</p>
   <span class="hljs-attr">clone</span>: clone,
   <span class="hljs-attr">tap</span>: tap,
   <span class="hljs-attr">get</span>: get,
-  <span class="hljs-attr">has</span>: has$<span class="hljs-number">1</span>,
+  <span class="hljs-attr">has</span>: has,
   <span class="hljs-attr">mapObject</span>: mapObject,
   <span class="hljs-attr">identity</span>: identity,
   <span class="hljs-attr">constant</span>: constant,
   <span class="hljs-attr">noop</span>: noop,
-  <span class="hljs-attr">toPath</span>: toPath,
+  <span class="hljs-attr">toPath</span>: toPath$<span class="hljs-number">1</span>,
   <span class="hljs-attr">property</span>: property,
   <span class="hljs-attr">propertyOf</span>: propertyOf,
   <span class="hljs-attr">matcher</span>: matcher,
@@ -4624,7 +4624,7 @@ items.</p>
   <span class="hljs-attr">tail</span>: rest,
   <span class="hljs-attr">drop</span>: rest,
   <span class="hljs-attr">compact</span>: compact,
-  <span class="hljs-attr">flatten</span>: flatten$<span class="hljs-number">1</span>,
+  <span class="hljs-attr">flatten</span>: flatten,
   <span class="hljs-attr">without</span>: without,
   <span class="hljs-attr">uniq</span>: uniq,
   <span class="hljs-attr">unique</span>: uniq,
@@ -4638,7 +4638,7 @@ items.</p>
   <span class="hljs-attr">range</span>: range,
   <span class="hljs-attr">chunk</span>: chunk,
   <span class="hljs-attr">mixin</span>: mixin,
-  <span class="hljs-string">'default'</span>: _
+  <span class="hljs-string">'default'</span>: _$<span class="hljs-number">1</span>
 };</pre></div></div>
             
         </li>
@@ -4667,7 +4667,7 @@ items.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">var</span> _$<span class="hljs-number">1</span> = mixin(allExports);</pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">var</span> _ = mixin(allExports);</pre></div></div>
             
         </li>
         
@@ -4682,7 +4682,7 @@ items.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>_$<span class="hljs-number">1.</span>_ = _$<span class="hljs-number">1</span>;</pre></div></div>
+            <div class="content"><div class='highlight'><pre>_._ = _;</pre></div></div>
             
         </li>
         
@@ -4698,8 +4698,8 @@ items.</p>
             </div>
             
             <div class="content"><div class='highlight'><pre>
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> _$<span class="hljs-number">1</span>;
-<span class="hljs-keyword">export</span> { VERSION, after, every <span class="hljs-keyword">as</span> all, allKeys, some <span class="hljs-keyword">as</span> any, extendOwn <span class="hljs-keyword">as</span> assign, before, bind, bindAll, chain, chunk, clone, map <span class="hljs-keyword">as</span> collect, compact, compose, constant, contains, countBy, create, debounce, defaults, defer, delay, find <span class="hljs-keyword">as</span> detect, difference, rest <span class="hljs-keyword">as</span> drop, each, _escape <span class="hljs-keyword">as</span> <span class="hljs-built_in">escape</span>, every, extend, extendOwn, filter, find, findIndex, findKey, findLastIndex, findWhere, first, flatten$<span class="hljs-number">1</span> <span class="hljs-keyword">as</span> flatten, reduce <span class="hljs-keyword">as</span> foldl, reduceRight <span class="hljs-keyword">as</span> foldr, each <span class="hljs-keyword">as</span> forEach, functions, get, groupBy, has$<span class="hljs-number">1</span> <span class="hljs-keyword">as</span> has, first <span class="hljs-keyword">as</span> head, identity, contains <span class="hljs-keyword">as</span> include, contains <span class="hljs-keyword">as</span> includes, indexBy, indexOf, initial, reduce <span class="hljs-keyword">as</span> inject, intersection, invert, invoke, isArguments$<span class="hljs-number">1</span> <span class="hljs-keyword">as</span> isArguments, isArray, isArrayBuffer, isBoolean, isDataView$<span class="hljs-number">1</span> <span class="hljs-keyword">as</span> isDataView, isDate, isElement, isEmpty, isEqual, isError, <span class="hljs-built_in">isFinite</span>$<span class="hljs-number">1</span> <span class="hljs-keyword">as</span> <span class="hljs-built_in">isFinite</span>, isFunction$<span class="hljs-number">1</span> <span class="hljs-keyword">as</span> isFunction, isMap, isMatch, <span class="hljs-built_in">isNaN</span>$<span class="hljs-number">1</span> <span class="hljs-keyword">as</span> <span class="hljs-built_in">isNaN</span>, isNull, isNumber, isObject, isRegExp, isSet, isString, isSymbol, isTypedArray$<span class="hljs-number">1</span> <span class="hljs-keyword">as</span> isTypedArray, isUndefined, isWeakMap, isWeakSet, iteratee, keys, last, lastIndexOf, map, mapObject, matcher, matcher <span class="hljs-keyword">as</span> matches, max, memoize, functions <span class="hljs-keyword">as</span> methods, min, mixin, negate, noop, now, object, omit, once, pairs, partial, partition, pick, pluck, property, propertyOf, random, range, reduce, reduceRight, reject, rest, restArguments, result, sample, filter <span class="hljs-keyword">as</span> select, shuffle, size, some, sortBy, sortedIndex, rest <span class="hljs-keyword">as</span> tail, first <span class="hljs-keyword">as</span> take, tap, template, templateSettings, throttle, times, toArray, toPath, unzip <span class="hljs-keyword">as</span> transpose, _unescape <span class="hljs-keyword">as</span> <span class="hljs-built_in">unescape</span>, union, uniq, uniq <span class="hljs-keyword">as</span> unique, uniqueId, unzip, values, where, without, wrap, zip };</pre></div></div>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> _;
+<span class="hljs-keyword">export</span> { VERSION, after, every <span class="hljs-keyword">as</span> all, allKeys, some <span class="hljs-keyword">as</span> any, extendOwn <span class="hljs-keyword">as</span> assign, before, bind, bindAll, chain, chunk, clone, map <span class="hljs-keyword">as</span> collect, compact, compose, constant, contains, countBy, create, debounce, defaults, defer, delay, find <span class="hljs-keyword">as</span> detect, difference, rest <span class="hljs-keyword">as</span> drop, each, _escape <span class="hljs-keyword">as</span> <span class="hljs-built_in">escape</span>, every, extend, extendOwn, filter, find, findIndex, findKey, findLastIndex, findWhere, first, flatten, reduce <span class="hljs-keyword">as</span> foldl, reduceRight <span class="hljs-keyword">as</span> foldr, each <span class="hljs-keyword">as</span> forEach, functions, get, groupBy, has, first <span class="hljs-keyword">as</span> head, identity, contains <span class="hljs-keyword">as</span> include, contains <span class="hljs-keyword">as</span> includes, indexBy, indexOf, initial, reduce <span class="hljs-keyword">as</span> inject, intersection, invert, invoke, isArguments$<span class="hljs-number">1</span> <span class="hljs-keyword">as</span> isArguments, isArray, isArrayBuffer, isBoolean, isDataView$<span class="hljs-number">1</span> <span class="hljs-keyword">as</span> isDataView, isDate, isElement, isEmpty, isEqual, isError, <span class="hljs-built_in">isFinite</span>$<span class="hljs-number">1</span> <span class="hljs-keyword">as</span> <span class="hljs-built_in">isFinite</span>, isFunction$<span class="hljs-number">1</span> <span class="hljs-keyword">as</span> isFunction, isMap, isMatch, <span class="hljs-built_in">isNaN</span>$<span class="hljs-number">1</span> <span class="hljs-keyword">as</span> <span class="hljs-built_in">isNaN</span>, isNull, isNumber, isObject, isRegExp, isSet, isString, isSymbol, isTypedArray$<span class="hljs-number">1</span> <span class="hljs-keyword">as</span> isTypedArray, isUndefined, isWeakMap, isWeakSet, iteratee, keys, last, lastIndexOf, map, mapObject, matcher, matcher <span class="hljs-keyword">as</span> matches, max, memoize, functions <span class="hljs-keyword">as</span> methods, min, mixin, negate, noop, now, object, omit, once, pairs, partial, partition, pick, pluck, property, propertyOf, random, range, reduce, reduceRight, reject, rest, restArguments, result, sample, filter <span class="hljs-keyword">as</span> select, shuffle, size, some, sortBy, sortedIndex, rest <span class="hljs-keyword">as</span> tail, first <span class="hljs-keyword">as</span> take, tap, template, templateSettings, throttle, times, toArray, toPath$<span class="hljs-number">1</span> <span class="hljs-keyword">as</span> toPath, unzip <span class="hljs-keyword">as</span> transpose, _unescape <span class="hljs-keyword">as</span> <span class="hljs-built_in">unescape</span>, union, uniq, uniq <span class="hljs-keyword">as</span> unique, uniqueId, unzip, values, where, without, wrap, zip };</pre></div></div>
             
         </li>
         
