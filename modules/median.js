@@ -9,19 +9,11 @@ import isEmpty from './isEmpty';
 // Calulation of median is done using the following method;
 
 /* Odd elements
-   If the array has odd numbers then value is the middle element
-   example: [1,2,3,4,5,6,7]
-   length: 7
-   middle value: (length+1)/2 = 4
-   median : array[4] = 4
+   If the array has odd numbers then median is the middle element
 */
 
 /* Even elements
-   If the array has odd numbers then value is the middle element
-   example: [1,5,5,8,10,12,13,15]
-   length: 8
-   middle value: ((length/2) + ((length/2)+1))/2  = 
-   median : (8+10)/2 = 9
+   If the array has even numbers then average of middle two numbers is the median value
 */
 export default function median(collection, iteratee, context) {
   if (isEmpty(collection)) return undefined;
@@ -31,9 +23,7 @@ export default function median(collection, iteratee, context) {
   }
   var tmpArr = map(collection, iteratee, context).sort();
 
-  return tmpArr.length%2 ?
-             tmpArr[Math.floor(tmpArr.length/2)] : 
-            (isNumber(tmpArr[tmpArr.length/2-1]) && isNumber(tmpArr[tmpArr.length/2])) ?
-                 (tmpArr[tmpArr.length/2-1]+tmpArr[tmpArr.length/2]) /2 : 
-                 tmpArr[tmpArr.length/2-1];
+  return tmpArr.length % 2 ?
+             tmpArr[Math.floor(tmpArr.length / 2)] : 
+                 (tmpArr[tmpArr.length / 2 - 1] + tmpArr[tmpArr.length / 2]) / 2
 }

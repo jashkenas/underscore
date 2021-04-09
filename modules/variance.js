@@ -1,14 +1,10 @@
 import cb from './_cb.js';
 import mean from './mean.js';
 
+// Return the variance of the numeric elements of the collection,
+// optionally after transforming them through `iteratee`.
+
 // https://en.wikipedia.org/wiki/Variance
-
-// Steps to calculate variance
-// 1. Average value of the array
-// 2. New array is calulated by negating the value with the average value and to the power of 2.
-// 3. Average value of the new array is the variance
-
-// Return the variance based on the computation.
 export default function variance(collection, iteratee, context) {
   if (typeof iteratee == 'number' && collection != null && typeof collection[0] != 'object') iteratee = null;
   

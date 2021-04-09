@@ -3,11 +3,9 @@ import groupBy from './groupBy.js';
 import max from './max.js';
 import first from './first.js';
 
-// https://en.wikipedia.org/wiki/Mode_(statistics)
-// Mode is the value that appears most number of times in an array;
+// Return the element (or element-based computation) that appears most frequently in the collection.
 
-// Array is sorted and traversed to find the most frequent element in the array
-// Return the mode element (or element-based computation).
+// https://en.wikipedia.org/wiki/Mode_(statistics)
 export default function mode(collection, iteratee, context) {
   if (isEmpty(collection)) return;
   
