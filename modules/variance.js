@@ -3,7 +3,6 @@ import mean from './mean.js';
 
 // Return the variance of the numeric elements of the collection,
 // optionally after transforming them through `iteratee`.
-
 // https://en.wikipedia.org/wiki/Variance
 export default function variance(collection, iteratee, context) {
   if (typeof iteratee == 'number' && collection != null && typeof collection[0] != 'object') iteratee = null;

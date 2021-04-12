@@ -1895,18 +1895,9 @@ function mean(collection, iteratee, context) {
 }
 
 // https://en.wikipedia.org/wiki/Median
-// Return the median element (or element-based computation).
-// First arrays is sorted in ascending order
-// Then middle element is the median in the given array
-// Calulation of median is done using the following method;
-
-/* Odd elements
-   If the array has odd numbers then median is the middle element
-*/
-
-/* Even elements
-   If the array has even numbers then average of middle two numbers is the median value
-*/
+// Calulation of median is done using the following method.
+// If the array has odd numbers then median is the middle element.
+// If the array has even numbers then average of middle two numbers is the median value.
 function median(collection, iteratee, context) {
   if (isEmpty(collection)) return undefined;
 
@@ -1922,7 +1913,6 @@ function median(collection, iteratee, context) {
 
 // Return the variance of the numeric elements of the collection,
 // optionally after transforming them through `iteratee`.
-
 // https://en.wikipedia.org/wiki/Variance
 function variance(collection, iteratee, context) {
   if (typeof iteratee == 'number' && collection != null && typeof collection[0] != 'object') iteratee = null;
@@ -1948,7 +1938,6 @@ function standardDeviation(collection, iteratee, context) {
 }
 
 // Return the element (or element-based computation) that appears most frequently in the collection.
-
 // https://en.wikipedia.org/wiki/Mode_(statistics)
 function mode(collection, iteratee, context) {
   if (isEmpty(collection)) return;
@@ -1961,7 +1950,6 @@ function mode(collection, iteratee, context) {
 }
 
 // Return the standard error of the mean based on element-based computation.
-
 // https://en.wikipedia.org/wiki/Standard_error
 function standardError(collection, iteratee, context) {
     return Math.sqrt(variance(collection, iteratee, context)/(size(collection) - 1));

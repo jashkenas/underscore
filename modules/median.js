@@ -2,18 +2,9 @@ import map from './map.js'
 import isEmpty from './isEmpty';
 
 // https://en.wikipedia.org/wiki/Median
-// Return the median element (or element-based computation).
-// First arrays is sorted in ascending order
-// Then middle element is the median in the given array
-// Calulation of median is done using the following method;
-
-/* Odd elements
-   If the array has odd numbers then median is the middle element
-*/
-
-/* Even elements
-   If the array has even numbers then average of middle two numbers is the median value
-*/
+// Calulation of median is done using the following method.
+// If the array has odd numbers then median is the middle element.
+// If the array has even numbers then average of middle two numbers is the median value.
 export default function median(collection, iteratee, context) {
   if (isEmpty(collection)) return undefined;
 

@@ -4,7 +4,6 @@ import max from './max.js';
 import first from './first.js';
 
 // Return the element (or element-based computation) that appears most frequently in the collection.
-
 // https://en.wikipedia.org/wiki/Mode_(statistics)
 export default function mode(collection, iteratee, context) {
   if (isEmpty(collection)) return;
