@@ -1971,6 +1971,25 @@ function statRange(collection, iteratee, context){
     return max(collection, iteratee, context) - min(collection, iteratee, context);
 }
 
+// Return the percentile value of the numeric elements from the collection
+//Ex : 50th,75th,99th etc.
+//https://en.wikipedia.org/wiki/Percentile
+function percentile(collection, percentile) {
+    if (isEmpty(collection)) return 0;
+    if (typeof percentile !== 'number') throw new TypeError('Percentile must be a number between 0 - 100');
+    if (percentile <= 0) return collection[0];
+    if (percentile >= 100) return collection[collection.length - 1];
+
+    collection = sortBy(collection);
+    var index = (percentile/100) * (collection.length - 1),
+        lowerIndex = Math.floor(index),
+        upperIndex = lowerIndex + 1,
+        weight = index % 1;
+
+    if (upperIndex >= collection.length) return collection[lowerIndex];
+    return collection[lowerIndex] * (1 - weight) + collection[upperIndex] * weight;
+}
+
 // Named Exports
 
 var allExports = {
@@ -2128,7 +2147,8 @@ var allExports = {
   variance: variance,
   mode: mode,
   standardError: standardError,
-  statRange: statRange
+  statRange: statRange,
+  percentile: percentile
 };
 
 // Default Export
@@ -2141,5 +2161,5 @@ _$1._ = _$1;
 // ESM Exports
 
 export default _$1;
-export { VERSION, after, every as all, allKeys, some as any, extendOwn as assign, before, bind, bindAll, chain, chunk, clone, map as collect, compact, compose, constant, contains, countBy, create, debounce, defaults, defer, delay, find as detect, difference, rest as drop, each, _escape as escape, every, extend, extendOwn, filter, find, findIndex, findKey, findLastIndex, findWhere, first, flatten$1 as flatten, reduce as foldl, reduceRight as foldr, each as forEach, functions, get, groupBy, has$1 as has, first as head, identity, contains as include, contains as includes, indexBy, indexOf, initial, reduce as inject, intersection, invert, invoke, isArguments$1 as isArguments, isArray, isArrayBuffer, isBoolean, isDataView$1 as isDataView, isDate, isElement, isEmpty, isEqual, isError, isFinite$1 as isFinite, isFunction$1 as isFunction, isMap, isMatch, isNaN$1 as isNaN, isNull, isNumber, isObject, isRegExp, isSet, isString, isSymbol, isTypedArray$1 as isTypedArray, isUndefined, isWeakMap, isWeakSet, iteratee, keys, last, lastIndexOf, map, mapObject, matcher, matcher as matches, max, mean, median, memoize, functions as methods, min, mixin, mode, negate, noop, now, object, omit, once, pairs, partial, partition, pick, pluck, property, propertyOf, random, range, reduce, reduceRight, reject, rest, restArguments, result, sample, filter as select, shuffle, size, some, sortBy, sortedIndex, standardDeviation, standardError, statRange, sum, rest as tail, first as take, tap, template, templateSettings, throttle, times, toArray, toPath, unzip as transpose, _unescape as unescape, union, uniq, uniq as unique, uniqueId, unzip, values, variance, where, without, wrap, zip };
+export { VERSION, after, every as all, allKeys, some as any, extendOwn as assign, before, bind, bindAll, chain, chunk, clone, map as collect, compact, compose, constant, contains, countBy, create, debounce, defaults, defer, delay, find as detect, difference, rest as drop, each, _escape as escape, every, extend, extendOwn, filter, find, findIndex, findKey, findLastIndex, findWhere, first, flatten$1 as flatten, reduce as foldl, reduceRight as foldr, each as forEach, functions, get, groupBy, has$1 as has, first as head, identity, contains as include, contains as includes, indexBy, indexOf, initial, reduce as inject, intersection, invert, invoke, isArguments$1 as isArguments, isArray, isArrayBuffer, isBoolean, isDataView$1 as isDataView, isDate, isElement, isEmpty, isEqual, isError, isFinite$1 as isFinite, isFunction$1 as isFunction, isMap, isMatch, isNaN$1 as isNaN, isNull, isNumber, isObject, isRegExp, isSet, isString, isSymbol, isTypedArray$1 as isTypedArray, isUndefined, isWeakMap, isWeakSet, iteratee, keys, last, lastIndexOf, map, mapObject, matcher, matcher as matches, max, mean, median, memoize, functions as methods, min, mixin, mode, negate, noop, now, object, omit, once, pairs, partial, partition, percentile, pick, pluck, property, propertyOf, random, range, reduce, reduceRight, reject, rest, restArguments, result, sample, filter as select, shuffle, size, some, sortBy, sortedIndex, standardDeviation, standardError, statRange, sum, rest as tail, first as take, tap, template, templateSettings, throttle, times, toArray, toPath, unzip as transpose, _unescape as unescape, union, uniq, uniq as unique, uniqueId, unzip, values, variance, where, without, wrap, zip };
 //# sourceMappingURL=underscore-esm.js.map

@@ -1,5 +1,4 @@
 import map from './map.js'
-import isNumber from './isNumber.js';
 import isEmpty from './isEmpty';
 
 // https://en.wikipedia.org/wiki/Median

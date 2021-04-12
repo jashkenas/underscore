@@ -208,3 +208,4 @@ export { default as variance } from './variance.js';
 export { default as mode } from './mode.js';
 export { default as standardError } from './standardError.js';
 export { default as statRange } from './statRange.js';
+export { default as percentile } from './percentile.js';

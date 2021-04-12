@@ -79,4 +79,18 @@
         assert.strictEqual(_.statRange({}), -Infinity, 'Stat Range value of an empty object');
         assert.strictEqual(_.statRange([]), -Infinity, 'Stat Range value of an empty array');
     });
+
+    QUnit.test('percentile', function(assert) {
+
+        assert.strictEqual(_.percentile(null, 25), 0, 'can handle null/undefined');
+        assert.strictEqual(_.percentile(void 0, 50), 0, 'can handle undefined');
+        assert.strictEqual(_.percentile([0, 1, 2, 3, 4], 75), 3, "75th percentile of the numbers in the collection");
+        assert.strictEqual(_.percentile([1, 1, 3, 4], 50), 2, "50th of the numbers in the collection");
+        
+        assert.strictEqual(_.percentile({}, 10), 0, 'Percentile value of an empty object');
+        assert.strictEqual(_.percentile([], 50), 0, 'Percentile value of an empty array');
+        assert.raises(function() {
+            _.percentile([1, 1, 3, 4], "50")
+          }, TypeError, 'Percentile must be a number between 0 - 100');
+    });
 }());
