@@ -26,4 +26,9 @@ https://github.com/documentcloud
 Many thanks to our contributors:
 https://github.com/jashkenas/underscore/contributors
 
+You can support the project by donating on
+[Patreon](https://patreon.com/juliangonggrijp).
+Enterprise coverage is available as part of the
+[Tidelift Subscription](https://tidelift.com/subscription/pkg/npm-underscore?utm_source=npm-underscore&utm_medium=referral&utm_campaign=enterprise).
+
 This project adheres to a [code of conduct](CODE_OF_CONDUCT.md). By participating, you are expected to uphold this code.

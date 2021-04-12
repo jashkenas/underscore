@@ -1,63 +1,65 @@
-import { readFileSync } from 'fs';
-import _ from './underscore-esm.js';
 import glob from 'glob';
-
-var intro = readFileSync('modules/index.js', 'utf-8').split('\n').slice(3, 7).join('\n');
-
-var outputBase = {
-  strict: false,
-  externalLiveBindings: false,
-  freeze: false,
-};
+import { filter } from './underscore-esm.js';
+import { outputConf, sourcemapConf, monolithConf } from './rollup.common.js';
 
 export default [
-  // Monolithic ESM bundle for client use.
+  // Monolithic ESM bundle for browsers and deno.
   {
     input: 'modules/index-all.js',
     treeshake: false,
-    output: _.extend({
+    output: monolithConf({
       file: 'underscore-esm.js',
-      intro,
       format: 'esm',
-      sourcemap: true,
-      sourcemapExcludeSources: true,
-    }, outputBase),
+    }),
   },
-  // Monolithic UMD bundle for client use.
+  // Monolithic UMD bundle for browsers, AMD and old Node.js.
   {
     input: 'modules/index-default.js',
     treeshake: false,
-    output: _.extend({
-      file: 'underscore.js',
+    output: monolithConf({
+      file: 'underscore-umd.js',
       exports: 'default',
-      intro,
       format: 'umd',
       name: '_',
       amd: {
         id: 'underscore',
       },
       noConflict: true,
-      sourcemap: true,
-      sourcemapExcludeSources: true,
-    }, outputBase),
+    }),
   },
-  // AMD and CJS versions of the individual modules for development, server use
+  // Custom builds for Node.js, first pass. Second pass in rollup.config2.js.
+  {
+    input: {
+      'underscore-node-cjs-pre': 'modules/index-default.js',
+      'underscore-node-mjs-pre': 'modules/index-all.js',
+    },
+    treeshake: false,
+    output: sourcemapConf({
+      chunkFileNames: 'underscore-node-f-pre.js',
+      dir: '.',
+      minifyInternalExports: false,
+      format: 'esm',
+    }),
+  },
+  // AMD and CJS versions of the individual modules for development
   // and custom bundles.
   {
-    input: _.filter(
+    input: filter(
       glob.sync('modules/**/*.js'),
       function(path) { return path !== 'modules/index-all.js'; }
     ),
     preserveModules: true,
     output: [
-      _.extend({
+      outputConf({
         dir: 'amd',
+        exports: 'auto',
         format: 'amd',
-      }, outputBase),
-      _.extend({
+      }),
+      outputConf({
         dir: 'cjs',
+        exports: 'auto',
         format: 'cjs',
-      }, outputBase),
+      }),
     ],
   }
 ];
