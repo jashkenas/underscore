@@ -1908,14 +1908,16 @@ function median(collection, iteratee, context) {
 
   return tmpArr.length % 2 ?
              tmpArr[Math.floor(tmpArr.length / 2)] : 
-                 (tmpArr[tmpArr.length / 2 - 1] + tmpArr[tmpArr.length / 2]) / 2
+                 (tmpArr[tmpArr.length / 2 - 1] + tmpArr[tmpArr.length / 2]) / 2;
 }
 
 // Return the variance of the numeric elements of the collection,
 // optionally after transforming them through `iteratee`.
 // https://en.wikipedia.org/wiki/Variance
 function variance(collection, iteratee, context) {
-  if (typeof iteratee == 'number' && collection != null && typeof collection[0] != 'object') iteratee = null;
+  if (typeof iteratee == 'number' && collection != null && typeof collection[0] != 'object') {
+    iteratee = null;
+  }
   
   iteratee = cb(iteratee, context);
 
@@ -1952,7 +1954,7 @@ function mode(collection, iteratee, context) {
 // Return the standard error of the mean based on element-based computation.
 // https://en.wikipedia.org/wiki/Standard_error
 function standardError(collection, iteratee, context) {
-    return Math.sqrt(variance(collection, iteratee, context)/(size(collection) - 1));
+    return Math.sqrt(variance(collection, iteratee, context) / (size(collection) - 1));
 }
 
 function statRange(collection, iteratee, context){
@@ -1963,19 +1965,19 @@ function statRange(collection, iteratee, context){
 //Ex : 50th,75th,99th etc.
 //https://en.wikipedia.org/wiki/Percentile
 function percentile(collection, percentile) {
-    if (isEmpty(collection)) return 0;
-    if (typeof percentile !== 'number') throw new TypeError('Percentile must be a number between 0 - 100');
-    if (percentile <= 0) return collection[0];
-    if (percentile >= 100) return collection[collection.length - 1];
+  if (isEmpty(collection)) return 0;
+  if (typeof percentile !== 'number') throw new TypeError('Percentile must be a number between 0 - 100');
+  if (percentile <= 0) return collection[0];
+  if (percentile >= 100) return collection[collection.length - 1];
 
-    collection = sortBy(collection);
-    var index = (percentile/100) * (collection.length - 1),
-        lowerIndex = Math.floor(index),
-        upperIndex = lowerIndex + 1,
-        weight = index % 1;
+  collection = sortBy(collection);
+  var index = (percentile / 100) * (collection.length - 1),
+    lowerIndex = Math.floor(index),
+    upperIndex = lowerIndex + 1,
+    weight = index % 1;
 
-    if (upperIndex >= collection.length) return collection[lowerIndex];
-    return collection[lowerIndex] * (1 - weight) + collection[upperIndex] * weight;
+  if (upperIndex >= collection.length) return collection[lowerIndex];
+  return collection[lowerIndex] * (1 - weight) + collection[upperIndex] * weight;
 }
 
 // Named Exports

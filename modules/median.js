@@ -15,5 +15,5 @@ export default function median(collection, iteratee, context) {
 
   return tmpArr.length % 2 ?
              tmpArr[Math.floor(tmpArr.length / 2)] : 
-                 (tmpArr[tmpArr.length / 2 - 1] + tmpArr[tmpArr.length / 2]) / 2
+                 (tmpArr[tmpArr.length / 2 - 1] + tmpArr[tmpArr.length / 2]) / 2;
 }

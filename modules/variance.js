@@ -5,7 +5,9 @@ import mean from './mean.js';
 // optionally after transforming them through `iteratee`.
 // https://en.wikipedia.org/wiki/Variance
 export default function variance(collection, iteratee, context) {
-  if (typeof iteratee == 'number' && collection != null && typeof collection[0] != 'object') iteratee = null;
+  if (typeof iteratee == 'number' && collection != null && typeof collection[0] != 'object') {
+    iteratee = null;
+  }
   
   iteratee = cb(iteratee, context);
 
