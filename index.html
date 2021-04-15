@@ -186,7 +186,7 @@
   <div id="sidebar" class="interface">
 
     <a class="toc_title" href="#">
-      Underscore.js <span class="version">(1.13.0)</span>
+      Underscore.js <span class="version">(1.13.1)</span>
     </a>
     <ul class="toc_section">
       <li>&raquo; <a href="https://github.com/jashkenas/underscore">GitHub Repository</a></li>
@@ -474,34 +474,34 @@
       <i>Underscore is an open-source component of <a href="https://documentcloud.org/">DocumentCloud</a>.</i>
     </p>
 
-    <h2>v1.13.0 Downloads <i style="padding-left: 12px; font-size:12px;">(Right-click, and use "Save As")</i></h2>
+    <h2>v1.13.1 Downloads <i style="padding-left: 12px; font-size:12px;">(Right-click, and use "Save As")</i></h2>
 
     <table>
       <tr>
         <td class="dl-link"><a href="underscore-esm.js">ESM (Development)</a></td>
         <td>
-          <i>65.08kb, Uncompressed with Plentiful Comments</i>
+          <i>65.9 KB, Uncompressed with Plentiful Comments</i>
           &nbsp;<small>(<a href="underscore-esm.js.map">Source Map</a>)</small>
         </td>
       </tr>
       <tr>
         <td class="dl-link"><a href="underscore-esm-min.js">ESM (Production)</a></td>
         <td>
-          <i>8.5kb, Minified and Gzipped</i>
+          <i>8.59 KB, Minified and Gzipped</i>
           &nbsp;<small>(<a href="underscore-esm-min.js.map">Source Map</a>)</small>
         </td>
       </tr>
       <tr>
         <td class="dl-link"><a href="underscore-umd.js">UMD (Development)</a></td>
         <td>
-          <i>67.45kb, Uncompressed with Bountiful Comments</i>
+          <i>68.4 KB, Uncompressed with Bountiful Comments</i>
           &nbsp;<small>(<a href="underscore-umd.js.map">Source Map</a>)</small>
         </td>
       </tr>
       <tr>
         <td class="dl-link"><a href="underscore-umd-min.js">UMD (Production)</a></td>
         <td>
-          <i>7.39kb, Minified and Gzipped</i>
+          <i>7.48 KB, Minified and Gzipped</i>
           &nbsp;<small>(<a href="underscore-umd-min.js.map">Source Map</a>)</small>
         </td>
       </tr>
@@ -518,34 +518,42 @@
       </tr>
     </table>
 
-    <h2>v1.13.0 CDN URLs <i style="padding-left: 12px; font-size:12px;">(Use with <tt>&lt;script src="..."&gt;&lt;/script&gt;</tt>)</i></h2>
+    <h2>v1.13.1 CDN URLs <i style="padding-left: 12px; font-size:12px;">(Use with <tt>&lt;script src="..."&gt;&lt;/script&gt;</tt>)</i></h2>
 
     <ul>
       <li>
-        <tt>https://cdn.jsdelivr.net/npm/underscore@1.13.0/underscore-umd-min.js</tt>
+        <tt>https://cdn.jsdelivr.net/npm/underscore@1.13.1/underscore-umd-min.js</tt>
       </li>
       <li>
-        <tt>https://cdn.jsdelivr.net/npm/underscore@1.13.0/underscore-esm-min.js</tt>
+        <tt>https://cdn.jsdelivr.net/npm/underscore@1.13.1/underscore-esm-min.js</tt>
       </li>
       <li>
-        <tt>https://unpkg.com/underscore@1.13.0/underscore-umd-min.js</tt>
+        <tt>https://unpkg.com/underscore@1.13.1/underscore-umd-min.js</tt>
       </li>
       <li>
-        <tt>https://unpkg.com/underscore@1.13.0/underscore-esm-min.js</tt>
+        <tt>https://unpkg.com/underscore@1.13.1/underscore-esm-min.js</tt>
       </li>
       <li>
-        <tt>https://pagecdn.io/lib/underscore/1.13.0/underscore-umd-min.js</tt>
+        <tt>https://pagecdn.io/lib/underscore/1.13.1/underscore-umd-min.js</tt>
       </li>
       <li>
-        <tt>https://pagecdn.io/lib/underscore/1.13.0/underscore-esm-min.js</tt>
+        <tt>https://pagecdn.io/lib/underscore/1.13.1/underscore-esm-min.js</tt>
       </li>
       <li>
-        <tt>https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.13.0/underscore-umd-min.js</tt>
+        <tt>https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.13.1/underscore-umd-min.js</tt>
       </li>
       <li>
-        <tt>https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.13.0/underscore-esm-min.js</tt>
+        <tt>https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.13.1/underscore-esm-min.js</tt>
       </li>
     </ul>
+
+    <p>
+      <i>In most cases, you can replace the version number above by
+      <tt>latest</tt> so that your embed will automatically use the latest
+      version, or <tt>stable</tt> if you want to delay updating until an update
+      has proven to be free of accidental breaking changes. Example:</i><br>
+      <tt>https://cdn.jsdelivr.net/npm/underscore@latest/underscore-umd-min.js</tt>
+    </p>
 
     <h2>Package Installation</h2>
 
@@ -560,6 +568,13 @@
         <b>Bower</b> <tt>bower install underscore</tt>
       </li>
     </ul>
+
+    <p>
+      <i>If you are hardcoding the path to the file within the package and you
+      are unsure which build to use, it is very likely that you need
+      <tt>underscore-umd.js</tt> or the minified variant
+      <tt>underscore-umd-min.js</tt>.</i>
+    </p>
 
     <h2>Monolithic Import (recommended)</h2>
 
@@ -2702,6 +2717,22 @@ _.chain([1, 2, 3]).reverse().value();
       </p>
 
       <h2 id="changelog">Change Log</h2>
+
+      <p id="1.13.1">
+        <b class="header">1.13.1</b> &mdash; <small><i>April 15, 2021</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.13.0...1.13.1">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/underscore/1.13.1/index.html">Docs</a><br />
+        <ul>
+          <li>
+            Restores the <tt>underscore.js</tt> alias committed to the GitHub
+            repository.
+          </li>
+          <li>
+            Adds some build clarifications to the documentation.
+          </li>
+          <li>
+            No code changes.
+          </li>
+        </ul>
+      </p>
 
       <p id="1.13.0">
         <b class="header">1.13.0</b> &mdash; <small><i>April 9, 2021</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.13.0-3...1.13.0">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/underscore/1.13.0/index.html">Docs</a><br />
