@@ -7,13 +7,13 @@
     exports.noConflict = function () { global._ = current; return exports; };
   }()));
 }(this, (function () {
-  //     Underscore.js 1.13.0
+  //     Underscore.js 1.13.1
   //     https://underscorejs.org
   //     (c) 2009-2021 Jeremy Ashkenas, Julian Gonggrijp, and DocumentCloud and Investigative Reporters & Editors
   //     Underscore may be freely distributed under the MIT license.
 
   // Current version.
-  var VERSION = '1.13.0';
+  var VERSION = '1.13.1';
 
   // Establish the root object, `window` (`self`) in the browser, `global`
   // on the server, or `this` in some virtual machines. We use `self`
