@@ -4,15 +4,14 @@
   <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="chrome=1" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <meta name="viewport" content="target-densitydpi=device-dpi" />
-  <meta name="HandheldFriendly" content="true"/>
+  
   <link rel="canonical" href="https://underscorejs.org/" />
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
   <title>Underscore.js</title>
   <style>
     body {
       font-size: 14px;
-      line-height: 22px;
+      line-height: 20px;
       background: #f4f4f4 url(docs/images/background.png);
       color: #000;
       font-family: Helvetica Neue, Helvetica, Arial;
@@ -24,7 +23,7 @@
       background: #fff;
       position: fixed;
       top: 0; left: 0; bottom: 0;
-      width: 200px;
+      width: 18vw;
       overflow-y: auto;
       overflow-x: hidden;
       -webkit-overflow-scrolling: touch;
@@ -46,12 +45,12 @@
         font-weight: normal;
       }
     ul.toc_section {
-      font-size: 11px;
-      line-height: 14px;
+      font-size: 12px;
+      line-height: 15px;
       margin: 5px 0 0 0;
       padding-left: 0px;
       list-style-type: none;
-      font-family: Lucida Grande;
+      font-family: Helvetica Neue, Helvetica, Arial;;
     }
       .toc_section li {
         cursor: pointer;
@@ -69,7 +68,7 @@
     }
     div.container {
       width: 550px;
-      margin: 40px 0 50px 260px;
+      margin: 40px 0 50px 24vw;
     }
     img#logo {
       width: 396px;
@@ -82,7 +81,7 @@
     }
     p {
       margin: 20px 0;
-      width: 550px;
+      width: 650px;
     }
     a, a:visited {
       color: #444;
@@ -147,9 +146,31 @@
           border-left: 5px solid #bbb;
           margin: 0px 0 30px;
         }
+        input[type=checkbox] {
+  position: absolute;
+  top: -9999px;
+  left: -9999px;
+}
+
+label {
+  position: absolute;
+  left:0;
+  
+  display:none;
+  width: 1em;
+    height: 1.5em;
+    padding: .5em 0.5em 0;
+  font-size:1.1em;
+  color:#fff;
+  transition:color .3s ease-in-out;
+  cursor: pointer;
+  user-select:none;
+  margin:0;
+  background:rgba(0, 0, 0, .4); 
+}
     @media only screen and (-webkit-min-device-pixel-ratio: 1.5) and (max-width: 640px),
           only screen and (-o-min-device-pixel-ratio: 3/2) and (max-width: 640px),
-          only screen and (min-device-pixel-ratio: 1.5) and (max-width: 640px) {
+          only screen and (min-device-pixel-ratio: 1.5) and (max-width: 640px){
       img {
         max-width: 100%;
       }
@@ -157,11 +178,12 @@
         -webkit-overflow-scrolling: initial;
         position: relative;
         width: 90%;
-        height: 120px;
+        height: 150px;
         left: 0;
         top: -7px;
         padding: 10px 0 10px 30px;
         border: 0;
+        margin-top: 50px;
       }
       img#logo {
         width: auto;
@@ -170,6 +192,7 @@
       div.container {
         margin: 0;
         width: 100%;
+        
       }
       p, div.container ul {
         max-width: 98%;
@@ -178,11 +201,38 @@
       pre {
         overflow: scroll;
       }
+
+    }
+    @media screen and (max-width: 640px){
+      label {
+    display:block;
+    top:0;
+  }
+
+  label:after {
+    position: absolute;
+    right: .25em;  
+    top: 5px;
+    content:"\2261";
+    font-size:1.8em;
+  }
+
+  label:hover,
+  input:checked ~ label {
+    color:#000;
+  }
+  input:checked ~ #sidebar{
+    display: none;
+  }
+  input:checked ~ .container{
+    margin-top:50px;
+  }
     }
   </style>
 </head>
 <body>
-
+  <input type="checkbox" id="menu" checked>
+  <label for="menu" onclick></label>
   <div id="sidebar" class="interface">
 
     <a class="toc_title" href="#">
