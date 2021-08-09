@@ -244,6 +244,16 @@
     _.delay(function(){ assert.strictEqual(counter, 2, 'incr was called twice'); done(); }, 64);
   });
 
+  QUnit.test('throttle three times', function(assert) {
+    assert.expect(1);
+    var done = assert.async();
+    var counter = 0;
+    var incr = function(){ counter++; };
+    var throttledIncr = _.throttle(incr, 32);
+    throttledIncr(); throttledIncr(); throttledIncr();
+    _.delay(function(){ assert.strictEqual(counter, 2, 'incr was called twice'); done(); }, 64);
+  });
+
   QUnit.test('more throttling', function(assert) {
     assert.expect(3);
     var done = assert.async();
