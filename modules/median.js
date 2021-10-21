@@ -1,17 +1,20 @@
 import map from './map.js'
 import isEmpty from './isEmpty';
+import isBoolean from './isBoolean';
 
 // https://en.wikipedia.org/wiki/Median
 // Calulation of median is done using the following method.
 // If the array has odd numbers then median is the middle element.
 // If the array has even numbers then average of middle two numbers is the median value.
-export default function median(collection, iteratee, context) {
+export default function median(collection,isSorted, iteratee, context) {
   if (isEmpty(collection)) return undefined;
 
   if (typeof iteratee == 'number' && collection != null && typeof collection[0] != 'object') {
     iteratee = null;
   }
-  var tmpArr = map(collection, iteratee, context).sort();
+  var tmpArr =  map(collection, iteratee, context)
+
+  tmpArr = isBoolean(isSorted) ? tmpArr : tmpArr.sort();
 
   return tmpArr.length % 2 ?
              tmpArr[Math.floor(tmpArr.length / 2)] : 
