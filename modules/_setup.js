@@ -1,5 +1,5 @@
 // Current version.
-export var VERSION = '1.13.1';
+export var VERSION = '1.13.2';
 
 // Establish the root object, `window` (`self`) in the browser, `global`
 // on the server, or `this` in some virtual machines. We use `self`
