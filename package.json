@@ -1,7 +1,7 @@
 {
   "name": "underscore",
   "description": "JavaScript's functional programming helper library.",
-  "version": "1.13.1",
+  "version": "1.13.2",
   "author": "Jeremy Ashkenas <jeremy@documentcloud.org>",
   "license": "MIT",
   "homepage": "https://underscorejs.org",
