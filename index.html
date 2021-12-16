@@ -1471,11 +1471,14 @@ jQuery('#underscore_button').on('click', buttonView.onClick);
       <p id="partial">
         <b class="header">partial</b><code>_.partial(function, *arguments)</code>
         <br />
-        Partially apply a function by filling in any number of its <b>arguments</b>,
-        <i>without</i> changing its dynamic <tt>this</tt> value. A close cousin
-        of <a href="#bind">bind</a>. You may pass <tt>_</tt> in your list of
-        <b>arguments</b> to specify an argument that should not be pre-filled, but
-        left open to supply at call-time.
+        Partially apply a function by filling in any number of its
+        <b>arguments</b>, <i>without</i> changing its dynamic <tt>this</tt>
+        value. A close cousin of <a href="#bind">bind</a>. You may pass
+        <tt>_</tt> in your list of <b>arguments</b> to specify an argument that
+        should not be pre-filled, but left open to supply at call-time.
+        <i>Note: if you need <tt>_</tt> placeholders and a <tt>this</tt>
+        binding at the same time, use both <tt>_.partial</tt> and
+        <tt>_.bind</tt></i>.
       </p>
       <pre>
 var subtract = function(a, b) { return b - a; };
