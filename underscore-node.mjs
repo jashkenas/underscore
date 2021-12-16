@@ -1,4 +1,4 @@
-//     Underscore.js 1.13.1
+//     Underscore.js 1.13.2
 //     https://underscorejs.org
 //     (c) 2009-2021 Jeremy Ashkenas, Julian Gonggrijp, and DocumentCloud and Investigative Reporters & Editors
 //     Underscore may be freely distributed under the MIT license.

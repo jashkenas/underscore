@@ -1,10 +1,10 @@
-//     Underscore.js 1.13.1
+//     Underscore.js 1.13.2
 //     https://underscorejs.org
 //     (c) 2009-2021 Jeremy Ashkenas, Julian Gonggrijp, and DocumentCloud and Investigative Reporters & Editors
 //     Underscore may be freely distributed under the MIT license.
 
 // Current version.
-var VERSION = '1.13.1';
+var VERSION = '1.13.2';
 
 // Establish the root object, `window` (`self`) in the browser, `global`
 // on the server, or `this` in some virtual machines. We use `self`
@@ -240,7 +240,7 @@ function emulatedSet(keys) {
   var hash = {};
   for (var l = keys.length, i = 0; i < l; ++i) hash[keys[i]] = true;
   return {
-    contains: function(key) { return hash[key]; },
+    contains: function(key) { return hash[key] === true; },
     push: function(key) {
       hash[key] = true;
       return keys.push(key);
@@ -1504,6 +1504,19 @@ function min(obj, iteratee, context) {
   return result;
 }
 
+// Safely create a real, live array from anything iterable.
+var reStrSymbol = /[^\ud800-\udfff]|[\ud800-\udbff][\udc00-\udfff]|[\ud800-\udfff]/g;
+function toArray(obj) {
+  if (!obj) return [];
+  if (isArray(obj)) return slice.call(obj);
+  if (isString(obj)) {
+    // Keep surrogate pair characters together.
+    return obj.match(reStrSymbol);
+  }
+  if (isArrayLike(obj)) return map(obj, identity);
+  return values(obj);
+}
+
 // Sample **n** random values from a collection using the modern version of the
 // [Fisher-Yates shuffle](https://en.wikipedia.org/wiki/Fisher–Yates_shuffle).
 // If **n** is not specified, returns a single random element.
@@ -1513,7 +1526,7 @@ function sample(obj, n, guard) {
     if (!isArrayLike(obj)) obj = values(obj);
     return obj[random(obj.length - 1)];
   }
-  var sample = isArrayLike(obj) ? clone(obj) : values(obj);
+  var sample = toArray(obj);
   var length = getLength(sample);
   n = Math.max(Math.min(n, length), 0);
   var last = length - 1;
@@ -1589,19 +1602,6 @@ var countBy = group(function(result, value, key) {
 var partition = group(function(result, value, pass) {
   result[pass ? 0 : 1].push(value);
 }, true);
-
-// Safely create a real, live array from anything iterable.
-var reStrSymbol = /[^\ud800-\udfff]|[\ud800-\udbff][\udc00-\udfff]|[\ud800-\udfff]/g;
-function toArray(obj) {
-  if (!obj) return [];
-  if (isArray(obj)) return slice.call(obj);
-  if (isString(obj)) {
-    // Keep surrogate pair characters together.
-    return obj.match(reStrSymbol);
-  }
-  if (isArrayLike(obj)) return map(obj, identity);
-  return values(obj);
-}
 
 // Return the number of elements in a collection.
 function size(obj) {

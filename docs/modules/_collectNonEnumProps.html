@@ -873,7 +873,7 @@ arrays of strings.</p>
   <span class="hljs-keyword">var</span> hash = {};
   <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> l = keys.length, i = <span class="hljs-number">0</span>; i &lt; l; ++i) hash[keys[i]] = <span class="hljs-literal">true</span>;
   <span class="hljs-keyword">return</span> {
-    <span class="hljs-attr">contains</span>: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">key</span>) </span>{ <span class="hljs-keyword">return</span> hash[key]; },
+    <span class="hljs-attr">contains</span>: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">key</span>) </span>{ <span class="hljs-keyword">return</span> hash[key] === <span class="hljs-literal">true</span>; },
     <span class="hljs-attr">push</span>: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">key</span>) </span>{
       hash[key] = <span class="hljs-literal">true</span>;
       <span class="hljs-keyword">return</span> keys.push(key);

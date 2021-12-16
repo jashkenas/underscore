@@ -850,10 +850,10 @@
             </div>
             
             <div class="content"><div class='highlight'><pre><span class="hljs-keyword">import</span> isArrayLike <span class="hljs-keyword">from</span> <span class="hljs-string">'./_isArrayLike.js'</span>;
-<span class="hljs-keyword">import</span> clone <span class="hljs-keyword">from</span> <span class="hljs-string">'./clone.js'</span>;
 <span class="hljs-keyword">import</span> values <span class="hljs-keyword">from</span> <span class="hljs-string">'./values.js'</span>;
 <span class="hljs-keyword">import</span> getLength <span class="hljs-keyword">from</span> <span class="hljs-string">'./_getLength.js'</span>;
-<span class="hljs-keyword">import</span> random <span class="hljs-keyword">from</span> <span class="hljs-string">'./random.js'</span>;</pre></div></div>
+<span class="hljs-keyword">import</span> random <span class="hljs-keyword">from</span> <span class="hljs-string">'./random.js'</span>;
+<span class="hljs-keyword">import</span> toArray <span class="hljs-keyword">from</span> <span class="hljs-string">'./toArray.js'</span>;</pre></div></div>
             
         </li>
         
@@ -876,7 +876,7 @@ The internal <code>guard</code> argument allows it to work with <code>_.map</cod
     <span class="hljs-keyword">if</span> (!isArrayLike(obj)) obj = values(obj);
     <span class="hljs-keyword">return</span> obj[random(obj.length - <span class="hljs-number">1</span>)];
   }
-  <span class="hljs-keyword">var</span> sample = isArrayLike(obj) ? clone(obj) : values(obj);
+  <span class="hljs-keyword">var</span> sample = toArray(obj);
   <span class="hljs-keyword">var</span> length = <span class="hljs-keyword">get</span><span class="hljs-title">Length</span>(<span class="hljs-params">sample</span>);
   <span class="hljs-title">n</span> = <span class="hljs-title">Math</span>.<span class="hljs-title">max</span>(<span class="hljs-params">Math.min(n, length</span>), 0);
   <span class="hljs-title">var</span> <span class="hljs-title">last</span> = <span class="hljs-title">length</span> - 1;

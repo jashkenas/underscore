@@ -1,8 +1,8 @@
 import isArrayLike from './_isArrayLike.js';
-import clone from './clone.js';
 import values from './values.js';
 import getLength from './_getLength.js';
 import random from './random.js';
+import toArray from './toArray.js';
 
 // Sample **n** random values from a collection using the modern version of the
 // [Fisher-Yates shuffle](https://en.wikipedia.org/wiki/Fisher–Yates_shuffle).
@@ -13,7 +13,7 @@ export default function sample(obj, n, guard) {
     if (!isArrayLike(obj)) obj = values(obj);
     return obj[random(obj.length - 1)];
   }
-  var sample = isArrayLike(obj) ? clone(obj) : values(obj);
+  var sample = toArray(obj);
   var length = getLength(sample);
   n = Math.max(Math.min(n, length), 0);
   var last = length - 1;
