@@ -11,12 +11,18 @@
 #
 name: "CodeQL"
 
+paths: &PATHS
+  - 'modules/**/*.js'
+  - 'rollup*.js'
+  - 'index.html'
+
 on:
   push:
     branches: [ master ]
   pull_request:
     # The branches below must be a subset of the branches above
     branches: [ master ]
+    paths: *PATHS
   schedule:
     - cron: '16 8 * * 3'
 
@@ -68,3 +74,5 @@ jobs:
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v1
+      with:
+        config-file: ./.github/workflows/codeql-analysis.yml
