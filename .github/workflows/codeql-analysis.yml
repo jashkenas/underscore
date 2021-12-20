@@ -11,18 +11,16 @@
 #
 name: "CodeQL"
 
-paths: &PATHS
-  - 'modules/**/*.js'
-  - 'rollup*.js'
-  - 'index.html'
-
 on:
   push:
     branches: [ master ]
   pull_request:
     # The branches below must be a subset of the branches above
     branches: [ master ]
-    paths: *PATHS
+    paths:
+      - 'modules/**/*.js'
+      - 'rollup*.js'
+      - 'index.html'
   schedule:
     - cron: '16 8 * * 3'
 

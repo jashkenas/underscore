@@ -1,0 +1,4 @@
+paths:
+  - 'modules/**/*.js'
+  - 'rollup*.js'
+  - 'index.html'
