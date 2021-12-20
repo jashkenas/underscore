@@ -1,4 +1,6 @@
 paths:
-  - 'modules/**/*.js'
+  - 'modules/**'
+  - 'test/**'
+  - 'test-treeshake/**'
   - 'rollup*.js'
   - 'index.html'
