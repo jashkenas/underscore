@@ -15,3 +15,6 @@
 * Use the same coding style as the rest of the [codebase](https://github.com/jashkenas/underscore/blob/master/modules/index.js).
 
 * In your pull request, do not add documentation or re-build the minified `underscore-umd-min.js` file. We'll do those things before cutting a new release.
+
+## "Help, cloning fails with `fatal: fsck error in packed object`"
+This error is caused by zero-padded file modes in the commit history. As fixing this is highly destructive, we suggest ignoring these warnings. The simplest way is to instruct git to do so when cloning: `git clone --config transfer.fsckobjects=false git@github.com:jashkenas/underscore.git`
