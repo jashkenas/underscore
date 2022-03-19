@@ -67,6 +67,9 @@
     "rollup": "^2.40.0",
     "terser": "^4.6.13"
   },
+  "overrides": {
+    "colors@>1.4.0": "1.4.0"
+  },
   "scripts": {
     "test": "npm run lint && npm run test-node",
     "coverage": "nyc npm run test-node && nyc report",
