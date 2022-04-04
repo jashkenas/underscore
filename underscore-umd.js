@@ -18,8 +18,8 @@
   // Establish the root object, `window` (`self`) in the browser, `global`
   // on the server, or `this` in some virtual machines. We use `self`
   // instead of `window` for `WebWorker` support.
-  var root = typeof self == 'object' && self.self === self && self ||
-            typeof global == 'object' && global.global === global && global ||
+  var root = (typeof self == 'object' && self.self === self && self) ||
+            (typeof global == 'object' && global.global === global && global) ||
             Function('return this')() ||
             {};
 
@@ -87,7 +87,7 @@
   // Is a given variable an object?
   function isObject(obj) {
     var type = typeof obj;
-    return type === 'function' || type === 'object' && !!obj;
+    return type === 'function' || (type === 'object' && !!obj);
   }
 
   // Is a given value equal to null?
@@ -1467,7 +1467,7 @@
   function max(obj, iteratee, context) {
     var result = -Infinity, lastComputed = -Infinity,
         value, computed;
-    if (iteratee == null || typeof iteratee == 'number' && typeof obj[0] != 'object' && obj != null) {
+    if (iteratee == null || (typeof iteratee == 'number' && typeof obj[0] != 'object' && obj != null)) {
       obj = isArrayLike(obj) ? obj : values(obj);
       for (var i = 0, length = obj.length; i < length; i++) {
         value = obj[i];
@@ -1479,7 +1479,7 @@
       iteratee = cb(iteratee, context);
       each(obj, function(v, index, list) {
         computed = iteratee(v, index, list);
-        if (computed > lastComputed || computed === -Infinity && result === -Infinity) {
+        if (computed > lastComputed || (computed === -Infinity && result === -Infinity)) {
           result = v;
           lastComputed = computed;
         }
@@ -1492,7 +1492,7 @@
   function min(obj, iteratee, context) {
     var result = Infinity, lastComputed = Infinity,
         value, computed;
-    if (iteratee == null || typeof iteratee == 'number' && typeof obj[0] != 'object' && obj != null) {
+    if (iteratee == null || (typeof iteratee == 'number' && typeof obj[0] != 'object' && obj != null)) {
       obj = isArrayLike(obj) ? obj : values(obj);
       for (var i = 0, length = obj.length; i < length; i++) {
         value = obj[i];
@@ -1504,7 +1504,7 @@
       iteratee = cb(iteratee, context);
       each(obj, function(v, index, list) {
         computed = iteratee(v, index, list);
-        if (computed < lastComputed || computed === Infinity && result === Infinity) {
+        if (computed < lastComputed || (computed === Infinity && result === Infinity)) {
           result = v;
           lastComputed = computed;
         }
