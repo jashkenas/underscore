@@ -15,12 +15,13 @@ jobs:
         - DOWNGRADE=false
         - EXTRA=true
 before_install:
-  - npm install -g karma-cli
+  - "[ $EXTRA = false ] || npm install -g karma-cli"
 before_script:
-  - npm install karma-sauce-launcher
+  - "[ $EXTRA = false ] || npm install karma-sauce-launcher"
   - "[ $DOWNGRADE = false ] || npm install rollup@1"
 script:
-  - "[ $EXTRA = true ] || npm test"
+  - "[ $EXTRA = false ] || npm run lint"
+  - "[ $EXTRA = true ] || npm run test-node"
   - "[ $EXTRA = false ] || npm run coveralls"
   - "[ $EXTRA = false ] || npm run test-browser"
   - "[ $EXTRA = false ] || karma start karma.conf-sauce.js"
