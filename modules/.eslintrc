@@ -8,5 +8,13 @@
   ],
   "extends": [
     "plugin:import/errors"
-  ]
+  ],
+  "rules": {
+    "no-mixed-operators": [
+      "error",
+      {
+        "groups": [["&&", "||"]]
+      }
+    ]
+  }
 }
