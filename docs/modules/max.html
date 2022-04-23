@@ -870,7 +870,7 @@
             <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">max</span>(<span class="hljs-params">obj, iteratee, context</span>) </span>{
   <span class="hljs-keyword">var</span> result = -<span class="hljs-literal">Infinity</span>, lastComputed = -<span class="hljs-literal">Infinity</span>,
       value, computed;
-  <span class="hljs-keyword">if</span> (iteratee == <span class="hljs-literal">null</span> || <span class="hljs-keyword">typeof</span> iteratee == <span class="hljs-string">'number'</span> &amp;&amp; <span class="hljs-keyword">typeof</span> obj[<span class="hljs-number">0</span>] != <span class="hljs-string">'object'</span> &amp;&amp; obj != <span class="hljs-literal">null</span>) {
+  <span class="hljs-keyword">if</span> (iteratee == <span class="hljs-literal">null</span> || (<span class="hljs-keyword">typeof</span> iteratee == <span class="hljs-string">'number'</span> &amp;&amp; <span class="hljs-keyword">typeof</span> obj[<span class="hljs-number">0</span>] != <span class="hljs-string">'object'</span> &amp;&amp; obj != <span class="hljs-literal">null</span>)) {
     obj = isArrayLike(obj) ? obj : values(obj);
     <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>, length = obj.length; i &lt; length; i++) {
       value = obj[i];
@@ -882,7 +882,7 @@
     iteratee = cb(iteratee, context);
     each(obj, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">v, index, list</span>) </span>{
       computed = iteratee(v, index, list);
-      <span class="hljs-keyword">if</span> (computed &gt; lastComputed || computed === -<span class="hljs-literal">Infinity</span> &amp;&amp; result === -<span class="hljs-literal">Infinity</span>) {
+      <span class="hljs-keyword">if</span> (computed &gt; lastComputed || (computed === -<span class="hljs-literal">Infinity</span> &amp;&amp; result === -<span class="hljs-literal">Infinity</span>)) {
         result = v;
         lastComputed = computed;
       }

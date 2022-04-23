@@ -1,7 +1,7 @@
 {
   "name": "underscore",
   "description": "JavaScript's functional programming helper library.",
-  "version": "1.13.2",
+  "version": "1.13.3",
   "author": "Jeremy Ashkenas <jeremy@documentcloud.org>",
   "license": "MIT",
   "homepage": "https://underscorejs.org",
@@ -63,9 +63,12 @@
     "karma-sauce-launcher": "^1.2.0",
     "nyc": "^2.1.3",
     "pretty-bytes-cli": "^1.0.0",
-    "qunit": "^2.10.0",
+    "qunit": "2.10.1",
     "rollup": "^2.40.0",
     "terser": "^4.6.13"
+  },
+  "overrides": {
+    "colors@>1.4.0": "1.4.0"
   },
   "scripts": {
     "test": "npm run lint && npm run test-node",

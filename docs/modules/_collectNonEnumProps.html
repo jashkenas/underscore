@@ -900,7 +900,7 @@ needed.</p>
   keys = emulatedSet(keys);
   <span class="hljs-keyword">var</span> nonEnumIdx = nonEnumerableProps.length;
   <span class="hljs-keyword">var</span> <span class="hljs-keyword">constructor</span> = obj.<span class="hljs-keyword">constructor</span>;
-  var proto = isFunction(<span class="hljs-keyword">constructor</span>) &amp;&amp; <span class="hljs-keyword">constructor</span>.prototype || ObjProto;</pre></div></div>
+  var proto = (isFunction(<span class="hljs-keyword">constructor</span>) &amp;&amp; <span class="hljs-keyword">constructor</span>.prototype) || ObjProto;</pre></div></div>
             
         </li>
         

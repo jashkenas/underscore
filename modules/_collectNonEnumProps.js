@@ -25,7 +25,7 @@ export default function collectNonEnumProps(obj, keys) {
   keys = emulatedSet(keys);
   var nonEnumIdx = nonEnumerableProps.length;
   var constructor = obj.constructor;
-  var proto = isFunction(constructor) && constructor.prototype || ObjProto;
+  var proto = (isFunction(constructor) && constructor.prototype) || ObjProto;
 
   // Constructor is a special case.
   var prop = 'constructor';
