@@ -27,9 +27,9 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-1">&#182;</a>
               </div>
-              <pre><code>Underscore.js <span class="hljs-number">1.13</span><span class="hljs-number">.2</span>
+              <pre><code>Underscore.js <span class="hljs-number">1.13</span><span class="hljs-number">.3</span>
 <span class="hljs-attr">https</span>:<span class="hljs-comment">//underscorejs.org</span>
-(c) <span class="hljs-number">2009</span><span class="hljs-number">-2021</span> Jeremy Ashkenas, Julian Gonggrijp, and DocumentCloud and Investigative Reporters &amp; Editors
+(c) <span class="hljs-number">2009</span><span class="hljs-number">-2022</span> Jeremy Ashkenas, Julian Gonggrijp, and DocumentCloud and Investigative Reporters &amp; Editors
 Underscore may be freely distributed under the MIT license.</code></pre>
             </div>
             
@@ -46,7 +46,7 @@ Underscore may be freely distributed under the MIT license.</code></pre>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">var</span> VERSION = <span class="hljs-string">'1.13.2'</span>;</pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">var</span> VERSION = <span class="hljs-string">'1.13.3'</span>;</pre></div></div>
             
         </li>
         
@@ -63,8 +63,8 @@ instead of <code>window</code> for <code>WebWorker</code> support.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">var</span> root = <span class="hljs-keyword">typeof</span> self == <span class="hljs-string">'object'</span> &amp;&amp; self.self === self &amp;&amp; self ||
-          <span class="hljs-keyword">typeof</span> global == <span class="hljs-string">'object'</span> &amp;&amp; global.global === global &amp;&amp; global ||
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">var</span> root = (<span class="hljs-keyword">typeof</span> self == <span class="hljs-string">'object'</span> &amp;&amp; self.self === self &amp;&amp; self) ||
+          (<span class="hljs-keyword">typeof</span> global == <span class="hljs-string">'object'</span> &amp;&amp; global.global === global &amp;&amp; global) ||
           <span class="hljs-built_in">Function</span>(<span class="hljs-string">'return this'</span>)() ||
           {};</pre></div></div>
             
@@ -240,7 +240,7 @@ the last argument. Similar to ES6’s “rest parameter”.</p>
             
             <div class="content"><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">isObject</span>(<span class="hljs-params">obj</span>) </span>{
   <span class="hljs-keyword">var</span> type = <span class="hljs-keyword">typeof</span> obj;
-  <span class="hljs-keyword">return</span> type === <span class="hljs-string">'function'</span> || type === <span class="hljs-string">'object'</span> &amp;&amp; !!obj;
+  <span class="hljs-keyword">return</span> type === <span class="hljs-string">'function'</span> || (type === <span class="hljs-string">'object'</span> &amp;&amp; !!obj);
 }</pre></div></div>
             
         </li>
@@ -694,7 +694,7 @@ needed.</p>
   keys = emulatedSet(keys);
   <span class="hljs-keyword">var</span> nonEnumIdx = nonEnumerableProps.length;
   <span class="hljs-keyword">var</span> <span class="hljs-keyword">constructor</span> = obj.<span class="hljs-keyword">constructor</span>;
-  var proto = isFunction$1(<span class="hljs-keyword">constructor</span>) &amp;&amp; <span class="hljs-keyword">constructor</span>.prototype || ObjProto;</pre></div></div>
+  var proto = (isFunction$1(<span class="hljs-keyword">constructor</span>) &amp;&amp; <span class="hljs-keyword">constructor</span>.prototype) || ObjProto;</pre></div></div>
             
         </li>
         
@@ -3646,7 +3646,7 @@ objects containing specific <code>key:value</code> pairs.</p>
             <div class="content"><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">max</span>(<span class="hljs-params">obj, iteratee, context</span>) </span>{
   <span class="hljs-keyword">var</span> result = -<span class="hljs-literal">Infinity</span>, lastComputed = -<span class="hljs-literal">Infinity</span>,
       value, computed;
-  <span class="hljs-keyword">if</span> (iteratee == <span class="hljs-literal">null</span> || <span class="hljs-keyword">typeof</span> iteratee == <span class="hljs-string">'number'</span> &amp;&amp; <span class="hljs-keyword">typeof</span> obj[<span class="hljs-number">0</span>] != <span class="hljs-string">'object'</span> &amp;&amp; obj != <span class="hljs-literal">null</span>) {
+  <span class="hljs-keyword">if</span> (iteratee == <span class="hljs-literal">null</span> || (<span class="hljs-keyword">typeof</span> iteratee == <span class="hljs-string">'number'</span> &amp;&amp; <span class="hljs-keyword">typeof</span> obj[<span class="hljs-number">0</span>] != <span class="hljs-string">'object'</span> &amp;&amp; obj != <span class="hljs-literal">null</span>)) {
     obj = isArrayLike(obj) ? obj : values(obj);
     <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>, length = obj.length; i &lt; length; i++) {
       value = obj[i];
@@ -3658,7 +3658,7 @@ objects containing specific <code>key:value</code> pairs.</p>
     iteratee = cb(iteratee, context);
     each(obj, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">v, index, list</span>) </span>{
       computed = iteratee(v, index, list);
-      <span class="hljs-keyword">if</span> (computed &gt; lastComputed || computed === -<span class="hljs-literal">Infinity</span> &amp;&amp; result === -<span class="hljs-literal">Infinity</span>) {
+      <span class="hljs-keyword">if</span> (computed &gt; lastComputed || (computed === -<span class="hljs-literal">Infinity</span> &amp;&amp; result === -<span class="hljs-literal">Infinity</span>)) {
         result = v;
         lastComputed = computed;
       }
@@ -3683,7 +3683,7 @@ objects containing specific <code>key:value</code> pairs.</p>
             <div class="content"><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">min</span>(<span class="hljs-params">obj, iteratee, context</span>) </span>{
   <span class="hljs-keyword">var</span> result = <span class="hljs-literal">Infinity</span>, lastComputed = <span class="hljs-literal">Infinity</span>,
       value, computed;
-  <span class="hljs-keyword">if</span> (iteratee == <span class="hljs-literal">null</span> || <span class="hljs-keyword">typeof</span> iteratee == <span class="hljs-string">'number'</span> &amp;&amp; <span class="hljs-keyword">typeof</span> obj[<span class="hljs-number">0</span>] != <span class="hljs-string">'object'</span> &amp;&amp; obj != <span class="hljs-literal">null</span>) {
+  <span class="hljs-keyword">if</span> (iteratee == <span class="hljs-literal">null</span> || (<span class="hljs-keyword">typeof</span> iteratee == <span class="hljs-string">'number'</span> &amp;&amp; <span class="hljs-keyword">typeof</span> obj[<span class="hljs-number">0</span>] != <span class="hljs-string">'object'</span> &amp;&amp; obj != <span class="hljs-literal">null</span>)) {
     obj = isArrayLike(obj) ? obj : values(obj);
     <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>, length = obj.length; i &lt; length; i++) {
       value = obj[i];
@@ -3695,7 +3695,7 @@ objects containing specific <code>key:value</code> pairs.</p>
     iteratee = cb(iteratee, context);
     each(obj, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">v, index, list</span>) </span>{
       computed = iteratee(v, index, list);
-      <span class="hljs-keyword">if</span> (computed &lt; lastComputed || computed === <span class="hljs-literal">Infinity</span> &amp;&amp; result === <span class="hljs-literal">Infinity</span>) {
+      <span class="hljs-keyword">if</span> (computed &lt; lastComputed || (computed === <span class="hljs-literal">Infinity</span> &amp;&amp; result === <span class="hljs-literal">Infinity</span>)) {
         result = v;
         lastComputed = computed;
       }
@@ -4276,7 +4276,7 @@ each array’s elements on shared indices.</p>
             </div>
             
             <div class="content"><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">unzip</span>(<span class="hljs-params">array</span>) </span>{
-  <span class="hljs-keyword">var</span> length = array &amp;&amp; max(array, getLength).length || <span class="hljs-number">0</span>;
+  <span class="hljs-keyword">var</span> length = (array &amp;&amp; max(array, getLength).length) || <span class="hljs-number">0</span>;
   <span class="hljs-keyword">var</span> result = <span class="hljs-built_in">Array</span>(length);
 
   <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> index = <span class="hljs-number">0</span>; index &lt; length; index++) {

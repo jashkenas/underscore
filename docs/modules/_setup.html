@@ -850,7 +850,7 @@
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">var</span> VERSION = <span class="hljs-string">'1.13.2'</span>;</pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">var</span> VERSION = <span class="hljs-string">'1.13.3'</span>;</pre></div></div>
             
         </li>
         
@@ -867,8 +867,8 @@ instead of <code>window</code> for <code>WebWorker</code> support.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">var</span> root = <span class="hljs-keyword">typeof</span> self == <span class="hljs-string">'object'</span> &amp;&amp; self.self === self &amp;&amp; self ||
-          <span class="hljs-keyword">typeof</span> global == <span class="hljs-string">'object'</span> &amp;&amp; global.global === global &amp;&amp; global ||
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">var</span> root = (<span class="hljs-keyword">typeof</span> self == <span class="hljs-string">'object'</span> &amp;&amp; self.self === self &amp;&amp; self) ||
+          (<span class="hljs-keyword">typeof</span> global == <span class="hljs-string">'object'</span> &amp;&amp; global.global === global &amp;&amp; global) ||
           <span class="hljs-built_in">Function</span>(<span class="hljs-string">'return this'</span>)() ||
           {};</pre></div></div>
             

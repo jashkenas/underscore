@@ -868,7 +868,7 @@ each array’s elements on shared indices.</p>
             </div>
             
             <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">unzip</span>(<span class="hljs-params">array</span>) </span>{
-  <span class="hljs-keyword">var</span> length = array &amp;&amp; max(array, getLength).length || <span class="hljs-number">0</span>;
+  <span class="hljs-keyword">var</span> length = (array &amp;&amp; max(array, getLength).length) || <span class="hljs-number">0</span>;
   <span class="hljs-keyword">var</span> result = <span class="hljs-built_in">Array</span>(length);
 
   <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> index = <span class="hljs-number">0</span>; index &lt; length; index++) {

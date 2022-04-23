@@ -852,7 +852,7 @@
             
             <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">isObject</span>(<span class="hljs-params">obj</span>) </span>{
   <span class="hljs-keyword">var</span> type = <span class="hljs-keyword">typeof</span> obj;
-  <span class="hljs-keyword">return</span> type === <span class="hljs-string">'function'</span> || type === <span class="hljs-string">'object'</span> &amp;&amp; !!obj;
+  <span class="hljs-keyword">return</span> type === <span class="hljs-string">'function'</span> || (type === <span class="hljs-string">'object'</span> &amp;&amp; !!obj);
 }</pre></div></div>
             
         </li>
