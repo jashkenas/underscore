@@ -255,7 +255,7 @@ function collectNonEnumProps(obj, keys) {
   keys = emulatedSet(keys);
   var nonEnumIdx = nonEnumerableProps.length;
   var constructor = obj.constructor;
-  var proto = isFunction$1(constructor) && constructor.prototype || ObjProto;
+  var proto = (isFunction$1(constructor) && constructor.prototype) || ObjProto;
 
   // Constructor is a special case.
   var prop = 'constructor';
@@ -1763,7 +1763,7 @@ function intersection(array) {
 // Complement of zip. Unzip accepts an array of arrays and groups
 // each array's elements on shared indices.
 function unzip(array) {
-  var length = array && max(array, getLength).length || 0;
+  var length = (array && max(array, getLength).length) || 0;
   var result = Array(length);
 
   for (var index = 0; index < length; index++) {
