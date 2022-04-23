@@ -20,10 +20,10 @@ before_script:
   - npm install karma-sauce-launcher
   - "[ $DOWNGRADE = false ] || npm install rollup@1"
 script:
-  - npm test
+  - "[ $EXTRA = true ] || npm test"
+  - "[ $EXTRA = false ] || npm run coveralls"
   - "[ $EXTRA = false ] || npm run test-browser"
   - "[ $EXTRA = false ] || karma start karma.conf-sauce.js"
-  - "[ $EXTRA = false ] || npm run coveralls"
 notifications:
   email: false
 env:
