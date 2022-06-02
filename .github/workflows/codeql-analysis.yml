@@ -40,7 +40,8 @@ jobs:
       matrix:
         language: [ 'javascript' ]
         # CodeQL supports [ 'cpp', 'csharp', 'go', 'java', 'javascript', 'python', 'ruby' ]
-        # Learn more about CodeQL language support at https://git.io/codeql-language-support
+        # Learn more about CodeQL language support at
+        # https://codeql.github.com/docs/codeql-overview/supported-languages-and-frameworks/
 
     steps:
     - name: Checkout repository
@@ -63,7 +64,7 @@ jobs:
       uses: github/codeql-action/autobuild@v1
 
     # ℹ️ Command-line programs to run using the OS shell.
-    # 📚 https://git.io/JvXDl
+    # 📚 https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions
 
     # ✏️ If the Autobuild fails above, remove it and uncomment the following three lines
     #    and modify them (or add more) to build your code if your project
