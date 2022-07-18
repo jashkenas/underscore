@@ -763,6 +763,31 @@ function mapObject(obj, iteratee, context) {
   return results;
 }
 
+function set$1 (obj, path, value) {
+  var key = String(path[0]);
+
+  if (path.length === 1) {
+    obj[key] = value;
+    return;
+  }
+
+  if (!isArray(obj[key]) || !isObject(obj[key])) {
+    var nextKey = path[1];
+    obj[key] = isNumber(nextKey) ? [] : {};
+  }
+
+  return set$1(obj[key], path.slice(1), value);
+}
+
+function set (obj, path, value) {
+  if (!isObject(obj) || !isArray(path)) return obj;
+  if (path.length === 0) return obj;
+
+  set$1(obj, path, value);
+
+  return obj;
+}
+
 // Predicate-generating function. Often useful outside of Underscore.
 function noop(){}
 
@@ -1919,6 +1944,7 @@ var allExports = {
   get: get,
   has: has,
   mapObject: mapObject,
+  set: set,
   identity: identity,
   constant: constant,
   noop: noop,
@@ -2134,6 +2160,7 @@ exports.rest = rest;
 exports.restArguments = restArguments;
 exports.result = result;
 exports.sample = sample;
+exports.set = set;
 exports.shuffle = shuffle;
 exports.size = size;
 exports.some = some;
