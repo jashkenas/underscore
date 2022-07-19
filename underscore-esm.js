@@ -777,6 +777,7 @@ function set$1 (obj, path, value) {
   return set$1(obj[key], path.slice(1), value);
 }
 
+// set the value in given path
 function set (obj, path, value) {
   if (!isObject(obj) || !isArray(path)) return obj;
   if (path.length === 0) return obj;

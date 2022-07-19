@@ -3,6 +3,7 @@ import isObject from './isObject.js';
 import _set from './_set.js';
 
 
+// set the value in given path
 export default function set (obj, path, value) {
   if (!isObject(obj) || !isArray(path)) return obj;
   if (path.length === 0) return obj;
