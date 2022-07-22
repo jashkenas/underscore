@@ -392,6 +392,7 @@
           <li data-name="toPath">- <a href="#toPath">toPath</a></li>
           <li data-name="has">- <a href="#has">has</a></li>
           <li data-name="get">- <a href="#get">get</a></li>
+          <li data-name="set">- <a href="#set">set</a></li>
           <li data-name="property">- <a href="#property">property</a></li>
           <li data-name="propertyOf">- <a href="#propertyOf">propertyOf</a></li>
           <li data-name="matcher">- <a href="#matcher">matcher</a></li>
@@ -1951,6 +1952,20 @@ _.get({a: [{b: 2}]}, ['a', 0, 'b']);
 =&gt; 2
 _.get({a: 10}, 'b', 100);
 =&gt; 100
+</pre>
+
+      <p id="set">
+        <b class="header">set</b><code>_.set(object, path, value)</code><br>
+        Sets the value on <b>path</b> of <b>object</b>. <b>path</b> may be
+        specified as a simple key, or as an array of object keys or array
+        indexes. If the property does not exist, it will be created.
+        Returns mutated <b>object</b>.
+      </p>
+      <pre>
+_.set({a: 10}, 'a', 50);
+=&gt; {a: 50}
+_.set({a: 10}, ['b', 0, 'value'], 50);
+=&gt; {a: 10, b: [{value: 50}]}
 </pre>
 
       <p id="has">

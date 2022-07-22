@@ -24,7 +24,7 @@ function deepSet(obj, path, value) {
 
 // Set the value on `path` of `object`.
 // If any property in `path` does not exist it will be created.
-// Returns mutated object (the first argument `obj`).
+// Returns mutated object (`obj`).
 export default function set(obj, path, value) {
   path = toPath(path);
 
