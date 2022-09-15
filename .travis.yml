@@ -6,11 +6,11 @@ jobs:
       env:
         - DOWNGRADE=true
         - EXTRA=false
-    - node_js: 10
+    - node_js: 12
       env:
         - DOWNGRADE=false
         - EXTRA=false
-    - node_js: 14
+    - node_js: 16
       env:
         - DOWNGRADE=false
         - EXTRA=true
@@ -21,6 +21,7 @@ before_script:
   - "[ $DOWNGRADE = false ] || npm install rollup@1"
 script:
   - "[ $EXTRA = false ] || npm run lint"
+  - npm run prepare-tests
   - "[ $EXTRA = true ] || npm run test-node"
   - "[ $EXTRA = false ] || npm run coveralls"
   - "[ $EXTRA = false ] || npm run test-browser"
