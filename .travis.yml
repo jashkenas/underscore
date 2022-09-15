@@ -6,11 +6,11 @@ jobs:
       env:
         - DOWNGRADE=true
         - EXTRA=false
-    - node_js: 10
+    - node_js: 12
       env:
         - DOWNGRADE=false
         - EXTRA=false
-    - node_js: 14
+    - node_js: 16
       env:
         - DOWNGRADE=false
         - EXTRA=true
