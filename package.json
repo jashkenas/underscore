@@ -71,12 +71,12 @@
     "colors@>1.4.0": "1.4.0"
   },
   "scripts": {
-    "test": "npm run lint && npm run test-node",
-    "coverage": "nyc npm run test-node && nyc report",
+    "test": "npm run lint && npm run prepare-tests && npm run test-node",
+    "coverage": "npm run prepare-tests && nyc npm run test-node && nyc report",
     "coveralls": "nyc npm run test-node && nyc report --reporter=text-lcov | coveralls",
     "lint": "eslint modules/*.js test/*.js",
-    "test-node": "npm run prepare-tests && qunit test/",
-    "test-browser": "npm run prepare-tests && npm i karma-phantomjs-launcher && karma start",
+    "test-node": "qunit test/",
+    "test-browser": "npm i karma-phantomjs-launcher && karma start",
     "bundle": "rollup -c && eslint underscore-umd.js && rollup -c rollup.config2.js",
     "bundle-treeshake": "cd test-treeshake && rollup --config",
     "prepare-tests": "npm run bundle && npm run bundle-treeshake",

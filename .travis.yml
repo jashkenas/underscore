@@ -21,6 +21,7 @@ before_script:
   - "[ $DOWNGRADE = false ] || npm install rollup@1"
 script:
   - "[ $EXTRA = false ] || npm run lint"
+  - npm run prepare-tests
   - "[ $EXTRA = true ] || npm run test-node"
   - "[ $EXTRA = false ] || npm run coveralls"
   - "[ $EXTRA = false ] || npm run test-browser"
