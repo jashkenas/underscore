@@ -31,6 +31,7 @@
         "default": "./underscore-esm.js"
       },
       "require": {
+        "module": "./modules/index-all.js",
         "browser": {
           "production": "./underscore-umd-min.js",
           "default": "./underscore-umd.js"
