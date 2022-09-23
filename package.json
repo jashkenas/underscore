@@ -63,6 +63,7 @@
     "karma-qunit": "^4.1.2",
     "karma-sauce-launcher": "^4.3.6",
     "nyc": "^15.1.0",
+    "patch-package": "^6.4.7",
     "pretty-bytes-cli": "^1.0.0",
     "qunit": "2.10.1",
     "rollup": "^2.40.0",
@@ -90,7 +91,8 @@
     "build": "npm run bundle && npm run build-umd && npm run build-esm && npm run alias-bundle",
     "doc": "docco underscore-esm.js && docco modules/*.js -c docco.css -t docs/linked-esm.jst",
     "weight": "npm run bundle && npm run minify-umd | gzip-size | pretty-bytes",
-    "prepublishOnly": "npm run build && npm run doc"
+    "prepublishOnly": "npm run build && npm run doc",
+    "postinstall": "patch-package"
   },
   "files": [
     "underscore-esm.js",

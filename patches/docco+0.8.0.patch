@@ -1,0 +1,13 @@
+diff --git a/node_modules/docco/docco.js b/node_modules/docco/docco.js
+index 0bb5a8b..f38f9a5 100644
+--- a/node_modules/docco/docco.js
++++ b/node_modules/docco/docco.js
+@@ -314,7 +314,7 @@
+ 
+   path = require('path');
+ 
+-  marked = require('marked');
++  marked = require('marked').marked;
+ 
+   commander = require('commander');
+ 
