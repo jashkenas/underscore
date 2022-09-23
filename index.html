@@ -2798,6 +2798,21 @@ _.chain([1, 2, 3]).reverse().value();
 
       <h2 id="changelog">Change Log</h2>
 
+      <p id="1.13.5">
+        <b class="header">1.13.5</b> &mdash; <small><i>September 23, 2022</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.13.4...1.13.5">Diff</a> &mdash; <a href="https://cdn.statically.io/gh/jashkenas/underscore/1.13.5/index.html">Docs</a><br />
+        <ul>
+          <li>
+            Adds a <tt>module</tt> sub-entry to the package.json&rsquo;s <tt>exports.require</tt> condition. When a bundling tool, such as Rollup with recent versions of <tt>@rollup/plugin-node-resolve</tt>, takes the exports map very literally, this should prevent situations in which the final bundle includes multiple copies of Underscore in different module formats.
+          </li>
+          <li>
+            Updates to the testing infrastructure and development dependencies.
+          </li>
+          <li>
+            No code changes.
+          </li>
+        </ul>
+      </p>
+
       <p id="1.13.4">
         <b class="header">1.13.4</b> &mdash; <small><i>June 2, 2022</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.13.3...1.13.4">Diff</a> &mdash; <a href="https://cdn.statically.io/gh/jashkenas/underscore/1.13.4/index.html">Docs</a><br />
         <ul>
