@@ -849,9 +849,9 @@
               
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">import</span> restArguments <span class="hljs-keyword">from</span> <span class="hljs-string">'./restArguments.js'</span>;
-<span class="hljs-keyword">import</span> flatten <span class="hljs-keyword">from</span> <span class="hljs-string">'./_flatten.js'</span>;
-<span class="hljs-keyword">import</span> bind <span class="hljs-keyword">from</span> <span class="hljs-string">'./bind.js'</span>;</pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">import</span> restArguments <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./restArguments.js&#x27;</span>;
+<span class="hljs-keyword">import</span> flatten <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./_flatten.js&#x27;</span>;
+<span class="hljs-keyword">import</span> bind <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./bind.js&#x27;</span>;</pre></div></div>
             
         </li>
         
@@ -868,13 +868,13 @@ defined on an object belong to it.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> restArguments(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">obj, keys</span>) </span>{
-  keys = flatten(keys, <span class="hljs-literal">false</span>, <span class="hljs-literal">false</span>);
-  <span class="hljs-keyword">var</span> index = keys.length;
-  <span class="hljs-keyword">if</span> (index &lt; <span class="hljs-number">1</span>) <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">'bindAll must be passed function names'</span>);
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-title function_">restArguments</span>(<span class="hljs-keyword">function</span>(<span class="hljs-params">obj, keys</span>) {
+  keys = <span class="hljs-title function_">flatten</span>(keys, <span class="hljs-literal">false</span>, <span class="hljs-literal">false</span>);
+  <span class="hljs-keyword">var</span> index = keys.<span class="hljs-property">length</span>;
+  <span class="hljs-keyword">if</span> (index &lt; <span class="hljs-number">1</span>) <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Error</span>(<span class="hljs-string">&#x27;bindAll must be passed function names&#x27;</span>);
   <span class="hljs-keyword">while</span> (index--) {
     <span class="hljs-keyword">var</span> key = keys[index];
-    obj[key] = bind(obj[key], obj);
+    obj[key] = <span class="hljs-title function_">bind</span>(obj[key], obj);
   }
   <span class="hljs-keyword">return</span> obj;
 });</pre></div></div>

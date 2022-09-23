@@ -849,12 +849,12 @@
               
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">import</span> restArguments <span class="hljs-keyword">from</span> <span class="hljs-string">'./restArguments.js'</span>;
-<span class="hljs-keyword">import</span> isFunction <span class="hljs-keyword">from</span> <span class="hljs-string">'./isFunction.js'</span>;
-<span class="hljs-keyword">import</span> optimizeCb <span class="hljs-keyword">from</span> <span class="hljs-string">'./_optimizeCb.js'</span>;
-<span class="hljs-keyword">import</span> allKeys <span class="hljs-keyword">from</span> <span class="hljs-string">'./allKeys.js'</span>;
-<span class="hljs-keyword">import</span> keyInObj <span class="hljs-keyword">from</span> <span class="hljs-string">'./_keyInObj.js'</span>;
-<span class="hljs-keyword">import</span> flatten <span class="hljs-keyword">from</span> <span class="hljs-string">'./_flatten.js'</span>;</pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">import</span> restArguments <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./restArguments.js&#x27;</span>;
+<span class="hljs-keyword">import</span> isFunction <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./isFunction.js&#x27;</span>;
+<span class="hljs-keyword">import</span> optimizeCb <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./_optimizeCb.js&#x27;</span>;
+<span class="hljs-keyword">import</span> allKeys <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./allKeys.js&#x27;</span>;
+<span class="hljs-keyword">import</span> keyInObj <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./_keyInObj.js&#x27;</span>;
+<span class="hljs-keyword">import</span> flatten <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./_flatten.js&#x27;</span>;</pre></div></div>
             
         </li>
         
@@ -869,21 +869,21 @@
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> restArguments(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">obj, keys</span>) </span>{
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-title function_">restArguments</span>(<span class="hljs-keyword">function</span>(<span class="hljs-params">obj, keys</span>) {
   <span class="hljs-keyword">var</span> result = {}, iteratee = keys[<span class="hljs-number">0</span>];
   <span class="hljs-keyword">if</span> (obj == <span class="hljs-literal">null</span>) <span class="hljs-keyword">return</span> result;
-  <span class="hljs-keyword">if</span> (isFunction(iteratee)) {
-    <span class="hljs-keyword">if</span> (keys.length &gt; <span class="hljs-number">1</span>) iteratee = optimizeCb(iteratee, keys[<span class="hljs-number">1</span>]);
-    keys = allKeys(obj);
+  <span class="hljs-keyword">if</span> (<span class="hljs-title function_">isFunction</span>(iteratee)) {
+    <span class="hljs-keyword">if</span> (keys.<span class="hljs-property">length</span> &gt; <span class="hljs-number">1</span>) iteratee = <span class="hljs-title function_">optimizeCb</span>(iteratee, keys[<span class="hljs-number">1</span>]);
+    keys = <span class="hljs-title function_">allKeys</span>(obj);
   } <span class="hljs-keyword">else</span> {
     iteratee = keyInObj;
-    keys = flatten(keys, <span class="hljs-literal">false</span>, <span class="hljs-literal">false</span>);
-    obj = <span class="hljs-built_in">Object</span>(obj);
+    keys = <span class="hljs-title function_">flatten</span>(keys, <span class="hljs-literal">false</span>, <span class="hljs-literal">false</span>);
+    obj = <span class="hljs-title class_">Object</span>(obj);
   }
-  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>, length = keys.length; i &lt; length; i++) {
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>, length = keys.<span class="hljs-property">length</span>; i &lt; length; i++) {
     <span class="hljs-keyword">var</span> key = keys[i];
     <span class="hljs-keyword">var</span> value = obj[key];
-    <span class="hljs-keyword">if</span> (iteratee(value, key, obj)) result[key] = value;
+    <span class="hljs-keyword">if</span> (<span class="hljs-title function_">iteratee</span>(value, key, obj)) result[key] = value;
   }
   <span class="hljs-keyword">return</span> result;
 });</pre></div></div>

@@ -849,13 +849,13 @@
               
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">import</span> identity <span class="hljs-keyword">from</span> <span class="hljs-string">'./identity.js'</span>;
-<span class="hljs-keyword">import</span> isFunction <span class="hljs-keyword">from</span> <span class="hljs-string">'./isFunction.js'</span>;
-<span class="hljs-keyword">import</span> isObject <span class="hljs-keyword">from</span> <span class="hljs-string">'./isObject.js'</span>;
-<span class="hljs-keyword">import</span> isArray <span class="hljs-keyword">from</span> <span class="hljs-string">'./isArray.js'</span>;
-<span class="hljs-keyword">import</span> matcher <span class="hljs-keyword">from</span> <span class="hljs-string">'./matcher.js'</span>;
-<span class="hljs-keyword">import</span> property <span class="hljs-keyword">from</span> <span class="hljs-string">'./property.js'</span>;
-<span class="hljs-keyword">import</span> optimizeCb <span class="hljs-keyword">from</span> <span class="hljs-string">'./_optimizeCb.js'</span>;</pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">import</span> identity <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./identity.js&#x27;</span>;
+<span class="hljs-keyword">import</span> isFunction <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./isFunction.js&#x27;</span>;
+<span class="hljs-keyword">import</span> isObject <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./isObject.js&#x27;</span>;
+<span class="hljs-keyword">import</span> isArray <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./isArray.js&#x27;</span>;
+<span class="hljs-keyword">import</span> matcher <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./matcher.js&#x27;</span>;
+<span class="hljs-keyword">import</span> property <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./property.js&#x27;</span>;
+<span class="hljs-keyword">import</span> optimizeCb <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./_optimizeCb.js&#x27;</span>;</pre></div></div>
             
         </li>
         
@@ -872,11 +872,11 @@ an arbitrary callback, a property matcher, or a property accessor.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">baseIteratee</span>(<span class="hljs-params">value, context, argCount</span>) </span>{
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">baseIteratee</span>(<span class="hljs-params">value, context, argCount</span>) {
   <span class="hljs-keyword">if</span> (value == <span class="hljs-literal">null</span>) <span class="hljs-keyword">return</span> identity;
-  <span class="hljs-keyword">if</span> (isFunction(value)) <span class="hljs-keyword">return</span> optimizeCb(value, context, argCount);
-  <span class="hljs-keyword">if</span> (isObject(value) &amp;&amp; !isArray(value)) <span class="hljs-keyword">return</span> matcher(value);
-  <span class="hljs-keyword">return</span> property(value);
+  <span class="hljs-keyword">if</span> (<span class="hljs-title function_">isFunction</span>(value)) <span class="hljs-keyword">return</span> <span class="hljs-title function_">optimizeCb</span>(value, context, argCount);
+  <span class="hljs-keyword">if</span> (<span class="hljs-title function_">isObject</span>(value) &amp;&amp; !<span class="hljs-title function_">isArray</span>(value)) <span class="hljs-keyword">return</span> <span class="hljs-title function_">matcher</span>(value);
+  <span class="hljs-keyword">return</span> <span class="hljs-title function_">property</span>(value);
 }</pre></div></div>
             
         </li>

@@ -859,18 +859,19 @@ Hence, this module is also the entry point of our UMD bundle and the package
 entry point for CommonJS and AMD users. In other words, this is (the source
 of) the module you are interfacing with when you do any of the following:</p>
 <pre><code class="language-js"><span class="hljs-comment">// CommonJS</span>
-<span class="hljs-keyword">var</span> _ = <span class="hljs-built_in">require</span>(<span class="hljs-string">'underscore'</span>);
+<span class="hljs-keyword">var</span> _ = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;underscore&#x27;</span>);
 
 <span class="hljs-comment">// AMD</span>
-define([<span class="hljs-string">'underscore'</span>], <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">_</span>) </span>{...});
+<span class="hljs-title function_">define</span>([<span class="hljs-string">&#x27;underscore&#x27;</span>], <span class="hljs-keyword">function</span>(<span class="hljs-params">_</span>) {...});
 
 <span class="hljs-comment">// UMD in the browser</span>
-<span class="hljs-comment">// _ is available as a global variable</span></code></pre>
+<span class="hljs-comment">// _ is available as a global variable</span>
+</code></pre>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> allExports <span class="hljs-keyword">from</span> <span class="hljs-string">'./index.js'</span>;
-<span class="hljs-keyword">import</span> { mixin } <span class="hljs-keyword">from</span> <span class="hljs-string">'./index.js'</span>;</pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> allExports <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./index.js&#x27;</span>;
+<span class="hljs-keyword">import</span> { mixin } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./index.js&#x27;</span>;</pre></div></div>
             
         </li>
         
@@ -885,7 +886,7 @@ define([<span class="hljs-string">'underscore'</span>], <span class="hljs-functi
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">var</span> _ = mixin(allExports);</pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">var</span> _ = <span class="hljs-title function_">mixin</span>(allExports);</pre></div></div>
             
         </li>
         
@@ -900,7 +901,7 @@ define([<span class="hljs-string">'underscore'</span>], <span class="hljs-functi
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>_._ = _;</pre></div></div>
+            <div class="content"><div class='highlight'><pre>_.<span class="hljs-property">_</span> = _;</pre></div></div>
             
         </li>
         

@@ -849,7 +849,7 @@
               
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">import</span> { VERSION } <span class="hljs-keyword">from</span> <span class="hljs-string">'./_setup.js'</span>;</pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">import</span> { <span class="hljs-variable constant_">VERSION</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./_setup.js&#x27;</span>;</pre></div></div>
             
         </li>
         
@@ -866,13 +866,13 @@ through <code>_.mixin</code>. Wrapped objects may be chained.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">_</span>(<span class="hljs-params">obj</span>) </span>{
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">_</span>(<span class="hljs-params">obj</span>) {
   <span class="hljs-keyword">if</span> (obj <span class="hljs-keyword">instanceof</span> _) <span class="hljs-keyword">return</span> obj;
-  <span class="hljs-keyword">if</span> (!(<span class="hljs-keyword">this</span> <span class="hljs-keyword">instanceof</span> _)) <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> _(obj);
-  <span class="hljs-keyword">this</span>._wrapped = obj;
+  <span class="hljs-keyword">if</span> (!(<span class="hljs-variable language_">this</span> <span class="hljs-keyword">instanceof</span> _)) <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title function_">_</span>(obj);
+  <span class="hljs-variable language_">this</span>.<span class="hljs-property">_wrapped</span> = obj;
 }
 
-_.VERSION = VERSION;</pre></div></div>
+_.<span class="hljs-property">VERSION</span> = <span class="hljs-variable constant_">VERSION</span>;</pre></div></div>
             
         </li>
         
@@ -887,8 +887,8 @@ _.VERSION = VERSION;</pre></div></div>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>_.prototype.value = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
-  <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>._wrapped;
+            <div class="content"><div class='highlight'><pre>_.<span class="hljs-property"><span class="hljs-keyword">prototype</span></span>.<span class="hljs-property">value</span> = <span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">_wrapped</span>;
 };</pre></div></div>
             
         </li>
@@ -905,10 +905,10 @@ such as arithmetic and JSON stringification.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>_.prototype.valueOf = _.prototype.toJSON = _.prototype.value;
+            <div class="content"><div class='highlight'><pre>_.<span class="hljs-property"><span class="hljs-keyword">prototype</span></span>.<span class="hljs-property">valueOf</span> = _.<span class="hljs-property"><span class="hljs-keyword">prototype</span></span>.<span class="hljs-property">toJSON</span> = _.<span class="hljs-property"><span class="hljs-keyword">prototype</span></span>.<span class="hljs-property">value</span>;
 
-_.prototype.toString = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
-  <span class="hljs-keyword">return</span> <span class="hljs-built_in">String</span>(<span class="hljs-keyword">this</span>._wrapped);
+_.<span class="hljs-property"><span class="hljs-keyword">prototype</span></span>.<span class="hljs-property">toString</span> = <span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-keyword">return</span> <span class="hljs-title class_">String</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">_wrapped</span>);
 };</pre></div></div>
             
         </li>

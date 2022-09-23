@@ -849,10 +849,10 @@
               
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">import</span> restArguments <span class="hljs-keyword">from</span> <span class="hljs-string">'./restArguments.js'</span>;
-<span class="hljs-keyword">import</span> flatten <span class="hljs-keyword">from</span> <span class="hljs-string">'./_flatten.js'</span>;
-<span class="hljs-keyword">import</span> filter <span class="hljs-keyword">from</span> <span class="hljs-string">'./filter.js'</span>;
-<span class="hljs-keyword">import</span> contains <span class="hljs-keyword">from</span> <span class="hljs-string">'./contains.js'</span>;</pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">import</span> restArguments <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./restArguments.js&#x27;</span>;
+<span class="hljs-keyword">import</span> flatten <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./_flatten.js&#x27;</span>;
+<span class="hljs-keyword">import</span> filter <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./filter.js&#x27;</span>;
+<span class="hljs-keyword">import</span> contains <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./contains.js&#x27;</span>;</pre></div></div>
             
         </li>
         
@@ -868,10 +868,10 @@ Only the elements present in just the first array will remain.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> restArguments(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">array, rest</span>) </span>{
-  rest = flatten(rest, <span class="hljs-literal">true</span>, <span class="hljs-literal">true</span>);
-  <span class="hljs-keyword">return</span> filter(array, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">value</span>)</span>{
-    <span class="hljs-keyword">return</span> !contains(rest, value);
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-title function_">restArguments</span>(<span class="hljs-keyword">function</span>(<span class="hljs-params">array, rest</span>) {
+  rest = <span class="hljs-title function_">flatten</span>(rest, <span class="hljs-literal">true</span>, <span class="hljs-literal">true</span>);
+  <span class="hljs-keyword">return</span> <span class="hljs-title function_">filter</span>(array, <span class="hljs-keyword">function</span>(<span class="hljs-params">value</span>){
+    <span class="hljs-keyword">return</span> !<span class="hljs-title function_">contains</span>(rest, value);
   });
 });</pre></div></div>
             

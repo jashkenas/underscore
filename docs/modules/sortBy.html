@@ -849,9 +849,9 @@
               
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">import</span> cb <span class="hljs-keyword">from</span> <span class="hljs-string">'./_cb.js'</span>;
-<span class="hljs-keyword">import</span> pluck <span class="hljs-keyword">from</span> <span class="hljs-string">'./pluck.js'</span>;
-<span class="hljs-keyword">import</span> map <span class="hljs-keyword">from</span> <span class="hljs-string">'./map.js'</span>;</pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">import</span> cb <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./_cb.js&#x27;</span>;
+<span class="hljs-keyword">import</span> pluck <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./pluck.js&#x27;</span>;
+<span class="hljs-keyword">import</span> map <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./map.js&#x27;</span>;</pre></div></div>
             
         </li>
         
@@ -866,24 +866,24 @@
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">sortBy</span>(<span class="hljs-params">obj, iteratee, context</span>) </span>{
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">sortBy</span>(<span class="hljs-params">obj, iteratee, context</span>) {
   <span class="hljs-keyword">var</span> index = <span class="hljs-number">0</span>;
-  iteratee = cb(iteratee, context);
-  <span class="hljs-keyword">return</span> pluck(map(obj, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">value, key, list</span>) </span>{
+  iteratee = <span class="hljs-title function_">cb</span>(iteratee, context);
+  <span class="hljs-keyword">return</span> <span class="hljs-title function_">pluck</span>(<span class="hljs-title function_">map</span>(obj, <span class="hljs-keyword">function</span>(<span class="hljs-params">value, key, list</span>) {
     <span class="hljs-keyword">return</span> {
       <span class="hljs-attr">value</span>: value,
       <span class="hljs-attr">index</span>: index++,
-      criteria: iteratee(value, key, list)
+      <span class="hljs-attr">criteria</span>: <span class="hljs-title function_">iteratee</span>(value, key, list)
     };
-  }).sort(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">left, right</span>) </span>{
-    <span class="hljs-keyword">var</span> a = left.criteria;
-    <span class="hljs-keyword">var</span> b = right.criteria;
+  }).<span class="hljs-title function_">sort</span>(<span class="hljs-keyword">function</span>(<span class="hljs-params">left, right</span>) {
+    <span class="hljs-keyword">var</span> a = left.<span class="hljs-property">criteria</span>;
+    <span class="hljs-keyword">var</span> b = right.<span class="hljs-property">criteria</span>;
     <span class="hljs-keyword">if</span> (a !== b) {
       <span class="hljs-keyword">if</span> (a &gt; b || a === <span class="hljs-keyword">void</span> <span class="hljs-number">0</span>) <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;
-      <span class="hljs-keyword">if</span> (a &lt; b || b === <span class="hljs-keyword">void</span> <span class="hljs-number">0</span>) <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;
+      <span class="hljs-keyword">if</span> (a &lt; b || b === <span class="hljs-keyword">void</span> <span class="hljs-number">0</span>) <span class="hljs-keyword">return</span> -<span class="hljs-number">1</span>;
     }
-    <span class="hljs-keyword">return</span> left.index - right.index;
-  }), <span class="hljs-string">'value'</span>);
+    <span class="hljs-keyword">return</span> left.<span class="hljs-property">index</span> - right.<span class="hljs-property">index</span>;
+  }), <span class="hljs-string">&#x27;value&#x27;</span>);
 }</pre></div></div>
             
         </li>

@@ -849,9 +849,9 @@
               
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">import</span> isArrayLike <span class="hljs-keyword">from</span> <span class="hljs-string">'./_isArrayLike.js'</span>;
-<span class="hljs-keyword">import</span> keys <span class="hljs-keyword">from</span> <span class="hljs-string">'./keys.js'</span>;
-<span class="hljs-keyword">import</span> optimizeCb <span class="hljs-keyword">from</span> <span class="hljs-string">'./_optimizeCb.js'</span>;</pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">import</span> isArrayLike <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./_isArrayLike.js&#x27;</span>;
+<span class="hljs-keyword">import</span> keys <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./keys.js&#x27;</span>;
+<span class="hljs-keyword">import</span> optimizeCb <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./_optimizeCb.js&#x27;</span>;</pre></div></div>
             
         </li>
         
@@ -866,7 +866,7 @@
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">createReduce</span>(<span class="hljs-params">dir</span>) </span>{</pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">createReduce</span>(<span class="hljs-params">dir</span>) {</pre></div></div>
             
         </li>
         
@@ -882,9 +882,9 @@ the one that accesses <code>arguments.length</code> to avoid a perf hit. (#1991)
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">var</span> reducer = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">obj, iteratee, memo, initial</span>) </span>{
-    <span class="hljs-keyword">var</span> _keys = !isArrayLike(obj) &amp;&amp; keys(obj),
-        length = (_keys || obj).length,
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">var</span> reducer = <span class="hljs-keyword">function</span>(<span class="hljs-params">obj, iteratee, memo, initial</span>) {
+    <span class="hljs-keyword">var</span> _keys = !<span class="hljs-title function_">isArrayLike</span>(obj) &amp;&amp; <span class="hljs-title function_">keys</span>(obj),
+        length = (_keys || obj).<span class="hljs-property">length</span>,
         index = dir &gt; <span class="hljs-number">0</span> ? <span class="hljs-number">0</span> : length - <span class="hljs-number">1</span>;
     <span class="hljs-keyword">if</span> (!initial) {
       memo = obj[_keys ? _keys[index] : index];
@@ -892,14 +892,14 @@ the one that accesses <code>arguments.length</code> to avoid a perf hit. (#1991)
     }
     <span class="hljs-keyword">for</span> (; index &gt;= <span class="hljs-number">0</span> &amp;&amp; index &lt; length; index += dir) {
       <span class="hljs-keyword">var</span> currentKey = _keys ? _keys[index] : index;
-      memo = iteratee(memo, obj[currentKey], currentKey, obj);
+      memo = <span class="hljs-title function_">iteratee</span>(memo, obj[currentKey], currentKey, obj);
     }
     <span class="hljs-keyword">return</span> memo;
   };
 
-  <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">obj, iteratee, memo, context</span>) </span>{
-    <span class="hljs-keyword">var</span> initial = <span class="hljs-built_in">arguments</span>.length &gt;= <span class="hljs-number">3</span>;
-    <span class="hljs-keyword">return</span> reducer(obj, optimizeCb(iteratee, context, <span class="hljs-number">4</span>), memo, initial);
+  <span class="hljs-keyword">return</span> <span class="hljs-keyword">function</span>(<span class="hljs-params">obj, iteratee, memo, context</span>) {
+    <span class="hljs-keyword">var</span> initial = <span class="hljs-variable language_">arguments</span>.<span class="hljs-property">length</span> &gt;= <span class="hljs-number">3</span>;
+    <span class="hljs-keyword">return</span> <span class="hljs-title function_">reducer</span>(obj, <span class="hljs-title function_">optimizeCb</span>(iteratee, context, <span class="hljs-number">4</span>), memo, initial);
   };
 }</pre></div></div>
             

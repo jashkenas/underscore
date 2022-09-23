@@ -851,11 +851,11 @@ Nth call.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">before</span>(<span class="hljs-params">times, func</span>) </span>{
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">before</span>(<span class="hljs-params">times, func</span>) {
   <span class="hljs-keyword">var</span> memo;
-  <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-keyword">return</span> <span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) {
     <span class="hljs-keyword">if</span> (--times &gt; <span class="hljs-number">0</span>) {
-      memo = func.apply(<span class="hljs-keyword">this</span>, <span class="hljs-built_in">arguments</span>);
+      memo = func.<span class="hljs-title function_">apply</span>(<span class="hljs-variable language_">this</span>, <span class="hljs-variable language_">arguments</span>);
     }
     <span class="hljs-keyword">if</span> (times &lt;= <span class="hljs-number">1</span>) func = <span class="hljs-literal">null</span>;
     <span class="hljs-keyword">return</span> memo;

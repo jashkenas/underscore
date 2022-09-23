@@ -850,10 +850,10 @@
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">after</span>(<span class="hljs-params">times, func</span>) </span>{
-  <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">after</span>(<span class="hljs-params">times, func</span>) {
+  <span class="hljs-keyword">return</span> <span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) {
     <span class="hljs-keyword">if</span> (--times &lt; <span class="hljs-number">1</span>) {
-      <span class="hljs-keyword">return</span> func.apply(<span class="hljs-keyword">this</span>, <span class="hljs-built_in">arguments</span>);
+      <span class="hljs-keyword">return</span> func.<span class="hljs-title function_">apply</span>(<span class="hljs-variable language_">this</span>, <span class="hljs-variable language_">arguments</span>);
     }
   };
 }</pre></div></div>

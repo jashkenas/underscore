@@ -849,10 +849,10 @@
               
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">import</span> { supportsArrayBuffer, nativeIsView, toString } <span class="hljs-keyword">from</span> <span class="hljs-string">'./_setup.js'</span>;
-<span class="hljs-keyword">import</span> isDataView <span class="hljs-keyword">from</span> <span class="hljs-string">'./isDataView.js'</span>;
-<span class="hljs-keyword">import</span> constant <span class="hljs-keyword">from</span> <span class="hljs-string">'./constant.js'</span>;
-<span class="hljs-keyword">import</span> isBufferLike <span class="hljs-keyword">from</span> <span class="hljs-string">'./_isBufferLike.js'</span>;</pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">import</span> { supportsArrayBuffer, nativeIsView, toString } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./_setup.js&#x27;</span>;
+<span class="hljs-keyword">import</span> isDataView <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./isDataView.js&#x27;</span>;
+<span class="hljs-keyword">import</span> constant <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./constant.js&#x27;</span>;
+<span class="hljs-keyword">import</span> isBufferLike <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./_isBufferLike.js&#x27;</span>;</pre></div></div>
             
         </li>
         
@@ -868,7 +868,7 @@
             </div>
             
             <div class="content"><div class='highlight'><pre><span class="hljs-keyword">var</span> typedArrayPattern = <span class="hljs-regexp">/\[object ((I|Ui)nt(8|16|32)|Float(32|64)|Uint8Clamped|Big(I|Ui)nt64)Array\]/</span>;
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">isTypedArray</span>(<span class="hljs-params">obj</span>) </span>{</pre></div></div>
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">isTypedArray</span>(<span class="hljs-params">obj</span>) {</pre></div></div>
             
         </li>
         
@@ -884,11 +884,11 @@ Otherwise, fall back on the above regular expression.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">return</span> nativeIsView ? (nativeIsView(obj) &amp;&amp; !isDataView(obj)) :
-                isBufferLike(obj) &amp;&amp; typedArrayPattern.test(toString.call(obj));
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">return</span> nativeIsView ? (<span class="hljs-title function_">nativeIsView</span>(obj) &amp;&amp; !<span class="hljs-title function_">isDataView</span>(obj)) :
+                <span class="hljs-title function_">isBufferLike</span>(obj) &amp;&amp; typedArrayPattern.<span class="hljs-title function_">test</span>(toString.<span class="hljs-title function_">call</span>(obj));
 }
 
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> supportsArrayBuffer ? isTypedArray : constant(<span class="hljs-literal">false</span>);</pre></div></div>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> supportsArrayBuffer ? isTypedArray : <span class="hljs-title function_">constant</span>(<span class="hljs-literal">false</span>);</pre></div></div>
             
         </li>
         

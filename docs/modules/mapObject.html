@@ -849,8 +849,8 @@
               
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">import</span> cb <span class="hljs-keyword">from</span> <span class="hljs-string">'./_cb.js'</span>;
-<span class="hljs-keyword">import</span> keys <span class="hljs-keyword">from</span> <span class="hljs-string">'./keys.js'</span>;</pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">import</span> cb <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./_cb.js&#x27;</span>;
+<span class="hljs-keyword">import</span> keys <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./keys.js&#x27;</span>;</pre></div></div>
             
         </li>
         
@@ -866,14 +866,14 @@ In contrast to <code>_.map</code> it returns an object.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">mapObject</span>(<span class="hljs-params">obj, iteratee, context</span>) </span>{
-  iteratee = cb(iteratee, context);
-  <span class="hljs-keyword">var</span> _keys = keys(obj),
-      length = _keys.length,
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">mapObject</span>(<span class="hljs-params">obj, iteratee, context</span>) {
+  iteratee = <span class="hljs-title function_">cb</span>(iteratee, context);
+  <span class="hljs-keyword">var</span> _keys = <span class="hljs-title function_">keys</span>(obj),
+      length = _keys.<span class="hljs-property">length</span>,
       results = {};
   <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> index = <span class="hljs-number">0</span>; index &lt; length; index++) {
     <span class="hljs-keyword">var</span> currentKey = _keys[index];
-    results[currentKey] = iteratee(obj[currentKey], currentKey, obj);
+    results[currentKey] = <span class="hljs-title function_">iteratee</span>(obj[currentKey], currentKey, obj);
   }
   <span class="hljs-keyword">return</span> results;
 }</pre></div></div>

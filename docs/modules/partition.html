@@ -849,7 +849,7 @@
               
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">import</span> group <span class="hljs-keyword">from</span> <span class="hljs-string">'./_group.js'</span>;</pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">import</span> group <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./_group.js&#x27;</span>;</pre></div></div>
             
         </li>
         
@@ -865,8 +865,8 @@ truth test, and one whose elements all do not pass the truth test.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> group(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">result, value, pass</span>) </span>{
-  result[pass ? <span class="hljs-number">0</span> : <span class="hljs-number">1</span>].push(value);
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-title function_">group</span>(<span class="hljs-keyword">function</span>(<span class="hljs-params">result, value, pass</span>) {
+  result[pass ? <span class="hljs-number">0</span> : <span class="hljs-number">1</span>].<span class="hljs-title function_">push</span>(value);
 }, <span class="hljs-literal">true</span>);</pre></div></div>
             
         </li>

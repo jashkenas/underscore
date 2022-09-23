@@ -849,8 +849,8 @@
               
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">import</span> isArrayLike <span class="hljs-keyword">from</span> <span class="hljs-string">'./_isArrayLike.js'</span>;
-<span class="hljs-keyword">import</span> keys <span class="hljs-keyword">from</span> <span class="hljs-string">'./keys.js'</span>;</pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">import</span> isArrayLike <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./_isArrayLike.js&#x27;</span>;
+<span class="hljs-keyword">import</span> keys <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./keys.js&#x27;</span>;</pre></div></div>
             
         </li>
         
@@ -865,9 +865,9 @@
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">size</span>(<span class="hljs-params">obj</span>) </span>{
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">size</span>(<span class="hljs-params">obj</span>) {
   <span class="hljs-keyword">if</span> (obj == <span class="hljs-literal">null</span>) <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
-  <span class="hljs-keyword">return</span> isArrayLike(obj) ? obj.length : keys(obj).length;
+  <span class="hljs-keyword">return</span> <span class="hljs-title function_">isArrayLike</span>(obj) ? obj.<span class="hljs-property">length</span> : <span class="hljs-title function_">keys</span>(obj).<span class="hljs-property">length</span>;
 }</pre></div></div>
             
         </li>

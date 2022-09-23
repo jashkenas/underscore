@@ -849,7 +849,7 @@
               
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">import</span> keys <span class="hljs-keyword">from</span> <span class="hljs-string">'./keys.js'</span>;</pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">import</span> keys <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./keys.js&#x27;</span>;</pre></div></div>
             
         </li>
         
@@ -865,8 +865,8 @@ to/from HTML interpolation.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">createEscaper</span>(<span class="hljs-params">map</span>) </span>{
-  <span class="hljs-keyword">var</span> escaper = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">match</span>) </span>{
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">createEscaper</span>(<span class="hljs-params">map</span>) {
+  <span class="hljs-keyword">var</span> escaper = <span class="hljs-keyword">function</span>(<span class="hljs-params">match</span>) {
     <span class="hljs-keyword">return</span> map[match];
   };</pre></div></div>
             
@@ -883,12 +883,12 @@ to/from HTML interpolation.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">var</span> source = <span class="hljs-string">'(?:'</span> + keys(map).join(<span class="hljs-string">'|'</span>) + <span class="hljs-string">')'</span>;
-  <span class="hljs-keyword">var</span> testRegexp = <span class="hljs-built_in">RegExp</span>(source);
-  <span class="hljs-keyword">var</span> replaceRegexp = <span class="hljs-built_in">RegExp</span>(source, <span class="hljs-string">'g'</span>);
-  <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">string</span>) </span>{
-    string = string == <span class="hljs-literal">null</span> ? <span class="hljs-string">''</span> : <span class="hljs-string">''</span> + string;
-    <span class="hljs-keyword">return</span> testRegexp.test(string) ? string.replace(replaceRegexp, escaper) : string;
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">var</span> source = <span class="hljs-string">&#x27;(?:&#x27;</span> + <span class="hljs-title function_">keys</span>(map).<span class="hljs-title function_">join</span>(<span class="hljs-string">&#x27;|&#x27;</span>) + <span class="hljs-string">&#x27;)&#x27;</span>;
+  <span class="hljs-keyword">var</span> testRegexp = <span class="hljs-title class_">RegExp</span>(source);
+  <span class="hljs-keyword">var</span> replaceRegexp = <span class="hljs-title class_">RegExp</span>(source, <span class="hljs-string">&#x27;g&#x27;</span>);
+  <span class="hljs-keyword">return</span> <span class="hljs-keyword">function</span>(<span class="hljs-params">string</span>) {
+    string = string == <span class="hljs-literal">null</span> ? <span class="hljs-string">&#x27;&#x27;</span> : <span class="hljs-string">&#x27;&#x27;</span> + string;
+    <span class="hljs-keyword">return</span> testRegexp.<span class="hljs-title function_">test</span>(string) ? string.<span class="hljs-title function_">replace</span>(replaceRegexp, escaper) : string;
   };
 }</pre></div></div>
             

@@ -851,13 +851,13 @@ consuming the return value of the function that follows.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">compose</span>(<span class="hljs-params"></span>) </span>{
-  <span class="hljs-keyword">var</span> args = <span class="hljs-built_in">arguments</span>;
-  <span class="hljs-keyword">var</span> start = args.length - <span class="hljs-number">1</span>;
-  <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">compose</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-keyword">var</span> args = <span class="hljs-variable language_">arguments</span>;
+  <span class="hljs-keyword">var</span> start = args.<span class="hljs-property">length</span> - <span class="hljs-number">1</span>;
+  <span class="hljs-keyword">return</span> <span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) {
     <span class="hljs-keyword">var</span> i = start;
-    <span class="hljs-keyword">var</span> result = args[start].apply(<span class="hljs-keyword">this</span>, <span class="hljs-built_in">arguments</span>);
-    <span class="hljs-keyword">while</span> (i--) result = args[i].call(<span class="hljs-keyword">this</span>, result);
+    <span class="hljs-keyword">var</span> result = args[start].<span class="hljs-title function_">apply</span>(<span class="hljs-variable language_">this</span>, <span class="hljs-variable language_">arguments</span>);
+    <span class="hljs-keyword">while</span> (i--) result = args[i].<span class="hljs-title function_">call</span>(<span class="hljs-variable language_">this</span>, result);
     <span class="hljs-keyword">return</span> result;
   };
 }</pre></div></div>

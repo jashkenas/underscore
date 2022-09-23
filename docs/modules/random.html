@@ -850,12 +850,12 @@
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">random</span>(<span class="hljs-params">min, max</span>) </span>{
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">random</span>(<span class="hljs-params">min, max</span>) {
   <span class="hljs-keyword">if</span> (max == <span class="hljs-literal">null</span>) {
     max = min;
     min = <span class="hljs-number">0</span>;
   }
-  <span class="hljs-keyword">return</span> min + <span class="hljs-built_in">Math</span>.floor(<span class="hljs-built_in">Math</span>.random() * (max - min + <span class="hljs-number">1</span>));
+  <span class="hljs-keyword">return</span> min + <span class="hljs-title class_">Math</span>.<span class="hljs-title function_">floor</span>(<span class="hljs-title class_">Math</span>.<span class="hljs-title function_">random</span>() * (max - min + <span class="hljs-number">1</span>));
 }</pre></div></div>
             
         </li>

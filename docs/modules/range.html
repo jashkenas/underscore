@@ -852,17 +852,17 @@ the native Python <code>range()</code> function. See
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">range</span>(<span class="hljs-params">start, stop, step</span>) </span>{
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">range</span>(<span class="hljs-params">start, stop, step</span>) {
   <span class="hljs-keyword">if</span> (stop == <span class="hljs-literal">null</span>) {
     stop = start || <span class="hljs-number">0</span>;
     start = <span class="hljs-number">0</span>;
   }
   <span class="hljs-keyword">if</span> (!step) {
-    step = stop &lt; start ? <span class="hljs-number">-1</span> : <span class="hljs-number">1</span>;
+    step = stop &lt; start ? -<span class="hljs-number">1</span> : <span class="hljs-number">1</span>;
   }
 
-  <span class="hljs-keyword">var</span> length = <span class="hljs-built_in">Math</span>.max(<span class="hljs-built_in">Math</span>.ceil((stop - start) / step), <span class="hljs-number">0</span>);
-  <span class="hljs-keyword">var</span> range = <span class="hljs-built_in">Array</span>(length);
+  <span class="hljs-keyword">var</span> length = <span class="hljs-title class_">Math</span>.<span class="hljs-title function_">max</span>(<span class="hljs-title class_">Math</span>.<span class="hljs-title function_">ceil</span>((stop - start) / step), <span class="hljs-number">0</span>);
+  <span class="hljs-keyword">var</span> range = <span class="hljs-title class_">Array</span>(length);
 
   <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> idx = <span class="hljs-number">0</span>; idx &lt; length; idx++, start += step) {
     range[idx] = start;

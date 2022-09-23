@@ -850,15 +850,15 @@
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">createAssigner</span>(<span class="hljs-params">keysFunc, defaults</span>) </span>{
-  <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">obj</span>) </span>{
-    <span class="hljs-keyword">var</span> length = <span class="hljs-built_in">arguments</span>.length;
-    <span class="hljs-keyword">if</span> (defaults) obj = <span class="hljs-built_in">Object</span>(obj);
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">createAssigner</span>(<span class="hljs-params">keysFunc, defaults</span>) {
+  <span class="hljs-keyword">return</span> <span class="hljs-keyword">function</span>(<span class="hljs-params">obj</span>) {
+    <span class="hljs-keyword">var</span> length = <span class="hljs-variable language_">arguments</span>.<span class="hljs-property">length</span>;
+    <span class="hljs-keyword">if</span> (defaults) obj = <span class="hljs-title class_">Object</span>(obj);
     <span class="hljs-keyword">if</span> (length &lt; <span class="hljs-number">2</span> || obj == <span class="hljs-literal">null</span>) <span class="hljs-keyword">return</span> obj;
     <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> index = <span class="hljs-number">1</span>; index &lt; length; index++) {
-      <span class="hljs-keyword">var</span> source = <span class="hljs-built_in">arguments</span>[index],
-          keys = keysFunc(source),
-          l = keys.length;
+      <span class="hljs-keyword">var</span> source = <span class="hljs-variable language_">arguments</span>[index],
+          keys = <span class="hljs-title function_">keysFunc</span>(source),
+          l = keys.<span class="hljs-property">length</span>;
       <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; l; i++) {
         <span class="hljs-keyword">var</span> key = keys[i];
         <span class="hljs-keyword">if</span> (!defaults || obj[key] === <span class="hljs-keyword">void</span> <span class="hljs-number">0</span>) obj[key] = source[key];

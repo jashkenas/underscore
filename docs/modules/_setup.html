@@ -850,7 +850,7 @@
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">var</span> VERSION = <span class="hljs-string">'1.13.4'</span>;</pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">var</span> <span class="hljs-variable constant_">VERSION</span> = <span class="hljs-string">&#x27;1.13.5&#x27;</span>;</pre></div></div>
             
         </li>
         
@@ -867,9 +867,9 @@ instead of <code>window</code> for <code>WebWorker</code> support.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">var</span> root = (<span class="hljs-keyword">typeof</span> self == <span class="hljs-string">'object'</span> &amp;&amp; self.self === self &amp;&amp; self) ||
-          (<span class="hljs-keyword">typeof</span> global == <span class="hljs-string">'object'</span> &amp;&amp; global.global === global &amp;&amp; global) ||
-          <span class="hljs-built_in">Function</span>(<span class="hljs-string">'return this'</span>)() ||
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">var</span> root = (<span class="hljs-keyword">typeof</span> self == <span class="hljs-string">&#x27;object&#x27;</span> &amp;&amp; self.<span class="hljs-property">self</span> === self &amp;&amp; self) ||
+          (<span class="hljs-keyword">typeof</span> <span class="hljs-variable language_">global</span> == <span class="hljs-string">&#x27;object&#x27;</span> &amp;&amp; <span class="hljs-variable language_">global</span>.<span class="hljs-property">global</span> === <span class="hljs-variable language_">global</span> &amp;&amp; <span class="hljs-variable language_">global</span>) ||
+          <span class="hljs-title class_">Function</span>(<span class="hljs-string">&#x27;return this&#x27;</span>)() ||
           {};</pre></div></div>
             
         </li>
@@ -885,8 +885,8 @@ instead of <code>window</code> for <code>WebWorker</code> support.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">var</span> ArrayProto = <span class="hljs-built_in">Array</span>.prototype, ObjProto = <span class="hljs-built_in">Object</span>.prototype;
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">var</span> SymbolProto = <span class="hljs-keyword">typeof</span> <span class="hljs-built_in">Symbol</span> !== <span class="hljs-string">'undefined'</span> ? <span class="hljs-built_in">Symbol</span>.prototype : <span class="hljs-literal">null</span>;</pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">var</span> <span class="hljs-title class_">ArrayProto</span> = <span class="hljs-title class_">Array</span>.<span class="hljs-property"><span class="hljs-keyword">prototype</span></span>, <span class="hljs-title class_">ObjProto</span> = <span class="hljs-title class_">Object</span>.<span class="hljs-property"><span class="hljs-keyword">prototype</span></span>;
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">var</span> <span class="hljs-title class_">SymbolProto</span> = <span class="hljs-keyword">typeof</span> <span class="hljs-title class_">Symbol</span> !== <span class="hljs-string">&#x27;undefined&#x27;</span> ? <span class="hljs-title class_">Symbol</span>.<span class="hljs-property"><span class="hljs-keyword">prototype</span></span> : <span class="hljs-literal">null</span>;</pre></div></div>
             
         </li>
         
@@ -901,10 +901,10 @@ instead of <code>window</code> for <code>WebWorker</code> support.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">var</span> push = ArrayProto.push,
-    slice = ArrayProto.slice,
-    toString = ObjProto.toString,
-    hasOwnProperty = ObjProto.hasOwnProperty;</pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">var</span> push = <span class="hljs-title class_">ArrayProto</span>.<span class="hljs-property">push</span>,
+    slice = <span class="hljs-title class_">ArrayProto</span>.<span class="hljs-property">slice</span>,
+    toString = <span class="hljs-title class_">ObjProto</span>.<span class="hljs-property">toString</span>,
+    hasOwnProperty = <span class="hljs-title class_">ObjProto</span>.<span class="hljs-property">hasOwnProperty</span>;</pre></div></div>
             
         </li>
         
@@ -919,8 +919,8 @@ instead of <code>window</code> for <code>WebWorker</code> support.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">var</span> supportsArrayBuffer = <span class="hljs-keyword">typeof</span> <span class="hljs-built_in">ArrayBuffer</span> !== <span class="hljs-string">'undefined'</span>,
-    supportsDataView = <span class="hljs-keyword">typeof</span> <span class="hljs-built_in">DataView</span> !== <span class="hljs-string">'undefined'</span>;</pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">var</span> supportsArrayBuffer = <span class="hljs-keyword">typeof</span> <span class="hljs-title class_">ArrayBuffer</span> !== <span class="hljs-string">&#x27;undefined&#x27;</span>,
+    supportsDataView = <span class="hljs-keyword">typeof</span> <span class="hljs-title class_">DataView</span> !== <span class="hljs-string">&#x27;undefined&#x27;</span>;</pre></div></div>
             
         </li>
         
@@ -936,10 +936,10 @@ are declared here.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">var</span> nativeIsArray = <span class="hljs-built_in">Array</span>.isArray,
-    nativeKeys = <span class="hljs-built_in">Object</span>.keys,
-    nativeCreate = <span class="hljs-built_in">Object</span>.create,
-    nativeIsView = supportsArrayBuffer &amp;&amp; <span class="hljs-built_in">ArrayBuffer</span>.isView;</pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">var</span> nativeIsArray = <span class="hljs-title class_">Array</span>.<span class="hljs-property">isArray</span>,
+    nativeKeys = <span class="hljs-title class_">Object</span>.<span class="hljs-property">keys</span>,
+    nativeCreate = <span class="hljs-title class_">Object</span>.<span class="hljs-property">create</span>,
+    nativeIsView = supportsArrayBuffer &amp;&amp; <span class="hljs-title class_">ArrayBuffer</span>.<span class="hljs-property">isView</span>;</pre></div></div>
             
         </li>
         
@@ -970,9 +970,9 @@ are declared here.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">var</span> hasEnumBug = !{<span class="hljs-attr">toString</span>: <span class="hljs-literal">null</span>}.propertyIsEnumerable(<span class="hljs-string">'toString'</span>);
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">var</span> nonEnumerableProps = [<span class="hljs-string">'valueOf'</span>, <span class="hljs-string">'isPrototypeOf'</span>, <span class="hljs-string">'toString'</span>,
-  <span class="hljs-string">'propertyIsEnumerable'</span>, <span class="hljs-string">'hasOwnProperty'</span>, <span class="hljs-string">'toLocaleString'</span>];</pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">var</span> hasEnumBug = !{<span class="hljs-attr">toString</span>: <span class="hljs-literal">null</span>}.<span class="hljs-title function_">propertyIsEnumerable</span>(<span class="hljs-string">&#x27;toString&#x27;</span>);
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">var</span> nonEnumerableProps = [<span class="hljs-string">&#x27;valueOf&#x27;</span>, <span class="hljs-string">&#x27;isPrototypeOf&#x27;</span>, <span class="hljs-string">&#x27;toString&#x27;</span>,
+  <span class="hljs-string">&#x27;propertyIsEnumerable&#x27;</span>, <span class="hljs-string">&#x27;hasOwnProperty&#x27;</span>, <span class="hljs-string">&#x27;toLocaleString&#x27;</span>];</pre></div></div>
             
         </li>
         
@@ -987,7 +987,7 @@ are declared here.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">var</span> MAX_ARRAY_INDEX = <span class="hljs-built_in">Math</span>.pow(<span class="hljs-number">2</span>, <span class="hljs-number">53</span>) - <span class="hljs-number">1</span>;</pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">var</span> <span class="hljs-variable constant_">MAX_ARRAY_INDEX</span> = <span class="hljs-title class_">Math</span>.<span class="hljs-title function_">pow</span>(<span class="hljs-number">2</span>, <span class="hljs-number">53</span>) - <span class="hljs-number">1</span>;</pre></div></div>
             
         </li>
         

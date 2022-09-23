@@ -849,7 +849,7 @@
               
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">import</span> { slice } <span class="hljs-keyword">from</span> <span class="hljs-string">'./_setup.js'</span>;</pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">import</span> { slice } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./_setup.js&#x27;</span>;</pre></div></div>
             
         </li>
         
@@ -866,8 +866,8 @@ the array, excluding the last N.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">initial</span>(<span class="hljs-params">array, n, guard</span>) </span>{
-  <span class="hljs-keyword">return</span> slice.call(array, <span class="hljs-number">0</span>, <span class="hljs-built_in">Math</span>.max(<span class="hljs-number">0</span>, array.length - (n == <span class="hljs-literal">null</span> || guard ? <span class="hljs-number">1</span> : n)));
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">initial</span>(<span class="hljs-params">array, n, guard</span>) {
+  <span class="hljs-keyword">return</span> slice.<span class="hljs-title function_">call</span>(array, <span class="hljs-number">0</span>, <span class="hljs-title class_">Math</span>.<span class="hljs-title function_">max</span>(<span class="hljs-number">0</span>, array.<span class="hljs-property">length</span> - (n == <span class="hljs-literal">null</span> || guard ? <span class="hljs-number">1</span> : n)));
 }</pre></div></div>
             
         </li>
