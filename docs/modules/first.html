@@ -849,7 +849,7 @@
               
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">import</span> initial <span class="hljs-keyword">from</span> <span class="hljs-string">'./initial.js'</span>;</pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">import</span> initial <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./initial.js&#x27;</span>;</pre></div></div>
             
         </li>
         
@@ -865,10 +865,10 @@ values in the array. The <strong>guard</strong> check allows it to work with <co
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">first</span>(<span class="hljs-params">array, n, guard</span>) </span>{
-  <span class="hljs-keyword">if</span> (array == <span class="hljs-literal">null</span> || array.length &lt; <span class="hljs-number">1</span>) <span class="hljs-keyword">return</span> n == <span class="hljs-literal">null</span> || guard ? <span class="hljs-keyword">void</span> <span class="hljs-number">0</span> : [];
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">first</span>(<span class="hljs-params">array, n, guard</span>) {
+  <span class="hljs-keyword">if</span> (array == <span class="hljs-literal">null</span> || array.<span class="hljs-property">length</span> &lt; <span class="hljs-number">1</span>) <span class="hljs-keyword">return</span> n == <span class="hljs-literal">null</span> || guard ? <span class="hljs-keyword">void</span> <span class="hljs-number">0</span> : [];
   <span class="hljs-keyword">if</span> (n == <span class="hljs-literal">null</span> || guard) <span class="hljs-keyword">return</span> array[<span class="hljs-number">0</span>];
-  <span class="hljs-keyword">return</span> initial(array, array.length - n);
+  <span class="hljs-keyword">return</span> <span class="hljs-title function_">initial</span>(array, array.<span class="hljs-property">length</span> - n);
 }</pre></div></div>
             
         </li>

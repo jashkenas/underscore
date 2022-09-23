@@ -849,10 +849,10 @@
               
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">import</span> isObject <span class="hljs-keyword">from</span> <span class="hljs-string">'./isObject.js'</span>;
-<span class="hljs-keyword">import</span> { nativeKeys, hasEnumBug } <span class="hljs-keyword">from</span> <span class="hljs-string">'./_setup.js'</span>;
-<span class="hljs-keyword">import</span> has <span class="hljs-keyword">from</span> <span class="hljs-string">'./_has.js'</span>;
-<span class="hljs-keyword">import</span> collectNonEnumProps <span class="hljs-keyword">from</span> <span class="hljs-string">'./_collectNonEnumProps.js'</span>;</pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">import</span> isObject <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./isObject.js&#x27;</span>;
+<span class="hljs-keyword">import</span> { nativeKeys, hasEnumBug } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./_setup.js&#x27;</span>;
+<span class="hljs-keyword">import</span> has <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./_has.js&#x27;</span>;
+<span class="hljs-keyword">import</span> collectNonEnumProps <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./_collectNonEnumProps.js&#x27;</span>;</pre></div></div>
             
         </li>
         
@@ -868,11 +868,11 @@ Delegates to <strong>ECMAScript 5</strong>‘s native <code>Object.keys</code>.<
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">keys</span>(<span class="hljs-params">obj</span>) </span>{
-  <span class="hljs-keyword">if</span> (!isObject(obj)) <span class="hljs-keyword">return</span> [];
-  <span class="hljs-keyword">if</span> (nativeKeys) <span class="hljs-keyword">return</span> nativeKeys(obj);
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">keys</span>(<span class="hljs-params">obj</span>) {
+  <span class="hljs-keyword">if</span> (!<span class="hljs-title function_">isObject</span>(obj)) <span class="hljs-keyword">return</span> [];
+  <span class="hljs-keyword">if</span> (nativeKeys) <span class="hljs-keyword">return</span> <span class="hljs-title function_">nativeKeys</span>(obj);
   <span class="hljs-keyword">var</span> keys = [];
-  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> key <span class="hljs-keyword">in</span> obj) <span class="hljs-keyword">if</span> (has(obj, key)) keys.push(key);</pre></div></div>
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> key <span class="hljs-keyword">in</span> obj) <span class="hljs-keyword">if</span> (<span class="hljs-title function_">has</span>(obj, key)) keys.<span class="hljs-title function_">push</span>(key);</pre></div></div>
             
         </li>
         
@@ -887,7 +887,7 @@ Delegates to <strong>ECMAScript 5</strong>‘s native <code>Object.keys</code>.<
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">if</span> (hasEnumBug) collectNonEnumProps(obj, keys);
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">if</span> (hasEnumBug) <span class="hljs-title function_">collectNonEnumProps</span>(obj, keys);
   <span class="hljs-keyword">return</span> keys;
 }</pre></div></div>
             

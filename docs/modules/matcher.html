@@ -849,8 +849,8 @@
               
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">import</span> extendOwn <span class="hljs-keyword">from</span> <span class="hljs-string">'./extendOwn.js'</span>;
-<span class="hljs-keyword">import</span> isMatch <span class="hljs-keyword">from</span> <span class="hljs-string">'./isMatch.js'</span>;</pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">import</span> extendOwn <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./extendOwn.js&#x27;</span>;
+<span class="hljs-keyword">import</span> isMatch <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./isMatch.js&#x27;</span>;</pre></div></div>
             
         </li>
         
@@ -866,10 +866,10 @@
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">matcher</span>(<span class="hljs-params">attrs</span>) </span>{
-  attrs = extendOwn({}, attrs);
-  <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">obj</span>) </span>{
-    <span class="hljs-keyword">return</span> isMatch(obj, attrs);
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">matcher</span>(<span class="hljs-params">attrs</span>) {
+  attrs = <span class="hljs-title function_">extendOwn</span>({}, attrs);
+  <span class="hljs-keyword">return</span> <span class="hljs-keyword">function</span>(<span class="hljs-params">obj</span>) {
+    <span class="hljs-keyword">return</span> <span class="hljs-title function_">isMatch</span>(obj, attrs);
   };
 }</pre></div></div>
             

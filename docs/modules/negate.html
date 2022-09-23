@@ -850,9 +850,9 @@
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">negate</span>(<span class="hljs-params">predicate</span>) </span>{
-  <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
-    <span class="hljs-keyword">return</span> !predicate.apply(<span class="hljs-keyword">this</span>, <span class="hljs-built_in">arguments</span>);
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">negate</span>(<span class="hljs-params">predicate</span>) {
+  <span class="hljs-keyword">return</span> <span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-keyword">return</span> !predicate.<span class="hljs-title function_">apply</span>(<span class="hljs-variable language_">this</span>, <span class="hljs-variable language_">arguments</span>);
   };
 }</pre></div></div>
             

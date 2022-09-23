@@ -854,26 +854,26 @@ the last argument. Similar to ES6’s “rest parameter”.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">restArguments</span>(<span class="hljs-params">func, startIndex</span>) </span>{
-  startIndex = startIndex == <span class="hljs-literal">null</span> ? func.length - <span class="hljs-number">1</span> : +startIndex;
-  <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
-    <span class="hljs-keyword">var</span> length = <span class="hljs-built_in">Math</span>.max(<span class="hljs-built_in">arguments</span>.length - startIndex, <span class="hljs-number">0</span>),
-        rest = <span class="hljs-built_in">Array</span>(length),
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">restArguments</span>(<span class="hljs-params">func, startIndex</span>) {
+  startIndex = startIndex == <span class="hljs-literal">null</span> ? func.<span class="hljs-property">length</span> - <span class="hljs-number">1</span> : +startIndex;
+  <span class="hljs-keyword">return</span> <span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-keyword">var</span> length = <span class="hljs-title class_">Math</span>.<span class="hljs-title function_">max</span>(<span class="hljs-variable language_">arguments</span>.<span class="hljs-property">length</span> - startIndex, <span class="hljs-number">0</span>),
+        rest = <span class="hljs-title class_">Array</span>(length),
         index = <span class="hljs-number">0</span>;
     <span class="hljs-keyword">for</span> (; index &lt; length; index++) {
-      rest[index] = <span class="hljs-built_in">arguments</span>[index + startIndex];
+      rest[index] = <span class="hljs-variable language_">arguments</span>[index + startIndex];
     }
     <span class="hljs-keyword">switch</span> (startIndex) {
-      <span class="hljs-keyword">case</span> <span class="hljs-number">0</span>: <span class="hljs-keyword">return</span> func.call(<span class="hljs-keyword">this</span>, rest);
-      <span class="hljs-keyword">case</span> <span class="hljs-number">1</span>: <span class="hljs-keyword">return</span> func.call(<span class="hljs-keyword">this</span>, <span class="hljs-built_in">arguments</span>[<span class="hljs-number">0</span>], rest);
-      <span class="hljs-keyword">case</span> <span class="hljs-number">2</span>: <span class="hljs-keyword">return</span> func.call(<span class="hljs-keyword">this</span>, <span class="hljs-built_in">arguments</span>[<span class="hljs-number">0</span>], <span class="hljs-built_in">arguments</span>[<span class="hljs-number">1</span>], rest);
+      <span class="hljs-keyword">case</span> <span class="hljs-number">0</span>: <span class="hljs-keyword">return</span> func.<span class="hljs-title function_">call</span>(<span class="hljs-variable language_">this</span>, rest);
+      <span class="hljs-keyword">case</span> <span class="hljs-number">1</span>: <span class="hljs-keyword">return</span> func.<span class="hljs-title function_">call</span>(<span class="hljs-variable language_">this</span>, <span class="hljs-variable language_">arguments</span>[<span class="hljs-number">0</span>], rest);
+      <span class="hljs-keyword">case</span> <span class="hljs-number">2</span>: <span class="hljs-keyword">return</span> func.<span class="hljs-title function_">call</span>(<span class="hljs-variable language_">this</span>, <span class="hljs-variable language_">arguments</span>[<span class="hljs-number">0</span>], <span class="hljs-variable language_">arguments</span>[<span class="hljs-number">1</span>], rest);
     }
-    <span class="hljs-keyword">var</span> args = <span class="hljs-built_in">Array</span>(startIndex + <span class="hljs-number">1</span>);
+    <span class="hljs-keyword">var</span> args = <span class="hljs-title class_">Array</span>(startIndex + <span class="hljs-number">1</span>);
     <span class="hljs-keyword">for</span> (index = <span class="hljs-number">0</span>; index &lt; startIndex; index++) {
-      args[index] = <span class="hljs-built_in">arguments</span>[index];
+      args[index] = <span class="hljs-variable language_">arguments</span>[index];
     }
     args[startIndex] = rest;
-    <span class="hljs-keyword">return</span> func.apply(<span class="hljs-keyword">this</span>, args);
+    <span class="hljs-keyword">return</span> func.<span class="hljs-title function_">apply</span>(<span class="hljs-variable language_">this</span>, args);
   };
 }</pre></div></div>
             

@@ -849,8 +849,8 @@
               
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">import</span> { supportsDataView } <span class="hljs-keyword">from</span> <span class="hljs-string">'./_setup.js'</span>;
-<span class="hljs-keyword">import</span> hasObjectTag <span class="hljs-keyword">from</span> <span class="hljs-string">'./_hasObjectTag.js'</span>;</pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">import</span> { supportsDataView } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./_setup.js&#x27;</span>;
+<span class="hljs-keyword">import</span> hasObjectTag <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./_hasObjectTag.js&#x27;</span>;</pre></div></div>
             
         </li>
         
@@ -868,9 +868,9 @@ In IE 11, the most common among them, this problem also applies to
             </div>
             
             <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">var</span> hasStringTagBug = (
-      supportsDataView &amp;&amp; hasObjectTag(<span class="hljs-keyword">new</span> <span class="hljs-built_in">DataView</span>(<span class="hljs-keyword">new</span> <span class="hljs-built_in">ArrayBuffer</span>(<span class="hljs-number">8</span>)))
+      supportsDataView &amp;&amp; <span class="hljs-title function_">hasObjectTag</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">DataView</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">ArrayBuffer</span>(<span class="hljs-number">8</span>)))
     ),
-    isIE11 = (<span class="hljs-keyword">typeof</span> <span class="hljs-built_in">Map</span> !== <span class="hljs-string">'undefined'</span> &amp;&amp; hasObjectTag(<span class="hljs-keyword">new</span> <span class="hljs-built_in">Map</span>));</pre></div></div>
+    isIE11 = (<span class="hljs-keyword">typeof</span> <span class="hljs-title class_">Map</span> !== <span class="hljs-string">&#x27;undefined&#x27;</span> &amp;&amp; <span class="hljs-title function_">hasObjectTag</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">Map</span>));</pre></div></div>
             
         </li>
         

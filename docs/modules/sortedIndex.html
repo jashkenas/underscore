@@ -849,8 +849,8 @@
               
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">import</span> cb <span class="hljs-keyword">from</span> <span class="hljs-string">'./_cb.js'</span>;
-<span class="hljs-keyword">import</span> getLength <span class="hljs-keyword">from</span> <span class="hljs-string">'./_getLength.js'</span>;</pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">import</span> cb <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./_cb.js&#x27;</span>;
+<span class="hljs-keyword">import</span> getLength <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./_getLength.js&#x27;</span>;</pre></div></div>
             
         </li>
         
@@ -866,13 +866,13 @@ an object should be inserted so as to maintain order. Uses binary search.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">sortedIndex</span>(<span class="hljs-params">array, obj, iteratee, context</span>) </span>{
-  iteratee = cb(iteratee, context, <span class="hljs-number">1</span>);
-  <span class="hljs-keyword">var</span> value = iteratee(obj);
-  <span class="hljs-keyword">var</span> low = <span class="hljs-number">0</span>, high = <span class="hljs-keyword">get</span><span class="hljs-title">Length</span>(<span class="hljs-params">array</span>);
-  <span class="hljs-title">while</span> (<span class="hljs-params">low &lt; high</span>) {
-    <span class="hljs-keyword">var</span> mid = <span class="hljs-built_in">Math</span>.floor((low + high) / <span class="hljs-number">2</span>);
-    <span class="hljs-keyword">if</span> (iteratee(array[mid]) &lt; value) low = mid + <span class="hljs-number">1</span>; <span class="hljs-keyword">else</span> high = mid;
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">sortedIndex</span>(<span class="hljs-params">array, obj, iteratee, context</span>) {
+  iteratee = <span class="hljs-title function_">cb</span>(iteratee, context, <span class="hljs-number">1</span>);
+  <span class="hljs-keyword">var</span> value = <span class="hljs-title function_">iteratee</span>(obj);
+  <span class="hljs-keyword">var</span> low = <span class="hljs-number">0</span>, high = <span class="hljs-title function_">getLength</span>(array);
+  <span class="hljs-keyword">while</span> (low &lt; high) {
+    <span class="hljs-keyword">var</span> mid = <span class="hljs-title class_">Math</span>.<span class="hljs-title function_">floor</span>((low + high) / <span class="hljs-number">2</span>);
+    <span class="hljs-keyword">if</span> (<span class="hljs-title function_">iteratee</span>(array[mid]) &lt; value) low = mid + <span class="hljs-number">1</span>; <span class="hljs-keyword">else</span> high = mid;
   }
   <span class="hljs-keyword">return</span> low;
 }</pre></div></div>

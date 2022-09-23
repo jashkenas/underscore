@@ -849,8 +849,8 @@
               
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">import</span> group <span class="hljs-keyword">from</span> <span class="hljs-string">'./_group.js'</span>;
-<span class="hljs-keyword">import</span> has <span class="hljs-keyword">from</span> <span class="hljs-string">'./_has.js'</span>;</pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">import</span> group <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./_group.js&#x27;</span>;
+<span class="hljs-keyword">import</span> has <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./_has.js&#x27;</span>;</pre></div></div>
             
         </li>
         
@@ -866,8 +866,8 @@ to group by, or a function that returns the criterion.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> group(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">result, value, key</span>) </span>{
-  <span class="hljs-keyword">if</span> (has(result, key)) result[key].push(value); <span class="hljs-keyword">else</span> result[key] = [value];
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-title function_">group</span>(<span class="hljs-keyword">function</span>(<span class="hljs-params">result, value, key</span>) {
+  <span class="hljs-keyword">if</span> (<span class="hljs-title function_">has</span>(result, key)) result[key].<span class="hljs-title function_">push</span>(value); <span class="hljs-keyword">else</span> result[key] = [value];
 });</pre></div></div>
             
         </li>

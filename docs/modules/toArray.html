@@ -849,13 +849,13 @@
               
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">import</span> isArray <span class="hljs-keyword">from</span> <span class="hljs-string">'./isArray.js'</span>;
-<span class="hljs-keyword">import</span> { slice } <span class="hljs-keyword">from</span> <span class="hljs-string">'./_setup.js'</span>;
-<span class="hljs-keyword">import</span> isString <span class="hljs-keyword">from</span> <span class="hljs-string">'./isString.js'</span>;
-<span class="hljs-keyword">import</span> isArrayLike <span class="hljs-keyword">from</span> <span class="hljs-string">'./_isArrayLike.js'</span>;
-<span class="hljs-keyword">import</span> map <span class="hljs-keyword">from</span> <span class="hljs-string">'./map.js'</span>;
-<span class="hljs-keyword">import</span> identity <span class="hljs-keyword">from</span> <span class="hljs-string">'./identity.js'</span>;
-<span class="hljs-keyword">import</span> values <span class="hljs-keyword">from</span> <span class="hljs-string">'./values.js'</span>;</pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">import</span> isArray <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./isArray.js&#x27;</span>;
+<span class="hljs-keyword">import</span> { slice } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./_setup.js&#x27;</span>;
+<span class="hljs-keyword">import</span> isString <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./isString.js&#x27;</span>;
+<span class="hljs-keyword">import</span> isArrayLike <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./_isArrayLike.js&#x27;</span>;
+<span class="hljs-keyword">import</span> map <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./map.js&#x27;</span>;
+<span class="hljs-keyword">import</span> identity <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./identity.js&#x27;</span>;
+<span class="hljs-keyword">import</span> values <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./values.js&#x27;</span>;</pre></div></div>
             
         </li>
         
@@ -871,10 +871,10 @@
             </div>
             
             <div class="content"><div class='highlight'><pre><span class="hljs-keyword">var</span> reStrSymbol = <span class="hljs-regexp">/[^\ud800-\udfff]|[\ud800-\udbff][\udc00-\udfff]|[\ud800-\udfff]/g</span>;
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">toArray</span>(<span class="hljs-params">obj</span>) </span>{
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">toArray</span>(<span class="hljs-params">obj</span>) {
   <span class="hljs-keyword">if</span> (!obj) <span class="hljs-keyword">return</span> [];
-  <span class="hljs-keyword">if</span> (isArray(obj)) <span class="hljs-keyword">return</span> slice.call(obj);
-  <span class="hljs-keyword">if</span> (isString(obj)) {</pre></div></div>
+  <span class="hljs-keyword">if</span> (<span class="hljs-title function_">isArray</span>(obj)) <span class="hljs-keyword">return</span> slice.<span class="hljs-title function_">call</span>(obj);
+  <span class="hljs-keyword">if</span> (<span class="hljs-title function_">isString</span>(obj)) {</pre></div></div>
             
         </li>
         
@@ -889,10 +889,10 @@
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">return</span> obj.match(reStrSymbol);
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">return</span> obj.<span class="hljs-title function_">match</span>(reStrSymbol);
   }
-  <span class="hljs-keyword">if</span> (isArrayLike(obj)) <span class="hljs-keyword">return</span> map(obj, identity);
-  <span class="hljs-keyword">return</span> values(obj);
+  <span class="hljs-keyword">if</span> (<span class="hljs-title function_">isArrayLike</span>(obj)) <span class="hljs-keyword">return</span> <span class="hljs-title function_">map</span>(obj, identity);
+  <span class="hljs-keyword">return</span> <span class="hljs-title function_">values</span>(obj);
 }</pre></div></div>
             
         </li>

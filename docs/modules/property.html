@@ -849,8 +849,8 @@
               
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">import</span> deepGet <span class="hljs-keyword">from</span> <span class="hljs-string">'./_deepGet.js'</span>;
-<span class="hljs-keyword">import</span> toPath <span class="hljs-keyword">from</span> <span class="hljs-string">'./_toPath.js'</span>;</pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">import</span> deepGet <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./_deepGet.js&#x27;</span>;
+<span class="hljs-keyword">import</span> toPath <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./_toPath.js&#x27;</span>;</pre></div></div>
             
         </li>
         
@@ -866,10 +866,10 @@ properties down the given <code>path</code>, specified as an array of keys or in
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">property</span>(<span class="hljs-params">path</span>) </span>{
-  path = toPath(path);
-  <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">obj</span>) </span>{
-    <span class="hljs-keyword">return</span> deepGet(obj, path);
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">property</span>(<span class="hljs-params">path</span>) {
+  path = <span class="hljs-title function_">toPath</span>(path);
+  <span class="hljs-keyword">return</span> <span class="hljs-keyword">function</span>(<span class="hljs-params">obj</span>) {
+    <span class="hljs-keyword">return</span> <span class="hljs-title function_">deepGet</span>(obj, path);
   };
 }</pre></div></div>
             

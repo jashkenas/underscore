@@ -849,11 +849,11 @@
               
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">import</span> getLength <span class="hljs-keyword">from</span> <span class="hljs-string">'./_getLength.js'</span>;
-<span class="hljs-keyword">import</span> isArray <span class="hljs-keyword">from</span> <span class="hljs-string">'./isArray.js'</span>;
-<span class="hljs-keyword">import</span> isString <span class="hljs-keyword">from</span> <span class="hljs-string">'./isString.js'</span>;
-<span class="hljs-keyword">import</span> isArguments <span class="hljs-keyword">from</span> <span class="hljs-string">'./isArguments.js'</span>;
-<span class="hljs-keyword">import</span> keys <span class="hljs-keyword">from</span> <span class="hljs-string">'./keys.js'</span>;</pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">import</span> getLength <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./_getLength.js&#x27;</span>;
+<span class="hljs-keyword">import</span> isArray <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./isArray.js&#x27;</span>;
+<span class="hljs-keyword">import</span> isString <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./isString.js&#x27;</span>;
+<span class="hljs-keyword">import</span> isArguments <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./isArguments.js&#x27;</span>;
+<span class="hljs-keyword">import</span> keys <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./keys.js&#x27;</span>;</pre></div></div>
             
         </li>
         
@@ -869,7 +869,7 @@ An “empty” object has no enumerable own-properties.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">isEmpty</span>(<span class="hljs-params">obj</span>) </span>{
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">isEmpty</span>(<span class="hljs-params">obj</span>) {
   <span class="hljs-keyword">if</span> (obj == <span class="hljs-literal">null</span>) <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;</pre></div></div>
             
         </li>
@@ -886,11 +886,11 @@ An “empty” object has no enumerable own-properties.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">var</span> length = <span class="hljs-keyword">get</span><span class="hljs-title">Length</span>(<span class="hljs-params">obj</span>);
-  <span class="hljs-title">if</span> (<span class="hljs-params">typeof length == <span class="hljs-string">'number'</span> &amp;&amp; (
-    isArray(obj</span>) || <span class="hljs-title">isString</span>(<span class="hljs-params">obj</span>) || <span class="hljs-title">isArguments</span>(<span class="hljs-params">obj</span>)
-  )) <span class="hljs-title">return</span> <span class="hljs-title">length</span> === 0;
-  <span class="hljs-title">return</span> <span class="hljs-title">getLength</span>(<span class="hljs-params">keys(obj</span>)) === 0;
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">var</span> length = <span class="hljs-title function_">getLength</span>(obj);
+  <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> length == <span class="hljs-string">&#x27;number&#x27;</span> &amp;&amp; (
+    <span class="hljs-title function_">isArray</span>(obj) || <span class="hljs-title function_">isString</span>(obj) || <span class="hljs-title function_">isArguments</span>(obj)
+  )) <span class="hljs-keyword">return</span> length === <span class="hljs-number">0</span>;
+  <span class="hljs-keyword">return</span> <span class="hljs-title function_">getLength</span>(<span class="hljs-title function_">keys</span>(obj)) === <span class="hljs-number">0</span>;
 }</pre></div></div>
             
         </li>

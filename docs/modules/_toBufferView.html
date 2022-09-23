@@ -849,7 +849,7 @@
               
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">import</span> getByteLength <span class="hljs-keyword">from</span> <span class="hljs-string">'./_getByteLength.js'</span>;</pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">import</span> getByteLength <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./_getByteLength.js&#x27;</span>;</pre></div></div>
             
         </li>
         
@@ -865,11 +865,11 @@ typed array or DataView to a new view, reusing the buffer.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">toBufferView</span>(<span class="hljs-params">bufferSource</span>) </span>{
-  <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Uint8Array</span>(
-    bufferSource.buffer || bufferSource,
-    bufferSource.byteOffset || <span class="hljs-number">0</span>,
-    <span class="hljs-keyword">get</span><span class="hljs-title">ByteLength</span>(<span class="hljs-params">bufferSource</span>)
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">toBufferView</span>(<span class="hljs-params">bufferSource</span>) {
+  <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Uint8Array</span>(
+    bufferSource.<span class="hljs-property">buffer</span> || bufferSource,
+    bufferSource.<span class="hljs-property">byteOffset</span> || <span class="hljs-number">0</span>,
+    <span class="hljs-title function_">getByteLength</span>(bufferSource)
   );
 }</pre></div></div>
             

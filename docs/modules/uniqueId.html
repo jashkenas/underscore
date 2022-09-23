@@ -852,8 +852,8 @@ Useful for temporary DOM ids.</p>
             </div>
             
             <div class="content"><div class='highlight'><pre><span class="hljs-keyword">var</span> idCounter = <span class="hljs-number">0</span>;
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">uniqueId</span>(<span class="hljs-params">prefix</span>) </span>{
-  <span class="hljs-keyword">var</span> id = ++idCounter + <span class="hljs-string">''</span>;
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">uniqueId</span>(<span class="hljs-params">prefix</span>) {
+  <span class="hljs-keyword">var</span> id = ++idCounter + <span class="hljs-string">&#x27;&#x27;</span>;
   <span class="hljs-keyword">return</span> prefix ? prefix + id : id;
 }</pre></div></div>
             

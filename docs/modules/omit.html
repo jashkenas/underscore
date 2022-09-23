@@ -849,13 +849,13 @@
               
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">import</span> restArguments <span class="hljs-keyword">from</span> <span class="hljs-string">'./restArguments.js'</span>;
-<span class="hljs-keyword">import</span> isFunction <span class="hljs-keyword">from</span> <span class="hljs-string">'./isFunction.js'</span>;
-<span class="hljs-keyword">import</span> negate <span class="hljs-keyword">from</span> <span class="hljs-string">'./negate.js'</span>;
-<span class="hljs-keyword">import</span> map <span class="hljs-keyword">from</span> <span class="hljs-string">'./map.js'</span>;
-<span class="hljs-keyword">import</span> flatten <span class="hljs-keyword">from</span> <span class="hljs-string">'./_flatten.js'</span>;
-<span class="hljs-keyword">import</span> contains <span class="hljs-keyword">from</span> <span class="hljs-string">'./contains.js'</span>;
-<span class="hljs-keyword">import</span> pick <span class="hljs-keyword">from</span> <span class="hljs-string">'./pick.js'</span>;</pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">import</span> restArguments <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./restArguments.js&#x27;</span>;
+<span class="hljs-keyword">import</span> isFunction <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./isFunction.js&#x27;</span>;
+<span class="hljs-keyword">import</span> negate <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./negate.js&#x27;</span>;
+<span class="hljs-keyword">import</span> map <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./map.js&#x27;</span>;
+<span class="hljs-keyword">import</span> flatten <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./_flatten.js&#x27;</span>;
+<span class="hljs-keyword">import</span> contains <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./contains.js&#x27;</span>;
+<span class="hljs-keyword">import</span> pick <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./pick.js&#x27;</span>;</pre></div></div>
             
         </li>
         
@@ -870,18 +870,18 @@
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> restArguments(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">obj, keys</span>) </span>{
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-title function_">restArguments</span>(<span class="hljs-keyword">function</span>(<span class="hljs-params">obj, keys</span>) {
   <span class="hljs-keyword">var</span> iteratee = keys[<span class="hljs-number">0</span>], context;
-  <span class="hljs-keyword">if</span> (isFunction(iteratee)) {
-    iteratee = negate(iteratee);
-    <span class="hljs-keyword">if</span> (keys.length &gt; <span class="hljs-number">1</span>) context = keys[<span class="hljs-number">1</span>];
+  <span class="hljs-keyword">if</span> (<span class="hljs-title function_">isFunction</span>(iteratee)) {
+    iteratee = <span class="hljs-title function_">negate</span>(iteratee);
+    <span class="hljs-keyword">if</span> (keys.<span class="hljs-property">length</span> &gt; <span class="hljs-number">1</span>) context = keys[<span class="hljs-number">1</span>];
   } <span class="hljs-keyword">else</span> {
-    keys = map(flatten(keys, <span class="hljs-literal">false</span>, <span class="hljs-literal">false</span>), <span class="hljs-built_in">String</span>);
-    iteratee = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">value, key</span>) </span>{
-      <span class="hljs-keyword">return</span> !contains(keys, key);
+    keys = <span class="hljs-title function_">map</span>(<span class="hljs-title function_">flatten</span>(keys, <span class="hljs-literal">false</span>, <span class="hljs-literal">false</span>), <span class="hljs-title class_">String</span>);
+    iteratee = <span class="hljs-keyword">function</span>(<span class="hljs-params">value, key</span>) {
+      <span class="hljs-keyword">return</span> !<span class="hljs-title function_">contains</span>(keys, key);
     };
   }
-  <span class="hljs-keyword">return</span> pick(obj, iteratee, context);
+  <span class="hljs-keyword">return</span> <span class="hljs-title function_">pick</span>(obj, iteratee, context);
 });</pre></div></div>
             
         </li>

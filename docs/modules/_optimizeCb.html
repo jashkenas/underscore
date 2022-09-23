@@ -852,11 +852,11 @@ functions.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">optimizeCb</span>(<span class="hljs-params">func, context, argCount</span>) </span>{
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">optimizeCb</span>(<span class="hljs-params">func, context, argCount</span>) {
   <span class="hljs-keyword">if</span> (context === <span class="hljs-keyword">void</span> <span class="hljs-number">0</span>) <span class="hljs-keyword">return</span> func;
   <span class="hljs-keyword">switch</span> (argCount == <span class="hljs-literal">null</span> ? <span class="hljs-number">3</span> : argCount) {
-    <span class="hljs-keyword">case</span> <span class="hljs-number">1</span>: <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">value</span>) </span>{
-      <span class="hljs-keyword">return</span> func.call(context, value);
+    <span class="hljs-keyword">case</span> <span class="hljs-number">1</span>: <span class="hljs-keyword">return</span> <span class="hljs-keyword">function</span>(<span class="hljs-params">value</span>) {
+      <span class="hljs-keyword">return</span> func.<span class="hljs-title function_">call</span>(context, value);
     };</pre></div></div>
             
         </li>
@@ -872,15 +872,15 @@ functions.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">case</span> <span class="hljs-number">3</span>: <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">value, index, collection</span>) </span>{
-      <span class="hljs-keyword">return</span> func.call(context, value, index, collection);
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">case</span> <span class="hljs-number">3</span>: <span class="hljs-keyword">return</span> <span class="hljs-keyword">function</span>(<span class="hljs-params">value, index, collection</span>) {
+      <span class="hljs-keyword">return</span> func.<span class="hljs-title function_">call</span>(context, value, index, collection);
     };
-    <span class="hljs-keyword">case</span> <span class="hljs-number">4</span>: <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">accumulator, value, index, collection</span>) </span>{
-      <span class="hljs-keyword">return</span> func.call(context, accumulator, value, index, collection);
+    <span class="hljs-keyword">case</span> <span class="hljs-number">4</span>: <span class="hljs-keyword">return</span> <span class="hljs-keyword">function</span>(<span class="hljs-params">accumulator, value, index, collection</span>) {
+      <span class="hljs-keyword">return</span> func.<span class="hljs-title function_">call</span>(context, accumulator, value, index, collection);
     };
   }
-  <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
-    <span class="hljs-keyword">return</span> func.apply(context, <span class="hljs-built_in">arguments</span>);
+  <span class="hljs-keyword">return</span> <span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-keyword">return</span> func.<span class="hljs-title function_">apply</span>(context, <span class="hljs-variable language_">arguments</span>);
   };
 }</pre></div></div>
             

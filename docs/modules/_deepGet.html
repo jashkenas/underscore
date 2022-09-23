@@ -850,8 +850,8 @@
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">deepGet</span>(<span class="hljs-params">obj, path</span>) </span>{
-  <span class="hljs-keyword">var</span> length = path.length;
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">deepGet</span>(<span class="hljs-params">obj, path</span>) {
+  <span class="hljs-keyword">var</span> length = path.<span class="hljs-property">length</span>;
   <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; length; i++) {
     <span class="hljs-keyword">if</span> (obj == <span class="hljs-literal">null</span>) <span class="hljs-keyword">return</span> <span class="hljs-keyword">void</span> <span class="hljs-number">0</span>;
     obj = obj[path[i]];

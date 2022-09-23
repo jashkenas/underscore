@@ -849,9 +849,9 @@
               
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">import</span> getLength <span class="hljs-keyword">from</span> <span class="hljs-string">'./_getLength.js'</span>;
-<span class="hljs-keyword">import</span> { slice } <span class="hljs-keyword">from</span> <span class="hljs-string">'./_setup.js'</span>;
-<span class="hljs-keyword">import</span> <span class="hljs-built_in">isNaN</span> <span class="hljs-keyword">from</span> <span class="hljs-string">'./isNaN.js'</span>;</pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">import</span> getLength <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./_getLength.js&#x27;</span>;
+<span class="hljs-keyword">import</span> { slice } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./_setup.js&#x27;</span>;
+<span class="hljs-keyword">import</span> <span class="hljs-built_in">isNaN</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./isNaN.js&#x27;</span>;</pre></div></div>
             
         </li>
         
@@ -866,27 +866,27 @@
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">createIndexFinder</span>(<span class="hljs-params">dir, predicateFind, sortedIndex</span>) </span>{
-  <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">array, item, idx</span>) </span>{
-    <span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>, length = <span class="hljs-keyword">get</span><span class="hljs-title">Length</span>(<span class="hljs-params">array</span>);
-    <span class="hljs-title">if</span> (<span class="hljs-params">typeof idx == <span class="hljs-string">'number'</span></span>) {
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">createIndexFinder</span>(<span class="hljs-params">dir, predicateFind, sortedIndex</span>) {
+  <span class="hljs-keyword">return</span> <span class="hljs-keyword">function</span>(<span class="hljs-params">array, item, idx</span>) {
+    <span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>, length = <span class="hljs-title function_">getLength</span>(array);
+    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> idx == <span class="hljs-string">&#x27;number&#x27;</span>) {
       <span class="hljs-keyword">if</span> (dir &gt; <span class="hljs-number">0</span>) {
-        i = idx &gt;= <span class="hljs-number">0</span> ? idx : <span class="hljs-built_in">Math</span>.max(idx + length, i);
+        i = idx &gt;= <span class="hljs-number">0</span> ? idx : <span class="hljs-title class_">Math</span>.<span class="hljs-title function_">max</span>(idx + length, i);
       } <span class="hljs-keyword">else</span> {
-        length = idx &gt;= <span class="hljs-number">0</span> ? <span class="hljs-built_in">Math</span>.min(idx + <span class="hljs-number">1</span>, length) : idx + length + <span class="hljs-number">1</span>;
+        length = idx &gt;= <span class="hljs-number">0</span> ? <span class="hljs-title class_">Math</span>.<span class="hljs-title function_">min</span>(idx + <span class="hljs-number">1</span>, length) : idx + length + <span class="hljs-number">1</span>;
       }
     } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (sortedIndex &amp;&amp; idx &amp;&amp; length) {
-      idx = sortedIndex(array, item);
-      <span class="hljs-keyword">return</span> array[idx] === item ? idx : <span class="hljs-number">-1</span>;
+      idx = <span class="hljs-title function_">sortedIndex</span>(array, item);
+      <span class="hljs-keyword">return</span> array[idx] === item ? idx : -<span class="hljs-number">1</span>;
     }
     <span class="hljs-keyword">if</span> (item !== item) {
-      idx = predicateFind(slice.call(array, i, length), <span class="hljs-built_in">isNaN</span>);
-      <span class="hljs-keyword">return</span> idx &gt;= <span class="hljs-number">0</span> ? idx + i : <span class="hljs-number">-1</span>;
+      idx = <span class="hljs-title function_">predicateFind</span>(slice.<span class="hljs-title function_">call</span>(array, i, length), <span class="hljs-built_in">isNaN</span>);
+      <span class="hljs-keyword">return</span> idx &gt;= <span class="hljs-number">0</span> ? idx + i : -<span class="hljs-number">1</span>;
     }
     <span class="hljs-keyword">for</span> (idx = dir &gt; <span class="hljs-number">0</span> ? i : length - <span class="hljs-number">1</span>; idx &gt;= <span class="hljs-number">0</span> &amp;&amp; idx &lt; length; idx += dir) {
       <span class="hljs-keyword">if</span> (array[idx] === item) <span class="hljs-keyword">return</span> idx;
     }
-    <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;
+    <span class="hljs-keyword">return</span> -<span class="hljs-number">1</span>;
   };
 }</pre></div></div>
             

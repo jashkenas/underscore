@@ -849,8 +849,8 @@
               
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">import</span> restArguments <span class="hljs-keyword">from</span> <span class="hljs-string">'./restArguments.js'</span>;
-<span class="hljs-keyword">import</span> now <span class="hljs-keyword">from</span> <span class="hljs-string">'./now.js'</span>;</pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">import</span> restArguments <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./restArguments.js&#x27;</span>;
+<span class="hljs-keyword">import</span> now <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./now.js&#x27;</span>;</pre></div></div>
             
         </li>
         
@@ -868,16 +868,16 @@ triggered at the beginning of the sequence instead of at the end.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">debounce</span>(<span class="hljs-params">func, wait, immediate</span>) </span>{
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">debounce</span>(<span class="hljs-params">func, wait, immediate</span>) {
   <span class="hljs-keyword">var</span> timeout, previous, args, result, context;
 
-  <span class="hljs-keyword">var</span> later = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
-    <span class="hljs-keyword">var</span> passed = now() - previous;
+  <span class="hljs-keyword">var</span> later = <span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-keyword">var</span> passed = <span class="hljs-title function_">now</span>() - previous;
     <span class="hljs-keyword">if</span> (wait &gt; passed) {
-      timeout = <span class="hljs-keyword">set</span><span class="hljs-title">Timeout</span>(<span class="hljs-params">later, wait - passed</span>);
-    } <span class="hljs-title">else</span> {
+      timeout = <span class="hljs-built_in">setTimeout</span>(later, wait - passed);
+    } <span class="hljs-keyword">else</span> {
       timeout = <span class="hljs-literal">null</span>;
-      <span class="hljs-keyword">if</span> (!immediate) result = func.apply(context, args);</pre></div></div>
+      <span class="hljs-keyword">if</span> (!immediate) result = func.<span class="hljs-title function_">apply</span>(context, args);</pre></div></div>
             
         </li>
         
@@ -896,19 +896,19 @@ triggered at the beginning of the sequence instead of at the end.</p>
     }
   };
 
-  <span class="hljs-keyword">var</span> debounced = restArguments(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">_args</span>) </span>{
-    context = <span class="hljs-keyword">this</span>;
+  <span class="hljs-keyword">var</span> debounced = <span class="hljs-title function_">restArguments</span>(<span class="hljs-keyword">function</span>(<span class="hljs-params">_args</span>) {
+    context = <span class="hljs-variable language_">this</span>;
     args = _args;
-    previous = now();
+    previous = <span class="hljs-title function_">now</span>();
     <span class="hljs-keyword">if</span> (!timeout) {
-      timeout = <span class="hljs-keyword">set</span><span class="hljs-title">Timeout</span>(<span class="hljs-params">later, wait</span>);
-      <span class="hljs-title">if</span> (<span class="hljs-params">immediate</span>) <span class="hljs-title">result</span> = <span class="hljs-title">func</span>.<span class="hljs-title">apply</span>(<span class="hljs-params">context, args</span>);
+      timeout = <span class="hljs-built_in">setTimeout</span>(later, wait);
+      <span class="hljs-keyword">if</span> (immediate) result = func.<span class="hljs-title function_">apply</span>(context, args);
     }
-    <span class="hljs-title">return</span> <span class="hljs-title">result</span>;
+    <span class="hljs-keyword">return</span> result;
   });
 
-  <span class="hljs-title">debounced</span>.<span class="hljs-title">cancel</span> = <span class="hljs-title">function</span>() {
-    clearTimeout(timeout);
+  debounced.<span class="hljs-property">cancel</span> = <span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-built_in">clearTimeout</span>(timeout);
     timeout = args = context = <span class="hljs-literal">null</span>;
   };
 
