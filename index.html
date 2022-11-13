@@ -107,6 +107,13 @@
       font-style: italic;
       margin-left: 20px;
     }
+    a.source {
+      font-variant: small-caps;
+      margin-left: 20px;
+    }
+      a.source + a.source {
+        margin-left: unset;
+      }
     table, tr, td {
       margin: 0; padding: 0;
     }
@@ -740,6 +747,7 @@
       <p id="each">
         <b class="header">each</b><code>_.each(list, iteratee, [context])</code>
         <span class="alias">Alias: <b>forEach</b></span>
+        <a href="docs/modules/each.html" class="source">source</a>
         <br />
         Iterates over a <b>list</b> of elements, yielding each in turn to an
         <b>iteratee</b> function.
@@ -768,6 +776,7 @@ _.each({one: 1, two: 2, three: 3}, alert);
       <p id="map">
         <b class="header">map</b><code>_.map(list, iteratee, [context])</code>
         <span class="alias">Alias: <b>collect</b></span>
+        <a href="docs/modules/map.html" class="source">source</a>
         <br />
         Produces a new array of values by mapping each value in <b>list</b>
         through a transformation function (<a href="#iteratee"><b>iteratee</b></a>).
@@ -786,6 +795,7 @@ _.map([[1, 2], [3, 4]], _.first);
       <p id="reduce">
         <b class="header">reduce</b><code>_.reduce(list, iteratee, [memo], [context])</code>
         <span class="alias">Aliases: <b>inject</b>, <b>foldl</b></span>
+        <a href="docs/modules/reduce.html" class="source">source</a>
         <br />
         Also known as <b>inject</b> and <b>foldl</b>, reduce boils down a <b>list</b> of values into a single value.
         <b>Memo</b> is the initial state of the reduction, and each successive step of it should be returned by
@@ -805,6 +815,7 @@ var sum = _.reduce([1, 2, 3], function(memo, num){ return memo + num; }, 0);
       <p id="reduceRight">
         <b class="header">reduceRight</b><code>_.reduceRight(list, iteratee, [memo], [context])</code>
         <span class="alias">Alias: <b>foldr</b></span>
+        <a href="docs/modules/reduceRight.html" class="source">source</a>
         <br />
         The right-associative version of <b>reduce</b>. <b>Foldr</b>
         is not as useful in JavaScript as it would be in a language with lazy
@@ -819,6 +830,7 @@ var flat = _.reduceRight(list, function(a, b) { return a.concat(b); }, []);
       <p id="find">
         <b class="header">find</b><code>_.find(list, predicate, [context])</code>
         <span class="alias">Alias: <b>detect</b></span>
+        <a href="docs/modules/find.html" class="source">source</a>
         <br />
         Looks through each value in the <b>list</b>, returning the first one that
         passes a truth test (<b>predicate</b>), or <tt>undefined</tt> if no value
@@ -836,6 +848,7 @@ var even = _.find([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
       <p id="filter">
         <b class="header">filter</b><code>_.filter(list, predicate, [context])</code>
         <span class="alias">Alias: <b>select</b></span>
+        <a href="docs/modules/filter.html" class="source">source</a>
         <br />
         Looks through each value in the <b>list</b>, returning an array of all
         the values that pass a truth test (<b>predicate</b>).
@@ -849,6 +862,7 @@ var evens = _.filter([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
 
       <p id="findWhere">
         <b class="header">findWhere</b><code>_.findWhere(list, properties)</code>
+        <a href="docs/modules/findWhere.html" class="source">source</a>
         <br />
         Looks through the <b>list</b> and returns the <i>first</i> value that <a href="#matches">matches</a>
         all of the key-value pairs listed in <b>properties</b>.
@@ -867,6 +881,7 @@ _.findWhere(publicServicePulitzers, {newsroom: "The New York Times"});
 
       <p id="where">
         <b class="header">where</b><code>_.where(list, properties)</code>
+        <a href="docs/modules/where.html" class="source">source</a>
         <br />
         Looks through each value in the <b>list</b>, returning an array of all
         the values that <a href="#matches">matches</a> the key-value pairs listed in <b>properties</b>.
@@ -879,6 +894,7 @@ _.where(listOfPlays, {author: "Shakespeare", year: 1611});
 
       <p id="reject">
         <b class="header">reject</b><code>_.reject(list, predicate, [context])</code>
+        <a href="docs/modules/reject.html" class="source">source</a>
         <br />
         Returns the values in <b>list</b> without the elements that the truth
         test (<b>predicate</b>) passes. The opposite of <b>filter</b>.
@@ -893,6 +909,7 @@ var odds = _.reject([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
       <p id="every">
         <b class="header">every</b><code>_.every(list, [predicate], [context])</code>
         <span class="alias">Alias: <b>all</b></span>
+        <a href="docs/modules/every.html" class="source">source</a>
         <br />
         Returns <i>true</i> if all of the values in the <b>list</b> pass the
         <b>predicate</b> truth test. Short-circuits and stops traversing the list
@@ -908,6 +925,7 @@ _.every([2, 4, 5], function(num) { return num % 2 == 0; });
       <p id="some">
         <b class="header">some</b><code>_.some(list, [predicate], [context])</code>
         <span class="alias">Alias: <b>any</b></span>
+        <a href="docs/modules/some.html" class="source">source</a>
         <br />
         Returns <i>true</i> if any of the values in the <b>list</b> pass the
         <b>predicate</b> truth test. Short-circuits and stops traversing the list
@@ -923,6 +941,7 @@ _.some([null, 0, 'yes', false]);
       <p id="contains">
         <b class="header">contains</b><code>_.contains(list, value, [fromIndex])</code>
         <span class="alias">Aliases: <b>include</b>, <b>includes</b></span>
+        <a href="docs/modules/contains.html" class="source">source</a>
         <br />
         Returns <i>true</i> if the <b>value</b> is present in the <b>list</b>.
         Uses <b>indexOf</b> internally, if <b>list</b> is an Array.
@@ -935,6 +954,7 @@ _.contains([1, 2, 3], 3);
 
       <p id="invoke">
         <b class="header">invoke</b><code>_.invoke(list, methodName, *arguments)</code>
+        <a href="docs/modules/invoke.html" class="source">source</a>
         <br />
         Calls the method named by <b>methodName</b> on each value in the <b>list</b>.
         Any extra arguments passed to <b>invoke</b> will be forwarded on to the
@@ -947,6 +967,7 @@ _.invoke([[5, 1, 7], [3, 2, 1]], 'sort');
 
       <p id="pluck">
         <b class="header">pluck</b><code>_.pluck(list, propertyName)</code>
+        <a href="docs/modules/pluck.html" class="source">source</a>
         <br />
         A convenient version of what is perhaps the most common use-case for
         <b>map</b>: extracting a list of property values.
@@ -959,6 +980,7 @@ _.pluck(stooges, 'name');
 
       <p id="max">
         <b class="header">max</b><code>_.max(list, [iteratee], [context])</code>
+        <a href="docs/modules/max.html" class="source">source</a>
         <br />
         Returns the maximum value in <b>list</b>. If an <a href="#iteratee"><b>iteratee</b></a>
         function is provided, it will be used on each value to generate the
@@ -976,6 +998,7 @@ _.max(stooges, function(stooge){ return stooge.age; });
 
       <p id="min">
         <b class="header">min</b><code>_.min(list, [iteratee], [context])</code>
+        <a href="docs/modules/min.html" class="source">source</a>
         <br />
         Returns the minimum value in <b>list</b>. If an <a href="#iteratee"><b>iteratee</b></a>
         function is provided, it will be used on each value to generate the
@@ -993,6 +1016,7 @@ _.min(numbers);
 
       <p id="sortBy">
         <b class="header">sortBy</b><code>_.sortBy(list, iteratee, [context])</code>
+        <a href="docs/modules/sortBy.html" class="source">source</a>
         <br />
         Returns a (stably) sorted copy of <b>list</b>, ranked in ascending
         order by the results of running each value through <a href="#iteratee"><b>iteratee</b></a>.
@@ -1010,6 +1034,7 @@ _.sortBy(stooges, 'name');
 </pre>
       <p id="groupBy">
         <b class="header">groupBy</b><code>_.groupBy(list, iteratee, [context])</code>
+        <a href="docs/modules/groupBy.html" class="source">source</a>
         <br />
         Splits a collection into sets, grouped by the result of running each
         value through <b>iteratee</b>. If <b>iteratee</b> is a string instead of
@@ -1026,6 +1051,7 @@ _.groupBy(['one', 'two', 'three'], 'length');
 
       <p id="indexBy">
         <b class="header">indexBy</b><code>_.indexBy(list, iteratee, [context])</code>
+        <a href="docs/modules/indexBy.html" class="source">source</a>
         <br />
         Given a <b>list</b>, and an <a href="#iteratee"><b>iteratee</b></a> function
         that returns a key for each element in the list (or a property name),
@@ -1045,6 +1071,7 @@ _.indexBy(stooges, 'age');
 
       <p id="countBy">
         <b class="header">countBy</b><code>_.countBy(list, iteratee, [context])</code>
+        <a href="docs/modules/countBy.html" class="source">source</a>
         <br />
         Sorts a list into groups and returns a count for the number of objects
         in each group.
@@ -1060,6 +1087,7 @@ _.countBy([1, 2, 3, 4, 5], function(num) {
 
       <p id="shuffle">
         <b class="header">shuffle</b><code>_.shuffle(list)</code>
+        <a href="docs/modules/shuffle.html" class="source">source</a>
         <br />
         Returns a shuffled copy of the <b>list</b>, using a version of the
         <a href="https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle">Fisher-Yates shuffle</a>.
@@ -1071,6 +1099,7 @@ _.shuffle([1, 2, 3, 4, 5, 6]);
 
       <p id="sample">
         <b class="header">sample</b><code>_.sample(list, [n])</code>
+        <a href="docs/modules/sample.html" class="source">source</a>
         <br />
         Produce a random sample from the <b>list</b>. Pass a number to
         return <b>n</b> random elements from the list. Otherwise a single random
@@ -1086,6 +1115,7 @@ _.sample([1, 2, 3, 4, 5, 6], 3);
 
       <p id="toArray">
         <b class="header">toArray</b><code>_.toArray(list)</code>
+        <a href="docs/modules/toArray.html" class="source">source</a>
         <br />
         Creates a real Array from the <b>list</b> (anything that can be
         iterated over).  Useful for transmuting the <b>arguments</b> object.
@@ -1097,6 +1127,7 @@ _.sample([1, 2, 3, 4, 5, 6], 3);
 
       <p id="size">
         <b class="header">size</b><code>_.size(list)</code>
+        <a href="docs/modules/size.html" class="source">source</a>
         <br />
         Return the number of values in the <b>list</b>.
       </p>
@@ -1110,6 +1141,7 @@ _.size({one: 1, two: 2, three: 3});
 
       <p id="partition">
         <b class="header">partition</b><code>_.partition(list, predicate)</code>
+        <a href="docs/modules/partition.html" class="source">source</a>
         <br />
         Split <b>list</b> into two arrays: one whose elements all satisfy
         <b>predicate</b> and one whose elements all do not satisfy <b>predicate</b>.
@@ -1123,6 +1155,7 @@ _.partition([0, 1, 2, 3, 4, 5], isOdd);
 
       <p id="compact">
         <b class="header">compact</b><code>_.compact(list)</code>
+        <a href="docs/modules/compact.html" class="source">source</a>
         <br />
         Returns a copy of the <b>list</b> with all falsy values removed.
         In JavaScript, <i>false</i>, <i>null</i>, <i>0</i>, <i>""</i>,
@@ -1145,6 +1178,7 @@ _.compact([0, 1, false, 2, '', 3]);
       <p id="first">
         <b class="header">first</b><code>_.first(array, [n])</code>
         <span class="alias">Aliases: <b>head</b>, <b>take</b></span>
+        <a href="docs/modules/first.html" class="source">source</a>
         <br />
         Returns the first element of an <b>array</b>. Passing <b>n</b> will
         return the first <b>n</b> elements of the array.
@@ -1156,6 +1190,7 @@ _.first([5, 4, 3, 2, 1]);
 
       <p id="initial">
         <b class="header">initial</b><code>_.initial(array, [n])</code>
+        <a href="docs/modules/initial.html" class="source">source</a>
         <br />
         Returns everything but the last entry of the array. Especially useful on
         the arguments object. Pass <b>n</b> to exclude the last <b>n</b> elements
@@ -1168,6 +1203,7 @@ _.initial([5, 4, 3, 2, 1]);
 
       <p id="last">
         <b class="header">last</b><code>_.last(array, [n])</code>
+        <a href="docs/modules/last.html" class="source">source</a>
         <br />
         Returns the last element of an <b>array</b>. Passing <b>n</b> will return
         the last <b>n</b> elements of the array.
@@ -1180,6 +1216,7 @@ _.last([5, 4, 3, 2, 1]);
       <p id="rest">
         <b class="header">rest</b><code>_.rest(array, [index])</code>
         <span class="alias">Aliases: <b>tail</b>, <b>drop</b></span>
+        <a href="docs/modules/rest.html" class="source">source</a>
         <br />
         Returns the <b>rest</b> of the elements in an array. Pass an <b>index</b>
         to return the values of the array from that index onward.
@@ -1191,6 +1228,7 @@ _.rest([5, 4, 3, 2, 1]);
 
       <p id="flatten">
         <b class="header">flatten</b><code>_.flatten(array, [depth])</code>
+        <a href="docs/modules/flatten.html" class="source">source</a>
         <br />
         Flattens a nested <b>array</b>. If you pass <tt>true</tt> or <tt>1</tt>
         as the <b>depth</b>, the array will only be flattened a single level.
@@ -1212,6 +1250,7 @@ _.flatten([1, [2], [3, [[4]]]], 2);
 
       <p id="without">
         <b class="header">without</b><code>_.without(array, *values)</code>
+        <a href="docs/modules/without.html" class="source">source</a>
         <br />
         Returns a copy of the <b>array</b> with all instances of the <b>values</b>
         removed.
@@ -1223,6 +1262,7 @@ _.without([1, 2, 1, 0, 3, 1, 4], 0, 1);
 
       <p id="union">
         <b class="header">union</b><code>_.union(*arrays)</code>
+        <a href="docs/modules/union.html" class="source">source</a>
         <br />
         Computes the union of the passed-in <b>arrays</b>: the list of unique items,
         in order, that are present in one or more of the <b>arrays</b>.
@@ -1234,6 +1274,7 @@ _.union([1, 2, 3], [101, 2, 1, 10], [2, 1]);
 
       <p id="intersection">
         <b class="header">intersection</b><code>_.intersection(*arrays)</code>
+        <a href="docs/modules/intersection.html" class="source">source</a>
         <br />
         Computes the list of values that are the intersection of all the <b>arrays</b>.
         Each value in the result is present in each of the <b>arrays</b>.
@@ -1245,6 +1286,7 @@ _.intersection([1, 2, 3], [101, 2, 1, 10], [2, 1]);
 
       <p id="difference">
         <b class="header">difference</b><code>_.difference(array, *others)</code>
+        <a href="docs/modules/difference.html" class="source">source</a>
         <br />
         Similar to <b>without</b>, but returns the values from <b>array</b> that
         are not present in the <b>other</b> arrays.
@@ -1257,6 +1299,7 @@ _.difference([1, 2, 3, 4, 5], [5, 2, 10]);
       <p id="uniq">
         <b class="header">uniq</b><code>_.uniq(array, [isSorted], [iteratee])</code>
         <span class="alias">Alias: <b>unique</b></span>
+        <a href="docs/modules/uniq.html" class="source">source</a>
         <br />
         Produces a duplicate-free version of the <b>array</b>, using <i>===</i> to test
         object equality. In particular only the first occurrence of each value is kept.
@@ -1272,6 +1315,7 @@ _.uniq([1, 2, 1, 4, 1, 3]);
 
       <p id="zip">
         <b class="header">zip</b><code>_.zip(*arrays)</code>
+        <a href="docs/modules/zip.html" class="source">source</a>
         <br />
         Merges together the values of each of the <b>arrays</b> with the
         values at the corresponding position. Useful when you have separate
@@ -1286,6 +1330,7 @@ _.zip(['moe', 'larry', 'curly'], [30, 40, 50], [true, false, false]);
       <p id="unzip">
         <b class="header">unzip</b><code>_.unzip(array)</code>
         <span class="alias">Alias: <b>transpose</b></span>
+        <a href="docs/modules/unzip.html" class="source">source</a>
         <br>
         The opposite of <a href="#zip">zip</a>. Given an <b>array</b> of
         arrays, returns a series of new arrays, the first of which contains all
@@ -1300,6 +1345,7 @@ _.unzip([["moe", 30, true], ["larry", 40, false], ["curly", 50, false]]);
 
       <p id="object">
         <b class="header">object</b><code>_.object(list, [values])</code>
+        <a href="docs/modules/object.html" class="source">source</a>
         <br />
         Converts arrays into objects. Pass either a single list of
         <tt>[key, value]</tt> pairs, or a list of keys, and a list of values. Passing
@@ -1316,6 +1362,7 @@ _.object([['moe', 30], ['larry', 40], ['curly', 50]]);
 
       <p id="chunk">
         <b class="header">chunk</b><code>_.chunk(array, length)</code>
+        <a href="docs/modules/chunk.html" class="source">source</a>
         <br />
         Chunks an <b>array</b> into multiple arrays, each containing <b>length</b>
         or fewer items.
@@ -1327,6 +1374,7 @@ var partners = _.chunk(_.shuffle(kindergarten), 2);
 
       <p id="indexOf">
         <b class="header">indexOf</b><code>_.indexOf(array, value, [isSorted])</code>
+        <a href="docs/modules/indexOf.html" class="source">source</a>
         <br />
         Returns the index at which <b>value</b> can be found in the <b>array</b>,
         or <i>-1</i> if value is not present in the <b>array</b>. If you're working with a
@@ -1344,6 +1392,7 @@ _.indexOf([1, 2, 3], 2);
 
       <p id="lastIndexOf">
         <b class="header">lastIndexOf</b><code>_.lastIndexOf(array, value, [fromIndex])</code>
+        <a href="docs/modules/lastIndexOf.html" class="source">source</a>
         <br />
         Returns the index of the last occurrence of <b>value</b> in the <b>array</b>,
         or <i>-1</i> if value is not present. Pass <b>fromIndex</b> to start your search at a
@@ -1356,6 +1405,7 @@ _.lastIndexOf([1, 2, 3, 1, 2, 3], 2);
 
       <p id="sortedIndex">
         <b class="header">sortedIndex</b><code>_.sortedIndex(array, value, [iteratee], [context])</code>
+        <a href="docs/modules/sortedIndex.html" class="source">source</a>
         <br />
         Uses a binary search to determine the smallest index at which the <b>value</b>
         <i>should</i> be inserted into the <b>array</b> in order to maintain the <b>array</b>'s
@@ -1376,6 +1426,7 @@ _.sortedIndex(stooges, {name: 'larry', age: 50}, 'age');
 
       <p id="findIndex">
         <b class="header">findIndex</b><code>_.findIndex(array, predicate, [context])</code>
+        <a href="docs/modules/findIndex.html" class="source">source</a>
         <br />
         Similar to <a href="#indexOf"><tt>_.indexOf</tt></a>, returns the first index
         where the <strong>predicate</strong> truth test passes; otherwise returns <i>-1</i>.
@@ -1389,6 +1440,7 @@ _.findIndex([4, 6, 7, 12], isPrime);
 
       <p id="findLastIndex">
         <b class="header">findLastIndex</b><code>_.findLastIndex(array, predicate, [context])</code>
+        <a href="docs/modules/findLastIndex.html" class="source">source</a>
         <br />
         Like <a href="#findIndex"><tt>_.findIndex</tt></a> but iterates the array in reverse,
         returning the index closest to the end where the <strong>predicate</strong> truth test
@@ -1407,6 +1459,7 @@ _.findLastIndex(users, {
 
       <p id="range">
         <b class="header">range</b><code>_.range([start], stop, [step])</code>
+        <a href="docs/modules/range.html" class="source">source</a>
         <br />
         A function to create flexibly-numbered lists of integers, handy for
         <tt>each</tt> and <tt>map</tt> loops. <b>start</b>, if omitted,
@@ -1434,6 +1487,7 @@ _.range(0);
 
       <p id="bind">
         <b class="header">bind</b><code>_.bind(function, object, *arguments)</code>
+        <a href="docs/modules/bind.html" class="source">source</a>
         <br />
         Bind a <b>function</b> to an <b>object</b>, meaning that whenever
         the function is called, the value of <i>this</i> will be the <b>object</b>.
@@ -1450,6 +1504,7 @@ func();
 
       <p id="bindAll">
         <b class="header">bindAll</b><code>_.bindAll(object, *methodNames)</code>
+        <a href="docs/modules/bindAll.html" class="source">source</a>
         <br />
         Binds a number of methods on the <b>object</b>, specified by
         <b>methodNames</b>, to be run in the context of that object whenever they
@@ -1470,6 +1525,7 @@ jQuery('#underscore_button').on('click', buttonView.onClick);
 
       <p id="partial">
         <b class="header">partial</b><code>_.partial(function, *arguments)</code>
+        <a href="docs/modules/partial.html" class="source">source</a>
         <br />
         Partially apply a function by filling in any number of its
         <b>arguments</b>, <i>without</i> changing its dynamic <tt>this</tt>
@@ -1494,6 +1550,7 @@ subFrom20(5);
 
       <p id="memoize">
         <b class="header">memoize</b><code>_.memoize(function, [hashFunction])</code>
+        <a href="docs/modules/memoize.html" class="source">source</a>
         <br />
         Memoizes a given <b>function</b> by caching the computed result. Useful
         for speeding up slow-running computations. If passed an optional
@@ -1511,6 +1568,7 @@ var fibonacci = _.memoize(function(n) {
 
       <p id="delay">
         <b class="header">delay</b><code>_.delay(function, wait, *arguments)</code>
+        <a href="docs/modules/delay.html" class="source">source</a>
         <br />
         Much like <b>setTimeout</b>, invokes <b>function</b> after <b>wait</b>
         milliseconds. If you pass the optional <b>arguments</b>, they will be
@@ -1524,6 +1582,7 @@ _.delay(log, 1000, 'logged later');
 
       <p id="defer">
         <b class="header">defer</b><code>_.defer(function, *arguments)</code>
+        <a href="docs/modules/defer.html" class="source">source</a>
         <br />
         Defers invoking the <b>function</b> until the current call stack has cleared,
         similar to using <b>setTimeout</b> with a delay of 0. Useful for performing
@@ -1538,6 +1597,7 @@ _.defer(function(){ alert('deferred'); });
 
       <p id="throttle">
         <b class="header">throttle</b><code>_.throttle(function, wait, [options])</code>
+        <a href="docs/modules/throttle.html" class="source">source</a>
         <br />
         Creates and returns a new, throttled version of the passed function,
         that, when invoked repeatedly, will only actually call the original function
@@ -1564,6 +1624,7 @@ $(window).scroll(throttled);
 
       <p id="debounce">
         <b class="header">debounce</b><code>_.debounce(function, wait, [immediate])</code>
+        <a href="docs/modules/debounce.html" class="source">source</a>
         <br />
         Creates and returns a new debounced version of the passed function which
         will postpone its execution until after
@@ -1596,6 +1657,7 @@ $(window).resize(lazyLayout);
 
       <p id="once">
         <b class="header">once</b><code>_.once(function)</code>
+        <a href="docs/modules/once.html" class="source">source</a>
         <br />
         Creates a version of the function that can only be called one time.
         Repeated calls to the modified function will have no effect, returning
@@ -1611,6 +1673,7 @@ initialize();
 
       <p id="after">
         <b class="header">after</b><code>_.after(count, function)</code>
+        <a href="docs/modules/after.html" class="source">source</a>
         <br />
         Creates a wrapper of <b>function</b> that does nothing at first. From
         the <b>count</b>-th call onwards, it starts actually calling
@@ -1628,6 +1691,7 @@ _.each(notes, function(note) {
 
       <p id="before">
         <b class="header">before</b><code>_.before(count, function)</code>
+        <a href="docs/modules/before.html" class="source">source</a>
         <br />
         Creates a wrapper of <b>function</b> that memoizes its return value.
         From the <b>count</b>-th call onwards, the memoized result of the last
@@ -1645,6 +1709,7 @@ monthlyMeeting();
 
       <p id="wrap">
         <b class="header">wrap</b><code>_.wrap(function, wrapper)</code>
+        <a href="docs/modules/wrap.html" class="source">source</a>
         <br />
         Wraps the first <b>function</b> inside of the <b>wrapper</b> function,
         passing it as the first argument. This allows the <b>wrapper</b> to
@@ -1662,6 +1727,7 @@ hello();
 
       <p id="negate">
         <b class="header">negate</b><code>_.negate(predicate)</code>
+        <a href="docs/modules/negate.html" class="source">source</a>
         <br />
         Returns a new negated version of the <a href="#iteratee"><b>predicate</b></a> function.
       </p>
@@ -1673,6 +1739,7 @@ _.find([-2, -1, 0, 1, 2], isFalsy);
 
       <p id="compose">
         <b class="header">compose</b><code>_.compose(*functions)</code>
+        <a href="docs/modules/compose.html" class="source">source</a>
         <br />
         Returns the composition of a list of <b>functions</b>, where each function
         consumes the return value of the function that follows. In math terms,
@@ -1689,6 +1756,7 @@ welcome('moe');
 
       <p id="restArguments">
         <b class="header">restArguments</b><code>_.restArguments(function, [startIndex])</code>
+        <a href="docs/modules/restArguments.html" class="source">source</a>
         <br />
         Returns a version of the <b>function</b> that, when called, receives all
         arguments from and beyond <b>startIndex</b> collected into a single array.
@@ -1709,6 +1777,7 @@ raceResults("Dopey", "Grumpy", "Happy", "Sneezy", "Bashful", "Sleepy", "Doc");
 
       <p id="keys">
         <b class="header">keys</b><code>_.keys(object)</code>
+        <a href="docs/modules/keys.html" class="source">source</a>
         <br />
         Retrieve all the names of the <b>object</b>'s own enumerable properties.
       </p>
@@ -1719,6 +1788,7 @@ _.keys({one: 1, two: 2, three: 3});
 
       <p id="allKeys">
         <b class="header">allKeys</b><code>_.allKeys(object)</code>
+        <a href="docs/modules/allKeys.html" class="source">source</a>
         <br />
         Retrieve <i>all</i> the names of <b>object</b>'s own and inherited properties.
       </p>
@@ -1733,6 +1803,7 @@ _.allKeys(new Stooge("Moe"));
 
       <p id="values">
         <b class="header">values</b><code>_.values(object)</code>
+        <a href="docs/modules/values.html" class="source">source</a>
         <br />
         Return all of the values of the <b>object</b>'s own properties.
       </p>
@@ -1743,6 +1814,7 @@ _.values({one: 1, two: 2, three: 3});
 
 <p id="mapObject">
         <b class="header">mapObject</b><code>_.mapObject(object, iteratee, [context])</code>
+        <a href="docs/modules/mapObject.html" class="source">source</a>
         <br />
         Like <a href="#map">map</a>, but for objects. Transform the value
         of each property in turn.
@@ -1756,6 +1828,7 @@ _.mapObject({start: 5, end: 12}, function(val, key) {
 
       <p id="pairs">
         <b class="header">pairs</b><code>_.pairs(object)</code>
+        <a href="docs/modules/pairs.html" class="source">source</a>
         <br />
         Convert an object into a list of <tt>[key, value]</tt> pairs. The opposite
         of <a href="#object">object</a>.
@@ -1767,6 +1840,7 @@ _.pairs({one: 1, two: 2, three: 3});
 
       <p id="invert">
         <b class="header">invert</b><code>_.invert(object)</code>
+        <a href="docs/modules/invert.html" class="source">source</a>
         <br />
         Returns a copy of the <b>object</b> where the keys have become the values
         and the values the keys. For this to work, all of your object's values
@@ -1779,6 +1853,7 @@ _.invert({Moe: "Moses", Larry: "Louis", Curly: "Jerome"});
 
       <p id="create">
         <b class="header">create</b><code>_.create(prototype, props)</code>
+        <a href="docs/modules/create.html" class="source">source</a>
         <br />
         Creates a new object with the given prototype, optionally attaching
         <b>props</b> as <i>own</i> properties. Basically, <tt>Object.create</tt>,
@@ -1791,6 +1866,7 @@ var moe = _.create(Stooge.prototype, {name: "Moe"});
       <p id="object-functions">
         <b class="header">functions</b><code>_.functions(object)</code>
         <span class="alias">Alias: <b>methods</b></span>
+        <a href="docs/modules/functions.html" class="source">source</a>
         <br />
         Returns a sorted list of the names of every method in an object &mdash;
         that is to say, the name of every function property of the object.
@@ -1802,6 +1878,7 @@ _.functions(_);
 
       <p id="findKey">
         <b class="header">findKey</b><code>_.findKey(object, predicate, [context])</code>
+        <a href="docs/modules/findKey.html" class="source">source</a>
         <br />
         Similar to <a href="#findIndex"><tt>_.findIndex</tt></a> but for keys in objects.
         Returns the <i>key</i> where the <b>predicate</b> truth test
@@ -1812,6 +1889,7 @@ _.functions(_);
 
       <p id="extend">
         <b class="header">extend</b><code>_.extend(destination, *sources)</code>
+        <a href="docs/modules/extend.html" class="source">source</a>
         <br />
         Shallowly copy all of the properties <strong>in</strong> the <b>source</b> objects over to the
         <b>destination</b> object, and return the <b>destination</b> object.
@@ -1827,6 +1905,7 @@ _.extend({name: 'moe'}, {age: 50});
       <p id="extendOwn">
         <b class="header">extendOwn</b><code>_.extendOwn(destination, *sources)</code>
         <span class="alias">Alias: <b>assign</b></span>
+        <a href="docs/modules/extendOwn.html" class="source">source</a>
         <br />
         Like <b>extend</b>, but only copies <i>own</i> properties over to the
         destination object.
@@ -1834,6 +1913,7 @@ _.extend({name: 'moe'}, {age: 50});
 
       <p id="pick">
         <b class="header">pick</b><code>_.pick(object, *keys)</code>
+        <a href="docs/modules/pick.html" class="source">source</a>
         <br />
         Return a copy of the <b>object</b>, filtered to only have values for
         the allowed <b>keys</b> (or array of valid keys).  Alternatively
@@ -1850,6 +1930,7 @@ _.pick({name: 'moe', age: 50, userid: 'moe1'}, function(value, key, object) {
 
       <p id="omit">
         <b class="header">omit</b><code>_.omit(object, *keys)</code>
+        <a href="docs/modules/omit.html" class="source">source</a>
         <br />
         Return a copy of the <b>object</b>, filtered to omit the disallowed
         <b>keys</b> (or array of keys).  Alternatively accepts a predicate
@@ -1866,6 +1947,7 @@ _.omit({name: 'moe', age: 50, userid: 'moe1'}, function(value, key, object) {
 
       <p id="defaults">
         <b class="header">defaults</b><code>_.defaults(object, *defaults)</code>
+        <a href="docs/modules/defaults.html" class="source">source</a>
         <br />
         Returns <b>object</b> after filling in its <tt>undefined</tt> properties
         with the first value present in the following list of <b>defaults</b> objects.
@@ -1878,6 +1960,7 @@ _.defaults(iceCream, {flavor: "vanilla", sprinkles: "lots"});
 
       <p id="clone">
         <b class="header">clone</b><code>_.clone(object)</code>
+        <a href="docs/modules/clone.html" class="source">source</a>
         <br />
         Create a shallow-copied clone of the provided <i>plain</i> <b>object</b>.
         Any nested objects or arrays will be copied by reference, not duplicated.
@@ -1889,6 +1972,7 @@ _.clone({name: 'moe'});
 
       <p id="tap">
         <b class="header">tap</b><code>_.tap(object, interceptor)</code>
+        <a href="docs/modules/tap.html" class="source">source</a>
         <br />
         Invokes <b>interceptor</b> with the <b>object</b>, and then returns <b>object</b>.
         The primary purpose of this method is to "tap into" a method chain, in order to perform operations on intermediate results within the chain.
@@ -1904,7 +1988,9 @@ _.chain([1,2,3,200])
 </pre>
 
       <p id="toPath">
-        <b class="header">toPath</b><code>_.toPath(path)</code><br>
+        <b class="header">toPath</b><code>_.toPath(path)</code>
+        <a href="docs/modules/toPath.html" class="source">source</a>
+        <br>
         Ensures that <b>path</b> is an array. If <b>path</b> is a string, it is
         wrapped in a single-element array; if it is an array already, it is
         returned unmodified.
@@ -1938,7 +2024,9 @@ _.get({a: [{b: 5}]}, 'a.0.b');
 </pre>
 
       <p id="get">
-        <b class="header">get</b><code>_.get(object, path, [default])</code><br>
+        <b class="header">get</b><code>_.get(object, path, [default])</code>
+        <a href="docs/modules/get.html" class="source">source</a>
+        <br>
         Returns the specified property of <b>object</b>. <b>path</b> may be
         specified as a simple key, or as an array of object keys or array
         indexes, for deep property fetching. If the property does not exist or
@@ -1955,6 +2043,7 @@ _.get({a: 10}, 'b', 100);
 
       <p id="has">
         <b class="header">has</b><code>_.has(object, key)</code>
+        <a href="docs/modules/has.html" class="source">source</a>
         <br />
         Does the object contain the given key? Identical to
         <tt>object.hasOwnProperty(key)</tt>, but uses a safe reference to the
@@ -1969,6 +2058,7 @@ _.has({a: 1, b: 2, c: 3}, "b");
 
       <p id="property">
         <b class="header">property</b><code>_.property(path)</code>
+        <a href="docs/modules/property.html" class="source">source</a>
         <br />
         Returns a function that will return the specified property of any
         passed-in object. <tt>path</tt> may be specified as a simple key, or
@@ -1987,6 +2077,7 @@ curlysWorstFear(stooges);
 
       <p id="propertyOf">
         <b class="header">propertyOf</b><code>_.propertyOf(object)</code>
+        <a href="docs/modules/propertyOf.html" class="source">source</a>
         <br />
         Inverse of <tt>_.property</tt>. Takes an object and returns a function
         which will return the value of a provided property.
@@ -1999,6 +2090,7 @@ _.propertyOf(stooge)('name');
       <p id="matcher">
         <b class="header">matcher</b><code>_.matcher(attrs)</code>
         <span class="alias">Alias: <b>matches</b></span>
+        <a href="docs/modules/matcher.html" class="source">source</a>
         <br />
         Returns a predicate function that will tell you if a passed in object
         contains all of the key/value properties present in <b>attrs</b>.
@@ -2009,6 +2101,7 @@ var readyToGoList = _.filter(list, ready);</pre>
 
       <p id="isEqual">
         <b class="header">isEqual</b><code>_.isEqual(object, other)</code>
+        <a href="docs/modules/isEqual.html" class="source">source</a>
         <br />
         Performs an optimized deep comparison between the two objects, to determine
         if they should be considered equal.
@@ -2024,6 +2117,7 @@ _.isEqual(stooge, clone);
 
       <p id="isMatch">
         <b class="header">isMatch</b><code>_.isMatch(object, properties)</code>
+        <a href="docs/modules/isMatch.html" class="source">source</a>
         <br />
         Tells you if the keys and values in <b>properties</b> are contained
         in <b>object</b>.
@@ -2036,6 +2130,7 @@ _.isMatch(stooge, {age: 32});
 
       <p id="isEmpty">
         <b class="header">isEmpty</b><code>_.isEmpty(collection)</code>
+        <a href="docs/modules/isEmpty.html" class="source">source</a>
         <br />
         Returns <i>true</i> if <b>collection</b> has no elements. For strings
         and array-like objects <tt>_.isEmpty</tt> checks if the length property
@@ -2052,6 +2147,7 @@ _.isEmpty({});
 
       <p id="isElement">
         <b class="header">isElement</b><code>_.isElement(object)</code>
+        <a href="docs/modules/isElement.html" class="source">source</a>
         <br />
         Returns <i>true</i> if <b>object</b> is a DOM element.
       </p>
@@ -2062,6 +2158,7 @@ _.isElement(jQuery('body')[0]);
 
       <p id="isArray">
         <b class="header">isArray</b><code>_.isArray(object)</code>
+        <a href="docs/modules/isArray.html" class="source">source</a>
         <br />
         Returns <i>true</i> if <b>object</b> is an Array.
       </p>
@@ -2074,6 +2171,7 @@ _.isArray([1,2,3]);
 
       <p id="isObject">
         <b class="header">isObject</b><code>_.isObject(value)</code>
+        <a href="docs/modules/isObject.html" class="source">source</a>
         <br />
         Returns <i>true</i> if <b>value</b> is an Object. Note that JavaScript
         arrays and functions are objects, while (normal) strings and numbers are not.
@@ -2087,6 +2185,7 @@ _.isObject(1);
 
       <p id="isArguments">
         <b class="header">isArguments</b><code>_.isArguments(object)</code>
+        <a href="docs/modules/isArguments.html" class="source">source</a>
         <br />
         Returns <i>true</i> if <b>object</b> is an Arguments object.
       </p>
@@ -2099,6 +2198,7 @@ _.isArguments([1,2,3]);
 
       <p id="isFunction">
         <b class="header">isFunction</b><code>_.isFunction(object)</code>
+        <a href="docs/modules/isFunction.html" class="source">source</a>
         <br />
         Returns <i>true</i> if <b>object</b> is a Function.
       </p>
@@ -2109,6 +2209,7 @@ _.isFunction(alert);
 
       <p id="isString">
         <b class="header">isString</b><code>_.isString(object)</code>
+        <a href="docs/modules/isString.html" class="source">source</a>
         <br />
         Returns <i>true</i> if <b>object</b> is a String.
       </p>
@@ -2119,6 +2220,7 @@ _.isString("moe");
 
       <p id="isNumber">
         <b class="header">isNumber</b><code>_.isNumber(object)</code>
+        <a href="docs/modules/isNumber.html" class="source">source</a>
         <br />
         Returns <i>true</i> if <b>object</b> is a Number (including <tt>NaN</tt>).
       </p>
@@ -2129,6 +2231,7 @@ _.isNumber(8.4 * 5);
 
       <p id="isFinite">
         <b class="header">isFinite</b><code>_.isFinite(object)</code>
+        <a href="docs/modules/isFinite.html" class="source">source</a>
         <br />
         Returns <i>true</i> if <b>object</b> is a finite Number.
       </p>
@@ -2142,6 +2245,7 @@ _.isFinite(-Infinity);
 
       <p id="isBoolean">
         <b class="header">isBoolean</b><code>_.isBoolean(object)</code>
+        <a href="docs/modules/isBoolean.html" class="source">source</a>
         <br />
         Returns <i>true</i> if <b>object</b> is either <i>true</i> or <i>false</i>.
       </p>
@@ -2152,6 +2256,7 @@ _.isBoolean(null);
 
       <p id="isDate">
         <b class="header">isDate</b><code>_.isDate(object)</code>
+        <a href="docs/modules/isDate.html" class="source">source</a>
         <br />
         Returns <i>true</i> if <b>object</b> is a Date.
       </p>
@@ -2162,6 +2267,7 @@ _.isDate(new Date());
 
       <p id="isRegExp">
         <b class="header">isRegExp</b><code>_.isRegExp(object)</code>
+        <a href="docs/modules/isRegExp.html" class="source">source</a>
         <br />
         Returns <i>true</i> if <b>object</b> is a RegExp.
       </p>
@@ -2172,6 +2278,7 @@ _.isRegExp(/moe/);
 
       <p id="isError">
         <b class="header">isError</b><code>_.isError(object)</code>
+        <a href="docs/modules/isError.html" class="source">source</a>
         <br />
         Returns <i>true</i> if <b>object</b> inherits from an Error.
       </p>
@@ -2186,6 +2293,7 @@ try {
 
       <p id="isSymbol">
         <b class="header">isSymbol</b><code>_.isSymbol(object)</code>
+        <a href="docs/modules/isSymbol.html" class="source">source</a>
         <br />
         Returns <i>true</i> if <b>object</b> is a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol">Symbol</a>.
       </p>
@@ -2196,6 +2304,7 @@ _.isSymbol(Symbol());
 
       <p id="isMap">
         <b class="header">isMap</b><code>_.isMap(object)</code>
+        <a href="docs/modules/isMap.html" class="source">source</a>
         <br />
         Returns <i>true</i> if <b>object</b> is a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map">Map</a>.
       </p>
@@ -2206,6 +2315,7 @@ _.isMap(new Map());
 
       <p id="isWeakMap">
         <b class="header">isWeakMap</b><code>_.isWeakMap(object)</code>
+        <a href="docs/modules/isWeakMap.html" class="source">source</a>
         <br />
         Returns <i>true</i> if <b>object</b> is a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakMap">WeakMap</a>.
       </p>
@@ -2216,6 +2326,7 @@ _.isWeakMap(new WeakMap());
 
       <p id="isSet">
         <b class="header">isSet</b><code>_.isSet(object)</code>
+        <a href="docs/modules/isSet.html" class="source">source</a>
         <br />
         Returns <i>true</i> if <b>object</b> is a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set">Set</a>.
       </p>
@@ -2226,6 +2337,7 @@ _.isSet(new Set());
 
       <p id="isWeakSet">
         <b class="header">isWeakSet</b><code>_.isWeakSet(object)</code>
+        <a href="docs/modules/isWeakSet.html" class="source">source</a>
         <br />
         Returns <i>true</i> if <b>object</b> is a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakSet">WeakSet</a>.
       </p>
@@ -2236,6 +2348,7 @@ _.isWeakSet(WeakSet());
 
       <p id="isArrayBuffer">
         <b class="header">isArrayBuffer</b><code>_.isArrayBuffer(object)</code>
+        <a href="docs/modules/isArrayBuffer.html" class="source">source</a>
         <br />
         Returns <i>true</i> if <b>object</b> is an <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer">ArrayBuffer</a>.
       </p>
@@ -2246,6 +2359,7 @@ _.isArrayBuffer(new ArrayBuffer(8));
 
       <p id="isDataView">
         <b class="header">isDataView</b><code>_.isDataView(object)</code>
+        <a href="docs/modules/isDataView.html" class="source">source</a>
         <br />
         Returns <i>true</i> if <b>object</b> is a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DataView">DataView</a>.
       </p>
@@ -2256,6 +2370,7 @@ _.isDataView(new DataView(new ArrayBuffer(8)));
 
       <p id="isTypedArray">
         <b class="header">isTypedArray</b><code>_.isTypedArray(object)</code>
+        <a href="docs/modules/isTypedArray.html" class="source">source</a>
         <br />
         Returns <i>true</i> if <b>object</b> is a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypedArray">TypedArray</a>.
       </p>
@@ -2266,6 +2381,7 @@ _.isTypedArray(new Int8Array(8));
 
       <p id="isNaN">
         <b class="header">isNaN</b><code>_.isNaN(object)</code>
+        <a href="docs/modules/isNaN.html" class="source">source</a>
         <br />
         Returns <i>true</i> if <b>object</b> is <i>NaN</i>.<br /> Note: this is not
         the same as the native <b>isNaN</b> function, which will also return
@@ -2282,6 +2398,7 @@ _.isNaN(undefined);
 
       <p id="isNull">
         <b class="header">isNull</b><code>_.isNull(object)</code>
+        <a href="docs/modules/isNull.html" class="source">source</a>
         <br />
         Returns <i>true</i> if the value of <b>object</b> is <i>null</i>.
       </p>
@@ -2294,6 +2411,7 @@ _.isNull(undefined);
 
       <p id="isUndefined">
         <b class="header">isUndefined</b><code>_.isUndefined(value)</code>
+        <a href="docs/modules/isUndefined.html" class="source">source</a>
         <br />
         Returns <i>true</i> if <b>value</b> is <i>undefined</i>.
       </p>
@@ -2306,6 +2424,7 @@ _.isUndefined(window.missingVariable);
 
       <p id="noConflict">
         <b class="header">noConflict</b><code>_.noConflict()</code>
+        <a href="docs/modules/noConflict.html" class="source">source</a>
         <br />
         Give control of the global <tt>_</tt> variable back to its previous
         owner. Returns a reference to the <b>Underscore</b> object.
@@ -2319,6 +2438,7 @@ var underscore = _.noConflict();
 
       <p id="identity">
         <b class="header">identity</b><code>_.identity(value)</code>
+        <a href="docs/modules/identity.html" class="source">source</a>
         <br />
         Returns the same value that is used as the argument. In math:
         <tt>f(x) = x</tt><br />
@@ -2333,6 +2453,7 @@ stooge === _.identity(stooge);
 
       <p id="constant">
         <b class="header">constant</b><code>_.constant(value)</code>
+        <a href="docs/modules/constant.html" class="source">source</a>
         <br />
         Creates a function that returns the same value that is used as the
         argument of <tt>_.constant</tt>.
@@ -2344,6 +2465,7 @@ stooge === _.constant(stooge)();
 
       <p id="noop">
         <b class="header">noop</b><code>_.noop()</code>
+        <a href="docs/modules/noop.html" class="source">source</a>
         <br />
         Returns <tt>undefined</tt> irrespective of the arguments passed to it.
         Useful as the default for optional callback arguments.
@@ -2354,6 +2476,7 @@ obj.initialize = _.noop;
 
       <p id="times">
         <b class="header">times</b><code>_.times(n, iteratee, [context])</code>
+        <a href="docs/modules/times.html" class="source">source</a>
         <br />
         Invokes the given iteratee function <b>n</b> times. Each invocation of
         <a href="#iteratee"><b>iteratee</b></a> is called with an <tt>index</tt> argument.
@@ -2364,6 +2487,7 @@ _.times(3, function(n){ genie.grantWishNumber(n); });</pre>
 
       <p id="random">
         <b class="header">random</b><code>_.random(min, max)</code>
+        <a href="docs/modules/random.html" class="source">source</a>
         <br />
         Returns a random integer between <b>min</b> and <b>max</b>, inclusive.
         If you only pass one argument, it will return a number between <tt>0</tt>
@@ -2375,6 +2499,7 @@ _.random(0, 100);
 
       <p id="mixin">
         <b class="header">mixin</b><code>_.mixin(object)</code>
+        <a href="docs/modules/mixin.html" class="source">source</a>
         <br />
         Allows you to extend Underscore with your own utility functions. Pass
         a hash of <tt>{name: function}</tt> definitions to have your functions
@@ -2392,6 +2517,7 @@ _("fabio").capitalize();
 
       <p id="iteratee">
         <b class="header">iteratee</b><code>_.iteratee(value, [context])</code>
+        <a href="docs/modules/iteratee.html" class="source">source</a>
         <br />
         Generates a callback that can be applied to each element in
         a collection. <tt>_.iteratee</tt> supports a number of shorthand
@@ -2438,6 +2564,7 @@ _.iteratee = function(value, context) {
 };</pre>
       <p id="uniqueId">
         <b class="header">uniqueId</b><code>_.uniqueId([prefix])</code>
+        <a href="docs/modules/uniqueId.html" class="source">source</a>
         <br />
         Generate a globally-unique id for client-side models or DOM elements
         that need one. If <b>prefix</b> is passed, the id will be appended to it.
@@ -2448,6 +2575,7 @@ _.uniqueId('contact_');
 
       <p id="escape">
         <b class="header">escape</b><code>_.escape(string)</code>
+        <a href="docs/modules/escape.html" class="source">source</a>
         <br />
         Escapes a string for insertion into HTML, replacing
         <tt>&amp;</tt>, <tt>&lt;</tt>, <tt>&gt;</tt>, <tt>&quot;</tt>, <tt>&#x60;</tt>, and <tt>&#x27;</tt> characters.
@@ -2458,6 +2586,7 @@ _.escape('Curly, Larry &amp; Moe');
 
       <p id="unescape">
         <b class="header">unescape</b><code>_.unescape(string)</code>
+        <a href="docs/modules/unescape.html" class="source">source</a>
         <br />
         The opposite of <a href="#escape"><b>escape</b></a>, replaces
         <tt>&amp;amp;</tt>, <tt>&amp;lt;</tt>, <tt>&amp;gt;</tt>,
@@ -2470,6 +2599,7 @@ _.unescape('Curly, Larry &amp;amp; Moe');
 
       <p id="result">
         <b class="header">result</b><code>_.result(object, property, [defaultValue])</code>
+        <a href="docs/modules/result.html" class="source">source</a>
         <br />
         If the value of the named <b>property</b> is a function then invoke it
         with the <b>object</b> as context; otherwise, return it. If a default value
@@ -2488,6 +2618,7 @@ _.result(object, 'meat', 'ham');
 
       <p id="now">
         <b class="header">now</b><code>_.now()</code>
+        <a href="docs/modules/now.html" class="source">source</a>
         <br />
         Returns an integer timestamp for the current time, using the fastest
         method available in the runtime. Useful for implementing timing/animation
@@ -2500,6 +2631,7 @@ _.now();
 
       <p id="template">
         <b class="header">template</b><code>_.template(templateString, [settings])</code>
+        <a href="docs/modules/template.html" class="source">source</a>
         <br />
         Compiles JavaScript templates into functions that can be evaluated
         for rendering. Useful for rendering complicated bits of HTML from JSON
@@ -2585,6 +2717,8 @@ _.template("Using 'with': <%= data.answer %>", {variable: 'data'})({answer: 'no'
         You can use Underscore in either an object-oriented or a functional style,
         depending on your preference. The following two lines of code are
         identical ways to double a list of numbers.
+        <a href="docs/modules/underscore.html" class="source">source</a>,
+        <a href="docs/modules/mixin.html" class="source">source</a>
       </p>
 
     <pre>
@@ -2630,6 +2764,7 @@ _.chain(lyrics)
 
       <p id="chain">
         <b class="header">chain</b><code>_.chain(obj)</code>
+        <a href="docs/modules/chain.html" class="source">source</a>
         <br />
         Returns a wrapped object. Calling methods on this object will continue
         to return wrapped objects until <tt>value</tt> is called.
@@ -2646,6 +2781,7 @@ var youngest = _.chain(stooges)
 
       <p id="value">
         <b class="header">value</b><code>_.chain(obj).value()</code>
+        <a href="docs/modules/underscore.html" class="source">source</a>
         <br />
         Extracts the value of a wrapped object.
       </p>
