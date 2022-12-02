@@ -1255,4 +1255,39 @@
     assert.deepEqual(_.mapObject(protoObj, _.identity), {a: 1}, 'ignore inherited values from prototypes');
 
   });
+
+
+  QUnit.test('set', function(assert) {
+    // returns first argument if first argument is primitive type
+    assert.strictEqual(_.set(undefined, ['some', 'path'], 'some value'), undefined);
+    assert.strictEqual(_.set(null, ['some', 'path'], 'some value'), null);
+    assert.strictEqual(_.set(12, ['some', 'path'], 'some value'), 12);
+    assert.strictEqual(_.set('string', ['some', 'path'], 'some value'), 'string');
+    assert.strictEqual(_.set(true, ['some', 'path'], 'some value'), true);
+    if (typeof BigInt != 'undefined') {
+      assert.strictEqual(_.set(BigInt(1), ['some', 'path'], 'some value'), BigInt(1));
+    }
+
+    // returns the same object if `path` is empty
+    assert.deepEqual(_.set({random: {object: true}}, [], 'some value'), {random: {object: true}});
+
+    assert.throws(
+      function impossibleSetProto() {
+        return _.set({obj: {}}, ['my', '__proto__', 'path'], 'my prototype');
+      },
+      'throws an exception if we want to change `__proto__`'
+    );
+
+    assert.deepEqual(_.set({}, 'path', 'my value'), {path: 'my value'});
+    assert.deepEqual(_.set({}, 123, 'my value'), {123: 'my value'});
+    assert.deepEqual(_.set({x: {l: 10}}, ['x', 'l'], 'changed'), {x: {l: 'changed'}});
+    assert.deepEqual(_.set({x: 10}, ['my', 'path'], 'my value'), {x: 10, my: {path: 'my value'}});
+    assert.deepEqual(_.set({x: 10}, ['my', 0, 'path'], 'my value'), {x: 10, my: [{path: 'my value'}]});
+    assert.deepEqual(_.set({x: 10}, [0], 'my value'), {x: 10, '0': 'my value'});
+    assert.deepEqual(_.set({x: 10}, [0, 1], 'my value'), {x: 10, '0': [undefined, 'my value']});
+    assert.deepEqual(_.set({x: 10}, [0, 0], 'my value'), {x: 10, '0': ['my value']});
+    // #2961
+    assert.deepEqual(_.set({x: 10}, [0, '0'], 'my value'), {x: 10, '0': ['my value']});
+    assert.deepEqual(_.set({x: 10}, [0, 'my'], 'my value'), {x: 10, '0': {my: 'my value'}});
+  });
 }());

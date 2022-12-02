@@ -62,6 +62,7 @@ export { default as tap } from './tap.js';
 export { default as get } from './get.js';
 export { default as has } from './has.js';
 export { default as mapObject } from './mapObject.js';
+export { default as set } from './set.js';
 
 // Utility Functions
 // -----------------
