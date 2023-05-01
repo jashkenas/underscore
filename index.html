@@ -7,13 +7,32 @@
 
   <link rel="canonical" href="https://underscorejs.org/" />
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+  <script src=
+"https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js">
+    </script>
   <title>Underscore.js</title>
   <style>
+    
+ .change {
+            cursor: pointer;
+            border: 1px solid #555;
+            border-radius: 40%;
+            width: 20px;
+            text-align: center;
+            padding: 5px;
+            margin-left: 8px;
+       
+        }
+        .dark{
+            background-color: #000000;
+            color: white;
+        }
     body {
+      background: #fff;  
+       /* color: #c6c6c6; */
       font-size: 14px;
       line-height: 22px;
-      background: #f4f4f4 url(docs/images/background.png);
-      color: #000;
+      color: black;
       font-family: Helvetica Neue, Helvetica, Arial;
     }
     .interface {
@@ -143,7 +162,7 @@
       }
         tt {
           padding: 0px 3px;
-          background: #fff;
+      
           border: 1px solid #ddd;
           zoom: 1;
         }
@@ -259,9 +278,33 @@
         width: 100%;
       }
     }
+    .mode {
+            float:right;
+        }
   </style>
 </head>
 <body>
+  <!-- <div class="mode">
+    Dark mode:             
+    <span class="change">OFF</span>
+</div> -->
+<div class="mode">        
+  <span class="change">OFF</span>
+</div>
+
+
+<script>
+  $( ".change" ).on("click", function() {
+      if( $( "body" ).hasClass( "dark" )) {
+          $( "body" ).removeClass( "dark" );
+          $( ".change" ).text( "OFF" );
+      } else {
+          $( "body" ).addClass( "dark" );
+          $( ".change" ).text( "ON" );
+      }
+  });
+</script>
+  <!-- <button onclick="myFunction()">Switch mode</button>  -->
 
   <input type="checkbox" id="menu" checked>
   <label for="menu" role="navigation" aria-label="Menu"></label>
