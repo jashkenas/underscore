@@ -11,8 +11,8 @@ var VERSION = '1.13.6';
 // Establish the root object, `window` (`self`) in the browser, `global`
 // on the server, or `this` in some virtual machines. We use `self`
 // instead of `window` for `WebWorker` support.
-var root = (typeof self == 'object' && self.self === self && self) ||
-          (typeof global == 'object' && global.global === global && global) ||
+var root = (typeof self === 'object' && self.self === self && self) ||
+          (typeof global === 'object' && global.global === global && global) ||
           Function('return this')() ||
           {};
 
@@ -130,9 +130,9 @@ var isFunction = tagTester('Function');
 // Optimize `isFunction` if appropriate. Work around some `typeof` bugs in old
 // v8, IE 11 (#1621), Safari 8 (#1929), and PhantomJS (#2236).
 var nodelist = root.document && root.document.childNodes;
-if (typeof /./ != 'function' && typeof Int8Array != 'object' && typeof nodelist != 'function') {
+if (typeof /./ !== 'function' && typeof Int8Array !== 'object' && typeof nodelist !== 'function') {
   isFunction = function(obj) {
-    return typeof obj == 'function' || false;
+    return typeof obj === 'function' || false;
   };
 }
 
@@ -202,7 +202,7 @@ function constant(value) {
 function createSizePropertyCheck(getSizeProperty) {
   return function(collection) {
     var sizeProperty = getSizeProperty(collection);
-    return typeof sizeProperty == 'number' && sizeProperty >= 0 && sizeProperty <= MAX_ARRAY_INDEX;
+    return typeof sizeProperty === 'number' && sizeProperty >= 0 && sizeProperty <= MAX_ARRAY_INDEX;
   }
 }
 
@@ -290,7 +290,7 @@ function isEmpty(obj) {
   // Skip the more expensive `toString`-based type checks if `obj` has no
   // `.length`.
   var length = getLength(obj);
-  if (typeof length == 'number' && (
+  if (typeof length === 'number' && (
     isArray(obj) || isString(obj) || isArguments$1(obj)
   )) return length === 0;
   return getLength(keys(obj)) === 0;
@@ -356,7 +356,7 @@ function eq(a, b, aStack, bStack) {
   if (a !== a) return b !== b;
   // Exhaust primitive checks
   var type = typeof a;
-  if (type !== 'function' && type !== 'object' && typeof b != 'object') return false;
+  if (type !== 'function' && type !== 'object' && typeof b !== 'object') return false;
   return deepEq(a, b, aStack, bStack);
 }
 
@@ -369,7 +369,7 @@ function deepEq(a, b, aStack, bStack) {
   var className = toString.call(a);
   if (className !== toString.call(b)) return false;
   // Work around a bug in IE 10 - Edge 13.
-  if (hasStringTagBug && className == '[object Object]' && isDataView$1(a)) {
+  if (hasStringTagBug && className === '[object Object]' && isDataView$1(a)) {
     if (!isDataView$1(b)) return false;
     className = tagDataView;
   }
@@ -409,7 +409,7 @@ function deepEq(a, b, aStack, bStack) {
       areArrays = true;
   }
   if (!areArrays) {
-    if (typeof a != 'object' || typeof b != 'object') return false;
+    if (typeof a !== 'object' || typeof b !== 'object') return false;
 
     // Objects with different constructors are not equivalent, but `Object`s or `Array`s
     // from different frames are.
@@ -1267,7 +1267,7 @@ function sortedIndex(array, obj, iteratee, context) {
 function createIndexFinder(dir, predicateFind, sortedIndex) {
   return function(array, item, idx) {
     var i = 0, length = getLength(array);
-    if (typeof idx == 'number') {
+    if (typeof idx === 'number') {
       if (dir > 0) {
         i = idx >= 0 ? idx : Math.max(idx + length, i);
       } else {
@@ -1418,7 +1418,7 @@ function some(obj, predicate, context) {
 // Determine if the array or object contains a given item (using `===`).
 function contains(obj, item, fromIndex, guard) {
   if (!isArrayLike(obj)) obj = values(obj);
-  if (typeof fromIndex != 'number' || guard) fromIndex = 0;
+  if (typeof fromIndex !== 'number' || guard) fromIndex = 0;
   return indexOf(obj, item, fromIndex) >= 0;
 }
 
@@ -1460,7 +1460,7 @@ function where(obj, attrs) {
 function max(obj, iteratee, context) {
   var result = -Infinity, lastComputed = -Infinity,
       value, computed;
-  if (iteratee == null || (typeof iteratee == 'number' && typeof obj[0] != 'object' && obj != null)) {
+  if (iteratee == null || (typeof iteratee === 'number' && typeof obj[0] !== 'object' && obj != null)) {
     obj = isArrayLike(obj) ? obj : values(obj);
     for (var i = 0, length = obj.length; i < length; i++) {
       value = obj[i];
@@ -1485,7 +1485,7 @@ function max(obj, iteratee, context) {
 function min(obj, iteratee, context) {
   var result = Infinity, lastComputed = Infinity,
       value, computed;
-  if (iteratee == null || (typeof iteratee == 'number' && typeof obj[0] != 'object' && obj != null)) {
+  if (iteratee == null || (typeof iteratee === 'number' && typeof obj[0] !== 'object' && obj != null)) {
     obj = isArrayLike(obj) ? obj : values(obj);
     for (var i = 0, length = obj.length; i < length; i++) {
       value = obj[i];

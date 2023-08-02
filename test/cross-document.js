@@ -111,7 +111,7 @@
     assert.ok(_.isError(iError), 'even from another frame');
   });
 
-  if (typeof ActiveXObject != 'undefined') {
+  if (typeof ActiveXObject !== 'undefined') {
     QUnit.test('IE host objects', function(assert) {
       var xml = new ActiveXObject('Msxml2.DOMDocument.3.0');
       assert.ok(!_.isNumber(xml));
