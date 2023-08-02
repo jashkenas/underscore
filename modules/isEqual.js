@@ -23,7 +23,7 @@ function eq(a, b, aStack, bStack) {
   if (a !== a) return b !== b;
   // Exhaust primitive checks
   var type = typeof a;
-  if (type !== 'function' && type !== 'object' && typeof b != 'object') return false;
+  if (type !== 'function' && type !== 'object' && typeof b !== 'object') return false;
   return deepEq(a, b, aStack, bStack);
 }
 
@@ -36,7 +36,7 @@ function deepEq(a, b, aStack, bStack) {
   var className = toString.call(a);
   if (className !== toString.call(b)) return false;
   // Work around a bug in IE 10 - Edge 13.
-  if (hasStringTagBug && className == '[object Object]' && isDataView(a)) {
+  if (hasStringTagBug && className === '[object Object]' && isDataView(a)) {
     if (!isDataView(b)) return false;
     className = tagDataView;
   }
@@ -76,7 +76,7 @@ function deepEq(a, b, aStack, bStack) {
       areArrays = true;
   }
   if (!areArrays) {
-    if (typeof a != 'object' || typeof b != 'object') return false;
+    if (typeof a !== 'object' || typeof b !== 'object') return false;
 
     // Objects with different constructors are not equivalent, but `Object`s or `Array`s
     // from different frames are.

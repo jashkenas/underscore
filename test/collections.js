@@ -883,7 +883,7 @@
     assert.deepEqual(_.toArray(expected.join('')), expected, 'maintains astral characters');
     assert.deepEqual(_.toArray(''), [], 'empty string into empty array');
 
-    if (typeof document != 'undefined') {
+    if (typeof document !== 'undefined') {
       // test in IE < 9
       var actual;
       try {
@@ -942,7 +942,7 @@
     }, predicate);
   });
 
-  if (typeof document != 'undefined') {
+  if (typeof document !== 'undefined') {
     QUnit.test('Can use various collection methods on NodeLists', function(assert) {
       var parent = document.createElement('div');
       parent.innerHTML = '<span id=id1></span>textnode<span id=id2></span>';

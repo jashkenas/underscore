@@ -6,7 +6,7 @@ import isNaN from './isNaN.js';
 export default function createIndexFinder(dir, predicateFind, sortedIndex) {
   return function(array, item, idx) {
     var i = 0, length = getLength(array);
-    if (typeof idx == 'number') {
+    if (typeof idx === 'number') {
       if (dir > 0) {
         i = idx >= 0 ? idx : Math.max(idx + length, i);
       } else {
