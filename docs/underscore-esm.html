@@ -2933,6 +2933,14 @@ but if you’d like to disable the execution on the leading edge, pass
 function is triggered. The end of a sequence is defined by the <code>wait</code>
 parameter. If <code>immediate</code> is passed, the argument function will be
 triggered at the beginning of the sequence instead of at the end.</p>
+              <p>A common issue with other debounce libraries is that when the user closes
+the browser tab, the debounced function may not have run yet. This is a
+frequent cause of data loss. This implementation prevents that problem by
+running the debounced function immediately if the tab is closed prior to the
+timeout. (Not applicable to Node.js or other headless runtimes.)</p>
+              <p>When making debounced API calls it is recommended to use `fetch()` with the
+`keepalive` parameter. This allows the HTTP request to finish in the
+background after the user closes the browser tab.</p>
 
             </div>
             
