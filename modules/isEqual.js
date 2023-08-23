@@ -3,7 +3,7 @@ import { toString, SymbolProto } from './_setup.js';
 import getByteLength from './_getByteLength.js';
 import isTypedArray from './isTypedArray.js';
 import isFunction from './isFunction.js';
-import { hasStringTagBug }  from './_stringTagBug.js';
+import { hasDataViewBug }  from './_stringTagBug.js';
 import isDataView from './isDataView.js';
 import keys from './keys.js';
 import has from './_has.js';
@@ -36,7 +36,7 @@ function deepEq(a, b, aStack, bStack) {
   var className = toString.call(a);
   if (className !== toString.call(b)) return false;
   // Work around a bug in IE 10 - Edge 13.
-  if (hasStringTagBug && className == '[object Object]' && isDataView(a)) {
+  if (hasDataViewBug && className == '[object Object]' && isDataView(a)) {
     if (!isDataView(b)) return false;
     className = tagDataView;
   }
