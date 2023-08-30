@@ -15,6 +15,7 @@ module.exports = function(config) {
     // list of files / patterns to load in the browser
     files: [
       'test/qunit-setup.js',
+      'test/overrides.js',
       'underscore-umd.js',
       'test/*.js'
     ],
