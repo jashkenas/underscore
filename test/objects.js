@@ -5,6 +5,9 @@
 
   var testElement = typeof document === 'object' ? document.createElement('div') : void 0;
 
+  // Some browsers support typed arrays but not DataView and some applications could override DataView
+  var DataViewImpl = typeof NativeDataView !== 'undefined' ? NativeDataView : typeof DataView !== 'undefined' ? DataView : undefined;
+
   QUnit.test('keys', function(assert) {
     assert.deepEqual(_.keys({one: 1, two: 2}), ['one', 'two'], 'can extract the keys from an object');
     // the test above is not safe because it relies on for-in enumeration order
@@ -610,11 +613,11 @@
       assert.notOk(_.isEqual(view1, view2), 'same buffer with different offset is not equal');
 
       // Some older browsers support typed arrays but not DataView.
-      if (typeof DataView !== 'undefined') {
-        assert.ok(_.isEqual(new DataView(u8.buffer), new DataView(u8b.buffer)), 'Identical DataViews are equal');
-        assert.ok(_.isEqual(new DataView(u8.buffer), new DataView(i8.buffer)), 'Identical DataViews of different typed arrays are equal');
-        assert.notOk(_.isEqual(new DataView(u8.buffer), new DataView(u16.buffer)), 'Different DataViews with different length are not equal');
-        assert.notOk(_.isEqual(new DataView(u8.buffer), new DataView(u16one.buffer)), 'Different DataViews with different byte data are not equal');
+      if (DataViewImpl) {
+        assert.ok(_.isEqual(new DataViewImpl(u8.buffer), new DataViewImpl(u8b.buffer)), 'Identical DataViews are equal');
+        assert.ok(_.isEqual(new DataViewImpl(u8.buffer), new DataViewImpl(i8.buffer)), 'Identical DataViews of different typed arrays are equal');
+        assert.notOk(_.isEqual(new DataViewImpl(u8.buffer), new DataViewImpl(u16.buffer)), 'Different DataViews with different length are not equal');
+        assert.notOk(_.isEqual(new DataViewImpl(u8.buffer), new DataViewImpl(u16one.buffer)), 'Different DataViews with different byte data are not equal');
       }
     }
   });
@@ -931,8 +934,8 @@
         'a TypedArray': new Uint8Array(buffer)
       };
       // Some older browsers support typed arrays but not DataView.
-      if (typeof DataView !== 'undefined') {
-        checkValues['a DataView'] = new DataView(buffer);
+      if (DataViewImpl) {
+        checkValues['a DataView'] = new DataViewImpl(buffer);
       }
       var types = ['an ArrayBuffer', 'a DataView', 'a TypedArray'];
       _.each(types, function(type) {

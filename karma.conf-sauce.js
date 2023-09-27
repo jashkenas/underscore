@@ -63,6 +63,7 @@ module.exports = function(config) {
     files: [
       'test/vendor/qunit-extras.js',
       'test/qunit-setup.js',
+      'test/overrides.js',
       'underscore-umd.js',
       'test/*.js'
     ],
