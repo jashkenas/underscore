@@ -1,12 +1,12 @@
-(function (global, factory) {
+(function(global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
-  typeof define === 'function' && define.amd ? define('underscore', factory) :
-  (global = typeof globalThis !== 'undefined' ? globalThis : global || self, (function () {
-    var current = global._;
-    var exports = global._ = factory();
-    exports.noConflict = function () { global._ = current; return exports; };
-  }()));
-}(this, (function () {
+    typeof define === 'function' && define.amd ? define('underscore', factory) :
+      (global = typeof globalThis !== 'undefined' ? globalThis : global || self, (function() {
+        var current = global._;
+        var exports = global._ = factory();
+        exports.noConflict = function() { global._ = current; return exports; };
+      }()));
+}(this, (function() {
   //     Underscore.js 1.13.6
   //     https://underscorejs.org
   //     (c) 2009-2022 Jeremy Ashkenas, Julian Gonggrijp, and DocumentCloud and Investigative Reporters & Editors
@@ -19,9 +19,9 @@
   // on the server, or `this` in some virtual machines. We use `self`
   // instead of `window` for `WebWorker` support.
   var root = (typeof self == 'object' && self.self === self && self) ||
-            (typeof global == 'object' && global.global === global && global) ||
-            Function('return this')() ||
-            {};
+    (typeof global == 'object' && global.global === global && global) ||
+    Function('return this')() ||
+    {};
 
   // Save bytes in the minified (but not gzipped) version:
   var ArrayProto = Array.prototype, ObjProto = Object.prototype;
@@ -29,27 +29,27 @@
 
   // Create quick reference variables for speed access to core prototypes.
   var push = ArrayProto.push,
-      slice = ArrayProto.slice,
-      toString = ObjProto.toString,
-      hasOwnProperty = ObjProto.hasOwnProperty;
+    slice = ArrayProto.slice,
+    toString = ObjProto.toString,
+    hasOwnProperty = ObjProto.hasOwnProperty;
 
   // Modern feature detection.
   var supportsArrayBuffer = typeof ArrayBuffer !== 'undefined',
-      supportsDataView = typeof DataView !== 'undefined';
+    supportsDataView = typeof DataView !== 'undefined';
 
   // All **ECMAScript 5+** native function implementations that we hope to use
   // are declared here.
   var nativeIsArray = Array.isArray,
-      nativeKeys = Object.keys,
-      nativeCreate = Object.create,
-      nativeIsView = supportsArrayBuffer && ArrayBuffer.isView;
+    nativeKeys = Object.keys,
+    nativeCreate = Object.create,
+    nativeIsView = supportsArrayBuffer && ArrayBuffer.isView;
 
   // Create references to these builtin functions because we override them.
   var _isNaN = isNaN,
-      _isFinite = isFinite;
+    _isFinite = isFinite;
 
   // Keys in IE < 9 that won't be iterated by `for key in ...` and thus missed.
-  var hasEnumBug = !{toString: null}.propertyIsEnumerable('toString');
+  var hasEnumBug = !{ toString: null }.propertyIsEnumerable('toString');
   var nonEnumerableProps = ['valueOf', 'isPrototypeOf', 'toString',
     'propertyIsEnumerable', 'hasOwnProperty', 'toLocaleString'];
 
@@ -65,8 +65,8 @@
     startIndex = startIndex == null ? func.length - 1 : +startIndex;
     return function() {
       var length = Math.max(arguments.length - startIndex, 0),
-          rest = Array(length),
-          index = 0;
+        rest = Array(length),
+        index = 0;
       for (; index < length; index++) {
         rest[index] = arguments[index + startIndex];
       }
@@ -154,9 +154,9 @@
   // `DataView` object, in cases like that we can't use the constructor
   // safely and should just rely on alternate `DataView` checks
   var hasDataViewBug = (
-        supportsDataView && (!/\[native code\]/.test(String(DataView)) || hasObjectTag(new DataView(new ArrayBuffer(8))))
-      ),
-      isIE11 = (typeof Map !== 'undefined' && hasObjectTag(new Map));
+    supportsDataView && (!/\[native code\]/.test(String(DataView)) || hasObjectTag(new DataView(new ArrayBuffer(8))))
+  ),
+    isIE11 = (typeof Map !== 'undefined' && hasObjectTag(new Map));
 
   var isDataView = tagTester('DataView');
 
@@ -238,7 +238,7 @@
     // `ArrayBuffer.isView` is the most future-proof, so use it when available.
     // Otherwise, fall back on the above regular expression.
     return nativeIsView ? (nativeIsView(obj) && !isDataView$1(obj)) :
-                  isBufferLike(obj) && typedArrayPattern.test(toString.call(obj));
+      isBufferLike(obj) && typedArrayPattern.test(toString.call(obj));
   }
 
   var isTypedArray$1 = supportsArrayBuffer ? isTypedArray : constant(false);
@@ -388,7 +388,7 @@
     switch (className) {
       // These types are compared by value.
       case '[object RegExp]':
-        // RegExps are coerced to strings for comparison (Note: '' + /a/i === '/a/i')
+      // RegExps are coerced to strings for comparison (Note: '' + /a/i === '/a/i')
       case '[object String]':
         // Primitives and their corresponding object wrappers are equivalent; thus, `"5"` is
         // equivalent to `new String("5")`.
@@ -415,10 +415,10 @@
 
     var areArrays = className === '[object Array]';
     if (!areArrays && isTypedArray$1(a)) {
-        var byteLength = getByteLength(a);
-        if (byteLength !== getByteLength(b)) return false;
-        if (a.buffer === b.buffer && a.byteOffset === b.byteOffset) return true;
-        areArrays = true;
+      var byteLength = getByteLength(a);
+      if (byteLength !== getByteLength(b)) return false;
+      if (a.buffer === b.buffer && a.byteOffset === b.byteOffset) return true;
+      areArrays = true;
     }
     if (!areArrays) {
       if (typeof a != 'object' || typeof b != 'object') return false;
@@ -427,8 +427,8 @@
       // from different frames are.
       var aCtor = a.constructor, bCtor = b.constructor;
       if (aCtor !== bCtor && !(isFunction$1(aCtor) && aCtor instanceof aCtor &&
-                               isFunction$1(bCtor) && bCtor instanceof bCtor)
-                          && ('constructor' in a && 'constructor' in b)) {
+        isFunction$1(bCtor) && bCtor instanceof bCtor)
+        && ('constructor' in a && 'constructor' in b)) {
         return false;
       }
     }
@@ -516,15 +516,15 @@
   // In the interest of compact minification, we write
   // each string in the fingerprints only once.
   var forEachName = 'forEach',
-      hasName = 'has',
-      commonInit = ['clear', 'delete'],
-      mapTail = ['get', hasName, 'set'];
+    hasName = 'has',
+    commonInit = ['clear', 'delete'],
+    mapTail = ['get', hasName, 'set'];
 
   // `Map`, `WeakMap` and `Set` each have slightly different
   // combinations of the above sublists.
   var mapMethods = commonInit.concat(forEachName, mapTail),
-      weakMapMethods = commonInit.concat(mapTail),
-      setMethods = ['add'].concat(commonInit, forEachName, hasName);
+    weakMapMethods = commonInit.concat(mapTail),
+    setMethods = ['add'].concat(commonInit, forEachName, hasName);
 
   var isMap = isIE11 ? ie11fingerprint(mapMethods) : tagTester('Map');
 
@@ -584,8 +584,8 @@
       if (length < 2 || obj == null) return obj;
       for (var index = 1; index < length; index++) {
         var source = arguments[index],
-            keys = keysFunc(source),
-            l = keys.length;
+          keys = keysFunc(source),
+          l = keys.length;
         for (var i = 0; i < l; i++) {
           var key = keys[i];
           if (!defaults || obj[key] === void 0) obj[key] = source[key];
@@ -608,7 +608,7 @@
 
   // Create a naked function reference for surrogate-prototype-swapping.
   function ctor() {
-    return function(){};
+    return function() { };
   }
 
   // An internal function for creating a new object that inherits from another.
@@ -766,8 +766,8 @@
   function mapObject(obj, iteratee, context) {
     iteratee = cb(iteratee, context);
     var _keys = keys(obj),
-        length = _keys.length,
-        results = {};
+      length = _keys.length,
+      results = {};
     for (var index = 0; index < length; index++) {
       var currentKey = _keys[index];
       results[currentKey] = iteratee(obj[currentKey], currentKey, obj);
@@ -776,7 +776,7 @@
   }
 
   // Predicate-generating function. Often useful outside of Underscore.
-  function noop(){}
+  function noop() { }
 
   // Generates a function for a given object that returns a given property.
   function propertyOf(obj) {
@@ -1347,8 +1347,8 @@
   function map(obj, iteratee, context) {
     iteratee = cb(iteratee, context);
     var _keys = !isArrayLike(obj) && keys(obj),
-        length = (_keys || obj).length,
-        results = Array(length);
+      length = (_keys || obj).length,
+      results = Array(length);
     for (var index = 0; index < length; index++) {
       var currentKey = _keys ? _keys[index] : index;
       results[index] = iteratee(obj[currentKey], currentKey, obj);
@@ -1362,8 +1362,8 @@
     // the one that accesses `arguments.length` to avoid a perf hit. (#1991)
     var reducer = function(obj, iteratee, memo, initial) {
       var _keys = !isArrayLike(obj) && keys(obj),
-          length = (_keys || obj).length,
-          index = dir > 0 ? 0 : length - 1;
+        length = (_keys || obj).length,
+        index = dir > 0 ? 0 : length - 1;
       if (!initial) {
         memo = obj[_keys ? _keys[index] : index];
         index += dir;
@@ -1407,7 +1407,7 @@
   function every(obj, predicate, context) {
     predicate = cb(predicate, context);
     var _keys = !isArrayLike(obj) && keys(obj),
-        length = (_keys || obj).length;
+      length = (_keys || obj).length;
     for (var index = 0; index < length; index++) {
       var currentKey = _keys ? _keys[index] : index;
       if (!predicate(obj[currentKey], currentKey, obj)) return false;
@@ -1419,7 +1419,7 @@
   function some(obj, predicate, context) {
     predicate = cb(predicate, context);
     var _keys = !isArrayLike(obj) && keys(obj),
-        length = (_keys || obj).length;
+      length = (_keys || obj).length;
     for (var index = 0; index < length; index++) {
       var currentKey = _keys ? _keys[index] : index;
       if (predicate(obj[currentKey], currentKey, obj)) return true;
@@ -1471,7 +1471,7 @@
   // Return the maximum element (or element-based computation).
   function max(obj, iteratee, context) {
     var result = -Infinity, lastComputed = -Infinity,
-        value, computed;
+      value, computed;
     if (iteratee == null || (typeof iteratee == 'number' && typeof obj[0] != 'object' && obj != null)) {
       obj = isArrayLike(obj) ? obj : values(obj);
       for (var i = 0, length = obj.length; i < length; i++) {
@@ -1496,7 +1496,7 @@
   // Return the minimum element (or element-based computation).
   function min(obj, iteratee, context) {
     var result = Infinity, lastComputed = Infinity,
-        value, computed;
+      value, computed;
     if (iteratee == null || (typeof iteratee == 'number' && typeof obj[0] != 'object' && obj != null)) {
       obj = isArrayLike(obj) ? obj : values(obj);
       for (var i = 0, length = obj.length; i < length; i++) {
@@ -1709,7 +1709,7 @@
   // Only the elements present in just the first array will remain.
   var difference = restArguments(function(array, rest) {
     rest = flatten$1(rest, true, true);
-    return filter(array, function(value){
+    return filter(array, function(value) {
       return !contains(rest, value);
     });
   });
@@ -1735,7 +1735,7 @@
     var seen = [];
     for (var i = 0, length = getLength(array); i < length; i++) {
       var value = array[i],
-          computed = iteratee ? iteratee(value, i, array) : value;
+        computed = iteratee ? iteratee(value, i, array) : value;
       if (isSorted && !iteratee) {
         if (!i || seen !== computed) result.push(value);
         seen = computed;
@@ -1886,151 +1886,151 @@
 
   var allExports = {
     __proto__: null,
-    VERSION: VERSION,
-    restArguments: restArguments,
-    isObject: isObject,
-    isNull: isNull,
-    isUndefined: isUndefined,
-    isBoolean: isBoolean,
-    isElement: isElement,
-    isString: isString,
-    isNumber: isNumber,
-    isDate: isDate,
-    isRegExp: isRegExp,
-    isError: isError,
-    isSymbol: isSymbol,
-    isArrayBuffer: isArrayBuffer,
-    isDataView: isDataView$1,
-    isArray: isArray,
-    isFunction: isFunction$1,
-    isArguments: isArguments$1,
-    isFinite: isFinite$1,
-    isNaN: isNaN$1,
-    isTypedArray: isTypedArray$1,
-    isEmpty: isEmpty,
-    isMatch: isMatch,
-    isEqual: isEqual,
-    isMap: isMap,
-    isWeakMap: isWeakMap,
-    isSet: isSet,
-    isWeakSet: isWeakSet,
-    keys: keys,
+    after: after,
+    all: every,
     allKeys: allKeys,
-    values: values,
-    pairs: pairs,
-    invert: invert,
-    functions: functions,
-    methods: functions,
-    extend: extend,
-    extendOwn: extendOwn,
+    any: some,
     assign: extendOwn,
-    defaults: defaults,
-    create: create,
-    clone: clone,
-    tap: tap,
-    get: get,
-    has: has,
-    mapObject: mapObject,
-    identity: identity,
-    constant: constant,
-    noop: noop,
-    toPath: toPath$1,
-    property: property,
-    propertyOf: propertyOf,
-    matcher: matcher,
-    matches: matcher,
-    times: times,
-    random: random,
-    now: now,
-    escape: _escape,
-    unescape: _unescape,
-    templateSettings: templateSettings,
-    template: template,
-    result: result,
-    uniqueId: uniqueId,
-    chain: chain,
-    iteratee: iteratee,
-    partial: partial,
+    before: before,
     bind: bind,
     bindAll: bindAll,
-    memoize: memoize,
-    delay: delay,
-    defer: defer,
-    throttle: throttle,
-    debounce: debounce,
-    wrap: wrap,
-    negate: negate,
-    compose: compose,
-    after: after,
-    before: before,
-    once: once,
-    findKey: findKey,
-    findIndex: findIndex,
-    findLastIndex: findLastIndex,
-    sortedIndex: sortedIndex,
-    indexOf: indexOf,
-    lastIndexOf: lastIndexOf,
-    find: find,
-    detect: find,
-    findWhere: findWhere,
-    each: each,
-    forEach: each,
-    map: map,
+    chain: chain,
+    chunk: chunk,
+    clone: clone,
     collect: map,
-    reduce: reduce,
-    foldl: reduce,
-    inject: reduce,
-    reduceRight: reduceRight,
-    foldr: reduceRight,
-    filter: filter,
-    select: filter,
-    reject: reject,
-    every: every,
-    all: every,
-    some: some,
-    any: some,
-    contains: contains,
-    includes: contains,
-    include: contains,
-    invoke: invoke,
-    pluck: pluck,
-    where: where,
-    max: max,
-    min: min,
-    shuffle: shuffle,
-    sample: sample,
-    sortBy: sortBy,
-    groupBy: groupBy,
-    indexBy: indexBy,
-    countBy: countBy,
-    partition: partition,
-    toArray: toArray,
-    size: size,
-    pick: pick,
-    omit: omit,
-    first: first,
-    head: first,
-    take: first,
-    initial: initial,
-    last: last,
-    rest: rest,
-    tail: rest,
-    drop: rest,
     compact: compact,
+    compose: compose,
+    constant: constant,
+    contains: contains,
+    countBy: countBy,
+    create: create,
+    debounce: debounce,
+    defaults: defaults,
+    defer: defer,
+    delay: delay,
+    detect: find,
+    difference: difference,
+    drop: rest,
+    each: each,
+    escape: _escape,
+    every: every,
+    extend: extend,
+    extendOwn: extendOwn,
+    filter: filter,
+    find: find,
+    findIndex: findIndex,
+    findKey: findKey,
+    findLastIndex: findLastIndex,
+    findWhere: findWhere,
+    first: first,
     flatten: flatten,
-    without: without,
+    foldl: reduce,
+    foldr: reduceRight,
+    forEach: each,
+    functions: functions,
+    get: get,
+    groupBy: groupBy,
+    has: has,
+    head: first,
+    identity: identity,
+    include: contains,
+    includes: contains,
+    indexBy: indexBy,
+    indexOf: indexOf,
+    initial: initial,
+    inject: reduce,
+    intersection: intersection,
+    invert: invert,
+    invoke: invoke,
+    isArguments: isArguments$1,
+    isArray: isArray,
+    isArrayBuffer: isArrayBuffer,
+    isBoolean: isBoolean,
+    isDataView: isDataView$1,
+    isDate: isDate,
+    isElement: isElement,
+    isEmpty: isEmpty,
+    isEqual: isEqual,
+    isError: isError,
+    isFinite: isFinite$1,
+    isFunction: isFunction$1,
+    isMap: isMap,
+    isMatch: isMatch,
+    isNaN: isNaN$1,
+    isNull: isNull,
+    isNumber: isNumber,
+    isObject: isObject,
+    isRegExp: isRegExp,
+    isSet: isSet,
+    isString: isString,
+    isSymbol: isSymbol,
+    isTypedArray: isTypedArray$1,
+    isUndefined: isUndefined,
+    isWeakMap: isWeakMap,
+    isWeakSet: isWeakSet,
+    iteratee: iteratee,
+    keys: keys,
+    last: last,
+    lastIndexOf: lastIndexOf,
+    map: map,
+    mapObject: mapObject,
+    matcher: matcher,
+    matches: matcher,
+    max: max,
+    memoize: memoize,
+    methods: functions,
+    min: min,
+    mixin: mixin,
+    negate: negate,
+    noop: noop,
+    now: now,
+    object: object,
+    omit: omit,
+    once: once,
+    pairs: pairs,
+    partial: partial,
+    partition: partition,
+    pick: pick,
+    pluck: pluck,
+    property: property,
+    propertyOf: propertyOf,
+    random: random,
+    range: range,
+    reduce: reduce,
+    reduceRight: reduceRight,
+    reject: reject,
+    rest: rest,
+    restArguments: restArguments,
+    result: result,
+    sample: sample,
+    select: filter,
+    shuffle: shuffle,
+    size: size,
+    some: some,
+    sortBy: sortBy,
+    sortedIndex: sortedIndex,
+    tail: rest,
+    take: first,
+    tap: tap,
+    template: template,
+    templateSettings: templateSettings,
+    throttle: throttle,
+    times: times,
+    toArray: toArray,
+    toPath: toPath$1,
+    transpose: unzip,
+    unescape: _unescape,
+    union: union,
     uniq: uniq,
     unique: uniq,
-    union: union,
-    intersection: intersection,
-    difference: difference,
+    uniqueId: uniqueId,
     unzip: unzip,
-    transpose: unzip,
+    values: values,
+    VERSION: VERSION,
+    where: where,
+    without: without,
+    wrap: wrap,
     zip: zip,
-    object: object,
-    range: range,
-    chunk: chunk,
-    mixin: mixin,
     'default': _$1
   };
 
