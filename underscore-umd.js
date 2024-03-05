@@ -163,7 +163,7 @@
   // In IE 10 - Edge 13, we need a different heuristic
   // to determine whether an object is a `DataView`.
   // Also, in cases where the native `DataView` is
-  // overriden we can't rely on the tag itself.
+  // overridden we can't rely on the tag itself.
   function alternateIsDataView(obj) {
     return obj != null && isFunction$1(obj.getInt8) && isArrayBuffer(obj.buffer);
   }
