@@ -1,10 +1,11 @@
 function ThemeToggle(toggleID) {
 
-    this.toggleForm = document.getElementById(toggleID);
+    this.toggleForm = document.getElementById(toggleID) || null;
     this.body = document.body
     this.toggle = this.toggleForm.querySelector('input[type="checkbox"]') || this.toggleForm.closest('input[type="checkbox"]')
 
     this.events = function() {
+        if (!this.toggleForm) return null
       this.loadThemeFromStorage()
       this.toggleForm.addEventListener('click', this.handleChange.bind(this)) 
       document.addEventListener('keyup', this.handleKeyDown.bind(this))
