@@ -4321,6 +4321,13 @@ _.chain([1, 2, 3]).reverse().value();
 
   </div>
 
+  <form action="#" id="themeForm" data-name="toggleForm">
+    <label for="themeToggle" aria-label="theme">
+      <input type="checkbox" name="theme" id="themeToggle">
+    </label>
+  </form>
+
+
   <!-- Include Underscore, so you can play with it in the console. -->
   <script type="text/javascript" src="underscore-umd.js"></script>
   <script type="text/javascript" src="docs/main.js"></script>
@@ -4333,6 +4340,198 @@ _.chain([1, 2, 3]).reverse().value();
         }
       })
   </script>
+
+<script defer>
+
+  function themeToggle(toggleID) {
+
+    this.toggleForm = document.getElementById(toggleID);
+    this.body = document.body
+
+    this.events = function() {
+      this.toggleForm.addEventListener('change', this.handleChange.bind(this)) 
+      this.handleChange()
+    }.bind(this)
+
+
+
+
+    this.handleChange = function(e) {
+
+      var toggle = document.querySelector('input[type="checkbox"]') || e.target.closest('input[type="checkbox"]')
+
+      if (typeof toggle === "undefined") return null
+
+      if (toggle.checked) {
+        toggle.checked = false
+        this.body.setAttribute('data-theme', 'light')
+    } else {
+      toggle.checked = true
+      this.body.setAttribute('data-theme', 'dark')
+    }
+
+    console.log(toggle.checked)
+
+    }
+
+
+
+
+
+
+    this.events()
+
+
+
+  }
+
+  new themeToggle('themeForm')
+
+</script>
+
+<style>
+  form[data-name="toggleForm"]{
+    cursor: pointer;
+    display: block;
+    position: absolute;
+    top: 1rem;
+    right: 2rem;
+    height: 50px;
+    width: 50px;
+    label {
+      background: none;
+      cursor: pointer;
+      display: grid;
+      padding: unset;
+      padding-inline: 0.15rem;
+      padding-left: 0.15rem;
+      padding-right: 0.15rem;
+      place-items: center;
+      width: inherit;
+      height: inherit;
+      left: unset;
+      position: relative;
+    }
+
+    label::before {
+      content: "";
+      cursor: inherit;
+      background: #fff url('./sun.svg') no-repeat center / cover;
+      display: block;
+      height: 24px;
+      width: 24px;
+      position: absolute;
+      top: 50%;
+      left: 0;
+      transform: translate(-66%, -50%);
+    }
+    label::after {
+      content: "";
+      cursor: inherit;
+      background: #fff url('./moon.svg') no-repeat center / cover;
+      display: block;
+      height: 24px;
+      width: 24px;
+      position: absolute;
+      top: 50%;
+      right: 0;
+      transform: translate(66%, -50%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    input {
+      cursor: inherit;
+      left: unset;
+      right: unset;
+      top: unset;
+      bottom: unset;
+      margin: unset;
+      padding: unset;
+      position: relative;
+      visibility: hidden;
+    }
+
+    input::before {
+      content: "";
+      height: 1.1rem;
+      width: 2rem;
+      border-radius: 3rem;
+      background: #000;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      display: block;
+      visibility:visible;
+    }
+      
+
+    input::after {
+      border-radius: 50%;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      top: 50%;
+      left: 50%;
+      content: '';
+      background: #0071b5;
+      width: 1rem;
+      height: 1rem;
+      display: block;
+      position: absolute;
+      transform: translate(-0.85rem, -50%);
+      visibility: visible;
+      -moz-transition: transform 350ms;
+      -webkit-transition: transform 350ms;
+      transition: transform 350ms;
+    
+    }
+
+    input:checked::after {
+      transform: translate(-0.15rem, -50%);
+    }
+  }
+
+  body[data-theme="dark"] {
+    background: #333;
+    color: #fff;
+
+    label::before,
+    label::after {
+      background-color: #333;
+    }
+
+    label::before {
+      background: url('./sun-light.svg') no-repeat center center / cover;
+    }
+
+    label::after {
+      background: url('./moon-light.svg') no-repeat center center / cover;
+    }
+
+    svg {
+      path {
+        color: #fff;
+      }
+    }
+
+    a {
+      color: #fff;
+    }
+
+    tt {
+      color: #333;
+    }
+
+   #sidebar {
+    background: #333;
+    color: #fff;
+   }
+  }
+</style>
 
 </body>
 </html>
