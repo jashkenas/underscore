@@ -854,7 +854,7 @@
 <span class="hljs-keyword">import</span> getByteLength <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./_getByteLength.js&#x27;</span>;
 <span class="hljs-keyword">import</span> isTypedArray <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./isTypedArray.js&#x27;</span>;
 <span class="hljs-keyword">import</span> isFunction <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./isFunction.js&#x27;</span>;
-<span class="hljs-keyword">import</span> { hasStringTagBug }  <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./_stringTagBug.js&#x27;</span>;
+<span class="hljs-keyword">import</span> { hasDataViewBug }  <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./_stringTagBug.js&#x27;</span>;
 <span class="hljs-keyword">import</span> isDataView <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./isDataView.js&#x27;</span>;
 <span class="hljs-keyword">import</span> keys <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./keys.js&#x27;</span>;
 <span class="hljs-keyword">import</span> has <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./_has.js&#x27;</span>;
@@ -1014,7 +1014,7 @@ See the <a href="https://wiki.ecmascript.org/doku.php?id=harmony:egal">Harmony <
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">if</span> (hasStringTagBug &amp;&amp; className == <span class="hljs-string">&#x27;[object Object]&#x27;</span> &amp;&amp; <span class="hljs-title function_">isDataView</span>(a)) {
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">if</span> (hasDataViewBug &amp;&amp; className == <span class="hljs-string">&#x27;[object Object]&#x27;</span> &amp;&amp; <span class="hljs-title function_">isDataView</span>(a)) {
     <span class="hljs-keyword">if</span> (!<span class="hljs-title function_">isDataView</span>(b)) <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
     className = tagDataView;
   }
