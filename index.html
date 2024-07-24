@@ -260,65 +260,54 @@
       }
     }
 
-@media screen and (prefers-color-scheme: dark) {
+    @media screen and (prefers-color-scheme: dark) {
       body {
-          background: #333 !important;
+          background: #111 !important;
           color: #c6c6c6;
       }
-
       div#sidebar {
-          background: #444;
+          background: #111;
           border-right: 1px solid #666;
           box-shadow: 0 0 20px #555;
           -webkit-box-shadow: 0 0 20px #555;
           -moz-box-shadow: 0 0 20px #555;
       }
-
       a.toc_title,
       a.toc_title:visited {
           color: #f4f4f4;
       }
-
       a.toc_title:hover {
           text-decoration: underline;
       }
-
       .toc_section li a {
           text-decoration: none;
           color: #f4f4f4;
       }
-
       img#logo {
-          filter: brightness(0) invert(1);
+        filter: invert(1) hue-rotate(180deg) brightness(0.9);
       }
-
       div.warning {
           color: #CC6060;
       }
-
       a,
       a:visited {
           color: #f4f4f4;
       }
-
       a:active,
       a:hover {
           color: #ffffff;
       }
-
       table .rule {
           background: #777;
       }
-
       tt {
           background: #444;
           border: 1px solid #777;
       }
-
       pre {
           border-left: 5px solid #aaa;
       }
-  }
+    }
   </style>
 </head>
 <body>
