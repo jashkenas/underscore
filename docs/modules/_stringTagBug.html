@@ -863,12 +863,15 @@
               </div>
               <p>In IE 10 - Edge 13, <code>DataView</code> has string tag <code>&#39;[object Object]&#39;</code>.
 In IE 11, the most common among them, this problem also applies to
-<code>Map</code>, <code>WeakMap</code> and <code>Set</code>.</p>
+<code>Map</code>, <code>WeakMap</code> and <code>Set</code>.
+Also, there are cases where an application can override the native
+<code>DataView</code> object, in cases like that we can’t use the constructor
+safely and should just rely on alternate <code>DataView</code> checks</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">var</span> hasStringTagBug = (
-      supportsDataView &amp;&amp; <span class="hljs-title function_">hasObjectTag</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">DataView</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">ArrayBuffer</span>(<span class="hljs-number">8</span>)))
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">var</span> hasDataViewBug = (
+      supportsDataView &amp;&amp; (!<span class="hljs-regexp">/\[native code\]/</span>.<span class="hljs-title function_">test</span>(<span class="hljs-title class_">String</span>(<span class="hljs-title class_">DataView</span>)) || <span class="hljs-title function_">hasObjectTag</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">DataView</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">ArrayBuffer</span>(<span class="hljs-number">8</span>))))
     ),
     isIE11 = (<span class="hljs-keyword">typeof</span> <span class="hljs-title class_">Map</span> !== <span class="hljs-string">&#x27;undefined&#x27;</span> &amp;&amp; <span class="hljs-title function_">hasObjectTag</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">Map</span>));</pre></div></div>
             

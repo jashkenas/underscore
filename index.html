@@ -259,6 +259,55 @@
         width: 100%;
       }
     }
+
+    @media screen and (prefers-color-scheme: dark) {
+      body {
+        background: #111 !important;
+        color: #c6c6c6;
+      }
+      div#sidebar {
+        background: #111;
+        border-right: 1px solid #666;
+        box-shadow: 0 0 20px #555;
+        -webkit-box-shadow: 0 0 20px #555;
+        -moz-box-shadow: 0 0 20px #555;
+      }
+      a.toc_title,
+      a.toc_title:visited {
+        color: #f4f4f4;
+      }
+      a.toc_title:hover {
+        text-decoration: underline;
+      }
+      .toc_section li a {
+        text-decoration: none;
+        color: #f4f4f4;
+      }
+      img#logo {
+        filter: invert(1) hue-rotate(180deg) brightness(0.9);
+      }
+      div.warning {
+        color: #CC6060;
+      }
+      a,
+      a:visited {
+        color: #f4f4f4;
+      }
+      a:active,
+      a:hover {
+        color: #ffffff;
+      }
+      table .rule {
+        background: #777;
+      }
+      tt {
+        background: #444;
+        border: 1px solid #777;
+      }
+      pre {
+        border-left: 5px solid #aaa;
+      }
+    }
   </style>
 </head>
 <body>
@@ -269,7 +318,7 @@
     <div id="sidebar" class="interface overlay-content">
 
       <a class="toc_title" href="#">
-        Underscore.js <span class="version">(1.13.6)</span>
+        Underscore.js <span class="version">(1.13.7)</span>
       </a>
 
       <ul class="toc_section">
@@ -558,7 +607,7 @@
       <i>Underscore is an open-source component of <a href="https://documentcloud.org/">DocumentCloud</a>.</i>
     </p>
 
-    <h2>v1.13.6 Downloads <i style="padding-left: 12px; font-size:12px;">(Right-click, and use "Save As")</i></h2>
+    <h2>v1.13.7 Downloads <i style="padding-left: 12px; font-size:12px;">(Right-click, and use "Save As")</i></h2>
 
     <table>
       <tr>
@@ -602,32 +651,32 @@
       </tr>
     </table>
 
-    <h2>v1.13.6 CDN URLs <i style="padding-left: 12px; font-size:12px;">(Use with <tt>&lt;script src="..."&gt;&lt;/script&gt;</tt>)</i></h2>
+    <h2>v1.13.7 CDN URLs <i style="padding-left: 12px; font-size:12px;">(Use with <tt>&lt;script src="..."&gt;&lt;/script&gt;</tt>)</i></h2>
 
     <ul>
       <li>
-        <tt>https://cdn.jsdelivr.net/npm/underscore@1.13.6/underscore-umd-min.js</tt>
+        <tt>https://cdn.jsdelivr.net/npm/underscore@1.13.7/underscore-umd-min.js</tt>
       </li>
       <li>
-        <tt>https://cdn.jsdelivr.net/npm/underscore@1.13.6/underscore-esm-min.js</tt>
+        <tt>https://cdn.jsdelivr.net/npm/underscore@1.13.7/underscore-esm-min.js</tt>
       </li>
       <li>
-        <tt>https://unpkg.com/underscore@1.13.6/underscore-umd-min.js</tt>
+        <tt>https://unpkg.com/underscore@1.13.7/underscore-umd-min.js</tt>
       </li>
       <li>
-        <tt>https://unpkg.com/underscore@1.13.6/underscore-esm-min.js</tt>
+        <tt>https://unpkg.com/underscore@1.13.7/underscore-esm-min.js</tt>
       </li>
       <li>
-        <tt>https://pagecdn.io/lib/underscore/1.13.6/underscore-umd-min.js</tt>
+        <tt>https://pagecdn.io/lib/underscore/1.13.7/underscore-umd-min.js</tt>
       </li>
       <li>
-        <tt>https://pagecdn.io/lib/underscore/1.13.6/underscore-esm-min.js</tt>
+        <tt>https://pagecdn.io/lib/underscore/1.13.7/underscore-esm-min.js</tt>
       </li>
       <li>
-        <tt>https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.13.6/underscore-umd-min.js</tt>
+        <tt>https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.13.7/underscore-umd-min.js</tt>
       </li>
       <li>
-        <tt>https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.13.6/underscore-esm-min.js</tt>
+        <tt>https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.13.7/underscore-esm-min.js</tt>
       </li>
     </ul>
 
@@ -2932,6 +2981,30 @@ _.chain([1, 2, 3]).reverse().value();
 
       <h2 id="changelog">Change Log</h2>
 
+      <p id="1.13.7">
+        <b class="header">1.13.7</b> &mdash; <small><i>July 24, 2024</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.13.6...1.13.7">Diff</a> &mdash; <a href="https://cdn.statically.io/gh/jashkenas/underscore/1.13.7/index.html">Docs</a><br />
+        <ul>
+          <li>
+            Fixes a bug where Underscore might throw an error on load if the
+            executing environment overrides the native <tt>DataView</tt>.
+          </li>
+          <li>
+            Adds a direct link to the corresponding source code for each
+            function in the documentation.
+          </li>
+          <li>
+            Clarifies the documentation for the <b>step</b> argument of
+            the <tt>range</tt> function.
+          </li>
+          <li>
+            Adds dark mode support to the home page.
+          </li>
+          <li>
+            Other infrastructural improvements to funding, testing and building.
+          </li>
+        </ul>
+      </p>
+
       <p id="1.13.6">
         <b class="header">1.13.6</b> &mdash; <small><i>September 24, 2022</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.13.5...1.13.6">Diff</a> &mdash; <a href="https://cdn.statically.io/gh/jashkenas/underscore/1.13.6/index.html">Docs</a><br />
         Hotfix for version 1.13.5 to remove a <tt>postinstall</tt> script from
@@ -4333,6 +4406,5 @@ _.chain([1, 2, 3]).reverse().value();
         }
       })
   </script>
-
 </body>
 </html>

@@ -4499,7 +4499,7 @@
   	// Exact case-insensitive match of the module name
   	QUnit.config.module = urlParams.module;
 
-  	// Regular expression or case-insenstive substring match against "moduleName: testName"
+  	// Regular expression or case-insensitive substring match against "moduleName: testName"
   	QUnit.config.filter = urlParams.filter;
 
   	// Test order randomization
