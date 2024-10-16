@@ -499,6 +499,7 @@
           <li data-name="result">- <a href="#result">result</a></li>
           <li data-name="now">- <a href="#now">now</a></li>
           <li data-name="template">- <a href="#template">template</a></li>
+          <li data-name="version">- <a href="#version">version</a></li>
         </ul>
       </div>
 
@@ -2757,6 +2758,14 @@ _.template("Using 'with': <%= data.answer %>", {variable: 'data'})({answer: 'no'
   JST.project = <%= _.template(jstText).source %>;
 &lt;/script&gt;</pre>
 
+      <p id="version">
+        <b class="header">VERSION</b>
+        <br>
+        It is possible to get the current Underscore version via
+        <tt>_.VERSION</tt> 
+        .
+        <pre>_.VERSION =&gt; 1.13.7</pre>
+      </p>
 
       <h2 id="oop">Object-Oriented Style</h2>
 
