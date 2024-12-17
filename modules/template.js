@@ -72,30 +72,26 @@ export default function template(text, settings, oldSettings) {
     if (!bareIdentifier.test(argument)) throw new Error(
       'variable is not a bare identifier: ' + argument
     );
-  } else {
-    // If a variable is not specified, place data values in local scope.
-    source = 'with(obj||{}){\n' + source + '}\n';
-    argument = 'obj';
   }
 
   source = "var __t,__p='',__j=Array.prototype.join," +
     "print=function(){__p+=__j.call(arguments,'');};\n" +
     source + 'return __p;\n';
 
-  var render;
-  try {
-    render = new Function(argument, '_', source);
-  } catch (e) {
-    e.source = source;
-    throw e;
-  }
-
   var template = function(data) {
-    return render.call(this, data, _);
-  };
+    var render;
+    var injectedKeys = _.keys(data).concat(['_']);
+    var injectedValues = _.values(data).concat([_]);
 
-  // Provide the compiled source as a convenience for precompilation.
-  template.source = 'function(' + argument + '){\n' + source + '}';
+    try {
+      render = new Function(injectedKeys.join(','), source);
+    } catch (e) {
+      e.source = source;
+      throw e;
+    }
+
+    return render.apply(this, injectedValues);
+  };
 
   return template;
 }
