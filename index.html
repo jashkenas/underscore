@@ -1820,6 +1820,28 @@ var raceResults = _.restArguments(function(gold, silver, bronze, everyoneElse) {
 
 raceResults("Dopey", "Grumpy", "Happy", "Sneezy", "Bashful", "Sleepy", "Doc");
 </pre>
+      <p id="restArguments-startIndex">
+        The <b>startIndex</b> is mainly useful if the number of arguments cannot be reliably determined from the <b>function</b> itself, for example because <b>function</b> was output by another function.
+      </p>
+      <pre>
+// The inner function from before.
+function consoleNonWinners(gold, silver, bronze, everyoneElse) {
+  _.each(everyoneElse, sendConsolations);
+}
+
+// This time, we transform it through another metafunction first.
+// Snow White always wins gold!
+var withSnowWhite = _.partial(consoleNonWinners, "Snow White");
+
+// withSnowWhite.length is zero because _.partial does not remember the
+// number of parameters for us. We fix this by passing an explicit
+// startIndex.
+var raceResults = _.restArguments(withSnowWhite, 2);
+
+// Dopey degraded to silver, Grumpy degraded to bronze and Happy fell
+// out of the prizes altogether. We will console him as well.
+raceResults("Dopey", "Grumpy", "Happy", "Sneezy", "Bashful", "Sleepy", "Doc");
+</pre>
 
       <h2 id="objects">Object Functions</h2>
 
