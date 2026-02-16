@@ -1022,26 +1022,28 @@ var bind = restArguments(function(func, context, args) {
 // Avoids a very nasty iOS 8 JIT bug on ARM-64. #2094
 var isArrayLike = createSizePropertyCheck(getLength);
 
-// Internal implementation of a recursive `flatten` function.
-function flatten$1(input, depth, strict, output) {
-  output = output || [];
-  if (!depth && depth !== 0) {
-    depth = Infinity;
-  } else if (depth <= 0) {
-    return output.concat(input);
-  }
-  var idx = output.length;
-  for (var i = 0, length = getLength(input); i < length; i++) {
-    var value = input[i];
-    if (isArrayLike(value) && (isArray(value) || isArguments$1(value))) {
+// Internal implementation of a `flatten` function.
+function flatten$1(input, depth, strict) {
+  if (!depth && depth !== 0) depth = Infinity;
+  var output = [], idx = 0, i = 0, length = getLength(input) || 0, stack = [];
+  while (true) {
+    if (i >= length) {
+      if (!stack.length) break;
+      var frame = stack.pop();
+      i = frame.i;
+      input = frame.v;
+      length = getLength(input);
+      continue;
+    }
+    var value = input[i++];
+    if (stack.length >= depth) {
+      output[idx++] = value;
+    } else if (isArrayLike(value) && (isArray(value) || isArguments$1(value))) {
       // Flatten current level of array or arguments object.
-      if (depth > 1) {
-        flatten$1(value, depth - 1, strict, output);
-        idx = output.length;
-      } else {
-        var j = 0, len = value.length;
-        while (j < len) output[idx++] = value[j++];
-      }
+      stack.push({i: i, v: input});
+      i = 0;
+      input = value;
+      length = getLength(input);
     } else if (!strict) {
       output[idx++] = value;
     }
