@@ -453,6 +453,17 @@
     assert.ok(!_.isEqual({a: 1}, {a: 1, b: 2}), 'Commutative equality is implemented for objects');
     assert.ok(!_.isEqual({x: 1, y: void 0}, {x: 1, z: 2}), 'Objects with identical keys and different values are not equivalent');
 
+    // Extremely deeply nested objects.
+    a = b = 'v';
+    for (var i = 0; i < 30000; ++i) {
+      a = {x: a};
+      b = {x: b};
+    }
+    assert.ok(_.isEqual(a, b), 'Very deeply nested objects can be equal');
+    b = {x: b};
+    assert.ok(!_.isEqual(a, b), 'Very deeply nested objects can be different');
+    assert.ok(!_.isEqual(b, a), 'Commutative equality is implemented for very deeply nested objects');
+
     // `A` contains nested objects and arrays.
     a = {
       name: new String('Moe Howard'),
