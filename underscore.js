@@ -7,13 +7,13 @@
     exports.noConflict = function () { global._ = current; return exports; };
   }()));
 }(this, (function () {
-  //     Underscore.js 1.13.7
+  //     Underscore.js 1.13.8
   //     https://underscorejs.org
-  //     (c) 2009-2024 Jeremy Ashkenas, Julian Gonggrijp, and DocumentCloud and Investigative Reporters & Editors
+  //     (c) 2009-2026 Jeremy Ashkenas, Julian Gonggrijp, and DocumentCloud and Investigative Reporters & Editors
   //     Underscore may be freely distributed under the MIT license.
 
   // Current version.
-  var VERSION = '1.13.7';
+  var VERSION = '1.13.8';
 
   // Establish the root object, `window` (`self`) in the browser, `global`
   // on the server, or `this` in some virtual machines. We use `self`
@@ -357,129 +357,144 @@
   // We use this string twice, so give it a name for minification.
   var tagDataView = '[object DataView]';
 
-  // Internal recursive comparison function for `_.isEqual`.
-  function eq(a, b, aStack, bStack) {
-    // Identical objects are equal. `0 === -0`, but they aren't identical.
-    // See the [Harmony `egal` proposal](https://wiki.ecmascript.org/doku.php?id=harmony:egal).
-    if (a === b) return a !== 0 || 1 / a === 1 / b;
-    // `null` or `undefined` only equal to itself (strict comparison).
-    if (a == null || b == null) return false;
-    // `NaN`s are equivalent, but non-reflexive.
-    if (a !== a) return b !== b;
-    // Exhaust primitive checks
-    var type = typeof a;
-    if (type !== 'function' && type !== 'object' && typeof b != 'object') return false;
-    return deepEq(a, b, aStack, bStack);
-  }
+  // Perform a deep comparison to check if two objects are equal.
+  function isEqual(a, b) {
+    var todo = [{a: a, b: b}];
+    // Initializing stacks of traversed objects for cycle detection.
+    var aStack = [], bStack = [];
+
+    while (todo.length) {
+      var frame = todo.pop();
+      if (frame === true) {
+        // Remove the first object from the stack of traversed objects.
+        aStack.pop();
+        bStack.pop();
+        continue;
+      }
+      a = frame.a;
+      b = frame.b;
+
+      // Identical objects are equal. `0 === -0`, but they aren't identical.
+      // See the [Harmony `egal` proposal](https://wiki.ecmascript.org/doku.php?id=harmony:egal).
+      if (a === b) {
+        if (a !== 0 || 1 / a === 1 / b) continue;
+        return false;
+      }
+      // `null` or `undefined` only equal to itself (strict comparison).
+      if (a == null || b == null) return false;
+      // `NaN`s are equivalent, but non-reflexive.
+      if (a !== a) {
+        if (b !== b) continue;
+        return false;
+      }
+      // Exhaust primitive checks
+      var type = typeof a;
+      if (type !== 'function' && type !== 'object' && typeof b != 'object') return false;
 
   // Internal recursive comparison function for `_.isEqual`.
-  function deepEq(a, b, aStack, bStack) {
-    // Unwrap any wrapped objects.
-    if (a instanceof _$1) a = a._wrapped;
-    if (b instanceof _$1) b = b._wrapped;
-    // Compare `[[Class]]` names.
-    var className = toString.call(a);
-    if (className !== toString.call(b)) return false;
-    // Work around a bug in IE 10 - Edge 13.
-    if (hasDataViewBug && className == '[object Object]' && isDataView$1(a)) {
-      if (!isDataView$1(b)) return false;
-      className = tagDataView;
-    }
-    switch (className) {
-      // These types are compared by value.
+      // Unwrap any wrapped objects.
+      if (a instanceof _$1) a = a._wrapped;
+      if (b instanceof _$1) b = b._wrapped;
+      // Compare `[[Class]]` names.
+      var className = toString.call(a);
+      if (className !== toString.call(b)) return false;
+      // Work around a bug in IE 10 - Edge 13.
+      if (hasDataViewBug && className == '[object Object]' && isDataView$1(a)) {
+        if (!isDataView$1(b)) return false;
+        className = tagDataView;
+      }
+      switch (className) {
+        // These types are compared by value.
       case '[object RegExp]':
         // RegExps are coerced to strings for comparison (Note: '' + /a/i === '/a/i')
       case '[object String]':
         // Primitives and their corresponding object wrappers are equivalent; thus, `"5"` is
         // equivalent to `new String("5")`.
-        return '' + a === '' + b;
+        if ('' + a === '' + b) continue;
+        return false;
       case '[object Number]':
-        // `NaN`s are equivalent, but non-reflexive.
-        // Object(NaN) is equivalent to NaN.
-        if (+a !== +a) return +b !== +b;
-        // An `egal` comparison is performed for other numeric values.
-        return +a === 0 ? 1 / +a === 1 / b : +a === +b;
+        todo.push({a: +a, b: +b});
+        continue;
       case '[object Date]':
       case '[object Boolean]':
         // Coerce dates and booleans to numeric primitive values. Dates are compared by their
         // millisecond representations. Note that invalid dates with millisecond representations
         // of `NaN` are not equivalent.
-        return +a === +b;
+        if (+a === +b) continue;
+        return false;
       case '[object Symbol]':
-        return SymbolProto.valueOf.call(a) === SymbolProto.valueOf.call(b);
+        if (SymbolProto.valueOf.call(a) === SymbolProto.valueOf.call(b)) continue;
+        return false;
       case '[object ArrayBuffer]':
       case tagDataView:
         // Coerce to typed array so we can fall through.
-        return deepEq(toBufferView(a), toBufferView(b), aStack, bStack);
-    }
+        todo.push({a: toBufferView(a), b: toBufferView(b)});
+        continue;
+      }
 
-    var areArrays = className === '[object Array]';
-    if (!areArrays && isTypedArray$1(a)) {
+      var areArrays = className === '[object Array]';
+      if (!areArrays && isTypedArray$1(a)) {
         var byteLength = getByteLength(a);
         if (byteLength !== getByteLength(b)) return false;
-        if (a.buffer === b.buffer && a.byteOffset === b.byteOffset) return true;
+        if (a.buffer === b.buffer && a.byteOffset === b.byteOffset) continue;
         areArrays = true;
-    }
-    if (!areArrays) {
-      if (typeof a != 'object' || typeof b != 'object') return false;
-
-      // Objects with different constructors are not equivalent, but `Object`s or `Array`s
-      // from different frames are.
-      var aCtor = a.constructor, bCtor = b.constructor;
-      if (aCtor !== bCtor && !(isFunction$1(aCtor) && aCtor instanceof aCtor &&
-                               isFunction$1(bCtor) && bCtor instanceof bCtor)
-                          && ('constructor' in a && 'constructor' in b)) {
-        return false;
       }
-    }
-    // Assume equality for cyclic structures. The algorithm for detecting cyclic
-    // structures is adapted from ES 5.1 section 15.12.3, abstract operation `JO`.
+      if (!areArrays) {
+        if (typeof a != 'object' || typeof b != 'object') return false;
 
-    // Initializing stack of traversed objects.
-    // It's done here since we only need them for objects and arrays comparison.
-    aStack = aStack || [];
-    bStack = bStack || [];
-    var length = aStack.length;
-    while (length--) {
-      // Linear search. Performance is inversely proportional to the number of
-      // unique nested structures.
-      if (aStack[length] === a) return bStack[length] === b;
-    }
+        // Objects with different constructors are not equivalent, but `Object`s or `Array`s
+        // from different frames are.
+        var aCtor = a.constructor, bCtor = b.constructor;
+        if (aCtor !== bCtor && !(isFunction$1(aCtor) && aCtor instanceof aCtor &&
+                                 isFunction$1(bCtor) && bCtor instanceof bCtor)
+            && ('constructor' in a && 'constructor' in b)) {
+          return false;
+        }
+      }
 
-    // Add the first object to the stack of traversed objects.
-    aStack.push(a);
-    bStack.push(b);
+      // Assume equality for cyclic structures. The algorithm for detecting cyclic
+      // structures is adapted from ES 5.1 section 15.12.3, abstract operation `JO`.
 
-    // Recursively compare objects and arrays.
-    if (areArrays) {
-      // Compare array lengths to determine if a deep comparison is necessary.
-      length = a.length;
-      if (length !== b.length) return false;
-      // Deep compare the contents, ignoring non-numeric properties.
+      var length = aStack.length;
       while (length--) {
-        if (!eq(a[length], b[length], aStack, bStack)) return false;
+        // Linear search. Performance is inversely proportional to the number of
+        // unique nested structures.
+        if (aStack[length] === a) {
+          if (bStack[length] === b) break;
+          return false;
+        }
       }
-    } else {
-      // Deep compare objects.
-      var _keys = keys(a), key;
-      length = _keys.length;
-      // Ensure that both objects contain the same number of properties before comparing deep equality.
-      if (keys(b).length !== length) return false;
-      while (length--) {
-        // Deep compare each member
-        key = _keys[length];
-        if (!(has$1(b, key) && eq(a[key], b[key], aStack, bStack))) return false;
+      if (length >= 0) continue;
+
+      // Add the first object to the stack of traversed objects.
+      aStack.push(a);
+      bStack.push(b);
+      todo.push(true);
+
+      // Recursively compare objects and arrays.
+      if (areArrays) {
+        // Compare array lengths to determine if a deep comparison is necessary.
+        length = a.length;
+        if (length !== b.length) return false;
+        // Deep compare the contents, ignoring non-numeric properties.
+        while (length--) {
+          todo.push({a: a[length], b: b[length]});
+        }
+      } else {
+        // Deep compare objects.
+        var _keys = keys(a), key;
+        length = _keys.length;
+        // Ensure that both objects contain the same number of properties before comparing deep equality.
+        if (keys(b).length !== length) return false;
+        while (length--) {
+          // Deep compare each member
+          key = _keys[length];
+          if (!has$1(b, key)) return false;
+          todo.push({a: a[key], b: b[key]});
+        }
       }
     }
-    // Remove the first object from the stack of traversed objects.
-    aStack.pop();
-    bStack.pop();
     return true;
-  }
-
-  // Perform a deep comparison to check if two objects are equal.
-  function isEqual(a, b) {
-    return eq(a, b);
   }
 
   // Retrieve all the enumerable property names of an object.
@@ -1032,25 +1047,27 @@
   var isArrayLike = createSizePropertyCheck(getLength);
 
   // Internal implementation of a recursive `flatten` function.
-  function flatten$1(input, depth, strict, output) {
-    output = output || [];
-    if (!depth && depth !== 0) {
-      depth = Infinity;
-    } else if (depth <= 0) {
-      return output.concat(input);
-    }
-    var idx = output.length;
-    for (var i = 0, length = getLength(input); i < length; i++) {
-      var value = input[i];
-      if (isArrayLike(value) && (isArray(value) || isArguments$1(value))) {
+  function flatten$1(input, depth, strict) {
+    if (!depth && depth !== 0) depth = Infinity;
+    var output = [], idx = 0, i = 0, length = getLength(input) || 0, stack = [];
+    while (true) {
+      if (i >= length) {
+        if (!stack.length) break;
+        var frame = stack.pop();
+        i = frame.i;
+        input = frame.v;
+        length = getLength(input);
+        continue;
+      }
+      var value = input[i++];
+      if (stack.length >= depth) {
+        output[idx++] = value;
+      } else if (isArrayLike(value) && (isArray(value) || isArguments$1(value))) {
         // Flatten current level of array or arguments object.
-        if (depth > 1) {
-          flatten$1(value, depth - 1, strict, output);
-          idx = output.length;
-        } else {
-          var j = 0, len = value.length;
-          while (j < len) output[idx++] = value[j++];
-        }
+        stack.push({i: i, v: input});
+        i = 0;
+        input = value;
+        length = getLength(input);
       } else if (!strict) {
         output[idx++] = value;
       }
