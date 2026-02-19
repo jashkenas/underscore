@@ -14,12 +14,17 @@ var tagDataView = '[object DataView]';
 
 // Perform a deep comparison to check if two objects are equal.
 export default function isEqual(a, b) {
+  // Keep track of which pairs of values need to be compared. We will be
+  // trampolining on this stack instead of using function recursion.
   var todo = [{a: a, b: b}];
   // Initializing stacks of traversed objects for cycle detection.
   var aStack = [], bStack = [];
 
+  // Keep traversing pairs until there is nothing left to compare.
   while (todo.length) {
     var frame = todo.pop();
+    // As a special case, a single `true` on the todo means that we can
+    // unwind the cycle detection stacks.
     if (frame === true) {
       // Remove the first object from the stack of traversed objects.
       aStack.pop();
@@ -46,7 +51,6 @@ export default function isEqual(a, b) {
     var type = typeof a;
     if (type !== 'function' && type !== 'object' && typeof b != 'object') return false;
 
-// Internal recursive comparison function for `_.isEqual`.
     // Unwrap any wrapped objects.
     if (a instanceof _) a = a._wrapped;
     if (b instanceof _) b = b._wrapped;
@@ -115,15 +119,19 @@ export default function isEqual(a, b) {
       // Linear search. Performance is inversely proportional to the number of
       // unique nested structures.
       if (aStack[length] === a) {
+        // Cycle detected. Break out of the inner loop and continue the outer
+        // loop. Step 1:
         if (bStack[length] === b) break;
         return false;
       }
     }
+    // Step 2, use `length` to verify whether we detected a cycle:
     if (length >= 0) continue;
 
     // Add the first object to the stack of traversed objects.
     aStack.push(a);
     bStack.push(b);
+    // Remember to remove them again after the recursion below.
     todo.push(true);
 
     // Recursively compare objects and arrays.
@@ -149,5 +157,6 @@ export default function isEqual(a, b) {
       }
     }
   }
+  // We made it to the end and found no differences.
   return true;
 }

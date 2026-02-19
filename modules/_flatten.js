@@ -3,7 +3,7 @@ import isArrayLike from './_isArrayLike.js';
 import isArray from './isArray.js';
 import isArguments from './isArguments.js';
 
-// Internal implementation of a recursive `flatten` function.
+// Internal implementation of a `flatten` function.
 export default function flatten(input, depth, strict) {
   if (!depth && depth !== 0) depth = Infinity;
   var output = [], idx = 0, i = 0, length = getLength(input) || 0, stack = [];
