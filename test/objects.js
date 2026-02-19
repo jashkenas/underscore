@@ -455,7 +455,7 @@
 
     // Extremely deeply nested objects (CVE-2026-27601).
     a = b = 'v';
-    for (var i = 0; i < 30000; ++i) {
+    for (var i = 0; i < 100000; ++i) {
       a = {x: a};
       b = {x: b};
     }
