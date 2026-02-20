@@ -8,6 +8,53 @@ import isDataView from './isDataView.js';
 import keys from './keys.js';
 import has from './_has.js';
 import toBufferView from './_toBufferView.js';
+import random from './random.js';
+import uniqueId from './uniqueId.js';
+
+// Internal helper for isEqual to create a simple, specialized lookup
+// datastructure for cycle detection in nested objects.
+function cycleTracker() {
+  // Construct a property name that is unique to this single run of `_.isEqual`
+  // and that is *extremely* unlikely to collide with other property names.
+  var sixDigits = ('' + random(1e6, 2e6 - 1)).slice(1, 7);
+  var tag = uniqueId('__UnderscoreCycleDetection') + '__' + sixDigits;
+  // The lookup object. It keeps track of data and has methods.
+  return {
+    tracked: [],
+    // Store the fact that `a` and `b` appeared at the same position in the
+    // composition tree on either side of the comparison.
+    push: function(a, b) {
+      this.tracked.push(a);
+      // We modify `a` directly to associate it with `b`. This is how one might
+      // emulate `WeakMap`. We duplicate the property to `b` as well in order to
+      // not accidentally introduce differences between the objects.
+      a[tag] = b[tag] = b;
+    },
+    // Remove the last added pair.
+    pop: function() {
+      var a = this.tracked.pop(), b = a[tag];
+      delete b[tag];
+      delete a[tag];
+    },
+    // Check whether we have seen `a` before.
+    has: function(a) {
+      return has(a, tag);
+    },
+    // Check whether `b` was previously seen at the same point of comparison as
+    // `a`. This method is only invoked if `this.has(a)` returned `true`.
+    match: function(a, b) {
+      return a[tag] === b;
+    },
+    // As soon as we find any difference, we can stop the comparison and return
+    // `false`. This methods is invoked in that scenario to clean up remaining
+    // data, so we don't create memory leaks.
+    abort: function() {
+      while (this.tracked.length) this.pop();
+      // Return `false` so we can clean up and return in a single statement.
+      return false;
+    }
+  };
+}
 
 // We use this string twice, so give it a name for minification.
 var tagDataView = '[object DataView]';
@@ -18,18 +65,16 @@ export default function isEqual(a, b) {
   // trampolining on this stack instead of using function recursion.
   // (CVE-2026-27601)
   var todo = [{a: a, b: b}];
-  // Initializing stacks of traversed objects for cycle detection.
-  var aStack = [], bStack = [];
+  // Create a specialized datastructure for cycle detection.
+  var tracker = cycleTracker();
 
   // Keep traversing pairs until there is nothing left to compare.
   while (todo.length) {
     var frame = todo.pop();
     // As a special case, a single `true` on the todo means that we can
-    // unwind the cycle detection stacks.
+    // pop from the cycle tracker.
     if (frame === true) {
-      // Remove the first object from the stack of traversed objects.
-      aStack.pop();
-      bStack.pop();
+      tracker.pop();
       continue;
     }
     a = frame.a;
@@ -39,28 +84,30 @@ export default function isEqual(a, b) {
     // See the [Harmony `egal` proposal](https://wiki.ecmascript.org/doku.php?id=harmony:egal).
     if (a === b) {
       if (a !== 0 || 1 / a === 1 / b) continue;
-      return false;
+      return tracker.abort();
     }
     // `null` or `undefined` only equal to itself (strict comparison).
-    if (a == null || b == null) return false;
+    if (a == null || b == null) return tracker.abort();
     // `NaN`s are equivalent, but non-reflexive.
     if (a !== a) {
       if (b !== b) continue;
-      return false;
+      return tracker.abort();
     }
     // Exhaust primitive checks
     var type = typeof a;
-    if (type !== 'function' && type !== 'object' && typeof b != 'object') return false;
+    if (type !== 'function' && type !== 'object' && typeof b != 'object') {
+      return tracker.abort();
+    }
 
     // Unwrap any wrapped objects.
     if (a instanceof _) a = a._wrapped;
     if (b instanceof _) b = b._wrapped;
     // Compare `[[Class]]` names.
     var className = toString.call(a);
-    if (className !== toString.call(b)) return false;
+    if (className !== toString.call(b)) return tracker.abort();
     // Work around a bug in IE 10 - Edge 13.
     if (hasDataViewBug && className == '[object Object]' && isDataView(a)) {
-      if (!isDataView(b)) return false;
+      if (!isDataView(b)) return tracker.abort();
       className = tagDataView;
     }
     switch (className) {
@@ -71,7 +118,7 @@ export default function isEqual(a, b) {
       // Primitives and their corresponding object wrappers are equivalent; thus, `"5"` is
       // equivalent to `new String("5")`.
       if ('' + a === '' + b) continue;
-      return false;
+      return tracker.abort();
     case '[object Number]':
       todo.push({a: +a, b: +b});
       continue;
@@ -81,10 +128,10 @@ export default function isEqual(a, b) {
       // millisecond representations. Note that invalid dates with millisecond representations
       // of `NaN` are not equivalent.
       if (+a === +b) continue;
-      return false;
+      return tracker.abort();
     case '[object Symbol]':
       if (SymbolProto.valueOf.call(a) === SymbolProto.valueOf.call(b)) continue;
-      return false;
+      return tracker.abort();
     case '[object ArrayBuffer]':
     case tagDataView:
       // Coerce to typed array so we can fall through.
@@ -95,12 +142,12 @@ export default function isEqual(a, b) {
     var areArrays = className === '[object Array]';
     if (!areArrays && isTypedArray(a)) {
       var byteLength = getByteLength(a);
-      if (byteLength !== getByteLength(b)) return false;
+      if (byteLength !== getByteLength(b)) return tracker.abort();
       if (a.buffer === b.buffer && a.byteOffset === b.byteOffset) continue;
       areArrays = true;
     }
     if (!areArrays) {
-      if (typeof a != 'object' || typeof b != 'object') return false;
+      if (typeof a != 'object' || typeof b != 'object') return tracker.abort();
 
       // Objects with different constructors are not equivalent, but `Object`s or `Array`s
       // from different frames are.
@@ -108,38 +155,29 @@ export default function isEqual(a, b) {
       if (aCtor !== bCtor && !(isFunction(aCtor) && aCtor instanceof aCtor &&
                                isFunction(bCtor) && bCtor instanceof bCtor)
           && ('constructor' in a && 'constructor' in b)) {
-        return false;
+        return tracker.abort();
       }
     }
 
     // Assume equality for cyclic structures. The algorithm for detecting cyclic
     // structures is adapted from ES 5.1 section 15.12.3, abstract operation `JO`.
 
-    var length = aStack.length;
-    while (length--) {
-      // Linear search. Performance is inversely proportional to the number of
-      // unique nested structures.
-      if (aStack[length] === a) {
-        // Cycle detected. Break out of the inner loop and continue the outer
-        // loop. Step 1:
-        if (bStack[length] === b) break;
-        return false;
-      }
+    if (tracker.has(a)) {
+      if (tracker.match(a, b)) continue;
+      return tracker.abort();
     }
-    // Step 2, use `length` to verify whether we detected a cycle:
-    if (length >= 0) continue;
 
-    // Add the first object to the stack of traversed objects.
-    aStack.push(a);
-    bStack.push(b);
+    // Add the first object to the tracker.
+    tracker.push(a, b);
     // Remember to remove them again after the recursion below.
     todo.push(true);
 
     // Recursively compare objects and arrays.
+    var length;
     if (areArrays) {
       // Compare array lengths to determine if a deep comparison is necessary.
       length = a.length;
-      if (length !== b.length) return false;
+      if (length !== b.length) return tracker.abort();
       // Deep compare the contents, ignoring non-numeric properties.
       while (length--) {
         todo.push({a: a[length], b: b[length]});
@@ -149,11 +187,11 @@ export default function isEqual(a, b) {
       var _keys = keys(a), key;
       length = _keys.length;
       // Ensure that both objects contain the same number of properties before comparing deep equality.
-      if (keys(b).length !== length) return false;
+      if (keys(b).length !== length) return tracker.abort();
       while (length--) {
         // Deep compare each member
         key = _keys[length];
-        if (!has(b, key)) return false;
+        if (!has(b, key)) return tracker.abort();
         todo.push({a: a[key], b: b[key]});
       }
     }
