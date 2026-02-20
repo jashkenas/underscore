@@ -365,15 +365,55 @@ function uniqueId(prefix) {
 // Internal helper for isEqual to create a simple, specialized lookup
 // datastructure for cycle detection in nested objects.
 function cycleTracker() {
+  // The lookup object. It keeps track of data and has methods.
+  // If possible, use the modern `Map` datastructure.
+  if (typeof Map === 'function') return {
+    map: new Map(),
+    // Besides a map, we also keep an array so we know which object was added
+    // last.
+    tracked: [],
+    // Store the fact that `a` and `b` appeared at the same position in the
+    // composition tree on either side of the comparison.
+    push: function(a, b) {
+      this.tracked.push(a);
+      this.map.set(a, b);
+    },
+    // Remove the last added pair.
+    pop: function() {
+      this.map.delete(this.tracked.pop());
+    },
+    // Check whether we have seen `a` before.
+    has: function(a) {
+      return this.map.has(a);
+    },
+    // Check whether `b` was previously seen at the same point of comparison as
+    // `a`. This method is only invoked if `this.has(a)` returned `true`.
+    match: function(a, b) {
+      return this.map.get(a) === b;
+    },
+    // As soon as we find any difference, we can stop the comparison and return
+    // `false`. This methods is invoked in that scenario to clean up remaining
+    // data, so we don't create memory leaks.
+    abort: function(a, b) {
+      while (this.tracked.length) this.pop();
+      // Return `false` so we can clean up and return in a single statement.
+      return false;
+    }
+  };
+  // We now enter the alternative branch, a situation where `Map` is not
+  // available. We can achieve similar performance by temporarily adding a
+  // custom property to the objects that are being prepared. This is not
+  // guaranteed to work if the objects being compared are instances of `Proxy`,
+  // but fortunately, `Proxy` is only available in environments that also
+  // support `Map`.
+
   // Construct a property name that is unique to this single run of `_.isEqual`
   // and that is *extremely* unlikely to collide with other property names.
   var sixDigits = ('' + random(1e6, 2e6 - 1)).slice(1, 7);
   var tag = uniqueId('__UnderscoreCycleDetection') + '__' + sixDigits;
-  // The lookup object. It keeps track of data and has methods.
+  // The fallback lookup structure. It has the same interface as the one based on `Map`.
   return {
     tracked: [],
-    // Store the fact that `a` and `b` appeared at the same position in the
-    // composition tree on either side of the comparison.
     push: function(a, b) {
       this.tracked.push(a);
       // We modify `a` directly to associate it with `b`. This is how one might
@@ -381,27 +421,19 @@ function cycleTracker() {
       // not accidentally introduce differences between the objects.
       a[tag] = b[tag] = b;
     },
-    // Remove the last added pair.
     pop: function() {
       var a = this.tracked.pop(), b = a[tag];
       delete b[tag];
       delete a[tag];
     },
-    // Check whether we have seen `a` before.
     has: function(a) {
       return has$1(a, tag);
     },
-    // Check whether `b` was previously seen at the same point of comparison as
-    // `a`. This method is only invoked if `this.has(a)` returned `true`.
     match: function(a, b) {
       return a[tag] === b;
     },
-    // As soon as we find any difference, we can stop the comparison and return
-    // `false`. This methods is invoked in that scenario to clean up remaining
-    // data, so we don't create memory leaks.
     abort: function() {
       while (this.tracked.length) this.pop();
-      // Return `false` so we can clean up and return in a single statement.
       return false;
     }
   };
