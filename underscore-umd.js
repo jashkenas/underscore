@@ -361,6 +361,7 @@
   function isEqual(a, b) {
     // Keep track of which pairs of values need to be compared. We will be
     // trampolining on this stack instead of using function recursion.
+    // (CVE-2026-27601)
     var todo = [{a: a, b: b}];
     // Initializing stacks of traversed objects for cycle detection.
     var aStack = [], bStack = [];
@@ -1058,6 +1059,9 @@
   // Internal implementation of a `flatten` function.
   function flatten$1(input, depth, strict) {
     if (!depth && depth !== 0) depth = Infinity;
+    // We will be avoiding recursive calls because this could be exploited to
+    // cause a stack overflow (CVE-2026-27601). Instead, we "trampoline" on an
+    // explicit stack.
     var output = [], idx = 0, i = 0, length = getLength(input) || 0, stack = [];
     while (true) {
       if (i >= length) {

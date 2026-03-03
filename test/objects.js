@@ -453,7 +453,7 @@
     assert.ok(!_.isEqual({a: 1}, {a: 1, b: 2}), 'Commutative equality is implemented for objects');
     assert.ok(!_.isEqual({x: 1, y: void 0}, {x: 1, z: 2}), 'Objects with identical keys and different values are not equivalent');
 
-    // Extremely deeply nested objects.
+    // Extremely deeply nested objects (CVE-2026-27601).
     a = b = 'v';
     for (var i = 0; i < 30000; ++i) {
       a = {x: a};

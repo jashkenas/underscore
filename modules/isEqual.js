@@ -16,6 +16,7 @@ var tagDataView = '[object DataView]';
 export default function isEqual(a, b) {
   // Keep track of which pairs of values need to be compared. We will be
   // trampolining on this stack instead of using function recursion.
+  // (CVE-2026-27601)
   var todo = [{a: a, b: b}];
   // Initializing stacks of traversed objects for cycle detection.
   var aStack = [], bStack = [];

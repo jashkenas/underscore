@@ -6,6 +6,9 @@ import isArguments from './isArguments.js';
 // Internal implementation of a `flatten` function.
 export default function flatten(input, depth, strict) {
   if (!depth && depth !== 0) depth = Infinity;
+  // We will be avoiding recursive calls because this could be exploited to
+  // cause a stack overflow (CVE-2026-27601). Instead, we "trampoline" on an
+  // explicit stack.
   var output = [], idx = 0, i = 0, length = getLength(input) || 0, stack = [];
   while (true) {
     if (i >= length) {

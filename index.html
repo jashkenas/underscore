@@ -2997,7 +2997,7 @@ _.chain([1, 2, 3]).reverse().value();
             Fixes a security issue in <tt>_.flatten</tt> and <tt>_.isEqual</tt>
             that, under very specific circumstances, could allow for a Denial of
             Service (DoS) attack in server applications. This bug was present in
-            all previous versions of Underscore.
+            all previous versions of Underscore. More details: <a href="https://github.com/jashkenas/underscore/security/advisories/GHSA-qpx9-hpmf-5gmw">CVE-2026-27601</a>.
           </li>
           <li>
             Adds documentation for <tt>_.VERSION</tt>.

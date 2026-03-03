@@ -116,6 +116,7 @@
     assert.strictEqual(_.flatten([new Array(1000000), _.range(56000), 5, 1, 3]).length, 1056003, 'can handle massive arrays');
     assert.strictEqual(_.flatten([new Array(1000000), _.range(56000), 5, 1, 3], true).length, 1056003, 'can handle massive arrays in shallow mode');
 
+    // Check against extremely deep recursion because of CVE-2026-27601.
     var x = _.range(100000);
     for (var i = 0; i < 1000; i++) x = [x];
     assert.deepEqual(_.flatten(x), _.range(100000), 'can handle very deep arrays');
