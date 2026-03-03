@@ -863,21 +863,12 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-2">&#182;</a>
               </div>
-              <p>Internal implementation of a recursive <code>flatten</code> function.</p>
+              <p>Internal implementation of a <code>flatten</code> function.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">flatten</span>(<span class="hljs-params">input, depth, strict, output</span>) {
-  output = output || [];
-  <span class="hljs-keyword">if</span> (!depth &amp;&amp; depth !== <span class="hljs-number">0</span>) {
-    depth = <span class="hljs-title class_">Infinity</span>;
-  } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (depth &lt;= <span class="hljs-number">0</span>) {
-    <span class="hljs-keyword">return</span> output.<span class="hljs-title function_">concat</span>(input);
-  }
-  <span class="hljs-keyword">var</span> idx = output.<span class="hljs-property">length</span>;
-  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>, length = <span class="hljs-title function_">getLength</span>(input); i &lt; length; i++) {
-    <span class="hljs-keyword">var</span> value = input[i];
-    <span class="hljs-keyword">if</span> (<span class="hljs-title function_">isArrayLike</span>(value) &amp;&amp; (<span class="hljs-title function_">isArray</span>(value) || <span class="hljs-title function_">isArguments</span>(value))) {</pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">flatten</span>(<span class="hljs-params">input, depth, strict</span>) {
+  <span class="hljs-keyword">if</span> (!depth &amp;&amp; depth !== <span class="hljs-number">0</span>) depth = <span class="hljs-title class_">Infinity</span>;</pre></div></div>
             
         </li>
         
@@ -888,17 +879,44 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-3">&#182;</a>
               </div>
+              <p>We will be avoiding recursive calls because this could be exploited to
+cause a stack overflow (CVE-2026-27601). Instead, we “trampoline” on an
+explicit stack.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">var</span> output = [], idx = <span class="hljs-number">0</span>, i = <span class="hljs-number">0</span>, length = <span class="hljs-title function_">getLength</span>(input) || <span class="hljs-number">0</span>, stack = [];
+  <span class="hljs-keyword">while</span> (<span class="hljs-literal">true</span>) {
+    <span class="hljs-keyword">if</span> (i &gt;= length) {
+      <span class="hljs-keyword">if</span> (!stack.<span class="hljs-property">length</span>) <span class="hljs-keyword">break</span>;
+      <span class="hljs-keyword">var</span> frame = stack.<span class="hljs-title function_">pop</span>();
+      i = frame.<span class="hljs-property">i</span>;
+      input = frame.<span class="hljs-property">v</span>;
+      length = <span class="hljs-title function_">getLength</span>(input);
+      <span class="hljs-keyword">continue</span>;
+    }
+    <span class="hljs-keyword">var</span> value = input[i++];
+    <span class="hljs-keyword">if</span> (stack.<span class="hljs-property">length</span> &gt;= depth) {
+      output[idx++] = value;
+    } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (<span class="hljs-title function_">isArrayLike</span>(value) &amp;&amp; (<span class="hljs-title function_">isArray</span>(value) || <span class="hljs-title function_">isArguments</span>(value))) {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-4">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-4">&#182;</a>
+              </div>
               <p>Flatten current level of array or arguments object.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">if</span> (depth &gt; <span class="hljs-number">1</span>) {
-        <span class="hljs-title function_">flatten</span>(value, depth - <span class="hljs-number">1</span>, strict, output);
-        idx = output.<span class="hljs-property">length</span>;
-      } <span class="hljs-keyword">else</span> {
-        <span class="hljs-keyword">var</span> j = <span class="hljs-number">0</span>, len = value.<span class="hljs-property">length</span>;
-        <span class="hljs-keyword">while</span> (j &lt; len) output[idx++] = value[j++];
-      }
+            <div class="content"><div class='highlight'><pre>      stack.<span class="hljs-title function_">push</span>({<span class="hljs-attr">i</span>: i, <span class="hljs-attr">v</span>: input});
+      i = <span class="hljs-number">0</span>;
+      input = value;
+      length = <span class="hljs-title function_">getLength</span>(input);
     } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (!strict) {
       output[idx++] = value;
     }
