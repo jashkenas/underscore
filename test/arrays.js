@@ -116,10 +116,15 @@
     assert.strictEqual(_.flatten([new Array(1000000), _.range(56000), 5, 1, 3]).length, 1056003, 'can handle massive arrays');
     assert.strictEqual(_.flatten([new Array(1000000), _.range(56000), 5, 1, 3], true).length, 1056003, 'can handle massive arrays in shallow mode');
 
+    // Check against extremely deep recursion because of CVE-2026-27601.
     var x = _.range(100000);
     for (var i = 0; i < 1000; i++) x = [x];
     assert.deepEqual(_.flatten(x), _.range(100000), 'can handle very deep arrays');
     assert.deepEqual(_.flatten(x, true), x[0], 'can handle very deep arrays in shallow mode');
+
+    var y = [1, 2, 3];
+    for (var i = 0; i < 100000; ++i) y = [y];
+    assert.deepEqual(_.flatten(y), [1, 2, 3], 'can handle extremely deeply nested arrays');
   });
 
   QUnit.test('without', function(assert) {

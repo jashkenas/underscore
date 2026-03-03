@@ -318,7 +318,7 @@
     <div id="sidebar" class="interface overlay-content">
 
       <a class="toc_title" href="#">
-        Underscore.js <span class="version">(1.13.7)</span>
+        Underscore.js <span class="version">(1.13.8)</span>
       </a>
 
       <ul class="toc_section">
@@ -608,7 +608,7 @@
       <i>Underscore is an open-source component of <a href="https://documentcloud.org/">DocumentCloud</a>.</i>
     </p>
 
-    <h2>v1.13.7 Downloads <i style="padding-left: 12px; font-size:12px;">(Right-click, and use "Save As")</i></h2>
+    <h2>v1.13.8 Downloads <i style="padding-left: 12px; font-size:12px;">(Right-click, and use "Save As")</i></h2>
 
     <table>
       <tr>
@@ -652,32 +652,32 @@
       </tr>
     </table>
 
-    <h2>v1.13.7 CDN URLs <i style="padding-left: 12px; font-size:12px;">(Use with <tt>&lt;script src="..."&gt;&lt;/script&gt;</tt>)</i></h2>
+    <h2>v1.13.8 CDN URLs <i style="padding-left: 12px; font-size:12px;">(Use with <tt>&lt;script src="..."&gt;&lt;/script&gt;</tt>)</i></h2>
 
     <ul>
       <li>
-        <tt>https://cdn.jsdelivr.net/npm/underscore@1.13.7/underscore-umd-min.js</tt>
+        <tt>https://cdn.jsdelivr.net/npm/underscore@1.13.8/underscore-umd-min.js</tt>
       </li>
       <li>
-        <tt>https://cdn.jsdelivr.net/npm/underscore@1.13.7/underscore-esm-min.js</tt>
+        <tt>https://cdn.jsdelivr.net/npm/underscore@1.13.8/underscore-esm-min.js</tt>
       </li>
       <li>
-        <tt>https://unpkg.com/underscore@1.13.7/underscore-umd-min.js</tt>
+        <tt>https://unpkg.com/underscore@1.13.8/underscore-umd-min.js</tt>
       </li>
       <li>
-        <tt>https://unpkg.com/underscore@1.13.7/underscore-esm-min.js</tt>
+        <tt>https://unpkg.com/underscore@1.13.8/underscore-esm-min.js</tt>
       </li>
       <li>
-        <tt>https://pagecdn.io/lib/underscore/1.13.7/underscore-umd-min.js</tt>
+        <tt>https://pagecdn.io/lib/underscore/1.13.8/underscore-umd-min.js</tt>
       </li>
       <li>
-        <tt>https://pagecdn.io/lib/underscore/1.13.7/underscore-esm-min.js</tt>
+        <tt>https://pagecdn.io/lib/underscore/1.13.8/underscore-esm-min.js</tt>
       </li>
       <li>
-        <tt>https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.13.7/underscore-umd-min.js</tt>
+        <tt>https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.13.8/underscore-umd-min.js</tt>
       </li>
       <li>
-        <tt>https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.13.7/underscore-esm-min.js</tt>
+        <tt>https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.13.8/underscore-esm-min.js</tt>
       </li>
     </ul>
 
@@ -2762,9 +2762,9 @@ _.template("Using 'with': <%= data.answer %>", {variable: 'data'})({answer: 'no'
         <b class="header">VERSION</b>
         <br>
         It is possible to get the current Underscore version via
-        <tt>_.VERSION</tt> 
+        <tt>_.VERSION</tt>
         .
-        <pre>_.VERSION =&gt; 1.13.7</pre>
+        <pre>_.VERSION =&gt; 1.13.8</pre>
       </p>
 
       <h2 id="oop">Object-Oriented Style</h2>
@@ -2989,6 +2989,24 @@ _.chain([1, 2, 3]).reverse().value();
       </p>
 
       <h2 id="changelog">Change Log</h2>
+
+      <p id="1.13.8">
+        <b class="header">1.13.8</b> &mdash; <small><i>February 19, 2026</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.13.7...1.13.8">Diff</a> &mdash; <a href="https://cdn.statically.io/gh/jashkenas/underscore/1.13.8/index.html">Docs</a><br />
+        <ul>
+          <li>
+            Fixes a security issue in <tt>_.flatten</tt> and <tt>_.isEqual</tt>
+            that, under very specific circumstances, could allow for a Denial of
+            Service (DoS) attack in server applications. This bug was present in
+            all previous versions of Underscore. More details: <a href="https://github.com/jashkenas/underscore/security/advisories/GHSA-qpx9-hpmf-5gmw">CVE-2026-27601</a>.
+          </li>
+          <li>
+            Adds documentation for <tt>_.VERSION</tt>.
+          </li>
+          <li>
+            Clarifies some terminology in the documentation for contributors.
+          </li>
+        </ul>
+      </p>
 
       <p id="1.13.7">
         <b class="header">1.13.7</b> &mdash; <small><i>July 24, 2024</i></small> &mdash; <a href="https://github.com/jashkenas/underscore/compare/1.13.6...1.13.7">Diff</a> &mdash; <a href="https://cdn.statically.io/gh/jashkenas/underscore/1.13.7/index.html">Docs</a><br />
