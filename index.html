@@ -2695,7 +2695,9 @@ _.now();
       <p role=note>
         <em><tt>_.template</tt> allows the template author to insert arbitrary
         JavaScript code by design. This means that you should only pass template
-        code from trusted authors.</em>
+        code and template settings from trusted authors. Passing untrusted input
+        to <tt>_.template</tt> <strong>will</strong> create a code injection
+        vulnerability in your application or library!</em>
       </p>
 
       <pre>
