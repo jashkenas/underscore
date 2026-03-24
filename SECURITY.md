@@ -24,6 +24,26 @@ disclose the issue.
 After receiving your email, we will respond as soon as possible and indicate
 what we plan to do.
 
+### A note on `_.template`
+
+[`template`][template] allows the user to inject arbitrary JavaScript
+code in the template string. This is allowed by design. In fact, it is
+the main feature of `template`. Without this feature, templates would
+not be able to have conditional or repeated sections.
+
+Because of this feature, it is the responsibility of the user not to
+pass any untrusted input to `template`. The contract is similar to
+that of the `Function` constructor or even `eval`: this function is so
+powerful that it can be dangerous, so use it with care.
+
+If this does not sound exactly like what you were considering to
+report, or in case of doubt, please do send us a report. Of course, we
+would rather be safe than sorry. You would not be the first to find a
+[vulnerability in `template`][cve-2021-23358].
+
+[template]: https://underscorejs.org/#template
+[cve-2021-23358]: https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-23358
+
 ## Disclosure policy
 
 After confirming a vulnerability, we will generally release a security update
