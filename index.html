@@ -2692,6 +2692,14 @@ _.now();
         should be a hash containing any <tt>_.templateSettings</tt> that should be overridden.
       </p>
 
+      <p role=note>
+        <em><tt>_.template</tt> allows the template author to insert arbitrary
+        JavaScript code by design. This means that you should only pass template
+        code and template settings from trusted authors. Passing untrusted input
+        to <tt>_.template</tt> <strong>will</strong> create a code injection
+        vulnerability in your application or library!</em>
+      </p>
+
       <pre>
 var compiled = _.template("hello: &lt;%= name %&gt;");
 compiled({name: 'moe'});
