@@ -1819,6 +1819,10 @@ var raceResults = _.restArguments(function(gold, silver, bronze, everyoneElse) {
 });
 
 raceResults("Dopey", "Grumpy", "Happy", "Sneezy", "Bashful", "Sleepy", "Doc");
+// Sorry Sneezy, better next time!
+// Sorry Bashful, better next time!
+// Sorry Sleepy, better next time!
+// Sorry Doc, better next time!
 </pre>
       <p id="restArguments-startIndex">
         The <b>startIndex</b> is mainly useful if the number of arguments cannot be reliably determined from the <b>function</b> itself, for example because <b>function</b> was output by another function.
@@ -1841,6 +1845,11 @@ var raceResults = _.restArguments(withSnowWhite, 2);
 // Dopey degraded to silver, Grumpy degraded to bronze and Happy fell
 // out of the prizes altogether. We will console him as well.
 raceResults("Dopey", "Grumpy", "Happy", "Sneezy", "Bashful", "Sleepy", "Doc");
+// Sorry Happy, better next time!
+// Sorry Sneezy, better next time!
+// Sorry Bashful, better next time!
+// Sorry Sleepy, better next time!
+// Sorry Doc, better next time!
 </pre>
 
       <h2 id="objects">Object Functions</h2>
