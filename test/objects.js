@@ -454,8 +454,10 @@
     assert.ok(!_.isEqual({x: 1, y: void 0}, {x: 1, z: 2}), 'Objects with identical keys and different values are not equivalent');
 
     // Extremely deeply nested objects (CVE-2026-27601).
+    var hasMap = (typeof Map === 'function');
+    var depthLimit = hasMap ? 100000 : 6000;
     a = b = 'v';
-    for (var i = 0; i < 100000; ++i) {
+    for (var i = 0; i < depthLimit; ++i) {
       a = {x: a};
       b = {x: b};
     }
@@ -463,6 +465,13 @@
     b = {x: b};
     assert.ok(!_.isEqual(a, b), 'Very deeply nested objects can be different');
     assert.ok(!_.isEqual(b, a), 'Commutative equality is implemented for very deeply nested objects');
+    if (!hasMap) {
+      for (i = 0; i < depthLimit; ++i) {
+        a = {x: a};
+        b = {x: b};
+      }
+      assert.raises(_.partial(_.isEqual, a, b), RangeError);
+    }
 
     // `A` contains nested objects and arrays.
     a = {

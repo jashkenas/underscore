@@ -364,6 +364,8 @@ function uniqueId(prefix) {
   return prefix ? prefix + id : id;
 }
 
+var comparisonLimit = 5e7;
+
 // Internal helper for isEqual to create a simple, specialized lookup
 // datastructure for cycle detection in nested objects.
 function cycleTracker() {
@@ -408,6 +410,7 @@ function cycleTracker() {
   return {
     tracked: [],
     trackedB: [],
+    lookups: 0,
     push: function(a, b) {
       this.tracked.push(a);
       this.trackedB.push(b);
@@ -417,10 +420,15 @@ function cycleTracker() {
       this.trackedB.pop();
     },
     has: function(a) {
+      if (this.lookups >= comparisonLimit) throw RangeError(
+        'Comparison limit exceeded. Wrap call to isEqual in try/catch or ' +
+        'limit the depth of compared objects.'
+      );
       for (var i = 0, l = this.tracked.length; i < l; ++i) {
-        if (this.tracked[i] === a) return i + 1;
+        if (this.tracked[i] === a) break;
       }
-      return false;
+      this.lookups += i + 1;
+      return i < l ? i + 1 : false;
     },
     match: function(a, b, i) {
       return this.trackedB[i - 1] === b;
