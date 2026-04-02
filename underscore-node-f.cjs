@@ -403,36 +403,27 @@ function cycleTracker() {
     }
   };
   // We now enter the alternative branch, a situation where `Map` is not
-  // available. We can achieve similar performance by temporarily adding a
-  // custom property to the objects that are being prepared. This is not
-  // guaranteed to work if the objects being compared are instances of `Proxy`,
-  // but fortunately, `Proxy` is only available in environments that also
-  // support `Map`.
-
-  // Construct a property name that is unique to this single run of `_.isEqual`
-  // and that is *extremely* unlikely to collide with other property names.
-  var sixDigits = ('' + random(1e6, 2e6 - 1)).slice(1, 7);
-  var tag = uniqueId('__UnderscoreCycleDetection') + '__' + sixDigits;
+  // available.
   // The fallback lookup structure. It has the same interface as the one based on `Map`.
   return {
     tracked: [],
+    trackedB: [],
     push: function(a, b) {
       this.tracked.push(a);
-      // We modify `a` directly to associate it with `b`. This is how one might
-      // emulate `WeakMap`. We duplicate the property to `b` as well in order to
-      // not accidentally introduce differences between the objects.
-      a[tag] = b[tag] = b;
+      this.trackedB.push(b);
     },
     pop: function() {
-      var a = this.tracked.pop(), b = a[tag];
-      delete b[tag];
-      delete a[tag];
+      this.tracked.pop();
+      this.trackedB.pop();
     },
     has: function(a) {
-      return has$1(a, tag);
+      for (var i = 0, l = this.tracked.length; i < l; ++i) {
+        if (this.tracked[i] === a) return i + 1;
+      }
+      return false;
     },
-    match: function(a, b) {
-      return a[tag] === b;
+    match: function(a, b, i) {
+      return this.trackedB[i - 1] === b;
     },
     abort: function() {
       while (this.tracked.length) this.pop();
@@ -547,8 +538,9 @@ function isEqual(a, b) {
     // Assume equality for cyclic structures. The algorithm for detecting cyclic
     // structures is adapted from ES 5.1 section 15.12.3, abstract operation `JO`.
 
-    if (tracker.has(a)) {
-      if (tracker.match(a, b)) continue;
+    var found = tracker.has(a);
+    if (found) {
+      if (tracker.match(a, b, found)) continue;
       return tracker.abort();
     }
 
