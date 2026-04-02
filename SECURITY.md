@@ -34,7 +34,7 @@ not be able to have conditional or repeated sections.
 Because of this feature, it is the responsibility of the user not to
 pass any untrusted input to `template`. The contract is similar to
 that of the `Function` constructor or even `eval`: this function is so
-powerful that it can be dangerous, so use it with care.
+powerful that it can be dangerous, so users must only pass trusted input. This is made explicit in [the documentation][template].
 
 If this does not sound exactly like what you were considering to
 report, or in case of doubt, please do send us a report. Of course, we
