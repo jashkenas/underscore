@@ -1758,7 +1758,7 @@ function uniq(array, isSorted, iteratee, context) {
     var value = array[i],
         computed = iteratee ? iteratee(value, i, array) : value;
     if (isSorted && !iteratee) {
-      if (!i || seen !== computed) result.push(value);
+      if (!i || !(seen === computed || (seen !== seen && computed !== computed))) result.push(value);
       seen = computed;
     } else if (iteratee) {
       if (!contains(seen, computed)) {

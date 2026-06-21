@@ -198,6 +198,9 @@
 
     assert.deepEqual(_.uniq(null), [], 'returns an empty array when `array` is not iterable');
 
+    assert.deepEqual(_.uniq([NaN, NaN], true).length, 1, 'sorted fast path deduplicates NaN values correctly');
+    assert.deepEqual(_.uniq([1, NaN, NaN, 2], true).length, 3, 'sorted fast path deduplicates NaN within a sorted array');
+
     var context = {};
     list = [3];
     _.uniq(list, function(value, index, array) {
