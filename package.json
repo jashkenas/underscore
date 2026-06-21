@@ -7,7 +7,7 @@
   "homepage": "https://underscorejs.org",
   "repository": {
     "type": "git",
-    "url": "git://github.com/jashkenas/underscore.git"
+    "url": "git+https://github.com/jashkenas/underscore.git"
   },
   "keywords": [
     "util",
