@@ -1864,7 +1864,11 @@ function chunk(array, count) {
 
 // Helper function to continue chaining intermediate results.
 function chainResult(instance, obj) {
-  return instance._chain ? _$1(obj).chain() : obj;
+  // Use the standalone `chain` rather than `_(obj).chain()`. When `obj` is
+  // already a wrapped instance (as returned by `_.chain`), `_(obj)` yields the
+  // same wrapper and the prototype `chain` method would re-enter `chainResult`
+  // indefinitely, overflowing the stack (e.g. `_.chain([1]).chain()`).
+  return instance._chain ? chain(obj) : obj;
 }
 
 // Add your own custom functions to the Underscore object.
