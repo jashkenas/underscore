@@ -11,6 +11,13 @@ import toBufferView from './_toBufferView.js';
 import random from './random.js';
 import uniqueId from './uniqueId.js';
 
+// In environments that don't have `Map`, `isEqual` will perform a linear search
+// in order to detect cycles in the compared objects. This causes quadratic
+// runtime complexity in the depth of the compared objects. To prevent the CPU
+// from wasting billions of cycles on excessively deep objects, we impose a
+// limit on the total number of comparisons per call to `isEqual`. This limit is
+// chosen to be generous while also keeping performance degradation at a
+// minimum.
 var comparisonLimit = 5e7;
 
 // Internal helper for isEqual to create a simple, specialized lookup
@@ -53,7 +60,10 @@ function cycleTracker() {
   };
   // We now enter the alternative branch, a situation where `Map` is not
   // available.
-  // The fallback lookup structure. It has the same interface as the one based on `Map`.
+
+  // The fallback lookup structure. It has the same interface as the one based
+  // on `Map`, but uses linear search instead. Because of this, the runtime
+  // complexity is quadratic in the depth of the compared objects.
   return {
     tracked: [],
     trackedB: [],
@@ -67,17 +77,37 @@ function cycleTracker() {
       this.trackedB.pop();
     },
     has: function(a) {
+      // While the algorithm could run to arbitrary comparison depth in
+      // principle, the quadratic runtime cost is going to hurt performance
+      // significantly once the depth reaches over a few thousand levels. To
+      // prevent excessive performance degradation, we keep track of the number
+      // of comparisons and abort the operation when this number passes a limit.
       if (this.lookups >= comparisonLimit) throw RangeError(
         'Comparison limit exceeded. Wrap call to isEqual in try/catch or ' +
         'limit the depth of compared objects.'
       );
+      // The following loop is **the** hot loop, so we keep it as light as
+      // possible.
       for (var i = 0, l = this.tracked.length; i < l; ++i) {
         if (this.tracked[i] === a) break;
       }
-      this.lookups += i + 1;
+      // We only update the number of comparisons after the loop, exploiting the
+      // fact that `i` is still in scope and contains the approximate number of
+      // comparisons made. `this.lookups` can exceed `comparisonLimit` as a
+      // result, but this is unproblematic.
+      this.lookups += i;
+      // Return the index where `a` was found, plus one so it doesn't look
+      // falsy.
       return i < l ? i + 1 : false;
     },
+    // The `match` method takes one argument more than the corresponding method
+    // in the `Map`-based variant, because we just need to know whether the `a`
+    // and the `b` appear at the same index within their respective tracking
+    // arrays. The index of `a` was already found and returned in the call to
+    // `match`.
     match: function(a, b, i) {
+      // `match` added one to the index so it would be truthy, so we have to
+      // subtract one again over here.
       return this.trackedB[i - 1] === b;
     },
     abort: function() {
@@ -195,11 +225,14 @@ export default function isEqual(a, b) {
 
     var found = tracker.has(a);
     if (found) {
+      // Depending on the type of `tracker` used, `found` may be just a boolean
+      // or a special value that aids in finding a matching `b`. For the latter
+      // reason, we pass it back to `tracker.match`.
       if (tracker.match(a, b, found)) continue;
       return tracker.abort();
     }
 
-    // Add the first object to the tracker.
+    // Add the objects to the tracker.
     tracker.push(a, b);
     // Remember to remove them again after the recursion below.
     todo.push(true);
