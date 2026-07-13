@@ -2187,6 +2187,29 @@ stooge == clone;
 _.isEqual(stooge, clone);
 =&gt; true
 </pre>
+      <p role=note>
+        A note on security and performance: until and including version
+        1.13.7, <b>isEqual</b> used unlimited recursion for cycle detection,
+        which made it vulnerable
+        to <a href="https://github.com/jashkenas/underscore/security/advisories/GHSA-qpx9-hpmf-5gmw">CVE-2026-27601</a>.
+        In version 1.13.8, the recursion was removed so the function could
+        support comparison between arbitrarily deep objects. However, the cycle
+        detection performed poorly when the nesting went very deep. As of the
+        next version, <!-- TODO update with version number -->
+        native <tt>Map</tt> is used if available, which speeds up cycle
+        detection dramatically. For legacy systems that don&rsquo;t
+        support <tt>Map</tt>, a limit is imposed on the number of cycle
+        detection comparisons in order to prevent problematic runtime slowdown.
+        This limit still allows deeper comparisons than were possible in version
+        1.13.7 and before. <em>If you use the latest version of <!-- TODO update
+        with version number --> <b>isEqual</b> on a legacy system
+        without <tt>Map</tt> and your application meets all the conditions
+        mentioned in
+        the <a href="https://github.com/jashkenas/underscore/security/advisories/GHSA-qpx9-hpmf-5gmw">CVE</a>,
+        please be advised to wrap your call to <b>isEqual</b> in a <tt>try {...}
+        catch {...}</tt> because the function will throw a <tt>RangeError</tt>
+        when the limit is exceeded.</em>
+      </p>
 
       <p id="isMatch">
         <b class="header">isMatch</b><code>_.isMatch(object, properties)</code>
