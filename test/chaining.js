@@ -106,4 +106,16 @@
     });
   });
 
+  QUnit.test('#2853: chaining an already chained wrapper is a no-op', function(assert) {
+    var chained = _.chain([1, 2, 3]);
+    var rechained = chained.chain();
+    assert.ok(rechained._chain, 'the result is still chained');
+    assert.deepEqual(rechained.value(), [1, 2, 3], 'the wrapped value is preserved');
+    assert.deepEqual(
+      _([1, 2, 3]).chain().chain().map(function(n) { return n * 2; }).value(),
+      [2, 4, 6],
+      'further chaining keeps working after a redundant chain call'
+    );
+  });
+
 }());
