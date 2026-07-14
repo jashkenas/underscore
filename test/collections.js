@@ -581,6 +581,8 @@
     assert.strictEqual(_.max(null), -Infinity, 'can handle null/undefined');
     assert.strictEqual(_.max(void 0), -Infinity, 'can handle null/undefined');
     assert.strictEqual(_.max(null, _.identity), -Infinity, 'can handle null/undefined');
+    assert.strictEqual(_.max(null, 0), -Infinity, 'can handle null/undefined with a numeric iteratee');
+    assert.strictEqual(_.max(void 0, 0), -Infinity, 'can handle null/undefined with a numeric iteratee');
 
     assert.strictEqual(_.max([1, 2, 3]), 3, 'can perform a regular Math.max');
 
@@ -626,6 +628,8 @@
     assert.strictEqual(_.min(null), Infinity, 'can handle null/undefined');
     assert.strictEqual(_.min(void 0), Infinity, 'can handle null/undefined');
     assert.strictEqual(_.min(null, _.identity), Infinity, 'can handle null/undefined');
+    assert.strictEqual(_.min(null, 0), Infinity, 'can handle null/undefined with a numeric iteratee');
+    assert.strictEqual(_.min(void 0, 0), Infinity, 'can handle null/undefined with a numeric iteratee');
 
     assert.strictEqual(_.min([1, 2, 3]), 1, 'can perform a regular Math.min');
 
