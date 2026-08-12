@@ -404,7 +404,8 @@ function cycleTracker() {
     // `false`. This methods is invoked in that scenario to clean up remaining
     // data, so we don't create memory leaks.
     abort: function(a, b) {
-      while (this.tracked.length) this.pop();
+      this.tracked.length = 0;
+      this.map.clear();
       // Return `false` so we can clean up and return in a single statement.
       return false;
     }
@@ -462,7 +463,8 @@ function cycleTracker() {
       return this.trackedB[i - 1] === b;
     },
     abort: function() {
-      while (this.tracked.length) this.pop();
+      this.tracked.length = 0;
+      this.trackedB.length = 0;
       return false;
     }
   };
