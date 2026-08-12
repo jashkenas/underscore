@@ -1,7 +1,7 @@
 // Named Exports
 // =============
 
-//     Underscore.js 1.13.8
+//     Underscore.js 1.13.9
 //     https://underscorejs.org
 //     (c) 2009-2026 Jeremy Ashkenas, Julian Gonggrijp, and DocumentCloud and Investigative Reporters & Editors
 //     Underscore may be freely distributed under the MIT license.
