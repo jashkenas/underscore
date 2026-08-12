@@ -398,7 +398,7 @@
       },
       // Remove the last added pair.
       pop: function() {
-        this.map.delete(this.tracked.pop());
+        this.map['delete'](this.tracked.pop());
       },
       // Check whether we have seen `a` before.
       has: function(a) {
