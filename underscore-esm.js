@@ -962,13 +962,13 @@ var escapeMap = {
 };
 
 // Function for escaping strings to HTML interpolation.
-var _escape = createEscaper(escapeMap);
+var escape = createEscaper(escapeMap);
 
 // Internal list of HTML entities for unescaping.
 var unescapeMap = invert(escapeMap);
 
 // Function for unescaping strings from HTML interpolation.
-var _unescape = createEscaper(unescapeMap);
+var unescape = createEscaper(unescapeMap);
 
 // By default, Underscore uses ERB-style template delimiters. Change the
 // following template settings to use alternative delimiters.
@@ -2068,8 +2068,8 @@ var allExports = {
   times: times,
   random: random,
   now: now,
-  escape: _escape,
-  unescape: _unescape,
+  escape: escape,
+  unescape: unescape,
   templateSettings: templateSettings,
   template: template,
   result: result,
@@ -2169,6 +2169,5 @@ _._ = _;
 
 // ESM Exports
 
-export default _;
-export { VERSION, after, every as all, allKeys, some as any, extendOwn as assign, before, bind, bindAll, chain, chunk, clone, map as collect, compact, compose, constant, contains, countBy, create, debounce, defaults, defer, delay, find as detect, difference, rest as drop, each, _escape as escape, every, extend, extendOwn, filter, find, findIndex, findKey, findLastIndex, findWhere, first, flatten, reduce as foldl, reduceRight as foldr, each as forEach, functions, get, groupBy, has, first as head, identity, contains as include, contains as includes, indexBy, indexOf, initial, reduce as inject, intersection, invert, invoke, isArguments$1 as isArguments, isArray, isArrayBuffer, isBoolean, isDataView$1 as isDataView, isDate, isElement, isEmpty, isEqual, isError, isFinite$1 as isFinite, isFunction$1 as isFunction, isMap, isMatch, isNaN$1 as isNaN, isNull, isNumber, isObject, isRegExp, isSet, isString, isSymbol, isTypedArray$1 as isTypedArray, isUndefined, isWeakMap, isWeakSet, iteratee, keys, last, lastIndexOf, map, mapObject, matcher, matcher as matches, max, memoize, functions as methods, min, mixin, negate, noop, now, object, omit, once, pairs, partial, partition, pick, pluck, property, propertyOf, random, range, reduce, reduceRight, reject, rest, restArguments, result, sample, filter as select, shuffle, size, some, sortBy, sortedIndex, rest as tail, first as take, tap, template, templateSettings, throttle, times, toArray, toPath$1 as toPath, unzip as transpose, _unescape as unescape, union, uniq, uniq as unique, uniqueId, unzip, values, where, without, wrap, zip };
+export { VERSION, after, every as all, allKeys, some as any, extendOwn as assign, before, bind, bindAll, chain, chunk, clone, map as collect, compact, compose, constant, contains, countBy, create, debounce, _ as default, defaults, defer, delay, find as detect, difference, rest as drop, each, escape, every, extend, extendOwn, filter, find, findIndex, findKey, findLastIndex, findWhere, first, flatten, reduce as foldl, reduceRight as foldr, each as forEach, functions, get, groupBy, has, first as head, identity, contains as include, contains as includes, indexBy, indexOf, initial, reduce as inject, intersection, invert, invoke, isArguments$1 as isArguments, isArray, isArrayBuffer, isBoolean, isDataView$1 as isDataView, isDate, isElement, isEmpty, isEqual, isError, isFinite$1 as isFinite, isFunction$1 as isFunction, isMap, isMatch, isNaN$1 as isNaN, isNull, isNumber, isObject, isRegExp, isSet, isString, isSymbol, isTypedArray$1 as isTypedArray, isUndefined, isWeakMap, isWeakSet, iteratee, keys, last, lastIndexOf, map, mapObject, matcher, matcher as matches, max, memoize, functions as methods, min, mixin, negate, noop, now, object, omit, once, pairs, partial, partition, pick, pluck, property, propertyOf, random, range, reduce, reduceRight, reject, rest, restArguments, result, sample, filter as select, shuffle, size, some, sortBy, sortedIndex, rest as tail, first as take, tap, template, templateSettings, throttle, times, toArray, toPath$1 as toPath, unzip as transpose, unescape, union, uniq, uniq as unique, uniqueId, unzip, values, where, without, wrap, zip };
 //# sourceMappingURL=underscore-esm.js.map

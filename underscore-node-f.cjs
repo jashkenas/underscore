@@ -964,13 +964,13 @@ var escapeMap = {
 };
 
 // Function for escaping strings to HTML interpolation.
-var _escape = createEscaper(escapeMap);
+var escape = createEscaper(escapeMap);
 
 // Internal list of HTML entities for unescaping.
 var unescapeMap = invert(escapeMap);
 
 // Function for unescaping strings from HTML interpolation.
-var _unescape = createEscaper(unescapeMap);
+var unescape = createEscaper(unescapeMap);
 
 // By default, Underscore uses ERB-style template delimiters. Change the
 // following template settings to use alternative delimiters.
@@ -2070,8 +2070,8 @@ var allExports = {
   times: times,
   random: random,
   now: now,
-  escape: _escape,
-  unescape: _unescape,
+  escape: escape,
+  unescape: unescape,
   templateSettings: templateSettings,
   template: template,
   result: result,
@@ -2171,8 +2171,6 @@ _._ = _;
 
 exports.VERSION = VERSION;
 exports._ = _;
-exports._escape = _escape;
-exports._unescape = _unescape;
 exports.after = after;
 exports.allKeys = allKeys;
 exports.before = before;
@@ -2193,6 +2191,7 @@ exports.defer = defer;
 exports.delay = delay;
 exports.difference = difference;
 exports.each = each;
+exports.escape = escape;
 exports.every = every;
 exports.extend = extend;
 exports.extendOwn = extendOwn;
@@ -2286,6 +2285,7 @@ exports.throttle = throttle;
 exports.times = times;
 exports.toArray = toArray;
 exports.toPath = toPath$1;
+exports.unescape = unescape;
 exports.union = union;
 exports.uniq = uniq;
 exports.uniqueId = uniqueId;
