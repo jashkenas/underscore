@@ -1,2 +1,9 @@
-npm run bundle
+#!/usr/bin/env sh
+
+npm="npm"
+if [ -n "$UNDERSCORE_DEV_OCI" ]
+then npm="$UNDERSCORE_DEV_OCI compose run --rm node $npm"
+fi
+
+$npm run bundle
 git add underscore-umd.js underscore-umd.js.map underscore-esm.js underscore-esm.js.map underscore-node-f.cjs underscore-node-f.cjs.map underscore-node.cjs underscore-node.cjs.map underscore-node.mjs underscore-node.mjs.map

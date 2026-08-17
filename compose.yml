@@ -1,0 +1,21 @@
+services:
+  node:
+    image: node:lts
+    working_dir: /home/node/app
+    command: npm install
+    environment:
+      HUSKY: 0
+    volumes:
+      - ./:/home/node/app
+      - node_modules:/home/node/app/node_modules
+      - node_cache:/home/node/.npm
+  nginx:
+    image: nginx
+    volumes:
+      - ./:/usr/share/nginx/html:ro
+    ports:
+      - 8088:80
+
+volumes:
+  node_modules:
+  node_cache:
