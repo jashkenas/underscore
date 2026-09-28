@@ -895,7 +895,9 @@
     var pair = hearts.split('');
     var expected = [pair[0], hearts, '&', hearts, pair[1]];
     assert.deepEqual(_.toArray(expected.join('')), expected, 'maintains astral characters');
+    assert.deepEqual(_.toArray(new String(expected.join(''))), expected, 'maintains astral characters in a string object');
     assert.deepEqual(_.toArray(''), [], 'empty string into empty array');
+    assert.deepEqual(_.toArray(new String('')), [], 'empty string object into empty array');
 
     if (typeof document != 'undefined') {
       // test in IE < 9
