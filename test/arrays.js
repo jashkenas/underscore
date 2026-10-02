@@ -466,6 +466,19 @@
     }(1, 2, NaN, NaN));
   });
 
+  QUnit.test('lastIndexOf with NaN and an out-of-bounds negative fromIndex', function(assert) {
+    var array = [NaN, 1, 2, NaN];
+    _.each([-5, -6, -7, -8, -9, -Infinity], function(fromIndex) {
+      assert.strictEqual(_.lastIndexOf(array, NaN, fromIndex), -1, 'does not search before the start of the array');
+    });
+    assert.strictEqual(_.lastIndexOf(array, NaN, -4), 0, 'includes the first element at the negative boundary');
+    assert.strictEqual(_.lastIndexOf(array, NaN, -1), 3, 'includes the last element');
+    assert.strictEqual(_.indexOf(array, NaN, -6), 0, 'forward searches still clamp to the first element');
+    (function() {
+      assert.strictEqual(_.lastIndexOf(arguments, NaN, -6), -1, 'respects the boundary for arguments objects');
+    }(NaN, 1, 2, NaN));
+  });
+
   QUnit.test('lastIndexOf with +- 0', function(assert) {
     _.each([-0, +0], function(val) {
       assert.strictEqual(_.lastIndexOf([1, 2, val, val], val), 3);
