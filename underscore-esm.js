@@ -1407,7 +1407,7 @@ function createIndexFinder(dir, predicateFind, sortedIndex) {
       if (dir > 0) {
         i = idx >= 0 ? idx : Math.max(idx + length, i);
       } else {
-        length = idx >= 0 ? Math.min(idx + 1, length) : idx + length + 1;
+        length = idx >= 0 ? Math.min(idx + 1, length) : Math.max(idx + length + 1, 0);
       }
     } else if (sortedIndex && idx && length) {
       idx = sortedIndex(array, item);
