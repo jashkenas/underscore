@@ -528,6 +528,7 @@ function isEqual(a, b) {
       // These types are compared by value.
     case '[object RegExp]':
       // RegExps are coerced to strings for comparison (Note: '' + /a/i === '/a/i')
+    case '[object BigInt]':
     case '[object String]':
       // Primitives and their corresponding object wrappers are equivalent; thus, `"5"` is
       // equivalent to `new String("5")`.

@@ -610,6 +610,19 @@
       assert.strictEqual(_.isEqual(symbol, sameStringSymbol), false, 'Different symbols of same string are not equal');
     }
 
+    if (typeof BigInt !== 'undefined') {
+      var bigint = BigInt('9007199254740992');
+      var otherBigint = BigInt('9007199254740993');
+      assert.strictEqual(_.isEqual(Object(bigint), Object(otherBigint)), false, 'Different boxed BigInts are not equal');
+      assert.strictEqual(_.isEqual(Object(bigint), Object(bigint)), true, 'Equal boxed BigInts are equal');
+      assert.strictEqual(_.isEqual(bigint, Object(bigint)), true, 'A BigInt equals its object wrapper');
+      assert.strictEqual(_.isEqual(Object(bigint), bigint), true, 'BigInt wrapper equality is symmetric');
+      assert.strictEqual(_.isEqual(bigint, Object(otherBigint)), false, 'Different wrapped and primitive BigInts are not equal');
+      assert.strictEqual(_.isEqual({value: Object(bigint)}, {value: Object(otherBigint)}), false, 'Nested boxed BigInts are compared by value');
+      assert.strictEqual(_.isEqual([Object(bigint)], [bigint]), true, 'BigInt wrappers also compare by value in arrays');
+      assert.strictEqual(_.isEqual(Object(BigInt(1)), Object(1)), false, 'BigInt and Number wrappers are not equal');
+    }
+
     // typed arrays
     if (typeof ArrayBuffer !== 'undefined') {
       var u8 = new Uint8Array([1, 2]);
