@@ -494,6 +494,10 @@ function isEqual(a, b) {
     a = frame.a;
     b = frame.b;
 
+    // Unwrap any wrapped objects before testing their primitive values.
+    if (a instanceof _$1) a = a._wrapped;
+    if (b instanceof _$1) b = b._wrapped;
+
     // Identical objects are equal. `0 === -0`, but they aren't identical.
     // See the [Harmony `egal` proposal](https://wiki.ecmascript.org/doku.php?id=harmony:egal).
     if (a === b) {
@@ -513,9 +517,6 @@ function isEqual(a, b) {
       return tracker.abort();
     }
 
-    // Unwrap any wrapped objects.
-    if (a instanceof _$1) a = a._wrapped;
-    if (b instanceof _$1) b = b._wrapped;
     // Compare `[[Class]]` names.
     var className = toString.call(a);
     if (className !== toString.call(b)) return tracker.abort();

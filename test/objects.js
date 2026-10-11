@@ -319,6 +319,18 @@
     assert.ok(!created.hasOwnProperty('foo'), 'should only add own properties');
   });
 
+  QUnit.test('isEqual with wrapped null and undefined', function(assert) {
+    _.each([null, void 0], function(value) {
+      assert.ok(_.isEqual(_(value), _(value)), 'Equivalent wrapped empty values are equal');
+      assert.ok(_.isEqual(_(value), value), 'Wrapped empty value equals its primitive');
+      assert.ok(_.isEqual(value, _(value)), 'Primitive equals its wrapped empty value');
+      assert.ok(_.isEqual({value: _(value)}, {value: value}), 'Nested empty wrappers are unwrapped');
+    });
+    assert.notOk(_.isEqual(_(null), _(void 0)), 'Wrapped null and undefined are distinct');
+    assert.notOk(_.isEqual(_(null), void 0), 'Wrapped null differs from undefined');
+    assert.notOk(_.isEqual(_(void 0), null), 'Wrapped undefined differs from null');
+  });
+
   QUnit.test('isEqual', function(assert) {
     function First() {
       this.value = 1;
