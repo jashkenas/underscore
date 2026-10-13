@@ -1664,6 +1664,7 @@ function toArray(obj) {
 function sample(obj, n, guard) {
   if (n == null || guard) {
     if (!isArrayLike(obj)) obj = values(obj);
+    else if (isString(obj)) obj = toArray(obj);
     return obj[random(obj.length - 1)];
   }
   var sample = toArray(obj);

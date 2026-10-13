@@ -881,6 +881,18 @@
     // END of regression test for #2927.
   });
 
+  QUnit.test('sample - strings containing surrogate pairs', function(assert) {
+    var astral = '\uD83D\uDE00';
+    assert.strictEqual(_.sample(astral), astral, 'samples a complete character');
+    assert.strictEqual(_.sample(new String(astral)), astral, 'samples a complete boxed character');
+    assert.strictEqual(_.sample(astral, null), astral, 'null count samples a complete character');
+    assert.deepEqual(_.map([astral, astral], _.sample), [astral, astral], 'the iteratee guard preserves characters');
+    assert.deepEqual(_.sample(astral, 1), [astral], 'a count still returns an array of characters');
+    assert.strictEqual(_.sample('a'), 'a', 'samples a basic character');
+    assert.strictEqual(_.sample('\uD83D'), '\uD83D', 'preserves an unpaired surrogate');
+    assert.strictEqual(_.sample(''), void 0, 'an empty string has no sample');
+  });
+
   QUnit.test('toArray', function(assert) {
     assert.ok(!_.isArray(arguments), 'arguments object is not an array');
     assert.ok(_.isArray(_.toArray(arguments)), 'arguments object converted into array');

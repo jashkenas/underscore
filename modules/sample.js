@@ -1,5 +1,6 @@
 import isArrayLike from './_isArrayLike.js';
 import values from './values.js';
+import isString from './isString.js';
 import getLength from './_getLength.js';
 import random from './random.js';
 import toArray from './toArray.js';
@@ -11,6 +12,7 @@ import toArray from './toArray.js';
 export default function sample(obj, n, guard) {
   if (n == null || guard) {
     if (!isArrayLike(obj)) obj = values(obj);
+    else if (isString(obj)) obj = toArray(obj);
     return obj[random(obj.length - 1)];
   }
   var sample = toArray(obj);
