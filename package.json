@@ -55,18 +55,18 @@
     "cpy-cli": "^7.0.0",
     "docco": "^0.9.2",
     "eslint": "^10.12.0",
-    "eslint-plugin-import": "^2.20.1",
-    "glob": "^7.1.6",
+    "eslint-plugin-import": "^2.32.0",
+    "glob": "^7.2.3",
     "gzip-size-cli": "^1.0.0",
     "husky": "^9.1.7",
     "karma": "^6.4.4",
-    "karma-qunit": "^4.1.2",
-    "karma-sauce-launcher": "^4.3.2",
+    "karma-qunit": "^4.2.3",
+    "karma-sauce-launcher": "^4.3.6",
     "nyc": "^18.0.0",
     "pretty-bytes-cli": "^3.0.0",
     "qunit": "^2.26.0",
-    "rollup": "^2.40.0",
-    "terser": "^4.6.13"
+    "rollup": "^2.80.0",
+    "terser": "^4.8.1"
   },
   "overrides": {
     "colors@>1.4.0": "1.4.0"
