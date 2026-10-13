@@ -1,7 +1,7 @@
 {
   "name": "underscore",
   "description": "JavaScript's functional programming helper library.",
-  "version": "1.13.8",
+  "version": "1.13.9",
   "author": "Jeremy Ashkenas <jeremy@documentcloud.org>",
   "license": "MIT",
   "homepage": "https://underscorejs.org",
@@ -52,22 +52,21 @@
   },
   "devDependencies": {
     "coveralls": "^3.1.1",
-    "cpy-cli": "^3.1.1",
-    "docco": "^0.8.0",
-    "eslint": "^6.8.0",
-    "eslint-plugin-import": "^2.20.1",
-    "glob": "^7.1.6",
+    "cpy-cli": "^7.0.0",
+    "docco": "^0.9.2",
+    "eslint": "^10.12.0",
+    "glob": "^7.2.3",
+    "globals": "^17.13.0",
     "gzip-size-cli": "^1.0.0",
-    "husky": "^4.2.3",
-    "karma": "^4.4.1",
-    "karma-qunit": "^4.1.2",
+    "husky": "^9.1.7",
+    "karma": "^6.4.4",
+    "karma-qunit": "^4.2.3",
     "karma-sauce-launcher": "^4.3.6",
-    "nyc": "^15.1.0",
-    "patch-package": "^6.4.7",
-    "pretty-bytes-cli": "^1.0.0",
-    "qunit": "2.10.1",
-    "rollup": "^2.40.0",
-    "terser": "^4.6.13"
+    "nyc": "^18.0.0",
+    "pretty-bytes-cli": "^3.0.0",
+    "qunit": "^2.26.0",
+    "rollup": "^2.80.0",
+    "terser": "^4.8.1"
   },
   "overrides": {
     "colors@>1.4.0": "1.4.0"
@@ -91,7 +90,9 @@
     "build": "npm run bundle && npm run build-umd && npm run build-esm && npm run alias-bundle",
     "doc": "patch-package && docco underscore-esm.js && docco modules/*.js -c docco.css -t docs/linked-esm.jst",
     "weight": "npm run bundle && npm run minify-umd | gzip-size | pretty-bytes",
-    "prepublishOnly": "npm run build && npm run doc"
+    "prepublishOnly": "npm run build && npm run doc",
+    "prepare": "husky",
+    "containerize": "git config set core.hooksPath .husky"
   },
   "files": [
     "underscore-esm.js",
@@ -114,11 +115,5 @@
     "modules/",
     "amd/",
     "cjs/"
-  ],
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run bundle && git add underscore-umd.js underscore-umd.js.map underscore-esm.js underscore-esm.js.map underscore-node-f.cjs underscore-node-f.cjs.map underscore-node.cjs underscore-node.cjs.map underscore-node.mjs underscore-node.mjs.map",
-      "post-commit": "git reset underscore-umd.js underscore-umd.js.map underscore-esm.js underscore-esm.js.map underscore-node-f.cjs underscore-node-f.cjs.map underscore-node.cjs underscore-node.cjs.map underscore-node.mjs underscore-node.mjs.map"
-    }
-  }
+  ]
 }

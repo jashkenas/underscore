@@ -1,0 +1,2 @@
+#!/usr/bin/env sh
+$UNDERSCORE_DEV_OCI compose run --rm node $*
