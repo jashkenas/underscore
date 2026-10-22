@@ -3,6 +3,48 @@
 
   QUnit.module('Chaining');
 
+  QUnit.test('repeated chaining preserves the value (#2853)', function(assert) {
+    var values = [1, 2, 3];
+    var wrapped = _.chain(values).chain();
+
+    assert.strictEqual(wrapped.value(), values,
+      'preserves the original wrapped value');
+
+    assert.deepEqual(
+      wrapped.map(function(value) { return value * 2; }).value(),
+      [2, 4, 6],
+      'supports further chained operations'
+    );
+  });
+
+  QUnit.test('repeated chaining uses an overridden chain (#2853)', function(assert) {
+    var rawChain = _.chain;
+    var calls = 0;
+    var values = [1, 2, 3];
+
+    function customChain(obj) {
+      assert.strictEqual(this, _, 'calls the override with the Underscore context');
+      calls++;
+      var wrapped = rawChain(obj);
+      wrapped._customChain = true;
+      return wrapped;
+    }
+
+    _.mixin({chain: customChain});
+    try {
+      var wrapped = _.chain(values).chain();
+      assert.strictEqual(calls, 3, 'uses the override when continuing a repeated chain');
+      assert.strictEqual(wrapped.value(), values, 'preserves the original value');
+      assert.ok(wrapped._customChain, 'preserves the custom wrapper');
+
+      var mapped = wrapped.map(function(value) { return value * 2; });
+      assert.ok(mapped._customChain, 'uses the override after subsequent operations');
+      assert.deepEqual(mapped.value(), [2, 4, 6], 'preserves chained operation results');
+    } finally {
+      _.mixin({chain: rawChain});
+    }
+  });
+
   QUnit.test('map/flatten/reduce', function(assert) {
     var lyrics = [
       'I\'m a lumberjack and I\'m okay',

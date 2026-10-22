@@ -11,7 +11,9 @@ export default function mixin(obj) {
     _.prototype[name] = function() {
       var args = [this._wrapped];
       push.apply(args, arguments);
-      return chainResult(this, func.apply(_, args));
+      var result = func.apply(_, args);
+      if (name === 'chain') return this._chain ? func.call(_, result) : result;
+      return chainResult(this, result);
     };
   });
   return _;

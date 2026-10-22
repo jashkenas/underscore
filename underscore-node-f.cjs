@@ -1979,7 +1979,9 @@ function mixin(obj) {
     _$1.prototype[name] = function() {
       var args = [this._wrapped];
       push.apply(args, arguments);
-      return chainResult(this, func.apply(_$1, args));
+      var result = func.apply(_$1, args);
+      if (name === 'chain') return this._chain ? func.call(_$1, result) : result;
+      return chainResult(this, result);
     };
   });
   return _$1;
