@@ -191,6 +191,8 @@ export { default as zip } from './zip.js';
 export { default as object } from './object.js';
 export { default as range } from './range.js';
 export { default as chunk } from './chunk.js';
+export { default as remove } from './remove.js';
+
 
 // OOP
 // ---
