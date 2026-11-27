@@ -10,7 +10,22 @@ export default function createAssigner(keysFunc, defaults) {
           l = keys.length;
       for (var i = 0; i < l; i++) {
         var key = keys[i];
-        if (!defaults || obj[key] === void 0) obj[key] = source[key];
+        if (!defaults || obj[key] === void 0) {
+          if (key === '__proto__') {
+            // Assigning through `obj[key] = ...` would invoke the
+            // `Object.prototype` setter and replace the destination's
+            // prototype instead of copying the key. Define the property
+            // directly so `__proto__` is copied as an own property.
+            Object.defineProperty(obj, key, {
+              value: source[key],
+              enumerable: true,
+              configurable: true,
+              writable: true
+            });
+          } else {
+            obj[key] = source[key];
+          }
+        }
       }
     }
     return obj;

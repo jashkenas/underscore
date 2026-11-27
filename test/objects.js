@@ -137,6 +137,13 @@
 
     assert.strictEqual(_.extend(null, {a: 1}), null, 'extending null results in null');
     assert.strictEqual(_.extend(void 0, {a: 1}), void 0, 'extending undefined results in undefined');
+
+    var polluted = JSON.parse('{"__proto__": {"polluted": true}}');
+    result = _.extend({}, polluted);
+    assert.ok(result.hasOwnProperty('__proto__'), 'extend copies `__proto__` as an own property');
+    assert.deepEqual(result.__proto__, {polluted: true}, 'extend copies the `__proto__` value');
+    assert.strictEqual(Object.getPrototypeOf(result), Object.prototype, 'extend does not replace the destination prototype');
+    assert.strictEqual({}.polluted, void 0, 'extend does not pollute Object.prototype');
   });
 
   QUnit.test('extendOwn', function(assert) {
@@ -291,6 +298,12 @@
     assert.strictEqual(_.clone(void 0), void 0, 'non objects should not be changed by clone');
     assert.strictEqual(_.clone(1), 1, 'non objects should not be changed by clone');
     assert.strictEqual(_.clone(null), null, 'non objects should not be changed by clone');
+
+    var clonePolluted = _.clone(JSON.parse('{"__proto__": {"polluted": true}}'));
+    assert.ok(clonePolluted.hasOwnProperty('__proto__'), 'clone copies `__proto__` as an own property');
+    assert.deepEqual(clonePolluted.__proto__, {polluted: true}, 'clone copies the `__proto__` value');
+    assert.strictEqual(Object.getPrototypeOf(clonePolluted), Object.prototype, 'clone does not replace the prototype');
+    assert.strictEqual({}.polluted, void 0, 'clone does not pollute Object.prototype');
   });
 
   QUnit.test('create', function(assert) {
